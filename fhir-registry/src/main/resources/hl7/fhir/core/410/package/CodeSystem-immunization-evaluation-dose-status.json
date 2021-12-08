@@ -1,0 +1,47 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "immunization-evaluation-dose-status",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pher"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/immunization-evaluation-dose-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1102"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ImmunizationEvaluationDoseStatusCodes",
+    "title": "Immunization Evaluation Dose Status codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This code system supports describing the validity of a dose relative to a particular recommended schedule.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "valid",
+            "display": "Valid",
+            "definition": "The dose counts toward fulfilling a path to immunity for a patient, providing protection against the target disease."
+        },
+        {
+            "code": "notvalid",
+            "display": "Not valid",
+            "definition": "The dose does not count toward fulfilling a path to immunity for a patient."
+        }
+    ]
+}

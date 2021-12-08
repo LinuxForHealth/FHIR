@@ -1,0 +1,57 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "reason-medication-not-given-codes",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        }
+    ],
+    "url": "http://hl7.org/fhir/reason-medication-not-given",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.343"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ReasonMedicationNotGivenCodes",
+    "title": "Reason Medication Not Given Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set is provided as an example. The value set to instantiate this attribute should be drawn from a robust terminology code system that consists of or contains concepts to support the medication process.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "a",
+            "display": "None",
+            "definition": "No reason known."
+        },
+        {
+            "code": "b",
+            "display": "Away",
+            "definition": "The patient was not available when the dose was scheduled."
+        },
+        {
+            "code": "c",
+            "display": "Asleep",
+            "definition": "The patient was asleep when the dose was scheduled."
+        },
+        {
+            "code": "d",
+            "display": "Vomit",
+            "definition": "The patient was given the medication and immediately vomited it back."
+        }
+    ]
+}

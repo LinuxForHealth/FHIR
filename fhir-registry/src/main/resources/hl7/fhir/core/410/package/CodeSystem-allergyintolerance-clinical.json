@@ -1,0 +1,55 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "allergyintolerance-clinical",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1373"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "AllergyIntoleranceClinicalStatusCodes",
+    "title": "AllergyIntolerance Clinical Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "Preferred value set for AllergyIntolerance Clinical Status.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The subject is currently experiencing, or is at risk of, a reaction to the identified substance."
+        },
+        {
+            "code": "inactive",
+            "display": "Inactive",
+            "definition": "The subject is no longer at risk of a reaction to the identified substance.",
+            "concept": [
+                {
+                    "code": "resolved",
+                    "display": "Resolved",
+                    "definition": "A reaction to the identified substance has been clinically reassessed by testing or re-exposure and is considered no longer to be present. Re-exposure could be accidental, unplanned, or outside of any clinical setting."
+                }
+            ]
+        }
+    ]
+}

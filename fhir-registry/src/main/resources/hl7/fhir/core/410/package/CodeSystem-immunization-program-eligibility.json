@@ -1,0 +1,47 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "immunization-program-eligibility",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pher"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/immunization-program-eligibility",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1099"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ImmunizationEventProgramEligibility",
+    "title": "Immunization Event Program Eligibility",
+    "status": "draft",
+    "experimental": false,
+    "description": "This code system supports describing the source of the patient's eligibility for a vaccination program.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ineligible",
+            "display": "Not Eligible",
+            "definition": "The patient is not eligible for the funding program."
+        },
+        {
+            "code": "uninsured",
+            "display": "Uninsured",
+            "definition": "The patient is eligible for the funding program because they are uninsured."
+        }
+    ]
+}

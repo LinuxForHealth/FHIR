@@ -1,0 +1,53 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "payment-type",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/payment-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1186"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "PaymentTypeCodes",
+    "title": "Payment Type Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "This value set includes sample Payment Type codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "payment",
+            "display": "Payment",
+            "definition": "The amount is partial or complete settlement of the amounts due."
+        },
+        {
+            "code": "adjustment",
+            "display": "Adjustment",
+            "definition": "The amount is an adjustment regarding claims already paid."
+        },
+        {
+            "code": "advance",
+            "display": "Advance",
+            "definition": "The amount is an advance against future claims."
+        }
+    ]
+}
