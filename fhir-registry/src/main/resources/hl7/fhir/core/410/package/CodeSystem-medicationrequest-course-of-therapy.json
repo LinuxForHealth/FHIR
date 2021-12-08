@@ -1,0 +1,51 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medicationrequest-course-of-therapy",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1327"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "MedicationRequest Course of Therapy Codes",
+    "status": "draft",
+    "experimental": false,
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "continuous",
+            "display": "Continuous long term therapy",
+            "definition": "A medication which is expected to be continued beyond the present order and which the patient should be assumed to be taking unless explicitly stopped."
+        },
+        {
+            "code": "acute",
+            "display": "Short course (acute) therapy",
+            "definition": "A medication which the patient is only expected to consume for the duration of the current order and which is not expected to be renewed."
+        },
+        {
+            "code": "seasonal",
+            "display": "Seasonal",
+            "definition": "A medication which is expected to be used on a part time basis at certain times of the year"
+        }
+    ]
+}

@@ -1,0 +1,82 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "directness",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/directness",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1459"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "EvidenceDirectness",
+    "title": "EvidenceDirectness",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The quality of how direct the match is.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/directness",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "low",
+            "display": "Low quality match between observed and intended variable",
+            "definition": "Low matching quality between observed and intended variable, so very serious concern for indirectness in evidence interpretation."
+        },
+        {
+            "code": "moderate",
+            "display": "Moderate quality match between observed and intended variable",
+            "definition": "Moderate matching quality between observed and intended variable, so serious concern for indirectness in evidence interpretation."
+        },
+        {
+            "code": "high",
+            "display": "High quality match between observed and intended variable",
+            "definition": "High matching quality between observed and intended variable, so little concern for indirectness in evidence interpretation."
+        },
+        {
+            "code": "exact",
+            "display": "Exact match between observed and intended variable",
+            "definition": "Exact matching quality between observed and intended variable, so no concern for indirectness in evidence interpretation."
+        }
+    ]
+}
