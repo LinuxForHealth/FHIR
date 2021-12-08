@@ -8,9 +8,9 @@ package com.ibm.fhir.registry.core;
 
 import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-public class CoreResourceProvider extends PackageRegistryResourceProvider {
+public class Core401ResourceProvider extends PackageRegistryResourceProvider {
     @Override
     public String getPackageId() {
-        return "hl7.fhir.core";
+        return "hl7.fhir.core.401";
     }
 }
