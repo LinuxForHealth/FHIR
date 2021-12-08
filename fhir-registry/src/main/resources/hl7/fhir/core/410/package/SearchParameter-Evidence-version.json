@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "Evidence-version",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/Evidence-version",
+    "version": "4.1.0",
+    "name": "version",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Clinical Decision Support)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/dss/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The business version of the evidence",
+    "code": "version",
+    "base": [
+        "Evidence"
+    ],
+    "type": "token",
+    "expression": "Evidence.version",
+    "xpath": "f:Evidence/f:version",
+    "xpathUsage": "normal"
+}

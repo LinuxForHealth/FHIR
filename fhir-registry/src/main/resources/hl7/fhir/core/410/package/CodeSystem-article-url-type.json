@@ -1,0 +1,142 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "article-url-type",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/article-url-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1491"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "ArticleUrlType",
+    "title": "ArticleUrlType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Code the reason for different URLs, eg abstract and full-text.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/article-url-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "abstract",
+            "display": "Abstract",
+            "definition": "URL to reach the abstract for the article."
+        },
+        {
+            "code": "abstract-version",
+            "display": "Abstract Version",
+            "definition": "URL to reach a specific version of the abstract for the article."
+        },
+        {
+            "code": "doi-based",
+            "display": "DOI Based",
+            "definition": "URL derived from DOI."
+        },
+        {
+            "code": "full-text",
+            "display": "Full-Text",
+            "definition": "URL to reach the full-text of the article."
+        },
+        {
+            "code": "full-text-version",
+            "display": "Full-Text Version",
+            "definition": "URL to reach a specific version of the full-text of the article."
+        },
+        {
+            "code": "pdf",
+            "display": "PDF",
+            "definition": "URL to reach the full-text of the article in PDF form."
+        },
+        {
+            "code": "pdf-version",
+            "display": "PDF Version",
+            "definition": "URL to reach a specific version of the full-text of the article in PDF form."
+        },
+        {
+            "code": "webpage",
+            "display": "Webpage",
+            "definition": "Used when URL type is a webpage, but other codes do not apply."
+        },
+        {
+            "code": "not-specified",
+            "display": "Not Specified",
+            "definition": "Used when URL type is not specified, commonly when only a single URL is provided."
+        },
+        {
+            "code": "json",
+            "display": "JSON",
+            "definition": "URL to reach computable content in JSON format."
+        },
+        {
+            "code": "json-version",
+            "display": "JSON Version",
+            "definition": "URL to reach a specific version of computable content in JSON format."
+        },
+        {
+            "code": "xml",
+            "display": "XML",
+            "definition": "URL to reach computable content in XML format."
+        },
+        {
+            "code": "xml-version",
+            "display": "XML",
+            "definition": "URL to reach a specific version of computable content in XML format."
+        },
+        {
+            "code": "supplement",
+            "display": "Supplement",
+            "definition": "Supplement"
+        },
+        {
+            "code": "supplementary-file-directory",
+            "display": "Supplementary file directory",
+            "definition": "Supplementary file directory"
+        },
+        {
+            "code": "compressed-file",
+            "display": "Compressed file",
+            "definition": "Compressed archive file (e.g. a zip file) that contains multiple files"
+        }
+    ]
+}

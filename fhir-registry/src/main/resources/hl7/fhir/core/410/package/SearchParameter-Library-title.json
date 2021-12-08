@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "Library-title",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/Library-title",
+    "version": "4.1.0",
+    "name": "title",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Clinical Decision Support)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/dss/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The human-friendly name of the library",
+    "code": "title",
+    "base": [
+        "Library"
+    ],
+    "type": "string",
+    "expression": "Library.title",
+    "xpath": "f:Library/f:title",
+    "xpathUsage": "normal"
+}

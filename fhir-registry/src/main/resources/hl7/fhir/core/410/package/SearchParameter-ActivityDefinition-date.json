@@ -1,0 +1,55 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "ActivityDefinition-date",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/ActivityDefinition-date",
+    "version": "4.1.0",
+    "name": "date",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Clinical Decision Support)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/dss/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The activity definition publication date",
+    "code": "date",
+    "base": [
+        "ActivityDefinition"
+    ],
+    "type": "date",
+    "expression": "ActivityDefinition.date",
+    "xpath": "f:ActivityDefinition/f:date",
+    "xpathUsage": "normal",
+    "comparator": [
+        "eq",
+        "ne",
+        "gt",
+        "ge",
+        "lt",
+        "le",
+        "sa",
+        "eb",
+        "ap"
+    ]
+}

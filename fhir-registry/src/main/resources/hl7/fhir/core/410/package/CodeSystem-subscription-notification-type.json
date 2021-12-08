@@ -1,0 +1,87 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "subscription-notification-type",
+    "meta": {
+        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/subscription-notification-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1524"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "SubscriptionNotificationType",
+    "title": "SubscriptionNotificationType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The type of notification represented by the status message.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-notification-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "handshake",
+            "display": "Handshake",
+            "definition": "The status was generated as part of the setup or verification of a communications channel."
+        },
+        {
+            "code": "heartbeat",
+            "display": "Heartbeat",
+            "definition": "The status was generated to perform a heartbeat notification to the subscriber."
+        },
+        {
+            "code": "event-notification",
+            "display": "Event Notification",
+            "definition": "The status was generated for an event to the subscriber."
+        },
+        {
+            "code": "query-status",
+            "display": "Query Status",
+            "definition": "The status was generated in response to a status query/request."
+        },
+        {
+            "code": "query-event",
+            "display": "Query Event",
+            "definition": "The status was generated in response to an event query/request."
+        }
+    ]
+}
