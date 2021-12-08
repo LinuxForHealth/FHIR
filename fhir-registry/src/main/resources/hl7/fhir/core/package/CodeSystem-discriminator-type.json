@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>DiscriminatorType</h2><div><p>How an element value is interpreted when discrimination is evaluated.</p>\n</div><p>This code system http://hl7.org/fhir/discriminator-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">value<a name=\"discriminator-type-value\"> </a></td><td>Value</td><td>The slices have different values in the nominated element.</td></tr><tr><td style=\"white-space:nowrap\">exists<a name=\"discriminator-type-exists\"> </a></td><td>Exists</td><td>The slices are differentiated by the presence or absence of the nominated element.</td></tr><tr><td style=\"white-space:nowrap\">pattern<a name=\"discriminator-type-pattern\"> </a></td><td>Pattern</td><td>The slices have different values in the nominated element, as determined by testing them against the applicable ElementDefinition.pattern[x].</td></tr><tr><td style=\"white-space:nowrap\">type<a name=\"discriminator-type-type\"> </a></td><td>Type</td><td>The slices are differentiated by type of the nominated element.</td></tr><tr><td style=\"white-space:nowrap\">profile<a name=\"discriminator-type-profile\"> </a></td><td>Profile</td><td>The slices are differentiated by conformance of the nominated element to a specified profile. Note that if the path specifies .resolve() then the profile is the target profile on the reference. In this case, validation by the possible profiles is required to differentiate the slices.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

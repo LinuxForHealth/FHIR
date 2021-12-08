@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ConsentDataMeaning</h2><div><p>How a resource reference is interpreted when testing consent restrictions.</p>\n</div><p>This code system http://hl7.org/fhir/consent-data-meaning defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">instance<a name=\"consent-data-meaning-instance\"> </a></td><td>Instance</td><td>The consent applies directly to the instance of the resource.</td></tr><tr><td style=\"white-space:nowrap\">related<a name=\"consent-data-meaning-related\"> </a></td><td>Related</td><td>The consent applies directly to the instance of the resource and instances it refers to.</td></tr><tr><td style=\"white-space:nowrap\">dependents<a name=\"consent-data-meaning-dependents\"> </a></td><td>Dependents</td><td>The consent applies directly to the instance of the resource and instances that refer to it.</td></tr><tr><td style=\"white-space:nowrap\">authoredby<a name=\"consent-data-meaning-authoredby\"> </a></td><td>AuthoredBy</td><td>The consent applies to instances of resources that are authored by.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

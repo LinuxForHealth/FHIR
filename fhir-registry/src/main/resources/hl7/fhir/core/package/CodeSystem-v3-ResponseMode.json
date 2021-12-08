@@ -5,8 +5,8 @@
         "lastUpdated": "2018-08-12T00:00:00+10:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Release Date: 2018-08-12</p>\r\n<table class=\"grid\">\r\n <tr><td><b>Level</b></td><td><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr>\r\n <tr><td>1</td><td>D<a name=\"v3-ResponseMode-D\"> </a></td><td>deferred</td><td>\n                        The receiver may respond in a non-immediate manner. Note: this will be the default value.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>I<a name=\"v3-ResponseMode-I\"> </a></td><td>immediate</td><td>\n                        The receiver is required to assume that the sender is blocking and behave appropriately by sending an immediate response.<br/>\r\n\n                     </td></tr>\r\n <tr><td>1</td><td>Q<a name=\"v3-ResponseMode-Q\"> </a></td><td>queue</td><td>\n                        The receiver shall keep any application responses in a queue until such time as the queue is polled.<br/>\r\n\n                     </td></tr>\r\n</table>\r\n</div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Return a graph of resources</h2><p>OPERATION: Return a graph of resources</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Resource-graph</pre><div><p>Return an entire graph of resources based on a <a href=\"graphdefinition.html\">GraphDefinition</a>. The operation is invoked on a specific instance of a resource, and the graph definition tells the server what other resources to return in the same packaage</p>\n</div><p>URL: [base]/Resource/[id]/$graph</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>graph</td><td>1..1</td><td><a href=\"datatypes.html#uri\">uri</a></td><td/><td><div><p>Servers MAY choose to allow any graph definition to be specified, but MAY require that the client choose a graph definition from a specific list of known supported definitions. The server is not required to support a formal definition of the graph on the end point</p>\n</div></td></tr><tr><td>OUT</td><td>result</td><td>1..1</td><td><a href=\"bundle.html\">Bundle</a></td><td/><td><div><p>The set of resources that were in the graph based on the provided definition</p>\n</div></td></tr></table><div/></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

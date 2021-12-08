@@ -2,8 +2,8 @@
     "resourceType": "ConceptMap",
     "id": "cm-administrative-gender-v2",
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>v2.AdministrativeGender (http://hl7.org/fhir/ConceptMap/cm-administrative-gender-v2)</h2><p>Mapping from <a href=\"valueset-administrative-gender.html\">http://hl7.org/fhir/ValueSet/administrative-gender</a> to <a href=\"v2/0001/index.html\">http://terminology.hl7.org/ValueSet/v2-0001</a></p><p>DRAFT. Published on 01/11/2019 9:29:23 AM by HL7 (FHIR Project). </p><br/><table class=\"grid\"><tr><td colspan=\"1\"><b>Source Concept Details</b></td><td><b>Equivalence</b></td><td colspan=\"1\"><b>Destination Concept Details</b></td></tr><tr><td><b>Code</b> from <a href=\"codesystem-administrative-gender.html\" title=\"http://hl7.org/fhir/administrative-gender\">AdministrativeGender</a></td><td/><td><b>Code</b> from <a href=\"v2/0001/index.html\" title=\"http://terminology.hl7.org/CodeSystem/v2-0001\">v2 SEX</a></td></tr><tr><td>male (Male)</td><td><a href=\"codesystem-concept-map-equivalence.html#equal\">equal</a></td><td>M (Male)</td></tr><tr><td>female (Female)</td><td><a href=\"codesystem-concept-map-equivalence.html#equal\">equal</a></td><td>F (Female)</td></tr><tr><td style=\"border-bottom-style: none\">other (Other)</td><td><a href=\"codesystem-concept-map-equivalence.html#wider\">wider</a></td><td>A (Ambiguous)</td></tr><tr><td style=\"border-top-style: none\"/><td><a href=\"codesystem-concept-map-equivalence.html#wider\">wider</a></td><td>O (Other)</td></tr><tr><td>unknown (Unknown)</td><td><a href=\"codesystem-concept-map-equivalence.html#equal\">equal</a></td><td>U (Unknown)</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "url": "http://hl7.org/fhir/ConceptMap/cm-administrative-gender-v2",
     "version": "4.0.1",

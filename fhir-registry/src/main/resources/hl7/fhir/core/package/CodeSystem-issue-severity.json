@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>IssueSeverity</h2><div><p>How the issue affects the success of the action.</p>\n</div><p>This code system http://hl7.org/fhir/issue-severity defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">fatal<a name=\"issue-severity-fatal\"> </a></td><td>Fatal</td><td>The issue caused the action to fail and no further checking could be performed.</td></tr><tr><td style=\"white-space:nowrap\">error<a name=\"issue-severity-error\"> </a></td><td>Error</td><td>The issue is sufficiently important to cause the action to fail.</td></tr><tr><td style=\"white-space:nowrap\">warning<a name=\"issue-severity-warning\"> </a></td><td>Warning</td><td>The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a way that is not as desired.</td></tr><tr><td style=\"white-space:nowrap\">information<a name=\"issue-severity-information\"> </a></td><td>Information</td><td>The issue has no relation to the degree of success of the action.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ConditionalDeleteStatus</h2><div><p>A code that indicates how the server supports conditional delete.</p>\n</div><p>This code system http://hl7.org/fhir/conditional-delete-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">not-supported<a name=\"conditional-delete-status-not-supported\"> </a></td><td>Not Supported</td><td>No support for conditional deletes.</td></tr><tr><td style=\"white-space:nowrap\">single<a name=\"conditional-delete-status-single\"> </a></td><td>Single Deletes Supported</td><td>Conditional deletes are supported, but only single resources at a time.</td></tr><tr><td style=\"white-space:nowrap\">multiple<a name=\"conditional-delete-status-multiple\"> </a></td><td>Multiple Deletes Supported</td><td>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

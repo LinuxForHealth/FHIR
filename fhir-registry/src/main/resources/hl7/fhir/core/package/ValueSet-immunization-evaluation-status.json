@@ -8,8 +8,8 @@
         ]
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Immunization Evaluation Status Codes</h2><div><p>The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains concepts to support describing the current status of the evaluation for vaccine administration event.</p>\n</div><p>This value set includes codes from the following code systems:</p><ul><li>Include these codes as defined in <a href=\"codesystem-medication-admin-status.html\"><code>http://terminology.hl7.org/CodeSystem/medication-admin-status</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b><a href=\"valueset-resource-status.html\">Canonical Status</a></b></td></tr><tr><td><a href=\"codesystem-medication-admin-status.html#medication-admin-status-completed\">completed</a></td><td>Completed</td><td>All actions that are implied by the administration have occurred.</td></tr><tr><td><a href=\"codesystem-medication-admin-status.html#medication-admin-status-entered-in-error\">entered-in-error</a></td><td>Entered in Error</td><td>The administration was entered in error and therefore nullified.</td></tr></table></li></ul></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {

@@ -5,8 +5,8 @@
         "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ConditionalReadStatus</h2><div><p>A code that indicates how the server supports conditional read.</p>\n</div><p>This code system http://hl7.org/fhir/conditional-read-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">not-supported<a name=\"conditional-read-status-not-supported\"> </a></td><td>Not Supported</td><td>No support for conditional reads.</td></tr><tr><td style=\"white-space:nowrap\">modified-since<a name=\"conditional-read-status-modified-since\"> </a></td><td>If-Modified-Since</td><td>Conditional reads are supported, but only with the If-Modified-Since HTTP Header.</td></tr><tr><td style=\"white-space:nowrap\">not-match<a name=\"conditional-read-status-not-match\"> </a></td><td>If-None-Match</td><td>Conditional reads are supported, but only with the If-None-Match HTTP Header.</td></tr><tr><td style=\"white-space:nowrap\">full-support<a name=\"conditional-read-status-full-support\"> </a></td><td>Full Support</td><td>Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.</td></tr></table></div>"
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
         {
