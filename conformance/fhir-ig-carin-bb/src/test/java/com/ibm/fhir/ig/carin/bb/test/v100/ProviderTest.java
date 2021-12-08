@@ -76,7 +76,6 @@ public class ProviderTest {
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                 String url = registryResource.getUrl() + "|1.0.0";
-                System.out.println(registryResource.getVersion());
                 System.out.println(url);
                 Class<?> type =
                         ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
