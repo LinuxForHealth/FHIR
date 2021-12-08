@@ -1,0 +1,569 @@
+{
+    "resourceType": "CompartmentDefinition",
+    "id": "device",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/CompartmentDefinition/device",
+    "version": "4.1.0",
+    "name": "Base FHIR compartment definition for Device",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "FHIR Project Team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "There is an instance of the device compartment for each Device resource, and the identity of the compartment is the same as the Device. The set of resources associated with a particular device",
+    "code": "Device",
+    "search": true,
+    "resource": [
+        {
+            "code": "Account",
+            "param": [
+                "subject"
+            ]
+        },
+        {
+            "code": "ActivityDefinition"
+        },
+        {
+            "code": "AdministrableProductDefinition"
+        },
+        {
+            "code": "AdverseEvent"
+        },
+        {
+            "code": "AllergyIntolerance"
+        },
+        {
+            "code": "Appointment",
+            "param": [
+                "actor"
+            ]
+        },
+        {
+            "code": "AppointmentResponse",
+            "param": [
+                "actor"
+            ]
+        },
+        {
+            "code": "AuditEvent",
+            "param": [
+                "agent"
+            ]
+        },
+        {
+            "code": "Basic"
+        },
+        {
+            "code": "Binary"
+        },
+        {
+            "code": "BiologicallyDerivedProduct"
+        },
+        {
+            "code": "BodyStructure"
+        },
+        {
+            "code": "Bundle"
+        },
+        {
+            "code": "CapabilityStatement"
+        },
+        {
+            "code": "CarePlan"
+        },
+        {
+            "code": "CareTeam"
+        },
+        {
+            "code": "CatalogEntry"
+        },
+        {
+            "code": "ChargeItem",
+            "param": [
+                "enterer",
+                "performer-actor"
+            ]
+        },
+        {
+            "code": "ChargeItemDefinition"
+        },
+        {
+            "code": "Citation"
+        },
+        {
+            "code": "Claim",
+            "param": [
+                "procedure-udi",
+                "item-udi",
+                "detail-udi",
+                "subdetail-udi"
+            ]
+        },
+        {
+            "code": "ClaimResponse"
+        },
+        {
+            "code": "ClinicalImpression"
+        },
+        {
+            "code": "ClinicalUseDefinition"
+        },
+        {
+            "code": "ClinicalUseIssue"
+        },
+        {
+            "code": "CodeSystem"
+        },
+        {
+            "code": "Communication",
+            "param": [
+                "sender",
+                "recipient"
+            ]
+        },
+        {
+            "code": "CommunicationRequest",
+            "param": [
+                "sender",
+                "recipient"
+            ]
+        },
+        {
+            "code": "CompartmentDefinition"
+        },
+        {
+            "code": "Composition",
+            "param": [
+                "author"
+            ]
+        },
+        {
+            "code": "ConceptMap"
+        },
+        {
+            "code": "Condition"
+        },
+        {
+            "code": "Consent"
+        },
+        {
+            "code": "Contract"
+        },
+        {
+            "code": "Coverage"
+        },
+        {
+            "code": "CoverageEligibilityRequest"
+        },
+        {
+            "code": "CoverageEligibilityResponse"
+        },
+        {
+            "code": "DetectedIssue",
+            "param": [
+                "author"
+            ]
+        },
+        {
+            "code": "Device"
+        },
+        {
+            "code": "DeviceDefinition"
+        },
+        {
+            "code": "DeviceMetric"
+        },
+        {
+            "code": "DeviceRequest",
+            "param": [
+                "device",
+                "subject",
+                "requester",
+                "performer"
+            ]
+        },
+        {
+            "code": "DeviceUseStatement",
+            "param": [
+                "device"
+            ]
+        },
+        {
+            "code": "DiagnosticReport",
+            "param": [
+                "subject"
+            ]
+        },
+        {
+            "code": "DocumentManifest",
+            "param": [
+                "subject",
+                "author"
+            ]
+        },
+        {
+            "code": "DocumentReference",
+            "param": [
+                "subject",
+                "author"
+            ]
+        },
+        {
+            "code": "Encounter"
+        },
+        {
+            "code": "Endpoint"
+        },
+        {
+            "code": "EnrollmentRequest"
+        },
+        {
+            "code": "EnrollmentResponse"
+        },
+        {
+            "code": "EpisodeOfCare"
+        },
+        {
+            "code": "EventDefinition"
+        },
+        {
+            "code": "Evidence"
+        },
+        {
+            "code": "EvidenceReport"
+        },
+        {
+            "code": "EvidenceVariable"
+        },
+        {
+            "code": "ExampleScenario"
+        },
+        {
+            "code": "ExplanationOfBenefit",
+            "param": [
+                "procedure-udi",
+                "item-udi",
+                "detail-udi",
+                "subdetail-udi"
+            ]
+        },
+        {
+            "code": "FamilyMemberHistory"
+        },
+        {
+            "code": "Flag",
+            "param": [
+                "author"
+            ]
+        },
+        {
+            "code": "Goal"
+        },
+        {
+            "code": "GraphDefinition"
+        },
+        {
+            "code": "Group",
+            "param": [
+                "member"
+            ]
+        },
+        {
+            "code": "GuidanceResponse"
+        },
+        {
+            "code": "HealthcareService"
+        },
+        {
+            "code": "ImagingStudy"
+        },
+        {
+            "code": "Immunization"
+        },
+        {
+            "code": "ImmunizationEvaluation"
+        },
+        {
+            "code": "ImmunizationRecommendation"
+        },
+        {
+            "code": "ImplementationGuide"
+        },
+        {
+            "code": "Ingredient"
+        },
+        {
+            "code": "InsurancePlan"
+        },
+        {
+            "code": "Invoice",
+            "param": [
+                "participant"
+            ]
+        },
+        {
+            "code": "Library"
+        },
+        {
+            "code": "Linkage"
+        },
+        {
+            "code": "List",
+            "param": [
+                "subject",
+                "source"
+            ]
+        },
+        {
+            "code": "Location"
+        },
+        {
+            "code": "ManufacturedItemDefinition"
+        },
+        {
+            "code": "Measure"
+        },
+        {
+            "code": "MeasureReport"
+        },
+        {
+            "code": "Media",
+            "param": [
+                "subject"
+            ]
+        },
+        {
+            "code": "Medication"
+        },
+        {
+            "code": "MedicationAdministration",
+            "param": [
+                "device"
+            ]
+        },
+        {
+            "code": "MedicationDispense"
+        },
+        {
+            "code": "MedicationKnowledge"
+        },
+        {
+            "code": "MedicationRequest"
+        },
+        {
+            "code": "MedicationStatement"
+        },
+        {
+            "code": "MedicinalProductDefinition"
+        },
+        {
+            "code": "MessageDefinition"
+        },
+        {
+            "code": "MessageHeader",
+            "param": [
+                "target"
+            ]
+        },
+        {
+            "code": "MolecularSequence"
+        },
+        {
+            "code": "NamingSystem"
+        },
+        {
+            "code": "NutritionOrder"
+        },
+        {
+            "code": "NutritionProduct"
+        },
+        {
+            "code": "Observation",
+            "param": [
+                "subject",
+                "device"
+            ]
+        },
+        {
+            "code": "ObservationDefinition"
+        },
+        {
+            "code": "OperationDefinition"
+        },
+        {
+            "code": "OperationOutcome"
+        },
+        {
+            "code": "Organization"
+        },
+        {
+            "code": "OrganizationAffiliation"
+        },
+        {
+            "code": "PackagedProductDefinition"
+        },
+        {
+            "code": "Patient"
+        },
+        {
+            "code": "PaymentNotice"
+        },
+        {
+            "code": "PaymentReconciliation"
+        },
+        {
+            "code": "Person"
+        },
+        {
+            "code": "PlanDefinition"
+        },
+        {
+            "code": "Practitioner"
+        },
+        {
+            "code": "PractitionerRole"
+        },
+        {
+            "code": "Procedure"
+        },
+        {
+            "code": "Provenance",
+            "param": [
+                "agent"
+            ]
+        },
+        {
+            "code": "Questionnaire"
+        },
+        {
+            "code": "QuestionnaireResponse",
+            "param": [
+                "author"
+            ]
+        },
+        {
+            "code": "RegulatedAuthorization"
+        },
+        {
+            "code": "RelatedPerson"
+        },
+        {
+            "code": "RequestGroup",
+            "param": [
+                "author"
+            ]
+        },
+        {
+            "code": "ResearchDefinition"
+        },
+        {
+            "code": "ResearchElementDefinition"
+        },
+        {
+            "code": "ResearchStudy"
+        },
+        {
+            "code": "ResearchSubject"
+        },
+        {
+            "code": "RiskAssessment",
+            "param": [
+                "performer"
+            ]
+        },
+        {
+            "code": "Schedule",
+            "param": [
+                "actor"
+            ]
+        },
+        {
+            "code": "SearchParameter"
+        },
+        {
+            "code": "ServiceRequest",
+            "param": [
+                "performer",
+                "requester"
+            ]
+        },
+        {
+            "code": "Slot"
+        },
+        {
+            "code": "Specimen",
+            "param": [
+                "subject"
+            ]
+        },
+        {
+            "code": "SpecimenDefinition"
+        },
+        {
+            "code": "StructureDefinition"
+        },
+        {
+            "code": "StructureMap"
+        },
+        {
+            "code": "Subscription"
+        },
+        {
+            "code": "SubscriptionStatus"
+        },
+        {
+            "code": "SubscriptionTopic"
+        },
+        {
+            "code": "Substance"
+        },
+        {
+            "code": "SubstanceDefinition"
+        },
+        {
+            "code": "SupplyDelivery"
+        },
+        {
+            "code": "SupplyRequest",
+            "param": [
+                "requester"
+            ]
+        },
+        {
+            "code": "Task"
+        },
+        {
+            "code": "TerminologyCapabilities"
+        },
+        {
+            "code": "TestReport"
+        },
+        {
+            "code": "TestScript"
+        },
+        {
+            "code": "ValueSet"
+        },
+        {
+            "code": "VerificationResult"
+        },
+        {
+            "code": "VisionPrescription"
+        }
+    ]
+}

@@ -1,0 +1,57 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medicationrequest-course-of-therapy",
+    "meta": {
+        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1326"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "medicationRequest Course of Therapy Codes",
+    "status": "draft",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationRequest Course of Therapy Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy"
+            }
+        ]
+    }
+}

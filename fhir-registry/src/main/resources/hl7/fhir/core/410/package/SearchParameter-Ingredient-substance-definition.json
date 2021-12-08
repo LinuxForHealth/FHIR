@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "Ingredient-substance-definition",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/Ingredient-substance-definition",
+    "version": "4.1.0",
+    "name": "substance-definition",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-12-06T18:53:36Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Reference to a resource (by instance)",
+    "code": "substance-definition",
+    "base": [
+        "Ingredient"
+    ],
+    "type": "reference",
+    "expression": "Ingredient.substance.code.reference",
+    "xpath": "f:Ingredient/f:substance/f:code/f:reference",
+    "xpathUsage": "normal"
+}
