@@ -1146,9 +1146,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (categoryArray != null) {
             JsonArray _categoryArray = jsonObject.getJsonArray("_category");
             for (int i = 0; i < categoryArray.size(); i++) {
-                if (categoryArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + categoryArray.get(i).getValueType() + " for element: category");
-                }
                 builder.category((AllergyIntoleranceCategory) parseString(AllergyIntoleranceCategory.builder(), "category", categoryArray.get(i), getJsonValue(_categoryArray, i), i));
             }
         }
@@ -2442,9 +2439,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (referencePolicyArray != null) {
             JsonArray _referencePolicyArray = jsonObject.getJsonArray("_referencePolicy");
             for (int i = 0; i < referencePolicyArray.size(); i++) {
-                if (referencePolicyArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + referencePolicyArray.get(i).getValueType() + " for element: referencePolicy");
-                }
                 builder.referencePolicy((ReferenceHandlingPolicy) parseString(ReferenceHandlingPolicy.builder(), "referencePolicy", referencePolicyArray.get(i), getJsonValue(_referencePolicyArray, i), i));
             }
         }
@@ -6072,9 +6066,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (operatorArray != null) {
             JsonArray _operatorArray = jsonObject.getJsonArray("_operator");
             for (int i = 0; i < operatorArray.size(); i++) {
-                if (operatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + operatorArray.get(i).getValueType() + " for element: operator");
-                }
                 builder.operator((FilterOperator) parseString(FilterOperator.builder(), "operator", operatorArray.get(i), getJsonValue(_operatorArray, i), i));
             }
         }
@@ -8334,9 +8325,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (purposeArray != null) {
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
             for (int i = 0; i < purposeArray.size(); i++) {
-                if (purposeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeArray.get(i).getValueType() + " for element: purpose");
-                }
                 builder.purpose((EligibilityRequestPurpose) parseString(EligibilityRequestPurpose.builder(), "purpose", purposeArray.get(i), getJsonValue(_purposeArray, i), i));
             }
         }
@@ -8510,9 +8498,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (purposeArray != null) {
             JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
             for (int i = 0; i < purposeArray.size(); i++) {
-                if (purposeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + purposeArray.get(i).getValueType() + " for element: purpose");
-                }
                 builder.purpose((EligibilityResponsePurpose) parseString(EligibilityResponsePurpose.builder(), "purpose", purposeArray.get(i), getJsonValue(_purposeArray, i), i));
             }
         }
@@ -10261,9 +10246,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (representationArray != null) {
             JsonArray _representationArray = jsonObject.getJsonArray("_representation");
             for (int i = 0; i < representationArray.size(); i++) {
-                if (representationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + representationArray.get(i).getValueType() + " for element: representation");
-                }
                 builder.representation((PropertyRepresentation) parseString(PropertyRepresentation.builder(), "representation", representationArray.get(i), getJsonValue(_representationArray, i), i));
             }
         }
@@ -10523,9 +10505,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (aggregationArray != null) {
             JsonArray _aggregationArray = jsonObject.getJsonArray("_aggregation");
             for (int i = 0; i < aggregationArray.size(); i++) {
-                if (aggregationArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + aggregationArray.get(i).getValueType() + " for element: aggregation");
-                }
                 builder.aggregation((AggregationMode) parseString(AggregationMode.builder(), "aggregation", aggregationArray.get(i), getJsonValue(_aggregationArray, i), i));
             }
         }
@@ -14084,9 +14063,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
-                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
-                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -14833,9 +14809,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (fhirVersionArray != null) {
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
             for (int i = 0; i < fhirVersionArray.size(); i++) {
-                if (fhirVersionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fhirVersionArray.get(i).getValueType() + " for element: fhirVersion");
-                }
                 builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", fhirVersionArray.get(i), getJsonValue(_fhirVersionArray, i), i));
             }
         }
@@ -14992,9 +14965,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (fhirVersionArray != null) {
             JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
             for (int i = 0; i < fhirVersionArray.size(); i++) {
-                if (fhirVersionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + fhirVersionArray.get(i).getValueType() + " for element: fhirVersion");
-                }
                 builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", fhirVersionArray.get(i), getJsonValue(_fhirVersionArray, i), i));
             }
         }
@@ -16208,9 +16178,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
-                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
-                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -19828,9 +19795,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (permittedDataTypeArray != null) {
             JsonArray _permittedDataTypeArray = jsonObject.getJsonArray("_permittedDataType");
             for (int i = 0; i < permittedDataTypeArray.size(); i++) {
-                if (permittedDataTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + permittedDataTypeArray.get(i).getValueType() + " for element: permittedDataType");
-                }
                 builder.permittedDataType((ObservationDataType) parseString(ObservationDataType.builder(), "permittedDataType", permittedDataTypeArray.get(i), getJsonValue(_permittedDataTypeArray, i), i));
             }
         }
@@ -19962,9 +19926,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (resourceArray != null) {
             JsonArray _resourceArray = jsonObject.getJsonArray("_resource");
             for (int i = 0; i < resourceArray.size(); i++) {
-                if (resourceArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + resourceArray.get(i).getValueType() + " for element: resource");
-                }
                 builder.resource((ResourceType) parseString(ResourceType.builder(), "resource", resourceArray.get(i), getJsonValue(_resourceArray, i), i));
             }
         }
@@ -21717,9 +21678,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (daysOfWeekArray != null) {
             JsonArray _daysOfWeekArray = jsonObject.getJsonArray("_daysOfWeek");
             for (int i = 0; i < daysOfWeekArray.size(); i++) {
-                if (daysOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + daysOfWeekArray.get(i).getValueType() + " for element: daysOfWeek");
-                }
                 builder.daysOfWeek((DaysOfWeek) parseString(DaysOfWeek.builder(), "daysOfWeek", daysOfWeekArray.get(i), getJsonValue(_daysOfWeekArray, i), i));
             }
         }
@@ -22213,9 +22171,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (subjectTypeArray != null) {
             JsonArray _subjectTypeArray = jsonObject.getJsonArray("_subjectType");
             for (int i = 0; i < subjectTypeArray.size(); i++) {
-                if (subjectTypeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + subjectTypeArray.get(i).getValueType() + " for element: subjectType");
-                }
                 builder.subjectType((ResourceType) parseString(ResourceType.builder(), "subjectType", subjectTypeArray.get(i), getJsonValue(_subjectTypeArray, i), i));
             }
         }
@@ -23805,9 +23760,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (baseArray != null) {
             JsonArray _baseArray = jsonObject.getJsonArray("_base");
             for (int i = 0; i < baseArray.size(); i++) {
-                if (baseArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + baseArray.get(i).getValueType() + " for element: base");
-                }
                 builder.base((ResourceType) parseString(ResourceType.builder(), "base", baseArray.get(i), getJsonValue(_baseArray, i), i));
             }
         }
@@ -23819,9 +23771,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (targetArray != null) {
             JsonArray _targetArray = jsonObject.getJsonArray("_target");
             for (int i = 0; i < targetArray.size(); i++) {
-                if (targetArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + targetArray.get(i).getValueType() + " for element: target");
-                }
                 builder.target((ResourceType) parseString(ResourceType.builder(), "target", targetArray.get(i), getJsonValue(_targetArray, i), i));
             }
         }
@@ -23831,9 +23780,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (comparatorArray != null) {
             JsonArray _comparatorArray = jsonObject.getJsonArray("_comparator");
             for (int i = 0; i < comparatorArray.size(); i++) {
-                if (comparatorArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + comparatorArray.get(i).getValueType() + " for element: comparator");
-                }
                 builder.comparator((SearchComparator) parseString(SearchComparator.builder(), "comparator", comparatorArray.get(i), getJsonValue(_comparatorArray, i), i));
             }
         }
@@ -23841,9 +23787,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (modifierArray != null) {
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
             for (int i = 0; i < modifierArray.size(); i++) {
-                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
-                }
                 builder.modifier((SearchModifierCode) parseString(SearchModifierCode.builder(), "modifier", modifierArray.get(i), getJsonValue(_modifierArray, i), i));
             }
         }
@@ -24953,9 +24896,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (listModeArray != null) {
             JsonArray _listModeArray = jsonObject.getJsonArray("_listMode");
             for (int i = 0; i < listModeArray.size(); i++) {
-                if (listModeArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + listModeArray.get(i).getValueType() + " for element: listMode");
-                }
                 builder.listMode((StructureMapTargetListMode) parseString(StructureMapTargetListMode.builder(), "listMode", listModeArray.get(i), getJsonValue(_listModeArray, i), i));
             }
         }
@@ -25255,9 +25195,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (modifierArray != null) {
             JsonArray _modifierArray = jsonObject.getJsonArray("_modifier");
             for (int i = 0; i < modifierArray.size(); i++) {
-                if (modifierArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + modifierArray.get(i).getValueType() + " for element: modifier");
-                }
                 builder.modifier((SubscriptionTopicFilterBySearchModifier) parseString(SubscriptionTopicFilterBySearchModifier.builder(), "modifier", modifierArray.get(i), getJsonValue(_modifierArray, i), i));
             }
         }
@@ -25330,9 +25267,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (supportedInteractionArray != null) {
             JsonArray _supportedInteractionArray = jsonObject.getJsonArray("_supportedInteraction");
             for (int i = 0; i < supportedInteractionArray.size(); i++) {
-                if (supportedInteractionArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + supportedInteractionArray.get(i).getValueType() + " for element: supportedInteraction");
-                }
                 builder.supportedInteraction((MethodCode) parseString(MethodCode.builder(), "supportedInteraction", supportedInteractionArray.get(i), getJsonValue(_supportedInteractionArray, i), i));
             }
         }
@@ -27320,9 +27254,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (dayOfWeekArray != null) {
             JsonArray _dayOfWeekArray = jsonObject.getJsonArray("_dayOfWeek");
             for (int i = 0; i < dayOfWeekArray.size(); i++) {
-                if (dayOfWeekArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + dayOfWeekArray.get(i).getValueType() + " for element: dayOfWeek");
-                }
                 builder.dayOfWeek((DayOfWeek) parseString(DayOfWeek.builder(), "dayOfWeek", dayOfWeekArray.get(i), getJsonValue(_dayOfWeekArray, i), i));
             }
         }
@@ -27337,9 +27268,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (whenArray != null) {
             JsonArray _whenArray = jsonObject.getJsonArray("_when");
             for (int i = 0; i < whenArray.size(); i++) {
-                if (whenArray.get(i).getValueType() != JsonValue.ValueType.OBJECT) {
-                    throw new IllegalArgumentException("Expected: OBJECT but found: " + whenArray.get(i).getValueType() + " for element: when");
-                }
                 builder.when((EventTiming) parseString(EventTiming.builder(), "when", whenArray.get(i), getJsonValue(_whenArray, i), i));
             }
         }
@@ -28110,6 +28038,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 return parseAttachment(elementName, (JsonObject) jsonValue, -1);
             case "CodeableConcept":
                 return parseCodeableConcept(elementName, (JsonObject) jsonValue, -1);
+            case "CodeableReference":
+                return parseCodeableReference(elementName, (JsonObject) jsonValue, -1);
             case "Coding":
                 return parseCoding(elementName, (JsonObject) jsonValue, -1);
             case "ContactPoint":
@@ -28136,6 +28066,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 return parseRange(elementName, (JsonObject) jsonValue, -1);
             case "Ratio":
                 return parseRatio(elementName, (JsonObject) jsonValue, -1);
+            case "RatioRange":
+                return parseRatioRange(elementName, (JsonObject) jsonValue, -1);
             case "Reference":
                 return parseReference(elementName, (JsonObject) jsonValue, -1);
             case "SampledData":
@@ -28164,6 +28096,8 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 return parseUsageContext(elementName, (JsonObject) jsonValue, -1);
             case "Dosage":
                 return parseDosage(elementName, (JsonObject) jsonValue, -1);
+            case "Meta":
+                return parseMeta(elementName, (JsonObject) jsonValue, -1);
             }
         }
 

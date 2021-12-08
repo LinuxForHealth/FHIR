@@ -52,6 +52,6 @@ public class R4ExamplesTest {
         self.setup();
         // self.driver.setProcessor(new SerializationProcessor());
         self.driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
-        self.driver.processExample("json/spec/ingredient-example.json", Format.JSON, Expectation.OK);
+        self.driver.processExample("json/profiles/fhir-ig-davinci-pdex/CapabilityStatement-PdexServerCapabilityStatement.json", Format.JSON, Expectation.OK);
     }
 }
