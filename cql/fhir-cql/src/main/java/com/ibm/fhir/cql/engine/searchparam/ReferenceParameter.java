@@ -11,6 +11,7 @@ import com.ibm.fhir.search.SearchConstants.Modifier;
 public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
 
     private ResourceType resourceTypeModifier;
+
     private String chainedProperty;
     private String value;
 
@@ -67,5 +68,10 @@ public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
     @Override
     public String getParameterValue() {
         return getValue();
+    }
+
+    @Override
+    public String toString() {
+        return "ReferenceParameter [resourceTypeModifier=" + resourceTypeModifier.getValue() + ", chainedProperty=" + chainedProperty + ", value=" + value + "]";
     }
 }
