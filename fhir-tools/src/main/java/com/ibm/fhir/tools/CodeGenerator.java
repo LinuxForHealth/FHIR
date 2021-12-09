@@ -125,6 +125,25 @@ public class CodeGenerator {
     private static final String ALL_LANG_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/all-languages";
     private static final String UCUM_UNITS_VALUE_SET_URL = "http://hl7.org/fhir/ValueSet/ucum-units";
 
+    private static final List<String> REMOVED_RESOURCE_TYPES = Arrays.asList(
+        "EffectEvidenceSynthesis",
+        "MedicinalProduct",
+        "MedicinalProductAuthorization",
+        "MedicinalProductContraindication",
+        "MedicinalProductIndication",
+        "MedicinalProductIngredient",
+        "MedicinalProductInteraction",
+        "MedicinalProductManufactured",
+        "MedicinalProductPackaged",
+        "MedicinalProductPharmaceutical",
+        "MedicinalProductUndesirableEffect",
+        "RiskEvidenceSynthesis",
+        "SubstanceNucleicAcid",
+        "SubstancePolymer",
+        "SubstanceProtein",
+        "SubstanceSourceMaterial"
+    );
+
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
         this.codeSystemMap = codeSystemMap;
@@ -3872,6 +3891,22 @@ public class CodeGenerator {
         }
         cb._enum(mods("public"), enumName);
 
+        if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet)) {
+            for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
+                String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
+                cb.javadocStart()
+                    .javadoc("This resource type is retired and should never be used.")
+                    .javadoc("It is retained here only for backwards compatibility.")
+                    .javadocEnd();
+                cb.annotation("Deprecated");
+                cb.enumConstant(enumConstantName, args(quote(retiredResourceType)), false);
+            }
+            cb.newLine();
+        } else if ("FHIRVersion".equals(bindingName)) {
+            // Workaround for https://jira.hl7.org/browse/FHIR-34426
+            cb.enumConstant("VERSION_4_0_1", args(quote("4.0.1")), false);
+        }
+        
         int i = 0;
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
@@ -3905,6 +3940,17 @@ public class CodeGenerator {
                 ._return("null")
             ._end()
             ._switch("value");
+            if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet)) {
+                for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
+                    String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
+                    cb._case('"' + retiredResourceType + '"')
+                        ._return(enumConstantName);
+                }
+            } else if ("FHIRVersion".equals(bindingName)) {
+                // Workaround for https://jira.hl7.org/browse/FHIR-34426
+                cb._case('"' + "4.0.1" + '"')
+                        ._return("VERSION_4_0_1");
+            }
             for (JsonObject concept : concepts) {
                 String value = concept.getString("code");
                 String enumConstantName = getEnumConstantName(bindingName, value);
