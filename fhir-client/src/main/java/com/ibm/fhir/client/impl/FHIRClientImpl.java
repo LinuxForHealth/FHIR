@@ -33,7 +33,10 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
-import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.ext.logging.LoggingFeature;
+import org.apache.cxf.ext.logging.event.LogEvent;
+import org.apache.cxf.ext.logging.event.LogEventSender;
+import org.apache.cxf.ext.logging.event.LogMessageFormatter;
 
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
@@ -146,7 +149,12 @@ public class FHIRClientImpl implements FHIRClient {
 
         // Add request/response logging if enabled.
         if (isLoggingEnabled()) {
-            cb.register(LoggingFeature.class);
+            cb.property("org.apache.cxf.logging.enable", "true");
+            LoggingFeature feat = new LoggingFeature();
+            feat.setPrettyLogging(true);
+            feat.setVerbose(true);
+            feat.setSender(new LF());
+            cb.register(feat);
         }
 
         cb.property("thread.safe.client", true);
@@ -154,6 +162,18 @@ public class FHIRClientImpl implements FHIRClient {
         // Save off our cached Client instance.
         client = cb.build();
 
+    }
+
+    /**
+     * Remaps the LogEventSender
+     */
+    public static class LF implements LogEventSender {
+        @Override
+        public void send(LogEvent event) {
+            String msg = LogMessageFormatter.format(event);
+            String id = "ID: " + event.getExchangeId();
+            System.err.println(id + " " + msg);
+        }
     }
 
     @Override
