@@ -61,7 +61,8 @@ public class FHIRRegistryTest {
 
     @Test
     public void testLoadAllResources() {
-        // tries all resource types even though only a subset is in the registry; should be fine
+        // FHIRRegistryUtil has a private set of all definitional resources,
+        // so an alternative would be to mark that public and iterate through that instead
         for (Class<? extends Resource> resourceType : ModelSupport.getResourceTypes()) {
             if (FHIRRegistryUtil.isDefinitionalResourceType(resourceType)) {
                 FHIRRegistry.getInstance().getResources(resourceType);
