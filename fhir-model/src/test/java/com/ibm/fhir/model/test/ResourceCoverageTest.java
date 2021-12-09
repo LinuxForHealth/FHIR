@@ -38,6 +38,7 @@ import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuantityComparator;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.ResourceType.Value;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * This class exercises the getters in the resource package.
@@ -97,18 +98,15 @@ public class ResourceCoverageTest {
 
     @Test
     public void testResources() throws Exception {
-        List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
-        Value[] values = ResourceType.Value.values();
-        for (Value value : values) {
-            if (!SKIP.contains(value.value())) {
+        for (Class<?> resourceType : ModelSupport.getResourceTypes(false)) {
                 Resource resource =
-                        TestUtil.readExampleResource("json/ibm/complete-mock/" + value.value() + "-1.json");
+                        TestUtil.readExampleResource("json/ibm/complete-mock/" + resourceType.getSimpleName() + "-1.json");
                 Method[] methods = resource.getClass().getMethods();
                 runMethods(resource, methods);
                 Class<?>[] clzs = resource.getClass().getClasses();
                 for (Class<?> clz : clzs) {
 
-                    if (!SKIP.contains(clz.getSimpleName())) {
+                    if (!"Builder".equals(clz.getSimpleName())) {
                         Method m = resource.getClass().getMethod("get" + clz.getSimpleName());
                         Object o = m.invoke(resource);
                         if (o.getClass().getSimpleName().contains("List")) {
@@ -122,57 +120,52 @@ public class ResourceCoverageTest {
                         }
                     }
                 }
-            }
         }
     }
 
     @Test
     public void testResourcesWithXml() throws Exception {
-        List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
-        Value[] values = ResourceType.Value.values();
-        for (Value value : values) {
-            if (!SKIP.contains(value.value())) {
-                Resource resource =
-                        TestUtil.readExampleResource("xml/ibm/complete-mock/" + value.value() + "-1.xml");
+        for (Class<?> resourceType : ModelSupport.getResourceTypes(false)) {
+            Resource resource =
+                    TestUtil.readExampleResource("xml/ibm/complete-mock/" + resourceType.getSimpleName() + "-1.xml");
 
-                Resource.Builder builder = resource.toBuilder();
-                Method[] methods = builder.getClass().getMethods();
-                for (Method method : methods) {
-                    if (method.getName().equals("extension") && method.toString().contains("java.util.Collection")) {
-                        List<Extension> extensions = Arrays.asList(buildBooleanTrue());
-                        builder = (Resource.Builder) method.invoke(builder, extensions);
-                    }
-
-                    if (method.getName().equals("modifierExtension")
-                            && method.toString().contains("java.util.Collection")) {
-                        List<Extension> extensions = Arrays.asList(buildBooleanTrue());
-                        builder = (Resource.Builder) method.invoke(builder, extensions);
-                    }
-                }
-                resource = builder.build();
-
-                try (StringWriter writer = new StringWriter()) {
-                    FHIRGenerator.generator(Format.JSON).generate(resource, writer);
-                    String outJson = writer.toString();
-                    assertNotNull(outJson);
-                    assertFalse(outJson.isEmpty());
-
-                    try (ByteArrayInputStream in = new ByteArrayInputStream(outJson.getBytes())) {
-                        Resource resource2 = FHIRParser.parser(Format.JSON).parse(in).as(Resource.class);
-                        assertNotNull(resource2);
-                    }
+            Resource.Builder builder = resource.toBuilder();
+            Method[] methods = builder.getClass().getMethods();
+            for (Method method : methods) {
+                if (method.getName().equals("extension") && method.toString().contains("java.util.Collection")) {
+                    List<Extension> extensions = Arrays.asList(buildBooleanTrue());
+                    builder = (Resource.Builder) method.invoke(builder, extensions);
                 }
 
-                try (StringWriter writer = new StringWriter()) {
-                    FHIRGenerator.generator(Format.XML).generate(resource, writer);
-                    String outXML = writer.toString();
-                    assertNotNull(outXML);
-                    assertFalse(outXML.isEmpty());
+                if (method.getName().equals("modifierExtension")
+                        && method.toString().contains("java.util.Collection")) {
+                    List<Extension> extensions = Arrays.asList(buildBooleanTrue());
+                    builder = (Resource.Builder) method.invoke(builder, extensions);
+                }
+            }
+            resource = builder.build();
 
-                    try (ByteArrayInputStream in = new ByteArrayInputStream(outXML.getBytes())) {
-                        Resource resource2 = FHIRParser.parser(Format.XML).parse(in).as(Resource.class);
-                        assertNotNull(resource2);
-                    }
+            try (StringWriter writer = new StringWriter()) {
+                FHIRGenerator.generator(Format.JSON).generate(resource, writer);
+                String outJson = writer.toString();
+                assertNotNull(outJson);
+                assertFalse(outJson.isEmpty());
+
+                try (ByteArrayInputStream in = new ByteArrayInputStream(outJson.getBytes())) {
+                    Resource resource2 = FHIRParser.parser(Format.JSON).parse(in).as(Resource.class);
+                    assertNotNull(resource2);
+                }
+            }
+
+            try (StringWriter writer = new StringWriter()) {
+                FHIRGenerator.generator(Format.XML).generate(resource, writer);
+                String outXML = writer.toString();
+                assertNotNull(outXML);
+                assertFalse(outXML.isEmpty());
+
+                try (ByteArrayInputStream in = new ByteArrayInputStream(outXML.getBytes())) {
+                    Resource resource2 = FHIRParser.parser(Format.XML).parse(in).as(Resource.class);
+                    assertNotNull(resource2);
                 }
             }
         }
