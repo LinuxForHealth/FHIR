@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.postgres;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -268,9 +269,9 @@ public class PostgresTranslator implements IDatabaseTranslator {
     }
 
     @Override
-    public Integer maximumQueryParameters() {
+    public Optional<Integer> maximumQueryParameters() {
         // https://github.com/pgjdbc/pgjdbc/blob/13a644b4945996dff5274e45741313380d4a47e6/pgjdbc/src/main/java/org/postgresql/core/PGStream.java#L273
         // it's Short.MAX_VALUE
-        return 32767;
+        return Optional.of(Integer.valueOf(32767));
     }
 }

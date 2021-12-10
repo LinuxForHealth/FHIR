@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -757,13 +758,15 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         List<CommonTokenValue> sortedTokenValues = new ArrayList<>(tokenValueSet);
         sortedTokenValues.sort(CommonTokenValue::compareTo);
 
+        Optional<Integer> maxQuery = translator.maximumQueryParameters();
+
         // Process segments up to maximum query parameter size.
         for (int low = 0; low < sortedTokenValues.size();/*at end  of loop*/) {
             int high = sortedTokenValues.size();
-            Integer max = translator.maximumQueryParameters();
-            if (max != null && high > max/2) {
+
+            if (!maxQuery.isEmpty() && high > maxQuery.get()/2) {
                 // 2 as there a pair inserted.
-                high = low + max/2;
+                high = low + maxQuery.get()/2;
             }
 
             // Make sure we don't overflow.
