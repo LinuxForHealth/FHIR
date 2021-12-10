@@ -133,8 +133,12 @@ public final class FHIRRegistryUtil {
     }
 
     public static Resource loadResource(String path) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path), StandardCharsets.UTF_8))) {
-            return FHIRParser.parser(Format.JSON).parse(reader);
+        try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                log.log(Level.WARNING, "Resource at '" + path + "' was not found");
+                return null;
+            }
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             log.log(Level.WARNING, "Unable to load resource: " + path, e);
         }
