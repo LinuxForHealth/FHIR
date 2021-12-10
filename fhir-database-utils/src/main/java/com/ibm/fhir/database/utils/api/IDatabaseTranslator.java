@@ -214,4 +214,12 @@ public interface IDatabaseTranslator {
      * @return
      */
     default boolean isIndexUseSchemaPrefix() { return true; }
+
+    /**
+     * @return the total number of parameters supported by the data store during a query.
+     *  Null signals no limit
+     */
+    default Integer maximumQueryParameters() {
+        return null;
+    }
 }

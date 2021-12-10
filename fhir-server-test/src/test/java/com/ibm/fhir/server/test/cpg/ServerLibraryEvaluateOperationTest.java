@@ -65,6 +65,19 @@ public class ServerLibraryEvaluateOperationTest extends BaseCPGOperationTest {
             String[] locs = entry.getResponse().getLocation().getValue().split("/");
             this.addToResourceRegistry(locs[0], locs[1]);
         }
+
+        // Requires Bundle-ValueSets.json
+        jsonObject = TestUtil.readJsonObject("testdata/Bundle-ValueSets.json");
+        entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = getWebTarget().request().post( entity );
+        assertResponse( response, Response.Status.Family.SUCCESSFUL);
+
+        // Add to a registry so the AfterClass method deletes it.
+        responseBundle = response.readEntity(Bundle.class);
+        for (Bundle.Entry entry : responseBundle.getEntry()) {
+            String[] locs = entry.getResponse().getLocation().getValue().split("/");
+            this.addToResourceRegistry(locs[0], locs[1]);
+        }
     }
 
     @Test

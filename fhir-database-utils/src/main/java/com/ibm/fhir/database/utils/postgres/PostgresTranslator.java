@@ -267,4 +267,10 @@ public class PostgresTranslator implements IDatabaseTranslator {
         return result.toString();
     }
 
+    @Override
+    public Integer maximumQueryParameters() {
+        // https://github.com/pgjdbc/pgjdbc/blob/13a644b4945996dff5274e45741313380d4a47e6/pgjdbc/src/main/java/org/postgresql/core/PGStream.java#L273
+        // it's Short.MAX_VALUE
+        return 32767;
+    }
 }
