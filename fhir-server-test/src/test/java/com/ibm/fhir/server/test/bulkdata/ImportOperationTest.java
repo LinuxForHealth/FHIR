@@ -29,6 +29,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -73,8 +74,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.enabled", "false"));
+
         if (!ON) {
-            System.out.println("Import Test Disabled, Skipping");
+            throw new SkipException("Not Enabled - Bulk Data Import - Import");
         }
     }
 

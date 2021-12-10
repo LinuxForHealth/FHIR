@@ -25,6 +25,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -68,7 +69,7 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.azure.enabled", "false"));
         if (!ON) {
-            System.out.println("Import Test Disabled, Skipping");
+            throw new SkipException("Not Enabled - Bulk Data Azure Import");
         }
     }
 

@@ -777,9 +777,13 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             // The sublist as we have a maxQuery
             List<CommonTokenValue> sortedTokenValuesSub;
             if (maxQuery.isPresent()) {
-                sortedTokenValuesSub = sortedTokenValues.subList(low, high - 1);
+                sortedTokenValuesSub = sortedTokenValues.subList(low, high);
             } else {
                 sortedTokenValuesSub = sortedTokenValues;
+            }
+
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Common Token Value Sizes: " + low + " " + (high - 1) + " " + sortedTokenValues.size() + " " + sortedTokenValuesSub.size());
             }
 
             // Build a string of parameter values we use in the query to drive the insert statement.

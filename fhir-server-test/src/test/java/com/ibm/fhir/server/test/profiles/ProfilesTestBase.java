@@ -217,6 +217,9 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
 
         @BeforeClass
         public void runLoad() throws Exception {
+            if (super.skip) {
+                throw new SkipException("Skipping these tests");
+            }
             loadResources();
         }
 
