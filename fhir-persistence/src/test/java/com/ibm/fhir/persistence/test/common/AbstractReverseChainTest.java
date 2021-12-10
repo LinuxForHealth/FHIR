@@ -86,6 +86,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         Coding uniqueTag = Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code(now.toString())).build();
         Coding uniqueSecurity = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code(now.toString())).build();
 
+        startTrx();
         // Organizations that will be referenced by a Patient
         savedOrg1 = org.toBuilder().active(com.ibm.fhir.model.type.Boolean.of(true)).build();
         savedOrg1 = persistence.create(getDefaultPersistenceContext(), savedOrg1).getResource();
@@ -180,6 +181,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                 .device(reference("Device/" + savedDevice2.getId() + "/_history/2"))
                 .build();
         savedObservation6 = persistence.create(getDefaultPersistenceContext(), savedObservation6).getResource();
+        commitTrx();
     }
 
     @AfterClass

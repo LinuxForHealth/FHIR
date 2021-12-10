@@ -173,8 +173,12 @@ public class DatasourceSessions implements EventCallback {
         builder.withLocalDatacenter(adapter.getLocalDatacenter());
 
         if (setKeyspace) {
-            // Use the tenant id value directly as for the keyspace
-            builder.withKeyspace(key.getTenantId());
+            String tenantKeyspace = adapter.getTenantKeyspace();
+            if (tenantKeyspace == null || tenantKeyspace.isEmpty()) {
+                // Use the tenant id value directly as for the keyspace
+                tenantKeyspace = key.getTenantId();
+            }
+            builder.withKeyspace(tenantKeyspace);
         }
         
         return builder.build();

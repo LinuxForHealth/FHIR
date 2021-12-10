@@ -21,6 +21,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 public abstract class SearchQuery {
     private static final String CLASSNAME = SearchQuery.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
+
+    // constant to improve readability of method calls
+    public static final boolean INCLUDE_RESOURCE_TYPE_ID = true;
+
     private final String rootResourceType;
     private final List<SearchParam> searchParams = new ArrayList<>();
 

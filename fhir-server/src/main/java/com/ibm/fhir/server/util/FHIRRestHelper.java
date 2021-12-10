@@ -197,9 +197,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRRestOperationResponse response;
         try {
-            // Prepare the persistence layer
-            persistence.prepare();
-
             // Prepare the persistence event
             FHIRPersistenceEvent event =
                     new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
@@ -445,9 +442,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         try {
-            // Prepare the persistence layer
-            persistence.prepare();
-
             // Do the first phase, which includes updating the meta in the resource
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null));
             List<Issue> warnings = new ArrayList<>();
@@ -1121,9 +1115,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
-            // Prepare the persistence layer
-            persistence.prepare();
-
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
                 throw buildUnsupportedResourceTypeException(type);

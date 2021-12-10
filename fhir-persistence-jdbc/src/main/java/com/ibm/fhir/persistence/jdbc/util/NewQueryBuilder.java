@@ -266,7 +266,8 @@ public class NewQueryBuilder {
                 // Create a domain model for each resource type
                 List<SearchQuery> subDomainModels = new ArrayList<>();
                 for (String domainResourceType : resourceTypes) {
-                    SearchQuery subDomainModel = new SearchDataQuery(domainResourceType, false, false);
+                    int domainResourceTypeId = identityCache.getResourceTypeId(domainResourceType);
+                    SearchQuery subDomainModel = new SearchDataQuery(domainResourceType, false, false, domainResourceTypeId);
                     buildModelCommon(subDomainModel, ModelSupport.getResourceType(domainResourceType), searchContext);
                     subDomainModels.add(subDomainModel);
                 }
@@ -387,7 +388,7 @@ public class NewQueryBuilder {
         for (Integer resourceTypeId : resourceTypeIdToLogicalResourceIdMap.keySet()) {
             String resourceType = identityCache.getResourceTypeName(resourceTypeId);
             List<Long> logicalResourceIds = resourceTypeIdToLogicalResourceIdMap.get(resourceTypeId);
-            SearchQuery subDomainModel = new SearchWholeSystemDataQuery(resourceType);
+            SearchQuery subDomainModel = new SearchWholeSystemDataQuery(resourceType, resourceTypeId);
             subDomainModel.add(new WholeSystemDataExtension(resourceType, logicalResourceIds));
             buildModelCommon(subDomainModel, ModelSupport.getResourceType(resourceType), searchContext);
             subDomainModels.add(subDomainModel);

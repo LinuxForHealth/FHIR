@@ -79,10 +79,11 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public <T extends Resource> T readResource(Class<T> resourceType, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
+    public <T extends Resource> T readResource(Class<T> resourceType, String rowResourceTypeName, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
 
+        logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
         try (CqlSession session = getCqlSession()) {
-            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(resourceType.getSimpleName(), logicalId), resourceTypeId, logicalId, version, elements);
+            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(rowResourceTypeName, logicalId), resourceTypeId, logicalId, version, elements);
             return spl.run(resourceType, session);
         }
     }

@@ -26,7 +26,6 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -405,8 +404,12 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         List<Resource> dtoList = new ArrayList<Resource>();
 
         try {
+            // Some queries include the resource type id, which we need to know
+            // when fetching offloaded payloads.
+            boolean hasResourceTypeId = resultSet.getMetaData().getColumnCount() == 8;
+
             while (resultSet.next()) {
-                dto = this.createDTO(resultSet);
+                dto = this.createDTO(resultSet, hasResourceTypeId);
                 if (dto != null) {
                     dtoList.add(dto);
                 }
@@ -428,7 +431,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * @return T - An instance of type T, which is a FHIR Data Transfer Object.
      * @throws FHIRPersistenceDataAccessException
      */
-    protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
+    protected Resource createDTO(ResultSet resultSet, boolean hasResourceTypeId) throws FHIRPersistenceDataAccessException {
         // Can be overridden by subclasses that need to return DTOs.
         return null;
     }

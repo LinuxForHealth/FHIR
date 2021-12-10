@@ -106,6 +106,11 @@ public class CqlStorePayload {
                 .value("version", bindMarker())
             ;
 
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Storing payload for '"
+                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'; size=" + payloadStream.size());
+        }
+
         // If the payload is small enough to fit in a single chunk, we can store
         // it in line with the main resource record
         if (storeInline) {
@@ -151,19 +156,31 @@ public class CqlStorePayload {
             .build();
 
         PreparedStatement ps = session.prepare(statement);
-
+        
         List<BatchableStatement<?>> statements = new ArrayList<>();
         int ordinal = 0;
-        int offset = 0;
         ByteBuffer bb = payloadStream.wrap();
         byte[] buffer = new byte[CHUNK_SIZE];
-        while (offset < payloadStream.size()) {
-            // shame we have to copy the array here
-            int len = Math.min(CHUNK_SIZE, payloadStream.size() - offset);
-            bb.get(buffer, offset, len);
+        while (bb.hasRemaining()) {
+            // shame we have to copy the array here rather than subset it
+            int len = Math.min(CHUNK_SIZE, bb.remaining());
+            bb.get(buffer, 0, len); // read len bytes into the buffer
             
-            statements.add(ps.bind(logicalId, version, ordinal++, buffer));
-            offset += CHUNK_SIZE;
+            // Wrap the byte array into a new read-only ByteBuffer
+            ByteBuffer chunk = ByteBuffer.wrap(buffer, 0, len).asReadOnlyBuffer();
+
+            // and add the chunk statement to the batch
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Payload chunk offset[" + ordinal + "] size = " + len);
+            }
+            BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId, version, ordinal++, chunk);
+            statements.add(bsb.build());
+
+            if (bb.hasRemaining()) {
+                // The ByteBuffer adopts the buffer byte array, so we need to make sure
+                // we create a new one each time
+                buffer = new byte[CHUNK_SIZE];
+            }
         }
 
         BatchStatement batch =

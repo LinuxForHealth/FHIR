@@ -9,9 +9,7 @@ package com.ibm.fhir.persistence.cassandra.payload;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-
-import com.datastax.oss.driver.api.core.cql.ResultSet;
-import com.datastax.oss.driver.api.core.cql.Row;
+import java.util.logging.Logger;
 
 /**
  * Reads the payload from CQL. Cassandra imposes both hard and practical
@@ -21,22 +19,20 @@ import com.datastax.oss.driver.api.core.cql.Row;
  * presents the results as an ordinary stream of bytes
  */
 public class CqlChunkedPayloadStream extends InputStream {
+    private static final Logger logger = Logger.getLogger(CqlChunkedPayloadStream.class.getName());
     
     // Buffer containing bytes from the current row of the result
     private ByteBuffer buffer;
 
-    // The ResultSet we are adapting as a stream
-    private final ResultSet resultSet;
-
-    // Track each ordinal returned so we can detect gaps
-    private int currentOrdinal = -1;
+    // The provider we use to get the sequence of buffers to read from
+    private final IBufferProvider bufferProvider;
  
     /**
      * Public constructor
      * @param rs
      */
-    public CqlChunkedPayloadStream(ResultSet rs) {
-        this.resultSet = rs;
+    public CqlChunkedPayloadStream(IBufferProvider bp) {
+        this.bufferProvider = bp;
     }
 
     @Override
@@ -46,15 +42,24 @@ public class CqlChunkedPayloadStream extends InputStream {
         if (buffer == null || !buffer.hasRemaining()) {
             return -1; // no more data
         } else {
-            return buffer.get(); // get the next byte, returned as an int
+            // get the next byte from the buffer which we know will not underflow
+            return Byte.toUnsignedInt(buffer.get());
         }
     }
     
     @Override
     public int read(byte[] dst, int off, int len) throws IOException {
+        // remember that read is allowed to return less than len bytes
+        // although never 0 bytes, unless len == 0
+        if (len == 0) {
+            return 0;
+        }
+        
+        // Fetch a buffer from the ResultSet if there's no data currently
         refreshBuffer();
 
         if (buffer == null || !buffer.hasRemaining()) {
+            // Because we just refreshed, if hasRemaining is false, it's EOF
             return -1;
         } else {
             // fetch as much as requested, up to the number of bytes remaining
@@ -72,26 +77,8 @@ public class CqlChunkedPayloadStream extends InputStream {
      */
     private void refreshBuffer() throws IOException {
         if (buffer == null || !buffer.hasRemaining()) {
-            Row row = resultSet.one();
-            if (row != null) {
-                if (row.isNull(2)) {
-                    throw new IllegalStateException("buffer value must not be null");
-                }
-
-                // check for gaps...which would break what is supposed to be a continuous stream of data
-                int rowOrdinal = row.getInt(0);
-                int gap = rowOrdinal - currentOrdinal;
-                if (gap != 1) {
-                    throw new IOException("Gap in chunk ordinal. ResultSet not ordered by ordinal, or a row is missing");
-                }
-                
-                // column 2 of the result set should be a blob which we can consume as
-                // a byte buffer
-                this.buffer = row.getByteBuffer(1);
-            } else {
-                // no more data
-                this.buffer = null;
-            }
+            // get the next buffer in the sequence, or null at the end
+            buffer = bufferProvider.nextBuffer();
         }
     }
 }

@@ -53,7 +53,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     }
 
     @Override
-    public <T extends Resource> T readResource(Class<T> resourceType, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
+    public <T extends Resource> T readResource(Class<T> resourceType, String rowResourceTypeName, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
         final long start = System.nanoTime();
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
@@ -120,7 +120,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     }
     
     @Override
-    public void deletePayload(int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
         final String objectName = makeObjectName(resourceTypeId, logicalId, version);

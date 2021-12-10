@@ -61,6 +61,19 @@ public class SelectAdapter {
         this.select.addColumn(source, name, alias);
         return this;
     }
+    
+    /**
+     * Add a column value with a given alias. Can be used to add literals in
+     * the select list
+     * @param source
+     * @param name
+     * @param alias
+     * @return
+     */
+    public SelectAdapter addColumn(String columnValue, Alias alias) {
+        this.select.addColumn(columnValue, alias);
+        return this;
+    }
 
     /**
      * Create a from clause for this select statement

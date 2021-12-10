@@ -37,11 +37,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
     @Override
-    public void prepare() {
-        // NOP
-    }
-
-    @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
         throw new IllegalStateException("API no longer used; provided for backward compatibility only");
@@ -167,6 +162,12 @@ public class MockPersistenceImpl implements FHIRPersistence {
                 .interactionStatus(InteractionStatus.MODIFIED)
                 .resource(updatedResource);
         return resultBuilder.build();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        // NOP. No need to do anything in this very simple mock
     }
 
     @Override

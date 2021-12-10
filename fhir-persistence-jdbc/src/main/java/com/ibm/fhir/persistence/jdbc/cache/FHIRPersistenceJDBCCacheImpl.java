@@ -96,7 +96,13 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
 
     @Override
     public boolean needToPrefill() {
-        // should return true only ever once
-        return needToPrefillFlag.getAndSet(false);
+        // To avoid a race condition at server startup, don't reset 
+        // the flag until the cache has actually been filled
+        return needToPrefillFlag.get();
+    }
+    
+    @Override
+    public void clearNeedToPrefill() {
+        needToPrefillFlag.set(false);
     }
 }

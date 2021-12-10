@@ -176,6 +176,11 @@ public class EraseTestMain {
         }
 
         @Override
+        public void clearNeedToPrefill() {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
         public ICommonTokenValuesCache getResourceReferenceCache() {
             return null;
         }

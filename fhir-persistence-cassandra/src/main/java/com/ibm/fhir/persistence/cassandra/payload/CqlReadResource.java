@@ -155,7 +155,7 @@ public class CqlReadResource {
 
         PreparedStatement ps = session.prepare(statement.build());
         ResultSet chunks = session.execute(ps.bind(logicalId, version));
-        try (InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(chunks))) {
+        try (InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(new ResultSetBufferProvider(chunks, 1)))) {
             return parseStream(resourceType, in);
         }
     }

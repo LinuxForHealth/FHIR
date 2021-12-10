@@ -44,6 +44,11 @@ public class Resource {
     private String resourceType;
     
     /**
+     * The resource type id set when reading resources from the database
+     */
+    private int resourceTypeId = -1;
+
+    /**
      *  This is the <resourceType>_RESOURCES.LAST_UPDATED column
      */
     private Timestamp lastUpdated;
@@ -177,6 +182,20 @@ public class Resource {
      */
     public void setInteractionStatus(InteractionStatus interactionStatus) {
         this.interactionStatus = interactionStatus;
+    }
+
+    /**
+     * @return the resourceTypeId
+     */
+    public int getResourceTypeId() {
+        return resourceTypeId;
+    }
+
+    /**
+     * @param resourceTypeId the resourceTypeId to set
+     */
+    public void setResourceTypeId(int resourceTypeId) {
+        this.resourceTypeId = resourceTypeId;
     }
 }
 

@@ -278,11 +278,6 @@ public class ServerResolveFunctionTest {
         private final Map<Class<? extends Resource>, Map<String, List<Resource>>> map = new HashMap<>();
 
         @Override
-        public void prepare() {
-            // NOP
-        }
-
-        @Override
         public <T extends Resource> SingleResourceResult<T> create(
                 FHIRPersistenceContext context,
                 T resource) throws FHIRPersistenceException {

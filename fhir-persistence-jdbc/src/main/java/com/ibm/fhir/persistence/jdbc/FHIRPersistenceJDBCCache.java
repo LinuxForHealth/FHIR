@@ -22,6 +22,11 @@ public interface FHIRPersistenceJDBCCache {
      * @return
      */
     boolean needToPrefill();
+    
+    /**
+     * Clear the needToPrefill flag - call after the prefill has been done
+     */
+    void clearNeedToPrefill();
 
     /**
      * Getter for the common token values cache

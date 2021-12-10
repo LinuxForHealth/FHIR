@@ -25,7 +25,7 @@ public class CassandraPropertyGroupAdapter {
     public static final String PROP_HOST = "host";
     public static final String PROP_PORT = "port";
     public static final String PROP_LOCAL_DATACENTER = "localDatacenter";
-
+    public static final String PROP_TENANT_KEYSPACE = "tenantKeyspace";
 
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -74,6 +74,19 @@ public class CassandraPropertyGroupAdapter {
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_LOCAL_DATACENTER, x);
             throw new IllegalArgumentException("Property group not configured " + PROP_LOCAL_DATACENTER);
+        }
+    }
+
+    /**
+     * Get the configured value for the keyspace to use for the tenant.
+     * @return
+     */
+    public String getTenantKeyspace() {
+        try {
+            return propertyGroup.getStringProperty(PROP_TENANT_KEYSPACE);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_TENANT_KEYSPACE, x);
+            throw new IllegalArgumentException("Property group not configured " + PROP_TENANT_KEYSPACE);
         }
     }
 }

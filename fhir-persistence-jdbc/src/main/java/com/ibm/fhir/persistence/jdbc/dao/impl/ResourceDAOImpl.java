@@ -77,6 +77,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public static final int IDX_IS_DELETED = 5;
     public static final int IDX_DATA = 6;
     public static final int IDX_LOGICAL_ID = 7;
+    public static final int IDX_RESOURCE_TYPE_ID = 8;
 
     // Read the current version of the resource (even if the resource has been deleted)
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
@@ -245,11 +246,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      *
      * @param resultSet
      *            A ResultSet containing FHIR persistent object data.
+     * @param hasResourceTypeId
+     *            True if the ResultSet includes the RESOURCE_TYPE_ID column
      * @return Resource - A Resource DTO
      * @throws FHIRPersistenceDataAccessException
      */
     @Override
-    protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
+    protected Resource createDTO(ResultSet resultSet, boolean hasResourceTypeId) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "createDTO";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -266,6 +269,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
             resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));
             resource.setDeleted(resultSet.getString(IDX_IS_DELETED).equals("Y") ? true : false);
+            
+            if (hasResourceTypeId) {
+                resource.setResourceTypeId(resultSet.getInt(IDX_RESOURCE_TYPE_ID));
+            }
         } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
             throw severe(log, fx, e);
