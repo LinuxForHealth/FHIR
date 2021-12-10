@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -416,21 +417,27 @@ public abstract class FHIRServerTestBase {
         return null;
     }
 
+    @BeforeClass(dependsOnMethods = {"setUp"})
+    public void cacheCapabilityStatement(ITestContext context) throws Exception {
+        Object obj = context.getAttribute("conformance");
+        if (obj == null) {
+            FHIRClient client = getFHIRClient();
+            FHIRResponse response = client.metadata();
+            assertNotNull(response);
+            assertEquals(200, response.getStatus());
+            conformanceStmt = response.getResource(CapabilityStatement.class);
+            assertNotNull(conformanceStmt);
+            context.setAttribute("conformance", conformanceStmt);
+        } else {
+            conformanceStmt = (CapabilityStatement) obj;
+        }
+    }
+
     /**
      * Common function to invoke the 'metadata' operation and return the
      * CapabilityStatement object.
      */
     protected CapabilityStatement retrieveConformanceStatement() throws Exception {
-        if (conformanceStmt == null) {
-            FHIRClient client = getFHIRClient();
-            FHIRResponse response = client.metadata();
-            assertNotNull(response);
-            assertEquals(200, response.getStatus());
-
-            conformanceStmt = response.getResource(CapabilityStatement.class);
-            assertNotNull(conformanceStmt);
-        }
-
         return conformanceStmt;
     }
 

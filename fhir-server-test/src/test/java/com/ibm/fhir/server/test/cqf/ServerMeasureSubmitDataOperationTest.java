@@ -90,7 +90,7 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
         assertResponse(response, 200);
 
         String responseBody = response.readEntity(String.class);
-        System.out.println(responseBody);
+        //System.out.println(responseBody);
         Bundle output = (Bundle) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertNotNull(output);
     }

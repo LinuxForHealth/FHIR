@@ -22,6 +22,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -171,20 +172,25 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         checkForIssuesWithValidation(responseBundle, true, false, false);
     }
 
-    public void grabProfilesFromServerOneTime() throws Exception {
-        if (listOfProfiles == null) {
+    @SuppressWarnings("unchecked")
+    public void grabProfilesFromServerOneTime(ITestContext context) throws Exception {
+        Object obj = context.getAttribute("list-of-profiles");
+        if (obj == null) {
             CapabilityStatement conf = retrieveConformanceStatement();
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(conf);
             // All the possible required profiles
             Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_PROFILES);
             listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
+            context.setAttribute("list-of-profiles", listOfProfiles);
+        } else {
+            listOfProfiles = (List<String>) obj;
         }
     }
 
     @BeforeClass
-    public void checkProfileExistsOnServer() throws Exception {
-        grabProfilesFromServerOneTime();
+    public void checkProfileExistsOnServer(ITestContext context) throws Exception {
+        grabProfilesFromServerOneTime(context);
         List<String> requiredProfiles = getRequiredProfiles();
         Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> Integer.valueOf(0)));
         for (String requiredProfile : requiredProfiles) {
