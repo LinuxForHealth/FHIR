@@ -19,6 +19,8 @@ import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
+import com.ibm.fhir.model.resource.ClinicalUseDefinition;
+import com.ibm.fhir.model.resource.ClinicalUseIssue;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CoverageEligibilityResponse;
@@ -122,8 +124,7 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                         // tim-10: If there's a timeOfDay, there cannot be a when, or vice versa
                         builder instanceof Timing.Repeat.Builder && method.getName().equals("timeOfDay") ||
                         // drt-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.
-                        builder instanceof Duration.Builder && method.getName().equals("code") ||
-                        builder instanceof Duration.Builder && method.getName().equals("system") ||
+                        builder instanceof Duration.Builder && method.getName().equals("value") ||
                         // age-1: There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.  If value is present, it SHALL be positive.
                         builder instanceof Age.Builder && method.getName().equals("value") ||
                         builder instanceof Age.Builder && method.getName().equals("code") ||
@@ -163,6 +164,17 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                         builder instanceof AuditEvent.Entity.Builder && method.getName().equals("name") ||
                         // mea-1: Stratifier SHALL be either a single criteria or a set of criteria components
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
+                        // cud-1: Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
+                        builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
+                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
+                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
+                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
+                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
+                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail")) {
 

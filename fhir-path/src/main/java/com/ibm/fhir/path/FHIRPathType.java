@@ -134,7 +134,7 @@ public enum FHIRPathType {
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),
     FHIR_TRIGGER_DEFINITION("FHIR", "TriggerDefinition", FHIR_ELEMENT, TriggerDefinition.class),
     FHIR_USAGE_CONTEXT("FHIR", "UsageContext", FHIR_ELEMENT, UsageContext.class),
-
+    
     // FHIR primitive data types
     FHIR_BASE64BINARY("FHIR", "base64Binary", FHIR_ELEMENT, Base64Binary.class),
     FHIR_BOOLEAN("FHIR", "boolean", FHIR_ELEMENT, Boolean.class),
@@ -286,6 +286,21 @@ public enum FHIRPathType {
     FHIR_VALUE_SET("FHIR", "ValueSet", FHIR_DOMAIN_RESOURCE, ValueSet.class),
     FHIR_VERIFICATION_RESULT("FHIR", "VerificationResult", FHIR_DOMAIN_RESOURCE, VerificationResult.class),
     FHIR_VISION_PRESCRIPTION("FHIR", "VisionPrescription", FHIR_DOMAIN_RESOURCE, VisionPrescription.class),
+
+    FHIR_ADMINISTRABLE_PRODUCT_DEFINITION("FHIR", "AdministrableProductDefinition", FHIR_DOMAIN_RESOURCE, AdministrableProductDefinition.class),
+    FHIR_CITATION("FHIR", "Citation", FHIR_DOMAIN_RESOURCE, Citation.class),
+    FHIR_CLINICAL_USE_DEFINITION("FHIR", "ClinicalUseDefinition", FHIR_DOMAIN_RESOURCE, ClinicalUseDefinition.class),
+    FHIR_CLINICAL_USE_ISSUE("FHIR", "ClinicalUseIssue", FHIR_DOMAIN_RESOURCE, ClinicalUseIssue.class),
+    FHIR_EVIDENCE_REPORT("FHIR", "EvidenceReport", FHIR_DOMAIN_RESOURCE, EvidenceReport.class),
+    FHIR_INGREDIENT("FHIR", "Ingredient", FHIR_DOMAIN_RESOURCE, Ingredient.class),
+    FHIR_MANUFACTURED_ITEM_DEFINITION("FHIR", "ManufacturedItemDefinition", FHIR_DOMAIN_RESOURCE, ManufacturedItemDefinition.class),
+    FHIR_MEDICINAL_PRODUCT_DEFINITION("FHIR", "MedicinalProductDefinition", FHIR_DOMAIN_RESOURCE, MedicinalProductDefinition.class),
+    FHIR_NUTRITION_PRODUCT("FHIR", "NutritionProduct", FHIR_DOMAIN_RESOURCE, NutritionProduct.class),
+    FHIR_PACKAGED_PRODUCT_DEFINITION("FHIR", "PackagedProductDefinition", FHIR_DOMAIN_RESOURCE, PackagedProductDefinition.class),
+    FHIR_REGULATED_AUTHORIZATION("FHIR", "RegulatedAuthorization", FHIR_DOMAIN_RESOURCE, RegulatedAuthorization.class),
+    FHIR_SUBSCRIPTION_STATUS("FHIR", "SubscriptionStatus", FHIR_DOMAIN_RESOURCE, SubscriptionStatus.class),
+    FHIR_SUBSCRIPTION_TOPIC("FHIR", "SubscriptionTopic", FHIR_DOMAIN_RESOURCE, SubscriptionTopic.class),
+    FHIR_SUBSTANCE_DEFINITION("FHIR", "SubstanceDefinition", FHIR_DOMAIN_RESOURCE, SubstanceDefinition.class),
 
     /**
      * "Special" FHIR type returned by the resolve() function when the resource type cannot be determined from a reference.
