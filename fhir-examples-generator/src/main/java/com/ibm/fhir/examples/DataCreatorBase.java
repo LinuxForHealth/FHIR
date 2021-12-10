@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.ClinicalUseDefinition;
+import com.ibm.fhir.model.resource.ClinicalUseIssue;
 import com.ibm.fhir.model.resource.ExampleScenario;
 import com.ibm.fhir.model.resource.GraphDefinition;
 import com.ibm.fhir.model.resource.PlanDefinition;
@@ -62,6 +64,11 @@ public abstract class DataCreatorBase {
     }
 
     protected int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
+        if (ClinicalUseDefinition.class == resourceOrElementClass ||
+                ClinicalUseIssue.class == resourceOrElementClass) {
+            // special case to ensure we get all the variants of these ones (because 5 elements are mutually exclusive)
+            return 5;
+        }
         Collection<ElementInfo> elementsInfo = ModelSupport.getElementInfo(resourceOrElementClass);
         for (ElementInfo elementInfo : elementsInfo) {
             if (elementInfo.isChoice()) {
