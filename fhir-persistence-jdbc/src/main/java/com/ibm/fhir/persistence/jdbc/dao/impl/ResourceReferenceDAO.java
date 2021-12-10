@@ -774,7 +774,13 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                 high = sortedTokenValues.size();
             }
 
-            List<CommonTokenValue> sortedTokenValuesSub = sortedTokenValues.subList(low, high - 1);
+            // The sublist as we have a maxQuery
+            List<CommonTokenValue> sortedTokenValuesSub;
+            if (!maxQuery.isEmpty()) {
+                sortedTokenValuesSub = sortedTokenValues.subList(low, high - 1);
+            } else {
+                sortedTokenValuesSub = sortedTokenValues;
+            }
 
             // Build a string of parameter values we use in the query to drive the insert statement.
             // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
@@ -844,7 +850,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     }
                 }
             }
-            low = high;
+            low = high + 1;
         }
     }
 

@@ -72,6 +72,10 @@ public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
 
     @Override
     public String toString() {
-        return "ReferenceParameter [resourceTypeModifier=" + resourceTypeModifier.getValue() + ", chainedProperty=" + chainedProperty + ", value=" + value + "]";
+        String rtm = null;
+        if (resourceTypeModifier != null && resourceTypeModifier.getValue() != null) {
+            rtm = resourceTypeModifier.getValue();
+        }
+        return "ReferenceParameter [resourceTypeModifier=" + rtm + ", chainedProperty=" + chainedProperty + ", value=" + value + "]";
     }
 }
