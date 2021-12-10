@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -30,7 +29,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -69,8 +67,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             long initialTime, String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource,
             boolean checkInteractionAllowed) throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             Bundle searchResults = helpers.doSearch(type, compartment, compartmentId, queryParameters, requestUri,
                     contextResource, checkInteractionAllowed);
 
@@ -89,8 +87,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
             throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
             Resource resource = helpers.doVRead(type, id, versionId, queryParameters);
             return Entry.builder()
@@ -109,8 +107,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             // Perform the VREAD and return the result entry we want in the response bundle
             SingleResourceResult<? extends Resource> readResult = helpers.doRead(type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters);
             return Entry.builder()
@@ -127,8 +125,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
             throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             Bundle bundle = helpers.doHistory(type, id, queryParameters, requestUri);
             return Entry.builder()
                     .response(Entry.Response.builder()
@@ -144,8 +142,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
             Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
             String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             FHIRRestOperationResponse ior = helpers.doCreatePersist(event, warnings, resource);
 
             OperationOutcome validationOutcome = null;
@@ -153,7 +151,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
             }
 
-            return buildResponseBundleEntry(ior, validationOutcome, requestDescription, initialTime);
+            return buildResponseBundleEntry(ior, validationOutcome, requestDescription);
         });
 
         // No need to return anything. doOperation injects the entry to the responseBundle
@@ -165,15 +163,15 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
             boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
 
             FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted, ifNoneMatch);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
             }
-            return buildResponseBundleEntry(ior, validationOutcome, requestDescription, initialTime);
+            return buildResponseBundleEntry(ior, validationOutcome, requestDescription);
         });
 
         return null;
@@ -184,18 +182,19 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
             Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
             boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
+        long localStartTime = System.currentTimeMillis();
 
         // For patch, if the original resource was deleted, we'd have already thrown an error.
         // Note that the patch will have already been applied to the resource...so this is
         // really just an update as far as the persistence layer is concerned
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, true, newResource, prevResource,
                 warnings, false, null);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
             }
-            return buildResponseBundleEntry(ior, validationOutcome, requestDescription, initialTime);
+            return buildResponseBundleEntry(ior, validationOutcome, requestDescription);
         });
 
         return null;
@@ -206,8 +205,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             String requestDescription, FHIRUrlParser requestURL, long initialTime,
             FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
             Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             Resource response = helpers.doInvoke(operationContext, resourceTypeName, logicalId, versionId, resource, queryParameters);
             return Entry.builder()
                     .response(Entry.Response.builder()
@@ -223,8 +222,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
             long initialTime, String type, String id, String searchQueryString) throws Exception {
-
-        doInteraction(entryIndex, requestDescription, initialTime, () -> {
+        long localStartTime = System.currentTimeMillis();
+        doInteraction(entryIndex, requestDescription, initialTime, localStartTime, () -> {
             FHIRRestOperationResponse ior = helpers.doDelete(type, id, searchQueryString);
 
             int httpStatus = ior.getStatus().getStatusCode();
@@ -244,14 +243,14 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry,
             String requestDescription, long initialTime) throws Exception {
-        setEntryComplete(entryIndex, validationResponseEntry, requestDescription, initialTime);
+        setEntryComplete(entryIndex, validationResponseEntry, requestDescription, initialTime, initialTime);
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status,
             Entry responseEntry) throws Exception {
-        setEntryComplete(entryIndex, responseEntry, requestDescription, initialTime);
+        setEntryComplete(entryIndex, responseEntry, requestDescription, initialTime, initialTime);
         return null;
     }
 
@@ -262,9 +261,10 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
      * @param failFast
      * @param requestDescription
      * @param initialTime
+     * @param localStartTime
      * @throws Exception
      */
-    private void doInteraction(int entryIndex, String requestDescription, long initialTime, Callable<Entry> v)
+    private void doInteraction(int entryIndex, String requestDescription, long initialTime, long localStartTime, Callable<Entry> v)
             throws Exception {
         // To make it clear, we fail immediately on exception if we're processing bundleType == TRANSACTION
         final boolean failFast = transaction;
@@ -273,7 +273,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             // completed or failed in a previous phase so we skip it here
             if (getResponseEntry(entryIndex) == null) {
                 Entry entry = v.call();
-                setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+                setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
             }
         } catch (FHIRPersistenceResourceNotFoundException e) {
             if (failFast) {
@@ -287,7 +287,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .status(SC_NOT_FOUND_STRING)
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
@@ -299,7 +299,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .status(SC_GONE_STRING)
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         } catch (FHIRPersistenceIfNoneMatchException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
@@ -313,7 +313,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .status(SC_PRECONDITION_FAILED_STRING)
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         } catch (FHIROperationException e) {
             if (failFast) {
                 updateIssuesWithEntryIndexAndThrow(entryIndex, e);
@@ -332,7 +332,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .status(string(Integer.toString(status.getStatusCode())))
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         }
     }
 }

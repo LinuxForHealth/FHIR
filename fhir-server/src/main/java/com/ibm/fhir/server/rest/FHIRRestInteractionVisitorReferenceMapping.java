@@ -122,7 +122,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             // Pass back the updated resource so it can be used in the next phase
             FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, newResource);
             result.setDeleted(isDeleted);
-            
+
             return result;
         });
     }
@@ -199,6 +199,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
      * @throws Exception
      */
     private FHIRRestOperationResponse doOperation(int entryIndex, String requestDescription, long initialTime, Callable<FHIRRestOperationResponse> v) throws Exception {
+        long localStartTime = System.currentTimeMillis();
         final boolean failFast = transaction;
         try {
             return v.call();
@@ -215,7 +216,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(SC_NOT_FOUND_STRING)
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -228,7 +229,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(SC_GONE_STRING)
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         } catch (FHIROperationException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -248,7 +249,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
                         .status(string(Integer.toString(status.getStatusCode())))
                         .build())
                     .build();
-            setEntryComplete(entryIndex, entry, requestDescription, initialTime);
+            setEntryComplete(entryIndex, entry, requestDescription, initialTime, localStartTime);
         }
 
         return null;

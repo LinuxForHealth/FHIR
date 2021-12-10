@@ -26,8 +26,8 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -79,23 +79,31 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @param e
      * @param requestDescription
      * @param initialTime
+     * @param localStartTime
      */
-    protected void setEntryComplete(int entryIndex, Entry e, String requestDescription, long initialTime) {
+    protected void setEntryComplete(int entryIndex, Entry e, String requestDescription, long initialTime, long localStartTime) {
         responseBundleEntries[entryIndex] = e;
-        logBundledRequestCompletedMsg(requestDescription, initialTime, e.getResponse().getStatus().getValue());
+        logBundledRequestCompletedMsg(requestDescription, initialTime, localStartTime, e.getResponse().getStatus().getValue());
     }
 
     protected Entry getResponseEntry(int entryIndex) {
         return responseBundleEntries[entryIndex];
     }
 
-    private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, String httpStatus) {
-        StringBuffer msg = new StringBuffer();
+    private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, long localStartTime, String httpStatus) {
+        StringBuilder msg = new StringBuilder();
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
 
-        msg.append("Completed bundle request took:[");
+        double elapsedSecsStart = (System.currentTimeMillis() - localStartTime) / 1000.0;
+
+        msg.append("Completed bundle entry request took:[");
+        msg.append(elapsedSecsStart);
+        msg.append(" secs]: ");
+
+        msg.append("since Bundle start: [");
         msg.append(elapsedSecs);
         msg.append(" secs]: ");
+
         msg.append(requestDescription);
         msg.append(" status:[" + httpStatus + "]");
         log.info(msg.toString());
@@ -106,12 +114,11 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
      * @param operationResponse
      * @param validationOutcome
      * @param requestDescription
-     * @param initialTime
      * @return
      * @throws FHIROperationException
      */
     protected Entry buildResponseBundleEntry(FHIRRestOperationResponse operationResponse,
-            OperationOutcome validationOutcome, String requestDescription, long initialTime)
+            OperationOutcome validationOutcome, String requestDescription)
             throws FHIROperationException {
 
         Resource resource = operationResponse.getResource();
@@ -165,11 +172,11 @@ public abstract class FHIRRestInteractionVisitorBase implements FHIRRestInteract
             }
         }
     }
-    
+
     /**
      * Wrap the cause with a FHIRRestbundledRequestException and update each issue with
      * the entryIndex before throwing.
-     * 
+     *
      * @param entryIndex
      * @param cause
      * @throws FHIROperationException
