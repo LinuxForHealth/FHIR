@@ -1,0 +1,131 @@
+<ClinicalUseDefinition xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="I98LY7lMRF"/>
+    <lastUpdated value="2021-12-10T02:40:05.155912-05:00"/>
+    <source value="FxASxSrwXS"/>
+    <profile value="RcrVhXrwBY"/>
+    <security>
+      <system value="NpCTewAvlt"/>
+      <version value="VQRZtj0YTN"/>
+      <code value="ZOkSusr5FP"/>
+      <display value="Jy204dmuXA"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="cstJ84El1P"/>
+      <version value="VpzOqaZ7Xy"/>
+      <code value="U9ZetXPLAQ"/>
+      <display value="dWVjjmX78c"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="dqAyEIB8FQ"/>
+  <language value="en-US"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="old"/>
+    <type>
+      <coding>
+        <system value="mLobSsRHMf"/>
+        <version value="FhJ5sfelmC"/>
+        <code value="X6zj71lZNJ"/>
+        <display value="jxMGcSKXUm"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="KepXclaMFF"/>
+    </type>
+    <system value="LTXGT5kIcM"/>
+    <value value="YyIxBjX5Jm"/>
+    <period>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
+    </period>
+  </identifier>
+  <type value="undesirable-effect"/>
+  <category>
+    <coding>
+      <system value="LzsFreH9hC"/>
+      <version value="NcJZ3yESs4"/>
+      <code value="0ZbxmDXekV"/>
+      <display value="PGPhc9CW4s"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="RKK4OoTqR2"/>
+  </category>
+  <subject>
+    <reference value="ActivityDefinition/g-0I6k0IZQ"/>
+    <type value="ActivityDefinition"/>
+    <identifier>
+      <use value="official"/>
+      <type>
+        <coding>
+          <system value="1l9i2SUxkq"/>
+          <version value="RLTkNMxsJ8"/>
+          <code value="1A8CgqQpkK"/>
+          <display value="iFx6m67Xc_"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="3BHP26QKzW"/>
+      </type>
+      <system value="b97JmkIg1F"/>
+      <value value="qoVr5hqaVI"/>
+      <period>
+        <start value="2021-12-10T02:40:05.159985-05:00"/>
+      </period>
+    </identifier>
+    <display value="Q4skicYr1o"/>
+  </subject>
+  <status>
+    <coding>
+      <system value="21dtzXgh6p"/>
+      <version value="mQkoCUJlJw"/>
+      <code value="KdgyDFQHXd"/>
+      <display value="jM9peYuFmP"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="wlIJBgQZ2Z"/>
+  </status>
+  <population>
+    <reference value="Group/UWBC9SIQWZ"/>
+    <type value="Group"/>
+    <identifier>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="OxJ3dUxIVs"/>
+          <version value="r0_TbjolPj"/>
+          <code value="rpXN7fgkTS"/>
+          <display value="DuKwzAxtaV"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="6KMMZJQHWV"/>
+      </type>
+      <system value="ZAdcL23iX2"/>
+      <value value="Av6OnUaOE5"/>
+      <period>
+        <start value="2021-12-10T02:40:05.157148-05:00"/>
+      </period>
+    </identifier>
+    <display value="Ve7pCwhhKu"/>
+  </population>
+  <warning>
+    <description value="6ljmFwoE3k"/>
+    <code>
+      <coding>
+        <system value="DkPaBg_qDN"/>
+        <version value="FuXX8f5kmF"/>
+        <code value="UYhiWST6GX"/>
+        <display value="X8FbvoeYtD"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="COLLO8H7XF"/>
+    </code>
+  </warning>
+</ClinicalUseDefinition>
