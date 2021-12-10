@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.db2;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 
 import com.ibm.fhir.database.utils.api.BadTenantFrozenException;
@@ -291,5 +292,12 @@ public class Db2Translator implements IDatabaseTranslator {
             result.append(" ROWS ONLY");
         }
         return result.toString();
+    }
+
+    @Override
+    public Optional<Integer> maximumQueryParameters() {
+        // https://www.ibm.com/docs/en/db2/11.5?topic=sql-xml-limits
+        // Maximum number of host variable references in a dynamic SQL statement    32,767
+        return Optional.of(Integer.valueOf(32767));
     }
 }
