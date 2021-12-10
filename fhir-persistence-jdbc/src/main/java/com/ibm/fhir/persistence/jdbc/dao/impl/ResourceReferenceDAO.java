@@ -764,7 +764,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         for (int low = 0; low < sortedTokenValues.size();/*at end  of loop*/) {
             int high = sortedTokenValues.size();
 
-            if (!maxQuery.isEmpty() && high > maxQuery.get()/2) {
+            if (maxQuery.isPresent() && high > maxQuery.get()/2) {
                 // 2 as there a pair inserted.
                 high = low + maxQuery.get()/2;
             }
@@ -776,7 +776,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
             // The sublist as we have a maxQuery
             List<CommonTokenValue> sortedTokenValuesSub;
-            if (!maxQuery.isEmpty()) {
+            if (maxQuery.isPresent()) {
                 sortedTokenValuesSub = sortedTokenValues.subList(low, high - 1);
             } else {
                 sortedTokenValuesSub = sortedTokenValues;
