@@ -120,7 +120,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     }
     
     @Override
-    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version) throws FHIRPersistenceException {
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
         final String objectName = makeObjectName(resourceTypeId, logicalId, version);

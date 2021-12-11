@@ -38,17 +38,21 @@ public class CqlDeletePayload {
     // The logical identifier we have assigned to the resource
     private final String logicalId;
 
+    // The version, or null for all versions
+    private final Integer version;
     /**
      * Public constructor
      * @param partitionId
      * @param resourceTypeId
      * @param logicalId
+     * @param version
      */
-    public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId) {
+    public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId, Integer version) {
         CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
+        this.version = version;
     }
 
     /**
@@ -67,20 +71,36 @@ public class CqlDeletePayload {
      * @throws FHIRPersistenceException
      */
     private void deleteFromLogicalResources(CqlSession session) throws FHIRPersistenceException {
-        SimpleStatement del = deleteFrom(LOGICAL_RESOURCES)
+        
+        final SimpleStatement del;
+        final PreparedStatement ps;
+        final BoundStatementBuilder bsb;
+        
+        if (version != null) {
+            del = deleteFrom(LOGICAL_RESOURCES)
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                 .whereColumn("logical_id").isEqualTo(bindMarker())
+                .whereColumn("version").isEqualTo(bindMarker())
                 .build();
-        
-        PreparedStatement ps = session.prepare(del);
-        BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId);
+            ps = session.prepare(del);
+            bsb = ps.boundStatementBuilder(logicalId, version);
+        } else {
+            // Deletes all versions for the logical resource
+            del = deleteFrom(LOGICAL_RESOURCES)
+                    .whereColumn("partition_id").isEqualTo(literal(partitionId))
+                    .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+                    .whereColumn("logical_id").isEqualTo(bindMarker())
+                    .build();
+            ps = session.prepare(del);
+            bsb = ps.boundStatementBuilder(logicalId);
+        }
         
         try {
             session.execute(bsb.build());
         } catch (Exception x) {
             logger.log(Level.SEVERE, "delete from logical_resources failed for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "'", x);
+                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed deleting from " + LOGICAL_RESOURCES);
         }
     }
@@ -94,14 +114,30 @@ public class CqlDeletePayload {
      * @throws FHIRPersistenceException
      */
     private void deleteFromPayloadChunks(CqlSession session) throws FHIRPersistenceException {
-        SimpleStatement del = deleteFrom(PAYLOAD_CHUNKS)
+        final SimpleStatement del;
+        final PreparedStatement ps;
+        final BoundStatementBuilder bsb;
+        
+        if (version != null) {
+            // deletes all the chunks for the specific resource version
+            del = deleteFrom(PAYLOAD_CHUNKS)
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                 .whereColumn("logical_id").isEqualTo(bindMarker())
+                .whereColumn("version").isEqualTo(bindMarker())
                 .build();
-        
-        PreparedStatement ps = session.prepare(del);
-        BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId);
+            ps = session.prepare(del);
+            bsb = ps.boundStatementBuilder(logicalId, version);
+        } else {
+            // Deletes chunks for all versions of the resource
+            del = deleteFrom(PAYLOAD_CHUNKS)
+                    .whereColumn("partition_id").isEqualTo(literal(partitionId))
+                    .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+                    .whereColumn("logical_id").isEqualTo(bindMarker())
+                    .build();
+            ps = session.prepare(del);
+            bsb = ps.boundStatementBuilder(logicalId);
+        }
         
         try {
             session.execute(bsb.build());

@@ -134,6 +134,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
@@ -2197,6 +2198,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     rowResourceTypeName = resourceType.getSimpleName();
                     resourceTypeId = getResourceTypeId(resourceType);
                 }
+                
+                // If a specific version of a resource has been deleted using $erase, it
+                // is possible for the result here to be null.
                 result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), elements);
             } else {
                 // original impl - the resource, if any, was read from the RDBMS
@@ -2216,10 +2220,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         }
                     }
                 } else {
-                    // DATA was blank in the RDBMS and we're not configured for offload. Callers
-                    // need to handle this (probably as an error)
-                    log.warning("Offloading disabled? Data blob is empty for '" 
-                            + resourceType.getSimpleName() + "/" + resourceDTO.getLogicalId() + "'");
+                    // Null DATA column means that this resource version was probably removed
+                    // by $erase
                     result = null;
                 }
             }
@@ -2686,8 +2688,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             doCachePrefill(connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, translator, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache, rrd);
-            eraseDao.erase(eraseRecord, eraseDto);
+            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, translator, 
+                    schemaNameSupplier.getSchemaForRequestContext(connection), 
+                    connectionStrategy.getFlavor(), this.cache, rrd);
+            long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
+            
+            // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
+            if (this.payloadPersistence != null) {
+                erasePayloads(eraseDao, eraseResourceGroupId);
+            }
+            
         } catch(FHIRPersistenceResourceNotFoundException e) {
             throw e;
         } catch(FHIRPersistenceException e) {
@@ -2718,6 +2728,32 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         return eraseRecord;
+    }
+
+    /**
+     * Delete all the offloaded payload entries which have been identified for deletion
+     * @param dao
+     * @param erasedResourceGroupId
+     */
+    private void erasePayloads(EraseResourceDAO dao, long erasedResourceGroupId) throws FHIRPersistenceException {
+        List<ErasedResourceRec> recs = dao.getErasedResourceRecords(erasedResourceGroupId);
+        for (ErasedResourceRec rec: recs) {
+            erasePayload(rec);
+        }
+    }
+
+    /**
+     * Erase the payload for the resource described by rec
+     * @param rec
+     */
+    private void erasePayload(ErasedResourceRec rec) throws FHIRPersistenceException {
+        String resourceType = cache.getResourceTypeNameCache().getName(rec.getResourceTypeId());
+        if (resourceType == null) {
+            throw new FHIRPersistenceException("Resource type not found in cache for resourceTypeId=" + rec.getResourceTypeId());
+        }
+        
+        // Note that if versionId is null, it means delete all known versions
+        payloadPersistence.deletePayload(resourceType, rec.getResourceTypeId(), rec.getLogicalId(), rec.getVersionId());
     }
 
     private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {

@@ -60,8 +60,8 @@ public interface FHIRPayloadPersistence {
      * @param resourceType
      * @param resourceTypeId
      * @param logicalId
-     * @param version
+     * @param version the version id, or null for all versions
      * @throws FHIRPersistenceException
      */
-    void deletePayload(String resourceType, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException;
+    void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version) throws FHIRPersistenceException;
 }

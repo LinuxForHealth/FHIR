@@ -51,7 +51,7 @@ public class DerbySchemaVersionsTest {
 
             // Make sure we can correctly determine the latest schema version value
             svm.updateSchemaVersion();
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0022.vid());
+            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0023.vid());
 
             assertTrue(svm.isLatestSchema());
        }

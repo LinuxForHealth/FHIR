@@ -185,4 +185,9 @@ public class FhirSchemaConstants {
 
     public static final String PG_FILLFACTOR_PROP = "fillfactor";
     public static final int PG_FILLFACTOR_VALUE = 90; // do not change without bumping schema versions for affected tables
+
+    // Support for $erase operation
+    public static final String ERASED_RESOURCES = "ERASED_RESOURCES";
+    public static final String ERASED_RESOURCE_ID = "ERASED_RESOURCE_ID";
+    public static final String ERASED_RESOURCE_GROUP_ID = "ERASED_RESOURCE_GROUP_ID";
 }
