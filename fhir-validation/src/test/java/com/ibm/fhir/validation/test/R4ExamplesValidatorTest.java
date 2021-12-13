@@ -32,7 +32,7 @@ public class R4ExamplesValidatorTest {
         driver.setProcessor(new SerializationProcessor());
         driver.setValidator(new ValidationProcessor());
         String index = System.getProperty(this.getClass().getName()
-                + ".index", Index.IBM_JSON.name());
+                + ".index", Index.SPEC_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
 
@@ -44,6 +44,6 @@ public class R4ExamplesValidatorTest {
         self.setup();
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
-        self.driver.processExample("json/ibm/complete-absent/Specimen-1.json", Format.JSON, Expectation.OK);
+        self.driver.processExample("json/spec/extension-event-statusreason.json", Format.JSON, Expectation.OK);
     }
 }

@@ -69,7 +69,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -138,7 +138,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "date"
+                      "valueUrl": "date"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -211,7 +211,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -280,7 +280,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "dateTime"
+                      "valueUrl": "dateTime"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -353,7 +353,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -422,7 +422,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -496,7 +496,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -565,7 +565,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "integer"
+                      "valueUrl": "integer"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -640,7 +640,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -709,7 +709,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "uri"
+                      "valueUrl": "uri"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -782,7 +782,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -851,7 +851,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "instant"
+                      "valueUrl": "instant"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -924,7 +924,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -993,7 +993,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "boolean"
+                      "valueUrl": "boolean"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1066,7 +1066,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -1135,7 +1135,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "base64Binary"
+                      "valueUrl": "base64Binary"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1208,7 +1208,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -1277,7 +1277,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "time"
+                      "valueUrl": "time"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1350,7 +1350,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -1419,7 +1419,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "decimal"
+                      "valueUrl": "decimal"
                     },
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1555,7 +1555,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -23615,7 +23615,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "uri"
+                      "valueUrl": "uri"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"
@@ -24177,7 +24177,7 @@
                   "extension": [
                     {
                       "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                      "valueUri": "string"
+                      "valueUrl": "string"
                     }
                   ],
                   "code": "http://hl7.org/fhirpath/System.String"

@@ -85,7 +85,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUri": "string"
+                "valueUrl": "string"
               }
             ],
             "code": "http://hl7.org/fhirpath/System.String"
@@ -157,7 +157,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUri": "string"
+                "valueUrl": "string"
               },
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -197,7 +197,7 @@
             "extension": [
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                "valueUri": "unsignedInt"
+                "valueUrl": "unsignedInt"
               },
               {
                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
