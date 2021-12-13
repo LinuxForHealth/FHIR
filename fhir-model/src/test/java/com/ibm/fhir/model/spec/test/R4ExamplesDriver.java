@@ -368,14 +368,14 @@ public class R4ExamplesDriver {
             }
         }
 
-        // process the resource (as long as validation was successful
+        // process the resource (as long as validation was successful)
         if (processor != null && resource != null) {
             long start = System.nanoTime();
             try {
                 processor.process(file, resource);
 
                 if (expectation == Expectation.PROCESS) {
-                    // this is a problem, because we expected validation to fail
+                    // this is a problem, because we expected processing to fail
                     System.out.println();
                     logger.severe("processResource(" + file + ") should've failed but didn't");
                     ExampleProcessorException error =
