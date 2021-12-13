@@ -69,7 +69,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (h) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUri value="string"/>
+          <valueUrl value="string"/>
         </extension>
         <code value="http://hl7.org/fhirpath/System.String"/>
       </type>
@@ -127,7 +127,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (i) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUri value="string"/>
+          <valueUrl value="string"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="[1-9][0-9]*"/>
@@ -156,7 +156,7 @@
     <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (g) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUri value="positiveInt"/>
+          <valueUrl value="positiveInt"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="[1-9][0-9]*"/>
