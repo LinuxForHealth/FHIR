@@ -31,22 +31,26 @@ public class ValidationProcessor implements IExampleProcessor {
         if (!issues.isEmpty()) {
             List<String> issueStrings = new ArrayList<String>();
             for (Issue issue : issues) {
-                String details = "<missing details>";
-                if (issue.getDetails() != null && issue.getDetails().getText() != null) {
-                    details = issue.getDetails().getText().getValue();
+                if (FHIRUtil.isFailure(issue.getSeverity())) {
+                    String details = "<missing details>";
+                    if (issue.getDetails() != null && issue.getDetails().getText() != null) {
+                        details = issue.getDetails().getText().getValue();
+                    }
+                    String locations = issue.getExpression().stream()
+                        .flatMap(loc -> Stream.of(loc.getValue()))
+                        .collect(Collectors.joining(","));
+                    issueStrings.add(details + " (" + locations + ")");
                 }
-                String locations = issue.getExpression().stream()
-                    .flatMap(loc -> Stream.of(loc.getValue()))
-                    .collect(Collectors.joining(","));
-                issueStrings.add(details + " (" + locations + ")");
             }
 
             // Only errors or worse should result in a failure.
             boolean includesFailure = false;
             for (OperationOutcome.Issue issue: issues) {
-                logger.fine(issue.toString());
                 if (FHIRUtil.isFailure(issue.getSeverity())) {
+                    logger.fine(issue.toString());
                     includesFailure = true;
+                } else {
+                    logger.finest(issue.toString());
                 }
             }
 

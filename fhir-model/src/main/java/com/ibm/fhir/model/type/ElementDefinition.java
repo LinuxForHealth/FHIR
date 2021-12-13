@@ -148,7 +148,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ElementDefinition.type",
     description = "targetProfile is only allowed if the type is Reference or canonical",
-    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()",
+    expression = "(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
