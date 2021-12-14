@@ -188,7 +188,7 @@ The name of the Derby database can be anything (without spaces) but must be cont
 
 ### Schema Deployment
 
-As a one-time activity, create the schema objects can be created using the following command:
+As a one-time activity, the schema objects can be created using the following command:
 
 ```
 #!/usr/bin/env bash
