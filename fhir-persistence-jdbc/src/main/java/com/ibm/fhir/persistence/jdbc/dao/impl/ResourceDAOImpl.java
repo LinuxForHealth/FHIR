@@ -77,10 +77,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public static final int IDX_IS_DELETED = 5;
     public static final int IDX_DATA = 6;
     public static final int IDX_LOGICAL_ID = 7;
-    public static final int IDX_RESOURCE_TYPE_ID = 8;
+    public static final int IDX_RESOURCE_PAYLOAD_KEY = 8;
+    public static final int IDX_RESOURCE_TYPE_ID = 9;
 
     // Read the current version of the resource (even if the resource has been deleted)
-    private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+    private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
             "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
             "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
 
@@ -99,7 +100,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
-            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                     "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
                     "ORDER BY R.VERSION_ID DESC ";
@@ -109,7 +110,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             "R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID";
 
     private static final String SQL_HISTORY_FROM_DATETIME =
-            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                     "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
                     "ORDER BY R.VERSION_ID DESC ";
@@ -123,7 +124,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private static final String SQL_READ_RESOURCE_TYPE = "CALL %s.add_resource_type(?, ?)";
 
     private static final String SQL_SEARCH_BY_IDS =
-            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                     "R.RESOURCE_ID IN ";
 
@@ -269,6 +270,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
             resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));
             resource.setDeleted(resultSet.getString(IDX_IS_DELETED).equals("Y") ? true : false);
+            resource.setResourcePayloadKey(resultSet.getString(IDX_RESOURCE_PAYLOAD_KEY));
             
             if (hasResourceTypeId) {
                 resource.setResourceTypeId(resultSet.getInt(IDX_RESOURCE_TYPE_ID));

@@ -406,7 +406,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         try {
             // Some queries include the resource type id, which we need to know
             // when fetching offloaded payloads.
-            boolean hasResourceTypeId = resultSet.getMetaData().getColumnCount() == 8;
+            boolean hasResourceTypeId = resultSet.getMetaData().getColumnCount() == 9;
 
             while (resultSet.next()) {
                 dto = this.createDTO(resultSet, hasResourceTypeId);

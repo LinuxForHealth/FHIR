@@ -99,7 +99,7 @@ public class CqlStorePayload {
     /**
      * Store the resource record
      * @param session
-     * @param storeInline when true, store the payload inline in logical_resources
+     * @param storeInline when true, store the payload inline in resource_payloads
      */
     private void storeResource(CqlSession session, boolean storeInline) throws FHIRPersistenceException {
         RegularInsert insert =
@@ -136,7 +136,7 @@ public class CqlStorePayload {
         try {
             session.execute(bsb.build());
         } catch (Exception x) {
-            logger.log(Level.SEVERE, "insert into logical_resources failed for '"
+            logger.log(Level.SEVERE, "insert into resource_payloads failed for '"
                     + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed inserting into " + RESOURCE_PAYLOADS);
         }

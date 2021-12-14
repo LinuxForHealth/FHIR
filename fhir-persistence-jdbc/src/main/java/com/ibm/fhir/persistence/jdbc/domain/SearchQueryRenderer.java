@@ -285,7 +285,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // then inner join to the xx_RESOURCES table as a final step. This is
         // crucial to enable the optimizer to generate the correct plan.
         // The final query looks something like this:
-              SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
+              SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY
                 FROM (
               SELECT LR0.LOGICAL_RESOURCE_ID, LR0.LOGICAL_ID, LR0.CURRENT_RESOURCE_ID
                 FROM Patient_LOGICAL_RESOURCES AS LR0
@@ -351,7 +351,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final SelectAdapter logicalResources = queryData.getQuery();
         final String xxResources = resourceResources(queryData.getResourceType());
         final String lrAliasName = "LR";
-        SelectAdapter select = Select.select("R.RESOURCE_ID", "R.LOGICAL_RESOURCE_ID", "R.VERSION_ID", "R.LAST_UPDATED", "R.IS_DELETED", "R.DATA", "LR.LOGICAL_ID");
+        SelectAdapter select = Select.select("R.RESOURCE_ID", "R.LOGICAL_RESOURCE_ID", "R.VERSION_ID", "R.LAST_UPDATED",
+                "R.IS_DELETED", "R.DATA", "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
         
         // Resource type id is used for whole-system-search cases where the query
         // can return resources of different types (e.g. both Patient and Observation)
@@ -399,7 +400,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String lrAlias = "LR";
         final String rAlias = "R";
         final String rTable = query.getResourceType() + "_RESOURCES";
-        SelectAdapter select = Select.select("LR.RESOURCE_ID", "LR.LOGICAL_RESOURCE_ID", "LR.VERSION_ID", "LR.LAST_UPDATED", "LR.IS_DELETED", "R.DATA", "LR.LOGICAL_ID");
+        SelectAdapter select = Select.select("LR.RESOURCE_ID", "LR.LOGICAL_RESOURCE_ID", "LR.VERSION_ID",
+                "LR.LAST_UPDATED", "LR.IS_DELETED", "R.DATA", "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
         select.from(query.getQuery().build(), alias(lrAlias))
             .innerJoin(rTable, alias(rAlias), on(lrAlias, "RESOURCE_ID").eq(rAlias, "RESOURCE_ID"));
         return new QueryData(select, lrAlias, null, query.getResourceType(), 0);
@@ -454,7 +456,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     public QueryData wholeSystemDataRoot(String rootResourceType, int rootResourceTypeId) {
         /* Final query should look something like this (where [RTFIELD] depends on the type of the
          * whole system search):
-              SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, [RTFIELD] AS RESOURCE_TYPE_ID
+              SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY, [RTFIELD] AS RESOURCE_TYPE_ID
                 FROM (
               SELECT LR.LOGICAL_RESOURCE_ID, LR.LOGICAL_ID, LR.CURRENT_RESOURCE_ID
                 FROM Patient_LOGICAL_RESOURCES AS LR
@@ -494,7 +496,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ) AS COMBINED RESULTS
 
            Final query should look something like this for a data query:
-        SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID, RESOURCE_TYPE_ID
+        SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID, RESOURCE_PAYLOAD_KEY, RESOURCE_TYPE_ID
                 FROM (
                    <data-query-1>
            UNION ALL
@@ -511,7 +513,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         if (isCountQuery) {
             select = Select.select("SUM(CNT)");
         } else {
-            select = Select.select("RESOURCE_ID", "LOGICAL_RESOURCE_ID", "VERSION_ID", "LAST_UPDATED", "IS_DELETED", "DATA", "LOGICAL_ID", "RESOURCE_TYPE_ID");
+            select = Select.select("RESOURCE_ID", "LOGICAL_RESOURCE_ID", "VERSION_ID", "LAST_UPDATED", "IS_DELETED", "DATA", "LOGICAL_ID", "RESOURCE_PAYLOAD_KEY", "RESOURCE_TYPE_ID");
         }
         SelectAdapter first = null;
         SelectAdapter previous = null;
@@ -1522,7 +1524,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // > If a resource has a reference that is versioned and _include is performed,
         // > the specified version SHOULD be provided.
         /*
-SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R0.IS_DELETED, R0.DATA, LR0.LOGICAL_ID
+SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R0.IS_DELETED, R0.DATA, R0.RESOURCE_PAYLOAD_KEY, LR0.LOGICAL_ID
         FROM fhirdata.ExplanationOfBenefit_TOKEN_VALUES_V AS P1
   INNER JOIN fhirdata.Claim_LOGICAL_RESOURCES AS LR0
           ON LR0.LOGICAL_ID = P1.TOKEN_VALUE

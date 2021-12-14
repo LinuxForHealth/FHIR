@@ -62,7 +62,7 @@ public class CqlGetCurrentVersion {
         // get the most recent version. Simply picking the first row which matches the given
         // resourceType/logicalId is sufficient.
         Select statement =
-                selectFrom("logical_resources")
+                selectFrom("resource_payloads")
                 .column("version")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))

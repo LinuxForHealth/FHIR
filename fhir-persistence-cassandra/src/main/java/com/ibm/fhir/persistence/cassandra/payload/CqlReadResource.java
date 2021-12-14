@@ -93,7 +93,7 @@ public class CqlReadResource {
         // can process the chunk directly. If chunk is null, we have to read
         // from the payload_chunks table instead
         Select statement =
-                selectFrom("logical_resources")
+                selectFrom("resource_payloads")
                 .column("chunk")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))

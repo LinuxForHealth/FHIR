@@ -110,7 +110,7 @@ public class CqlDeletePayload {
                 deleteResourcePayloads(session, row.getInt(1), row.getString(1));
             }
         } catch (Exception x) {
-            logger.log(Level.SEVERE, "delete from logical_resources failed for '"
+            logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
                     + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed deleting from " + RESOURCE_PAYLOADS);
         }
@@ -144,7 +144,7 @@ public class CqlDeletePayload {
         try {
             session.execute(bsb.build());
         } catch (Exception x) {
-            logger.log(Level.SEVERE, "delete from logical_resources failed for '"
+            logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
                     + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed deleting from " + RESOURCE_PAYLOADS);
         }
