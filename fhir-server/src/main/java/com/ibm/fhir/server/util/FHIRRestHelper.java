@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -98,6 +97,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
@@ -105,8 +105,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
@@ -210,18 +210,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // Persistence event processing may modify the resource, so make sure we have the latest value
                 resource = event.getFhirResource();
 
+                final String resourcePayloadKey = UUID.randomUUID().toString();
                 int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
-                Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), newVersionNumber);
-
-                // Resolve the future so that we know the payload has been stored
-                // TODO tie this into the transaction data so that we can clean up
-                // more if there's a rollback for another reason.
-                PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
-                if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
-                    response = doCreatePersist(event, warnings, resource);
-                } else {
-                    throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
-                }
+                PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
+                response = doCreatePersist(event, warnings, resource, offloadResponse);
             }
 
             // At this point, we can be sure the transaction must have been started, so always commit
@@ -339,7 +331,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doCreatePersist");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
@@ -356,7 +348,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(resource);
 
             // create the resource and return the location header.
-            final FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+            final FHIRPersistenceContext persistenceContext = 
+                    FHIRPersistenceContextImpl.builder(event)
+                    .withOffloadResponse(offloadResponse)
+                    .build();
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
             // persistence layer.
@@ -457,17 +452,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // TODO perhaps store the newVersionNumber value in the FHIRRestOperationResponse so
             // we don't have to keep converting to an int. At the very least we need a helper
             // function for this.
+            final String resourcePayloadKey = UUID.randomUUID().toString();
             int newVersionNumber = Integer.parseInt(metaResponse.getResource().getMeta().getVersionId().getValue());
-            Future<PayloadKey> offloadResponse = storePayload(metaResponse.getResource(), metaResponse.getResource().getId(), newVersionNumber);
-            PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
-            if (payloadKey != null && payloadKey.getStatus() != PayloadKey.Status.OK) {
-                throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
-            }
+            PayloadPersistenceResponse offloadResponse = storePayload(metaResponse.getResource(), metaResponse.getResource().getId(), newVersionNumber, resourcePayloadKey);
 
             // Persist the resource
             FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null,
                     metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
-                    ifNoneMatch);
+                    ifNoneMatch, offloadResponse);
 
             txn.commit();
             txn = null;
@@ -737,7 +729,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id,
             boolean isPatch, Resource newResource, Resource prevResource,
-            List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+            List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdatePersist");
 
         // We'll only start a new transaction here if we don't have one. We'll only
@@ -759,7 +751,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(newResource);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
+                    FHIRPersistenceContextImpl.builder(event)
+                    .withIfNoneMatch(ifNoneMatch)
+                    .withOffloadResponse(offloadResponse)
+                    .build();
+            
             boolean createOnUpdate = (prevResource == null);
             final SingleResourceResult<Resource> result;
             if (createOnUpdate) {
@@ -994,26 +990,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     
                     // For soft-delete we store a new version of the resource with the deleted
                     // flag set. Update the resource meta so that it has the correct version id
+                    final String resourcePayloadKey = UUID.randomUUID().toString();
                     final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
                     final int newVersionNumber = Integer.parseInt(resourceToDelete.getMeta().getVersionId().getValue()) + 1;
                     final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
 
-                    FHIRPersistenceContext persistenceContext =
-                            FHIRPersistenceContextFactory.createPersistenceContext(event);
-                    
                     // If we're offloading, the payload gets stored outside the RDBMS
-                    Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), newVersionNumber);
+                    PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
+                    FHIRPersistenceContext persistenceContext =
+                            FHIRPersistenceContextImpl.builder(event)
+                            .withOffloadResponse(offloadResponse)
+                            .build();
 
-                    // Resolve the future so that we know the payload has been stored
-                    // TODO tie this into the transaction data so that we can clean up
-                    // more if there's a rollback for another reason.
-                    PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
-                    if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
-                        // If anything goes wrong with the delete we'll get an exception
-                        persistence.deleteWithMeta(persistenceContext, resource);
-                    } else {
-                        throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
-                    }
+                    persistence.deleteWithMeta(persistenceContext, resource);
 
                     if (responseBundle.getEntry().size() == 1) {
                         ior.setResource(resource);
@@ -3186,9 +3175,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception {
 
         // Delegate to the persistence layer. Result will be null if offloading is not supported
-        return persistence.storePayload(resource, logicalId, newVersionNumber);
+        return persistence.storePayload(resource, logicalId, newVersionNumber, resourcePayloadKey);
     }
 }

@@ -10,8 +10,8 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
@@ -26,7 +26,7 @@ import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -81,7 +81,10 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
+        // Note the offloadResponse will be null when passed in to this method, because
+        // we only initiate the offload in this particular visitor - the fact that we have
+        // the parameter defined is just a side-effect of the visitor pattern we're using.
 
         // Use doOperation so we can implement common exception handling in one place
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
@@ -92,18 +95,19 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             final Resource finalResource = visitor.getResult(); // finalResource immutable
 
             // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
             int newVersionNumber = Integer.parseInt(finalResource.getMeta().getVersionId().getValue());
-            Future<PayloadKey> offloadResponse = storePayload(finalResource, finalResource.getId(), newVersionNumber);
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(finalResource, finalResource.getId(), newVersionNumber, resourcePayloadKey);
 
             // Pass back the updated resource so it can be used in the next phase if required
-            return new FHIRRestOperationResponse(finalResource, finalResource.getId(), offloadResponse);
+            return new FHIRRestOperationResponse(finalResource, finalResource.getId(), actualOffloadResponse);
         });
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
         long initialTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
@@ -118,11 +122,12 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             }
 
             // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
             int newVersionNumber = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
-            Future<PayloadKey> offloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber);
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber, resourcePayloadKey);
 
             // Pass back the updated resource so it can be used in the next phase
-            FHIRRestOperationResponse result = new FHIRRestOperationResponse(newResource, null, offloadResponse);
+            FHIRRestOperationResponse result = new FHIRRestOperationResponse(newResource, null, actualOffloadResponse);
             result.setDeleted(isDeleted);
             
             return result;
@@ -132,7 +137,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     @Override
     public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
         String type, String id, Resource resource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
+        boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, initialTime, () -> {
 
@@ -146,11 +151,12 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
             }
 
             // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
             int newVersionNumber = Integer.parseInt(newResource.getMeta().getVersionId().getValue());
-            Future<PayloadKey> offloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber);
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(newResource, newResource.getId(), newVersionNumber, resourcePayloadKey);
 
             // Pass back the updated resource so it can be used in the next phase
-            return new FHIRRestOperationResponse(newResource, null, offloadResponse);
+            return new FHIRRestOperationResponse(newResource, null, actualOffloadResponse);
         });
     }
 
@@ -182,15 +188,16 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     /**
      * If payload offloading is supported by the persistence layer, store the given resource. This
      * can be an async operation which we resolve at the end just prior to the transaction being
-     * committed. If offloading isn't supported, the persistence layer returns null and the operation
-     * is a NOP.
+     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer 
+     * returns null. 
      * @param resource
      * @param logicalId
      * @param newVersionNumber
+     * @param resourcePayloadKey
      * @return
      */
-    protected Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
-       return helpers.storePayload(resource, logicalId, newVersionNumber);
+    protected PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception {
+       return helpers.storePayload(resource, logicalId, newVersionNumber, resourcePayloadKey);
     }
 
     /**

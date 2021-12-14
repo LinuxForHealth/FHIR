@@ -72,6 +72,11 @@ public class Resource {
      * The version of the resource found if we hit IfNoneMatch
      */
     private Integer ifNoneMatchVersion;
+    
+    /**
+     * A unique key (UUID value) used to tie the RDBMS record with the offloaded payload
+     */
+    private String resourcePayloadKey;
 
     public Resource() {
         super();
@@ -196,6 +201,20 @@ public class Resource {
      */
     public void setResourceTypeId(int resourceTypeId) {
         this.resourceTypeId = resourceTypeId;
+    }
+
+    /**
+     * @return the resourcePayloadKey
+     */
+    public String getResourcePayloadKey() {
+        return resourcePayloadKey;
+    }
+
+    /**
+     * @param resourcePayloadKey the resourcePayloadKey to set
+     */
+    public void setResourcePayloadKey(String resourcePayloadKey) {
+        this.resourcePayloadKey = resourcePayloadKey;
     }
 }
 

@@ -54,6 +54,9 @@ public class CqlReadResource {
 
     // The version for the resource
     private final int version;
+    
+    // The unique key used to always correctly tie this record to the RDBMS
+    private final String resourcePayloadKey;
 
     private final List<String> elements;
 
@@ -62,15 +65,17 @@ public class CqlReadResource {
      * @param partitionId
      * @param resourceTypeId
      * @param logicalId
+     * @param resourcePayloadKey
      * @param version
      * @param elements
      */
-    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) {
+    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements) {
         CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
+        this.resourcePayloadKey = resourcePayloadKey;
         this.elements = elements;
     }
 
@@ -94,13 +99,14 @@ public class CqlReadResource {
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                 .whereColumn("logical_id").isEqualTo(bindMarker())
                 .whereColumn("version").isEqualTo(bindMarker())
+                .whereColumn("resource_payload_key").isEqualTo(bindMarker())
                 .limit(1)
                 ;
 
         PreparedStatement ps = session.prepare(statement.build());
 
         try {
-            ResultSet lrResult = session.execute(ps.bind(logicalId, version));
+            ResultSet lrResult = session.execute(ps.bind(logicalId, version, resourcePayloadKey));
             Row row = lrResult.one();
             if (row != null) {
                 // If the chunk is small, it's stored in the LOGICAL_RESOURCS record. If
@@ -147,14 +153,12 @@ public class CqlReadResource {
                 .column("ordinal")
                 .column("chunk")
                 .whereColumn("partition_id").isEqualTo(literal(partitionId))
-                .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
-                .whereColumn("logical_id").isEqualTo(bindMarker())
-                .whereColumn("version").isEqualTo(bindMarker())
+                .whereColumn("resource_payload_key").isEqualTo(bindMarker())
                 .orderBy("ordinal", ClusteringOrder.ASC)
                 ;
 
         PreparedStatement ps = session.prepare(statement.build());
-        ResultSet chunks = session.execute(ps.bind(logicalId, version));
+        ResultSet chunks = session.execute(ps.bind(resourcePayloadKey));
         try (InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(new ResultSetBufferProvider(chunks, 1)))) {
             return parseStream(resourceType, in);
         }

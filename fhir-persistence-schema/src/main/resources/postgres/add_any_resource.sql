@@ -38,6 +38,7 @@
       IN p_version                           INT,
       IN p_parameter_hash_b64            VARCHAR( 44),
       IN p_if_none_match                     INT,
+      IN p_resource_payload_key          VARCHAR( 36),
       OUT o_logical_resource_id           BIGINT,
       OUT o_current_parameter_hash       VARCHAR( 44),
       OUT o_interaction_status               INT,
@@ -153,9 +154,9 @@ BEGIN
   END IF; -- end if existing resource
 
   EXECUTE
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
       || ' VALUES ($1, $2, $3, $4, $5, $6)'
-    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
+    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
 
   
   IF v_new_resource = 0 THEN

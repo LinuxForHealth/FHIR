@@ -131,6 +131,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 connection,
                 parameterDao,
                 ifNoneMatch,
+                resource.getResourcePayloadKey(),
                 outInteractionStatus,
                 outIfNoneMatchVersion
                 );
@@ -213,7 +214,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
             String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
-            ParameterDAO parameterDao, Integer ifNoneMatch,
+            ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
@@ -446,8 +447,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (logger.isLoggable(Level.FINEST)) {
             logger.finest("Creating " + tablePrefix + "_resources row: " + v_resource_type + "/" + p_logical_id);
         }
-        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) "
-                + "VALUES (?,?,?,?,?,?)";
+        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) "
+                + "VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
             // bind parameters
             stmt.setLong(1, v_resource_id);
@@ -462,6 +463,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             }
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
+            setString(stmt, 7, resourcePayloadKey); // can be null
             stmt.executeUpdate();
         }
 

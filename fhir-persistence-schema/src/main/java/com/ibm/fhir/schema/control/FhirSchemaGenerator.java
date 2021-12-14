@@ -549,7 +549,7 @@ public class FhirSchemaGenerator {
                 .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
                 .addTimestampColumn(LAST_UPDATED, true)                         // new column for V0014
                 .addCharColumn(IS_DELETED, 1, false, "'X'")
-                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)           // new column for V0015
+                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)   // new column for V0015
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))

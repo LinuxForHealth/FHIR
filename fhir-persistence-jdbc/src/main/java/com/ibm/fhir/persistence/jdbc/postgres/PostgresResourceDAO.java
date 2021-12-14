@@ -54,7 +54,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     
     // 13 args (9 in, 4 out)
-    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -117,21 +117,22 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.setInt(7, resource.getVersionId());
             stmt.setString(8, parameterHashB64);
             setInt(stmt, 9, ifNoneMatch);
-            stmt.registerOutParameter(10, Types.BIGINT);
-            stmt.registerOutParameter(11, Types.VARCHAR); // The old parameter_hash
-            stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
-            stmt.registerOutParameter(13, Types.INTEGER); // o_if_none_match_version
+            setString(stmt, 10, resource.getResourcePayloadKey());
+            stmt.registerOutParameter(11, Types.BIGINT);
+            stmt.registerOutParameter(12, Types.VARCHAR); // The old parameter_hash
+            stmt.registerOutParameter(13, Types.INTEGER); // o_interaction_status
+            stmt.registerOutParameter(14, Types.INTEGER); // o_if_none_match_version
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(10));
+            resource.setId(stmt.getLong(11));
             
-            if (stmt.getInt(12) == 1) {
+            if (stmt.getInt(13) == 1) { // interaction status
                 // no change, so skip parameter updates
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
-                resource.setIfNoneMatchVersion(stmt.getInt(13)); // current version
+                resource.setIfNoneMatchVersion(stmt.getInt(14)); // current version
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
     
@@ -139,7 +140,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 // To keep things simple for the postgresql use-case, we just use a visitor to
                 // handle inserts of parameters directly in the resource parameter tables.
                 // Note we don't get any parameters for the resource soft-delete operation
-                final String currentParameterHash = stmt.getString(11);
+                final String currentParameterHash = stmt.getString(12);
                 if (parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
                         || !parameterHashB64.equals(currentParameterHash))) {
                     // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:

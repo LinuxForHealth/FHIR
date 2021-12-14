@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.persistence.cassandra.cql;
 
-import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_RECONCILIATION;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_TRACKING;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_PAYLOADS;
 
 import java.util.logging.Logger;
 
@@ -77,16 +77,20 @@ public class CreateSchema {
     protected void createLogicalResourcesTable(CqlSession session) {
         // partition by partition_id (application-defined, like patient logical id)
         // cluster within each partition by resource_type_id, logical_id, version
-        final String cql = "CREATE TABLE IF NOT EXISTS " + LOGICAL_RESOURCES + " ("
-                + "partition_id           text, "
-                + "resource_type_id        int, "
-                + "logical_id             text, "
-                + "version                 int, "
-                + "last_modified     timestamp, "
-                + "chunk                  blob, "
-                + "parameter_block        blob, "
-                + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version)"
-                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version DESC)";
+        // The resource_payload_key is assigned by the server and is used to help
+        // manage rollbacks in a concurrent scenario (so the rollback only removes
+        // rows created within the transaction that was rolled back).
+        final String cql = "CREATE TABLE IF NOT EXISTS " + RESOURCE_PAYLOADS + " ("
+                + "partition_id              text, "
+                + "resource_type_id           int, "
+                + "logical_id                text, "
+                + "version                    int, "
+                + "resource_payload_key      text, "
+                + "last_modified        timestamp, "
+                + "chunk                     blob, "
+                + "parameter_block           blob, "
+                + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version, resource_payload_key)"
+                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version DESC, resource_payload_key ASC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);
@@ -101,15 +105,14 @@ public class CreateSchema {
      */
     protected void createPayloadChunksTable(CqlSession session) {
         // partition by partition_id (application-defined, like patient logical id)
+        // The resource_payload_key ties the chunks to the RESOURCE_PAYLOADS record
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_CHUNKS + " ("
                 + "partition_id           text, "
-                + "resource_type_id        int, "
-                + "logical_id             text, "
-                + "version                 int, "
+                + "resource_payload_key   text, "
                 + "ordinal                 int, "
                 + "chunk                  blob, "
-                + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version, ordinal)"
-                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version ASC, ordinal ASC)";
+                + "PRIMARY KEY (partition_id, resource_payload_key, ordinal)"
+                + ") WITH CLUSTERING ORDER BY (resource_payload_key ASC, ordinal ASC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);
@@ -123,7 +126,9 @@ public class CreateSchema {
      * @param session
      */
     protected void createPayloadTrackingTable(CqlSession session) {
-        // partition by partition_id (application-defined, like patient logical id)
+        // partition by partition_id. This is application defined, and is used to distribute
+        // the data across a number of partitions, which all must be scanned to make sure
+        // every record gets processed
         // cluster within each partition by tstamp
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_TRACKING + " ("
                 + "partition_id         smallint, "
@@ -131,8 +136,9 @@ public class CreateSchema {
                 + "resource_type_id          int, "
                 + "logical_id               text, "
                 + "version                   int, "
+                + "resource_payload_key     text, "
                 + "payload_partition_id     text, "
-                + "PRIMARY KEY (partition_id, tstamp, resource_type_id, logical_id, version)"
+                + "PRIMARY KEY (partition_id, tstamp, resource_type_id, logical_id, version, resource_payload_key)"
                 + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
 
         logger.info("Running: " + cql);

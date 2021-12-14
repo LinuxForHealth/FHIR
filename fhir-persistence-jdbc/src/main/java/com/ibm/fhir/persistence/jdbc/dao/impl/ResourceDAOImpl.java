@@ -92,10 +92,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     // @formatter:off
     //                                                                                 0                 1
-    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3
+    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
@@ -553,24 +553,25 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setInt(6, resource.getVersionId());
             stmt.setString(7, parameterHashB64);
             setInt(stmt, 8, ifNoneMatch);
-            stmt.registerOutParameter(9, Types.BIGINT);  // logical_resource_id
-            stmt.registerOutParameter(10, Types.BIGINT);  // resource_id
-            stmt.registerOutParameter(11, Types.VARCHAR); // current_hash
-            stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
-            stmt.registerOutParameter(13, Types.INTEGER); // o_if_none_match_version
+            setString(stmt, 9, resource.getResourcePayloadKey());
+            stmt.registerOutParameter(10, Types.BIGINT);  // logical_resource_id
+            stmt.registerOutParameter(11, Types.BIGINT);  // resource_id
+            stmt.registerOutParameter(12, Types.VARCHAR); // current_hash
+            stmt.registerOutParameter(13, Types.INTEGER); // o_interaction_status
+            stmt.registerOutParameter(14, Types.INTEGER); // o_if_none_match_version
 
             stmt.execute();
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(9));
-            final long versionedResourceRowId = stmt.getLong(10);
-            final String currentHash = stmt.getString(11);
-            final int interactionStatus = stmt.getInt(12);
+            resource.setId(stmt.getLong(10));
+            final long versionedResourceRowId = stmt.getLong(11);
+            final String currentHash = stmt.getString(12);
+            final int interactionStatus = stmt.getInt(13);
             if (interactionStatus == 1) {
                 // No update, so no need to make any more changes
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
-                resource.setIfNoneMatchVersion(stmt.getInt(13));
+                resource.setIfNoneMatchVersion(stmt.getInt(14));
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
 
@@ -847,6 +848,21 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             ps.setNull(index, Types.INTEGER);
         } else {
             ps.setInt(index, value);
+        }
+    }
+
+    /**
+     * Set a String parameter in the statement, handling null as required
+     * @param ps
+     * @param index
+     * @param value
+     * @throws SQLException
+     */
+    protected void setString(PreparedStatement ps, int index, String value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.VARCHAR);
+        } else {
+            ps.setString(index, value);
         }
     }
 }

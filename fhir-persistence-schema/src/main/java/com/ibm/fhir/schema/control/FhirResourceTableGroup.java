@@ -53,6 +53,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIG
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_PAYLOAD_KEY;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
@@ -61,6 +62,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TAGS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.UUID_LEN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
@@ -334,14 +336,16 @@ public class FhirResourceTableGroup {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0024.vid())
                 .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .addBigIntColumn(        RESOURCE_ID,              false)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,              false)
-                .addIntColumn(            VERSION_ID,              false)
-                .addTimestampColumn(    LAST_UPDATED,              false)
-                .addCharColumn(           IS_DELETED,           1, false)
-                .addBlobColumn(                 DATA,  2147483647,  10240,   true)
+                .addBigIntColumn(          RESOURCE_ID,                     false)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,                     false)
+                .addIntColumn(              VERSION_ID,                     false)
+                .addTimestampColumn(      LAST_UPDATED,                     false)
+                .addCharColumn(             IS_DELETED,           1,        false)
+                .addBlobColumn(                   DATA,  2147483647,  10240, true)
+                .addVarcharColumn(RESOURCE_PAYLOAD_KEY,    UUID_LEN,         true)    // new column for V0024
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
                 .addIndex(IDX + tableName + LOGICAL_RESOURCE_ID, LOGICAL_RESOURCE_ID)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
@@ -350,8 +354,15 @@ public class FhirResourceTableGroup {
                 .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    // Intentionally a NOP
-                    return statements;
+                    if (priorVersion < FhirSchemaVersion.V0024.vid()) {
+                        // Migration steps for the V0024 schema version
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                            .addVarcharColumn(RESOURCE_PAYLOAD_KEY, UUID_LEN, true)
+                            .buildColumns();
+    
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                    }
+                   return statements;
                 })
                 .build(model);
 

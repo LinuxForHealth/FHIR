@@ -16,7 +16,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -288,12 +288,14 @@ public interface FHIRPersistence {
      * {@link Future} can be used to obtain the status of the operation. If the result
      * is null, then the implementation does not support offloading and the payload must
      * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
-     * because the offloading storage operation may be asynchronous.
+     * because the offloading storage operation may be asynchronous. This Future must be
+     * resolved prior to the transaction commit.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
+     * @param resourcePayloadKey
      * @return
      * @throws FHIRPersistenceException
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException;
 }

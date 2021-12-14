@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.context;
 
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -47,4 +48,10 @@ public interface FHIRPersistenceContext {
      * @return the value from the If-None-Match header in the PUT request
      */
     Integer getIfNoneMatch();
+    
+    /**
+     * Get the payload persistence response 
+     * @return
+     */
+    PayloadPersistenceResponse getOffloadResponse();
 }

@@ -10,8 +10,8 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.bindMarker;
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.insertInto;
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.CHUNK_SIZE;
-import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_PAYLOADS;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -51,6 +51,9 @@ public class CqlStorePayload {
 
     // The anticipated version
     private final int version;
+    
+    // The unique key value for this resource payload assigned by the server
+    private final String resourcePayloadKey;
 
     /**
      * Public constructor
@@ -60,12 +63,13 @@ public class CqlStorePayload {
      * @param version
      * @param payloadStream
      */
-    public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream) {
+    public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, InputOutputByteStream payloadStream) {
         CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.logicalId = logicalId;
         this.resourceTypeId = resourceTypeId;
         this.version = version;
+        this.resourcePayloadKey = resourcePayloadKey;
         this.payloadStream = payloadStream;
     }
 
@@ -99,11 +103,12 @@ public class CqlStorePayload {
      */
     private void storeResource(CqlSession session, boolean storeInline) throws FHIRPersistenceException {
         RegularInsert insert =
-                insertInto(LOGICAL_RESOURCES)
+                insertInto(RESOURCE_PAYLOADS)
                 .value("partition_id", literal(partitionId))
                 .value("resource_type_id", literal(resourceTypeId))
                 .value("logical_id", bindMarker())
                 .value("version", bindMarker())
+                .value("resource_payload_key", bindMarker())
             ;
 
         if (logger.isLoggable(Level.FINE)) {
@@ -122,10 +127,10 @@ public class CqlStorePayload {
         
         if (storeInline) {
             // small enough, so we bind the payload here
-            bsb = ps.boundStatementBuilder(logicalId, version, payloadStream.wrap());
+            bsb = ps.boundStatementBuilder(logicalId, version, resourcePayloadKey, payloadStream.wrap());
         } else {
             // too big to be inlined, so don't include the payload here
-            bsb = ps.boundStatementBuilder(logicalId, version);
+            bsb = ps.boundStatementBuilder(logicalId, version, resourcePayloadKey);
         }
 
         try {
@@ -133,7 +138,7 @@ public class CqlStorePayload {
         } catch (Exception x) {
             logger.log(Level.SEVERE, "insert into logical_resources failed for '"
                     + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
-            throw new FHIRPersistenceDataAccessException("Failed inserting into " + LOGICAL_RESOURCES);
+            throw new FHIRPersistenceDataAccessException("Failed inserting into " + RESOURCE_PAYLOADS);
         }
     }
 
@@ -148,9 +153,7 @@ public class CqlStorePayload {
         SimpleStatement statement =
             insertInto(PAYLOAD_CHUNKS)
             .value("partition_id", literal(partitionId))
-            .value("resource_type_id", literal(resourceTypeId))
-            .value("logical_id", bindMarker())
-            .value("version", bindMarker())
+            .value("resource_payload_key", bindMarker())
             .value("ordinal", bindMarker())
             .value("chunk", bindMarker())
             .build();
@@ -173,7 +176,7 @@ public class CqlStorePayload {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Payload chunk offset[" + ordinal + "] size = " + len);
             }
-            BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId, version, ordinal++, chunk);
+            BoundStatementBuilder bsb = ps.boundStatementBuilder(resourcePayloadKey, ordinal++, chunk);
             statements.add(bsb.build());
 
             if (bb.hasRemaining()) {

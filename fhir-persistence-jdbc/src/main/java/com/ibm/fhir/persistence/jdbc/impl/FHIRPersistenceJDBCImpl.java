@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +152,7 @@ import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
@@ -365,7 +364,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
         doCachePrefill();
-        // This method is provided for API stability. No longer used.
+        // This method is provided for API stability. No longer used. Does not support offloading
 
         // Generate a new logical resource id
         final String logicalId = generateResourceId();
@@ -400,7 +399,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource, 
+                        getResourcePayloadKeyFromContext(context));
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
@@ -479,7 +479,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRGeneratorException
      */
     private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
-            Instant lastUpdated, Resource updatedResource) throws IOException, FHIRGeneratorException {
+            Instant lastUpdated, Resource updatedResource, String resourcePayloadKey) throws IOException, FHIRGeneratorException {
 
         Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 
@@ -488,6 +488,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         resourceDTO.setVersionId(newVersionNumber);
         resourceDTO.setLastUpdated(timestamp);
         resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
+        resourceDTO.setResourcePayloadKey(resourcePayloadKey);
 
         // Are storing the payload in our RDBMS, or offloading to another store?
         if (this.payloadPersistence == null) {
@@ -604,7 +605,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource);
+                    createResourceDTO(resource.getId(), newVersionNumber, 
+                        resource.getMeta().getLastUpdated(), resource, 
+                        getResourcePayloadKeyFromContext(context));
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
@@ -1052,7 +1055,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
 
-
+        // TODO this implementation needs to be updated so that it doesn't
+        // modify the resource - that now has to be done at the REST layer
+        // so that we can support payload persistence outside the RDBMS
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
         T existingResource = null;
 
@@ -1090,7 +1095,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create a new Resource DTO instance to represent the deleted version.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource,
+                        getResourcePayloadKeyFromContext(context));
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -1141,7 +1147,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource);
+                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource,
+                        getResourcePayloadKeyFromContext(context));
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -2201,7 +2208,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 
                 // If a specific version of a resource has been deleted using $erase, it
                 // is possible for the result here to be null.
-                result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), elements);
+                result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
             } else {
                 // original impl - the resource, if any, was read from the RDBMS
                 if (resourceDTO.getDataStream() != null) {
@@ -2792,17 +2799,27 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
         if (payloadPersistence != null) {
             doCachePrefill(); // just in case we're called before any other database interaction (can happen)
             final String resourceTypeName = resource.getClass().getSimpleName();
             int resourceTypeId = getResourceTypeId(resourceTypeName);
 
             // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
-            return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resource);
+            return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null
             return null;
         }
+    }
+
+    /**
+     * Get the resource payload key value from the given context if offloading
+     * is supported and configured. Returns null otherwise.
+     * @param context
+     * @return
+     */
+    private String getResourcePayloadKeyFromContext(FHIRPersistenceContext context) {
+        return context.getOffloadResponse() == null ? null : context.getOffloadResponse().getResourcePayloadKey();
     }
 }

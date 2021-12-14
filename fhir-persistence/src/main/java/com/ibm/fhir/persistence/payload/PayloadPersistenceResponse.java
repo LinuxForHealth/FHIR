@@ -6,11 +6,16 @@
  
 package com.ibm.fhir.persistence.payload;
 
+import java.util.concurrent.Future;
+
 /**
  * A key used to identify a payload object stored by the payload persistence layer
  */
-public class PayloadKey {
+public class PayloadPersistenceResponse {
 
+    // The UUID value used to tie together the RDBMS and offload records
+    private final String resourcePayloadKey;
+    
     // The string name of the resource type
     private final String resourceTypeName;
     
@@ -29,16 +34,9 @@ public class PayloadKey {
     // The identifier assigned by the payload persistence layer
     private final String payloadId;
 
-    // The status of the payload persistence operation
-    private final Status status;
+    // The (future) result status of the async persistence call
+    private final Future<PayloadPersistenceResult> result;
 
-    /**
-     * Enumeration of status types
-     */
-    public static enum Status {
-        OK, FAILED
-    }
-    
     /**
      * Public constructor
      * @param resourceTypeName
@@ -47,17 +45,18 @@ public class PayloadKey {
      * @param versionId
      * @param partitionKey
      * @param payloadId
-     * @param status
+     * @param result
      */
-    public PayloadKey(String resourceTypeName, int resourceTypeId, String logicalId, int versionId, String partitionKey, String payloadId,
-        Status status) {
+    public PayloadPersistenceResponse(String resourcePayloadKey, String resourceTypeName, int resourceTypeId, String logicalId, int versionId, String partitionKey, String payloadId,
+        Future<PayloadPersistenceResult> result) {
+        this.resourcePayloadKey = resourcePayloadKey;
         this.resourceTypeName = resourceTypeName;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.versionId = versionId;
         this.partitionKey = partitionKey;
         this.payloadId = payloadId;
-        this.status = status;
+        this.result = result;
     }
     
     @Override
@@ -72,6 +71,9 @@ public class PayloadKey {
         result.append(logicalId);
         result.append("/");
         result.append(versionId);
+        result.append("(");
+        result.append(this.resourcePayloadKey);
+        result.append(")");
         result.append("]");
         return result.toString();
     }
@@ -119,9 +121,16 @@ public class PayloadKey {
     }
 
     /**
-     * @return the status
+     * @return the resourcePayloadKey
      */
-    public Status getStatus() {
-        return status;
+    public String getResourcePayloadKey() {
+        return resourcePayloadKey;
+    }
+
+    /**
+     * @return the result
+     */
+    public Future<PayloadPersistenceResult> getResult() {
+        return result;
     }
 }
