@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.schema.api;
-
+package com.ibm.fhir.database.utils.api;
 
 /**
  * Provides feedback on whether this instance owns the lease to the

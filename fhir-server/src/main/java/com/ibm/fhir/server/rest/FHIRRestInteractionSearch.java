@@ -30,7 +30,6 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param compartment
      * @param compartmentId
@@ -40,10 +39,10 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
      * @param checkInteractionAllowed
      */
     public FHIRRestInteractionSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String compartment, String compartmentId,
+            String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource,
             boolean checkInteractionAllowed) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+        super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.compartment = compartment;
         this.compartmentId = compartmentId;
@@ -54,7 +53,7 @@ public class FHIRRestInteractionSearch extends FHIRRestInteractionBase {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doSearch(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, compartment, compartmentId, queryParameters, requestUri, contextResource, checkInteractionAllowed);
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doSearch(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, compartment, compartmentId, queryParameters, requestUri, contextResource, checkInteractionAllowed);
     }
 }

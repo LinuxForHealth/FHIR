@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.schema.app;
+package com.ibm.fhir.database.utils.schema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,10 +15,6 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.schema.control.FhirSchemaVersion;
-import com.ibm.fhir.schema.control.GetSchemaVersion;
-import com.ibm.fhir.schema.control.UpdateSchemaVersion;
-import com.ibm.fhir.schema.control.UpdateSchemaVersionPostgresql;
 
 /**
  * Access layer for WHOLE_SCHEMA_VERSION data
@@ -29,18 +25,24 @@ public class SchemaVersionsManager {
     private final ITransactionProvider transactionProvider;
     private final String schemaName;
     
+    // The latest version of the schema according to this code
+    private final int latestCodeVersion;
+
     /**
      * Public constructor
      * @param translator
      * @param connectionPool
      * @param transactionProvider
      * @param schemaName
+     * @param latestCodeVersion
      */
-    public SchemaVersionsManager(IDatabaseTranslator translator, IConnectionProvider connectionPool, ITransactionProvider transactionProvider, String schemaName) {
+    public SchemaVersionsManager(IDatabaseTranslator translator, IConnectionProvider connectionPool, 
+            ITransactionProvider transactionProvider, String schemaName, int latestCodeVersion) {
         this.translator = translator;
         this.connectionProvider = connectionPool;
         this.transactionProvider = transactionProvider;
         this.schemaName = schemaName;
+        this.latestCodeVersion = latestCodeVersion;
     }
 
     /**
@@ -62,18 +64,18 @@ public class SchemaVersionsManager {
      * Record the version information for the given schemaName in the
      * WHOLESCHEMA_VERSION table, creating a new record if required
      * @param schemaName
-     * @param version
+     * @param versionId
      */
-    public void updateSchemaVersionId(FhirSchemaVersion version) {
+    public void updateSchemaVersionId(int versionId) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try (Connection c = connectionProvider.getConnection()) {
                 final UpdateSchemaVersion cmd;
                 switch (this.translator.getType()) {
                 case POSTGRESQL:
-                    cmd = new UpdateSchemaVersionPostgresql(schemaName, version);
+                    cmd = new UpdateSchemaVersionPostgresql(schemaName, versionId);
                     break;
                 default:
-                    cmd = new UpdateSchemaVersion(schemaName, version);
+                    cmd = new UpdateSchemaVersion(schemaName, versionId);
                 }
                 cmd.run(translator, c);
             } catch (SQLException x) {
@@ -82,23 +84,13 @@ public class SchemaVersionsManager {
         }
     }
 
-    /**
-     * Get the max FhirSchemaVersion based on vid
-     * @return
-     */
-    public static FhirSchemaVersion getLatestFhirSchemaVersion() {
-        Optional<FhirSchemaVersion> maxVersion = Stream.of(FhirSchemaVersion.values()).max((l,r) -> {
-            return Integer.compare(l.vid(), r.vid());
-        });
-        return maxVersion.get();
-    }
 
     /**
      * Find the latest FhirSchemaVersion and use it to update the WHOLE_SCHEMA_VERSION
      * table
      */
     public void updateSchemaVersion() {
-        updateSchemaVersionId(getLatestFhirSchemaVersion());
+        updateSchemaVersionId(this.latestCodeVersion);
     }
 
     /**
@@ -107,7 +99,6 @@ public class SchemaVersionsManager {
      * @return
      */
     public boolean isLatestSchema() {
-        FhirSchemaVersion latest = getLatestFhirSchemaVersion();
-        return getVersionForSchema() == latest.vid();
+        return getVersionForSchema() == latestCodeVersion;
     }
 }
