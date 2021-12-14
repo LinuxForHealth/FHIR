@@ -34,6 +34,9 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
@@ -62,14 +65,23 @@ public class MeasureSubmitDataOperationTest {
                 .build();
 
         Encounter e = Encounter.builder()
-                //.id(UUID.randomUUID().toString())
+                .id(UUID.randomUUID().toString())
+                .meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build())
                 .status(EncounterStatus.FINISHED)
                 .subject( reference( p ) )
                 .clazz( coding("wellness") )
                 .build();
 
+        Encounter e2 = Encounter.builder()
+                .id(e.getId())
+                .meta(Meta.builder().versionId(Id.of("2")).lastUpdated(Instant.now()).build())
+                .status(EncounterStatus.FINISHED)
+                .subject( reference( p ) )
+                .clazz( coding("wellness") )
+                .build();
+        
         MeasureReport report = builder.build();
-        List<Resource> resources = Arrays.asList(p,e);
+        List<Resource> resources = Arrays.asList(p,e,e2);
 
         runTest(report, resources);
     }
