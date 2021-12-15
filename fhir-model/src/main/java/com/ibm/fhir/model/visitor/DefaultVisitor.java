@@ -420,16 +420,6 @@ public class DefaultVisitor implements Visitor {
     }
 
     /**
-     * Delegates to {@link #visit(elementName, elementIndex, DomainResource)}
-     * @return
-     *     {@inheritDoc}
-     */
-    @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, ClinicalUseIssue clinicalUseIssue) {
-        return visit(elementName, elementIndex, (DomainResource) clinicalUseIssue);
-    }
-
-    /**
      * Delegates to {@link #visit(elementName, elementIndex, String)}
      * @return
      *     {@inheritDoc}

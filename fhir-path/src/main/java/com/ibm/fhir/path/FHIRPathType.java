@@ -290,7 +290,6 @@ public enum FHIRPathType {
     FHIR_ADMINISTRABLE_PRODUCT_DEFINITION("FHIR", "AdministrableProductDefinition", FHIR_DOMAIN_RESOURCE, AdministrableProductDefinition.class),
     FHIR_CITATION("FHIR", "Citation", FHIR_DOMAIN_RESOURCE, Citation.class),
     FHIR_CLINICAL_USE_DEFINITION("FHIR", "ClinicalUseDefinition", FHIR_DOMAIN_RESOURCE, ClinicalUseDefinition.class),
-    FHIR_CLINICAL_USE_ISSUE("FHIR", "ClinicalUseIssue", FHIR_DOMAIN_RESOURCE, ClinicalUseIssue.class),
     FHIR_EVIDENCE_REPORT("FHIR", "EvidenceReport", FHIR_DOMAIN_RESOURCE, EvidenceReport.class),
     FHIR_INGREDIENT("FHIR", "Ingredient", FHIR_DOMAIN_RESOURCE, Ingredient.class),
     FHIR_MANUFACTURED_ITEM_DEFINITION("FHIR", "ManufacturedItemDefinition", FHIR_DOMAIN_RESOURCE, ManufacturedItemDefinition.class),
