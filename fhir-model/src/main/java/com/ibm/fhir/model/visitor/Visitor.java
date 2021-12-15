@@ -259,12 +259,6 @@ public interface Visitor {
 
     /**
      * @return
-     *     true if the children of this clinicalUseIssue should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, ClinicalUseIssue clinicalUseIssue);
-
-    /**
-     * @return
      *     true if the children of this code should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Code code);

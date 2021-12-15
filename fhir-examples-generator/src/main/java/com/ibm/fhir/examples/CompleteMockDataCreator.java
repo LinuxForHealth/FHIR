@@ -33,7 +33,6 @@ import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.ClaimResponse;
 import com.ibm.fhir.model.resource.ClinicalUseDefinition;
-import com.ibm.fhir.model.resource.ClinicalUseIssue;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
@@ -199,17 +198,12 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         // mea-1: Stratifier SHALL be either a single criteria or a set of criteria components
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
                         // cud-1: Indication, Contraindication, Interaction, UndesirableEffect and Warning cannot be used in the same instance
-                        // TODO special-case this one so that we get one of each type (i.e. like a choice type with 5 choices)
+                        // special-case this one so that we get one of each type (i.e. like a choice type with 5 choices)
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail") ||
                         // per-1: If present, start SHALL have a lower or equal value than end

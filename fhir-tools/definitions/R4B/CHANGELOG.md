@@ -8,6 +8,8 @@ Removed redundant version from http://hl7.org/fhir/ValueSet/publication-status|4
 
 Removed redundant version from http://terminology.hl7.org/ValueSet/v3-Confidentiality|2.0.0|2.0.0 in 2 locations
 
+Removed ClinicalUseIssue (per https://jira.hl7.org/browse/FHIR-31847)
+
 ## profiles-types.json
 
 Manually fixed eld-17 to allow for targetProfile on CodeableReference elements (https://jira.hl7.org/browse/FHIR-34462)
