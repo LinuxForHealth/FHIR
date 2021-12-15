@@ -540,6 +540,10 @@ public class Main {
 
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
+
+                    // Log warning messages that unused tables will be removed in a future release.
+                    // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+                    logWarningMessagesForDeprecatedTables();
                 }
             }
         } finally {
@@ -2629,6 +2633,42 @@ public class Main {
                 tx.setRollbackOnly();
                 throw x;
             }
+        }
+    }
+
+    /**
+     * Log warning messages for deprecated tables.
+     */
+    private void logWarningMessagesForDeprecatedTables() {
+        List<String> deprecatedResourceTypes = Arrays.asList(
+            "EffectEvidenceSynthesis",
+            "MedicinalProduct",
+            "MedicinalProductAuthorization",
+            "MedicinalProductContraindication",
+            "MedicinalProductIndication",
+            "MedicinalProductIngredient",
+            "MedicinalProductInteraction",
+            "MedicinalProductManufactured",
+            "MedicinalProductPackaged",
+            "MedicinalProductPharmaceutical",
+            "MedicinalProductUndesirableEffect",
+            "RiskEvidenceSynthesis",
+            "SubstanceNucleicAcid",
+            "SubstancePolymer",
+            "SubstanceProtein",
+            "SubstanceReferenceInformation",
+            "SubstanceSourceMaterial",
+            "SubstanceSpecification"
+        );
+        List<String> deprecatedTables = Arrays.asList(
+            "_DATE_VALUES", "_LATLNG_VALUES", "_LOGICAL_RESOURCES", "_NUMBER_VALUES",
+            "_QUANTITY_VALUES", "_RESOURCE_TOKEN_REFS", "_RESOURCES","_STR_VALUES");
+        for (String deprecatedType : deprecatedResourceTypes) {
+            logger.warning(deprecatedType + " tables [" + 
+                    deprecatedType + String.join(", " + deprecatedType, deprecatedTables) +
+                    "] will be dropped in a future release. " +
+                    "No data should be written to these tables. " +
+                    "If any data exists in these tables, that data should be exported (if desired) and deleted from these tables.");
         }
     }
 
