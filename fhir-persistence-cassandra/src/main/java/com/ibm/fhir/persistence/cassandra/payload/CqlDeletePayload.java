@@ -107,7 +107,7 @@ public class CqlDeletePayload {
                 deletePayloadChunks(session, row.getString(1));
                 
                 // // And the specific resource_payloads row we just selected
-                deleteResourcePayloads(session, row.getInt(1), row.getString(1));
+                deleteResourcePayloads(session, row.getInt(0), row.getString(1));
             }
         } catch (Exception x) {
             logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
@@ -159,15 +159,13 @@ public class CqlDeletePayload {
      */
     private void deletePayloadChunks(CqlSession session, String resourcePayloadKey) throws FHIRPersistenceException {
         final SimpleStatement del;
-        final PreparedStatement ps;
-        final BoundStatementBuilder bsb;
         
         del = deleteFrom(PAYLOAD_CHUNKS)
             .whereColumn("partition_id").isEqualTo(literal(partitionId))
             .whereColumn("resource_payload_key").isEqualTo(bindMarker())
             .build();
-        ps = session.prepare(del);
-        bsb = ps.boundStatementBuilder(resourcePayloadKey);
+        final PreparedStatement ps = session.prepare(del);
+        final BoundStatementBuilder bsb = ps.boundStatementBuilder(resourcePayloadKey);
         
         try {
             session.execute(bsb.build());
