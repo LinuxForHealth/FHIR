@@ -109,13 +109,13 @@ public class ResourceCoverageTest {
                     if (!"Builder".equals(clz.getSimpleName())) {
                         Method m = resource.getClass().getMethod("get" + clz.getSimpleName());
                         Object o = m.invoke(resource);
-                        if (o.getClass().getSimpleName().contains("List")) {
+                        if (o != null && o.getClass().getSimpleName().contains("List")) {
                             @SuppressWarnings("unchecked")
                             List<Object> os = ((List<Object>) o);
                             if (!os.isEmpty()) {
                                 runMethods(os.get(0), clz.getMethods());
                             }
-                        } else if (!o.getClass().getSimpleName().contains("Class")) {
+                        } else if (o != null && !o.getClass().getSimpleName().contains("Class")) {
                             runMethods(o, clz.getMethods());
                         }
                     }
