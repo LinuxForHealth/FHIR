@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.Bundle.Entry.Response;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.type.Extension;
@@ -114,29 +115,20 @@ public class BundleValidationTest {
 
     @Test
     public static void testValidationOfBundleEntryReferenceToPeerContainedResource() throws Exception {
-        FHIRParser parser = FHIRParser.parser(Format.JSON);
-
-        Bundle bundle = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Bundle-1.json"));
-        Patient patient = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Patient-1.json"));
-        Practitioner practitioner = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json"));
-        Basic basic = parser.parse(ExamplesUtil.resourceReader("json/ibm/minimal/Basic-1.json"));
-
-        practitioner = practitioner.toBuilder()
-                                   .id("test")
-                                   .build();
-
-        patient = patient.toBuilder()
-                         .generalPractitioner(Reference.builder().reference(String.of("#test")).build())
-                         .build();
-
-        basic = basic.toBuilder()
-                     .contained(patient)
-                     .contained(practitioner)
-                     .build();
-
-        bundle = bundle.toBuilder()
-                       .entry(Entry.builder().resource(basic).build())
-                       .build();
+        Practitioner practitioner = TestUtil.getMinimalResource(Practitioner.class).toBuilder()
+                .id("testPractitioner")
+                .build();
+        Patient patient = TestUtil.getMinimalResource(Patient.class).toBuilder()
+                .id("testPatient")
+                .generalPractitioner(Reference.builder().reference(String.of("#testPractitioner")).build())
+                .build();
+        Basic basic = TestUtil.getMinimalResource(Basic.class).toBuilder()
+                .contained(patient, practitioner)
+                .subject(Reference.builder().reference(String.of("#testPatient")).build())
+                .build();
+        Bundle bundle = TestUtil.getMinimalResource(Bundle.class).toBuilder()
+                .entry(Entry.builder().resource(basic).build())
+                .build();
 
         FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
         System.out.println();
