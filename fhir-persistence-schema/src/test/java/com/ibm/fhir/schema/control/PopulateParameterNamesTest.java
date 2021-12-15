@@ -54,7 +54,7 @@ public class PopulateParameterNamesTest {
             for (SearchParameter searchParameter : searchParametersForResourceType) {
                 final String parameterName = searchParameter.getCode().getValue();
                 if (!parameterNames.contains(parameterName)) {
-                    fail("parameter_names.properties is missing parameter: " + searchParameter.toString());
+                    fail("parameter_names.properties is missing parameter: " + searchParameter.getCode().getValue());
                 }
             }
         }
