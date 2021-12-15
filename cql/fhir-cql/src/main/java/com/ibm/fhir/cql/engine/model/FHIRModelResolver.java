@@ -344,6 +344,12 @@ public class FHIRModelResolver implements ModelResolver {
 
     @Override
     public Class<?> resolveType(String typeName) {
+        // Hack for FHIR R4B (until CQL dependencies can be updated accordingly) because
+        // EvidenceVariableType was removed in favor of a new valueset EvidenceVariableHandling
+        if ("EvidenceVariableType".equals(typeName)) {
+            typeName = "EvidenceVariableHandling";
+        }
+
         Class<?> result = TYPE_MAP.get(toKey(typeName));
         if (result == null) {
             if (log.isLoggable(Level.WARNING)) {
