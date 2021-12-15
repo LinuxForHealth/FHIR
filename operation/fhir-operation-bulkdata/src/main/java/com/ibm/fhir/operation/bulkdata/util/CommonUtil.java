@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.operation.bulkdata.util;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -47,10 +48,16 @@ public class CommonUtil {
             String source = adapter.getStorageProvider();
             String outcome = adapter.getStorageProviderOutcomes();
 
-            boolean s = ConfigurationFactory.getInstance().hasStorageProvider(source);
-            boolean o = ConfigurationFactory.getInstance().hasStorageProvider(outcome);
-            if (!s || !o) {
-                throw FHIROperationUtil.buildExceptionWithIssue("The storage provider for outcome [" + s + "] or source [" + o + "] passed is not configured properly" , IssueType.EXCEPTION);
+            if (ConfigurationFactory.getInstance().hasStorageProvider(source)
+                    || ConfigurationFactory.getInstance().hasStorageProvider(outcome)) {
+                String fhirTenant = FHIRRequestContext.get().getTenantId();
+                StringBuilder builder = new StringBuilder("The 'fhirServer/bulkdata/storageProvider' for source [");
+                builder.append(fhirTenant).append("/").append(source);
+                builder.append("] or outcome [");
+                builder.append(fhirTenant).append("/").append(outcome);
+                builder.append("] passed is not configured properly");
+
+                throw FHIROperationUtil.buildExceptionWithIssue(builder.toString(), IssueType.EXCEPTION);
             }
 
             StorageType type = ConfigurationFactory.getInstance().getStorageProviderStorageType(source);
