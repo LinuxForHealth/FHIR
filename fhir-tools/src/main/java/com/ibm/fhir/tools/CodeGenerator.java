@@ -141,7 +141,12 @@ public class CodeGenerator {
         "SubstanceNucleicAcid",
         "SubstancePolymer",
         "SubstanceProtein",
-        "SubstanceSourceMaterial"
+        "SubstanceReferenceInformation",
+        "SubstanceSourceMaterial",
+        "SubstanceSpecification",
+        // This one was introduced in 4.1.0 but should be removed before it gets published.
+        // TODO: remove it from here BEFORE we release!
+        "ClinicalUseIssue"
     );
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {

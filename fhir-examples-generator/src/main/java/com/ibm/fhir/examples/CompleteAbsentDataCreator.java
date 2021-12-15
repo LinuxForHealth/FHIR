@@ -20,7 +20,6 @@ import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.ClinicalUseDefinition;
-import com.ibm.fhir.model.resource.ClinicalUseIssue;
 import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CoverageEligibilityResponse;
@@ -170,11 +169,6 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
                         builder instanceof ClinicalUseDefinition.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 0 && method.getName().equals("indication") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 1 && method.getName().equals("contraindication") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 2 && method.getName().equals("interaction") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 3 && method.getName().equals("undesirableEffect") ||
-                        builder instanceof ClinicalUseIssue.Builder && choiceIndicator % 5 != 4 && method.getName().equals("warning") ||
                         // cpl-3: Provide a reference or detail, not both
                         builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail")) {
 
