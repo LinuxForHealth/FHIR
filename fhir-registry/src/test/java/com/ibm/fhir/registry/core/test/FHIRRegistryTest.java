@@ -8,11 +8,7 @@ package com.ibm.fhir.registry.core.test;
 
 import java.util.Collection;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.model.resource.CodeSystem;
-import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -20,6 +16,9 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.util.FHIRRegistryUtil;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class FHIRRegistryTest {
     @Test
@@ -44,19 +43,19 @@ public class FHIRRegistryTest {
     @Test
     public void testGetResourcesByResourceType() {
         Collection<SearchParameter> searchParameters = FHIRRegistry.getInstance().getResources(SearchParameter.class);
-        Assert.assertEquals(searchParameters.size(), 1375);
+        Assert.assertEquals(searchParameters.size(), 2796);
     }
 
     @Test
     public void testGetProfilesByType() {
         Collection<Canonical> observationProfiles = FHIRRegistry.getInstance().getProfiles("Observation");
-        Assert.assertEquals(observationProfiles.size(), 17);
+        Assert.assertEquals(observationProfiles.size(), 34);
     }
 
     @Test
     public void testGetSearchParametersByType() {
         Collection<SearchParameter> tokenSearchParameters = FHIRRegistry.getInstance().getSearchParameters("token");
-        Assert.assertEquals(tokenSearchParameters.size(), 514);
+        Assert.assertEquals(tokenSearchParameters.size(), 1106);
     }
 
     @Test
