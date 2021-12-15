@@ -49,7 +49,7 @@ public class ParametersUtilTest extends BaseSearchTest {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
         }
-        assertEquals(params.size(), 1385);
+        assertEquals(params.size(), 2806);
     }
 
     @Test
