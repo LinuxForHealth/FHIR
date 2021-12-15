@@ -1,5 +1,7 @@
-# Set a fixed max heap size
--Xmx3072M
+# Container Configuration - https://www.eclipse.org/openj9/docs/xxinitialrampercentage/
+# We need to leave room to operate on the VM - curl.
+-XX:InitialRAMPercentage=0.25
+-XX:MaxRAMPercentage=0.90
 
 # Turn on verbose classloading
 #-verbose:class
