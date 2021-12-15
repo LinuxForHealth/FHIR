@@ -694,14 +694,6 @@ public class FHIRAllTypes extends Code {
     public static final FHIRAllTypes CLINICAL_USE_DEFINITION = FHIRAllTypes.builder().value(Value.CLINICAL_USE_DEFINITION).build();
 
     /**
-     * ClinicalUseIssue
-     * 
-     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
-     * product, medication, device or procedure.
-     */
-    public static final FHIRAllTypes CLINICAL_USE_ISSUE = FHIRAllTypes.builder().value(Value.CLINICAL_USE_ISSUE).build();
-
-    /**
      * CodeSystem
      * 
      * <p>The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement 
@@ -1859,8 +1851,6 @@ public class FHIRAllTypes extends Code {
             return CLINICAL_IMPRESSION;
         case CLINICAL_USE_DEFINITION:
             return CLINICAL_USE_DEFINITION;
-        case CLINICAL_USE_ISSUE:
-            return CLINICAL_USE_ISSUE;
         case CODE_SYSTEM:
             return CODE_SYSTEM;
         case COMMUNICATION:
@@ -2908,14 +2898,6 @@ public class FHIRAllTypes extends Code {
          * product, medication, device or procedure.
          */
         CLINICAL_USE_DEFINITION("ClinicalUseDefinition"),
-
-        /**
-         * ClinicalUseIssue
-         * 
-         * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
-         * product, medication, device or procedure.
-         */
-        CLINICAL_USE_ISSUE("ClinicalUseIssue"),
 
         /**
          * CodeSystem
@@ -4086,8 +4068,6 @@ public class FHIRAllTypes extends Code {
                 return CLINICAL_IMPRESSION;
             case "ClinicalUseDefinition":
                 return CLINICAL_USE_DEFINITION;
-            case "ClinicalUseIssue":
-                return CLINICAL_USE_ISSUE;
             case "CodeSystem":
                 return CODE_SYSTEM;
             case "Communication":

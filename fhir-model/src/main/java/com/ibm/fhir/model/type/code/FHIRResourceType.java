@@ -217,14 +217,6 @@ public class FHIRResourceType extends Code {
     public static final FHIRResourceType CLINICAL_USE_DEFINITION = FHIRResourceType.builder().value(Value.CLINICAL_USE_DEFINITION).build();
 
     /**
-     * ClinicalUseIssue
-     * 
-     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
-     * product, medication, device or procedure.
-     */
-    public static final FHIRResourceType CLINICAL_USE_ISSUE = FHIRResourceType.builder().value(Value.CLINICAL_USE_ISSUE).build();
-
-    /**
      * CodeSystem
      * 
      * <p>The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement 
@@ -1238,8 +1230,6 @@ public class FHIRResourceType extends Code {
             return CLINICAL_IMPRESSION;
         case CLINICAL_USE_DEFINITION:
             return CLINICAL_USE_DEFINITION;
-        case CLINICAL_USE_ISSUE:
-            return CLINICAL_USE_ISSUE;
         case CODE_SYSTEM:
             return CODE_SYSTEM;
         case COMMUNICATION:
@@ -1705,7 +1695,25 @@ public class FHIRResourceType extends Code {
          * It is retained here only for backwards compatibility.
          */
         @Deprecated
+        SUBSTANCE_REFERENCE_INFORMATION("SubstanceReferenceInformation"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
         SUBSTANCE_SOURCE_MATERIAL("SubstanceSourceMaterial"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        CLINICAL_USE_ISSUE("ClinicalUseIssue"),
 
         /**
          * Account
@@ -1903,14 +1911,6 @@ public class FHIRResourceType extends Code {
          * product, medication, device or procedure.
          */
         CLINICAL_USE_DEFINITION("ClinicalUseDefinition"),
-
-        /**
-         * ClinicalUseIssue
-         * 
-         * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal 
-         * product, medication, device or procedure.
-         */
-        CLINICAL_USE_ISSUE("ClinicalUseIssue"),
 
         /**
          * CodeSystem
@@ -2919,8 +2919,14 @@ public class FHIRResourceType extends Code {
                 return SUBSTANCE_POLYMER;
             case "SubstanceProtein":
                 return SUBSTANCE_PROTEIN;
+            case "SubstanceReferenceInformation":
+                return SUBSTANCE_REFERENCE_INFORMATION;
             case "SubstanceSourceMaterial":
                 return SUBSTANCE_SOURCE_MATERIAL;
+            case "SubstanceSpecification":
+                return SUBSTANCE_SPECIFICATION;
+            case "ClinicalUseIssue":
+                return CLINICAL_USE_ISSUE;
             case "Account":
                 return ACCOUNT;
             case "ActivityDefinition":
@@ -2969,8 +2975,6 @@ public class FHIRResourceType extends Code {
                 return CLINICAL_IMPRESSION;
             case "ClinicalUseDefinition":
                 return CLINICAL_USE_DEFINITION;
-            case "ClinicalUseIssue":
-                return CLINICAL_USE_ISSUE;
             case "CodeSystem":
                 return CODE_SYSTEM;
             case "Communication":
