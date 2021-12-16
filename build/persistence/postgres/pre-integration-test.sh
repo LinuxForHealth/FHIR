@@ -43,29 +43,29 @@ cleanup_prior(){
 # copy_server_config - Copy assembled files
 copy_server_config(){
     echo "Copying installation zip files..."
-    cp -p ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip $DIST
+    cp ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip $DIST
 
     echo "Copying fhir configuration files..."
-    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
     bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
-    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides
     echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
 
     # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
-    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
-    cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml $DIST/overrides/
+    cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
+    cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml $DIST/overrides/
 
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
 
     echo "Copying test artifacts to install location..."
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
-    cp -pr ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
+    cp ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
+    cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 }
 
