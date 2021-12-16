@@ -104,7 +104,7 @@ Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
 $OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\datasource-derby.xml'
 $OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
 Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
-$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\jvm.options'
+$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\windows-jvm.options'
 $OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\jvm.options'
 Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
 

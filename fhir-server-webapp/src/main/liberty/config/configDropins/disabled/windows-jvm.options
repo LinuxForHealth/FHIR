@@ -1,0 +1,10 @@
+# This jvm.options file is used in Windows CICD
+
+# Set a fixed max heap size
+-Xmx3072M
+
+# Turn on verbose classloading
+#-verbose:class
+
+# Turn on verbose garbage collection
+#-verbose:gc
