@@ -1,0 +1,1 @@
+Contents have been moved to fhir-server-webapp/src/test/liberty/config for compatibility with the Liberty maven plugin.
