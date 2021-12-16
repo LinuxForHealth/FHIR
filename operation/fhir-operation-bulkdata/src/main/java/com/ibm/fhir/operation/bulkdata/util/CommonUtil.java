@@ -22,8 +22,23 @@ import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
  */
 public class CommonUtil {
 
-    public CommonUtil() {
-        // No Operation
+    /**
+     * Type of Operation Call
+     */
+    public enum Type {
+        EXPORT,
+        IMPORT,
+        STATUS;
+    }
+
+    private Type opType;
+
+    /**
+     *
+     * @param type the type of the Export
+     */
+    public CommonUtil(Type opType) {
+        this.opType = opType;
     }
 
     /**
@@ -48,17 +63,35 @@ public class CommonUtil {
             String source = adapter.getStorageProvider();
             String outcome = adapter.getStorageProviderOutcomes();
 
-            if (!ConfigurationFactory.getInstance().hasStorageProvider(source)
-                    || !ConfigurationFactory.getInstance().hasStorageProvider(outcome)) {
+            String opTypeMsg = "export";
+            if (opType.equals(Type.IMPORT)) {
+                opTypeMsg = "import";
+            }
+
+            if (!ConfigurationFactory.getInstance().hasStorageProvider(source)) {
                 String fhirTenant = FHIRRequestContext.get().getTenantId();
-                StringBuilder builder = new StringBuilder("The 'fhirServer/bulkdata/storageProvider' for source [");
+                StringBuilder builder = new StringBuilder("The requested ");
+                builder.append(opTypeMsg);
+                builder.append(" source storageProvider configuration is missing [");
                 builder.append(fhirTenant).append("/").append(source);
-                builder.append("] or outcome [");
-                builder.append(fhirTenant).append("/").append(outcome);
-                builder.append("] passed is not configured properly");
+                builder.append("]");
 
                 throw FHIROperationUtil.buildExceptionWithIssue(builder.toString(), IssueType.EXCEPTION);
             }
+
+            // For the OperationOutcomes if they are used.
+            if (ConfigurationFactory.getInstance().shouldStorageProviderCollectOperationOutcomes(source)
+                    && !ConfigurationFactory.getInstance().hasStorageProvider(source)) {
+                String fhirTenant = FHIRRequestContext.get().getTenantId();
+                StringBuilder builder = new StringBuilder("The requested ");
+                builder.append(opTypeMsg);
+                builder.append(" outcome storageProvider configuration is missing [");
+                builder.append(fhirTenant).append("/").append(outcome);
+                builder.append("]");
+
+                throw FHIROperationUtil.buildExceptionWithIssue(builder.toString(), IssueType.EXCEPTION);
+            }
+
 
             StorageType type = ConfigurationFactory.getInstance().getStorageProviderStorageType(source);
             verifyAllowedType(type.value());
@@ -82,13 +115,13 @@ public class CommonUtil {
         }
     }
 
-    public FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
+    public static FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
         throws FHIROperationException {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg).withIssue(ooi);
     }
 
-    public FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
+    public static FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
         throws FHIROperationException {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg, cause).withIssue(ooi);

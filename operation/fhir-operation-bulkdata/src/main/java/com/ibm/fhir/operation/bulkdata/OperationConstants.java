@@ -65,7 +65,7 @@ public class OperationConstants {
     public static final String PARAM_STORAGE_DETAIL = "storageDetail";
 
     /**
-     * Search Modifiers
+     * Export Types
      */
     public enum ExportType {
         SYSTEM, PATIENT, GROUP, INVALID;

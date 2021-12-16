@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
+import static com.ibm.fhir.operation.bulkdata.util.CommonUtil.buildExceptionWithIssue;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,7 +58,7 @@ public class FilePreflight extends NopPreflight {
                     // We want to append the input path on the base, we don't want to allow everything.
                     Path p1 = Paths.get(base, input.getUrl()).normalize();
                     if (!p1.startsWith(p)) {
-                        throw util.buildExceptionWithIssue("The path is outside the accepted base path", IssueType.INVALID);
+                        throw buildExceptionWithIssue("The path is outside the accepted base path", IssueType.INVALID);
                     }
 
                     accessible = Files.isReadable(p1);
@@ -67,16 +69,16 @@ public class FilePreflight extends NopPreflight {
                 }
             }
             if (!accessible) {
-                throw util.buildExceptionWithIssue("The location for the bulkdata operation is not found", IssueType.NO_STORE);
+                throw buildExceptionWithIssue("The location for the bulkdata operation is not found", IssueType.NO_STORE);
             }
         } else {
-            throw util.buildExceptionWithIssue("No File Base Configured for FHIR bulkdata operation", IssueType.INVALID);
+            throw buildExceptionWithIssue("No File Base Configured for FHIR bulkdata operation", IssueType.INVALID);
         }
     }
 
     private void checkFormat() throws FHIROperationException {
         if (!FHIRMediaType.APPLICATION_NDJSON.equals(getFormat())) {
-            throw util.buildExceptionWithIssue("File: the requested storageProvider '" + getSource() +
+            throw buildExceptionWithIssue("File: the requested storageProvider '" + getSource() +
                     "' does not support format '" + getFormat() + "'", IssueType.INVALID);
         }
     }
@@ -84,7 +86,7 @@ public class FilePreflight extends NopPreflight {
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.FILE.value().equals(storageDetail.getType())){
-            throw util.buildExceptionWithIssue("File: Configuration not set to import from storageDetail '" +
+            throw buildExceptionWithIssue("File: Configuration not set to import from storageDetail '" +
                     getSource() + "'", IssueType.INVALID);
         }
     }

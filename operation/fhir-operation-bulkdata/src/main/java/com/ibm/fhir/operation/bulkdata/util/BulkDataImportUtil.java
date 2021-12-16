@@ -23,6 +23,7 @@ import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
@@ -35,7 +36,7 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  */
 public class BulkDataImportUtil {
 
-    private static final CommonUtil common = new CommonUtil();
+    private static final CommonUtil COMMON = new CommonUtil(Type.IMPORT);
 
     private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
     private EvaluationContext evaluationContext = null;
@@ -43,7 +44,7 @@ public class BulkDataImportUtil {
 
     public BulkDataImportUtil(FHIROperationContext operationContext, Parameters parameters) throws FHIROperationException {
         if (parameters == null) {
-            throw common.buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import parameters are empty or null", IssueType.INVALID);
         }
         this.operationContext = operationContext;
 
@@ -70,10 +71,10 @@ public class BulkDataImportUtil {
                 }
             }
         } catch (ClassCastException | FHIRPathException e) {
-            throw common.buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("invalid $import parameter value in 'inputFormat'", e, IssueType.INVALID);
         }
 
-        throw common.buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
+        throw COMMON.buildExceptionWithIssue("$import requires 'inputFormat' is not found", IssueType.INVALID);
     }
 
     /**
@@ -93,10 +94,10 @@ public class BulkDataImportUtil {
                 return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
             }
         } catch (NoSuchElementException | ClassCastException | FHIRPathException e) {
-            throw common.buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
         }
 
-        throw common.buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
+        throw COMMON.buildExceptionWithIssue("$import requires 'inputSource' is not found", IssueType.INVALID);
     }
 
     /**
@@ -125,7 +126,7 @@ public class BulkDataImportUtil {
 
                 // Checks if not valid, and throws exception
                 if (!ModelSupport.isResourceType(type)) {
-                    throw common.buildExceptionWithIssue("$import invalid Resource Type 'input'", IssueType.INVALID);
+                    throw COMMON.buildExceptionWithIssue("$import invalid Resource Type 'input'", IssueType.INVALID);
                 }
 
                 // Resource URL extracted.
@@ -142,13 +143,13 @@ public class BulkDataImportUtil {
                 inputs.add(new Input(type, url));
             }
         } catch (java.util.NoSuchElementException nsee) {
-            throw common.buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
-            throw common.buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e, IssueType.INVALID);
         }
 
         if (inputs.isEmpty()) {
-            throw common.buildExceptionWithIssue("$import requires 'input' is not found", IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import requires 'input' is not found", IssueType.INVALID);
         }
 
         checkAllowedTotalSizeForTenantOrSystem(inputs.size());
@@ -164,7 +165,7 @@ public class BulkDataImportUtil {
     public void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
         Integer tenantCount = ConfigurationFactory.getInstance().getInputLimit();
         if (tenantCount == null || tenantCount < inputSize) {
-            throw common.buildExceptionWithIssue("$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'", IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'", IssueType.INVALID);
         }
     }
 
@@ -184,7 +185,7 @@ public class BulkDataImportUtil {
         if (!disabled.booleanValue() && StorageType.HTTPS.equals(config.getStorageProviderStorageType(source))) {
             List<String> baseUrls = config.getStorageProviderValidBaseUrls(source);
             if (url == null || baseUrls == null) {
-                throw common.buildExceptionWithIssue("$import requires an approved and valid baseUrl", IssueType.INVALID);
+                throw COMMON.buildExceptionWithIssue("$import requires an approved and valid baseUrl", IssueType.INVALID);
             }
 
             if (!url.contains("//")) {
@@ -198,7 +199,7 @@ public class BulkDataImportUtil {
                     return;
                 }
             }
-            throw common.buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
         }
     }
 
@@ -221,7 +222,7 @@ public class BulkDataImportUtil {
 
                 // Checks if not valid, and throws exception
                 if (!OperationConstants.STORAGE_TYPES.contains(type)) {
-                    throw common.buildExceptionWithIssue("$import invalid type in 'storageDetail'", IssueType.INVALID);
+                    throw COMMON.buildExceptionWithIssue("$import invalid type in 'storageDetail'", IssueType.INVALID);
                 }
 
                 // Resource URL extracted.
@@ -238,7 +239,7 @@ public class BulkDataImportUtil {
                     contentEncodings.add(contentEncoding);
                 }
 
-                common.verifyAllowedType(type);
+                COMMON.verifyAllowedType(type);
 
                 // Immediately Return and stop processing... we shouldn't have multiple storage details.
                 return new StorageDetail(type, contentEncodings);
@@ -246,18 +247,18 @@ public class BulkDataImportUtil {
         } catch (FHIROperationException foe) {
             throw foe;
         } catch (java.util.NoSuchElementException nsee) {
-            throw common.buildExceptionWithIssue("$import invalid elements in the 'storageDetail' field", nsee, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import invalid elements in the 'storageDetail' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
-            throw common.buildExceptionWithIssue("$import invalid parameters with expression in 'storageDetail'", e, IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import invalid parameters with expression in 'storageDetail'", e, IssueType.INVALID);
         }
 
         // There should be at least 1
-        throw common.buildExceptionWithIssue("$import required 'storageDetail' is not found", IssueType.INVALID);
+        throw COMMON.buildExceptionWithIssue("$import required 'storageDetail' is not found", IssueType.INVALID);
     }
 
     private void checkValidContentEncoding(String contentEncoding) throws FHIROperationException {
         if (!OperationConstants.STORAGE_CONTENT_ENCODING.contains(contentEncoding)) {
-            throw common.buildExceptionWithIssue("$import invalid 'contentEncoding' for storageDetail for '" + contentEncoding + "'", IssueType.INVALID);
+            throw COMMON.buildExceptionWithIssue("$import invalid 'contentEncoding' for storageDetail for '" + contentEncoding + "'", IssueType.INVALID);
         }
     }
 }
