@@ -81,6 +81,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddColumn;
@@ -1049,7 +1050,7 @@ public class FhirSchemaGenerator {
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
-            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+            if (!ALL_RESOURCE_TYPES.contains(resourceType)) {
                 logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
             }
 
@@ -1354,13 +1355,19 @@ public class FhirSchemaGenerator {
      * Use this instead of ModelSupport.getResourceTypes because this will get us the historical 
      * resource types as well as those in our model; ensuring newly deployed schemas match migrated ones.
      */
-    @SuppressWarnings("unchecked")
     private static Set<String> getAllResourceTypes() {
         try (InputStream fis =
                 FhirSchemaGenerator.class.getResourceAsStream("/resource_types.properties")) {
             Properties props = new Properties();
             props.load(fis);
-            return (Set<String>)(Set<?>) props.keySet();
+            
+            // Remove the abstract resource types
+            props.remove("Resource");
+            props.remove("DomainResource");
+            
+            return props.keySet().stream()
+                .map(p -> ((String) p).toUpperCase())
+                .collect(Collectors.toSet());
         } catch (IOException e) {
             // Wrap and Send downstream
             throw new IllegalStateException(e);

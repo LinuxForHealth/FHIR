@@ -42,6 +42,7 @@ public enum FhirSchemaVersion {
     ,V0020(20, "issue-1834 Set PostgreSQL fillfactor", true)
     ,V0021(21, "issue-713 remove Resource_LOGICAL_RESOURCES, DomainResource_LOGICAL_RESOURCES tables", false)
     ,V0022(22, "issue-2979 stored procedure update for 2050 ifNoneMatch", false)
+    ,V0023(23, "Add new resource types for FHIR R4B", false)
     ;
 
     // The version number recorded in the VERSION_HISTORY
