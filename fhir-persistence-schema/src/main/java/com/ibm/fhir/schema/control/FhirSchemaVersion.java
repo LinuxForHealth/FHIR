@@ -44,6 +44,7 @@ public enum FhirSchemaVersion {
     ,V0022(22, "issue-2979 stored procedure update for 2050 ifNoneMatch", false)
     ,V0023(23, "issue-2900 erased_resources to support $erase when offloading payloads", false)
     ,V0024(24, "issue-2900 for offloading add resource_payload_key to xx_resources", false)
+    ,V0025(25, "Add new resource types for FHIR R4B", false)
     ;
 
     // The version number recorded in the VERSION_HISTORY

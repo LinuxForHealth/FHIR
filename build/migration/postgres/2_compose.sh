@@ -65,7 +65,11 @@ config(){
     if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
     then
         cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty ]; then
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${DIST}/overrides
+        else
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        fi
     else
         cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
         cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
