@@ -21,6 +21,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -99,6 +100,19 @@ public class FHIRPersistenceUtil {
                     int resourceCount = Integer.parseInt(first);
                     if (resourceCount >= 0) {
                         context.setCount(resourceCount);
+                    }
+                } else if ("_type".equals(name)) {
+                    for (String v: values) {
+                        String[] resourceTypes = v.split(",");
+                        for (String resourceType: resourceTypes) {
+                            if (ModelSupport.isResourceType(resourceType)) {
+                                context.addResourceType(resourceType);
+                            } else {
+                                String msg = "Invalid resource type name";
+                                throw new FHIRPersistenceException(msg)
+                                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                            }
+                        }
                     }
                 } else if ("_since".equals(name)) {
                     DateTime dt = DateTime.of(first);

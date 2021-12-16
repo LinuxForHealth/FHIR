@@ -13,11 +13,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
@@ -33,27 +32,29 @@ public class FetchResourceChangesDAO {
 
     private final IDatabaseTranslator translator;
     private final String schemaName;
-    private final String resourceTypeName;
     private final int resourceCount;
     private final Long afterResourceId;
     private final Instant fromTstamp;
+    
+    // If not null, specifies the list of resource types we want to include in the result
+    private final List<Integer> resourceTypeIds;
 
     /**
      * Public constructor
      * @param tx
      * @param schemaName
      * @param resourceCount
-     * @param resourceTypeName
      * @param fromTstamp
      * @param afterResourceId
+     * @param resourceTypeIds
      */
-    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, String resourceTypeName, Instant fromTstamp, Long afterResourceId) {
+    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant fromTstamp, Long afterResourceId, List<Integer> resourceTypeIds) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceCount = resourceCount;
-        this.resourceTypeName = resourceTypeName;
         this.fromTstamp = fromTstamp;
         this.afterResourceId = afterResourceId;
+        this.resourceTypeIds = resourceTypeIds;
     }
 
     /**
@@ -91,8 +92,13 @@ public class FetchResourceChangesDAO {
             query.append(" AND c.resource_id > ? ");
         }
 
-        if (resourceTypeName != null) {
-            query.append(" AND rt.resource_type = ? ");
+        if (resourceTypeIds != null) {
+            if (resourceTypeIds.size() == 1) {
+                query.append(" AND c.resource_type_id = " + resourceTypeIds.get(0));
+            } else if (resourceTypeIds.size() > 1) {
+                String inlist = resourceTypeIds.stream().map(x -> x.toString()).collect(Collectors.joining(","));
+                query.append(" AND c.resource_type_id IN (").append(inlist).append(")");
+            }
         }
 
         if (afterResourceId != null) {
@@ -108,7 +114,7 @@ public class FetchResourceChangesDAO {
         final String SQL = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("FETCH CHANGES: " + SQL + "; [" + fromTstamp + ", " + afterResourceId + ", " + resourceTypeName + "]");
+            logger.fine("FETCH CHANGES: " + SQL + "; [" + fromTstamp + ", " + afterResourceId + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
@@ -119,10 +125,6 @@ public class FetchResourceChangesDAO {
 
             if (this.afterResourceId != null) {
                 ps.setLong(a++, this.afterResourceId);
-            }
-
-            if (this.resourceTypeName != null) {
-                ps.setString(a++, this.resourceTypeName);
             }
 
             ResultSet rs = ps.executeQuery();

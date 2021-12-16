@@ -61,7 +61,6 @@ import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.schema.GetSchemaVersion;
-import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -2555,10 +2554,45 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
         String resourceTypeName) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             // translator is required to handle some simple SQL syntax differences. This is easier
             // than creating separate DAO implementations for each database type
+            List<Integer> resourceTypeIds;
+            if (resourceTypeName != null) {
+                resourceTypeIds = new ArrayList<>();
+                resourceTypeIds.add(cache.getResourceTypeCache().getId(resourceTypeName));
+            } else {
+                resourceTypeIds = null; // no filter on resource type
+            }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceCount, resourceTypeName, fromLastModified, afterResourceId);
+            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceCount, fromLastModified, afterResourceId, resourceTypeIds);
+            return dao.run(connection);
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+    }
+
+    @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
+        List<String> resourceTypeNames) throws FHIRPersistenceException {
+        try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
+            // translator is required to handle some simple SQL syntax differences. This is easier
+            // than creating separate DAO implementations for each database type
+            final List<Integer> resourceTypeIds;
+            if (resourceTypeNames != null && resourceTypeNames.size() > 0) {
+                // convert the list of type names to the corresponding list of resourceTypeId values
+                // the REST layer already has checked these names are valid, so no need to worry about failures
+                resourceTypeIds = resourceTypeNames.stream().map(n -> cache.getResourceTypeCache().getId(n)).collect(Collectors.toList());
+            } else {
+                resourceTypeIds = null; // no filter on resource type
+            }
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceCount, fromLastModified, afterResourceId, resourceTypeIds);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;

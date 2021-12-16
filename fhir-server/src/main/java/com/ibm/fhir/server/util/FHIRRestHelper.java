@@ -2973,7 +2973,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else if (count > MAX_HISTORY_ENTRIES) {
                 count = MAX_HISTORY_ENTRIES;
             }
-            records = persistence.changes(count, since, historyContext.getAfterHistoryId(), null);
+            
+            if (historyContext.getResourceTypes().size() > 0) {
+                // New API allows us to filter using multiple resource type names
+                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), historyContext.getResourceTypes());
+            } else {
+                // no filter, so we use the original API
+                final String resourceTypeName = null;
+                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), resourceTypeName);
+            }
         } catch (FHIRPersistenceDataAccessException x) {
             log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
                 x);
@@ -3053,6 +3061,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             nextRequest.append(serviceBase);
             nextRequest.append("?");
             nextRequest.append("_count=").append(count);
+            
+            if (historyContext.getResourceTypes().size() > 0) {
+                nextRequest.append("_type=");
+                nextRequest.append(String.join(",", historyContext.getResourceTypes()));
+            }
 
             if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
                 // As _since was given, we need to go with time-based paging, and the client
@@ -3083,6 +3096,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
         if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
             selfRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
+        }
+        if (historyContext.getResourceTypes().size() > 0) {
+            selfRequest.append("_type=");
+            selfRequest.append(String.join(",", historyContext.getResourceTypes()));
         }
         Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
         linkBuilder.url(Uri.of(selfRequest.toString()));

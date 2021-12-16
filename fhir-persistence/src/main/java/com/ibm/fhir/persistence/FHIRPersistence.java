@@ -242,6 +242,17 @@ public interface FHIRPersistence {
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
     List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+    
+    /**
+     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
+     * @param resourceCount the max number of resource change records to fetch
+     * @param fromLastModified filter records with record.lastUpdate >= fromLastModified. Optional.
+     * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
+     * @param resourceTypeNames filter records matching any resource type name in the list
+     * @return a list containing up to resourceCount elements describing resources which have changed
+     * @throws FHIRPersistenceException
+     */
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, List<String> resourceTypeNames) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer

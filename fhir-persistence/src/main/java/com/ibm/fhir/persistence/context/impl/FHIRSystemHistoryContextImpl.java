@@ -6,6 +6,10 @@
 
 package com.ibm.fhir.persistence.context.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 
@@ -27,10 +31,25 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     // Run in lenient mode
     private boolean lenient;
 
+    // List of resource type names to include given by _type
+    private final List<String> resourceTypes = new ArrayList<>();
+
     @Override
     public String toString() {
-        return "_count=" + count + ", _since=" + since
-                + ", afterResourceId=" + afterHistoryId;
+        StringBuilder result = new StringBuilder();
+        result.append("_count=");
+        result.append(count);
+        result.append(", _since=");
+        result.append(since);
+        result.append(", _afterResourceId=");
+        result.append(afterHistoryId);
+        
+        final String typeNames = String.join(",", this.resourceTypes);
+        if (typeNames.length() > 0) {
+            result.append(", _type=");
+            result.append(typeNames);
+        }
+        return result.toString();
     }
 
     @Override
@@ -49,6 +68,14 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
 
     public void setAfterHistoryId(long id) {
         this.afterHistoryId = id;
+    }
+
+    /**
+     * Add the resource type to include in the response
+     * @param resourceType
+     */
+    public void addResourceType(String resourceType) {
+        this.resourceTypes.add(resourceType);
     }
 
     @Override
@@ -70,5 +97,10 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     @Override
     public boolean isLenient() {
         return this.lenient;
+    }
+
+    @Override
+    public List<String> getResourceTypes() {
+        return Collections.unmodifiableList(this.resourceTypes);
     }
 }

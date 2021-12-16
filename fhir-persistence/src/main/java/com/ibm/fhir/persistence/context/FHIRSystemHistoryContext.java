@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.context;
 
+import java.util.List;
+
 import com.ibm.fhir.model.type.Instant;
 
 /**
@@ -36,4 +38,10 @@ public interface FHIRSystemHistoryContext {
      * @return
      */
     boolean isLenient();
+    
+    /**
+     * Get the list of resource types
+     * @return an immutable list of resource type names
+     */
+    List<String> getResourceTypes();
 }
