@@ -30,19 +30,19 @@ config(){
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
 
     echo "Copying fhir configuration files..."
-    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST/
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config/
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    cp -pr ${WORKSPACE}/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
-    cp -pr ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
+    cp ${WORKSPACE}/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
+    cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/
+    cp -r ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/
     bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json
     mv ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
