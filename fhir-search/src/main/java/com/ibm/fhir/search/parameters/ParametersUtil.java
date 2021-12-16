@@ -234,7 +234,7 @@ public final class ParametersUtil {
                         if (log.isLoggable(Level.FINE)) {
                             String canonical = getCanonicalUrl(sp);
                             log.fine("Skipping search parameter '" + canonical + "' because code '" +
-                                    sp.getCode() + "' is already configured.");
+                                    sp.getCode().getValue() + "' is already configured.");
                         }
                     } else {
                         paramMap.insert(sp.getCode().getValue(), sp);
