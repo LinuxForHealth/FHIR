@@ -906,7 +906,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient")
                 .queryParam("_tag", tag)
-                .queryParam("_has:Procedure:subject:_has:Encounter:reason-reference:service-provider.endpoint.name", tag)
+                .queryParam("_has:Procedure:subject:_has:Encounter:reason-reference:service-provider.endpoint.name:exact", tag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
