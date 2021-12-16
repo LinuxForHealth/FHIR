@@ -33,14 +33,19 @@ public class CacheTransactionSync implements Synchronization {
     
     private final String transactionDataKey;
 
+    // A callback when we hit a rollback
+    private final Runnable rolledBackHandler;
+
     /**
      * Public constructor
      * @param cacheImpl
      */
-    public CacheTransactionSync(TransactionSynchronizationRegistry txSyncRegistry, FHIRPersistenceJDBCCache cache, String transactionDataKey) {
+    public CacheTransactionSync(TransactionSynchronizationRegistry txSyncRegistry, FHIRPersistenceJDBCCache cache, String transactionDataKey,
+        Runnable rolledBackHandler) {
         this.txSyncRegistry = txSyncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
+        this.rolledBackHandler = rolledBackHandler;
     }
     
     @Override
@@ -66,6 +71,10 @@ public class CacheTransactionSync implements Synchronization {
             // probably a rollback, so throw away everything
             logger.info("Transaction failed - afterCompletion(status = " + status + ")");
             cache.transactionRolledBack();
+
+            if (rolledBackHandler != null) {
+                rolledBackHandler.run();
+            }
         }
     }
 }

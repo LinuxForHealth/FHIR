@@ -226,6 +226,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // Enable use of legacy whole-system search parameters for the search request
     private final boolean legacyWholeSystemSearchParamsEnabled;
+    
+    // A list of payload persistence responses in case we have a rollback to clean up
+    private final List<PayloadPersistenceResponse> payloadPersistenceResponses = new ArrayList<>();
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -268,7 +271,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
         this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, () -> handleRollback());
 
         // Use of legacy whole-system search parameters disabled by default
         this.legacyWholeSystemSearchParamsEnabled =
@@ -2605,6 +2608,34 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return result;
     }
+    
+    /**
+     * Callback from TransactionData when a transaction has been rolled back
+     * @param payloadPersistenceResponses an immutable list of {@link PayloadPersistenceResponse}
+     */
+    private void handleRollback() {
+        if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
+            throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
+        }
+        // try to delete each of the payload objects we've stored
+        // because the transaction has been rolled back
+        log.fine("starting rollback handling for PayloadPersistenceResponse data");
+        for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
+            try {
+                log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
+                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(), 
+                        ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
+            } catch (Exception x) {
+                // Nothing more we can do other than log the issue. Any rows we can't process
+                // here (e.g. network outage) will be orphaned. These orphaned rows
+                // will be removed by the reconciliation process which scans the payload
+                // persistence repository and looks for missing RDBMS records.
+                log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+            }
+        }
+        
+        payloadPersistenceResponses.clear();
+    }
 
     /**
      * Factory function to create a new instance of the TransactionData implementation
@@ -2760,7 +2791,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
         
         // Note that if versionId is null, it means delete all known versions
-        payloadPersistence.deletePayload(resourceType, rec.getResourceTypeId(), rec.getLogicalId(), rec.getVersionId());
+        // The resourcePayloadKey is always null here, because the intention
+        // for erase is to delete all instances of the record (in the rare case
+        // there may be orphaned records from failed transactions)
+        payloadPersistence.deletePayload(resourceType, rec.getResourceTypeId(), rec.getLogicalId(), rec.getVersionId(), null);
     }
 
     private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
@@ -2806,7 +2840,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             int resourceTypeId = getResourceTypeId(resourceTypeName);
 
             // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
-            return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
+            PayloadPersistenceResponse response = payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
+
+            // register the response object so that we can clean up in case of a rollback later
+            this.payloadPersistenceResponses.add(response);
+            return response;
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null
             return null;

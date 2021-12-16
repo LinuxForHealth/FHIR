@@ -44,12 +44,14 @@ public interface FHIRPayloadPersistence {
 
     /**
      * Delete the payload item. This may be called to clean up after a failed transaction or
+     * by the reconciliation process when it finds an orphaned record.
      * when performing a hard delete on a resource.
      * @param resourceType
      * @param resourceTypeId
      * @param logicalId
      * @param version the version id, or null for all versions
+     * @param resourcePayloadKey the key to make sure the entry matches the RDBMS record
      * @throws FHIRPersistenceException
      */
-    void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version) throws FHIRPersistenceException;
+    void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) throws FHIRPersistenceException;
 }

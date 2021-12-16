@@ -45,6 +45,10 @@ public class CqlDeletePayload {
 
     // The version, or null for all versions
     private final Integer version;
+    
+    // The resourcePayloadKey value, or null if all matches should be deleted
+    private final String resourcePayloadKey;
+    
     /**
      * Public constructor
      * @param partitionId
@@ -52,12 +56,13 @@ public class CqlDeletePayload {
      * @param logicalId
      * @param version
      */
-    public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId, Integer version) {
+    public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) {
         CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
+        this.resourcePayloadKey = resourcePayloadKey;
     }
 
     /**
@@ -73,17 +78,32 @@ public class CqlDeletePayload {
         // system with concurrent activity
         final BoundStatement bs;
         if (version != null) {
-            final Select statement =
-                    selectFrom("resource_payloads")
-                    .column("version")
-                    .column("resource_payload_key")
-                    .whereColumn("partition_id").isEqualTo(literal(partitionId))
-                    .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
-                    .whereColumn("logical_id").isEqualTo(bindMarker())
-                    .whereColumn("version").isEqualTo(bindMarker())
-                    ;
-            PreparedStatement ps = session.prepare(statement.build());
-            bs = ps.bind(logicalId, version);
+            if (resourcePayloadKey != null) {
+                final Select statement =
+                        selectFrom("resource_payloads")
+                        .column("version")
+                        .column("resource_payload_key")
+                        .whereColumn("partition_id").isEqualTo(literal(partitionId))
+                        .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+                        .whereColumn("logical_id").isEqualTo(bindMarker())
+                        .whereColumn("version").isEqualTo(bindMarker())
+                        .whereColumn("resource_payload_key").isEqualTo(bindMarker())
+                        ;
+                PreparedStatement ps = session.prepare(statement.build());
+                bs = ps.bind(logicalId, version, resourcePayloadKey);
+            } else {
+                final Select statement =
+                        selectFrom("resource_payloads")
+                        .column("version")
+                        .column("resource_payload_key")
+                        .whereColumn("partition_id").isEqualTo(literal(partitionId))
+                        .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+                        .whereColumn("logical_id").isEqualTo(bindMarker())
+                        .whereColumn("version").isEqualTo(bindMarker())
+                        ;
+                PreparedStatement ps = session.prepare(statement.build());
+                bs = ps.bind(logicalId, version);
+            }
         } else {
             final Select statement =
                     selectFrom("resource_payloads")

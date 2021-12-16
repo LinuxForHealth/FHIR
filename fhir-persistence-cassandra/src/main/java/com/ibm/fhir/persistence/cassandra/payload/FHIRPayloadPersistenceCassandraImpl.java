@@ -84,7 +84,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version + "'", x);
             result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.FAILED));
         }
-        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, partitionName, logicalId, result);
+        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, partitionName, result);
     }
 
     @Override
@@ -99,11 +99,12 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     }
 
     @Override
-    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version) throws FHIRPersistenceException {
+    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) throws FHIRPersistenceException {
         try (CqlSession session = getCqlSession()) {
             // Currently not supporting a real async implementation, so we 
             // process synchronously
-            CqlDeletePayload spl = new CqlDeletePayload(partitionStrategy.getPartitionName(resourceType, logicalId), resourceTypeId, logicalId, version);
+            CqlDeletePayload spl = new CqlDeletePayload(partitionStrategy.getPartitionName(resourceType, logicalId),
+                    resourceTypeId, logicalId, version, resourcePayloadKey);
             spl.run(session);
         }
     }
