@@ -58,15 +58,15 @@ java -jar $SCHEMATOOL `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\profile --prop db.create=Y `
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\reference --prop db.create=Y `
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet `
   --update-schema
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\study1 --prop db.create=Y `
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet `
   --update-schema
 
 # If the Config Exists, let's wipe it outfind
@@ -94,14 +94,14 @@ $DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\c
 $DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\'
 Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
-$DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*'
+$DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\test\liberty\config\config\*'
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
 
 # Only copy over the Derby datasource definition for this instance
 $OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\defaults\datasource.xml'
 $OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\defaults\datasource.xml'
 Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
-$OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\datasource-derby.xml'
+$OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\test\liberty\config\configDropins\overrides\datasource-derby.xml'
 $OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
 Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
 $OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\jvm.options'
@@ -109,7 +109,7 @@ $OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config
 Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
 
 Write-Host 'Copying test artifacts to install location'
-$CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*-tests.jar'
+$CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*.jar'
 $USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
 $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
 
