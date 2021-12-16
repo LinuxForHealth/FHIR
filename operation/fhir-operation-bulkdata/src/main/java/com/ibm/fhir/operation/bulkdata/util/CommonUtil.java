@@ -48,8 +48,8 @@ public class CommonUtil {
             String source = adapter.getStorageProvider();
             String outcome = adapter.getStorageProviderOutcomes();
 
-            if (ConfigurationFactory.getInstance().hasStorageProvider(source)
-                    || ConfigurationFactory.getInstance().hasStorageProvider(outcome)) {
+            if (!ConfigurationFactory.getInstance().hasStorageProvider(source)
+                    || !ConfigurationFactory.getInstance().hasStorageProvider(outcome)) {
                 String fhirTenant = FHIRRequestContext.get().getTenantId();
                 StringBuilder builder = new StringBuilder("The 'fhirServer/bulkdata/storageProvider' for source [");
                 builder.append(fhirTenant).append("/").append(source);
