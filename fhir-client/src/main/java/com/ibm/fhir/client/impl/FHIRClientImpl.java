@@ -172,7 +172,7 @@ public class FHIRClientImpl implements FHIRClient {
         public void send(LogEvent event) {
             String msg = LogMessageFormatter.format(event);
             String id = "ID: " + event.getExchangeId();
-            System.err.println(id + " " + msg);
+            System.out.println(id + " " + msg);
         }
     }
 
