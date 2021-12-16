@@ -1,0 +1,8 @@
+# Set a fixed max heap size
+-Xmx3072M
+
+# Turn on verbose classloading
+#-verbose:class
+
+# Turn on verbose garbage collection
+#-verbose:gc

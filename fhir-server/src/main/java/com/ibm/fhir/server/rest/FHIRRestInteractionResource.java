@@ -40,11 +40,10 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      */
     protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource,
-            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL) {
+        super(entryIndex, requestDescription, requestURL);
         this.event = event;
         this.newResource = newResource;
         this.validationResponseEntry = validationResponseEntry;

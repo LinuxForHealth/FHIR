@@ -5,7 +5,6 @@
  */
 package com.ibm.fhir.bucket.app;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -38,17 +38,25 @@ import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
 import com.ibm.fhir.bucket.reindex.ClientDrivenReindexOperation;
 import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
 import com.ibm.fhir.bucket.reindex.ServerDrivenReindexOperation;
+import com.ibm.fhir.bucket.scanner.BaseFileReader;
 import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
 import com.ibm.fhir.bucket.scanner.DataAccess;
 import com.ibm.fhir.bucket.scanner.FHIRClientResourceProcessor;
+import com.ibm.fhir.bucket.scanner.IResourceScanner;
+import com.ibm.fhir.bucket.scanner.ImmediateLocalFileReader;
+import com.ibm.fhir.bucket.scanner.LocalFileReader;
+import com.ibm.fhir.bucket.scanner.LocalFileScanner;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
+import com.ibm.fhir.core.util.handler.HostnameHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
@@ -62,8 +70,13 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
+import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
+import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
@@ -83,7 +96,7 @@ public class Main {
     private final Properties cosProperties = new Properties();
     private final Properties dbProperties = new Properties();
     private final Properties fhirClientProperties = new Properties();
-
+    
     // The type of database we're talking to
     private DbType dbType;
 
@@ -126,6 +139,9 @@ public class Main {
     // The list of buckets to scan for resources to load
     private final List<String> cosBucketList = new ArrayList<>();
 
+    // The translator for the configured database type
+    private IDatabaseTranslator translator;
+
     // The adapter configured for the type of database we're using
     private IDatabaseAdapter adapter;
 
@@ -134,14 +150,18 @@ public class Main {
 
     private int cosScanIntervalMs = DEFAULT_COS_SCAN_INTERVAL_MS;
 
-    // The COS scanner active object
-    private CosScanner scanner;
+    // The resource scanner active object
+    private IResourceScanner scanner;
 
-    // The COS reader handling JSON files
-    private COSReader jsonReader;
+    // The reader handling JSON files
+    private BaseFileReader jsonReader;
 
-    // The COS reader handling NDJSON files (which are processed one at a time
-    private COSReader ndJsonReader;
+    // The reader handling NDJSON files (which are processed one at a time
+    private BaseFileReader ndJsonReader;
+    
+    // A reader which simply scans a local directory, bypassing the database and COS
+    private String baseDirectory;
+    private ImmediateLocalFileReader immediateLocalFileReader;
 
     // The active object processing resources read from COS
     private ResourceHandler resourceHandler;
@@ -155,9 +175,15 @@ public class Main {
     // optional prefix for scanning a subset of the COS bucket
     private String pathPrefix;
 
-    // Just create the schema and exit
+    // Create the schema before the program runs
     private boolean createSchema = false;
 
+    // When true, exit after creating the schema (default behavior unless --bootstrap-schema is given)
+    private boolean exitAfterCreatingSchema = true;
+    
+    // How many seconds to wait to obtain the schema update lease on the database
+    private int waitForUpdateLeaseSeconds = 10;
+    
     // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
     private boolean incremental = false;
 
@@ -174,7 +200,7 @@ public class Main {
     private int concurrentPayerRequests = 0;
 
     // Simple scenario to add some read load to a FHIR server
-    private InteropWorkload cmsPayerWorkload;
+    private InteropWorkload interopWorkload;
 
     // Special operation to break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket and key prefix:
     private String targetBucket;
@@ -209,11 +235,22 @@ public class Main {
     // The index ID to start with for client-side-driven reindex. If not specified, it starts from the first index ID that exists
     private String reindexStartWithIndexId;
 
+    // Should we load directly from a dir, without scanning and recording files in the FHIRBUCKET DB
+    private boolean isImmediateLocal;
+
+    // Configuration to control how the LeaseManager operates
+    private ILeaseManagerConfig leaseManagerConfig;
+
     /**
      * Parse command line arguments
      * @param args
      */
     public void parseArgs(String[] args) {
+        LeaseManagerConfig.Builder lmConfig = LeaseManagerConfig.builder();
+        lmConfig.withHost(new HostnameHandler().getHostname());
+        lmConfig.withLeaseTimeSeconds(100); // default
+        lmConfig.withStayAlive(true);       // default
+        
         for (int i=0; i<args.length; i++) {
             String arg = args[i];
             switch (arg) {
@@ -224,8 +261,15 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --db-type");
                 }
                 break;
-            case "--create-schema":
+            case "--bootstrap-schema":
+                // new behavior - create the schema before main run
                 this.createSchema = true;
+                this.exitAfterCreatingSchema = false;
+                break;
+            case "--create-schema":
+                // old behavior - just create the schema then exit
+                this.createSchema = true;
+                this.exitAfterCreatingSchema = true;
                 break;
             case "--schema-name":
                 if (i < args.length + 1) {
@@ -267,6 +311,13 @@ public class Main {
                     this.cosBucketList.add(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --bucket");
+                }
+                break;
+            case "--scan-local-dir":
+                if (i < args.length + 1) {
+                    this.baseDirectory = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --scan-local-dir");
                 }
                 break;
             case "--file-type":
@@ -395,6 +446,9 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --buffer-recycle-count");
                 }
                 break;
+            case "--immediate-local":
+                this.isImmediateLocal = true;
+                break;
             case "--incremental":
                 this.incremental = true;
                 break;
@@ -439,6 +493,7 @@ public class Main {
                 throw new IllegalArgumentException("Bad arg: " + arg);
             }
         }
+        this.leaseManagerConfig = lmConfig.build();
     }
 
     /**
@@ -572,7 +627,8 @@ public class Main {
         }
 
         DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(new DerbyTranslator(), propertyAdapter);
+        this.translator = new DerbyTranslator();
+        IConnectionProvider cp = new JdbcConnectionProvider(this.translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.connectionPool.setCloseOnAnyError();
         this.adapter = new DerbyAdapter(connectionPool);
@@ -588,7 +644,7 @@ public class Main {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
 
-        IDatabaseTranslator translator = new Db2Translator();
+        this.translator = new Db2Translator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
@@ -611,7 +667,7 @@ public class Main {
             schemaName = DEFAULT_SCHEMA_NAME;
         }
 
-        IDatabaseTranslator translator = new PostgresTranslator();
+        this.translator = new PostgresTranslator();
         try {
             Class.forName(translator.getDriverClassName());
         } catch (ClassNotFoundException e) {
@@ -639,7 +695,6 @@ public class Main {
         // Create the version history table if it doesn't yet exist
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                adapter.createSchema(schemaName);
                 CreateVersionHistory.createTableIfNeeded(schemaName, this.adapter);
             } catch (Exception x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);
@@ -660,7 +715,64 @@ public class Main {
      * Create or update the database schema to the latest definition
      */
     public void bootstrapDb() {
+        if (this.adapter == null) {
+            throw new IllegalStateException("Database adapter not configured");
+        }
 
+        boolean success = false;
+        while (!success) {
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try {
+                    adapter.createSchema(schemaName);
+                    CreateControl.createTableIfNeeded(schemaName, adapter);
+                    CreateWholeSchemaVersion.createTableIfNeeded(schemaName, adapter);
+                    success = true;
+                } catch (Exception x) {
+                    logger.log(Level.SEVERE, "failed to create schema management tables", x);
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            } catch (UniqueConstraintViolationException x) {
+                // Race condition - two or more instances trying to create either the CONTROL or 
+                // whole schema version table. These are idempotent, so we leave success - false
+                // to try again
+            }
+        }
+
+        // Obtain a lease on the CONTROL table so that only once instance attempts to update
+        // the main schema
+        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schemaName, schemaName,
+            leaseManagerConfig);
+
+        try {
+            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
+                throw new IllegalStateException("Concurrent update for FHIR data schema: '" + schemaName + "'");
+            }
+            
+            // Check to see if we have the latest version before processing any updates
+            // If our schema is already at the latest version, we can skip a lot of processing
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, schemaName,
+                FhirBucketSchemaVersion.getLatestSchemaVersion().vid());
+            if (svm.isLatestSchema()) {
+                logger.info("Already at latest version; skipping update for: '" + schemaName + "'");
+            } else {
+                buildSchema();
+                
+                // Update the whole schema version
+                svm.updateSchemaVersion();
+            }
+        } finally {
+            // stop trying to refresh the lease before we cancel it for good
+            leaseManager.shutdown();
+            leaseManager.cancelLease();
+        }
+    }
+    
+    /**
+     * Build the FHIRBUCKET schema, applying updates as needed to bring the schema up
+     * to the latest version
+     */
+    private void buildSchema() {
         // The version history service is used to track schema changes
         // so we know which to apply and which to skip
         VersionHistoryService vhs = createVersionHistoryService();
@@ -737,8 +849,8 @@ public class Main {
             driveReindexOperation.signalStop();
         }
 
-        if (cmsPayerWorkload != null) {
-            cmsPayerWorkload.signalStop();
+        if (interopWorkload != null) {
+            interopWorkload.signalStop();
         }
 
         if (this.jsonReader != null) {
@@ -747,6 +859,10 @@ public class Main {
 
         if (this.ndJsonReader != null) {
             this.ndJsonReader.signalStop();
+        }
+        
+        if (this.immediateLocalFileReader != null) {
+            this.immediateLocalFileReader.signalStop();
         }
 
         if (this.resourceHandler != null) {
@@ -761,8 +877,8 @@ public class Main {
             driveReindexOperation.waitForStop();
         }
 
-        if (cmsPayerWorkload != null) {
-            cmsPayerWorkload.waitForStop();
+        if (interopWorkload != null) {
+            interopWorkload.waitForStop();
         }
 
         if (this.jsonReader != null) {
@@ -772,7 +888,11 @@ public class Main {
         if (this.ndJsonReader != null) {
             this.ndJsonReader.waitForStop();
         }
-
+        
+        if (this.immediateLocalFileReader != null) {
+            this.immediateLocalFileReader.waitForStop();
+        }
+        
         if (this.resourceHandler != null) {
             this.resourceHandler.waitForStop();
         }
@@ -797,13 +917,32 @@ public class Main {
     /**
      * Choose which mode of the program we want to run:
      * - create the schema
+     * - drive reindex
      * - scan and load
      */
     public void process() {
         if (this.createSchema) {
             bootstrapDb();
-        } else {
-            scanAndLoad();
+        }
+        
+        if (!this.createSchema || !this.exitAfterCreatingSchema) {
+            // Set up the shutdown hook to keep things orderly when asked to terminate
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
+
+            // FHIR client is always needed, unless we're running the bundle-breaker special mode
+            if (this.targetBucket == null || this.targetBucket.length() == 0) {
+                // Set up the client we use to send requests to the FHIR server
+                fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
+                fhirClient.init(this.tenantName);
+            }
+
+            if (this.reindexTstampParam != null) {
+                doReindex();
+            } else {
+                scanAndLoad();
+            }
+            // JVM won't exit until the threads are stopped via the
+            // shutdown hook
         }
     }
 
@@ -811,85 +950,157 @@ public class Main {
      * Start the processing threads and wait until we get told to stop
      */
     protected void scanAndLoad() {
-
-        // Set up the shutdown hook to keep things orderly when asked to terminate
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
-
-        // FHIR client is always needed, unless we're running the bundle-breaker special mode
-        if (this.targetBucket == null || this.targetBucket.length() == 0) {
-            // Set up the client we use to send requests to the FHIR server
-            fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
-            fhirClient.init(this.tenantName);
-        }
-
-        // Only need to initialize the DataAccess layer if we're loading from COS
+        // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
         DataAccess dataAccess = null;
-        if (cosProperties != null && cosProperties.size() > 0) {
-            cosClient = new COSClient(cosProperties);
-
-            // DataAccess hides the details of our interactions with the FHIRBUCKET tracking tables
+        if (this.adapter != null) {
             dataAccess = new DataAccess(this.adapter, this.transactionProvider, this.schemaName);
             dataAccess.init();
+        }
 
-            // Set up the scanner to look for new COS objects and register them in our database
-            if (this.runScanner) {
-                this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
-                scanner.init();
+        if (this.runScanner) {
+            // scanning is optional, although needs to be run at least once to populate
+            // the tracking FHIRBUCKET database with files discovered in COS or a local
+            // directory
+            startScanner(dataAccess);
+        }
+
+        if (this.isImmediateLocal) {
+            // immediate loading so we can process without the need for a FHIRBUCKET database
+            logger.info("Immediate local file mode");
+            if (this.baseDirectory == null || this.baseDirectory.isEmpty()) {
+                throw new IllegalArgumentException("Must specify base directory when using --immediate-local mode");
             }
-
-            // Decide how we want to process resource bundles
-            IResourceEntryProcessor resourceEntryProcessor;
-            if (this.targetBucket != null && this.targetBucket.length() > 0) {
-                // No fhirClient required here...process each resource locally
-                resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
-            } else {
-                // Process resources by sending them to a FHIR server
-                resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
+            if (dataAccess != null) {
+                // useful tip
+                logger.info("FHIRBUCKET DB not required for --immediate-local mode");
             }
-
-            // Set up the handler to process resources as they are read from COS
-            // Uses an internal pool to parallelize NDJSON work
+            if (fhirClient == null) {
+                throw new IllegalArgumentException("FHIR client configuration required");
+            }
+            final IResourceEntryProcessor resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, null);
             this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
-
-            // Set up the COS reader and wire it to the resourceHandler
-            if (fileTypes.contains(FileType.JSON)) {
-                this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient,
-                    resource -> resourceHandler.process(resource),
-                    this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds,
-                    incrementalExact, this.bundleCostFactor, bucketPaths);
-                this.jsonReader.init();
+            Set<FileType> fileTypes = Collections.singleton(FileType.JSON);
+            immediateLocalFileReader = new ImmediateLocalFileReader(commonPool, fileTypes, baseDirectory, 
+                resource -> resourceHandler.process(resource), DEFAULT_CONNECTION_POOL_SIZE, 
+                bundleCostFactor);
+            immediateLocalFileReader.init();
+        } else {
+            // Use the FHIRBUCKET database to manage which resources we pick up and load
+            logger.info("FHIRBUCKET DB tracking mode");
+            if (dataAccess == null) {
+                // Obviously we need a database in order to fetch the jobs
+                throw new IllegalArgumentException("FHIRBUCKET database required for tracking source content");
             }
 
-            if (fileTypes.contains(FileType.NDJSON)) {
-                this.jsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
-                    resource -> resourceHandler.process(resource),
-                    this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds,
-                    incrementalExact, this.bundleCostFactor, bucketPaths);
-                this.jsonReader.init();
+            if (!this.cosBucketList.isEmpty()) {
+                // Process using COS as our source data repository
+                if (cosProperties != null && cosProperties.size() > 0) {
+                    cosClient = new COSClient(cosProperties);
+                } else {
+                    throw new IllegalArgumentException("COS configuration required");
+                }
+                
+                final IResourceEntryProcessor resourceEntryProcessor;
+                if (this.targetBucket != null && this.targetBucket.length() > 0) {
+                    // No fhirClient required here...process each resource locally
+                    resourceEntryProcessor = new BundleBreakerResourceProcessor(cosClient, this.maxResourcesPerBundle, this.targetBucket, this.targetPrefix);
+                } else {
+                    // Process resources by sending them to a FHIR server
+                    if (fhirClient == null) {
+                        throw new IllegalArgumentException("FHIR client configuration required");
+                    }
+                    resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
+                }
+    
+                // Set up the handler to process resources as they are read from COS
+                // Uses an internal pool to parallelize NDJSON work
+                this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
+    
+                // Set up the COS reader and wire it to the resourceHandler
+                if (maxConcurrentJsonFiles > 0) {
+                    this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient,
+                        resource -> resourceHandler.process(resource),
+                        this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds,
+                        incrementalExact, this.bundleCostFactor, bucketPaths);
+                    this.jsonReader.init();
+                }
+    
+                if (maxConcurrentNdJsonFiles > 0) {
+                    this.ndJsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
+                        resource -> resourceHandler.process(resource),
+                        this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds,
+                        incrementalExact, this.bundleCostFactor, bucketPaths);
+                    this.ndJsonReader.init();
+                }
+            } else if (this.baseDirectory != null && !this.baseDirectory.isEmpty()){
+                // Process using a local dir as our source data repository
+                final IResourceEntryProcessor resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
+                this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
+
+                if (maxConcurrentJsonFiles > 0) {
+                    this.jsonReader = new LocalFileReader(commonPool, FileType.JSON,
+                        resource -> resourceHandler.process(resource),
+                        this.maxConcurrentJsonFiles, dataAccess, incremental, recycleSeconds,
+                        incrementalExact, this.bundleCostFactor, bucketPaths);
+                    this.jsonReader.init();
+                }
+
+                if (maxConcurrentNdJsonFiles > 0) {
+                    this.ndJsonReader = new LocalFileReader(commonPool, FileType.NDJSON,
+                        resource -> resourceHandler.process(resource),
+                        this.maxConcurrentNdJsonFiles, dataAccess, incremental, recycleSeconds,
+                        incrementalExact, this.bundleCostFactor, bucketPaths);
+                    this.ndJsonReader.init();
+                }
+            }
+            
+            // Optionally apply a read-based workload to stress the FHIR server and database
+            // with random requests for resources
+            if (this.concurrentPayerRequests > 0) {
+                if (fhirClient == null) {
+                    throw new IllegalArgumentException("Interop test workload requires FHIR client configuration");
+                }
+                
+                // The interop workload uses patient resource ids captured during previous data load runs
+                // and stored in the FHIRBUCKET.LOGICAL_RESOURCES table
+                InteropScenario scenario = new InteropScenario(this.fhirClient);
+                interopWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, this.patientBufferSize, this.bufferRecycleCount);
+                interopWorkload.init();
             }
         }
+    }
 
-        // Optionally apply a read-based workload to stress the FHIR server and database
-        // with random requests for resources
-        if (this.concurrentPayerRequests > 0 && fhirClient != null) {
-            // set up the CMS payer thread to add some read-load to the system
-            InteropScenario scenario = new InteropScenario(this.fhirClient);
-            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, this.patientBufferSize, this.bufferRecycleCount);
-            cmsPayerWorkload.init();
+    /**
+     * Use fhir-bucket to drive the (parallel) reindex process.
+     */
+    private void doReindex() {
+        if (this.clientSideDrivenReindex) {
+            this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexStartWithIndexId);
+        } else {
+            this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
         }
+        this.driveReindexOperation.init();
+        
+    }
 
-        // Optionally start the $reindex loops
-        if (this.reindexTstampParam != null) {
-            if (this.clientSideDrivenReindex) {
-                this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexStartWithIndexId);
-            } else {
-                this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
-            }
-            this.driveReindexOperation.init();
+    /**
+     * Start a scanner to find resources to read and load
+     * @param dataAccess
+     */
+    private void startScanner(DataAccess dataAccess) {
+        if (baseDirectory != null) {
+            // Use a local file scanner, instead of a COS scanner. Records files in
+            // the FHIRBUCKET tracking database. For loading local files directly
+            // without using a tracking database, see isImmediateLocal
+            List<String> localDirList = Collections.singletonList(this.baseDirectory);
+            this.scanner = new LocalFileScanner(localDirList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
+        } else if (cosProperties != null && cosProperties.size() > 0) {
+            // Set up the scanner to look for new COS objects and register them in our database
+            this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
+        } else {
+            throw new IllegalArgumentException("No COS or File scanner configuration. Use --no-scan when scanning is not required");
         }
-
-        // JVM won't exit until the threads are stopped via the
-        // shutdown hook
+        scanner.init();
     }
 
     /**

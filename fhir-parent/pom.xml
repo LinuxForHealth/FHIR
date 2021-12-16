@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.10.0-SNAPSHOT</version>
+    <version>4.11.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -48,8 +48,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.10.0-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.10.0-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.11.0-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.11.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <!-- We use github depend-a-bot to keep dependencies up-to-date and that doesn't seem to work as well
              for dependencies with versions from variables, so prefer inlining over version vars -->
@@ -123,7 +123,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>1.7.32</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -161,7 +161,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>21.0.0.11</version>
+                <version>21.0.0.12</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -190,6 +190,11 @@
                 <version>3.4.4</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-features-logging</artifactId>
+                <version>3.4.5</version>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.websocket</groupId>
                 <artifactId>jakarta.websocket-api</artifactId>
                 <version>1.1.2</version>
@@ -209,7 +214,7 @@
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
-                <version>20210307</version>
+                <version>20211205</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -491,12 +496,12 @@
             <dependency>
                 <groupId>org.apache.spark</groupId>
                 <artifactId>spark-sql_2.12</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
             </dependency>
             <dependency>
                 <groupId>com.ibm.stocator</groupId>
                 <artifactId>stocator</artifactId>
-                <version>1.1.3</version>
+                <version>1.1.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -584,7 +589,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.70.Final</version>
+                <version>4.1.71.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
@@ -601,7 +606,7 @@
             <dependency>
                 <groupId>org.opencds.cqf.cql</groupId>
                 <artifactId>engine</artifactId>
-                <version>1.5.1</version>
+                <version>1.5.2</version>
             </dependency>
             <dependency>
                 <groupId>info.cqframework</groupId>
@@ -745,6 +750,11 @@
                     <version>2.8.2</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>1.9.5</version>
                     <configuration></configuration>
@@ -779,6 +789,11 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>io.openliberty.tools</groupId>
+                    <artifactId>liberty-maven-plugin</artifactId>
+                    <version>3.5.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.spotify</groupId>
@@ -998,7 +1013,7 @@
                                                     fhir-tools
                                                 </artifactId>
                                                 <versionRange>
-                                                    [4.10.0-SNAPSHOT,)
+                                                    [4.11.0-SNAPSHOT,)
                                                 </versionRange>
                                                 <goals>
                                                     <goal>condense-json</goal>
@@ -1361,7 +1376,7 @@
                 </repository>
             </distributionManagement>
         </profile>
-        
+
         <!-- removes unnecessary whitespace from json files while copying from src/main/resources to target -->
         <!-- produces smaller artifacts at the cost of a slight increase in build time -->
         <profile>

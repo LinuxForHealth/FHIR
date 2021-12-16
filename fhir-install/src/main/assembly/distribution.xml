@@ -11,7 +11,7 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>../fhir-server/liberty-config</directory>
+            <directory>../fhir-server-webapp/src/main/liberty/config</directory>
             <outputDirectory>artifacts/servers/fhir-server</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>

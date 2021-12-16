@@ -24,8 +24,6 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -52,16 +50,11 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         Measure measure = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-            try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId, true, false, null);
-                measure = (Measure) readResult.getResource();
-            } catch (Exception ex) {
-                throw new FHIROperationException("Failed to read resource", ex);
-            }
+            measure = loadMeasureById(resourceHelper, logicalId);
         } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
             Parameter param = paramMap.getSingletonParameter(PARAM_IN_MEASURE);
-            String canonicalURL = ((com.ibm.fhir.model.type.String) param.getValue()).getValue();
-            measure = FHIRRegistry.getInstance().getResource(canonicalURL, Measure.class);
+            String reference = ((com.ibm.fhir.model.type.String) param.getValue()).getValue();
+            measure = loadMeasureByReference(resourceHelper, reference);
         } else {
             assert false;
         }
@@ -92,6 +85,8 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, report.build());
     }
+
+
 
     public MeasureReportType getReportType(ParameterMap paramMap, String subject) {
         MeasureReportType reportType = null;

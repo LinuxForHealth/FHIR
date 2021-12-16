@@ -26,15 +26,14 @@ public class FHIRRestInteractionVRead extends FHIRRestInteractionBase {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param versionId
      * @param queryParameters
      */
     public FHIRRestInteractionVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+            String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
+        super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.versionId = versionId;
@@ -42,8 +41,8 @@ public class FHIRRestInteractionVRead extends FHIRRestInteractionBase {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doVRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id,
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doVRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id,
                 versionId, queryParameters);
     }
 }

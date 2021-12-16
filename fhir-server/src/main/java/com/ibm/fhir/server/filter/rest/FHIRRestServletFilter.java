@@ -70,7 +70,7 @@ public class FHIRRestServletFilter extends HttpFilter {
             log.entering(this.getClass().getName(), "doFilter");
         }
 
-        long initialTime = System.currentTimeMillis();
+        long initialTime = System.nanoTime();
 
         String tenantId = defaultTenantId;
         String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
@@ -186,7 +186,7 @@ public class FHIRRestServletFilter extends HttpFilter {
                 statusMsg.append(" status:[unknown (non-HTTP request)]");
             }
 
-            double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
+            double elapsedSecs = (System.nanoTime() - initialTime) / 1000000000.0;
             log.info("Completed request[" + elapsedSecs + " secs]: " + encodedRequestDescription + statusMsg.toString());
 
             // Remove the FHIRRequestContext from the current thread.

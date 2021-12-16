@@ -33,7 +33,6 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param operationContext
      * @param method
      * @param resourceTypeName
@@ -43,10 +42,10 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
      * @param queryParameters
      */
     public FHIRRestInteractionInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription,
-            FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String method,
+            FHIRUrlParser requestURL, FHIROperationContext operationContext, String method,
             String resourceTypeName, String logicalId, String versionId, Resource resource,
             MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex, null, resource, validationResponseEntry, requestDescription, requestURL, initialTime);
+        super(entryIndex, null, resource, validationResponseEntry, requestDescription, requestURL);
         this.operationContext = operationContext;
         this.method = method;
         this.resourceTypeName = resourceTypeName;
@@ -56,7 +55,7 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
 
         // Make sure the context is configured correctly before we call invoke
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -66,6 +65,6 @@ public class FHIRRestInteractionInvoke extends FHIRRestInteractionResource {
         operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
 
-        visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, getNewResource(), queryParameters);
+        visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), operationContext, resourceTypeName, logicalId, versionId, getNewResource(), queryParameters);
     }
 }

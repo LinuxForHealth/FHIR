@@ -612,8 +612,46 @@ public class FHIRUtil {
             .entry(entries)
             .build();
 
-        ReferenceMappingVisitor<Bundle> referenceMappingVisitor = new ReferenceMappingVisitor<>(localRefMap);
+        ReferenceMappingVisitor<Bundle> referenceMappingVisitor = new ReferenceMappingVisitor<>(localRefMap, null);
         bundle.accept(referenceMappingVisitor);
         return referenceMappingVisitor.getResult();
     }
+
+    /**
+     * Build the reference {@code reference} based on the {@code fullUrlString} value.
+     *
+     * @see https://www.hl7.org/fhir/r4/bundle.html#references
+     * @param reference
+     * @param fullUrlString
+     * @throws URISyntaxException 
+     */
+    public static String buildBundleReference(Reference ref, String fullUrlString) {
+        String referenceUriString = null;
+        if (ref.getReference() != null && ref.getReference().getValue() != null) {
+            referenceUriString = ref.getReference().getValue();
+            if (fullUrlString != null) {
+                try {
+                    URI referenceUri = new URI(referenceUriString);
+                    if (!referenceUri.isAbsolute() && !referenceUriString.startsWith("#")) {
+                        URI fullUrl = new URI(fullUrlString);
+                        if (fullUrl.isAbsolute()) {
+                            // If the fullUrl of the resource that contains the reference is a RESTful one
+                            // (see the RESTful URL regex), extract the [base], and append the reference to it.
+                            Matcher restUrlMatcher = REFERENCE_PATTERN.matcher(fullUrlString);
+                            if (restUrlMatcher.matches() && restUrlMatcher.groupCount() > 0) {
+                                String urlBase = restUrlMatcher.group(1);
+                                referenceUriString = urlBase + referenceUriString;
+                            }
+                        }
+                    }
+                } catch (URISyntaxException e) {
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Reference string or fullUrlString is not a valid URI; returning '" + referenceUriString + "'");
+                    }
+                }
+            }
+        }
+        return referenceUriString;
+    }
+
 }

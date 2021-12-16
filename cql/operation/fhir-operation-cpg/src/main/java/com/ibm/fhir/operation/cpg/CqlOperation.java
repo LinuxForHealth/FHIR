@@ -97,7 +97,9 @@ public class CqlOperation extends AbstractCqlOperation {
         Parameters result = null;
 
         ParameterMap paramMap = new ParameterMap(parameters);
-
+        
+        checkUnsupportedParameters(paramMap);
+        
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.SYSTEM)) {

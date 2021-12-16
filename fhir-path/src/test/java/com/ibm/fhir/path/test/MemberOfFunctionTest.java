@@ -136,7 +136,7 @@ public class MemberOfFunctionTest {
 
         Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
-        Assert.assertEquals(issue.getSeverity(), IssueSeverity.WARNING);
+        Assert.assertEquals(issue.getSeverity(), IssueSeverity.INFORMATION);
         Assert.assertEquals(issue.getCode(), IssueType.CODE_INVALID);
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -150,7 +150,7 @@ public class MemberOfFunctionTest {
 
         Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
-        Assert.assertEquals(issue.getSeverity(), IssueSeverity.WARNING);
+        Assert.assertEquals(issue.getSeverity(), IssueSeverity.INFORMATION);
         Assert.assertEquals(issue.getCode(), IssueType.CODE_INVALID);
         Assert.assertEquals(result, SINGLETON_TRUE);
     }

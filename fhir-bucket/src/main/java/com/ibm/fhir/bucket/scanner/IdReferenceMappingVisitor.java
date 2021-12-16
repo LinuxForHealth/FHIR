@@ -1,12 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.bucket.scanner;
-
-import static com.ibm.fhir.model.type.String.string;
 
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,9 +28,11 @@ public class IdReferenceMappingVisitor extends ReferenceMappingVisitor<Resource>
     /**
      * Public constructor
      * @param localRefMap
+     * @param localIdentifier
+     * @param newId
      */
-    public IdReferenceMappingVisitor(Map<String, String> localRefMap, String newId) {
-        super(localRefMap);
+    public IdReferenceMappingVisitor(Map<String, String> localRefMap, String localIdentifier, String newId) {
+        super(localRefMap, localIdentifier);
         this.newId = newId;
     }
     

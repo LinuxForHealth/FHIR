@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.10.0-SNAPSHOT</version>
+        <version>4.11.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -86,8 +86,33 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jacorb</groupId>
+                    <artifactId>jacorb-omgapi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.spec.javax.rmi</groupId>
+                    <artifactId>jboss-rmi-api_1.0_spec</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.jacorb</groupId>
@@ -148,11 +173,6 @@
             <artifactId>fhir-ig-davinci-hrex</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

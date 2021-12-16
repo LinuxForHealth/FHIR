@@ -5,7 +5,7 @@
  */
 package com.ibm.fhir.operation.cqf;
 
-import static com.ibm.fhir.cql.helpers.ModelHelper.*;
+import static com.ibm.fhir.cql.helpers.ModelHelper.reference;
 
 import java.util.List;
 
@@ -59,10 +59,14 @@ public class MeasureSubmitDataOperation extends AbstractOperation {
         }
         
         try {
-            Bundle response = resourceHelper.doBundle(builder.build(), false);
+            Bundle bundle = builder.build();
+            
+            Bundle response = resourceHelper.doBundle(bundle, false);
             
             return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, response);
 
+        } catch( FHIROperationException fex ) {
+            throw fex;
         } catch( Exception ex ) {
             throw new FHIROperationException("Operation failed", ex);
         }
@@ -86,7 +90,15 @@ public class MeasureSubmitDataOperation extends AbstractOperation {
                 .url( Uri.of("/" + resource.getClass().getSimpleName()) )
                 .build();
         }
-        // TODO - how to handle resources that do not already specify an ID?
+        
+        if( resource.getMeta() != null ) {
+            resource = resource.toBuilder()
+                    .meta(resource.getMeta().toBuilder()
+                        .versionId(null)
+                        .build())
+                    .build();
+        }
+        
         return Bundle.Entry.builder()
             .resource(resource)
             .request(request)

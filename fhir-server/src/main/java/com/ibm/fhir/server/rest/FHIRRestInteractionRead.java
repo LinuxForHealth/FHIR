@@ -30,7 +30,6 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param throwExcOnNull
@@ -40,9 +39,9 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
      * @param checkInteractionAllowed
      */
     public FHIRRestInteractionRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+        super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.throwExcOnNull = throwExcOnNull;
@@ -53,7 +52,7 @@ public class FHIRRestInteractionRead extends FHIRRestInteractionBase {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doRead(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
     }
 }

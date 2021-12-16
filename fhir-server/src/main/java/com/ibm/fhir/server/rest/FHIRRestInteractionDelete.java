@@ -23,21 +23,20 @@ public class FHIRRestInteractionDelete extends FHIRRestInteractionBase {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param searchQueryString
      */
     public FHIRRestInteractionDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, String searchQueryString) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+            String type, String id, String searchQueryString) {
+        super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.searchQueryString = searchQueryString;
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doDelete(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id, searchQueryString);
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doDelete(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, searchQueryString);
     }
 }

@@ -119,7 +119,7 @@ The IBM FHIR Server uses the access flow:
 
 The steps to create the API key are:
 
-1. On the IBM Cloud console, select `Manage` > `Access (IAM)`.
+1. On the IBM Cloud console, upper right corner, select `Manage` > `Access (IAM)`.
 
 1. Select the [Service IDs panel](https://cloud.ibm.com/iam/serviceids).
 
@@ -158,7 +158,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 1. Click Administration > User Management
 
     - To confirm the IAM instance:
-        1. Click Run Sql
+        1. Click Run Sql (click create new if not brought into SQL edit session)
         1. Enter the SQL
             ``` sql
             SELECT CASE WHEN VALUE = 'IBMIAMauth' THEN 1 ELSE 0 END AS IAM_ENABLED FROM SYSIBMADM.DBMCFG WHERE NAME = 'srvcon_gssplugin_list'
@@ -173,7 +173,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
     - IBMid: paste the service id (not service id name) from the Service Id created previously. To get that navigate to the service id you created earlier and click on `Details` link (top right side next to Actions Menu). A panel opens on the right-hand side which contains ID. This ID needs to be used as IBMid value.
 
-    - Note (1): The page forces the value to lower-case, so `ServiceId` becomes `serviceid`. Don't be alarmed, it still works.
+    - Note (1): The page forces the value to lower-case, so `ServiceId` becomes `serviceid`. Don't be alarmed, it still works.  Same for the User ID.
 
     - Note (2): Do NOT select Administrator. One should follow the least-privelege principal for the FHIRSERVER user.
 
@@ -195,13 +195,13 @@ You are now able to connect to the database as the FHIRSERVER user using only th
 
 ### **Testing the connection**
 
-The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.5.0.0.jar) is able to execute a connectivity test to check the configuration of the combo of API-key/Service-Id/Db2-User-Id.
+The [Db2 driver (click here to download)](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.6.0/jcc-11.5.6.0.jar) is able to execute a connectivity test to check the configuration of the combo of API-key/Service-Id/Db2-User-Id.
 
 #### Test IAM Access
 1. Copy the command to your code editor
 
     ``` bash
-    java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:50001/BLUDB:apiKey=<API-KEY>;securityMechanism=15;sslConnection=true;sslTrustStoreLocation=/path/to/truststore.jks;sslTrustStorePassword=<TRUSTSTORE-PASSWORD>;"
+    java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:<DB2-HOST-PORT>/BLUDB:apiKey=<API-KEY>;securityMechanism=15;sslConnection=true;"
     ```
 
     - Note: Don't forget the trailing `;` in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.
@@ -209,8 +209,8 @@ The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.
 1. Replace the following values with your service details:
     - `/path/to/db2jcc4.jar` : replace with the path to your driver jar.
     - `<DB-HOSTNAME>`: the hostname of your Db2 service from the Service Credentials page
+    - `<DB-HOST-PORT>`: the port of your Db2 service from the Service Credentials page
     - `<API-KEY>`: the API key value created in the previous section
-    - `<TRUSTSTORE-PASSWORD>`: the password for your truststore
 
     - Note: When using an API Key, no username needs to be provided. This is because the API Key maps to a ServiceId, and that ServiceId is mapped to the Db2 user.
 
@@ -224,7 +224,7 @@ The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.
 1. Copy the command to your code editor
 
     ``` bash
-    java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:50001/bludb:user=<userid>;password=<your_password>;sslConnection=true;sslTrustStoreLocation=/path/to/truststore.jks;sslTrustStorePassword=<TRUSTSTORE-PASSWORD>;"
+    java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:<DB2-HOST-PORT>/bludb:user=<userid>;password=<your_password>;sslConnection=true;"
     ```
 
     - Note: Don't forget the trailing `;` in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.
@@ -232,9 +232,9 @@ The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.
 1. Replace the following values with your service details:
     - `/path/to/db2jcc4.jar` : replace with the path to your driver jar.
     - `<DB-HOSTNAME>`: the hostname of your Db2 service from the Service Credentials page
+    - `<DB-HOST-PORT>`: the port of your Db2 service from the Service Credentials page
     - `<userid>`: The userid to acecss the db
     - `<your_password>`: The password to access the db with
-    - `<TRUSTSTORE-PASSWORD>`: the password for your truststore
 
 1. Run in your favorite terminal, and you should see no errors in the output. You should see output like:
 
@@ -251,11 +251,11 @@ Now that you've created the database and credentials, use the `fhir-persistence-
 2. create a properties file named db2.properties with the Db2 Admin connection info from IBM Cloud; for example:
 
     ``` sh
-    db.host=1-2-3-4.databases.appdomain.cloud
-    db.port=50001
+    db.host=<DB-HOSTNAME>
+    db.port=<DB-HOST-PORT>
     db.database=bludb
-    user=myuser
-    password=mypassword
+    user=<USERID>
+    password=<PASSWORD>
     sslConnection=true
     ```
 
@@ -297,7 +297,7 @@ The IBM FHIR Server uses the native Open Liberty datasources. To configure a FHI
 
 Since release 4.3.2 you can use the `search.reopt` query optimizer hint (shown above) to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for Db2. Valid values are "ALWAYS" and "ONCE". See Db2 documentation for `REOPT` for more details.
 
-To configure the datasource.xml for db2 create a datasource.xml for the configDropins folder.
+To configure the datasource.xml for db2 create a datasource.xml for the configDropins folder.  Note: CurrentSchema is case sensative to what you used in the fhir-persistance-schema tool used above.
 
 #### For IAM User
 
@@ -321,6 +321,7 @@ Create a file as the following
             securityMechanism="15"
             sslConnection="true" />
     </dataSource>
+</server>
 ```
 
 #### For Db2 Auth user
@@ -387,8 +388,8 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
 1. Associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges) using the same procedure you followed for the fhir-server ServiceId user.
 
 1. Create the datasource
-    1. Db2 with IAM https://github.com/IBM/FHIR/blob/main/fhir-server/liberty-config/configDropins/disabled/db2-cloud/bulkdata.xml
-    1. Db2 with Db2Auth https://github.com/IBM/FHIR/blob/main/fhir-server/liberty-config/configDropins/disabled/db2/bulkdata.xml
+    1. Db2 with IAM https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2-cloud/bulkdata.xml
+    1. Db2 with Db2Auth https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2/bulkdata.xml
 
 - Note: The Java Batch is configured in `bulkdata.xml` and included from the IBM FHIR Server's `server.xml` which is installed to `{wlp}/usr/server/defaultServer`. (fhir-server is installed locally)
 - Note: While this feature is not required, it's best to configure this datasource while configuring the main datasource.
