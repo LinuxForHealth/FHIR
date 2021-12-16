@@ -15,7 +15,6 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
-import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * For the legacy configurations, we don't want to run the preflight checks.
@@ -31,8 +30,6 @@ public class NopPreflight implements Preflight {
     private List<Input> inputs = null;
     private OperationConstants.ExportType exportType = null;
     private String format = null;
-
-    protected CommonUtil util = new CommonUtil();
 
     public NopPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
         this.source = source;
