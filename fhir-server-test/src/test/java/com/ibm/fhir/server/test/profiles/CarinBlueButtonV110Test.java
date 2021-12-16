@@ -246,7 +246,7 @@ public class CarinBlueButtonV110Test extends ProfilesTestBaseV2 {
     }
 
     public void loadExplanationOfBenefitsProfessional() throws Exception {
-        String resource = "ExplanationOfBenefit-EOBProfessional1a.json";
+        String resource = "ExplanationOfBenefit-ProfessionalEOBExample1.json";
         explanationOfBenefitsProfessionalId = buildAndAssertOnResourceForC4BB("ExplanationOfBenefit", "110", resource);
     }
 

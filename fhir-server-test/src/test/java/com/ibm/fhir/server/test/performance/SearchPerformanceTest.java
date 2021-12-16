@@ -529,12 +529,13 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Observation")
-                        .queryParam("subject:Patient.name", "john")
+                        .queryParam("subject:Patient.name:exact", "John")
                         .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                         .header("X-FHIR-TENANT-ID", tenantName)
                         .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
+        System.out.println(bundle);
         assertNotNull(bundle);
     }
 }
