@@ -2226,6 +2226,122 @@ public class FHIRAllTypes extends Code {
 
     public enum Value {
         /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        EFFECT_EVIDENCE_SYNTHESIS("EffectEvidenceSynthesis"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT("MedicinalProduct"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_AUTHORIZATION("MedicinalProductAuthorization"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_CONTRAINDICATION("MedicinalProductContraindication"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_INDICATION("MedicinalProductIndication"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_INGREDIENT("MedicinalProductIngredient"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_INTERACTION("MedicinalProductInteraction"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_MANUFACTURED("MedicinalProductManufactured"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_PACKAGED("MedicinalProductPackaged"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_PHARMACEUTICAL("MedicinalProductPharmaceutical"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT("MedicinalProductUndesirableEffect"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        RISK_EVIDENCE_SYNTHESIS("RiskEvidenceSynthesis"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_NUCLEIC_ACID("SubstanceNucleicAcid"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_POLYMER("SubstancePolymer"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_PROTEIN("SubstanceProtein"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_REFERENCE_INFORMATION("SubstanceReferenceInformation"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_SOURCE_MATERIAL("SubstanceSourceMaterial"),
+        /**
+         * This resource type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
+
+        /**
+         * This data type is retired and should never be used.
+         * It is retained here only for backwards compatibility.
+         */
+        @Deprecated
+        SUBSTANCE_AMOUNT("SubstanceAmount"),
+
+        /**
          * Address
          * 
          * <p>An address expressed using postal conventions (as opposed to GPS or other location definition formats). This data 
@@ -3890,6 +4006,44 @@ public class FHIRAllTypes extends Code {
                 return null;
             }
             switch (value) {
+            case "EffectEvidenceSynthesis":
+                return EFFECT_EVIDENCE_SYNTHESIS;
+            case "MedicinalProduct":
+                return MEDICINAL_PRODUCT;
+            case "MedicinalProductAuthorization":
+                return MEDICINAL_PRODUCT_AUTHORIZATION;
+            case "MedicinalProductContraindication":
+                return MEDICINAL_PRODUCT_CONTRAINDICATION;
+            case "MedicinalProductIndication":
+                return MEDICINAL_PRODUCT_INDICATION;
+            case "MedicinalProductIngredient":
+                return MEDICINAL_PRODUCT_INGREDIENT;
+            case "MedicinalProductInteraction":
+                return MEDICINAL_PRODUCT_INTERACTION;
+            case "MedicinalProductManufactured":
+                return MEDICINAL_PRODUCT_MANUFACTURED;
+            case "MedicinalProductPackaged":
+                return MEDICINAL_PRODUCT_PACKAGED;
+            case "MedicinalProductPharmaceutical":
+                return MEDICINAL_PRODUCT_PHARMACEUTICAL;
+            case "MedicinalProductUndesirableEffect":
+                return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+            case "RiskEvidenceSynthesis":
+                return RISK_EVIDENCE_SYNTHESIS;
+            case "SubstanceNucleicAcid":
+                return SUBSTANCE_NUCLEIC_ACID;
+            case "SubstancePolymer":
+                return SUBSTANCE_POLYMER;
+            case "SubstanceProtein":
+                return SUBSTANCE_PROTEIN;
+            case "SubstanceReferenceInformation":
+                return SUBSTANCE_REFERENCE_INFORMATION;
+            case "SubstanceSourceMaterial":
+                return SUBSTANCE_SOURCE_MATERIAL;
+            case "SubstanceSpecification":
+                return SUBSTANCE_SPECIFICATION;
+            case "SubstanceAmount":
+                return SUBSTANCE_AMOUNT;
             case "Address":
                 return ADDRESS;
             case "Age":

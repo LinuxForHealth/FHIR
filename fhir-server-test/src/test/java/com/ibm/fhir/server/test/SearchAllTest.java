@@ -713,12 +713,12 @@ public class SearchAllTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll_TwoTypes_InvalidChainedParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("subject:Practitioner.name", "John");
+        parameters.searchParam("subject:PractitionerRole.active", "true");
         parameters.searchParam("_type", "Account,Observation");
         FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
-                "Modifier resource type [Practitioner] is not allowed for search parameter [subject] of resource type [Observation]");
+                "Modifier resource type [PractitionerRole] is not allowed for search parameter [subject] of resource type [Observation]");
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })

@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 
@@ -85,7 +86,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
                     .build())
                 .parameter(Parameters.Parameter.builder()
                     .name(string("profile"))
-                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/vitalsigns"))
+                    .value(Canonical.of("http://hl7.org/fhir/StructureDefinition/vitalsigns"))
                     .build())
                 .build();
 
@@ -115,7 +116,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
                     .build())
                 .parameter(Parameters.Parameter.builder()
                     .name(string("profile"))
-                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/resprate"))
+                    .value(Canonical.of("http://hl7.org/fhir/StructureDefinition/resprate"))
                     .build())
                 .build();
 
@@ -145,7 +146,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
                     .build())
                 .parameter(Parameters.Parameter.builder()
                     .name(string("profile"))
-                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
+                    .value(Canonical.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
                     .build())
                 .build();
 
@@ -177,7 +178,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
                     .build())
                 .parameter(Parameters.Parameter.builder()
                     .name(string("profile"))
-                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
+                    .value(Canonical.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
                     .build())
                 .build();
 

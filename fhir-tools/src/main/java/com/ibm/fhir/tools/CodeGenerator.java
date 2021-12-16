@@ -148,6 +148,9 @@ public class CodeGenerator {
         // TODO: remove it from here BEFORE we release!
         "ClinicalUseIssue"
     );
+    private static final List<String> REMOVED_DATA_TYPES = Arrays.asList(
+        "SubstanceAmount"
+    );
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
         this.structureDefinitionMap = structureDefinitionMap;
@@ -3526,7 +3529,7 @@ public class CodeGenerator {
                     cb._for("int i = 0", "i < " + elementName + "Array.size()", "i++");
                     if (!isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
                         cb._if(elementName + "Array.get(i).getValueType() != JsonValue.ValueType.OBJECT");
-                        cb._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + " + 
+                        cb._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + " +
                             elementName + "Array.get(i).getValueType() + \" for element: " + elementName + "\")");
                         cb._end();
                     }
@@ -3896,7 +3899,8 @@ public class CodeGenerator {
         }
         cb._enum(mods("public"), enumName);
 
-        if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet)) {
+        if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet) ||
+                "http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
             for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
                 String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
                 cb.javadocStart()
@@ -3911,7 +3915,20 @@ public class CodeGenerator {
             // Workaround for https://jira.hl7.org/browse/FHIR-34426
             cb.enumConstant("VERSION_4_0_1", args(quote("4.0.1")), false);
         }
-        
+
+        if ("http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
+            for (String retiredDataType : REMOVED_DATA_TYPES) {
+                String enumConstantName = getEnumConstantName(retiredDataType, retiredDataType);
+                cb.javadocStart()
+                    .javadoc("This data type is retired and should never be used.")
+                    .javadoc("It is retained here only for backwards compatibility.")
+                    .javadocEnd();
+                cb.annotation("Deprecated");
+                cb.enumConstant(enumConstantName, args(quote(retiredDataType)), false);
+            }
+            cb.newLine();
+        }
+
         int i = 0;
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
@@ -3945,7 +3962,8 @@ public class CodeGenerator {
                 ._return("null")
             ._end()
             ._switch("value");
-            if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet)) {
+            if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet) ||
+                    "http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
                 for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
                     String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
                     cb._case('"' + retiredResourceType + '"')
@@ -3955,6 +3973,13 @@ public class CodeGenerator {
                 // Workaround for https://jira.hl7.org/browse/FHIR-34426
                 cb._case('"' + "4.0.1" + '"')
                         ._return("VERSION_4_0_1");
+            }
+            if ("http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
+                for (String retiredDataType : REMOVED_DATA_TYPES) {
+                    String enumConstantName = getEnumConstantName(retiredDataType, retiredDataType);
+                    cb._case('"' + retiredDataType + '"')
+                        ._return(enumConstantName);
+                }
             }
             for (JsonObject concept : concepts) {
                 String value = concept.getString("code");
