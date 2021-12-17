@@ -1,3 +1,21 @@
+# ----------------------------------------------------------------------------
+# (C) Copyright IBM Corp. 2016, 2021
+# 
+# SPDX-License-Identifier: Apache-2.0
+# ----------------------------------------------------------------------------
+
+# This file contains options that are passed directly to the JVM on startup
+# See https://openliberty.io/docs/ref/config/serverConfiguration.html for more info
+
+# Use only TLSv1.2
+-Dhttps.protocols=TLSv1.2
+-Djdk.tls.client.protocols=TLSv1.2
+-Dcom.ibm.jsse2.overrideDefaultProtocol=TLSv1.2
+-Dcom.ibm.jsse2.renegotiate=DISABLED
+
+# Prevents Apache Xerces from overactively using the service loader to find a class
+-Dorg.apache.xml.dtm.DTMManager=org.apache.xml.dtm.ref.DTMManagerDefault
+
 # Container Configuration - https://www.eclipse.org/openj9/docs/xxinitialrampercentage/
 # We need to leave room to operate on the VM - curl.
 -XX:InitialRAMPercentage=0.25
