@@ -2949,11 +2949,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
         // Validate that the interaction is allowed
-        validateInteraction(Interaction.HISTORY, "Resource");
+        if (resourceType == null) {
+            validateInteraction(Interaction.HISTORY, "Resource");
+        } else {
+            validateInteraction(Interaction.HISTORY, resourceType);
+        }
 
         // extract the query parameters
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -2974,13 +2978,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 count = MAX_HISTORY_ENTRIES;
             }
             
-            if (historyContext.getResourceTypes().size() > 0) {
-                // New API allows us to filter using multiple resource type names
-                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), historyContext.getResourceTypes());
+            if (resourceType != null) {
+                // Use the resource type on the path, ignoring any _type parameter
+                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), Collections.singletonList(resourceType), historyContext.isExcludeTransactionTimeoutWindow());
+            } else if (historyContext.getResourceTypes().size() > 0) {
+                // New API allows us to filter using multiple resource type names, but first we
+                // have to check the interaction is allowed for each one
+                for (String rt: historyContext.getResourceTypes()) {
+                    validateInteraction(Interaction.HISTORY, rt);
+                }
+                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), historyContext.getResourceTypes(), historyContext.isExcludeTransactionTimeoutWindow());
             } else {
-                // no filter, so we use the original API
-                final String resourceTypeName = null;
-                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), resourceTypeName);
+                // no resource type filter
+                final List<String> NULL_RESOURCE_TYPE_NAMES = null;
+                records = persistence.changes(count, since, historyContext.getAfterHistoryId(), NULL_RESOURCE_TYPE_NAMES, historyContext.isExcludeTransactionTimeoutWindow());
             }
         } catch (FHIRPersistenceDataAccessException x) {
             log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
@@ -3059,12 +3070,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             StringBuilder nextRequest = new StringBuilder();
             nextRequest.append(serviceBase);
+            if (resourceType != null) {
+                nextRequest.append("/").append(resourceType);
+            }
+            nextRequest.append("/_history");
             nextRequest.append("?");
             nextRequest.append("_count=").append(count);
             
-            if (historyContext.getResourceTypes().size() > 0) {
-                nextRequest.append("_type=");
+            if (resourceType == null && historyContext.getResourceTypes().size() > 0) {
+                nextRequest.append("&_type=");
                 nextRequest.append(String.join(",", historyContext.getResourceTypes()));
+            }
+            
+            if (historyContext.isExcludeTransactionTimeoutWindow()) {
+                nextRequest.append("&_excludeTransactionTimeoutWindow=true");
             }
 
             if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
@@ -3087,6 +3106,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Add a self link
         StringBuilder selfRequest = new StringBuilder();
         selfRequest.append(serviceBase);
+        if (resourceType != null) {
+            selfRequest.append("/").append(resourceType);
+        }
+        selfRequest.append("/_history");
         selfRequest.append("?");
         selfRequest.append("_count=").append(count);
 
@@ -3094,13 +3117,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (historyContext.getAfterHistoryId() != null) {
             selfRequest.append("&_afterHistoryId=").append(historyContext.getAfterHistoryId());
         }
+        
         if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
             selfRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
         }
-        if (historyContext.getResourceTypes().size() > 0) {
-            selfRequest.append("_type=");
+
+        if (resourceType == null && historyContext.getResourceTypes().size() > 0) {
+            selfRequest.append("&_type=");
             selfRequest.append(String.join(",", historyContext.getResourceTypes()));
         }
+
+        if (historyContext.isExcludeTransactionTimeoutWindow()) {
+            selfRequest.append("&_excludeTransactionTimeoutWindow=true");
+        }
+
         Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
         linkBuilder.url(Uri.of(selfRequest.toString()));
         linkBuilder.relation(com.ibm.fhir.model.type.String.of("self"));

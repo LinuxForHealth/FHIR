@@ -241,6 +241,7 @@ public interface FHIRPersistence {
      * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
+    @Deprecated
     List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
     
     /**
@@ -249,10 +250,11 @@ public interface FHIRPersistence {
      * @param fromLastModified filter records with record.lastUpdate >= fromLastModified. Optional.
      * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
      * @param resourceTypeNames filter records matching any resource type name in the list
+     * @param excludeTransactionTimeoutWindow flag to exclude resources falling inside server's tx timeout window
      * @return a list containing up to resourceCount elements describing resources which have changed
      * @throws FHIRPersistenceException
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, List<String> resourceTypeNames) throws FHIRPersistenceException;
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer

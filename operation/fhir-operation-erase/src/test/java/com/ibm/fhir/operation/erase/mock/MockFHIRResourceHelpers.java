@@ -145,7 +145,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception {
 
         return null;
     }

@@ -381,7 +381,25 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
+    default Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+        return doHistory(queryParameters, requestUri, null);
+    }
+
+    /**
+     * Implement the system level history operation to obtain a list of changes to resources
+     * with an optional resourceType which supports for example [base]/Patient/_history
+     * requests to return the complete history of changes filtered to a specific resource type
+     *
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     *            the request URI
+     * @param resourceType
+     *            optional resourceType to filter the history
+     * @return a Bundle containing the history of the specified Resource
+     * @throws Exception
+     */
+    Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception;
 
     /**
      * Performs heavy lifting associated with a 'search' operation.

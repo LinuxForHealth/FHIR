@@ -425,6 +425,16 @@ public class ServerResolveFunctionTest {
             throw new UnsupportedOperationException();
         }
 
+        @Override
+        public List<ResourceChangeLogRecord> changes(
+                int resourceCount,
+                java.time.Instant fromLastModified,
+                Long afterResourceId,
+                List<String> resourceTypeNames,
+                boolean excludeTransactionTimeoutWindow) throws FHIRPersistenceException {
+            throw new UnsupportedOperationException();
+        }
+
         @SuppressWarnings("unchecked")
         private <T extends Resource> SingleResourceResult<T> createOrUpdate(T resource) {
             Class<? extends Resource> resourceType = resource.getClass();

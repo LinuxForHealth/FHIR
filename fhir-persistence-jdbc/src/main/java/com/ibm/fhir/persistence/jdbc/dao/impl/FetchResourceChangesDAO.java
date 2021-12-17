@@ -12,12 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.SystemConfigHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -36,6 +38,9 @@ public class FetchResourceChangesDAO {
     private final Long afterResourceId;
     private final Instant fromTstamp;
     
+    // exclude resources falling inside transaction timeout window?
+    private final boolean excludeTransactionTimeoutWindow;
+    
     // If not null, specifies the list of resource types we want to include in the result
     private final List<Integer> resourceTypeIds;
 
@@ -47,14 +52,17 @@ public class FetchResourceChangesDAO {
      * @param fromTstamp
      * @param afterResourceId
      * @param resourceTypeIds
+     * @param excludeTransactionTimeoutWindow
      */
-    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant fromTstamp, Long afterResourceId, List<Integer> resourceTypeIds) {
+    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant fromTstamp, Long afterResourceId, List<Integer> resourceTypeIds,
+        boolean excludeTransactionTimeoutWindow) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceCount = resourceCount;
         this.fromTstamp = fromTstamp;
         this.afterResourceId = afterResourceId;
         this.resourceTypeIds = resourceTypeIds;
+        this.excludeTransactionTimeoutWindow = excludeTransactionTimeoutWindow;
     }
 
     /**
@@ -65,6 +73,19 @@ public class FetchResourceChangesDAO {
      */
     public List<ResourceChangeLogRecord> run(Connection c) throws FHIRPersistenceException {
         List<ResourceChangeLogRecord> result = new ArrayList<>();
+        
+        Instant before = null;
+        if (this.excludeTransactionTimeoutWindow) {
+            // compute the start time of the current transaction timeout window. Note that
+            // if the FHIR_TRANSACTION_MANAGER_TIMEOUT variable is not set, we can't determine
+            // the timeout value, so we can't use the feature
+            long txTimeoutSecs = SystemConfigHelper.getDurationFromEnv("FHIR_TRANSACTION_MANAGER_TIMEOUT", null);
+            if (txTimeoutSecs < 0) {
+                logger.warning("Ignoring excludeTransactionTimeoutWindow because FHIR_TRANSACTION_MANAGER_TIMEOUT is not set");
+            } else {
+                before = Instant.now().minus(txTimeoutSecs, ChronoUnit.SECONDS);
+            }
+        }
 
         StringBuilder query = new StringBuilder();
         query.append(" SELECT c.resource_id, rt.resource_type, lr.logical_id, c.change_tstamp, c.version_id, c.change_type")
@@ -86,6 +107,10 @@ public class FetchResourceChangesDAO {
 
         if (fromTstamp != null) {
             query.append(" AND c.change_tstamp >= ? ");
+        }
+        
+        if (before != null) {
+            query.append(" AND c.change_tstamp < ? ");
         }
 
         if (afterResourceId != null) {
@@ -121,6 +146,10 @@ public class FetchResourceChangesDAO {
             int a = 1;
             if (this.fromTstamp != null) {
                 ps.setTimestamp(a++, Timestamp.from(this.fromTstamp), CalendarHelper.getCalendarForUTC());
+            }
+
+            if (before != null) {
+                ps.setTimestamp(a++, Timestamp.from(before), CalendarHelper.getCalendarForUTC());
             }
 
             if (this.afterResourceId != null) {

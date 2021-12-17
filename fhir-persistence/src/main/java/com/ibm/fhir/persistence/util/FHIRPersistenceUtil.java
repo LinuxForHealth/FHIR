@@ -76,9 +76,9 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-    // Parse history parameters into a FHIRHistoryContext
 
     /**
+     * Parse history parameters into a FHIRHistoryContext
      *
      * @param queryParameters
      * @param lenient
@@ -128,6 +128,10 @@ public class FHIRPersistenceUtil {
                 } else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
+                } else if ("_excludeTransactionTimeoutWindow".equals(name)) {
+                    if ("true".equalsIgnoreCase(first)) {
+                        context.setExcludeTransactionTimeoutWindow(true);
+                    }
                 } else {
                     String msg = "Unrecognized history parameter: '" + name + "'";
                     throw new FHIRPersistenceException(msg)

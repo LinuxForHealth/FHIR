@@ -179,6 +179,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, List<String> resourceTypeNames,
+            boolean excludeTransactionTimeoutWindow) throws FHIRPersistenceException {
+        // NOP
+        return null;
+    }
+
+    @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         // NOP
         return null;

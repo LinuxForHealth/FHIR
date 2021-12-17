@@ -33,6 +33,9 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
 
     // List of resource type names to include given by _type
     private final List<String> resourceTypes = new ArrayList<>();
+    
+    // Flag to determine if we exclude resources falling inside the transaction timeout window
+    private boolean excludeTransactionTimeoutWindow;
 
     @Override
     public String toString() {
@@ -102,5 +105,18 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     @Override
     public List<String> getResourceTypes() {
         return Collections.unmodifiableList(this.resourceTypes);
+    }
+    
+    /**
+     * Set the excludeTransactionTimeoutWindow flag
+     * @param flag
+     */
+    public void setExcludeTransactionTimeoutWindow(boolean flag) {
+        this.excludeTransactionTimeoutWindow = flag;
+    }
+
+    @Override
+    public boolean isExcludeTransactionTimeoutWindow() {
+        return this.excludeTransactionTimeoutWindow;
     }
 }

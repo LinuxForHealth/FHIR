@@ -44,4 +44,10 @@ public interface FHIRSystemHistoryContext {
      * @return an immutable list of resource type names
      */
     List<String> getResourceTypes();
+    
+    /**
+     * Should we exclude resources that fall inside the server's transaction timeout window?
+     * @return
+     */
+    boolean isExcludeTransactionTimeoutWindow();
 }
