@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -38,6 +39,9 @@ public class SystemHistoryTest extends FHIRServerTestBase {
 
     // Create some resources, update, delete and undelete
     private boolean deleteSupported = false;
+    
+    // the id of the test patient we create
+    private String patientId;
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
@@ -76,7 +80,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
-        String patientId = getLocationLogicalId(response);
+        this.patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/"
@@ -91,22 +95,122 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         deleteResource("Patient", responsePatient.getId()); // 3
         undeleteResource(responsePatient);                  // 4
         updateResource(responsePatient);                    // 5
+
+        // Create an Observation, so that we can check the type filtering works
+        Observation observation =
+                TestUtil.buildPatientObservation(patientId, "Observation1.json");
+
+        Entity<Observation> observationEntity =
+                Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response observationResponse =
+                target.path("Observation").request()
+                        .post(observationEntity, Response.class);
+        assertResponse(observationResponse, Response.Status.CREATED.getStatusCode());
     }
 
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
-    public void testSystemHistory1() throws Exception {
+    public void testSystemHistoryWithTypePatient() throws Exception {
         if (!deleteSupported) {
             return;
         }
+        WebTarget target = getWebTarget();
+
+        assertNotNull(this.patientId);
 
         // Get the system history...which will be a bundle of changes. Without any
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        FHIRResponse response = client.history(null);
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        Bundle bundle = response.getResource(Bundle.class);
+        
+        // Follow the next links until we get
+        String requestPath = "Patient/_history";
+        boolean found = false;
+        int count;
+        do {
+            Response historyResponse =
+                    target.path(requestPath)
+                    .queryParam("_count", "2")
+                    .request().get(Response.class);
+            assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+            Bundle bundle = historyResponse.readEntity(Bundle.class);
+            
+            // Check the bundle to see if we found the patient
+            for (Bundle.Entry be: bundle.getEntry()) {
+                // simple way to see if our patient has appeared
+                String fullUrl = be.getFullUrl().getValue();
+                if (fullUrl.contains("Patient/" + patientId)) {
+                    found = true;
+                }
+            }
+            
+            // See if there's more work to do
+            count = bundle.getEntry().size();
+            if (!found && count > 0) {
+                // set up to follow the next link
+                requestPath = getNextLink(bundle);
+                assertNotNull(requestPath);
+            }
+        } while (count > 0 && !found);
+        
+        assertTrue(found, "Patient id in history");
+    }
+
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testSystemHistoryWithTypeObservation() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        Response historyResponse =
+                target.path("Observation/_history").request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNotNull(bundle.getEntry());
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+    
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testSystemHistoryWithMultipleTypes() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        Response historyResponse =
+                target.path("_history")
+                .queryParam("_count", "100")
+                .queryParam("_type", "Patient,Observation")
+                .request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNotNull(bundle.getEntry());
+        assertTrue(bundle.getEntry().size() >= 5);
+        
+        // Check that the next link was composed correctly:
+        String nextLink = getNextLink(bundle);
+        assertNotNull(nextLink);
+        assertTrue(nextLink.contains("_type=Patient,Observation"));
+    }
+
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testSystemHistoryWithNoType() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        Response historyResponse =
+                target.path("_history").request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
