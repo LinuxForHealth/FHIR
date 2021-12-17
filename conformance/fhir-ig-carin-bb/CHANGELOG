@@ -38,4 +38,5 @@ Changed the constraint location from: `ExplanationOfBenefit.item` and `Explanati
 
 08 DEC 2021 
 - v1.1.0 - Locked in the patternCanonical to avoid a needless discriminator warning. "patternCanonical": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit|1.1.0",
-The same change is not reflected in 1.0.0.
+- The same change is not reflected in 1.0.0.
+- [JIRA FHIR-34504](https://jira.hl7.org/browse/FHIR-34504) ExplanationOfBenefit.meta.profile specifies a slicing discriminator pattern on $this and is missing in supportedProfile
