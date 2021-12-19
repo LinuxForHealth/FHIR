@@ -211,7 +211,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<Resource> readResourcesForRecords(FHIRPersistenceContext context, List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
         // NOP
         return null;
     }
