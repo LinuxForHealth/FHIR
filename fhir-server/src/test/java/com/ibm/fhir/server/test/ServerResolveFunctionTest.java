@@ -47,6 +47,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -431,7 +432,8 @@ public class ServerResolveFunctionTest {
                 java.time.Instant fromLastModified,
                 Long afterResourceId,
                 List<String> resourceTypeNames,
-                boolean excludeTransactionTimeoutWindow) throws FHIRPersistenceException {
+                boolean excludeTransactionTimeoutWindow,
+                HistorySortOrder historySortOrder) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
 
@@ -472,7 +474,11 @@ public class ServerResolveFunctionTest {
 
         @Override
         public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
-            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
             return null;
         }
     }

@@ -82,6 +82,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathSystemValue;
@@ -89,6 +90,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -97,6 +99,7 @@ import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -2553,16 +2556,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
         String resourceTypeName) throws FHIRPersistenceException {
+
+        // legacy API determined sort order based on presense of fromLastModified value
+        HistorySortOrder historySortOrder = fromLastModified != null ? HistorySortOrder.ASC_LAST_UPDATED : HistorySortOrder.NONE;
         if (resourceTypeName != null) {
-            return changes(resourceCount, fromLastModified, afterResourceId, Collections.singletonList(resourceTypeName), false);
+            return changes(resourceCount, fromLastModified, afterResourceId, Collections.singletonList(resourceTypeName), false, historySortOrder);
         } else {
-            return changes(resourceCount, fromLastModified, afterResourceId, null, false);
+            return changes(resourceCount, fromLastModified, afterResourceId, null, false, historySortOrder);
         }
     }
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
-        List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow) throws FHIRPersistenceException {
+            List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
+            throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
             // translator is required to handle some simple SQL syntax differences. This is easier
@@ -2576,7 +2583,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 resourceTypeIds = null; // no filter on resource type
             }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceCount, fromLastModified, afterResourceId, resourceTypeIds, excludeTransactionTimeoutWindow);
+            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), 
+                    resourceCount, fromLastModified, afterResourceId, resourceTypeIds, excludeTransactionTimeoutWindow,
+                    historySortOrder);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;
@@ -2677,5 +2686,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Offloading not supported by the plain JDBC persistence implementation, so return null
             return null;
         }
+    }
+
+    @Override
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+        // TODO support async read from payloadPersistence after issue #2900 is merged.
+
+        // Make sure we read deleted resources
+        FHIRPersistenceContext readContext = FHIRPersistenceContextFactory.createPersistenceContext(null, true);
+        List<Resource> result = new ArrayList<>(records.size());
+        for (ResourceChangeLogRecord r: records) {
+            Class<? extends Resource> resourceType = ModelSupport.getResourceType(r.getResourceTypeName());
+            Resource resource = readResourceForRecord(readContext, r, resourceType);
+            
+            // We add the resource even if it's null because we want to keep the 
+            // list in alignment with the records list. A null might be returned
+            // if the resource has been erased (hard delete).
+            result.add(resource);
+        }
+        return result;
+    }
+ 
+    /**
+     * Read the resource version for the given ResourceChangeLogRecord
+     * @param <T>
+     * @param record
+     * @param resourceType
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private <T extends Resource> T readResourceForRecord(FHIRPersistenceContext context, ResourceChangeLogRecord record, Class<T> resourceType) throws FHIRPersistenceException {
+        SingleResourceResult<T> result = vread(context, resourceType, record.getLogicalId(), Integer.toString(record.getVersionId()));
+        return result.getResource();
     }
 }

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 
 
@@ -36,6 +38,12 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     
     // Flag to determine if we exclude resources falling inside the transaction timeout window
     private boolean excludeTransactionTimeoutWindow;
+
+    // The order in which we traverse the history
+    private HistorySortOrder historySortOrder;
+
+    // Should we include resources in the response or just return the urls
+    private HTTPReturnPreference returnPreference;
 
     @Override
     public String toString() {
@@ -118,5 +126,31 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     @Override
     public boolean isExcludeTransactionTimeoutWindow() {
         return this.excludeTransactionTimeoutWindow;
+    }
+
+    /**
+     * Set the historySortOrder
+     * @param historySortOrder
+     */
+    public void setHistorySortOrder(HistorySortOrder historySortOrder) {
+        this.historySortOrder = historySortOrder;
+    }
+
+    /**
+     * Set the returnPreference
+     * @param returnPreference
+     */
+    public void setReturnPreference(HTTPReturnPreference returnPreference) {
+        this.returnPreference = returnPreference;
+    }
+
+    @Override
+    public HistorySortOrder getHistorySortOrder() {
+        return this.historySortOrder;
+    }
+
+    @Override
+    public HTTPReturnPreference getReturnPreference() {
+        return returnPreference;
     }
 }

@@ -136,8 +136,7 @@ public class FHIRRestServletFilter extends HttpFilter {
             context.setHandlingPreference(handlingPref);
 
             // Set the return preference.
-            HTTPReturnPreference returnPref = computeReturnPref(request, handlingPref);
-            context.setReturnPreference(returnPref);
+            computeReturnPref(context, request, handlingPref);
 
             // Set the request headers.
             Map<String, List<String>> requestHeaders = extractRequestHeaders(request);
@@ -256,12 +255,14 @@ public class FHIRRestServletFilter extends HttpFilter {
         return handlingPref;
     }
 
-    private HTTPReturnPreference computeReturnPref(ServletRequest request, HTTPHandlingPreference handlingPref) throws FHIRException {
+    private void computeReturnPref(FHIRRequestContext context, ServletRequest request, HTTPHandlingPreference handlingPref) throws FHIRException {
         HTTPReturnPreference returnPref = defaultHttpReturnPref;
+        boolean isDefault = true;
         String returnPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferReturnHeaderSectionName);
         if (returnPrefString != null && !returnPrefString.isEmpty()) {
             try {
                 returnPref = HTTPReturnPreference.from(returnPrefString);
+                isDefault = false;
             } catch (IllegalArgumentException e) {
                 String message = "Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'";
                 if (handlingPref == HTTPHandlingPreference.STRICT) {
@@ -271,7 +272,9 @@ public class FHIRRestServletFilter extends HttpFilter {
                 }
             }
         }
-        return returnPref;
+        
+        context.setReturnPreference(returnPref);
+        context.setReturnPreferenceDefault(isDefault);
     }
 
     /**

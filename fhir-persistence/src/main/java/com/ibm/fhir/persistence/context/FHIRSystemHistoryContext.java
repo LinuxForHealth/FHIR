@@ -8,7 +8,9 @@ package com.ibm.fhir.persistence.context;
 
 import java.util.List;
 
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.persistence.HistorySortOrder;
 
 /**
  *
@@ -50,4 +52,22 @@ public interface FHIRSystemHistoryContext {
      * @return
      */
     boolean isExcludeTransactionTimeoutWindow();
+    
+    /**
+     * Get the whole system history sort order
+     * @return
+     */
+    HistorySortOrder getHistorySortOrder();
+    
+    /**
+     * Get the return preference
+     * @formatter:off
+     *   Prefer: return=minimal          response bundle summary without Resources
+     *   Prefer: return=representation   response bundle includes Resources
+     *   Prefer: return=OperationOutcome 400 Bad Request
+     * @formatter:on
+     *
+     * @return
+     */
+    HTTPReturnPreference getReturnPreference();
 }

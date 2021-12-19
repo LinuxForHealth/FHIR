@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.DateTime;
@@ -22,6 +24,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -89,6 +92,7 @@ public class FHIRPersistenceUtil {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
         context.setLenient(lenient);
+        context.setHistorySortOrder(HistorySortOrder.DESC_LAST_UPDATED); // default is most recent first
         try {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
@@ -128,6 +132,9 @@ public class FHIRPersistenceUtil {
                 } else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
+                } else if ("_sort".equals(name)) {
+                    HistorySortOrder hso = HistorySortOrder.of(first);
+                    context.setHistorySortOrder(hso);
                 } else if ("_excludeTransactionTimeoutWindow".equals(name)) {
                     if ("true".equalsIgnoreCase(first)) {
                         context.setExcludeTransactionTimeoutWindow(true);
@@ -139,8 +146,28 @@ public class FHIRPersistenceUtil {
                 }
             }
 
+            // Grab the return preference from the request context. We add it to the history
+            // context so we have everything we need in one place
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            if (requestContext.getReturnPreference() != null) {
+                log.fine("Setting return preference: " + requestContext.getReturnPreference());
+                context.setReturnPreference(requestContext.getReturnPreference());
+            } else {
+                // by default, return the resource in the bundle to make it compliant with the R4 spec.
+                log.fine("Setting default return preference: " + HTTPReturnPreference.REPRESENTATION);
+                context.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
+            }
+
             if (context.getAfterHistoryId() != null && context.getSince() != null) {
                 String msg = "_since and _afterHistoryId can only be used exclusively, not together";
+                throw new FHIRPersistenceException(msg)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+            }
+
+            // _afterHistoryId is an IBM FHIR Server extension which should be used only when
+            // the history sort order is specified as NONE (_sort=none).
+            if (context.getAfterHistoryId() != null && context.getHistorySortOrder() != HistorySortOrder.NONE) {
+                String msg = "_afterHistoryId must only be used with _sort=none";
                 throw new FHIRPersistenceException(msg)
                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
             }

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.config.SystemConfigHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -43,6 +44,9 @@ public class FetchResourceChangesDAO {
     
     // If not null, specifies the list of resource types we want to include in the result
     private final List<Integer> resourceTypeIds;
+    
+    // the ordering to use for the query, and the semantics to apply to the filter predicates
+    private final HistorySortOrder historySortOrder;
 
     /**
      * Public constructor
@@ -53,9 +57,10 @@ public class FetchResourceChangesDAO {
      * @param afterResourceId
      * @param resourceTypeIds
      * @param excludeTransactionTimeoutWindow
+     * @param historySortOrder
      */
     public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant fromTstamp, Long afterResourceId, List<Integer> resourceTypeIds,
-        boolean excludeTransactionTimeoutWindow) {
+        boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceCount = resourceCount;
@@ -63,6 +68,7 @@ public class FetchResourceChangesDAO {
         this.afterResourceId = afterResourceId;
         this.resourceTypeIds = resourceTypeIds;
         this.excludeTransactionTimeoutWindow = excludeTransactionTimeoutWindow;
+        this.historySortOrder = historySortOrder;
     }
 
     /**
@@ -79,11 +85,13 @@ public class FetchResourceChangesDAO {
             // compute the start time of the current transaction timeout window. Note that
             // if the FHIR_TRANSACTION_MANAGER_TIMEOUT variable is not set, we can't determine
             // the timeout value, so we can't use the feature
-            long txTimeoutSecs = SystemConfigHelper.getDurationFromEnv("FHIR_TRANSACTION_MANAGER_TIMEOUT", null);
+            long txTimeoutSecs = SystemConfigHelper.getDurationFromEnv("FHIR_TRANSACTION_MANAGER_TIMEOUT", "120s");
             if (txTimeoutSecs < 0) {
-                logger.warning("Ignoring excludeTransactionTimeoutWindow because FHIR_TRANSACTION_MANAGER_TIMEOUT is not set");
+                logger.warning("Ignoring excludeTransactionTimeoutWindow because FHIR_TRANSACTION_MANAGER_TIMEOUT is invalid");
             } else {
-                before = Instant.now().minus(txTimeoutSecs, ChronoUnit.SECONDS);
+                // add a couple of seconds to cover any clock drift in a cluster environment.
+                final int clockDriftBuffer = 2;
+                before = Instant.now().minus(txTimeoutSecs + clockDriftBuffer, ChronoUnit.SECONDS);
             }
         }
 
@@ -106,7 +114,11 @@ public class FetchResourceChangesDAO {
         }
 
         if (fromTstamp != null) {
-            query.append(" AND c.change_tstamp >= ? ");
+            if (historySortOrder == HistorySortOrder.ASC_LAST_UPDATED) {
+                query.append(" AND c.change_tstamp >= ? ");
+            } else {
+                query.append(" AND c.change_tstamp <= ? ");
+            }
         }
         
         if (before != null) {
@@ -125,13 +137,20 @@ public class FetchResourceChangesDAO {
                 query.append(" AND c.resource_type_id IN (").append(inlist).append(")");
             }
         }
-
-        if (afterResourceId != null) {
+        
+        switch (historySortOrder) {
+        case NONE:
             // ORDER BY can match the PK. Because this is unique, no additional order columns required
             query.append(" ORDER BY c.resource_id "); // PK scan with limit
-        } else {
+            break;
+        case ASC_LAST_UPDATED:
             // ORDER BY needs to match the index unq_resource_change_log_ctrtri
             query.append(" ORDER BY c.change_tstamp, c.resource_type_id, c.resource_id "); // index scan with limit
+            break;
+        case DESC_LAST_UPDATED:
+            // The new default ordering per the spec
+            query.append(" ORDER BY c.change_tstamp DESC, c.resource_type_id, c.resource_id "); // index scan with limit
+            break;
         }
 
         query.append(translator.limit(Integer.toString(resourceCount)));
