@@ -18,11 +18,11 @@ import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateControl;
-import com.ibm.fhir.schema.app.LeaseManager;
-import com.ibm.fhir.schema.app.LeaseManagerConfig;
 
 /**
  * Unit test for the LeaseManager with Derby

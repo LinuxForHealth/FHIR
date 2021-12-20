@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
+import static com.ibm.fhir.operation.bulkdata.util.CommonUtil.buildExceptionWithIssue;
+
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -110,7 +112,7 @@ public class HttpsPreflight extends NopPreflight {
 
     private void checkFormat() throws FHIROperationException {
         if (!FHIRMediaType.APPLICATION_NDJSON.equals(getFormat())) {
-            throw util.buildExceptionWithIssue("Https: the requested storageProvider '" + getSource() +
+            throw buildExceptionWithIssue("Https: the requested storageProvider '" + getSource() +
                     "' does not support format '" + getFormat() + "'", IssueType.INVALID);
         }
     }
@@ -118,7 +120,7 @@ public class HttpsPreflight extends NopPreflight {
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.HTTPS.value().equals(storageDetail.getType())){
-            throw util.buildExceptionWithIssue("Https: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw buildExceptionWithIssue("Https: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }

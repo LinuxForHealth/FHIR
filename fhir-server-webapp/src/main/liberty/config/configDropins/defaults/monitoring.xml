@@ -1,0 +1,7 @@
+<server description="fhir-server">
+    <!-- this feature allows monitoring tools to use JMX to gather
+     more information about the running server -->
+    <featureManager>
+        <feature>monitor-1.0</feature>
+    </featureManager>
+</server>

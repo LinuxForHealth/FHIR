@@ -9,6 +9,7 @@ package com.ibm.fhir.schema.control;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Tracks the incremental changes to the FHIR schema as it evolves. Incremental
@@ -102,5 +103,16 @@ public enum FhirSchemaVersion {
                 .sorted(Comparator.comparing(FhirSchemaVersion::vid).reversed())
                 .findFirst();
         return version.isPresent() ? version.get() : null;
+    }
+    
+    /**
+     * Get the max FhirSchemaVersion based on vid
+     * @return
+     */
+    public static FhirSchemaVersion getLatestFhirSchemaVersion() {
+        Optional<FhirSchemaVersion> maxVersion = Stream.of(FhirSchemaVersion.values()).max((l,r) -> {
+            return Integer.compare(l.vid(), r.vid());
+        });
+        return maxVersion.get();
     }
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control;
+package com.ibm.fhir.database.utils.schema;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,8 +23,8 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
     // The FHIR data schema for which we want to obtain the lease
     private final String schemaName;
 
-    // The FHIR schema version
-    private final FhirSchemaVersion version;
+    // The schema version
+    private final int version;
     
     /**
      * Public constructor
@@ -32,7 +32,7 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
      * @param schemaName
      * @param version
      */
-    public UpdateSchemaVersion(String schemaName, FhirSchemaVersion version) {
+    public UpdateSchemaVersion(String schemaName, int version) {
         this.schemaName = schemaName;
         this.version = version;
     }
@@ -58,7 +58,7 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
         boolean complete = false;
         while (!complete) {
             try (PreparedStatement ps = c.prepareStatement(INS)) {
-                ps.setInt(1, version.vid());
+                ps.setInt(1, version);
                 
                 if (1 == ps.executeUpdate()) {
                     complete = true; // we inserted the row, so we must own the lock
@@ -78,7 +78,7 @@ public class UpdateSchemaVersion implements IDatabaseStatement {
                         + "WHERE record_id = 1 ";
 
                 try (PreparedStatement ps = c.prepareStatement(UPD)) {
-                    ps.setInt(1, version.vid());
+                    ps.setInt(1, version);
                     
                     // Note that if we tried to update the row but no rows were affected,
                     // it means that the row was deleted before we could change it. If

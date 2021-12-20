@@ -15,16 +15,17 @@ public class FHIRRestInteractionValidationResponse extends FHIRRestInteractionRe
 
     /**
      * Public constructor
-     *
+     * 
      * @param entryIndex
      * @param validationResponseEntry
+     * @param requestDescription
      */
-    public FHIRRestInteractionValidationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) {
-        super(entryIndex, null, null, validationResponseEntry, requestDescription, null, initialTime);
+    public FHIRRestInteractionValidationResponse(int entryIndex, Entry validationResponseEntry, String requestDescription) {
+        super(entryIndex, null, null, validationResponseEntry, requestDescription, null);
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.validationResponse(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getInitialTime());
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.validationResponse(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getAccumulatedTime());
     }
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control;
+package com.ibm.fhir.database.utils.schema;
 
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
@@ -21,7 +21,7 @@ public class UpdateSchemaVersionPostgresql extends UpdateSchemaVersion {
      * @param schemaName
      * @param version
      */
-    public UpdateSchemaVersionPostgresql(String schemaName, FhirSchemaVersion version) {
+    public UpdateSchemaVersionPostgresql(String schemaName, int version) {
         super(schemaName, version);
     }
     

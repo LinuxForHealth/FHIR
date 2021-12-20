@@ -27,8 +27,8 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
     // The requestURL
     private final FHIRUrlParser requestURL;
 
-    // The time we started processing this request
-    private final long initialTime;
+    // The amount of time accumulated processing this request
+    private long accumulatedTime;
 
     // Any warnings collected when processing this entry
     private final List<Issue> warnings;
@@ -40,17 +40,33 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
      * @param event
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      */
-    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime) {
+    protected FHIRRestInteractionBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL) {
         this.entryIndex = entryIndex;
         this.requestDescription = requestDescription;
         this.requestURL = requestURL;
-        this.initialTime = initialTime;
         this.warnings = new ArrayList<>();
+        this.accumulatedTime = 0;
     }
-
+    
+    @Override
+    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+        final long start = System.nanoTime();
+        try {
+            process(visitor);
+        } finally {
+            long elapsed = System.nanoTime() - start;
+            this.accumulatedTime += elapsed;
+        }
+    }
+    
+    /**
+     * Process this interaction
+     * @param visitor
+     * @throws Exception
+     */
+    protected abstract void process(FHIRRestInteractionVisitor visitor) throws Exception;
+    
     @Override
     public int getEntryIndex() {
         return entryIndex;
@@ -64,12 +80,12 @@ public abstract class FHIRRestInteractionBase implements FHIRRestInteraction {
     }
 
     /**
-     * @return the initialTime
+     * @return the accumulatedTime
      */
-    public long getInitialTime() {
-        return initialTime;
+    public long getAccumulatedTime() {
+        return accumulatedTime;
     }
-
+    
     /**
      * @return the requestURL
      */

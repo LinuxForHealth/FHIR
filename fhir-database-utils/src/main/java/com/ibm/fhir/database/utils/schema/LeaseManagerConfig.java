@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.app;
+package com.ibm.fhir.database.utils.schema;
 
-import com.ibm.fhir.schema.api.ILeaseManagerConfig;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 
 /**
  * LeaseManagerConfig is the configuration for the fhir-persistence-schema's LeaseManager.

@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
+import static com.ibm.fhir.operation.bulkdata.util.CommonUtil.buildExceptionWithIssue;
+
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -153,7 +155,7 @@ public class S3Preflight extends NopPreflight {
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !(StorageType.AWSS3.value().equals(storageDetail.getType()) || StorageType.IBMCOS.value().equals(storageDetail.getType()))){
-            throw util.buildExceptionWithIssue("S3: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw buildExceptionWithIssue("S3: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 

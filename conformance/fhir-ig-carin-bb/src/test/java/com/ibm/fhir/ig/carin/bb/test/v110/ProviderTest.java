@@ -48,7 +48,7 @@ public class ProviderTest {
     }
 
     @Test
-    public static void testConstraintGenerator() throws Exception {
+    public void testConstraintGenerator() throws Exception {
         FHIRRegistryResourceProvider provider = new C4BB110ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {

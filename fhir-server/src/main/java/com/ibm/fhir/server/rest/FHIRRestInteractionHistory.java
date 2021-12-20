@@ -26,15 +26,14 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param queryParameters
      * @param requestUri
      */
     public FHIRRestInteractionHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+            String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
+        super(entryIndex, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.queryParameters = queryParameters;
@@ -42,8 +41,8 @@ public class FHIRRestInteractionHistory extends FHIRRestInteractionBase {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
-        visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getInitialTime(), type, id,
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
+        visitor.doHistory(getEntryIndex(), getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id,
                 queryParameters, requestUri);
     }
 }

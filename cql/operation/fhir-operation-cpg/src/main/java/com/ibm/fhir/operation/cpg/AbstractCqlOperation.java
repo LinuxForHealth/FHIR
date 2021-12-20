@@ -8,6 +8,7 @@ package com.ibm.fhir.operation.cpg;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.javastring;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
 import org.opencds.cqf.cql.engine.data.DataProvider;
@@ -43,9 +45,16 @@ import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
 import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
 import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -57,6 +66,49 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     public static final String PARAM_IN_DEBUG= "debug";
     public static final String PARAM_OUT_RETURN = "return";
     public static final String PARAM_OUT_DEBUG_RESULT = "debugResult";
+    
+    public static final String PARAM_IN_USE_SERVER_DATA = "useServerData";
+    public static final String PARAM_IN_DATA = "data";
+    public static final String PARAM_IN_PREFETCH_DATA = "prefetchData";
+    public static final String PARAM_IN_DATA_ENDPOINT = "dataEndpoint";
+    public static final String PARAM_IN_CONTENT_ENDPOINT = "contentEndpoint";
+    public static final String PARAM_IN_TERMINOLOGY_ENDPOINT = "terminologyEndpoint";
+    
+    
+    protected void checkUnsupportedParameters(ParameterMap paramMap) throws FHIROperationException {
+        List<Issue> issues = new ArrayList<>();
+        
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_USE_SERVER_DATA));
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_DATA));
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_PREFETCH_DATA));
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_DATA_ENDPOINT));
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_CONTENT_ENDPOINT));
+        CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_TERMINOLOGY_ENDPOINT));
+        
+        if( ! issues.isEmpty() ) {
+            FHIROperationException ex = new FHIROperationException("Request contains one or more unsupported parameters");
+            ex.setIssues(issues);
+            throw ex;
+        }
+    }
+    
+    protected Issue checkUnsupportedParameter(ParameterMap paramMap, String paramName) throws FHIROperationException {
+        Issue issue = null;
+        if( paramMap.containsKey(paramName) ) {
+            String msg = "Parameter '" + paramName + "' is not currently supported";
+            issue = OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.FATAL)
+                    .code(IssueType.NOT_SUPPORTED.toBuilder()
+                        .extension(Extension.builder()
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
+                            .value(paramName)
+                            .build())
+                        .build())
+                    .details(CodeableConcept.builder().text(fhirstring(msg)).build())
+                    .build();
+        }
+        return issue;
+    }
     
     protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, Library primaryLibrary) {
         List<Library> libraries = LibraryHelper.loadLibraries(primaryLibrary);

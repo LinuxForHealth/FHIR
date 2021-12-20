@@ -41,7 +41,7 @@ public class SearchParameterResolver {
         Map<String, SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
 
         for (SearchParameter param : params.values()) {
-            if (name != null && param.getName().getValue().equals(name)) {
+            if (name != null && param.getCode().getValue().equals(name)) {
                 return param;
             }
 
@@ -64,7 +64,7 @@ public class SearchParameterResolver {
         SearchParameter searchParam = this.getSearchParameterDefinition(resourceType, path);
         if (searchParam != null) {
 
-            String name = searchParam.getName().getValue();
+            String name = searchParam.getCode().getValue();
 
             if (SearchParamType.TOKEN.equals(searchParam.getType())) {
                 result = Pair.of(name, new TokenParameter(value).setName(name));

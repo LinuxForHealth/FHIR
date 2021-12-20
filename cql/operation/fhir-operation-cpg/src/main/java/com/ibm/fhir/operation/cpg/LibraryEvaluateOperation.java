@@ -55,6 +55,8 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         Parameters result = null;
 
         ParameterMap paramMap = new ParameterMap(parameters);
+        
+        checkUnsupportedParameters(paramMap);
 
         try {
             Library primaryLibrary = null;
