@@ -99,14 +99,14 @@ public class Menu {
         MI_DROP_SCHEMA_FHIR(DROP_SCHEMA_FHIR, "", "drop the schema set by '--schema-name'"),
         // UNUSED, left here intentionally
         // MI_DROP_SCHEMA(DROP_SCHEMA, "", ""),
-        MI_UPDATE_SCHEMA(UPDATE_SCHEMA, "", "deploy or update the schema set by '--schema-name'"),
-        MI_UPDATE_SCHEMA_FHIR(UPDATE_SCHEMA_FHIR, "", "Updates the FHIR Data Schema"),
-        MI_UPDATE_SCHEMA_BATCH(UPDATE_SCHEMA_BATCH, "", "Updates the Batch Schema"),
-        MI_UPDATE_SCHEMA_OAUTH(UPDATE_SCHEMA_OAUTH, "", "Updates the OAuth Schema"),
+        MI_UPDATE_SCHEMA(UPDATE_SCHEMA, "", "deploy or update the schema set by '--schema-name' *deprecated*"),
+        MI_UPDATE_SCHEMA_FHIR(UPDATE_SCHEMA_FHIR, "schemaName", "Updates the FHIR Data Schema"),
+        MI_UPDATE_SCHEMA_BATCH(UPDATE_SCHEMA_BATCH, "schemaName", "Updates the Batch Schema"),
+        MI_UPDATE_SCHEMA_OAUTH(UPDATE_SCHEMA_OAUTH, "schemaName", "Updates the OAuth Schema"),
         MI_CREATE_SCHEMAS(CREATE_SCHEMAS, "", "create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'"),
-        MI_CREATE_SCHEMA_FHIR(CREATE_SCHEMA_FHIR, "", "Create the FHIR Data Schema"),
-        MI_CREATE_SCHEMA_BATCH(CREATE_SCHEMA_BATCH, "", "Create the Batch Schema"),
-        MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "", "Create the OAuth Schema");
+        MI_CREATE_SCHEMA_FHIR(CREATE_SCHEMA_FHIR, "schemaName", "Create the FHIR Data Schema"),
+        MI_CREATE_SCHEMA_BATCH(CREATE_SCHEMA_BATCH, "schemaName", "Create the Batch Schema"),
+        MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "schemaName", "Create the OAuth Schema");
 
         // Variables for Enum:
         private final String flag;

@@ -37,13 +37,6 @@ public final class CommonUtil {
     // Random generator for new tenant keys and salts
     private static final SecureRandom random = new SecureRandom();
 
-
-    public static void printUsage() {
-
-
-
-    }
-
     /**
      * Set up the logger using the log.dir system property
      */

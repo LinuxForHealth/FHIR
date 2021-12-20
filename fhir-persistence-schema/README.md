@@ -813,11 +813,11 @@ and grants permission to the username|
 |--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|
 |--drop-schema-batch||drop the db schema used by liberty's java-batch feature"|
 |--drop-schema-fhir||drop the schema set by '--schema-name'|
-|--update-schema||deploy or update the schema set by '--schema-name'|
-|--update-schema-fhir||Updates the FHIR Data Schema|
-|--update-schema-batch||Updates the Batch Schema|
-|--update-schema-oauth||Updates the OAuth Schema|
+|--update-schema||deploy or update the schema set by '--schema-name', *deprecated* use --update-schema-fhir|
+|--update-schema-fhir|schemaName|Updates the FHIR Data Schema|
+|--update-schema-batch|schemaName|Updates the Batch Schema|
+|--update-schema-oauth|schemaName|Updates the OAuth Schema|
 |--create-schemas||create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'|
-|--create-schema-fhir||Create the FHIR Data Schema|
-|--create-schema-batch||Create the Batch Schema|
-|--create-schema-oauth||Create the OAuth Schema|
+|--create-schema-fhir|schemaName|Create the FHIR Data Schema|
+|--create-schema-batch|schemaName|Create the Batch Schema|
+|--create-schema-oauth|schemaName|Create the OAuth Schema|
