@@ -3076,6 +3076,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Per the R4 spec, the fullUrl should not contain _history/:vid
             Entry.Builder entryBuilder = Entry.builder();
+            entryBuilder.id(Long.toString(changeRecord.getChangeId()));
             entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
             entryBuilder.request(requestBuilder.build());
             entryBuilder.response(responseBuilder.build());
@@ -3099,7 +3100,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             StringBuilder nextRequest = new StringBuilder();
             nextRequest.append(serviceBase);
             if (resourceType != null) {
-                nextRequest.append("/").append(resourceType);
+                // note that the serviceBase includes /_history for whole system history,
+                // but not for the resourceType/ whole history interaction
+                nextRequest.append("/").append(resourceType).append("/_history");
             }
             nextRequest.append("?");
             nextRequest.append("_count=").append(count);

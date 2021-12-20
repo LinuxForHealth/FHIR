@@ -122,6 +122,8 @@ public class FetchResourceChangesDAO {
         }
         
         if (before != null) {
+            // filter out records from inside the current transaction timeout window to
+            // make sure clients don't miss records when paging (see Conformance guide)
             query.append(" AND c.change_tstamp < ? ");
         }
 
@@ -144,12 +146,12 @@ public class FetchResourceChangesDAO {
             query.append(" ORDER BY c.resource_id "); // PK scan with limit
             break;
         case ASC_LAST_UPDATED:
-            // ORDER BY needs to match the index unq_resource_change_log_ctrtri
-            query.append(" ORDER BY c.change_tstamp, c.resource_type_id, c.resource_id "); // index scan with limit
+            // ORDER BY needs to match the index unq_resource_change_log_ctrtri for forward scan
+            query.append(" ORDER BY c.change_tstamp, c.resource_type_id, c.resource_id ");
             break;
         case DESC_LAST_UPDATED:
-            // The new default ordering per the spec
-            query.append(" ORDER BY c.change_tstamp DESC, c.resource_type_id, c.resource_id "); // index scan with limit
+            // The new default ordering per the spec. Reverse scan
+            query.append(" ORDER BY c.change_tstamp DESC, c.resource_type_id DESC, c.resource_id DESC ");
             break;
         }
 
