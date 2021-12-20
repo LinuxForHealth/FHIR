@@ -11,7 +11,6 @@ import static com.ibm.fhir.schema.app.util.CommonUtil.getDbAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getPropertyAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.loadDriver;
 import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
-import static com.ibm.fhir.schema.app.util.CommonUtil.printUsage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,6 +40,7 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.schema.app.menu.Menu;
 
 /**
  * Utility to patch an old schema for use-cases which fall outside the standard
@@ -51,6 +51,9 @@ public class Main {
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
     private static final int EXIT_RUNTIME_ERROR = 2; // programming error or service issue
+
+    private static final Menu menu = new Menu();
+
     private static final double NANOS = 1e9;
 
     // Properties accumulated as we parse args and read configuration files
@@ -338,7 +341,7 @@ public class Main {
             exitStatus = EXIT_RUNTIME_ERROR;
         } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
-            printUsage();
+            menu.generateHelpMenu();
             exitStatus = EXIT_BAD_ARGS;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);

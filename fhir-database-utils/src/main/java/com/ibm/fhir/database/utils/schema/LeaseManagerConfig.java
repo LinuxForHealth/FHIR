@@ -3,14 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.database.utils.schema;
 
 import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 
-
 /**
- *
+ * LeaseManagerConfig is the configuration for the fhir-persistence-schema's LeaseManager.
  */
 public class LeaseManagerConfig implements ILeaseManagerConfig {
     // The number of seconds to hold a lease
@@ -18,26 +17,26 @@ public class LeaseManagerConfig implements ILeaseManagerConfig {
 
     // The host name of this instance
     private final String host;
-    
+
     // Stay alive without requiring regular heartbeats
     private final boolean stayAlive;
-    
+
     private LeaseManagerConfig(int leaseTimeSeconds, String host, boolean stayAlive) {
         this.leaseTimeSeconds = leaseTimeSeconds;
         this.host = host;
         this.stayAlive = stayAlive;
     }
-    
+
     @Override
     public int getLeaseTimeSeconds() {
         return this.leaseTimeSeconds;
     }
-    
+
     @Override
     public String getHost() {
         return this.host;
     }
-    
+
     @Override
     public boolean stayAlive() {
         return this.stayAlive;
@@ -58,7 +57,7 @@ public class LeaseManagerConfig implements ILeaseManagerConfig {
         private int leaseTimeSeconds;
         private String host;
         private boolean stayAlive;
-        
+
         /**
          * Set the leaseTimeSeconds property
          * @param secs
@@ -68,7 +67,7 @@ public class LeaseManagerConfig implements ILeaseManagerConfig {
             this.leaseTimeSeconds = secs;
             return this;
         }
-        
+
         /**
          * Set the host property
          * @param host
@@ -78,7 +77,7 @@ public class LeaseManagerConfig implements ILeaseManagerConfig {
             this.host = host;
             return this;
         }
-        
+
         /**
          * Set the stayAlive property
          * @param flag
