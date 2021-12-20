@@ -47,7 +47,9 @@ COPY target/LICENSE /licenses/
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/server.xml /opt/ol/wlp/usr/servers/defaultServer/
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins /opt/ol/wlp/usr/servers/defaultServer/configDropins
-COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins/disabled/jvm.options /opt/ol/wlp/usr/servers/defaultServer/jvm.options
+
+# Movies the Container Specific Settings inplace
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins/disabled/jvm.options /opt/ol/wlp/usr/servers/defaultServer/configDropins/defaults/jvm.options
 
 RUN features.sh
 
