@@ -6,8 +6,6 @@
 
 # This file contains options that are passed directly to the JVM on startup
 # See https://openliberty.io/docs/ref/config/serverConfiguration.html for more info
-
-
 # Use only TLSv1.2
 -Dhttps.protocols=TLSv1.2
 -Djdk.tls.client.protocols=TLSv1.2
