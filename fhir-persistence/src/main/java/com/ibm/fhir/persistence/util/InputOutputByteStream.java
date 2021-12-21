@@ -269,4 +269,12 @@ public class InputOutputByteStream {
     public void reset() {
         this.offset = 0;
     }
+    
+    /**
+     * Get the underlying byte[] buffer at the current point in time.
+     * @return
+     */
+    public byte[] getRawBuffer() {
+        return this.buffer;
+    }
 }
