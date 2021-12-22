@@ -22,12 +22,18 @@ public interface FHIRSystemHistoryContext {
      * @return
      */
     Instant getSince();
-
+    
     /**
-     * Get the value of the _afterHistoryId parameter, or null if not given
+     * Get the value of the _before parameter, or null if not given
      * @return
      */
-    Long getAfterHistoryId();
+    Instant getBefore();
+
+    /**
+     * Get the value of the _lastChangeId parameter, or null if not given
+     * @return
+     */
+    Long getLastChangeId();
 
     /**
      * Get the value of the _count parameter, or null if not given
@@ -61,11 +67,11 @@ public interface FHIRSystemHistoryContext {
     
     /**
      * Get the return preference
-     * @formatter:off
+     * <pre>
      *   Prefer: return=minimal          response bundle summary without Resources
      *   Prefer: return=representation   response bundle includes Resources
      *   Prefer: return=OperationOutcome 400 Bad Request
-     * @formatter:on
+     * </pre>
      *
      * @return
      */

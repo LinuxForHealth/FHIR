@@ -24,6 +24,9 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     // Fetch records with lastUpdated >= since
     private Instant since;
 
+    // Fetch records with lastUpdated <= before
+    private Instant before;
+
     // Fetch records with a historyId > afterHistoryId
     private Long afterHistoryId;
 
@@ -52,6 +55,8 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
         result.append(count);
         result.append(", _since=");
         result.append(since);
+        result.append(", _before=");
+        result.append(before);
         result.append(", _afterResourceId=");
         result.append(afterHistoryId);
         
@@ -68,12 +73,29 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
         return this.since;
     }
 
+    /**
+     * Set the since value
+     * @param since
+     */
     public void setSince(Instant since) {
         this.since = since;
     }
 
+    /**
+     * Set the before value
+     * @param before
+     */
+    public void setBefore(Instant before) {
+        this.before = before;
+    }
+
     @Override
-    public Long getAfterHistoryId() {
+    public Instant getBefore() {
+        return this.before;
+    }
+
+    @Override
+    public Long getLastChangeId() {
         return this.afterHistoryId;
     }
 

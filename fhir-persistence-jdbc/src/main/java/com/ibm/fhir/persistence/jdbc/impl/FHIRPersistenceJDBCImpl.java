@@ -2557,18 +2557,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
         String resourceTypeName) throws FHIRPersistenceException {
 
-        // legacy API determined sort order based on presense of fromLastModified value
+        // legacy API determined sort order based on presence of fromLastModified value
         HistorySortOrder historySortOrder = fromLastModified != null ? HistorySortOrder.ASC_LAST_UPDATED : HistorySortOrder.NONE;
         if (resourceTypeName != null) {
-            return changes(resourceCount, fromLastModified, afterResourceId, Collections.singletonList(resourceTypeName), false, historySortOrder);
+            return changes(resourceCount, fromLastModified, null, afterResourceId, Collections.singletonList(resourceTypeName), false, historySortOrder);
         } else {
-            return changes(resourceCount, fromLastModified, afterResourceId, null, false, historySortOrder);
+            return changes(resourceCount, fromLastModified, null, afterResourceId, null, false, historySortOrder);
         }
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
-            List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
+            Long afterResourceId, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
             throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
@@ -2584,7 +2584,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), 
-                    resourceCount, fromLastModified, afterResourceId, resourceTypeIds, excludeTransactionTimeoutWindow,
+                    resourceCount, sinceLastModified, beforeLastModified, afterResourceId, resourceTypeIds, excludeTransactionTimeoutWindow,
                     historySortOrder);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {

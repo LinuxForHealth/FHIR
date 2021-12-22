@@ -429,7 +429,8 @@ public class ServerResolveFunctionTest {
         @Override
         public List<ResourceChangeLogRecord> changes(
                 int resourceCount,
-                java.time.Instant fromLastModified,
+                java.time.Instant sinceLastModified,
+                java.time.Instant beforeLastModified,
                 Long afterResourceId,
                 List<String> resourceTypeNames,
                 boolean excludeTransactionTimeoutWindow,

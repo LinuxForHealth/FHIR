@@ -37,7 +37,8 @@ public class FetchResourceChangesDAO {
     private final String schemaName;
     private final int resourceCount;
     private final Long afterResourceId;
-    private final Instant fromTstamp;
+    private final Instant sinceTstamp;
+    private final Instant beforeTstamp;
     
     // exclude resources falling inside transaction timeout window?
     private final boolean excludeTransactionTimeoutWindow;
@@ -53,18 +54,20 @@ public class FetchResourceChangesDAO {
      * @param tx
      * @param schemaName
      * @param resourceCount
-     * @param fromTstamp
+     * @param sinceTstamp
+     * @param beforeTstamp
      * @param afterResourceId
      * @param resourceTypeIds
      * @param excludeTransactionTimeoutWindow
      * @param historySortOrder
      */
-    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant fromTstamp, Long afterResourceId, List<Integer> resourceTypeIds,
-        boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) {
+    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant sinceTstamp, Instant beforeTstamp, Long afterResourceId, List<Integer> resourceTypeIds,
+            boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceCount = resourceCount;
-        this.fromTstamp = fromTstamp;
+        this.sinceTstamp = sinceTstamp;
+        this.beforeTstamp = beforeTstamp;
         this.afterResourceId = afterResourceId;
         this.resourceTypeIds = resourceTypeIds;
         this.excludeTransactionTimeoutWindow = excludeTransactionTimeoutWindow;
@@ -80,18 +83,18 @@ public class FetchResourceChangesDAO {
     public List<ResourceChangeLogRecord> run(Connection c) throws FHIRPersistenceException {
         List<ResourceChangeLogRecord> result = new ArrayList<>();
         
-        Instant before = null;
+        Instant beforeTxWindow = null;
         if (this.excludeTransactionTimeoutWindow) {
             // compute the start time of the current transaction timeout window. Note that
-            // if the FHIR_TRANSACTION_MANAGER_TIMEOUT variable is not set, we can't determine
-            // the timeout value, so we can't use the feature
+            // if the FHIR_TRANSACTION_MANAGER_TIMEOUT variable is not set we fall back
+            // to using the default Liberty transaction timeout which is 120s.
             long txTimeoutSecs = SystemConfigHelper.getDurationFromEnv("FHIR_TRANSACTION_MANAGER_TIMEOUT", "120s");
             if (txTimeoutSecs < 0) {
                 logger.warning("Ignoring excludeTransactionTimeoutWindow because FHIR_TRANSACTION_MANAGER_TIMEOUT is invalid");
             } else {
                 // add a couple of seconds to cover any clock drift in a cluster environment.
                 final int clockDriftBuffer = 2;
-                before = Instant.now().minus(txTimeoutSecs + clockDriftBuffer, ChronoUnit.SECONDS);
+                beforeTxWindow = Instant.now().minus(txTimeoutSecs + clockDriftBuffer, ChronoUnit.SECONDS);
             }
         }
 
@@ -105,30 +108,31 @@ public class FetchResourceChangesDAO {
             .append("   AND rt.resource_type_id = c.resource_type_id ")
             ;
 
-        // Only filter/order by _since or _afterHistoryId never both. This is crucial because
-        // the values are not strictly correlated and mixing them could cause the client to miss
-        // data without realizing.
-        if (fromTstamp != null && afterResourceId != null) {
-            // Shouldn't get here because this condition should be trapped in the REST helper
-            throw new FHIRPersistenceException("_since and _afterHistoryId filters must be used exclusively");
-        }
-
-        if (fromTstamp != null) {
-            if (historySortOrder == HistorySortOrder.ASC_LAST_UPDATED) {
-                query.append(" AND c.change_tstamp >= ? ");
-            } else {
-                query.append(" AND c.change_tstamp <= ? ");
-            }
+        if (sinceTstamp != null) {
+            query.append(" AND c.change_tstamp >= ? ");
         }
         
-        if (before != null) {
+        if (beforeTstamp != null) {
+            query.append(" AND c.change_tstamp <= ? ");
+        }
+        
+        if (beforeTxWindow != null) {
             // filter out records from inside the current transaction timeout window to
             // make sure clients don't miss records when paging (see Conformance guide)
             query.append(" AND c.change_tstamp < ? ");
         }
 
         if (afterResourceId != null) {
-            query.append(" AND c.resource_id > ? ");
+            if (historySortOrder == HistorySortOrder.NONE) {
+                // range scan following the primary key
+                query.append(" AND c.resource_id > ? ");
+            } else {
+                // we're sorting on time, so this is useful to avoid repeating the last
+                // resource we returned every time follow the next link. There can still
+                // be duplicates if multiple resources share the same timestamp, but this
+                // at least gets rid of the most common case
+                query.append(" AND c.resource_id != ? ");
+            }
         }
 
         if (resourceTypeIds != null) {
@@ -160,17 +164,21 @@ public class FetchResourceChangesDAO {
         final String SQL = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("FETCH CHANGES: " + SQL + "; [" + fromTstamp + ", " + afterResourceId + "]");
+            logger.fine("FETCH CHANGES: " + SQL + "; [" + sinceTstamp + ", " + afterResourceId + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             int a = 1;
-            if (this.fromTstamp != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.fromTstamp), CalendarHelper.getCalendarForUTC());
+            if (this.sinceTstamp != null) {
+                ps.setTimestamp(a++, Timestamp.from(this.sinceTstamp), CalendarHelper.getCalendarForUTC());
             }
 
-            if (before != null) {
-                ps.setTimestamp(a++, Timestamp.from(before), CalendarHelper.getCalendarForUTC());
+            if (this.beforeTstamp != null) {
+                ps.setTimestamp(a++, Timestamp.from(this.beforeTstamp), CalendarHelper.getCalendarForUTC());
+            }
+
+            if (beforeTxWindow != null) {
+                ps.setTimestamp(a++, Timestamp.from(beforeTxWindow), CalendarHelper.getCalendarForUTC());
             }
 
             if (this.afterResourceId != null) {

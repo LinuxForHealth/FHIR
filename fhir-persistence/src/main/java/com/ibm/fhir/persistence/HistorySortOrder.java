@@ -12,11 +12,11 @@ package com.ibm.fhir.persistence;
  * interactions. This is not defined in the R4 specification but has been
  * proposed for R5. The IBM FHIR Server implements it for R4 because it is 
  * useful to support system-system synchronization scenarios
- * @formatter:off
+ * <pre>
  * _sort=_lastUpdated            - ORDER BY last_updated ASC
  * _sort=-_lastUpdated (default) - ORDER BY last_updated DESC
  * _sort=none                    - ORDER BY resource_id ASC
- * @formatter:on
+ * </pre>
  */
 public enum HistorySortOrder {
     ASC_LAST_UPDATED("_lastUpdated"),

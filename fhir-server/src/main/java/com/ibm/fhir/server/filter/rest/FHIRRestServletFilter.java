@@ -255,6 +255,18 @@ public class FHIRRestServletFilter extends HttpFilter {
         return handlingPref;
     }
 
+    /**
+     * Computes the return preference from the Prefer header value. The default preference
+     * for all interactions except system history is MINIMAL. The default for system
+     * history is different and uses REPRESENTATION. To implement this without
+     * disrupting the existing behavior we use a new returnPreferenceDefault flag
+     * to indicate whether or not the default value has been overridden by a
+     * client-specified header value.
+     * @param context
+     * @param request
+     * @param handlingPref
+     * @throws FHIRException
+     */
     private void computeReturnPref(FHIRRequestContext context, ServletRequest request, HTTPHandlingPreference handlingPref) throws FHIRException {
         HTTPReturnPreference returnPref = defaultHttpReturnPref;
         boolean isDefault = true;

@@ -97,7 +97,7 @@ public class FHIRPersistenceUtil {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
                 String first = values.get(0);
-                if ("_afterHistoryId".equals(name)) {
+                if ("_lastChangeId".equals(name)) {
                     long id = Long.parseLong(first);
                     context.setAfterHistoryId(id);
                 } else if ("_count".equals(name)) {
@@ -129,6 +129,17 @@ public class FHIRPersistenceUtil {
                         throw new FHIRPersistenceException(msg)
                                 .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                     }
+                } else if ("_before".equals(name)) {
+                    DateTime dt = DateTime.of(first);
+                    if (!dt.isPartial()) {
+                        Instant before = Instant.of(ZonedDateTime.from(dt.getValue()));
+                        context.setBefore(before);
+                    }
+                    else {
+                        String msg = "The '_before' parameter must be a fully specified ISO 8601 date/time";
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
                 } else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
@@ -156,20 +167,6 @@ public class FHIRPersistenceUtil {
                 // by default, return the resource in the bundle to make it compliant with the R4 spec.
                 log.fine("Setting default return preference: " + HTTPReturnPreference.REPRESENTATION);
                 context.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-            }
-
-            if (context.getAfterHistoryId() != null && context.getSince() != null) {
-                String msg = "_since and _afterHistoryId can only be used exclusively, not together";
-                throw new FHIRPersistenceException(msg)
-                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
-            }
-
-            // _afterHistoryId is an IBM FHIR Server extension which should be used only when
-            // the history sort order is specified as NONE (_sort=none).
-            if (context.getAfterHistoryId() != null && context.getHistorySortOrder() != HistorySortOrder.NONE) {
-                String msg = "_afterHistoryId must only be used with _sort=none";
-                throw new FHIRPersistenceException(msg)
-                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
             }
         } catch (FHIRPersistenceException e) {
             throw e;

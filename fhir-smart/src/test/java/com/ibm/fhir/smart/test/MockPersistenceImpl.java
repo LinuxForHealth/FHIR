@@ -194,7 +194,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, List<String> resourceTypeNames,
+    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant sinceLastModified, Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames,
             boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) throws FHIRPersistenceException {
         return null;
     }

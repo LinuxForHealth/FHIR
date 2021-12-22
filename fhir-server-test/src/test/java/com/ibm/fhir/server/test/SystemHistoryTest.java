@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.logging.Logger;
 
@@ -36,7 +37,10 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
  * [base]/_history
  * [base]/_history?_count=10
  * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z"
- * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_afterHistoryId=4"
+ * [base]/_history?_count=10&_before=2021-02-21T03:00:53.878052Z"
+ * 
+ * Error case. Don't mix paging styles
+ * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_lastChangeId=4"
  */
 public class SystemHistoryTest extends FHIRServerTestBase {
     private static final Logger logger = Logger.getLogger(SystemHistoryTest.class.getName());
@@ -307,6 +311,8 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         Instant prevLastUpdated = null;
         String nextPath = null;
         String prevDigest = null; // to help see if the response changed 
+        Instant since = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant before = Instant.now().plus(1, ChronoUnit.HOURS);
         do {
             final Response historyResponse;
             if (nextPath == null) {
@@ -314,6 +320,8 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 historyResponse = target.path(requestPath)
                     .queryParam("_count", "50")
                     .queryParam("_sort", "_lastUpdated")
+                    .queryParam("_since", since)
+                    .queryParam("_before", before)
                     .request()
                     .header("Prefer", "return=minimal")
                     .get(Response.class);
