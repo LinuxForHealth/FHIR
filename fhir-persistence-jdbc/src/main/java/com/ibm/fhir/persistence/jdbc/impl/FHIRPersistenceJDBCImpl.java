@@ -2568,7 +2568,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
-            Long afterResourceId, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
+            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
             throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
@@ -2584,7 +2584,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), 
-                    resourceCount, sinceLastModified, beforeLastModified, afterResourceId, resourceTypeIds, excludeTransactionTimeoutWindow,
+                    resourceCount, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeIds, excludeTransactionTimeoutWindow,
                     historySortOrder);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {

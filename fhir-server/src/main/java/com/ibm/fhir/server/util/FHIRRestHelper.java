@@ -2993,7 +2993,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             
             if (resourceType != null) {
                 // Use the resource type on the path, ignoring any _type parameter
-                records = persistence.changes(count, since, before, historyContext.getLastChangeId(), Collections.singletonList(resourceType), historyContext.isExcludeTransactionTimeoutWindow(),
+                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), Collections.singletonList(resourceType), historyContext.isExcludeTransactionTimeoutWindow(),
                         historyContext.getHistorySortOrder());
             } else if (historyContext.getResourceTypes().size() > 0) {
                 // New API allows us to filter using multiple resource type names, but first we
@@ -3001,12 +3001,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 for (String rt: historyContext.getResourceTypes()) {
                     validateInteraction(Interaction.HISTORY, rt);
                 }
-                records = persistence.changes(count, since, before, historyContext.getLastChangeId(), historyContext.getResourceTypes(), 
+                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), historyContext.getResourceTypes(), 
                         historyContext.isExcludeTransactionTimeoutWindow(), historyContext.getHistorySortOrder());
             } else {
                 // no resource type filter
                 final List<String> NULL_RESOURCE_TYPE_NAMES = null;
-                records = persistence.changes(count, since, before, historyContext.getLastChangeId(), NULL_RESOURCE_TYPE_NAMES, historyContext.isExcludeTransactionTimeoutWindow(), 
+                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), NULL_RESOURCE_TYPE_NAMES, historyContext.isExcludeTransactionTimeoutWindow(), 
                         historyContext.getHistorySortOrder());
             }
             
@@ -3027,7 +3027,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Create a history bundle and add an entry for each record
         Bundle.Builder bundleBuilder = Bundle.builder();
 
-        Long lastChangeId = null;
+        Long changeIdMarker = null;
         Instant lastChangeTime = null;
 
         // The records are ordered correctly by the query, so we just need to
@@ -3039,18 +3039,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 if (lastChangeTime == null || changeRecord.getChangeTstamp().isAfter(lastChangeTime)) {
                     // Keep track of the latest timestamp and the corresponding resource (change) id
                     lastChangeTime = changeRecord.getChangeTstamp();
-                    lastChangeId = changeRecord.getChangeId();
+                    changeIdMarker = changeRecord.getChangeId();
                 }
             } else if (historyContext.getHistorySortOrder() == HistorySortOrder.DESC_LAST_UPDATED) {
                 if (lastChangeTime == null || changeRecord.getChangeTstamp().isBefore(lastChangeTime)) {
                     // Keep track of the earliest timestamp and the corresponding resource (change) id
                     lastChangeTime = changeRecord.getChangeTstamp();
-                    lastChangeId = changeRecord.getChangeId();
+                    changeIdMarker = changeRecord.getChangeId();
                 }
-            } else if (lastChangeId == null || changeRecord.getChangeId() > lastChangeId) {
+            } else if (changeIdMarker == null || changeRecord.getChangeId() > changeIdMarker) {
                 // keep track of the greatest change id value when scanning forwards
                 // using the primary key
-                lastChangeId = changeRecord.getChangeId();
+                changeIdMarker = changeRecord.getChangeId();
             }
 
             Request.Builder requestBuilder = Request.builder();
@@ -3092,7 +3092,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             serviceBase = serviceBase.substring(0, serviceBase.length()-1);
         }
 
-        if (lastChangeId != null || lastChangeTime != null) {
+        if (changeIdMarker != null || lastChangeTime != null) {
             // post the next link which a client can use to get the next set of changes.
             // If this link is not included, the client can assume we've reached the end.
 
@@ -3124,9 +3124,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     nextRequest.append("&_before=").append(before.atZone(UTC).format(DateTime.PARSER_FORMATTER));
                 }
                 
-                if (lastChangeId != null) {
+                if (changeIdMarker != null) {
                     // good way to exclude this resource on the next call
-                    nextRequest.append("&_lastChangeId=").append(lastChangeId);
+                    nextRequest.append("&_changeIdMarker=").append(changeIdMarker);
                 }
                 break;
             case DESC_LAST_UPDATED:
@@ -3136,14 +3136,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // make sure we keep including the since filter specified in the original request
                     nextRequest.append("&_since=").append(since.atZone(UTC).format(DateTime.PARSER_FORMATTER));
                 }
-                if (lastChangeId != null) {
+                if (changeIdMarker != null) {
                     // good way to exclude this resource on the next call
-                    nextRequest.append("&_lastChangeId=").append(lastChangeId);
+                    nextRequest.append("&_changeIdMarker=").append(changeIdMarker);
                 }
                 break;
             case NONE:
                 nextRequest.append("&_sort=" + HistorySortOrder.NONE.toString());
-                nextRequest.append("&_lastChangeId=").append(lastChangeId);
+                nextRequest.append("&_changeIdMarker=").append(changeIdMarker);
                 break;
             }
 
@@ -3163,9 +3163,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         selfRequest.append("?");
         selfRequest.append("_count=").append(count);
 
-        // only one of afterHistoryId or since can be not null at this stage
-        if (historyContext.getLastChangeId() != null) {
-            selfRequest.append("&_lastChangeId=").append(historyContext.getLastChangeId());
+        if (historyContext.getChangeIdMarker() != null) {
+            selfRequest.append("&_changeIdMarker=").append(historyContext.getChangeIdMarker());
         }
         
         if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {

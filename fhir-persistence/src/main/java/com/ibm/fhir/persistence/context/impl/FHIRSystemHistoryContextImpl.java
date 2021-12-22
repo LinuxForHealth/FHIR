@@ -27,8 +27,8 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     // Fetch records with lastUpdated <= before
     private Instant before;
 
-    // Fetch records with a historyId > afterHistoryId
-    private Long afterHistoryId;
+    // Support for pagination with the change id (resourceId)
+    private Long changeIdMarker;
 
     // Fetch up to count records
     private Integer count;
@@ -57,8 +57,8 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
         result.append(since);
         result.append(", _before=");
         result.append(before);
-        result.append(", _afterResourceId=");
-        result.append(afterHistoryId);
+        result.append(", _changeIdMarker=");
+        result.append(changeIdMarker);
         
         final String typeNames = String.join(",", this.resourceTypes);
         if (typeNames.length() > 0) {
@@ -95,12 +95,16 @@ public class FHIRSystemHistoryContextImpl implements FHIRSystemHistoryContext {
     }
 
     @Override
-    public Long getLastChangeId() {
-        return this.afterHistoryId;
+    public Long getChangeIdMarker() {
+        return this.changeIdMarker;
     }
 
-    public void setAfterHistoryId(long id) {
-        this.afterHistoryId = id;
+    /**
+     * Set the changeIdMarker
+     * @param id
+     */
+    public void setChangeIdMarker(long id) {
+        this.changeIdMarker = id;
     }
 
     /**

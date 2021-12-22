@@ -30,10 +30,10 @@ public interface FHIRSystemHistoryContext {
     Instant getBefore();
 
     /**
-     * Get the value of the _lastChangeId parameter, or null if not given
+     * Get the value of the _changeIdMarker parameter, or null if not given
      * @return
      */
-    Long getLastChangeId();
+    Long getChangeIdMarker();
 
     /**
      * Get the value of the _count parameter, or null if not given

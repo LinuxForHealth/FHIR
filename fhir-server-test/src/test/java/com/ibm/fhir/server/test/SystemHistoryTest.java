@@ -40,7 +40,7 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
  * [base]/_history?_count=10&_before=2021-02-21T03:00:53.878052Z"
  * 
  * Error case. Don't mix paging styles
- * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_lastChangeId=4"
+ * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_changeIdMarker=4"
  */
 public class SystemHistoryTest extends FHIRServerTestBase {
     private static final Logger logger = Logger.getLogger(SystemHistoryTest.class.getName());

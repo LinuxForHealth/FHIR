@@ -36,7 +36,7 @@ public class FetchResourceChangesDAO {
     private final IDatabaseTranslator translator;
     private final String schemaName;
     private final int resourceCount;
-    private final Long afterResourceId;
+    private final Long changeIdMarker;
     private final Instant sinceTstamp;
     private final Instant beforeTstamp;
     
@@ -61,14 +61,14 @@ public class FetchResourceChangesDAO {
      * @param excludeTransactionTimeoutWindow
      * @param historySortOrder
      */
-    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant sinceTstamp, Instant beforeTstamp, Long afterResourceId, List<Integer> resourceTypeIds,
+    public FetchResourceChangesDAO(IDatabaseTranslator tx, String schemaName, int resourceCount, Instant sinceTstamp, Instant beforeTstamp, Long changeIdMarker, List<Integer> resourceTypeIds,
             boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceCount = resourceCount;
         this.sinceTstamp = sinceTstamp;
         this.beforeTstamp = beforeTstamp;
-        this.afterResourceId = afterResourceId;
+        this.changeIdMarker = changeIdMarker;
         this.resourceTypeIds = resourceTypeIds;
         this.excludeTransactionTimeoutWindow = excludeTransactionTimeoutWindow;
         this.historySortOrder = historySortOrder;
@@ -122,7 +122,7 @@ public class FetchResourceChangesDAO {
             query.append(" AND c.change_tstamp < ? ");
         }
 
-        if (afterResourceId != null) {
+        if (changeIdMarker != null) {
             if (historySortOrder == HistorySortOrder.NONE) {
                 // range scan following the primary key
                 query.append(" AND c.resource_id > ? ");
@@ -164,7 +164,7 @@ public class FetchResourceChangesDAO {
         final String SQL = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("FETCH CHANGES: " + SQL + "; [" + sinceTstamp + ", " + afterResourceId + "]");
+            logger.fine("FETCH CHANGES: " + SQL + "; [" + sinceTstamp + ", " + changeIdMarker + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
@@ -181,8 +181,8 @@ public class FetchResourceChangesDAO {
                 ps.setTimestamp(a++, Timestamp.from(beforeTxWindow), CalendarHelper.getCalendarForUTC());
             }
 
-            if (this.afterResourceId != null) {
-                ps.setLong(a++, this.afterResourceId);
+            if (this.changeIdMarker != null) {
+                ps.setLong(a++, this.changeIdMarker);
             }
 
             ResultSet rs = ps.executeQuery();

@@ -264,7 +264,7 @@ public interface FHIRPersistence {
      * @return a list containing up to resourceCount elements describing resources which have changed
      * @throws FHIRPersistenceException
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, 
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, 
             HistorySortOrder historySortOrder) throws FHIRPersistenceException;
 
     /**

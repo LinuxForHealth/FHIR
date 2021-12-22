@@ -97,9 +97,9 @@ public class FHIRPersistenceUtil {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
                 String first = values.get(0);
-                if ("_lastChangeId".equals(name)) {
+                if ("_changeIdMarker".equals(name)) {
                     long id = Long.parseLong(first);
-                    context.setAfterHistoryId(id);
+                    context.setChangeIdMarker(id);
                 } else if ("_count".equals(name)) {
                     int resourceCount = Integer.parseInt(first);
                     if (resourceCount >= 0) {
