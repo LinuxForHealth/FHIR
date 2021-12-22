@@ -19,6 +19,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -179,6 +180,14 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
+            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
+            throws FHIRPersistenceException {
+        // NOP
+        return null;
+    }
+
+    @Override
     public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         // NOP
         return null;
@@ -186,6 +195,13 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
+        // NOP
+        return null;
+    }
+
+    @Override
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+        // NOP
         return null;
     }
 }

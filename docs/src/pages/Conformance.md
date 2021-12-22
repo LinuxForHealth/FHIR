@@ -16,7 +16,6 @@ The IBM FHIR Server supports only version 4.0.1 of the specification.
 
 ## FHIR HTTP API
 The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:
-* history is not supported at the resource-type level (only the resource instance level and the whole-system level)
 * whole-system history is not conformant to the HL7 FHIR specification; we chose not to include the resource in the history response bundle
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
@@ -124,30 +123,67 @@ The whole system history interaction can be used to obtain a list of changes (cr
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
 ```
 
-The response is a history bundle as described by the [FHIR specification](https://www.hl7.org/fhir/http.html#history) with one exception. Whereas the specification requires each entry in the history bundle to contain the full contents of the resource (at least for entries with a `entry.request.method` of PUT or POST), the IBM FHIR Server whole-system history response bundle contains only references to the resources. Clients may choose which resources they fetch. They may also fetch the resources in parallel, which may greatly improve throughput.
+The response is a history bundle as described by the [FHIR specification](https://www.hl7.org/fhir/http.html#history) with one exception. Whereas the specification requires each entry in the history bundle to contain the full contents of the resource (at least for entries with a `entry.request.method` of PUT or POST), clients can specify the HTTP header value `Prefer: return=minimal` in which case the whole-system history response bundle contains only references to the resources. This allows clients to decide which resources they actually need to read (and can do so in parallel to further improve throughput).
 
-To return all changes that have occurred since a known point in time, use the `_since` query parameter:
+There are three possible traversal paths through the data which are requested using the `_sort` request parameter:
+
+1. `_sort=-_lastUpdated` [Default] Decreasing time - most recent changes first
+2. `_sort=_lastUpdated` Increasing time - oldest changes first
+3. `_sort=none` Increasing id order - oldest changes first
+
+Option 1 is useful for users interested in finding the most recent changes that have been applied to the server. Option 2 is useful for system-to-system synchronization because it represents the change history of the server. Option 3 is also useful for system-to-system synchronization cases, but guarantees uniqueness across pages when following the `next` links (versus option 2 which may repeat entries at the time window boundary when multiple resources share the same modification timestamp).
+
+To return all changes that have occurred since a known point in time, use both `_since` and `_sort=_lastUpdated` query parameters:
 
 ```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z'
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z&_sort=_lastUpdated'
 ```
 
-By default, the returned bundle will contain up to 100 resource references. The number of resources can be increased (up to 1000) using the `_count` parameter. Specifying `_count` values larger than 1000 will return no more than 1000 resource references:
+To return all changes that have occurred before a known point in time, use `_before` and `_sort=-_lastUpdated` query parameters:
+
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_before=2021-02-21T00:00:00Z&_sort=-_lastUpdated'
+```
+
+To return changes within a known window of time, specify both the `_since` and `_before` query parameters and choose either ascending or descending sort. 
+
+When sorting with ascending time, the `_since` parameter in the `next` link is calculated to fetch the next page of resources and the `_before` parameter (if given) remains constant. When sorting with descending time, the `_before` parameter in the `next` link is calculated to fetch the next page of resources and the `_since` parameter (if given) remains constant.
+
+When sorting using ascending or descending time, the `next` link also includes a value for `_changeIdMarker`. This value is used to exclude this resource change record from the next result page. This is required because multiple resources may share the same `_lastUpdated` time, so filters for `_since` and `_before` must always be inclusive which can lead to duplicates across result page boundaries.
+
+By default, the returned bundle will contain up to 100 resources. The number of resources can be increased (up to 1000) using the `_count` parameter. Specifying `_count` values larger than 1000 will return no more than 1000 resources:
+
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000'
 ```
 
-Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id. This is convenient, because the `_afterHistoryId` is based on a unique identifier. The client does not need to worry about duplicates which otherwise occur when using `_since` to sequentially fetch history:
+As mentioned above, to simplify client implementations in system-to-system synchronization scenarios, the client may specify `_sort=none` as follows:
 
 ```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_afterHistoryId=3004'
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=100&_sort=none'
 ```
 
-Clients cannot use both `_afterHistoryId` and `_since` together nor should they switch to using the other without understanding how concurrency, transaction boundaries and cluster clock synchronization issues can affect how ids and timestamps are assigned during ingestion. If `_since` is specified, the `next` link in the returned bundle will include the `_since` parameter using the greatest `lastModified` from the returned resources as its value. If `_afterHistoryId` is specified, the `next` link in the returned bundle will include the `_afterHistoryId` parameter using the greatest internal id from the returned resources as its value. If you do not specify any filter parameter, the IBM FHIR Server uses `_afterHistoryId=0` as the initial start point and so will use `_afterHistoryId` for the subsequent `next` links.
+In this case, the IBM FHIR Server uses `_changeIdMarker` as a custom paging attribute which references a single `Bundle.entry.id` value. This value can be used by clients to checkpoint where they are in the sequence of changes, and ask for only changes that come after the given id. The simplest way to do this is to follow the `next` link returned in the response Bundle. If the next link is not present in the response Bundle, the end has been reached for the current point in time. Note that `_lastUpdated` and `Bundle.entry.id` values are not perfectly correlated - clients should not mix ordering. The ids used for `Bundle.entry.id` are guaranteed to be unique within a single IBM FHIR Server database (tenant/datasource).
 
-In a highly concurrent system, several resources could share the same timestamp. Also, the internal id used to identify individual resource changes may not correlate perfectly with the `lastModified` time. Take the following, for example:
+### Whole System History - Type Filters
+The query parameter `_type` can be used to limit which resource types are returned from a `_history` request. For example, the following request will return only Patient and Observation resources:
 
-| logical-id | version |  time | change-id |  change-type |
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_type=Patient,Observation'
+```
+
+If only a single resource type is required, the `[type]/_history` endpoint can be used:
+
+```
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/Patient/_history?_count=1000'
+```
+
+This form has identical behavior to the whole-system-history endpoint with a single `_type=[type]` value.
+
+### Whole System History - Shared Timestamps
+In a highly concurrent system, several resources could share the same timestamp. Also, the internal id used to identify individual resource changes may not correlate perfectly with the `_lastUpdated` time. For example:
+
+| logical-id | version |  time | changeIdMarker |  change-type |
 | ---------- | ------- | ----- | --------- | ------------ |
 | patient-1  |       1 | 12:00 |         1 | CREATE |
 | patient-2  |       1 | 12:05 |         2 | CREATE |
@@ -156,11 +192,22 @@ In a highly concurrent system, several resources could share the same timestamp.
 | patient-1  |       2 | 12:06 |         5 | UPDATE |
 | patient-3  |       2 | 12:06 |         6 | DELETE |
 
-Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Significantly, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
+Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Also, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized or the resource was created when processing a large Bundle. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
 
-Clients must also exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
+The IBM FHIR Server requires clocks in a cluster to be synchronized and expects a maximum clock drift of no more than 2 seconds.
 
-To guarantee no data is skipped, clients should not process resources with a `lastModified` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information. Implementers should check with server administrators on the appropriate values to use.
+### Whole System History - The Transaction Timeout Window
+Clients must exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have some earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
+
+To guarantee no data is skipped, clients should not process resources with a `_lastUpdated` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and can safely checkpoint using the `_since`, `_before` or `_changeIdMarker` values depending on the chosen sort option. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information about the infrastructure. Implementers should check with server administrators on the appropriate values to use. 
+
+To simplify the handling of this scenario, clients may specify the optional query parameter `_excludeTransactionTimeoutWindow=true` to perform this filtering within the server. This relies on the IBM FHIR Server transaction timeout having been configured using the `FHIR_TRANSACTION_MANAGER_TIMEOUT` environment variable. If this environment variable is not configured, a default transaction timeout of 120s is assumed, although this may not be the actual timeout if the server is otherwise configured in a non-standard way.
+
+Note that using `_excludeTransactionTimeoutWindow=true` intentionally introduces a delay as to when freshly ingested resources become visible from the `_history` endpoints. When this parameter is used, clients can safely iterate along the resource history timeline using the `next` links in the Bundle response without the risk of missing data.
+
+| | |
+| -------------- | ---- |
+| **Recommendation**: | To iterate over multiple pages, always use the `next` links in the response Bundle instead of trying to compose the URL and its query parameters each time. |
 
 ## Search
 The IBM FHIR Server supports all search parameter types defined in the specification:

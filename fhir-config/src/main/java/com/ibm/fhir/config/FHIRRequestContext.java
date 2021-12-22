@@ -50,6 +50,9 @@ public class FHIRRequestContext {
 
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
+    
+    // True if the returnPreference was not passed and is using the default value
+    private boolean returnPreferenceDefault;
 
     private Map<String, Object> operationProperties = new HashMap<>();
 
@@ -258,5 +261,19 @@ public class FHIRRequestContext {
      */
     public void setHttpHeaders(Map<String, List<String>> httpHeaders) {
         this.httpHeaders = httpHeaders;
+    }
+
+    /**
+     * @return the returnPreferenceIsDefault
+     */
+    public boolean isReturnPreferenceDefault() {
+        return returnPreferenceDefault;
+    }
+
+    /**
+     * @param returnPreferenceIsDefault the returnPreferenceIsDefault to set
+     */
+    public void setReturnPreferenceDefault(boolean returnPreferenceIsDefault) {
+        this.returnPreferenceDefault = returnPreferenceIsDefault;
     }
 }
