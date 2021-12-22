@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ILeaseManager;
@@ -99,9 +100,10 @@ public class LeaseManager implements ILeaseManager {
     }
     
     /**
-     * Stop the maintenance loop
+     * Shut down the maintenance thread and wait for it so that we know it's
+     * not running before we cancel the release
      */
-    public void shutdown() {
+    private void stopMaintenanceThreadAndWait() {
         this.running = false;
         this.gotLease = false;
         
@@ -109,15 +111,19 @@ public class LeaseManager implements ILeaseManager {
             leaseMaintenanceThr.interrupt();
             
             try {
-                // A couple of seconds should be plenty of time for the thread to terminate
-                leaseMaintenanceThr.join(2000);
+                // No timeout here because we need to know the thread has terminated
+                // before executing the cancel lease statement (to avoid a nasty race
+                // condition).
+                leaseMaintenanceThr.join();
                 logger.info("Lease maintenance thread terminated");
             } catch (InterruptedException x) {
-                logger.warning("Interrupted waiting for lease maintenance thread to terminate");
+                final String msg = "Interrupted waiting for least maintenance thread to terminate";
+                logger.severe(msg);
+                throw new DataAccessException(msg, x);
             }
         }
     }
-    
+
     /**
      * Initial call to try to obtain the lease within the given number of seconds
      * If the lease is obtained, we set up a lease maintenance thread to refresh
@@ -246,18 +252,25 @@ public class LeaseManager implements ILeaseManager {
         boolean result = false;
         logger.info("Canceling lease for schema '" + schemaName + "'");
         this.gotLease = false;
-        try (ITransaction tx = transactionProvider.getTransaction()) {
-            try (Connection c = connectionPool.getConnection()) {
-                CancelLease cmd = new CancelLease(adminSchema, schemaName, leaseId);
-                boolean canceled = cmd.run(translator, c);
-                if (canceled) {
-                    logger.info("Lease canceled for schema '" + schemaName + "'");
-                    result = true;
-                } else {
-                    logger.warning("Cancel lease ignored: Lease for schema '" + schemaName + "' is not owned by this instance");
+        // We must make sure we stop the lease maintenance thread before running
+        // the CancelLease statement, otherwise we run into a race condition that
+        // could renew the lease right after we canceled it
+        try {
+            stopMaintenanceThreadAndWait();
+        } finally {
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try (Connection c = connectionPool.getConnection()) {
+                    CancelLease cmd = new CancelLease(adminSchema, schemaName, leaseId);
+                    boolean canceled = cmd.run(translator, c);
+                    if (canceled) {
+                        logger.info("Lease canceled for schema '" + schemaName + "'");
+                        result = true;
+                    } else {
+                        logger.warning("Cancel lease ignored: Lease for schema '" + schemaName + "' is not owned by this instance");
+                    }
+                } catch (SQLException x) {
+                    throw translator.translate(x);
                 }
-            } catch (SQLException x) {
-                throw translator.translate(x);
             }
         }
         
