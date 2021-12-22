@@ -62,7 +62,7 @@ public class DerbyLeaseTest {
             // finally cancel our lease
             lm1.cancelLease();
             assertFalse(lm1.hasLease());
-            lm1.shutdown();
+            lm1.cancelLease();
             
             // Now we should be able to obtain the lease using a different LeaseManager
             LeaseManagerConfig config2 = LeaseManagerConfig.builder().withHost("lm2").withLeaseTimeSeconds(64).build();
@@ -78,10 +78,8 @@ public class DerbyLeaseTest {
             assertFalse(gotLease3);
 
             assertTrue(lm2.cancelLease());
-            lm2.shutdown();
             
             assertFalse(lm3.cancelLease());
-            lm3.shutdown();
         }
     }
 }
