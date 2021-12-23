@@ -170,7 +170,7 @@ BEGIN
 
   PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
-      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
+      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)';
   EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
 
   IF v_new_resource = 0 THEN
