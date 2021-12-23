@@ -79,7 +79,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         final CassandraPropertyGroupAdapter config = getConfigAdapter();
         final String partitionName = partitionStrategy.getPartitionName(resourceType, logicalId);
         try (CqlSession session = getCqlSession()) {
-            // render to a compressed stream and store
+            // Get the IO stream for the rendered resource.
             InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, config.isCompress());
             CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
             spl.run(session);

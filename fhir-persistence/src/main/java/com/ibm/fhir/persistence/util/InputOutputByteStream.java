@@ -73,7 +73,7 @@ public class InputOutputByteStream {
         @Override
         public void write(int b) throws IOException {
             int idx = offset++;
-            extend(idx);
+            extend(offset); // use the new length
             buffer[idx] = (byte)b;
         }
 
