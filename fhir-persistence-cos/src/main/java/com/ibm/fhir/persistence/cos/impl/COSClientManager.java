@@ -107,14 +107,14 @@ public class COSClientManager implements EventCallback {
                 throw new IllegalStateException("Unsupported 'type' property value within datasource property group: " + type);
             }
 
-            // Get the connection properties
+            // Check that the connection properties are configured
             PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
             if (connectionProps == null) {
                 throw new IllegalStateException("Could not locate 'connectionProperties' property group within datasource property group: " + dsPropertyName);
             }
 
-            // Wrap the connection properties in an adapter to simplify access
-            CosPropertyGroupAdapter adapter = new CosPropertyGroupAdapter(connectionProps);
+            // Wrap the main properties in an adapter to simplify access
+            CosPropertyGroupAdapter adapter = new CosPropertyGroupAdapter(dsPG);
             return new COSPayloadClient(key.getTenantId(), key.getDatasourceId(), adapter);
         } catch (Exception x) {
             throw new IllegalStateException(x);

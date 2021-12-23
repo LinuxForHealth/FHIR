@@ -28,6 +28,9 @@ public class BlobPropertyGroupAdapter {
 
     // The property name for the Azure Blob command timeout in seconds
     public static final String PROP_TIMEOUT_SECS = "timeoutSecs";
+    
+    // Compress the payload
+    public static final String PROP_COMPRESS = "compress";
 
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -59,6 +62,19 @@ public class BlobPropertyGroupAdapter {
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_TENANT_CONTAINER, x);
             throw new IllegalArgumentException("Property group not configured " + PROP_TENANT_CONTAINER);
+        }
+    }
+
+    /**
+     * Should the payload be compressed before stored
+     * @return
+     */
+    public boolean isCompress() {
+        try {
+            return propertyGroup.getBooleanProperty(PROP_COMPRESS);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_COMPRESS, x);
+            throw new IllegalArgumentException("Property group misconfigured " + PROP_COMPRESS);
         }
     }
 

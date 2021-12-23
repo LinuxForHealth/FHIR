@@ -71,4 +71,9 @@ public interface COSConfigAdapter {
      */
     default int defaultMaxKeys() { return 1000; }
 
+    /**
+     * Is the payload stored compressed
+     * @return
+     */
+    boolean isCompress();
 }

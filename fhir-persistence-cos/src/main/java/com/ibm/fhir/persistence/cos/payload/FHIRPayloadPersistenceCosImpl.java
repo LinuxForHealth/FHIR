@@ -12,8 +12,12 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
+import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
@@ -21,6 +25,8 @@ import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult.Status;
+import com.ibm.fhir.persistence.payload.PayloadReader;
+import com.ibm.fhir.persistence.payload.PayloadReaderImpl;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -63,13 +69,11 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
         final long start = System.nanoTime();
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
+        final CosPropertyGroupAdapter config = getConfigAdapter();
         final String objectName = makeObjectName(resourceTypeId, logicalId, version, resourcePayloadKey);
         try {
-            return cpc.read(objectName, is -> PayloadPersistenceHelper.parse(resourceType, is, elements));
-
-        } catch (RuntimeException x) {
-            logger.severe("Failed to read payload for: '" + resourceType.getSimpleName() + "/" + logicalId + "/" + version + "', objectName = '" + objectName + "'");
-            throw new FHIRPersistenceException("Failed to parse resource", x);
+            PayloadReader payloadReader = new PayloadReaderImpl(config.isCompress(), elements);
+            return cpc.read(resourceType, objectName, payloadReader);
         } finally {
             if (logger.isLoggable(Level.FINE)) {
                 long elapsed = System.nanoTime() - start;
@@ -118,5 +122,20 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
             logger.severe("Failed to delete payload for: '" + resourceTypeId + "/" + logicalId + "/" + version + "'");
             throw x;
         }
+    }
+    
+    /**
+     * Get the tenant-specific configuration for COS
+     * @return
+     */
+    private CosPropertyGroupAdapter getConfigAdapter() {
+        // get the PropertyGroup for the current tenant/datasource
+        final String dsId = "default"; // only one payload datasource for COS
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        if (dsPG == null) {
+            throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
+        }
+        return new CosPropertyGroupAdapter(dsPG);
     }
 }

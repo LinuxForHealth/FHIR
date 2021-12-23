@@ -122,7 +122,7 @@ public class BlobContainerManager implements EventCallback {
      * @param dsPropertyName
      * @return
      */
-    private static BlobPropertyGroupAdapter getPropertyGroupAdapter(String dsPropertyName) {
+    public static BlobPropertyGroupAdapter getPropertyGroupAdapter(String dsPropertyName) {
         
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         if (dsPG == null) {

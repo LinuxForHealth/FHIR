@@ -72,4 +72,9 @@ public class COSPropertiesAdapter implements COSConfigAdapter {
             return defaultMaxKeys();
         }
     }
+
+    @Override
+    public boolean isCompress() {
+        return "Y".equalsIgnoreCase(properties.getProperty(COSPropertyConstants.COS_COMPRESS));
+    }
 }

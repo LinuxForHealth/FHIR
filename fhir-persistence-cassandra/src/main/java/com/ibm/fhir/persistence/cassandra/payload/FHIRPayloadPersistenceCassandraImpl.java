@@ -13,8 +13,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
+import com.ibm.fhir.persistence.cassandra.cql.TenantDatasourceKey;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPartitionStrategy;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
@@ -70,10 +76,11 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         throws FHIRPersistenceException {
         Future<PayloadPersistenceResult> result;
 
-        String partitionName = partitionStrategy.getPartitionName(resourceType, logicalId);
+        final CassandraPropertyGroupAdapter config = getConfigAdapter();
+        final String partitionName = partitionStrategy.getPartitionName(resourceType, logicalId);
         try (CqlSession session = getCqlSession()) {
             // render to a compressed stream and store
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, true);
+            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, config.isCompress());
             CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
             spl.run(session);
 
@@ -92,8 +99,9 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
             int version, String resourcePayloadKey, List<String> elements) throws FHIRPersistenceException {
 
         logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
+        final CassandraPropertyGroupAdapter config = getConfigAdapter();
         try (CqlSession session = getCqlSession()) {
-            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(rowResourceTypeName, logicalId), resourceTypeId, logicalId, version, resourcePayloadKey, elements);
+            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(rowResourceTypeName, logicalId), resourceTypeId, logicalId, version, resourcePayloadKey, elements, config.isCompress());
             return spl.run(resourceType, session);
         }
     }
@@ -107,5 +115,21 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
                     resourceTypeId, logicalId, version, resourcePayloadKey);
             spl.run(session);
         }
+    }
+
+    /**
+     * Get the {@link CassandraPropertyGroupAdapter} describing the configuration to use for
+     * this payload offload implementation
+     * @return
+     */
+    private CassandraPropertyGroupAdapter getConfigAdapter() {
+        final String tenantId = FHIRRequestContext.get().getTenantId();
+        final String dsId = FHIRRequestContext.get().getDataStoreId();
+        TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        
+        // Wrap the PropertyGroup in an adapter to make it easier to consume
+        return new CassandraPropertyGroupAdapter(dsPG);
     }
 }

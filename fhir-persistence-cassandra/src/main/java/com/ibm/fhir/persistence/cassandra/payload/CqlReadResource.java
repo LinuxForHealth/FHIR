@@ -16,7 +16,6 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
@@ -24,18 +23,13 @@ import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.metadata.schema.ClusteringOrder;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRJsonParser;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.cassandra.cql.CqlPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
-import com.ibm.fhir.search.SearchConstants;
 
 /**
  * CQL command to read a FHIR resource stored in Cassandra.
@@ -58,7 +52,11 @@ public class CqlReadResource {
     // The unique key used to always correctly tie this record to the RDBMS
     private final String resourcePayloadKey;
 
+    // Elements for subsetting the resource during parse
     private final List<String> elements;
+    
+    // Do we need to uncompress the payload we've read
+    private final boolean uncompress;
 
     /**
      * Public constructor
@@ -69,7 +67,7 @@ public class CqlReadResource {
      * @param version
      * @param elements
      */
-    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements) {
+    public CqlReadResource(String partitionId, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements, boolean uncompress) {
         CqlDataUtil.safeBase64(partitionId);
         this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
@@ -77,6 +75,7 @@ public class CqlReadResource {
         this.version = version;
         this.resourcePayloadKey = resourcePayloadKey;
         this.elements = elements;
+        this.uncompress = uncompress;
     }
 
     /**
@@ -115,9 +114,7 @@ public class CqlReadResource {
                 if (bb != null) {
                     // The payload is small enough to fit in the current row
                     InputOutputByteStream readStream = new InputOutputByteStream(bb);
-                    try (InputStream in = new GZIPInputStream(readStream.inputStream())) {
-                        result = PayloadPersistenceHelper.parse(resourceType, in, this.elements);
-                    }
+                    result = PayloadPersistenceHelper.parse(resourceType, readStream.inputStream(), this.elements, this.uncompress);
                 } else {
                     // Big payload split into multiple chunks. Requires a separate read
                     return readFromChunks(resourceType, session);
@@ -132,7 +129,8 @@ public class CqlReadResource {
             throw new CqlPersistenceException("error reading resource", x);
         } catch (FHIRParserException x) {
             // particularly bad...resources are validated before being saved, so if we get a
-            // parse failure here that's not IO related, it's not good (database altered?)
+            // parse failure here that's not IO related, it's not good (database altered or
+            // inconsistent?)
             logger.log(Level.SEVERE, "Error parsing resource partition_id=" + partitionId + ", resourceTypeId=" + resourceTypeId
                 + ", logicalId=" + logicalId);
             throw new CqlPersistenceException("parse resource failed", x);
@@ -159,33 +157,8 @@ public class CqlReadResource {
 
         PreparedStatement ps = session.prepare(statement.build());
         ResultSet chunks = session.execute(ps.bind(resourcePayloadKey));
-        try (InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(new ResultSetBufferProvider(chunks, 1)))) {
-            return parseStream(resourceType, in);
+        try (InputStream in = new CqlChunkedPayloadStream(new ResultSetBufferProvider(chunks, 1))) {
+            return PayloadPersistenceHelper.parse(resourceType, in, this.elements, this.uncompress);
         }
-    }
-
-    /**
-     * Parse the input stream, processing for elements if needed
-     * @param <T>
-     * @param resourceType
-     * @param in
-     * @return
-     * @throws IOException
-     * @throws FHIRParserException
-     */
-    private <T extends Resource> T parseStream(Class<T> resourceType, InputStream in) throws IOException, FHIRParserException {
-        T result;
-        if (elements != null) {
-            // parse/filter the resource using elements
-            result = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
-            if (resourceType.equals(result.getClass()) && !FHIRUtil.hasTag(result, SearchConstants.SUBSETTED_TAG)) {
-                // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
-                result = FHIRUtil.addTag(result, SearchConstants.SUBSETTED_TAG);
-            }
-        } else {
-            result = FHIRParser.parser(Format.JSON).parse(in);
-        }
-
-        return result;
     }
 }

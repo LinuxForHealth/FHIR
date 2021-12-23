@@ -12,6 +12,8 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
@@ -48,8 +50,8 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         throws FHIRPersistenceException {
         Future<PayloadPersistenceResult> result;
         try {
-            // render to a compressed stream and store
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, true);
+            final BlobPropertyGroupAdapter config = getConfigAdapter();
+            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, config.isCompress());
             BlobStorePayload spl = new BlobStorePayload(resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
             spl.run(getBlobContainerClient());
 
@@ -68,7 +70,8 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
             int version, String resourcePayloadKey, List<String> elements) throws FHIRPersistenceException {
 
         logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
-        BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements);
+        final BlobPropertyGroupAdapter config = getConfigAdapter();
+        BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements, config.isCompress());
         return cmd.run(resourceType, getBlobContainerClient());
     }
 
@@ -77,5 +80,15 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
         BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey);
         cmd.run(getBlobContainerClient());
+    }
+
+    /**
+     * Get the config adapter for the current tenant/datasource
+     * @return
+     */
+    private BlobPropertyGroupAdapter getConfigAdapter() {
+        final String dsId = FHIRRequestContext.get().getDataStoreId();
+        final String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId;
+        return BlobContainerManager.getPropertyGroupAdapter(dsPropertyName);
     }
 }

@@ -26,6 +26,7 @@ public class CassandraPropertyGroupAdapter {
     public static final String PROP_PORT = "port";
     public static final String PROP_LOCAL_DATACENTER = "localDatacenter";
     public static final String PROP_TENANT_KEYSPACE = "tenantKeyspace";
+    public static final String PROP_COMPRESS = "compress";
 
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -74,6 +75,19 @@ public class CassandraPropertyGroupAdapter {
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_LOCAL_DATACENTER, x);
             throw new IllegalArgumentException("Property group not configured " + PROP_LOCAL_DATACENTER);
+        }
+    }
+
+    /**
+     * Should the payload be compressed
+     * @return
+     */
+    public boolean isCompress() {
+        try {
+            return propertyGroup.getBooleanProperty(PROP_COMPRESS, true);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_COMPRESS, x);
+            throw new IllegalArgumentException("Property group misconfigured " + PROP_COMPRESS);
         }
     }
 
