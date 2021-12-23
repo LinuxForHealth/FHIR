@@ -562,12 +562,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.9</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.9</version>
             </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
@@ -582,7 +582,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.69.Final</version>
+                <version>4.1.72.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->

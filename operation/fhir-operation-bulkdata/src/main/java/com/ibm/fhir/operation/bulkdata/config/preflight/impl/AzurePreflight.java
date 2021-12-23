@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
+import static com.ibm.fhir.operation.bulkdata.util.CommonUtil.buildExceptionWithIssue;
+
 import java.util.List;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -62,7 +64,7 @@ public class AzurePreflight extends NopPreflight {
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.AZURE.value().equals(storageDetail.getType())){
-            throw util.buildExceptionWithIssue("Azure: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw buildExceptionWithIssue("Azure: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
 }

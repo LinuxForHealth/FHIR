@@ -762,8 +762,6 @@ public class Main {
                 svm.updateSchemaVersion();
             }
         } finally {
-            // stop trying to refresh the lease before we cancel it for good
-            leaseManager.shutdown();
             leaseManager.cancelLease();
         }
     }

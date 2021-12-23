@@ -772,3 +772,52 @@ logical_resource_security           | Security labels associated with the resour
 ```
 
 
+# List of IBM FHIR Server Persistence Schema Tool Flags
+
+
+|Flag|Variable|Description|
+|----------------|----------------|----------------|
+|--help||This menu|
+|--prop-file|path-to-property-file|loads the properties from a file|
+|--schema-name|schema-name|uses the schema as specified, must be valid.|
+|--grant-to|username|uses the user as specified, must be valid.
+and grants permission to the username|
+|--target|TYPE schemaName|The schemaName and type [BATCH,OAUTH,DATA]|
+|--add-tenant-key|tenant-key|adds a tenant-key|
+|--revoke-tenant-key||revokes the key for the specified tenant and tenant key|
+|--revoke-all-tenant-keys||revokes the all of the keys for the specified tenant|
+|--update-proc||updates the stored procedure for a specific tenant|
+|--check-compatibility||checks feature compatibility|
+|--drop-admin||drops the admin schema|
+|--test-tenant|tenantName| used to test with tenantName|
+|--tenant-key|tenantKey|the tenant-key in the queries|
+|--tenant-key-file|tenant-key-file-location|sets the tenant key file location|
+|--list-tenants||fetches list of tenants and current status|
+|--db-type|dbType|Either derby, postgresql, db2|
+|--delete-tenant-meta|tenantName|deletes tenant metadata given the tenantName|
+|--drop-detached|tenantName|(phase 2) drops the detached tenant partition tables given the tenantName|
+|--freeze-tenant||Changes the tenant state to frozen, and subsequently (Db2 only)|
+|--drop-tenant|tenantName|(phase 1) drops the tenant given the tenantName|
+|--refresh-tenants||(Db2 only) ensure that any new tables added by the update have the correct partitions. The refresh-tenants process will iterate over each tenant and allocate new partitions as needed.|
+|--allocate-tenant||allocates a tenant|
+|--confirm-drop||confirms the dropping of a schema|
+|--update-vacuum||Update the Vacuum settings for PostgreSQL|
+|--vacuum-table-name|tableName|Table Name to update vacuum settings|
+|--vacuum-scale-factor|scaleFactor|The scale factor to alter to 'scaleFactor'|
+|--vacuum-threshold|threshold|The threshold value to alter to 'threshold'|
+|--vacuum-cost-limit|costLimit|The Vacuum cost limit to set|
+|--skip-allocate-if-tenant-exists||Skips allocating a tenant if it already exists|
+|--force-unused-table-removal||Forces the removal of unused tables - DomainResource, Resource|
+|--prop|name=value|name=value that is passed in on the commandline|
+|--pool-size|poolSize|poolsize used with the database actions|
+|--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|
+|--drop-schema-batch||drop the db schema used by liberty's java-batch feature"|
+|--drop-schema-fhir||drop the schema set by '--schema-name'|
+|--update-schema||deploy or update the schema set by '--schema-name', *deprecated* use --update-schema-fhir|
+|--update-schema-fhir|schemaName|Updates the FHIR Data Schema|
+|--update-schema-batch|schemaName|Updates the Batch Schema|
+|--update-schema-oauth|schemaName|Updates the OAuth Schema|
+|--create-schemas||create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'|
+|--create-schema-fhir|schemaName|Create the FHIR Data Schema|
+|--create-schema-batch|schemaName|Create the Batch Schema|
+|--create-schema-oauth|schemaName|Create the OAuth Schema|

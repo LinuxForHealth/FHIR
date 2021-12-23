@@ -174,6 +174,14 @@ public interface FHIRPersistence {
     OperationOutcome getHealth() throws FHIRPersistenceException;
 
     /**
+     * Read the resources for each of the change log records in the list, aligning
+     * the entries in the returned list to match the entries in the records list.
+     * @param records
+     * @return a list of Resources with the same number of entries as the given records list
+     */
+    List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException;
+
+    /**
      * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
      * This can then be used to control transactional boundaries.
      */
@@ -260,7 +268,23 @@ public interface FHIRPersistence {
      * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
+    @Deprecated
     List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+    
+    /**
+     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
+     * @param resourceCount the max number of resource change records to fetch
+     * @param sinceLastModified filter records with record.lastUpdate >= sinceLastModified. Optional.
+     * @param beforeLastModified filter records with record.lastUpdate <= beforeLastModified. Optional.
+     * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
+     * @param resourceTypeNames filter records matching any resource type name in the list
+     * @param excludeTransactionTimeoutWindow flag to exclude resources falling inside server's tx timeout window
+     * @param historySortOrder the type of sorting to apply
+     * @return a list containing up to resourceCount elements describing resources which have changed
+     * @throws FHIRPersistenceException
+     */
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, 
+            HistorySortOrder historySortOrder) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer

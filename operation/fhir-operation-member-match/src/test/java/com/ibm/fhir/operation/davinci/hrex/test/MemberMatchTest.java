@@ -1686,7 +1686,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+        public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception {
             throw new AssertionError("Unused");
         }
 

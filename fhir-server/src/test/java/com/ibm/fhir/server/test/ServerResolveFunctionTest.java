@@ -46,6 +46,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -424,6 +425,18 @@ public class ServerResolveFunctionTest {
             throw new UnsupportedOperationException();
         }
 
+        @Override
+        public List<ResourceChangeLogRecord> changes(
+                int resourceCount,
+                java.time.Instant sinceLastModified,
+                java.time.Instant beforeLastModified,
+                Long afterResourceId,
+                List<String> resourceTypeNames,
+                boolean excludeTransactionTimeoutWindow,
+                HistorySortOrder historySortOrder) throws FHIRPersistenceException {
+            throw new UnsupportedOperationException();
+        }
+
         @SuppressWarnings("unchecked")
         private <T extends Resource> SingleResourceResult<T> createOrUpdate(T resource) {
             Class<? extends Resource> resourceType = resource.getClass();
@@ -462,6 +475,11 @@ public class ServerResolveFunctionTest {
         @Override
         public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
             // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
             return null;
         }
     }
