@@ -203,9 +203,11 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         if (eraseDto.getVersion() != null && version != 1) {
             
             // Record the affected record
-            final String INSERT_ERASED_RESOURCES =
-                    "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
-                    + "   VALUES (?, ?, ?, ?)";
+            final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
+                    ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id, version_id) "
+                    + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)"
+                    : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
+                    + "     VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
                 stmt.setLong(1, erasedResourceGroupId);
                 stmt.setInt(2, resourceTypeId);
