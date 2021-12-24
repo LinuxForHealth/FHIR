@@ -2760,6 +2760,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
             if (this.payloadPersistence != null) {
                 erasePayloads(eraseDao, eraseResourceGroupId);
+            } else {
+                // clean up the erased_resources records because they're no longer needed
+                eraseDao.clearErasedResourcesInGroup(eraseResourceGroupId);
             }
             
         } catch(FHIRPersistenceResourceNotFoundException e) {
@@ -2804,6 +2807,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         for (ErasedResourceRec rec: recs) {
             erasePayload(rec);
         }
+        
+        // If the above loop completed without throwing an exception, we can safely
+        // remove all the records in the group. If an exception was thrown (because
+        // the offload persistence layer was not accessible), don't delete right now
+        // just in case we want the tx to commit anyway, allowing for async cleanup
+        // by the reconciliation process
+        dao.clearErasedResourcesInGroup(erasedResourceGroupId);
     }
 
     /**

@@ -13,6 +13,7 @@
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR(  36 OCTETS),
       IN p_logical_id                   VARCHAR( 255 OCTETS),
+      IN p_erased_resource_group_id     BIGINT,
       OUT o_deleted                     BIGINT)
     LANGUAGE SQL
     MODIFIES SQL DATA
@@ -25,7 +26,7 @@ BEGIN
   DECLARE v_not_found           BIGINT DEFAULT 0;
   DECLARE v_msg                 VARCHAR(128 OCTETS) DEFAULT 'DEFAULT ERROR';
 
-  DECLARE r_stmt, dr_stmt, d_stmt, dlr_stmt, dglr_stmt, drcl_stmt STATEMENT;
+  DECLARE r_stmt, dr_stmt, d_stmt, dlr_stmt, dglr_stmt, drcl_stmt, iv_stmt STATEMENT;
 
   -- Set a condition when the resource is not found.
   DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_not_found = -1;
@@ -53,6 +54,13 @@ BEGIN
     || '    FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES'
     || '    WHERE LOGICAL_RESOURCE_ID = ?)';
     EXECUTE rcl_stmt USING v_logical_resource_id;
+
+    -- Step 1.1: Record the versions we need to delete if we are doing payload offload
+    PREPARE iv_stmt FROM 'INSERT INTO {{SCHEMA_NAME}}.erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) ' 
+        || '      SELECT ?, ?, ?, version_id '
+        || '        FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES '
+        || '       WHERE LOGICAL_RESOURCE_ID = ? ';
+    EXECUTE iv_stmt USING p_erased_resource_group_id, v_resource_type_id, p_logical_id, v_logical_resource_id;
 
     -- Step 2: Delete All Versions from Resources Table 
     -- Create the prepared statement to delete Resource Versions in chunks

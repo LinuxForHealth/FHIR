@@ -22,10 +22,11 @@ import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
@@ -51,8 +52,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     private static final String CLASSNAME = EraseResourceDAO.class.getSimpleName();
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
-    private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?)}";
-    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?)";
+    private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?, ?)}";
+    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?, ?)";
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
@@ -352,7 +353,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         
         // Assign the ERASE_RESOURCE_GROUP_ID which is used to record all the
         // logical_resource and resource_versions erased here
-        FhirSequenceDAOImpl fhirSequence = new FhirSequenceDAOImpl(getConnection());
+        FhirSequenceDAO fhirSequence = FHIRResourceDAOFactory.getSequenceDAO(getConnection(), getFlavor());
         long erasedResourceGroupId = fhirSequence.nextValue();
 
         if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
