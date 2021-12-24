@@ -56,11 +56,11 @@ BEGIN
     EXECUTE rcl_stmt USING v_logical_resource_id;
 
     -- Step 1.1: Record the versions we need to delete if we are doing payload offload
-    PREPARE iv_stmt FROM 'INSERT INTO {{SCHEMA_NAME}}.erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) ' 
-        || '      SELECT ?, ?, ?, version_id '
+    PREPARE iv_stmt FROM 'INSERT INTO {{SCHEMA_NAME}}.erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id, version_id) ' 
+        || '      SELECT ?, ?, ?, ?, version_id '
         || '        FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES '
         || '       WHERE LOGICAL_RESOURCE_ID = ? ';
-    EXECUTE iv_stmt USING p_erased_resource_group_id, v_resource_type_id, p_logical_id, v_logical_resource_id;
+    EXECUTE iv_stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, p_erased_resource_group_id, v_resource_type_id, p_logical_id, v_logical_resource_id;
 
     -- Step 2: Delete All Versions from Resources Table 
     -- Create the prepared statement to delete Resource Versions in chunks

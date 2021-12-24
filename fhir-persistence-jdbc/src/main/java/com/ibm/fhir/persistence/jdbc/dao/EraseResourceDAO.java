@@ -58,6 +58,9 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
 
+    // The name of the admin schema where we find the SV_TENANT_ID variable
+    private final String adminSchemaName;
+
     private ResourceEraseRecord eraseRecord;
     private EraseDTO eraseDto;
 
@@ -65,15 +68,17 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * Public constructor
      *
      * @param conn
+     * @param adminSchemaName
      * @param translator
      * @param schemaName
      * @param flavor
      * @param cache
      * @param rrd
      */
-    public EraseResourceDAO(Connection conn, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
+    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
             IResourceReferenceDAO rrd) {
         super(conn, schemaName, flavor, cache, rrd);
+        this.adminSchemaName = adminSchemaName;
         this.translator = translator;
     }
 
@@ -251,9 +256,11 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // The entire logical resource is being erased, so don't include a version when we record this
-        final String INSERT_ERASED_RESOURCES =
-                "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
-                + "   VALUES (?, ?, ?)";
+        final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
+                ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id) "
+                + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?)"
+                : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
+                + "     VALUES (?, ?, ?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
             stmt.setLong(1, erasedResourceGroupId);
             stmt.setInt(2, resourceTypeId);

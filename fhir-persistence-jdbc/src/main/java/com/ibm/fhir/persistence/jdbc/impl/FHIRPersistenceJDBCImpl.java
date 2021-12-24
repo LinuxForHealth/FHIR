@@ -2752,7 +2752,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             doCachePrefill(connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, translator, 
+            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, translator, 
                     schemaNameSupplier.getSchemaForRequestContext(connection), 
                     connectionStrategy.getFlavor(), this.cache, rrd);
             long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
