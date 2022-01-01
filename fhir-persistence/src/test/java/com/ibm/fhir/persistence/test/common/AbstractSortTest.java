@@ -37,6 +37,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -297,7 +298,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
@@ -355,18 +356,18 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         String previousId = null;
         String currentId = null;
         // Verify that resources are sorted in ascending order of logical id.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousId == null) {
                 previousId = resource.getId();
-            }
-            else {
+            } else {
                 currentId = resource.getId();
                 assertTrue(previousId.compareTo(resource.getId()) <=0);
                 previousId = currentId;
@@ -392,14 +393,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         Instant previousLastUpdated = null;
         Instant currentLastUpdated = null;
         // Verify that resources are sorted in ascending order of last updated.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousLastUpdated == null) {
                 previousLastUpdated = resource.getMeta().getLastUpdated();
             }
@@ -429,14 +431,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         String previousId = null;
         String currentId = null;
         // Verify that resources are sorted in descending order of logical id.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousId == null) {
                 previousId = resource.getId();
             }
@@ -466,14 +469,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         Instant previousLastUpdated = null;
         Instant currentLastUpdated = null;
         // Verify that resources are sorted in descending order of last updated.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousLastUpdated == null) {
                 previousLastUpdated = resource.getMeta().getLastUpdated();
             }

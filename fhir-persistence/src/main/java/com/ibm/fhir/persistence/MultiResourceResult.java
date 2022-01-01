@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,15 +19,15 @@ import com.ibm.fhir.model.util.ValidationSupport;
  * A Result wrapper for FHIR interactions that can return multiple resources.
  * Instances are immutable and can be constructed via {@code new MultiResourceResult.Builder<T>()}.
  */
-public class MultiResourceResult<T extends Resource> {
+public class MultiResourceResult {
     @Required
     final boolean success;
-    final List<T> resource;
+    final List<ResourceResult<? extends Resource>> resourceResults;
     final OperationOutcome outcome;
     
-    private MultiResourceResult(Builder<T> builder) {
+    private MultiResourceResult(Builder builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
-        resource = Collections.unmodifiableList(builder.resource);
+        resourceResults = Collections.unmodifiableList(builder.resourceResults);
         outcome = builder.outcome;
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
@@ -44,15 +43,16 @@ public class MultiResourceResult<T extends Resource> {
     public boolean isSuccess() {
         return success;
     }
+
     /**
-     * The resources returned from the interaction
-     * 
+     * The resource results returned from the interaction
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link Resource}.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceResource<T>}
      */
-    public List<T> getResource() {
-        return resource;
+    public List<ResourceResult<? extends Resource>> getResourceResults() {
+        return this.resourceResults;
     }
+
     /**
      * An OperationOutcome that represents the outcome of the interaction
      * 
@@ -63,14 +63,14 @@ public class MultiResourceResult<T extends Resource> {
         return outcome;
     }
     
-    public static <T extends Resource> Builder<T> builder(Class<T> clazz) {
-        return new Builder<T>();
+    public static Builder builder() {
+        return new Builder();
     }
     
     // result builder
-    public static class Builder<T extends Resource> {
+    public static class Builder {
         boolean success;
-        List<T> resource = new ArrayList<>();
+        final List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         OperationOutcome outcome;
         
         /**
@@ -84,45 +84,37 @@ public class MultiResourceResult<T extends Resource> {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder<T> success(boolean success) {
+        public Builder success(boolean success) {
             this.success = success;
             return this;
         }
         
+
         /**
-         * The return resources from the interaction
-         * 
-         * <p>Adds new element(s) to the existing list
-         * 
-         * @param resource
-         *     the resources to return from the interaction; this may be empty if there are no results
-         * 
+         * Add the resource results to the resourceResults list
+         * @param resourceResultsParam
          * @return
-         *     A reference to this Builder instance
          */
         @SafeVarargs
-        public final Builder<T> resource(T... resource) {
-            for (T value : resource) {
-                this.resource.add(value);
+        public final Builder resourceResult(ResourceResult<? extends Resource>... resourceResultsParam) {
+            for (ResourceResult<? extends Resource> value : resourceResultsParam) {
+                this.resourceResults.add(value);
+            }
+            return this;
+        }
+
+        /**
+         * Add the resource result list to resource list owned by this
+         * @param resourceResultsParam
+         * @return
+         */
+        public final Builder addResourceResults(List<ResourceResult<? extends Resource>> resourceResultsList) {
+            if (resourceResultsList != null) {
+                this.resourceResults.addAll(resourceResultsList);
             }
             return this;
         }
         
-        /**
-         * The return resources from the interaction
-         * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
-         * 
-         * @param resource
-         *     the resources to return from the interaction; this may be empty if there are no results
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder<T> resource(Collection<T> resource) {
-            this.resource = new ArrayList<>(resource);
-            return this;
-        }
         
         /**
          * An OperationOutcome that represents the outcome of the interaction
@@ -135,7 +127,7 @@ public class MultiResourceResult<T extends Resource> {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder<T> outcome(OperationOutcome outcome) {
+        public Builder outcome(OperationOutcome outcome) {
             this.outcome = outcome;
             return this;
         }
@@ -151,8 +143,8 @@ public class MultiResourceResult<T extends Resource> {
          * @return
          *     An immutable object of type {@link MultiResourceResult}
          */
-        public MultiResourceResult<T> build() {
-            return new MultiResourceResult<T>(this);
+        public MultiResourceResult build() {
+            return new MultiResourceResult(this);
         }
     }
 }

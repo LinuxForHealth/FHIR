@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -91,8 +91,10 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -1271,9 +1273,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, historyContext);
-            List<? extends Resource> resources =
-                    persistence.history(persistenceContext, resourceType, id).getResource();
-            bundle = createHistoryBundle(resources, historyContext, type);
+            MultiResourceResult historyResult =
+                    persistence.history(persistenceContext, resourceType, id);
+            bundle = createHistoryBundle(historyResult.getResourceResults(), historyContext, type);
             bundle = addLinks(historyContext, bundle, requestUri);
 
             event.setFhirResource(bundle);
@@ -1346,10 +1348,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
-            List<Resource> resources =
-                    persistence.search(persistenceContext, resourceType).getResource();
+            MultiResourceResult searchResult =
+                    persistence.search(persistenceContext, resourceType);
 
-            bundle = createSearchResponseBundle(resources, searchContext, type);
+            bundle = createSearchResponseBundle(searchResult.getResourceResults(), searchContext, type);
             if (requestUri != null) {
                 bundle = addLinks(searchContext, bundle, requestUri);
             }
@@ -2059,8 +2061,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     /**
      * Creates a bundle that will hold results for a search operation.
      *
-     * @param resources
-     *            the list of resources to include in the bundle
+     * @param resourceResults
+     *            the list of resource results to include in the bundle
      * @param searchContext
      *            the FHIRSearchContext object associated with the search
      * @param type
@@ -2068,7 +2070,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    Bundle createSearchResponseBundle(List<Resource> resources, FHIRSearchContext searchContext, String type) throws Exception {
+    Bundle createSearchResponseBundle(List<ResourceResult<? extends Resource>> resourceResults, FHIRSearchContext searchContext, String type) throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = searchContext.getTotalCount() != null ? UnsignedInt.of(searchContext.getTotalCount()) : null;
@@ -2078,13 +2080,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                             .id(UUID.randomUUID().toString())
                                             .total(totalCount);
 
-        if (resources.size() > 0) {
+        if (resourceResults.size() > 0) {
             // Calculate how many resources are 'match' mode
             int matchResourceCount = searchContext.getMatchCount();
-            List<Resource> matchResources = resources.subList(0,  matchResourceCount);
+            List<ResourceResult<? extends Resource>> matchResources = resourceResults.subList(0,  matchResourceCount);
 
             // Check if too many included resources
-            if (resources.size() > matchResourceCount + searchContext.getMaxPageIncludeCount()) {
+            if (resourceResults.size() > matchResourceCount + searchContext.getMaxPageIncludeCount()) {
                 throw buildRestException("Number of returned 'include' resources exceeds allowable limit of " + searchContext.getMaxPageIncludeCount(),
                     IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
             }
@@ -2121,7 +2123,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 issues = performSearchReferenceChecks(type, chainedSearchParameters, logicalIdReferenceSearchParameters, matchResources);
             }
 
-            for (Resource resource : resources) {
+            for (ResourceResult<? extends Resource> resourceResult : resourceResults) {
+                Resource resource = resourceResult.getResource();
                 Entry.Builder entryBuilder = Entry.builder();
                 if (resource != null) {
                     if (resource.getId() != null) {
@@ -2191,7 +2194,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception if multiple resource types containing the same logical ID are found
      */
     private List<Issue> performSearchReferenceChecks(String resourceType, List<QueryParameter> chainQueryParameters,
-            List<QueryParameter> logicalIdReferenceQueryParameters, List<Resource> matchResources) throws Exception {
+            List<QueryParameter> logicalIdReferenceQueryParameters, List<ResourceResult<? extends Resource>> matchResources) throws Exception {
         List<Issue> issues = new ArrayList<>();
 
         if (!chainQueryParameters.isEmpty() || !logicalIdReferenceQueryParameters.isEmpty()) {
@@ -2216,9 +2219,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-
             // Loop through the resources, looking for versioned references and references to multiple resource types for the same logical ID
-            for (Resource resource : matchResources) {
+            for (ResourceResult<? extends Resource> resourceResult : matchResources) {
+                Resource resource = resourceResult.getResource();
+
                 // A flag that indicates whether we need to take a closer look at the reference values or not
                 boolean needsEval = false;
 
@@ -2226,7 +2230,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // then we'll need to check that they aren't used for chaining
                 // TODO Should we pass the previously-gathered set of references into the method instead?
                 CollectingVisitor<Reference> refCollector = new CollectingVisitor<>(Reference.class);
-                resource.accept(refCollector);
+                resource.accept(refCollector); // TODO protect against null resource?
                 List<Reference> references = refCollector.getResult();
                 for (Reference ref : references) {
                     if (ref.getReference() != null && ref.getReference().getValue() != null
@@ -2301,7 +2305,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext, String type)
+    private Bundle createHistoryBundle(List<ResourceResult<? extends Resource>> resourceResults, FHIRHistoryContext historyContext, String type)
             throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
@@ -2312,32 +2316,22 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                              .id(UUID.randomUUID().toString())
                                              .total(totalCount);
 
-        Map<String, List<Integer>> deletedResourcesMap = historyContext.getDeletedResources();
+        for (int i = 0; i < resourceResults.size(); i++) {
+            ResourceResult<? extends Resource> resourceResult = resourceResults.get(i);
+            Resource resource = resourceResult.getResource();
 
-        for (int i = 0; i < resources.size(); i++) {
-            Resource resource = resources.get(i);
-
-            if (resource == null) {
-                String msg = "A resource with no data was found.";
-                log.warning(msg);
-                throw new IllegalStateException(msg);
-            }
-            if (resource.getId() == null) {
+            // Note that the resource object may be null if it has been erased
+            if (resource != null && resource.getId() == null) {
                 String msg = "A resource with no id was found.";
                 log.warning(msg);
                 throw new IllegalStateException(msg);
             }
 
-            Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());
-            String logicalId = resource.getId();
-            String resourceType = ModelSupport.getTypeName(resource.getClass());
-            List<Integer> deletedVersions = deletedResourcesMap.get(logicalId);
-
             // Determine the correct method to include in this history entry (POST, PUT, DELETE).
             HTTPVerb method;
-            if (deletedVersions != null && deletedVersions.contains(versionId)) {
+            if (resourceResult.isDeleted() || resource == null) {
                 method = HTTPVerb.DELETE;
-            } else if (versionId == 1) {
+            } else if (resourceResult.getVersion() == 1) {
                 method = HTTPVerb.POST;
             } else {
                 method = HTTPVerb.PUT;
@@ -2346,17 +2340,22 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Create the 'request' entry, and set the request.url field.
             // 'create' --> url = "<resourceType>"
             // 'update'/'delete' --> url = "<resourceType>/<logicalId>"
+            final String resourceType = resourceResult.getResourceTypeName();
+            final String resourcePath = resourceType + "/" + resourceResult.getLogicalId();
             Entry.Request request =
-                    Entry.Request.builder().method(method).url(Url.of(method == HTTPVerb.POST
-                            ? resourceType : resourceType + "/" + logicalId)).build();
+                    Entry.Request.builder().method(method)
+                        .url(Url.of(method == HTTPVerb.POST ? resourceType : resourcePath))
+                        .build();
 
             Entry.Response response =
                     Entry.Response.builder().status(string("200")).build();
 
             Entry entry =
-                    Entry.builder().request(request).fullUrl(Uri.of(getRequestBaseUri(type) + "/"
-                            + resource.getClass().getSimpleName() + "/"
-                            + resource.getId())).response(response).resource(resource).build();
+                    Entry.builder().request(request)
+                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resourcePath))
+                        .response(response)
+                        .resource(resource)
+                        .build();
 
             bundleBuilder.entry(entry);
         }

@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.test.spec;
 import java.util.List;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -30,7 +31,7 @@ public class HistoryOperation extends BaseOperation {
         
         final String logicalId = resource.getId();
         
-        List<? extends Resource> resources = tc.getPersistence().history(context, resource.getClass(), logicalId).getResource();
+        List<ResourceResult<? extends Resource>> resources = tc.getPersistence().history(context, resource.getClass(), logicalId).getResourceResults();
         if (resources.size() != this.expectedCount) {
             throw new AssertionError(resource.getClass().getSimpleName() + "/" + logicalId + " history returned "
                 + resources.size() + ", expected " + this.expectedCount);

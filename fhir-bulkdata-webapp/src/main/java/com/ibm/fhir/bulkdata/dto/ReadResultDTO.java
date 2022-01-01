@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkdata.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.ibm.fhir.model.resource.Resource;
@@ -26,23 +27,26 @@ public class ReadResultDTO implements Serializable {
         // No Operation
     }
 
-    public ReadResultDTO(List<Resource> resources) {
+    public ReadResultDTO(List<? extends Resource> resources) {
         this.resources.addAll(resources);
     }
 
     /**
      * @return the resources
      */
-    public List<Resource> getResources() {
-        return resources;
+    public List<? extends Resource> getResources() {
+        return Collections.unmodifiableList(this.resources);
     }
 
     /**
+     * Replace the contents of the internal resources list with the contents
+     * of the given resources list
      * @param resources
      *            the resources to set
      */
-    public void setResources(List<Resource> resources) {
-        this.resources = resources;
+    public void setResources(List<? extends Resource> resources) {
+        this.resources.clear();
+        this.resources.addAll(resources);
     }
 
     public void addResource(Resource resource) {

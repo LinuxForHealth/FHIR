@@ -29,6 +29,9 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private SummaryValueSet summaryParameter = null;
     private TotalValueSet totalParameter = null;
     private List<Issue> outcomeIssues = null;
+    
+    // should the search result Bundle include the actual resource for each result entry
+    private boolean includeResourceData = true;
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
@@ -179,5 +182,15 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         builder.append(outcomeIssues);
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public boolean isIncludeResourceData() {
+        return this.includeResourceData;
+    }
+
+    @Override
+    public void setIncludeResourceData(boolean flag) {
+        this.includeResourceData = flag;
     }
 }

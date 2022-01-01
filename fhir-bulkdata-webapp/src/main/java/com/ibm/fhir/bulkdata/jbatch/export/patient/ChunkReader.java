@@ -50,6 +50,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -203,7 +204,8 @@ public class ChunkReader extends AbstractItemReader {
         try {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             Date startTime = new Date(System.currentTimeMillis());
-            List<Resource> patientResources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+            List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, Patient.class).getResourceResults();
+            List<? extends Resource> patientResources = ResourceResult.toResourceList(resourceResults);
             if (isDoDuplicationCheck) {
                 patientResources = patientResources.stream()
                         .filter(r -> loadedPatientIds.add(r.getId()))
@@ -248,7 +250,7 @@ public class ChunkReader extends AbstractItemReader {
                 if (!patientIds.isEmpty()) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
 
-                    List<Resource> resources = Patient.class.isAssignableFrom(resourceType) ?
+                    List<? extends Resource> resources = Patient.class.isAssignableFrom(resourceType) ?
                             patientResources : handler.executeSearch(patientIds);
                     if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                         dto.setResources(resources);

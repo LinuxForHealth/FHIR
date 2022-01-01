@@ -14,7 +14,8 @@ import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -1982,8 +1984,11 @@ public class FHIRRestHelperTest {
                     .build())
                 .build();
 
-        // Process bundle
-        Bundle responseBundle = helper.createSearchResponseBundle(Arrays.asList(null, patientNoId), context, "Patient");
+        // TODO make this work with the new search result semantics
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
+        resourceResults.add(ResourceResult.builder().build());
+        resourceResults.add(ResourceResult.builder().resource(patientNoId).build());
+        Bundle responseBundle = helper.createSearchResponseBundle(resourceResults, context, "Patient");
 
         // Validate results
         assertNotNull(responseBundle);

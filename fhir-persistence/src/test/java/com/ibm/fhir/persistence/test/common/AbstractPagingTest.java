@@ -35,6 +35,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -125,8 +126,8 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     public void testHistoryPaging() throws Exception {
         FHIRHistoryContext historyContext;
         FHIRPersistenceContext context;
-        MultiResourceResult<? extends Basic> result;
-        List<? extends Basic> results;
+        MultiResourceResult result;
+        List<ResourceResult<? extends Resource>> results;
 
         historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         historyContext.setPageSize(1);
@@ -135,9 +136,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 1, "expected number of results");
-        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "3", "expected version");
+        assertEquals(results.get(0).getResource().getMeta().getVersionId().getValue(), "3", "expected version");
 
         historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         historyContext.setPageSize(1);
@@ -146,9 +147,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 1, "expected number of results");
-        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "2", "expected version");
+        assertEquals(results.get(0).getResource().getMeta().getVersionId().getValue(), "2", "expected version");
 
 
         historyContext = FHIRPersistenceContextFactory.createHistoryContext();
@@ -158,9 +159,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 1, "expected number of results");
-        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "1", "expected version");
+        assertEquals(results.get(0).getResource().getMeta().getVersionId().getValue(), "1", "expected version");
 
         historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         historyContext.setLenient(true);
@@ -170,9 +171,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 1, "expected number of results");
-        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "3", "expected version");
+        assertEquals(results.get(0).getResource().getMeta().getVersionId().getValue(), "3", "expected version");
         OperationOutcome outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -187,9 +188,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertTrue(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 1, "expected number of results");
-        assertEquals(results.get(0).getMeta().getVersionId().getValue(), "1", "expected version");
+        assertEquals(results.get(0).getResource().getMeta().getVersionId().getValue(), "1", "expected version");
         outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -204,7 +205,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertFalse(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 0, "expected number of results");
         outcome = result.getOutcome();
         assertTrue(outcome != null);
@@ -220,7 +221,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
 
         result = persistence.history(context, resource3.getClass(), resource3.getId());
         assertFalse(result.isSuccess());
-        results = result.getResource();
+        results = result.getResourceResults();
         assertEquals(results.size(), 0, "expected number of results");
         outcome = result.getOutcome();
         assertTrue(outcome != null);
@@ -238,9 +239,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_count", Collections.singletonList("0"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
-        assertTrue(result.getResource().isEmpty());
+        assertTrue(result.getResourceResults().isEmpty());
         assertTrue(result.getOutcome() == null);
         assertEquals(searchContext.getLastPageNumber(), 3);
     }
@@ -254,9 +255,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("0"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
-        assertFalse(result.getResource().isEmpty());
+        assertFalse(result.getResourceResults().isEmpty());
         OperationOutcome outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -274,9 +275,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("0"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertFalse(result.isSuccess());
-        assertTrue(result.getResource().isEmpty());
+        assertTrue(result.getResourceResults().isEmpty());
         OperationOutcome outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -294,9 +295,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("4"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
-        assertFalse(result.getResource().isEmpty());
+        assertFalse(result.getResourceResults().isEmpty());
         OperationOutcome outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -314,9 +315,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_page", Collections.singletonList("4"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertFalse(result.isSuccess());
-        assertTrue(result.getResource().isEmpty());
+        assertTrue(result.getResourceResults().isEmpty());
         OperationOutcome outcome = result.getOutcome();
         assertTrue(outcome != null);
         assertEquals(outcome.getIssue().size(), 1);
@@ -335,11 +336,11 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_total", Collections.singletonList("none"));
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
-        MultiResourceResult<Resource> result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         // Since _total=none, the search will not be able to determine that page 4 is too big,
         // but will return no resources and last page number will be left at MAX_VALUE
         assertTrue(result.isSuccess());
-        assertTrue(result.getResource().isEmpty());
+        assertTrue(result.getResourceResults().isEmpty());
         OperationOutcome outcome = result.getOutcome();
         assertFalse(outcome != null);
         assertEquals(searchContext.getLastPageNumber(), java.lang.Integer.MAX_VALUE);

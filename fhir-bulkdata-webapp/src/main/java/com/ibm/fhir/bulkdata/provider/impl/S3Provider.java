@@ -442,7 +442,7 @@ public class S3Provider implements Provider {
         }
     }
 
-    private void pushFhirParquetToCos(List<Resource> resources) throws Exception {
+    private void pushFhirParquetToCos(List<? extends Resource> resources) throws Exception {
         if (chunkData == null) {
             logger.warning("pushFhirParquetToCos: chunkData is null, this should never happen!");
             throw new Exception("pushFhirParquetToCos: chunkData is null, this should never happen!");

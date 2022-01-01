@@ -21,6 +21,18 @@ import com.ibm.fhir.search.parameters.SortParameter;
  */
 public interface FHIRSearchContext extends FHIRPagingContext {
 
+    /**
+     * Should the search result include the actual resource in the response
+     * @return
+     */
+    boolean isIncludeResourceData();
+
+    /**
+     * Set the includeResourceData flag
+     * @param flag
+     */
+    void setIncludeResourceData(boolean flag);
+
     List<String> getSearchResourceTypes();
 
     void setSearchResourceTypes(List<String> searchResourceTypes);

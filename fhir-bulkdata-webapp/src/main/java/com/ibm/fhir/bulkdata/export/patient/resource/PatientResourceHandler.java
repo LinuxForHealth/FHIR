@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.search.SearchConstants;
@@ -128,8 +129,8 @@ public class PatientResourceHandler extends SystemExportResourceHandler {
                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
 
                 Date startTime = new Date(System.currentTimeMillis());
-                List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-
+                List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, resourceType).getResourceResults();
+                List<? extends Resource> resources = ResourceResult.toResourceList(resourceResults);
                 if (isDoDuplicationCheck) {
                     resources = resources.stream()
                             // the add returns false if the id already exists, which filters it out of the collection

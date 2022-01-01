@@ -25,6 +25,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.HistorySortOrder;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -189,6 +190,7 @@ public class FHIRPersistenceUtil {
      * @param deletedResource
      * @return deletedResourceMarker
      */
+    @Deprecated
     public static Resource createDeletedResourceMarker(Resource deletedResource) {
         try {
             // Build a fresh meta with only versionid/lastupdated defined
@@ -208,6 +210,50 @@ public class FHIRPersistenceUtil {
             throw new IllegalStateException("Error while creating deletion marker for resource of type "
                     + deletedResource.getClass().getSimpleName());
         }
+    }
+
+    public static Resource createDeletedResourceMarker(String resourceType, String logicalId, int version, java.time.Instant lastUpdated) {
+        // TODO do we even need this deletion marker now that we have ResourceResult?
+        try {
+            // Build a fresh meta with only versionid/lastupdated defined
+            Meta meta = Meta.builder()
+                    .versionId(Id.of(Integer.toString(version)))
+                    .lastUpdated(Instant.of(lastUpdated.atZone(ZoneOffset.UTC)))
+                    .build();
+
+            // Build a minimal instance of Resource
+            Class<? extends Resource> resourceClass = ModelSupport.getResourceType(resourceType);
+            Resource resource = resourceClass.getDeclaredConstructor().newInstance()
+                    .toBuilder()
+                    .id(logicalId)
+                    .meta(meta)
+                    .build();
+
+            return resource;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error while creating deletion marker for resource of type "
+                    + resourceType);
+        }
+    }
+
+    /**
+     * Create a new {@link ResourceResult} instance to represent a deleted or partially
+     * erased resource
+     * @param resourceType
+     * @param logicalId
+     * @param version
+     * @param lastUpdated
+     * @return
+     */
+    public static ResourceResult<Resource> createDeletedResourceResultMarker(String resourceType, String logicalId, int version, java.time.Instant lastUpdated) {
+
+        return ResourceResult.builder()
+                .deleted(true)
+                .resourceTypeName(resourceType)
+                .logicalId(logicalId)
+                .version(version)
+                .lastUpdated(lastUpdated)
+                .build();
     }
 
     /**
