@@ -168,7 +168,7 @@ public class NearLocationHandlerBoundingBoxTest {
     public void testLocationBoundaryPositionsFromParameters_tenant_near() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("near", Collections.singletonList("-90.0|0.0|1.0|km"));
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true);
+        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
         NearLocationHandler handler = new NearLocationHandler();
         List<Bounding> bounding = handler.generateLocationPositionsFromParameters(ctx.getSearchParameters());
         assertNotNull(bounding);

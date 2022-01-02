@@ -295,7 +295,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
         
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
         List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
@@ -315,7 +315,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
                 
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
     /**
      * Tests a system-level search with a sort parameter that is defined for the FHIR Resource type, 

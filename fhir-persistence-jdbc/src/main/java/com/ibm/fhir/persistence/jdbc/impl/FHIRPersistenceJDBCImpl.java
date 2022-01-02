@@ -771,7 +771,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         resourceDTOList = resourceDao.search(wholeSystemDataQuery);
                     }
                 } else if (searchContext.hasSortParameters()) {
-                    resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
+                    resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query), searchContext.isIncludeResourceData());
                 } else {
                     resourceDTOList = resourceDao.search(query);
                 }
@@ -1473,12 +1473,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceDao - The resource DAO.
      * @param resourceType - The type of Resource that each id in the passed list represents.
      * @param sortedIdList - A list of Resource ids representing the proper sort order for the list of Resources to be returned.
+     * @param includeResourceData include the resource DATA value
      * @return List<com.ibm.fhir.persistence.jdbc.dto.Resource> - A list of ResourcesDTOs of the passed resourceType,
      * sorted according the order of ids in the passed sortedIdList.
      * @throws FHIRPersistenceException
      * @throws IOException
      */
-    protected List<com.ibm.fhir.persistence.jdbc.dto.Resource> buildSortedResourceDTOList(ResourceDAO resourceDao, Class<? extends Resource> resourceType, List<Long> sortedIdList)
+    protected List<com.ibm.fhir.persistence.jdbc.dto.Resource> buildSortedResourceDTOList(ResourceDAO resourceDao, Class<? extends Resource> resourceType, List<Long> sortedIdList,
+            boolean includeResourceData)
             throws FHIRException, FHIRPersistenceException, IOException {
         final String METHOD_NAME = "buildSortedResourceDTOList";
         log.entering(this.getClass().getName(), METHOD_NAME);
@@ -1496,7 +1498,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             idPositionMap.put(resourceId, i);
         }
 
-        resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);
+        resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList, includeResourceData);
 
         // Store each ResourceDTO in its proper position in the returned sorted list.
         for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
@@ -1519,14 +1521,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceDao - The resource DAO.
      * @param resourceType The type of resource being queried.
      * @param sortedIdList A sorted list of Resource IDs.
+     * @param includeResourceData Include the resource DATA value
      * @return List - A list of ResourceDTOs
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(ResourceDAO resourceDao,
-            Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            Class<? extends Resource> resourceType, List<Long> sortedIdList, boolean includeResourceData) 
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 
-        return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList);
+        return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList, includeResourceData);
     }
 
     /**

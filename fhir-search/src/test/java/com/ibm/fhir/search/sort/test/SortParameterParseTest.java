@@ -95,7 +95,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In lenient mode, invalid search parameters should be ignored
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
 
@@ -112,7 +112,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In strict mode (lenient=false), the search should throw a FHIRSearchException
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     /**

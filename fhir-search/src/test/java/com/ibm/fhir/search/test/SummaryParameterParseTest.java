@@ -50,7 +50,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_summary", Arrays.asList("data","true"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
         assertEquals(context.getSummaryParameter(), SummaryValueSet.DATA);
@@ -64,7 +64,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_summary", Arrays.asList("data","true"));
         try {
-            SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+            SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_summary' is specified multiple times");
@@ -79,7 +79,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getSummaryParameter());
     }
@@ -92,7 +92,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
         try {
-            SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+            SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_summary'.");

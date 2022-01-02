@@ -127,6 +127,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                     "R.RESOURCE_ID IN ";
+    private static final String SQL_SEARCH_BY_IDS_NO_DATA =
+            "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, CAST(NULL AS BLOB) AS DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
+                    "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
+                    "R.RESOURCE_ID IN ";
 
     private static final String SQL_ORDER_BY_IDS = "ORDER BY CASE R.RESOURCE_ID ";
 
@@ -658,7 +662,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public List<Resource> searchByIds(String resourceType, List<Long> resourceIds)
+    public List<Resource> searchByIds(String resourceType, List<Long> resourceIds, boolean includeResourceData)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
@@ -678,7 +682,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         double dbCallDuration;
 
         try {
-            stmtString = getSearchByIdsSql(resourceType);
+            if (includeResourceData) {
+                stmtString = getSearchByIdsSql(resourceType);
+            } else {
+                stmtString = getSearchByIdsNoDataSql(resourceType);
+            }
             idQuery.append(stmtString);
             idQuery.append("(");
             // resourceIds should have a max length of 1000 (the max page size)
@@ -717,6 +725,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     protected String getSearchByIdsSql(String resourceType) {
         return String.format(SQL_SEARCH_BY_IDS, resourceType, resourceType);
+    }
+
+    protected String getSearchByIdsNoDataSql(String resourceType) {
+        return String.format(SQL_SEARCH_BY_IDS_NO_DATA, resourceType, resourceType);
     }
 
     @Override

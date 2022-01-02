@@ -217,6 +217,8 @@ public class NewQueryBuilder {
      * @return
      */
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext) throws FHIRPersistenceException {
+        log.info("include resource data? " + searchContext.isIncludeResourceData());
+        
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
         SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());

@@ -2732,10 +2732,12 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     }
 
     /**
-     * Get the select column entry for the resource data column
+     * Get the select column entry for the resource data column. If
+     * the includeResourceData flag is false, the column is replaced
+     * with a literal NULL.
      * @return
      */
     private String getDataCol() {
-        return this.includeResourceData ? "R.DATA" : "NULL AS DATA";
+        return this.includeResourceData ? "R.DATA" : "CAST(NULL AS BLOB) AS DATA";
     }
 }

@@ -1338,8 +1338,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
+            final boolean isLenientHandling = HTTPHandlingPreference.LENIENT == requestContext.getHandlingPreference();
+            final boolean includeResources = HTTPReturnPreference.MINIMAL != requestContext.getReturnPreference();
+            if (!includeResources) {
+                log.info("Not including resources");
+            }
             FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartment, compartmentId, resourceType, queryParameters,
-                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+                isLenientHandling, includeResources);
 
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =
@@ -2136,10 +2141,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                     }
                     entryBuilder.resource(resource);
-                } else {
+                } else if (searchContext.isIncludeResourceData()) {
                     String msg = "A resource with no data was found.";
                     log.warning(msg);
                     issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
+                } else {
+                    // Off-spec - simply provide the url without the resource body. But in order
+                    // to satisfy "Rule: must be a resource unless there's a request or response" 
+                    // we also add a minimal response element
+                    final Uri uri = Uri.of(getRequestBaseUri(type) + "/" + resourceResult.getResourceTypeName() + "/" + resourceResult.getLogicalId());
+                    com.ibm.fhir.model.resource.Bundle.Entry.Response response = 
+                            com.ibm.fhir.model.resource.Bundle.Entry.Response.builder()
+                            .status("200")
+                            .build();
+                    entryBuilder.fullUrl(uri).response(response);
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
                 // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.

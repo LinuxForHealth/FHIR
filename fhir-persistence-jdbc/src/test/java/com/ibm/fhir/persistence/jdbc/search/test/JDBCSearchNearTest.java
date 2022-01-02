@@ -124,7 +124,7 @@ public class JDBCSearchNearTest {
                 persistence.getTransaction().begin();
             }
 
-            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
+            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
             persistence.delete(persistenceContext, Location.class, savedResource.getId());
@@ -156,7 +156,7 @@ public class JDBCSearchNearTest {
     }
 
     public MultiResourceResult runQueryTest(Map<String, List<String>> queryParms) throws Exception {
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true);
+        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
         MultiResourceResult result = persistence.search(persistenceContext, Location.class);
         return result;
