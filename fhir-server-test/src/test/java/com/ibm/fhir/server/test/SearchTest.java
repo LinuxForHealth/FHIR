@@ -2398,4 +2398,36 @@ public class SearchTest extends FHIRServerTestBase {
         String selfLink = getSelfLink(bundle);
         assertEquals(selfLink, "https://chocolate.fudge/Patient?_count=11&_page=1");
     }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierNoData() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier", "test|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .header("Prefer", "return=minimal")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertNull(bundle.getEntry().get(0).getResource());
+        assertNotNull(bundle.getEntry().get(0).getResponse());
+
+        response =
+                target.path("Patient").queryParam("identifier", "test|"+ patientIdentifierValue.toUpperCase())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .header("Prefer", "return=minimal")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertNull(bundle.getEntry().get(0).getResource());
+        assertNotNull(bundle.getEntry().get(0).getResponse());
+    }
 }

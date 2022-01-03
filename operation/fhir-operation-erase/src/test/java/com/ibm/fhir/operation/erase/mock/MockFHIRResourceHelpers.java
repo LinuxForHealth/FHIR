@@ -177,7 +177,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
     @Override
     public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-        Resource contextResource, boolean checkIfInteractionAllowed) throws Exception {
+        Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
         return null;
     }
 

@@ -445,11 +445,13 @@ public interface FHIRResourceHelpers {
      *            the resource context
      * @param checkIfInteractionAllowed
      *            if true, check that the search interaction is permitted
+     * @param alwaysIncludeResources
+     *            if true, ignore any return preference and always include the resource in the search result bundle
      * @return a Bundle containing the search result set
      * @throws Exception
      */
     Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
-        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed) throws Exception;
+        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResources) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.

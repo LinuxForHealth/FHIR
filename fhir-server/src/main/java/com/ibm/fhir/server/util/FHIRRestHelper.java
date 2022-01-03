@@ -262,7 +262,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // Perform the search using the "If-None-Exist" header value.
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(ifNoneExist);
-                    responseBundle = doSearch(type, null, null, searchParameters, null, resource, false);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, resource, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -526,7 +526,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 Bundle responseBundle = null;
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
-                    responseBundle = doSearch(type, null, null, searchParameters, null, newResource, false);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, newResource, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -925,7 +925,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
                     searchParameters.putSingle(SearchConstants.COUNT, Integer.toString(searchPageSize));
-                    responseBundle = doSearch(type, null, null, searchParameters, null, null, false);
+                    responseBundle = doSearch(type, null, null, searchParameters, null, null, false, true);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
@@ -1304,13 +1304,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public Bundle doSearch(String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource) throws Exception {
-        return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, true);
+        return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, true, false);
     }
 
     @Override
     public Bundle doSearch(String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkInteractionAllowed) throws Exception {
+            Resource contextResource, boolean checkInteractionAllowed, boolean alwaysIncludeResources) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
 
         // Validate that interaction is allowed for given resource type
@@ -1339,7 +1339,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
             final boolean isLenientHandling = HTTPHandlingPreference.LENIENT == requestContext.getHandlingPreference();
-            final boolean includeResources = HTTPReturnPreference.MINIMAL != requestContext.getReturnPreference();
+            final boolean includeResources = alwaysIncludeResources || HTTPReturnPreference.MINIMAL != requestContext.getReturnPreference() || requestContext.isReturnPreferenceDefault();
             if (!includeResources) {
                 log.info("Not including resources");
             }

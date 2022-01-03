@@ -373,11 +373,11 @@ public class SearchUtil {
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
-            Map<String, List<String>> queryParameters, boolean lenient, boolean includeResources) throws Exception {
+            Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
-        context.setIncludeResourceData(includeResources);
+        context.setIncludeResourceData(includeResource);
         List<QueryParameter> parameters = new ArrayList<>();
         HashSet<String> resourceTypes = new LinkedHashSet<>();
 
@@ -1224,11 +1224,11 @@ public class SearchUtil {
      * @throws Exception
      */
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResources) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResources);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
 
         // Add the inclusion criteria to the front of the search parameter list
         if (inclusionCriteria != null) {

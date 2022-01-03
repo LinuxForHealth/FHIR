@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -31,7 +30,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -73,7 +71,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             Bundle searchResults = helpers.doSearch(type, compartment, compartmentId, queryParameters, requestUri,
-                    contextResource, checkInteractionAllowed);
+                    contextResource, checkInteractionAllowed, true);
 
             return Bundle.Entry.builder()
                     .resource(searchResults)

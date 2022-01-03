@@ -9,7 +9,6 @@ package com.ibm.fhir.server.rest;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.time.ZoneOffset;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
@@ -44,7 +42,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers.Interaction;
@@ -332,7 +329,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
             queryParameters.add("_count", "1");
 
             // Do a search, but no need to check if the interaction is allowed
-            Bundle bundle = helpers.doSearch(type, null, null, queryParameters, null, resource, false);
+            Bundle bundle = helpers.doSearch(type, null, null, queryParameters, null, resource, false, true);
 
             int total = bundle.getTotal().getValue();
 
