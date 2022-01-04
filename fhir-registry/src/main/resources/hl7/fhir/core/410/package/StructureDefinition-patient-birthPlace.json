@@ -12,14 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "birthPlace",
     "title": "Birth Place",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "The registered place of birth of the patient. A sytem may use the address.text if they don't store the birthPlace address in discrete elements.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -95,7 +95,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -179,7 +179,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

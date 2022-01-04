@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "gender-identity",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/gender-identity defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">transgender-female<a name=\"gender-identity-transgender-female\"> </a></td><td>transgender female</td><td>the patient identifies as transgender male-to-female</td></tr><tr><td style=\"white-space:nowrap\">transgender-male<a name=\"gender-identity-transgender-male\"> </a></td><td>transgender male</td><td>the patient identifies as transgender female-to-male</td></tr><tr><td style=\"white-space:nowrap\">non-binary<a name=\"gender-identity-non-binary\"> </a></td><td>non-binary</td><td>the patient identifies with neither/both female and male</td></tr><tr><td style=\"white-space:nowrap\">male<a name=\"gender-identity-male\"> </a></td><td>male</td><td>the patient identifies as male</td></tr><tr><td style=\"white-space:nowrap\">female<a name=\"gender-identity-female\"> </a></td><td>female</td><td>the patient identifies as female</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"gender-identity-other\"> </a></td><td>other</td><td>other gender identity</td></tr><tr><td style=\"white-space:nowrap\">non-disclose<a name=\"gender-identity-non-disclose\"> </a></td><td>does not wish to disclose</td><td>the patient does not wish to disclose his gender identity</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.973"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "GenderIdentity",
     "status": "draft",
     "experimental": true,

@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "devicemetricobservation",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/devicemetricobservation",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Device Metric Observation Profile",
     "status": "draft",
     "experimental": false,
@@ -37,7 +37,7 @@
         }
     ],
     "description": "This profile describes the direct or derived, qualitative or quantitative physiological measurement, setting, or calculation data produced by a medical device or a device component.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -212,7 +212,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -728,7 +728,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes providing the status of an observation.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1817,7 +1817,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2375,7 +2375,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "messageheader-response-request",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>messageheader-response-request</h2>\n      \n      <div>\n        \n        <p>HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/messageheader-response-request defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">always\n            \n            <a name=\"messageheader-response-request-always\"> </a>\n          \n          </td>\n          \n          <td>Always</td>\n          \n          <td>initiator expects a response for this message.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">on-error\n            \n            <a name=\"messageheader-response-request-on-error\"> </a>\n          \n          </td>\n          \n          <td>Error/reject conditions only</td>\n          \n          <td>initiator expects a response only if in error.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">never\n            \n            <a name=\"messageheader-response-request-never\"> </a>\n          \n          </td>\n          \n          <td>Never</td>\n          \n          <td>initiator does not expect a response.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">on-success\n            \n            <a name=\"messageheader-response-request-on-success\"> </a>\n          \n          </td>\n          \n          <td>Successful completion only</td>\n          \n          <td>initiator expects a response only if successful.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.925"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "messageheader-response-request",
     "title": "messageheader-response-request",
     "status": "draft",

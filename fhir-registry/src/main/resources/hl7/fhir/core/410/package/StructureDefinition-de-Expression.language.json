@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-Expression.language",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-Expression.language",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Expression.language",
     "title": "Expression.language",
     "status": "draft",
     "experimental": true,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for Expression.language",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",

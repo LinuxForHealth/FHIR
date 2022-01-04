@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "action-selection-behavior",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://hl7.org/fhir/action-selection-behavior defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">any\n            \n            <a name=\"action-selection-behavior-any\"> </a>\n          \n          </td>\n          \n          <td>Any</td>\n          \n          <td>Any number of the actions in the group may be chosen, from zero to all.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">all\n            \n            <a name=\"action-selection-behavior-all\"> </a>\n          \n          </td>\n          \n          <td>All</td>\n          \n          <td>All the actions in the group must be selected as a single unit.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">all-or-none\n            \n            <a name=\"action-selection-behavior-all-or-none\"> </a>\n          \n          </td>\n          \n          <td>All Or None</td>\n          \n          <td>All the actions in the group are meant to be chosen as a single unit: either all must be selected by the end user, or none may be selected.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">exactly-one\n            \n            <a name=\"action-selection-behavior-exactly-one\"> </a>\n          \n          </td>\n          \n          <td>Exactly One</td>\n          \n          <td>The end user must choose one and only one of the selectable actions in the group. The user SHALL NOT choose none of the actions in the group.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">at-most-one\n            \n            <a name=\"action-selection-behavior-at-most-one\"> </a>\n          \n          </td>\n          \n          <td>At Most One</td>\n          \n          <td>The end user may choose zero or at most one of the actions in the group.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">one-or-more\n            \n            <a name=\"action-selection-behavior-one-or-more\"> </a>\n          \n          </td>\n          \n          <td>One Or More</td>\n          \n          <td>The end user must choose a minimum of one, and as many additional as desired.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.802"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ActionSelectionBehavior",
     "title": "ActionSelectionBehavior",
     "status": "draft",

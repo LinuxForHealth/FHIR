@@ -12,13 +12,13 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/valueset-reference",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "reference",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "A logical reference (e.g. a reference to ValueSet.url) that identifies the value set/version that identifies the set of possible coded values this coding was chosen from or constrained by.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -110,7 +110,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -194,7 +194,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

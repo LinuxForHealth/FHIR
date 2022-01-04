@@ -101,7 +101,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -148,7 +148,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "MessageSignificanceCategory",
         strength = BindingStrength.Value.REQUIRED,
         description = "The impact of the content of a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0-CIBUILD"
     )
     private final MessageSignificanceCategory category;
     @Summary
@@ -156,8 +156,8 @@ public class MessageDefinition extends DomainResource {
     @Binding(
         bindingName = "messageheader-response-request",
         strength = BindingStrength.Value.REQUIRED,
-        description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.1.0"
+        description = "This enables the capability currently available through MSH-16 (Application Level acknowledgement) in HL7 Version 2 to declare at a message definition level whether a response is required or only upon error or success, or never.",
+        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0-CIBUILD"
     )
     private final MessageHeaderResponseRequest responseRequired;
     private final List<AllowedResponse> allowedResponse;
@@ -1610,7 +1610,7 @@ public class MessageDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         )
         @Required
         private final ResourceType code;

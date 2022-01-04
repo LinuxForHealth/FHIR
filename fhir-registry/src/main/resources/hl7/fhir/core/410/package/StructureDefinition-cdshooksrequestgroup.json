@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "cdshooksrequestgroup",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,14 +20,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cdshooksrequestgroup",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CDS Hooks RequestGroup",
     "status": "draft",
     "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Defines a RequestGroup that can represent a CDS Hooks response",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -152,7 +152,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -746,7 +746,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes identifying the lifecycle stage of a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -803,7 +803,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -856,7 +856,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1275,7 +1275,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1554,7 +1554,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1689,7 +1689,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1845,7 +1845,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of condition for the action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.3.0-CIBUILD"
                 }
             },
             {
@@ -1931,7 +1931,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2117,7 +2117,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the types of relationships between actions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2335,7 +2335,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines organization behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2377,7 +2377,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2419,7 +2419,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines expectations around whether an action or action group is required.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2461,7 +2461,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection frequency behavior for an action or group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2503,7 +2503,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines behavior for an action or a group for how many times that item may be repeated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.3.0-CIBUILD"
                 }
             },
             {
@@ -2511,7 +2511,7 @@
                 "path": "RequestGroup.action.resource",
                 "short": "The target of the action",
                 "definition": "The resource that is the target of the action (e.g. CommunicationRequest).",
-                "comment": "The target resource SHALL be a [Request](http://hl7.org/fhir/request.html) resource with a Request.intent set to \"option\".",
+                "comment": "The target resource SHALL be a [Request](request.html) resource with a Request.intent set to \"option\".",
                 "min": 0,
                 "max": "1",
                 "base": {

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "focus-characteristic-code",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/focus-characteristic-code defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">citation\n            \n            <a name=\"focus-characteristic-code-citation\"> </a>\n          \n          </td>\n          \n          <td>Citation</td>\n          \n          <td>Used to reference a specific article.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">clinical-outcomes-observed\n            \n            <a name=\"focus-characteristic-code-clinical-outcomes-observed\"> </a>\n          \n          </td>\n          \n          <td>Observed outcomes are clinical outcomes</td>\n          \n          <td>Used to denote a focus on clinical outcomes, ie evidence variable in role of outcome (measured variable) as observed is considered a &quot;clinical outcome&quot; (patient-important outcome such as mortality, symptoms, function or quality of life).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">population\n            \n            <a name=\"focus-characteristic-code-population\"> </a>\n          \n          </td>\n          \n          <td>Population</td>\n          \n          <td>The population of interest.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">exposure\n            \n            <a name=\"focus-characteristic-code-exposure\"> </a>\n          \n          </td>\n          \n          <td>Exposure</td>\n          \n          <td>The exposure of interest, such as an intervention.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">comparator\n            \n            <a name=\"focus-characteristic-code-comparator\"> </a>\n          \n          </td>\n          \n          <td>Comparator</td>\n          \n          <td>The comparator (intervention or control state) of interest.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">outcome\n            \n            <a name=\"focus-characteristic-code-outcome\"> </a>\n          \n          </td>\n          \n          <td>Outcome</td>\n          \n          <td>the outcome of interest.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">medication-exposures\n            \n            <a name=\"focus-characteristic-code-medication-exposures\"> </a>\n          \n          </td>\n          \n          <td>Medication exposures</td>\n          \n          <td>Any medication exposures. A subset of exposures or interventions that are medications.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">study-type\n            \n            <a name=\"focus-characteristic-code-study-type\"> </a>\n          \n          </td>\n          \n          <td>Study type</td>\n          \n          <td>Type of research study, such as randomized trial or case-control study.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "FocusCharacteristicCode",
     "title": "FocusCharacteristicCode",
     "status": "draft",

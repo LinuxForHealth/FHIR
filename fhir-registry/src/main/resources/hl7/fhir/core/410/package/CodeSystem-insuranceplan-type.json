@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "insuranceplan-type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/insuranceplan-type defines many codes, of which the following are a subset:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">medical<a name=\"insuranceplan-type-medical\"> </a></td><td>Medical</td></tr><tr><td style=\"white-space:nowrap\">dental<a name=\"insuranceplan-type-dental\"> </a></td><td>Dental</td></tr><tr><td style=\"white-space:nowrap\">mental<a name=\"insuranceplan-type-mental\"> </a></td><td>Mental Health</td></tr><tr><td style=\"white-space:nowrap\">subst-ab<a name=\"insuranceplan-type-subst-ab\"> </a></td><td>Substance Abuse</td></tr><tr><td style=\"white-space:nowrap\">vision<a name=\"insuranceplan-type-vision\"> </a></td><td>Vision</td></tr><tr><td style=\"white-space:nowrap\">Drug<a name=\"insuranceplan-type-Drug\"> </a></td><td>Drug</td></tr><tr><td style=\"white-space:nowrap\">short-term<a name=\"insuranceplan-type-short-term\"> </a></td><td>Short Term</td></tr><tr><td style=\"white-space:nowrap\">long-term<a name=\"insuranceplan-type-long-term\"> </a></td><td>Long Term Care</td></tr><tr><td style=\"white-space:nowrap\">hospice<a name=\"insuranceplan-type-hospice\"> </a></td><td>Hospice</td></tr><tr><td style=\"white-space:nowrap\">home<a name=\"insuranceplan-type-home\"> </a></td><td>Home Health</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1261"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "InsurancePlanType",
     "status": "draft",
     "experimental": false,

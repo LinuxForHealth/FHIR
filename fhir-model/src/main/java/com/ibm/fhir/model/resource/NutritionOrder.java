@@ -84,7 +84,7 @@ public class NutritionOrder extends DomainResource {
         bindingName = "NutritionOrderStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of the nutrition order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
     )
     @Required
     private final NutritionOrderStatus status;
@@ -93,7 +93,7 @@ public class NutritionOrder extends DomainResource {
         bindingName = "NutritiionOrderIntent",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
     )
     @Required
     private final NutritionOrderIntent intent;

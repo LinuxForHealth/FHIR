@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "immunization-origin",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"codesystem-immunization-origin.html\"><code>http://terminology.hl7.org/CodeSystem/immunization-origin</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-provider\">provider</a></td><td>Other Provider</td><td>The data for the immunization event originated with another provider.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-record\">record</a></td><td>Written Record</td><td>The data for the immunization event originated with a written record for the patient.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-recall\">recall</a></td><td>Parent/Guardian/Patient Recall</td><td>The data for the immunization event originated from the recollection of the patient or parent/guardian of the patient.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-school\">school</a></td><td>School Record</td><td>The data for the immunization event originated with a school record for the patient.</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.296"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ImmunizationOriginCodes",
     "title": "Immunization Origin Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project team",
     "contact": [
         {

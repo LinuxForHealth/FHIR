@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "contract-term-subtype",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/contract-term-subtype defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">condition<a name=\"contract-term-subtype-condition\"> </a></td><td>Condition</td><td>Terms that go to the very root of a contract.</td></tr><tr><td style=\"white-space:nowrap\">warranty<a name=\"contract-term-subtype-warranty\"> </a></td><td>Warranty</td><td>Less imperative than a condition, so the contract will survive a breach</td></tr><tr><td style=\"white-space:nowrap\">innominate<a name=\"contract-term-subtype-innominate\"> </a></td><td>Innominate</td><td>Breach of which might or might not go to the root of the contract depending upon the nature of the breach</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ContractTermSubtypeCodes",
     "title": "Contract Term Subtype Codes",
     "status": "draft",

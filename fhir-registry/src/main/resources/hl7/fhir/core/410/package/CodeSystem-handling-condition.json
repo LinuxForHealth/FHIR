@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "handling-condition",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>HandlingConditionSet</h2>\n      \n      <div>\n        \n        <p>Set of handling instructions prior testing of the specimen.</p>\n\n      \n      </div>\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/handling-condition defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">room\n            \n            <a name=\"handling-condition-room\"> </a>\n          \n          </td>\n          \n          <td>room temperature</td>\n          \n          <td>room temperature.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">refrigerated\n            \n            <a name=\"handling-condition-refrigerated\"> </a>\n          \n          </td>\n          \n          <td>refrigerated</td>\n          \n          <td>refrigerated temperature.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">frozen\n            \n            <a name=\"handling-condition-frozen\"> </a>\n          \n          </td>\n          \n          <td>frozen</td>\n          \n          <td>frozen temperature.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1259"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "HandlingConditionSet",
     "title": "HandlingConditionSet",
     "status": "draft",

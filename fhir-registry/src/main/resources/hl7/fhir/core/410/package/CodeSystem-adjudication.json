@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "adjudication",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/adjudication defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">submitted<a name=\"adjudication-submitted\"> </a></td><td>Submitted Amount</td><td>The total submitted amount for the claim or group or line item.</td></tr><tr><td style=\"white-space:nowrap\">copay<a name=\"adjudication-copay\"> </a></td><td>CoPay</td><td>Patient Co-Payment</td></tr><tr><td style=\"white-space:nowrap\">eligible<a name=\"adjudication-eligible\"> </a></td><td>Eligible Amount</td><td>Amount of the change which is considered for adjudication.</td></tr><tr><td style=\"white-space:nowrap\">deductible<a name=\"adjudication-deductible\"> </a></td><td>Deductible</td><td>Amount deducted from the eligible amount prior to adjudication.</td></tr><tr><td style=\"white-space:nowrap\">unallocdeduct<a name=\"adjudication-unallocdeduct\"> </a></td><td>Unallocated Deductible</td><td>The amount of deductible which could not allocated to other line items.</td></tr><tr><td style=\"white-space:nowrap\">eligpercent<a name=\"adjudication-eligpercent\"> </a></td><td>Eligible %</td><td>Eligible Percentage.</td></tr><tr><td style=\"white-space:nowrap\">tax<a name=\"adjudication-tax\"> </a></td><td>Tax</td><td>The amount of tax.</td></tr><tr><td style=\"white-space:nowrap\">benefit<a name=\"adjudication-benefit\"> </a></td><td>Benefit Amount</td><td>Amount payable under the coverage</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1171"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AdjudicationCodes",
     "title": "Adjudication Codes",
     "status": "draft",
