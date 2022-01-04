@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-AD-use",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "AD-use",
   "status": "draft",
   "date": "2012-06-24",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Uses of Addresses - codes not defined as part of Address.use.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -251,7 +251,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -309,7 +309,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/postal-address-use|4.3.0-CIBUILD"
         }
       }
     ]

@@ -1599,10 +1599,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ElementDefinition"/>
   <status value="active"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -1611,7 +1611,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for ElementDefinition Type: Captures constraints on each element within the resource, profile, or extension."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -1989,7 +1989,7 @@
           <valueString value="PropertyRepresentation"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2434,7 +2434,7 @@
           <valueString value="DiscriminatorType"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2580,7 +2580,7 @@
           <valueString value="SlicingRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3171,7 +3171,7 @@
         <key value="eld-17"/>
         <severity value="error"/>
         <human value="targetProfile is only allowed if the type is Reference or canonical"/>
-        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39;) or targetProfile.empty()"/>
+        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39; or code = &#39;CodeableReference&#39;) or targetProfile.empty()"/>
         <xpath value="not(exists(f:targetProfile)) or (f:code/@value = &#39;Reference&#39;)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
@@ -3440,7 +3440,7 @@
           <valueString value="AggregationMode"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3484,7 +3484,7 @@
           <valueString value="ReferenceVersionRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3576,6 +3576,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -3610,6 +3613,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -3821,6 +3827,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -3855,6 +3864,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -4005,6 +4017,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -4039,6 +4054,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -4323,6 +4341,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -4357,6 +4378,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -4807,7 +4831,7 @@
           <valueString value="ConstraintSeverity"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -5249,7 +5273,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -5526,7 +5550,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -5781,7 +5805,7 @@
           <valueString value="PropertyRepresentation"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -5980,7 +6004,7 @@
           <valueString value="DiscriminatorType"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6070,7 +6094,7 @@
           <valueString value="SlicingRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6414,7 +6438,7 @@
         <key value="eld-17"/>
         <severity value="error"/>
         <human value="targetProfile is only allowed if the type is Reference or canonical"/>
-        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39;) or targetProfile.empty()"/>
+        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39; or code = &#39;CodeableReference&#39;) or targetProfile.empty()"/>
         <xpath value="not(exists(f:targetProfile)) or (f:code/@value = &#39;Reference&#39;)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
@@ -6544,7 +6568,7 @@
           <valueString value="AggregationMode"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6574,7 +6598,7 @@
           <valueString value="ReferenceVersionRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -6661,6 +6685,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -6695,6 +6722,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -6864,6 +6894,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -6898,6 +6931,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -7034,6 +7070,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -7068,6 +7107,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -7236,6 +7278,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -7270,6 +7315,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -7525,7 +7573,7 @@
           <valueString value="ConstraintSeverity"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -7753,7 +7801,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -7886,7 +7934,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "DeviceUseStatement",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DeviceUseStatement",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DeviceUseStatement",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A record of a device being used by a patient where the record is the result of a report from the patient or another clinician.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -632,7 +632,7 @@
           ],
           "strength": "required",
           "description": "A coded concept indicating the current status of the Device Usage.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1245,7 +1245,7 @@
           ],
           "strength": "required",
           "description": "A coded concept indicating the current status of the Device Usage.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

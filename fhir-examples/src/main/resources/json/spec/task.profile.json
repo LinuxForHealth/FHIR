@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Task",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Task",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Task",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A task to be performed.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -802,7 +802,7 @@
           ],
           "strength": "required",
           "description": "The current status of the task.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -955,7 +955,7 @@
           ],
           "strength": "required",
           "description": "Distinguishes whether the task is a proposal, plan or full order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1013,7 +1013,7 @@
           ],
           "strength": "required",
           "description": "The priority of a task (may affect service level applied to the task).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3247,7 +3247,7 @@
           ],
           "strength": "required",
           "description": "The current status of the task.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3355,7 +3355,7 @@
           ],
           "strength": "required",
           "description": "Distinguishes whether the task is a proposal, plan or full order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3398,7 +3398,7 @@
           ],
           "strength": "required",
           "description": "The priority of a task (may affect service level applied to the task).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {

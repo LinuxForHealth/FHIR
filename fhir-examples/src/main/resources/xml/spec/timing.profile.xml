@@ -484,10 +484,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Timing"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Timing"/>
   <status value="active"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -497,7 +497,7 @@
   </contact>
   <description value="Base StructureDefinition for Timing Type: Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out."/>
   <purpose value="Need to able to track proposed timing schedules. There are several different ways to do this: one or more specified times, a simple rules like three times a day, or  before/after meals."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -1066,7 +1066,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1222,7 +1222,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1259,7 +1259,7 @@
           <valueString value="DayOfWeek"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1330,7 +1330,7 @@
           <valueString value="EventTiming"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1639,7 +1639,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1725,7 +1725,7 @@
           <valueString value="UnitsOfTime"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1748,7 +1748,7 @@
           <valueString value="DayOfWeek"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1791,7 +1791,7 @@
           <valueString value="EventTiming"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

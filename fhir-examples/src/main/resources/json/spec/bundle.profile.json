@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Bundle",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -31,10 +31,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Bundle",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Bundle",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -55,7 +55,7 @@
     }
   ],
   "description": "A container for a collection of resources.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -422,7 +422,7 @@
           ],
           "strength": "required",
           "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1212,7 +1212,7 @@
           ],
           "strength": "required",
           "description": "Why an entry is in the result set - whether it\u0027s included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -1456,7 +1456,7 @@
           ],
           "strength": "required",
           "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"
         }
       },
       {
@@ -2130,7 +2130,7 @@
           ],
           "strength": "required",
           "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2359,7 +2359,7 @@
           ],
           "strength": "required",
           "description": "Why an entry is in the result set - whether it\u0027s included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -2422,7 +2422,7 @@
           ],
           "strength": "required",
           "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-CIBUILD"
         }
       },
       {

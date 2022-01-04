@@ -333,10 +333,6 @@ The following resources are never in this compartment:
         </li>
  
         <li>
-          <a href="clinicaluseissue.html">ClinicalUseIssue</a>
-        </li>
- 
-        <li>
           <a href="codesystem.html">CodeSystem</a>
         </li>
  
@@ -700,11 +696,11 @@ The following resources are never in this compartment:
     </div>
   </text>
   <url value="http://hl7.org/fhir/CompartmentDefinition/device"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Base FHIR compartment definition for Device"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -796,9 +792,6 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="ClinicalUseDefinition"/>
-  </resource>
-  <resource>
-    <code value="ClinicalUseIssue"/>
   </resource>
   <resource>
     <code value="CodeSystem"/>

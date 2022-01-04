@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Questionnaire",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Questionnaire",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Questionnaire",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
   "purpose": "To support structured, hierarchical registration of data gathered using digital forms and other questionnaires.  Questionnaires provide greater control over presentation and allow capture of data in a domain-independent way (i.e. capturing information that would otherwise require multiple distinct types of resources).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -831,7 +831,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -939,7 +939,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2038,7 +2038,7 @@
           ],
           "strength": "required",
           "description": "Distinguishes groups from questions and display text and indicates data type for questions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2308,7 +2308,7 @@
           ],
           "strength": "required",
           "description": "The criteria by which a question is enabled.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2441,7 +2441,7 @@
           ],
           "strength": "required",
           "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3514,7 +3514,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3592,7 +3592,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4272,7 +4272,7 @@
           ],
           "strength": "required",
           "description": "Distinguishes groups from questions and display text and indicates data type for questions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4363,7 +4363,7 @@
           ],
           "strength": "required",
           "description": "The criteria by which a question is enabled.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4466,7 +4466,7 @@
           ],
           "strength": "required",
           "description": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"
         },
         "mapping": [
           {

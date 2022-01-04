@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="SpecimenDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -681,10 +681,10 @@
     <valueCode value="oo"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/SpecimenDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="SpecimenDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Orders and Observations)"/>
   <contact>
     <telecom>
@@ -699,7 +699,7 @@
     </telecom>
   </contact>
   <description value="A kind of specimen with associated set of requirements."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -1469,7 +1469,7 @@
         </extension>
         <strength value="required"/>
         <description value="Degree of preference of a type of conditioned specimen."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2582,7 +2582,7 @@
         </extension>
         <strength value="required"/>
         <description value="Degree of preference of a type of conditioned specimen."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>

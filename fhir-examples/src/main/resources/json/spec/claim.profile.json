@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Claim",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Claim",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Claim",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "A provider issued list of professional services and products which have been provided, or are to be provided, to a patient which is sent to an insurer for reimbursement.",
   "purpose": "The Claim resource is used by providers to exchange services and products rendered to patients or planned to be rendered with insurers for reimbuserment. It is also used by insurers to exchange claims information with statutory reporting and data analytics firms.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -574,7 +574,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -727,7 +727,7 @@
           ],
           "strength": "required",
           "description": "The purpose of the Claim: predetermination, preauthorization, claim.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -6344,7 +6344,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -6452,7 +6452,7 @@
           ],
           "strength": "required",
           "description": "The purpose of the Claim: predetermination, preauthorization, claim.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {

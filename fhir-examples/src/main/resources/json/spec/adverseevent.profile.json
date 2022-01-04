@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "AdverseEvent",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/AdverseEvent",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "AdverseEvent",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Actual or  potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or hospitalization, or that results in death.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "w5",
@@ -547,7 +547,7 @@
           ],
           "strength": "required",
           "description": "Overall nature of the adverse event, e.g. real or potential.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -996,7 +996,7 @@
           ],
           "strength": "required",
           "description": "The severity of the adverse event itself, in direct relation to the subject.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0-CIBUILD"
         }
       },
       {
@@ -1038,7 +1038,7 @@
           ],
           "strength": "required",
           "description": "TODO (and should this be required?).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0-CIBUILD"
         }
       },
       {
@@ -1822,7 +1822,7 @@
           ],
           "strength": "required",
           "description": "Overall nature of the adverse event, e.g. real or potential.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2106,7 +2106,7 @@
           ],
           "strength": "required",
           "description": "The severity of the adverse event itself, in direct relation to the subject.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0-CIBUILD"
         }
       },
       {
@@ -2133,7 +2133,7 @@
           ],
           "strength": "required",
           "description": "TODO (and should this be required?).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0-CIBUILD"
         }
       },
       {

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ResearchSubject",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ResearchSubject",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ResearchSubject",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A physical entity which is the primary unit of operational and/or administrative interest in a study.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "BRIDG5.1",
@@ -582,7 +582,7 @@
           ],
           "strength": "required",
           "description": "Indicates the progression of a study subject through a study.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/research-subject-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -928,7 +928,7 @@
           ],
           "strength": "required",
           "description": "Indicates the progression of a study subject through a study.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/research-subject-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

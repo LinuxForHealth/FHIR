@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Flag",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Flag",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Flag",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Prospective warnings of potential issues when providing care to the patient.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -564,7 +564,7 @@
           ],
           "strength": "required",
           "description": "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/flag-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/flag-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -947,7 +947,7 @@
           ],
           "strength": "required",
           "description": "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/flag-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/flag-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

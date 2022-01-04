@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="MeasureReport"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -697,10 +697,10 @@
     <valueCode value="cqi"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MeasureReport"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="MeasureReport"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Clinical Quality Information)"/>
   <contact>
     <telecom>
@@ -715,7 +715,7 @@
     </telecom>
   </contact>
   <description value="The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1153,7 +1153,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the measure report (e.g. complete, pending, or error)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1197,7 +1197,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of the measure report: individual, patient listing, or summary"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1423,7 +1423,7 @@
         </extension>
         <strength value="required"/>
         <description value="The improvement notation of the measure report (e.g. increase or decrease)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2828,7 +2828,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the measure report (e.g. complete, pending, or error)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2859,7 +2859,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of the measure report: individual, patient listing, or summary"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -3007,7 +3007,7 @@
         </extension>
         <strength value="required"/>
         <description value="The improvement notation of the measure report (e.g. increase or decrease)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="MedicationRequest"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -1009,10 +1009,10 @@
     <valueCode value="phx"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MedicationRequest"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="MedicationRequest"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Pharmacy)"/>
   <contact>
     <telecom>
@@ -1027,7 +1027,7 @@
     </telecom>
   </contact>
   <description value="An order or request for both supply of the medication and the instructions for administration of the medication to a patient. The resource is called &quot;MedicationRequest&quot; rather than &quot;MedicationPrescription&quot; or &quot;MedicationOrder&quot; to generalize the use across inpatient and outpatient settings, including care plans, etc., and to harmonize with workflow patterns."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1485,7 +1485,7 @@
         </extension>
         <strength value="required"/>
         <description value="A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1580,7 +1580,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of medication order."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1673,7 +1673,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3546,7 +3546,7 @@
         </extension>
         <strength value="required"/>
         <description value="A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3615,7 +3615,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of medication order."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3682,7 +3682,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

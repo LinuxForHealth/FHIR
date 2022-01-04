@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "OperationOutcome",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/OperationOutcome",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "OperationOutcome",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A collection of error, warning, or information messages that result from a system action.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -699,7 +699,7 @@
           ],
           "strength": "required",
           "description": "How the issue affects the success of the action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -752,7 +752,7 @@
           ],
           "strength": "required",
           "description": "A code that describes the type of issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/issue-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/issue-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1029,7 +1029,7 @@
           ],
           "strength": "required",
           "description": "How the issue affects the success of the action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1067,7 +1067,7 @@
           ],
           "strength": "required",
           "description": "A code that describes the type of issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/issue-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/issue-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {

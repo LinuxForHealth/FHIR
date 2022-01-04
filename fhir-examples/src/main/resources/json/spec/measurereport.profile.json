@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MeasureReport",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MeasureReport",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MeasureReport",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Quality Information)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -575,7 +575,7 @@
           ],
           "strength": "required",
           "description": "The status of the measure report (e.g. complete, pending, or error)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -631,7 +631,7 @@
           ],
           "strength": "required",
           "description": "The type of the measure report: individual, patient listing, or summary",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -908,7 +908,7 @@
           ],
           "strength": "required",
           "description": "The improvement notation of the measure report (e.g. increase or decrease)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2670,7 +2670,7 @@
           ],
           "strength": "required",
           "description": "The status of the measure report (e.g. complete, pending, or error)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2711,7 +2711,7 @@
           ],
           "strength": "required",
           "description": "The type of the measure report: individual, patient listing, or summary",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2898,7 +2898,7 @@
           ],
           "strength": "required",
           "description": "The improvement notation of the measure report (e.g. increase or decrease)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
         },
         "mapping": [
           {

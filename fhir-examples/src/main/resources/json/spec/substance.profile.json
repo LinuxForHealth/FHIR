@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Substance",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Substance",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Substance",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A homogeneous material with a definite composition.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -566,7 +566,7 @@
           ],
           "strength": "required",
           "description": "A code to indicate if the substance is actively used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/substance-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/substance-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1358,7 +1358,7 @@
           ],
           "strength": "required",
           "description": "A code to indicate if the substance is actively used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/substance-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/substance-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

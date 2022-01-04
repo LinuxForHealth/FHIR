@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="AllergyIntolerance"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -621,10 +621,10 @@
     <valueCode value="pc"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="AllergyIntolerance"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Patient Care)"/>
   <contact>
     <telecom>
@@ -640,7 +640,7 @@
   </contact>
   <description value="Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure to a substance."/>
   <purpose value="To record a clinical assessment of a propensity, or potential risk to an individual, of an adverse reaction upon future exposure to the specified substance, or class of substance."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1093,7 +1093,7 @@
         </extension>
         <strength value="required"/>
         <description value="The clinical status of the allergy or intolerance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1139,7 +1139,7 @@
         </extension>
         <strength value="required"/>
         <description value="Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1184,7 +1184,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identification of the underlying physiological mechanism for a Reaction Risk."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1235,7 +1235,7 @@
         </extension>
         <strength value="required"/>
         <description value="Category of an identified substance associated with allergies or intolerances."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1286,7 +1286,7 @@
         </extension>
         <strength value="required"/>
         <description value="Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1980,7 +1980,7 @@
         </extension>
         <strength value="required"/>
         <description value="Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reaction-event-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2145,7 +2145,7 @@
         </extension>
         <strength value="required"/>
         <description value="The clinical status of the allergy or intolerance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2178,7 +2178,7 @@
         </extension>
         <strength value="required"/>
         <description value="Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2210,7 +2210,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identification of the underlying physiological mechanism for a Reaction Risk."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2248,7 +2248,7 @@
         </extension>
         <strength value="required"/>
         <description value="Category of an identified substance associated with allergies or intolerances."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2286,7 +2286,7 @@
         </extension>
         <strength value="required"/>
         <description value="Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2676,7 +2676,7 @@
         </extension>
         <strength value="required"/>
         <description value="Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reaction-event-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

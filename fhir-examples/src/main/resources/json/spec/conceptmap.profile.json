@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ConceptMap",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ConceptMap",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ConceptMap",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, or data element/data element concepts, or classes in class models.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -741,7 +741,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2065,7 +2065,7 @@
           ],
           "strength": "required",
           "description": "The degree of equivalence between concepts.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-CIBUILD"
         }
       },
       {
@@ -2654,7 +2654,7 @@
           ],
           "strength": "required",
           "description": "Defines which action to take if there is no match in the group.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -2952,7 +2952,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3525,7 +3525,7 @@
           ],
           "strength": "required",
           "description": "The degree of equivalence between concepts.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-CIBUILD"
         }
       },
       {
@@ -3709,7 +3709,7 @@
           ],
           "strength": "required",
           "description": "Defines which action to take if there is no match in the group.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0-CIBUILD"
         }
       },
       {

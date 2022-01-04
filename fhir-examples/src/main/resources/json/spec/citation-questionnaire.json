@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Citation.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:414f5e11-ef07-4bcd-b7fe-266bd2d1b838",
-        "timestamp": "2021-12-06T19:02:35+00:00",
+        "identifier": "urn:uuid:f749657e-57bf-49df-9251-cd42e6545d92",
+        "timestamp": "2022-01-01T15:23:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -42,8 +42,8 @@
       "status": "active",
       "description": "Type options for Citation.citedArtifact.relatesTo.target[x]",
       "expansion": {
-        "identifier": "urn:uuid:a14a826e-f37b-45d4-8eac-f5ffbdaf76cb",
-        "timestamp": "2021-12-06T19:02:35+00:00",
+        "identifier": "urn:uuid:151445f0-3a22-407d-bd7c-0644e0b39fb0",
+        "timestamp": "2022-01-01T15:23:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -74,9 +74,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -101,6 +101,7 @@
               }
             }
           ],
+          "linkId": "Citation-flyover",
           "text": "The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. The Citation Resource supports existing reference structures and developing publication practices such as versioning, expressing complex contributorship roles, and referencing computable resources.",
           "type": "display"
         },
@@ -135,6 +136,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -175,6 +177,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -211,6 +214,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -254,6 +258,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -295,6 +300,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -322,6 +328,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -349,6 +356,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -376,6 +384,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -412,6 +421,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.url-flyover",
               "text": "An absolute URI that is used to identify this citation when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this summary is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the summary is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred. Multiple instances may share the same URL if they have a distinct version.",
               "type": "display"
             },
@@ -452,6 +462,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.identifier-flyover",
               "text": "A formal identifier that is used to identify this citation when it is represented in other formats, or referenced in a specification, model, design or an instance. May include DOI, PMID, PMCID, etc. This element will contain unique identifiers that support de-duplication of citations. This identifier can be valid for only one citation resource.",
               "type": "display"
             },
@@ -509,6 +520,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.version-flyover",
               "text": "The identifier that is used to identify this version of the citation when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the citation author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. There may be different citation instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the citation with the format [url]|[version].",
               "type": "display"
             },
@@ -552,6 +564,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.name-flyover",
               "text": "A natural language name identifying the citation. This name should be usable as an identifier for the module by machine processing applications such as code generation. The name is not expected to be globally unique. The name should be a simple alphanumeric type name to ensure that it is machine-processing friendly.",
               "type": "display"
             },
@@ -595,6 +608,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.title-flyover",
               "text": "A short, descriptive, user-friendly title for the citation. This name does not need to be machine-processing friendly and may contain punctuation, white-space, etc.",
               "type": "display"
             },
@@ -642,6 +656,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.status-flyover",
               "text": "The status of this summary. Enables tracking the life-cycle of the content. Allows filtering of summarys s that are appropriate for use versus not.",
               "type": "display"
             },
@@ -686,6 +701,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.experimental-flyover",
               "text": "A Boolean value to indicate that this citation is authored for testing purposes (or education/evaluation/marketing) and is not intended to be used for genuine usage. Allows filtering of citations that are appropriate for use versus not.",
               "type": "display"
             },
@@ -729,6 +745,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.date-flyover",
               "text": "The date  (and optionally time) when the citation was published. The date must change when the business version changes and it must change if the status code changes. In addition, it should change when the substantive content of the citation changes. Note that this is not the same as the resource last-modified-date, since the resource may be a secondary representation of the citation. Additional specific dates may be added as extensions or be found by consulting Provenances associated with past versions of the resource.",
               "type": "display"
             },
@@ -772,6 +789,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.publisher-flyover",
               "text": "The name of the organization or individual that published the citation. Usually an organization but may be an individual. The publisher (or steward) of the citation is the organization or individual primarily responsible for the maintenance and upkeep of the citation. This is not necessarily the same individual or organization that developed and initially authored the content. The publisher is the primary point of contact for questions or issues with the citation. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -792,6 +810,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Citation.contact-display",
               "text": "May be a web site, an email address, a telephone number, etc.",
               "type": "display"
             },
@@ -810,6 +829,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -846,6 +866,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.description-flyover",
               "text": "A free text natural language description of the citation from a consumer\u0027s perspective. This description can be used to capture details such as why the citation was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the citation as conveyed in the \u0027text\u0027 field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the citation is presumed to be the predominant language in the place the citation was created).",
               "type": "display"
             },
@@ -866,6 +887,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Citation.useContext-display",
               "text": "When multiple useContexts are specified, there is no expectation that all or any of the contexts apply.",
               "type": "display"
             },
@@ -884,6 +906,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and may be used to assist with indexing and searching for appropriate citation instances.",
               "type": "display"
             }
@@ -917,6 +940,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.jurisdiction-flyover",
               "text": "A legal or geographic region in which the citation is intended to be used. It may be possible for the citation to be used in jurisdictions other than those for which it was originally designed or intended.",
               "type": "display"
             },
@@ -968,6 +992,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.purpose-flyover",
               "text": "Explanation of why this citation is needed and why it has been designed as it has. This element does not describe the usage of the citation. Instead, it provides traceability of \u0027\u0027why\u0027\u0027 the resource is either needed or \u0027\u0027why\u0027\u0027 it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this citation.",
               "type": "display"
             },
@@ -1011,6 +1036,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.copyright-flyover",
               "text": "Use and/or publishing restrictions for the Citation, not for the cited artifact.",
               "type": "display"
             },
@@ -1054,6 +1080,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.approvalDate-flyover",
               "text": "The date on which the resource content was approved by the publisher. Approval happens once when the content is officially approved for usage. The \u0027date\u0027 element may be more recent than the approval date because of minor changes or editorial corrections.",
               "type": "display"
             },
@@ -1097,6 +1124,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.lastReviewDate-flyover",
               "text": "The date on which the resource content was last reviewed. Review happens periodically after approval but does not change the original approval date. If specified, this date follows the original approval date.",
               "type": "display"
             },
@@ -1141,6 +1169,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.effectivePeriod-flyover",
               "text": "The period during which the citation content was or is planned to be in active use. The effective period for a citation  determines when the content is applicable for usage and is independent of publication and review dates. For example, a measure intended to be used for the year 2016 might be published in 2015.",
               "type": "display"
             },
@@ -1182,6 +1211,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.author-flyover",
               "text": "Who authored the Citation.",
               "type": "display"
             }
@@ -1209,6 +1239,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.editor-flyover",
               "text": "Who edited the Citation.",
               "type": "display"
             }
@@ -1236,6 +1267,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.reviewer-flyover",
               "text": "Who reviewed the Citation.",
               "type": "display"
             }
@@ -1263,6 +1295,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.endorser-flyover",
               "text": "Who endorsed the Citation.",
               "type": "display"
             }
@@ -1290,6 +1323,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.summary-flyover",
               "text": "A human-readable display of the citation.",
               "type": "display"
             },
@@ -1325,6 +1359,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.summary.style-flyover",
                   "text": "Format for display of the citation.",
                   "type": "display"
                 },
@@ -1380,6 +1415,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.summary.text-flyover",
                   "text": "The human-readable display of the citation.",
                   "type": "display"
                 },
@@ -1416,6 +1452,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.classification-flyover",
               "text": "The assignment to an organizing scheme.",
               "type": "display"
             },
@@ -1450,6 +1487,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.classification.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1484,6 +1522,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.classification.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1511,6 +1550,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.classification.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1548,6 +1588,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.classification.type-flyover",
                   "text": "The kind of classifier (e.g. publication type, keyword).",
                   "type": "display"
                 },
@@ -1596,6 +1637,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.classification.classifier-flyover",
                   "text": "The specific classification value.",
                   "type": "display"
                 },
@@ -1646,6 +1688,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.note-flyover",
               "text": "Used for general notes and annotations not coded elsewhere.",
               "type": "display"
             }
@@ -1679,6 +1722,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.currentState-flyover",
               "text": "The status of the citation.",
               "type": "display"
             },
@@ -1721,6 +1765,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.statusDate-flyover",
               "text": "An effective date or period for a status of the citation.",
               "type": "display"
             },
@@ -1755,6 +1800,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1789,6 +1835,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1816,6 +1863,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1857,6 +1905,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.activity-flyover",
                   "text": "Classification of the status.",
                   "type": "display"
                 },
@@ -1908,6 +1957,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.actual-flyover",
                   "text": "Either occurred or expected.",
                   "type": "display"
                 },
@@ -1956,6 +2006,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.statusDate.period-flyover",
                   "text": "When the status started and/or ended. For an instance, place the same value in both start and end elements.",
                   "type": "display"
                 },
@@ -1999,6 +2050,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.relatesTo-flyover",
               "text": "Artifact related to the Citation Resource.",
               "type": "display"
             },
@@ -2033,6 +2085,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2067,6 +2120,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2094,6 +2148,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2135,6 +2190,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.relationshipType-flyover",
                   "text": "How the Citation resource relates to the target artifact.",
                   "type": "display"
                 },
@@ -2183,6 +2239,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.targetClassifier-flyover",
                   "text": "The clasification of the related artifact.",
                   "type": "display"
                 },
@@ -2235,6 +2292,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.relatesTo.target[x]-flyover",
                   "text": "The article or artifact that the Citation Resource is related to.",
                   "type": "display"
                 },
@@ -2370,6 +2428,7 @@
                   }
                 }
               ],
+              "linkId": "Citation.citedArtifact-flyover",
               "text": "The article or artifact being described.",
               "type": "display"
             },
@@ -2404,6 +2463,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2438,6 +2498,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2465,6 +2526,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2498,6 +2560,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.identifier-flyover",
                   "text": "A formal identifier that is used to identify this citation when it is represented in other formats, or referenced in a specification, model, design or an instance. May include DOI, PMID, PMCID, etc. This element will contain unique identifiers that support de-duplication of citations. This identifier can be valid for only one citation resource.",
                   "type": "display"
                 },
@@ -2552,6 +2615,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.relatedIdentifier-flyover",
                   "text": "A formal identifier that is used to identify things closely related to this citation. May include trial registry identifiers, e.g. NCT04372602 from clinicaltrials.gov. This identifier can be valid for multiple citation resources.",
                   "type": "display"
                 },
@@ -2609,6 +2673,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.dateAccessed-flyover",
                   "text": "When the cited artifact was accessed.",
                   "type": "display"
                 },
@@ -2649,6 +2714,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.version-flyover",
                   "text": "The defined version of the cited artifact.",
                   "type": "display"
                 },
@@ -2683,6 +2749,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.version.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2717,6 +2784,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.version.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2744,6 +2812,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.version.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2784,6 +2853,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.version.value-flyover",
                       "text": "The version number or other version identifier.",
                       "type": "display"
                     },
@@ -2827,6 +2897,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.version.baseCitation-flyover",
                       "text": "Citation for the main version of the cited artifact.",
                       "type": "display"
                     },
@@ -2879,6 +2950,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.currentState-flyover",
                   "text": "The status of the cited artifact.",
                   "type": "display"
                 },
@@ -2921,6 +2993,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.statusDate-flyover",
                   "text": "An effective date or period for a status of the cited artifact.",
                   "type": "display"
                 },
@@ -2955,6 +3028,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2989,6 +3063,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3016,6 +3091,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3057,6 +3133,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.activity-flyover",
                       "text": "Classification of the status.",
                       "type": "display"
                     },
@@ -3108,6 +3185,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.actual-flyover",
                       "text": "Either occurred or expected.",
                       "type": "display"
                     },
@@ -3156,6 +3234,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.statusDate.period-flyover",
                       "text": "When the status started and/or ended. For an instance, place the same value in both start and end elements.",
                       "type": "display"
                     },
@@ -3199,6 +3278,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.title-flyover",
                   "text": "The title details of the article or artifact.",
                   "type": "display"
                 },
@@ -3233,6 +3313,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3267,6 +3348,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3294,6 +3376,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3327,6 +3410,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.type-flyover",
                       "text": "Used to express the reason or specific aspect for the title.",
                       "type": "display"
                     },
@@ -3379,6 +3463,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.language-flyover",
                       "text": "Used to express the specific language.",
                       "type": "display"
                     },
@@ -3434,6 +3519,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.title.text-flyover",
                       "text": "The title of the article or artifact.",
                       "type": "display"
                     },
@@ -3470,6 +3556,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.abstract-flyover",
                   "text": "Summary of the article or artifact.",
                   "type": "display"
                 },
@@ -3504,6 +3591,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3538,6 +3626,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3565,6 +3654,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3602,6 +3692,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.type-flyover",
                       "text": "Used to express the reason or specific aspect for the abstract.",
                       "type": "display"
                     },
@@ -3654,6 +3745,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.language-flyover",
                       "text": "Used to express the specific language.",
                       "type": "display"
                     },
@@ -3709,6 +3801,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.text-flyover",
                       "text": "Abstract content.",
                       "type": "display"
                     },
@@ -3752,6 +3845,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.abstract.copyright-flyover",
                       "text": "Copyright notice for the abstract.",
                       "type": "display"
                     },
@@ -3794,6 +3888,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.part-flyover",
                   "text": "The component of the article or artifact.",
                   "type": "display"
                 },
@@ -3828,6 +3923,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3862,6 +3958,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3889,6 +3986,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3926,6 +4024,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.type-flyover",
                       "text": "The kind of component.",
                       "type": "display"
                     },
@@ -3977,6 +4076,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.value-flyover",
                       "text": "The specification of the component.",
                       "type": "display"
                     },
@@ -4020,6 +4120,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.part.baseCitation-flyover",
                       "text": "The citation for the full article or artifact.",
                       "type": "display"
                     },
@@ -4066,6 +4167,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.relatesTo-flyover",
                   "text": "The artifact related to the cited artifact.",
                   "type": "display"
                 },
@@ -4100,6 +4202,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -4134,6 +4237,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -4161,6 +4265,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -4202,6 +4307,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.relationshipType-flyover",
                       "text": "How the cited artifact relates to the target artifact.",
                       "type": "display"
                     },
@@ -4250,6 +4356,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.targetClassifier-flyover",
                       "text": "The clasification of the related artifact.",
                       "type": "display"
                     },
@@ -4302,6 +4409,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.relatesTo.target[x]-flyover",
                       "text": "The article or artifact that the cited artifact is related to.",
                       "type": "display"
                     },
@@ -4417,6 +4525,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Citation.citedArtifact.publicationForm-display",
                   "text": "A common use is a journal article with a publication date and pagination for a print version and a different publication date for the online version of the same article.",
                   "type": "display"
                 },
@@ -4435,6 +4544,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.publicationForm-flyover",
                   "text": "If multiple, used to represent alternative forms of the article that are not separate citations.",
                   "type": "display"
                 },
@@ -4469,6 +4579,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -4503,6 +4614,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -4530,6 +4642,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -4563,6 +4676,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.publishedIn-flyover",
                       "text": "The collection the cited article or artifact is published in.",
                       "type": "display"
                     },
@@ -4597,6 +4711,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -4631,6 +4746,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -4658,6 +4774,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -4695,6 +4812,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.type-flyover",
                           "text": "Kind of container (e.g. Periodical, database, or book). Journals and newspapers are coded as Periodical.",
                           "type": "display"
                         },
@@ -4743,6 +4861,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.identifier-flyover",
                           "text": "Journal identifiers include ISSN, ISO Abbreviation and NLMuniqueID; Book identifiers include ISBN.",
                           "type": "display"
                         },
@@ -4800,6 +4919,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.title-flyover",
                           "text": "Name of the database or title of the book or journal. ClinicalTrials.gov is a name of a database.",
                           "type": "display"
                         },
@@ -4843,6 +4963,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.publisher-flyover",
                           "text": "Name of the publisher.",
                           "type": "display"
                         },
@@ -4896,6 +5017,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.publishedIn.publisherLocation-flyover",
                           "text": "Geographic location of the publisher.",
                           "type": "display"
                         },
@@ -4938,6 +5060,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.periodicRelease-flyover",
                       "text": "The specific issue in which the cited article resides.",
                       "type": "display"
                     },
@@ -4972,6 +5095,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -5006,6 +5130,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -5033,6 +5158,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -5070,6 +5196,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.citedMedium-flyover",
                           "text": "Describes the form of the medium cited. Common codes are \"Internet\" or \"Print\". National Library of Medicine uses the codes \"Internet\" or \"Print\".",
                           "type": "display"
                         },
@@ -5121,6 +5248,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.volume-flyover",
                           "text": "Volume number of journal in which the article is published.",
                           "type": "display"
                         },
@@ -5164,6 +5292,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.issue-flyover",
                           "text": "Issue, part or supplement of journal in which the article is published.",
                           "type": "display"
                         },
@@ -5204,6 +5333,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication-flyover",
                           "text": "Defining the date on which the issue of the journal was published.",
                           "type": "display"
                         },
@@ -5238,6 +5368,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -5272,6 +5403,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -5299,6 +5431,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -5335,6 +5468,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.date-flyover",
                               "text": "Date on which the issue of the journal was published.",
                               "type": "display"
                             },
@@ -5378,6 +5512,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.year-flyover",
                               "text": "Year on which the issue of the journal was published.",
                               "type": "display"
                             },
@@ -5421,6 +5556,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.month-flyover",
                               "text": "Month on which the issue of the journal was published.",
                               "type": "display"
                             },
@@ -5464,6 +5600,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.day-flyover",
                               "text": "Day on which the issue of the journal was published.",
                               "type": "display"
                             },
@@ -5507,6 +5644,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.season-flyover",
                               "text": "Spring, Summer, Fall/Autumn, Winter.",
                               "type": "display"
                             },
@@ -5550,6 +5688,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.publicationForm.periodicRelease.dateOfPublication.text-flyover",
                               "text": "Text representation of the date of which the issue of the journal was published.",
                               "type": "display"
                             },
@@ -5597,6 +5736,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.articleDate-flyover",
                       "text": "The date the article was added to the database, or the date the article was released (which may differ from the journal issue publication date).",
                       "type": "display"
                     },
@@ -5640,6 +5780,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.lastRevisionDate-flyover",
                       "text": "The date the article was last revised or updated in the database.",
                       "type": "display"
                     },
@@ -5680,6 +5821,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.language-flyover",
                       "text": "Language in which this form of the article is published. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
                       "type": "display"
                     },
@@ -5731,6 +5873,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.accessionNumber-flyover",
                       "text": "Entry number or identifier for inclusion in a database.",
                       "type": "display"
                     },
@@ -5774,6 +5917,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.pageString-flyover",
                       "text": "Used for full display of pagination.",
                       "type": "display"
                     },
@@ -5817,6 +5961,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.firstPage-flyover",
                       "text": "Used for isolated representation of first page.",
                       "type": "display"
                     },
@@ -5860,6 +6005,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.lastPage-flyover",
                       "text": "Used for isolated representation of last page.",
                       "type": "display"
                     },
@@ -5903,6 +6049,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.pageCount-flyover",
                       "text": "Actual or approximate number of pages or screens.",
                       "type": "display"
                     },
@@ -5946,6 +6093,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.publicationForm.copyright-flyover",
                       "text": "Copyright notice for the full article or artifact.",
                       "type": "display"
                     },
@@ -5982,6 +6130,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.webLocation-flyover",
                   "text": "Used for any URL for the article or artifact cited.",
                   "type": "display"
                 },
@@ -6016,6 +6165,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.webLocation.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -6050,6 +6200,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.webLocation.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6077,6 +6228,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.webLocation.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6114,6 +6266,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.webLocation.type-flyover",
                       "text": "Code the reason for different URLs, e.g. abstract and full-text.",
                       "type": "display"
                     },
@@ -6165,6 +6318,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.webLocation.url-flyover",
                       "text": "The specific URL. Persistent URLs, like doi, are preferred.",
                       "type": "display"
                     },
@@ -6201,6 +6355,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.classification-flyover",
                   "text": "The assignment to an organizing scheme.",
                   "type": "display"
                 },
@@ -6235,6 +6390,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -6269,6 +6425,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6296,6 +6453,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6333,6 +6491,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.type-flyover",
                       "text": "The kind of classifier (e.g. publication type, keyword).",
                       "type": "display"
                     },
@@ -6381,6 +6540,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.classifier-flyover",
                       "text": "The specific classification value.",
                       "type": "display"
                     },
@@ -6429,6 +6589,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.classification.whoClassified-flyover",
                       "text": "Provenance and copyright of classification.",
                       "type": "display"
                     },
@@ -6463,6 +6624,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -6497,6 +6659,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -6524,6 +6687,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -6560,6 +6724,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.person-flyover",
                           "text": "Person who created the classification.",
                           "type": "display"
                         },
@@ -6613,6 +6778,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.organization-flyover",
                           "text": "Organization who created the classification.",
                           "type": "display"
                         },
@@ -6666,6 +6832,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.publisher-flyover",
                           "text": "The publisher of the classification, not the publisher of the article or artifact being cited.",
                           "type": "display"
                         },
@@ -6719,6 +6886,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.classifierCopyright-flyover",
                           "text": "Rights management statement for the classification.",
                           "type": "display"
                         },
@@ -6762,6 +6930,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.classification.whoClassified.freeToShare-flyover",
                           "text": "Acceptable to re-use the classification.",
                           "type": "display"
                         },
@@ -6806,6 +6975,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.contributorship-flyover",
                   "text": "This element is used to list authors and other contributors, their contact information, specific contributions, and summary statements.",
                   "type": "display"
                 },
@@ -6840,6 +7010,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -6874,6 +7045,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6901,6 +7073,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6937,6 +7110,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.complete-flyover",
                       "text": "Indicates if the list includes all authors and/or contributors. If list is incomplete \"et al\" can be appended to Contributorship.summary.value for display purposes.",
                       "type": "display"
                     },
@@ -6957,6 +7131,7 @@
                   "repeats": true,
                   "item": [
                     {
+                      "linkId": "Citation.citedArtifact.contributorship.entry-display",
                       "text": "Used to report contributorship in individualized ways.",
                       "type": "display"
                     },
@@ -6975,6 +7150,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.entry-flyover",
                       "text": "An individual entity named in the author list or contributor list.",
                       "type": "display"
                     },
@@ -7009,6 +7185,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -7043,6 +7220,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -7070,6 +7248,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -7107,6 +7286,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.name-flyover",
                           "text": "A name associated with the individual. humanName.family can match MEDLINE-based lastName (used for surname or single name), humanName.given can match MEDLINE-based forename (used for remainder of name except for suffix), humanName.suffix can match MEDLINE-based suffix (eg 2nd, 3rd, Jr, Sr).",
                           "type": "display"
                         },
@@ -7164,6 +7344,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.initials-flyover",
                           "text": "Initials for forename. This element is used in Medline based citations, but not supported fully by FHIR HumanName datatype.",
                           "type": "display"
                         },
@@ -7207,6 +7388,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.collectiveName-flyover",
                           "text": "Used for collective or corporate name as an author. This element is used in Medline based citations, but not supported fully by FHIR HumanName datatype.",
                           "type": "display"
                         },
@@ -7247,6 +7429,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.identifier-flyover",
                           "text": "Unique person identifier. Avoids needing to disambiguate common last names or changes of name. ORCID is commonly used as author identifier.",
                           "type": "display"
                         },
@@ -7295,6 +7478,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo-flyover",
                           "text": "Organization affiliated with the entity.",
                           "type": "display"
                         },
@@ -7329,6 +7513,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -7363,6 +7548,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -7390,6 +7576,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -7426,6 +7613,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.affiliation-flyover",
                               "text": "Display for the organization.",
                               "type": "display"
                             },
@@ -7469,6 +7657,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.role-flyover",
                               "text": "Role within the organization, such as professional title.",
                               "type": "display"
                             },
@@ -7509,6 +7698,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.affiliationInfo.identifier-flyover",
                               "text": "Identifier for the organization.",
                               "type": "display"
                             },
@@ -7565,6 +7755,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.address-flyover",
                           "text": "Physical mailing address for the author or contributor.",
                           "type": "display"
                         },
@@ -7648,6 +7839,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.telecom-flyover",
                           "text": "Email or telephone contact methods for the author or contributor.",
                           "type": "display"
                         },
@@ -7704,6 +7896,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.contributionType-flyover",
                           "text": "This element identifies the specific nature of an individual’s contribution with respect to the cited work. The CreDiT taxonomy provides a way to encode contribution information inside article XML files. The purpose of CRediT is to provide transparency in contributions to scholarly published work, to enable improved systems of attribution, credit, and accountability.",
                           "type": "display"
                         },
@@ -7756,6 +7949,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.role-flyover",
                           "text": "The role of the contributor (e.g. author, editor, reviewer).",
                           "type": "display"
                         },
@@ -7798,6 +7992,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance-flyover",
                           "text": "Contributions with accounting for time or number.",
                           "type": "display"
                         },
@@ -7832,6 +8027,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -7866,6 +8062,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -7893,6 +8090,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -7934,6 +8132,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.type-flyover",
                               "text": "The specific contribution.",
                               "type": "display"
                             },
@@ -7985,6 +8184,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Citation.citedArtifact.contributorship.entry.contributionInstance.time-flyover",
                               "text": "The time that the contribution was made.",
                               "type": "display"
                             },
@@ -8030,6 +8230,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.correspondingContact-flyover",
                           "text": "Indication of which contributor is the corresponding contributor for the role.",
                           "type": "display"
                         },
@@ -8073,6 +8274,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.entry.listOrder-flyover",
                           "text": "Used to code order of authors.",
                           "type": "display"
                         },
@@ -8109,6 +8311,7 @@
                           }
                         }
                       ],
+                      "linkId": "Citation.citedArtifact.contributorship.summary-flyover",
                       "text": "Used to record a display of the author/contributor list without separate coding for each list member.",
                       "type": "display"
                     },
@@ -8143,6 +8346,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -8177,6 +8381,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -8204,6 +8409,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -8241,6 +8447,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.type-flyover",
                           "text": "Used most commonly to express an author list or a contributorship statement.",
                           "type": "display"
                         },
@@ -8293,6 +8500,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.style-flyover",
                           "text": "The format for the display string.",
                           "type": "display"
                         },
@@ -8345,6 +8553,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.source-flyover",
                           "text": "Used to code the producer or rule for creating the display string.",
                           "type": "display"
                         },
@@ -8400,6 +8609,7 @@
                               }
                             }
                           ],
+                          "linkId": "Citation.citedArtifact.contributorship.summary.value-flyover",
                           "text": "The display string for the author list, contributor list, or contributorship statement.",
                           "type": "display"
                         },
@@ -8444,6 +8654,7 @@
                       }
                     }
                   ],
+                  "linkId": "Citation.citedArtifact.note-flyover",
                   "text": "Any additional information or content for the article or artifact.",
                   "type": "display"
                 }

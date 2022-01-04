@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Observation",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -31,10 +31,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Observation",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Observation",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -56,7 +56,7 @@
   ],
   "description": "Measurements and simple assertions made about a patient, device or other subject.",
   "purpose": "Observations are a key aspect of healthcare.  This resource is used to capture those that do not require more sophisticated mechanisms.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -747,7 +747,7 @@
           ],
           "strength": "required",
           "description": "Codes providing the status of an observation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2996,7 +2996,7 @@
           ],
           "strength": "required",
           "description": "Codes providing the status of an observation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

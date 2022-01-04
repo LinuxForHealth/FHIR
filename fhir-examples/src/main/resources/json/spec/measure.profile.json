@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Measure",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Measure",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Measure",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Quality Information)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The Measure resource provides the definition of a quality measure.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -815,7 +815,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2141,7 +2141,7 @@
           ],
           "strength": "required",
           "description": "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3966,7 +3966,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4842,7 +4842,7 @@
           ],
           "strength": "required",
           "description": "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
         },
         "mapping": [
           {

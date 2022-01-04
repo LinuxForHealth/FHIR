@@ -183,7 +183,6 @@ OK         json/spec/clinicalimpression.profile.json
 OK         json/spec/clinicalusedefinition-example.json
 PARSE      json/spec/clinicalusedefinition-questionnaire.json
 OK         json/spec/clinicalusedefinition.profile.json
-PARSE      json/spec/clinicaluseissue-questionnaire.json
 PARSE      json/spec/cm-address-type-v3.json
 PARSE      json/spec/cm-address-use-v2.json
 PARSE      json/spec/cm-address-use-v3.json
@@ -283,7 +282,6 @@ VALIDATION json/spec/codesystem-claim-modifiers.json
 VALIDATION json/spec/codesystem-claim-subtype.json
 VALIDATION json/spec/codesystem-claim-type.json
 OK         json/spec/codesystem-claim-use.json
-OK         json/spec/codesystem-clinical-use-issue-type.json
 OK         json/spec/codesystem-code-search-support.json
 OK         json/spec/codesystem-codesystem-content-mode.json
 OK         json/spec/codesystem-codesystem-hierarchy-meaning.json
@@ -365,7 +363,6 @@ OK         json/spec/codesystem-device-status-reason.json
 OK         json/spec/codesystem-device-status.json
 OK         json/spec/codesystem-diagnosis-role.json
 OK         json/spec/codesystem-diagnostic-report-status.json
-OK         json/spec/codesystem-dicom-audit-lifecycle.json
 OK         json/spec/codesystem-dicom-dcim.json
 OK         json/spec/codesystem-directness.json
 OK         json/spec/codesystem-discriminator-type.json
@@ -539,7 +536,7 @@ OK         json/spec/codesystem-nutritionproduct-status.json
 OK         json/spec/codesystem-object-role.json
 VALIDATION json/spec/codesystem-observation-category.json
 OK         json/spec/codesystem-observation-range-category.json
-PARSE      json/spec/codesystem-observation-statistics.json
+OK         json/spec/codesystem-observation-statistics.json
 OK         json/spec/codesystem-observation-status.json
 OK         json/spec/codesystem-operation-kind.json
 OK         json/spec/codesystem-operation-parameter-use.json
@@ -687,6 +684,16 @@ OK         json/spec/codesystem-vision-eye-codes.json
 VALIDATION json/spec/codesystem-vision-product.json
 OK         json/spec/codesystem-w3c-provenance-activity-type.json
 OK         json/spec/codesystem.profile.json
+OK         json/spec/codesystem-clinical-use-definition-type.json
+OK         json/spec/codesystem-combined-dose-form.json
+PARSE      json/spec/codesystem-concept-subsumption-outcome.json
+OK         json/spec/codesystem-legal-status-of-supply.json
+OK         json/spec/codesystem-medicinal-product-domain.json
+OK         json/spec/codesystem-medicinal-product-package-type.json
+OK         json/spec/codesystem-medicinal-product-type.json
+PARSE      json/spec/codesystem-resource-security-category.json
+PARSE      json/spec/codesystem-resource-validation-mode.json
+PARSE      json/spec/codesystem-standards-status.json
 OK         json/spec/coding.profile.json
 OK         json/spec/communication-example-fm-attachment.json
 OK         json/spec/communication-example-fm-solicited-attachment.json
@@ -1112,6 +1119,7 @@ OK         json/spec/extension-mimetype.json
 OK         json/spec/extension-minlength.json
 OK         json/spec/extension-minvalue.json
 OK         json/spec/extension-narrativelink.json
+OK         json/spec/extension-no-binding.json
 OK         json/spec/extension-nutritionorder-adaptivefeedingdevice.json
 OK         json/spec/extension-oauth-uris.json
 OK         json/spec/extension-observation-bodyposition.json
@@ -1526,7 +1534,7 @@ OK         json/spec/medicationexample0306.json
 OK         json/spec/medicationexample0307.json
 OK         json/spec/medicationexample0308.json
 OK         json/spec/medicationexample0309.json
-PARSE      json/spec/medicationexample0310.json
+OK         json/spec/medicationexample0310.json
 OK         json/spec/medicationexample0311.json
 OK         json/spec/medicationexample0312.json
 OK         json/spec/medicationexample0313.json
@@ -1603,6 +1611,7 @@ OK         json/spec/medicinalproductdefinition-example-equilidem-basics.json
 OK         json/spec/medicinalproductdefinition-example-equilidem-using-ingredient-and-auth.json
 OK         json/spec/medicinalproductdefinition-example.json
 PARSE      json/spec/medicinalproductdefinition-questionnaire.json
+PARSE      json/spec/medicinalproductdefinition-with-contained-package-and-ingredient.json
 OK         json/spec/medicinalproductdefinition.profile.json
 OK         json/spec/message-request-link.json
 OK         json/spec/message-response-link.json
@@ -2333,7 +2342,7 @@ VALIDATION json/spec/valueset-claim-subtype.json
 VALIDATION json/spec/valueset-claim-type.json
 OK         json/spec/valueset-claim-use.json
 VALIDATION json/spec/valueset-clinical-findings.json
-OK         json/spec/valueset-clinical-use-issue-type.json
+OK         json/spec/valueset-clinical-use-definition-type.json
 VALIDATION json/spec/valueset-clinicalimpression-prognosis.json
 VALIDATION json/spec/valueset-clinicalimpression-status.json
 VALIDATION json/spec/valueset-clinvar.json
@@ -2682,7 +2691,6 @@ VALIDATION json/spec/valueset-organization-role.json
 VALIDATION json/spec/valueset-organization-type.json
 OK         json/spec/valueset-orientation-type.json
 VALIDATION json/spec/valueset-parent-relationship-codes.json
-VALIDATION json/spec/valueset-participant-role.json
 OK         json/spec/valueset-participantrequired.json
 OK         json/spec/valueset-participation-role-type.json
 OK         json/spec/valueset-participationstatus.json
@@ -2881,6 +2889,17 @@ OK         json/spec/valueset-vision-eye-codes.json
 VALIDATION json/spec/valueset-vision-product.json
 OK         json/spec/valueset-written-language.json
 OK         json/spec/valueset.profile.json
+OK         json/spec/valueset-careteam-participant-role.json
+OK         json/spec/valueset-clinical-use-definition-type.json
+OK         json/spec/valueset-combined-dose-form.json
+PARSE      json/spec/valueset-concept-subsumption-outcome.json
+OK         json/spec/valueset-legal-status-of-supply.json
+OK         json/spec/valueset-medicinal-product-domain.json
+OK         json/spec/valueset-medicinal-product-package-type.json
+OK         json/spec/valueset-medicinal-product-type.json
+PARSE      json/spec/valueset-resource-security-category.json
+PARSE      json/spec/valueset-resource-validation-mode.json
+PARSE      json/spec/valueset-standards-status.json
 PARSE      json/spec/valuesets.json
 OK         json/spec/verificationresult-example.json
 PARSE      json/spec/verificationresult-questionnaire.json

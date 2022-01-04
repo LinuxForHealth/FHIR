@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Basic",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Basic",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Basic",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "Basic is used for handling concepts not yet defined in FHIR, narrative-only resources that don\u0027t map to an existing resource, and custom resources not appropriate for inclusion in the FHIR specification.",
   "purpose": "Need some way to safely (without breaking interoperability) allow implementers to exchange content not supported by the initial set of declared resources.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

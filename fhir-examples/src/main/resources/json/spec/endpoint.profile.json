@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Endpoint",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Endpoint",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Endpoint",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.b or a REST endpoint for another FHIR server. This may include any security context information.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -557,7 +557,7 @@
           ],
           "strength": "required",
           "description": "The status of the endpoint.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/endpoint-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -874,7 +874,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1029,7 +1029,7 @@
           ],
           "strength": "required",
           "description": "The status of the endpoint.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/endpoint-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1241,7 +1241,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {

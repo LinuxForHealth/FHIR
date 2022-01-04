@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Contributor",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Contributor",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -29,7 +29,7 @@
   ],
   "description": "Base StructureDefinition for Contributor Type: A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.",
   "purpose": "Need to track contributor information in the same way across multiple resources.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -218,7 +218,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contributor-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -324,7 +324,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contributor-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0-CIBUILD"
         }
       },
       {

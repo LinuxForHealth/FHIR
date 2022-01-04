@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="MedicationKnowledge"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -1325,10 +1325,10 @@
     <valueCode value="phx"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MedicationKnowledge"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="MedicationKnowledge"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Pharmacy)"/>
   <contact>
     <telecom>
@@ -1343,7 +1343,7 @@
     </telecom>
   </contact>
   <description value="Information about a medication that is used to support knowledge."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1790,7 +1790,7 @@
         </extension>
         <strength value="required"/>
         <description value="A coded concept defining if the medication is in active use."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -5230,7 +5230,7 @@
         </extension>
         <strength value="required"/>
         <description value="A coded concept defining if the medication is in active use."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/medicationknowledge-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

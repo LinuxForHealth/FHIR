@@ -20,14 +20,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/shareableactivitydefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Shareable ActivityDefinition",
   "status": "draft",
   "experimental": false,
   "date": "2020-12-28T16:55:11+11:00",
   "publisher": "HL7",
   "description": "Enforces the minimum information set for the activity definition metadata required by HL7 and other organizations that share and publish activity definitions",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -783,7 +783,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1796,7 +1796,7 @@
           ],
           "strength": "required",
           "description": "The kind of activity the definition is describing.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1935,7 +1935,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1983,7 +1983,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2341,7 +2341,7 @@
           ],
           "strength": "required",
           "description": "The type of participant in the activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {

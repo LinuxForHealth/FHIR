@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "InsurancePlan",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/InsurancePlan",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "InsurancePlan",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Details of a Health Insurance product/plan provided by an organization.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "w5",
@@ -569,7 +569,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3201,7 +3201,7 @@
           ],
           "strength": "required",
           "description": "Whether the cost applies to in-network or out-of-network providers.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.3.0-CIBUILD"
         }
       },
       {
@@ -3356,7 +3356,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4164,7 +4164,7 @@
           ],
           "strength": "required",
           "description": "Whether the cost applies to in-network or out-of-network providers.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.3.0-CIBUILD"
         }
       },
       {

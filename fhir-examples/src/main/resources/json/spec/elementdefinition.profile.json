@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ElementDefinition",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +32,7 @@
     }
   ],
   "description": "Base StructureDefinition for ElementDefinition Type: Captures constraints on each element within the resource, profile, or extension.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -467,7 +467,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1016,7 +1016,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1200,7 +1200,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1936,7 +1936,7 @@
             "key": "eld-17",
             "severity": "error",
             "human": "targetProfile is only allowed if the type is Reference or canonical",
-            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027) or targetProfile.empty()",
+            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027 or code \u003d \u0027CodeableReference\u0027) or targetProfile.empty()",
             "xpath": "not(exists(f:targetProfile)) or (f:code/@value \u003d \u0027Reference\u0027)",
             "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
           },
@@ -2269,7 +2269,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2324,7 +2324,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2420,6 +2420,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -2454,6 +2457,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -2694,6 +2700,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -2728,6 +2737,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -2887,6 +2899,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -2921,6 +2936,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -3252,6 +3270,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -3286,6 +3307,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -3821,7 +3845,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4374,7 +4398,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4719,7 +4743,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5013,7 +5037,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5264,7 +5288,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5384,7 +5408,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5831,7 +5855,7 @@
             "key": "eld-17",
             "severity": "error",
             "human": "targetProfile is only allowed if the type is Reference or canonical",
-            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027) or targetProfile.empty()",
+            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027 or code \u003d \u0027CodeableReference\u0027) or targetProfile.empty()",
             "xpath": "not(exists(f:targetProfile)) or (f:code/@value \u003d \u0027Reference\u0027)",
             "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
           }
@@ -5997,7 +6021,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -6036,7 +6060,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -6127,6 +6151,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -6161,6 +6188,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -6353,6 +6383,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -6387,6 +6420,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -6530,6 +6566,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -6564,6 +6603,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -6753,6 +6795,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -6787,6 +6832,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -7091,7 +7139,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -7392,7 +7440,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -7563,7 +7611,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {

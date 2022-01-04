@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-precondition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "precondition",
   "title": "Precondition",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Other preceding or concurrent observations that must be known to correctly interpret the the observation.  For example an fiO2 measure taken alongside of a SpO2 measurement.  See the [Observation notes](observation.html#notes) section for additional guidance.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

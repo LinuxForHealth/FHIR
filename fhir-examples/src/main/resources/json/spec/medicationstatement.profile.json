@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MedicationStatement",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MedicationStatement",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A record of a medication that is being consumed by a patient.   A MedicationStatement may indicate that the patient may be taking the medication now or has taken the medication in the past or will be taking the medication in the future.  The source of this information can be the patient, significant other (such as a family member or spouse), or a clinician.  A common scenario where this information is captured is during the history taking process during a patient visit or stay.   The medication information may come from sources such as the patient\u0027s memory, from a prescription bottle,  or from a list of medications the patient, clinician or other party maintains. \n\nThe primary difference between a medication statement and a medication administration is that the medication administration has complete administration information and is based on actual administration information from the person who administered the medication.  A medication statement is often, if not always, less specific.  There is no required date/time when the medication was administered, in fact we only know that a source has reported the patient is taking this medication, where details such as time, quantity, or rate or even medication product may be incomplete or missing or less precise.  As stated earlier, the medication statement information may come from the patient\u0027s memory, from a prescription bottle or from a list of medications the patient, clinician or other party maintains.  Medication administration is more formal and is not missing detailed information.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -673,7 +673,7 @@
           ],
           "strength": "required",
           "description": "A coded concept indicating the current status of a MedicationStatement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medication-statement-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medication-statement-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1478,7 +1478,7 @@
           ],
           "strength": "required",
           "description": "A coded concept indicating the current status of a MedicationStatement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medication-statement-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medication-statement-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

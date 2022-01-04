@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/CodeableReference",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CodeableReference",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -29,7 +29,7 @@
   ],
   "description": "Base StructureDefinition for CodeableReference Type: A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
   "purpose": "This is a common pattern in record keeping - a reference may be made to a specific condition, observation, plan, or definition, or a reference may be made to a general concept defined in a knowledge base somewhere.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

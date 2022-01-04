@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ObservationDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ObservationDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable health care service.",
   "purpose": "In a catalog of health-related services that use or produce observations and measurements, this resource describes the expected characteristics of these observation / measurements.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -679,7 +679,7 @@
           ],
           "strength": "required",
           "description": "Permitted data type for observation value.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/permitted-data-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/permitted-data-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1378,7 +1378,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the category of observation range.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-range-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-range-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1571,7 +1571,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2014,7 +2014,7 @@
           ],
           "strength": "required",
           "description": "Permitted data type for observation value.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/permitted-data-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/permitted-data-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2291,7 +2291,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the category of observation range.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-range-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-range-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2424,7 +2424,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {

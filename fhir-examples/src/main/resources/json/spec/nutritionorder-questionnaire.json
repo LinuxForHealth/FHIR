@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for NutritionOrder.enteralFormula.administration.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:53fadc79-44d4-4ef7-b9ae-f87791961a23",
-        "timestamp": "2021-12-06T19:03:56+00:00",
+        "identifier": "urn:uuid:2ddf9d28-8e10-4f35-9af5-98ba2a0c781c",
+        "timestamp": "2022-01-01T15:25:14+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -44,6 +44,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "NutritionOrder-display",
           "text": "Referenced by an Order Request (workflow).",
           "type": "display"
         },
@@ -62,6 +63,7 @@
               }
             }
           ],
+          "linkId": "NutritionOrder-flyover",
           "text": "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.",
           "type": "display"
         },
@@ -96,6 +98,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -136,6 +139,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -172,6 +176,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -215,6 +220,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -256,6 +262,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -283,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -310,6 +318,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -337,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -370,6 +380,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.identifier-flyover",
               "text": "Identifiers assigned to this order by the order sender or by the order receiver. The Identifier.type element can be to indicate filler vs. placer if needed.  This is explained in further detail [here](servicerequest.html#notes).",
               "type": "display"
             },
@@ -423,6 +434,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.instantiatesCanonical-flyover",
               "text": "The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in part by this NutritionOrder. Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
@@ -462,6 +474,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.instantiatesUri-flyover",
               "text": "The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in whole or in part by this NutritionOrder. This might be an HTML page, PDF, etc. or could just be a non-resolvable URI identifier.",
               "type": "display"
             },
@@ -501,6 +514,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.instantiates-flyover",
               "text": "The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this NutritionOrder.",
               "type": "display"
             },
@@ -548,6 +562,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.status-flyover",
               "text": "The workflow status of the nutrition order/request. Typically the system placing the order sets the status to \"requested\". Thereafter, the order is maintained by the receiver that updates the status as the request is handled.  This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -596,6 +611,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.intent-flyover",
               "text": "Indicates the level of authority/intentionality associated with the NutrionOrder and where the request fits into the workflow chain. When resources map to this element, they are free to define as many codes as necessary to cover their space and will map to \"proposal, plan or order\".  Can have multiple codes that map to one of these.  E.g. \"original order\", \"encoded order\", \"reflex order\" would all map to \"order\".  Expectation is that the set of codes is mutually exclusive or a strict all-encompassing hierarchy.",
               "type": "display"
             },
@@ -644,6 +660,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.patient-flyover",
               "text": "The person (patient) who needs the nutrition order for an oral diet, nutritional supplement and/or enteral or formula feeding.",
               "type": "display"
             },
@@ -697,6 +714,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.encounter-flyover",
               "text": "An encounter that provides additional information about the healthcare context in which this request is made.",
               "type": "display"
             },
@@ -754,6 +772,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.dateTime-flyover",
               "text": "The date and time that this nutrition order was requested.",
               "type": "display"
             },
@@ -797,6 +816,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.orderer-flyover",
               "text": "The practitioner that holds legal responsibility for ordering the diet, nutritional supplement, or formula feedings.",
               "type": "display"
             },
@@ -846,6 +866,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.allergyIntolerance-flyover",
               "text": "A link to a record of allergies or intolerances  which should be included in the nutrition order. Information on a patient\u0027s food allergies and intolerances to inform healthcare personnel about the type of foods that the patient shouldn\u0027t receive or consume.",
               "type": "display"
             },
@@ -896,6 +917,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.foodPreferenceModifier-flyover",
               "text": "This modifier is used to convey order-specific modifiers about the type of food that should be given. These can be derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings. Information on a patient\u0027s food preferences that inform healthcare personnel about the food that the patient should receive or consume.",
               "type": "display"
             },
@@ -944,6 +966,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.excludeFoodModifier-flyover",
               "text": "This modifier is used to convey Order-specific modifier about the type of oral food or oral fluids that should not be given. These can be derived from patient allergies, intolerances, or preferences such as No Red Meat, No Soy or No Wheat or  Gluten-Free.  While it should not be necessary to repeat allergy or intolerance information captured in the referenced AllergyIntolerance resource in the excludeFoodModifier, this element may be used to convey additional specificity related to foods that should be eliminated from the patient’s diet for any reason.  This modifier applies to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings. Information on a patient\u0027s food allergies, intolerances and preferences to inform healthcare personnel about the type  of foods that the patient shouldn\u0027t receive or consume.",
               "type": "display"
             },
@@ -992,6 +1015,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.oralDiet-flyover",
               "text": "Diet given orally in contrast to enteral (tube) feeding.",
               "type": "display"
             },
@@ -1026,6 +1050,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1060,6 +1085,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1087,6 +1113,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1120,6 +1147,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.type-flyover",
                   "text": "The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.",
                   "type": "display"
                 },
@@ -1168,6 +1196,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.schedule-flyover",
                   "text": "The time period and frequency at which the diet should be given.  The diet should be given for the combination of all schedules if more than one schedule is present.",
                   "type": "display"
                 },
@@ -1230,6 +1259,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.nutrient-flyover",
                   "text": "Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) required for the oral diet.",
                   "type": "display"
                 },
@@ -1264,6 +1294,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.nutrient.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1298,6 +1329,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.nutrient.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1325,6 +1357,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.nutrient.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1362,6 +1395,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.nutrient.modifier-flyover",
                       "text": "The nutrient that is being modified such as carbohydrate or sodium.",
                       "type": "display"
                     },
@@ -1414,6 +1448,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.nutrient.amount-flyover",
                       "text": "The quantity of the specified nutrient to include in diet.",
                       "type": "display"
                     },
@@ -1479,6 +1514,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.texture-flyover",
                   "text": "Class that describes any texture modifications required for the patient to safely consume various types of solid foods.",
                   "type": "display"
                 },
@@ -1513,6 +1549,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.texture.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1547,6 +1584,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.texture.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1574,6 +1612,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.texture.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1611,6 +1650,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.texture.modifier-flyover",
                       "text": "Any texture modifications (for solid foods) that should be made, e.g. easy to chew, chopped, ground, and pureed. Coupled with the foodType (Meat).",
                       "type": "display"
                     },
@@ -1663,6 +1703,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.oralDiet.texture.foodType-flyover",
                       "text": "The food type(s) (e.g. meats, all foods)  that the texture modification applies to.  This could be all foods types. Coupled with the `texture.modifier`; could be (All Foods).",
                       "type": "display"
                     },
@@ -1713,6 +1754,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.fluidConsistencyType-flyover",
                   "text": "The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.",
                   "type": "display"
                 },
@@ -1764,6 +1806,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.oralDiet.instruction-flyover",
                   "text": "Free text or additional instructions or information pertaining to the oral diet. Free text dosage instructions can be used for cases where the instructions are too complex to code.",
                   "type": "display"
                 },
@@ -1800,6 +1843,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.supplement-flyover",
               "text": "Oral nutritional products given in order to add further nutritional value to the patient\u0027s diet.",
               "type": "display"
             },
@@ -1834,6 +1878,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1868,6 +1913,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1895,6 +1941,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1932,6 +1979,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.type-flyover",
                   "text": "The kind of nutritional supplement product required such as a high protein or pediatric clear liquid supplement.",
                   "type": "display"
                 },
@@ -1983,6 +2031,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.productName-flyover",
                   "text": "The product or brand name of the nutritional supplement such as \"Acme Protein Shake\".",
                   "type": "display"
                 },
@@ -2023,6 +2072,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.schedule-flyover",
                   "text": "The time period and frequency at which the supplement(s) should be given.  The supplement should be given for the combination of all schedules if more than one schedule is present.",
                   "type": "display"
                 },
@@ -2095,6 +2145,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.quantity-flyover",
                   "text": "The amount of the nutritional supplement to be given.",
                   "type": "display"
                 },
@@ -2167,6 +2218,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.supplement.instruction-flyover",
                   "text": "Free text or additional instructions or information pertaining to the oral supplement. Free text dosage instructions can be used for cases where the instructions are too complex to code.",
                   "type": "display"
                 },
@@ -2209,6 +2261,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.enteralFormula-flyover",
               "text": "Feeding provided through the gastrointestinal tract via a tube, catheter, or stoma that delivers nutrition distal to the oral cavity.",
               "type": "display"
             },
@@ -2243,6 +2296,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2277,6 +2331,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2304,6 +2359,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2341,6 +2397,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.baseFormulaType-flyover",
                   "text": "The type of enteral or infant formula such as an adult standard formula with fiber or a soy-based infant formula.",
                   "type": "display"
                 },
@@ -2392,6 +2449,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.baseFormulaProductName-flyover",
                   "text": "The product or brand name of the enteral or infant formula product such as \"ACME Adult Standard Formula\".",
                   "type": "display"
                 },
@@ -2436,6 +2494,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.additiveType-flyover",
                   "text": "Indicates the type of modular component such as protein, carbohydrate, fat or fiber to be provided in addition to or mixed with the base formula.",
                   "type": "display"
                 },
@@ -2487,6 +2546,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.additiveProductName-flyover",
                   "text": "The product or brand name of the type of modular component to be added to the formula.",
                   "type": "display"
                 },
@@ -2531,6 +2591,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.caloricDensity-flyover",
                   "text": "The amount of energy (calories) that the formula should provide per specified volume, typically per mL or fluid oz.  For example, an infant may require a formula that provides 24 calories per fluid ounce or an adult may require an enteral formula that provides 1.5 calorie/mL.",
                   "type": "display"
                 },
@@ -2604,6 +2665,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.routeofAdministration-flyover",
                   "text": "The route or physiological path of administration into the patient\u0027s gastrointestinal  tract for purposes of providing the formula feeding, e.g. nasogastric tube.",
                   "type": "display"
                 },
@@ -2632,6 +2694,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "NutritionOrder.enteralFormula.administration-display",
                   "text": "See implementation notes below for further discussion on how to order continuous vs bolus enteral feeding using this resource.",
                   "type": "display"
                 },
@@ -2650,6 +2713,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.administration-flyover",
                   "text": "Formula administration instructions as structured data.  This repeating structure allows for changing the administration rate or volume over time for both bolus and continuous feeding.  An example of this would be an instruction to increase the rate of continuous feeding every 2 hours.",
                   "type": "display"
                 },
@@ -2684,6 +2748,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2718,6 +2783,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2745,6 +2811,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2782,6 +2849,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.schedule-flyover",
                       "text": "The time period and frequency at which the enteral formula should be delivered to the patient.",
                       "type": "display"
                     },
@@ -2854,6 +2922,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.quantity-flyover",
                       "text": "The volume of formula to provide to the patient per the specified administration schedule.",
                       "type": "display"
                     },
@@ -2923,6 +2992,7 @@
                           }
                         }
                       ],
+                      "linkId": "NutritionOrder.enteralFormula.administration.rate[x]-flyover",
                       "text": "The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule. Ratio is used when the quantity value in the denominator is not \"1\", otherwise use Quantity. For example, the Ratio datatype is used for \"200 mL/4 hrs\" versus the Quantity datatype for \"50 mL/hr\".",
                       "type": "display"
                     },
@@ -3054,6 +3124,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.maxVolumeToDeliver-flyover",
                   "text": "The maximum total quantity of formula that may be administered to a subject over the period of time, e.g. 1440 mL over 24 hours.",
                   "type": "display"
                 },
@@ -3126,6 +3197,7 @@
                       }
                     }
                   ],
+                  "linkId": "NutritionOrder.enteralFormula.administrationInstruction-flyover",
                   "text": "Free text formula administration, feeding instructions or additional instructions or information. Free text dosage instructions can be used for cases where the instructions are too complex to code.",
                   "type": "display"
                 },
@@ -3168,6 +3240,7 @@
                   }
                 }
               ],
+              "linkId": "NutritionOrder.note-flyover",
               "text": "Comments made about the {{title}} by the requester, performer, subject or other participants. This element SHALL NOT be used to supply free text instructions for the diet which are represented in the `.oralDiet.instruction`, `supplement.instruction`, or `enteralFormula.administrationInstruction` elements.",
               "type": "display"
             }
