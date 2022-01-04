@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Contract",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Contract",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Contract",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -634,7 +634,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contract-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contract-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1820,7 +1820,7 @@
           ],
           "strength": "required",
           "description": "Status of the publication of contract content.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.3.0-CIBUILD"
         }
       },
       {
@@ -7810,7 +7810,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contract-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contract-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -8470,7 +8470,7 @@
           ],
           "strength": "required",
           "description": "Status of the publication of contract content.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.3.0-CIBUILD"
         }
       },
       {

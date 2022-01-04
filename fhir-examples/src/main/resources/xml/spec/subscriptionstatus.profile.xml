@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="SubscriptionStatus"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -314,10 +314,10 @@
     <valueCode value="fhir"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/SubscriptionStatus"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="SubscriptionStatus"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
     <telecom>
@@ -332,7 +332,7 @@
     </telecom>
   </contact>
   <description value="The SubscriptionStatus resource describes the state of a Subscription during notifications."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -716,7 +716,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of a subscription at the time this notification was generated."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -755,7 +755,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of notification represented by the status message."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-notification-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1186,7 +1186,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of a subscription at the time this notification was generated."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1212,7 +1212,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of notification represented by the status message."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-notification-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>

@@ -12,13 +12,13 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "unclosed",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Marks that the expansion is  incomplete, and values other than those listed may be valid. This may be used because post-coordinated codes are allowed, and no practical expansion can be produced.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

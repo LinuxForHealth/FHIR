@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "care-team-category",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,10 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.155"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CareTeamCategory",
   "title": "Care Team category",
   "status": "draft",
+  "experimental": true,
   "publisher": "FHIR Project",
   "description": "Indicates the type of care team.",
   "copyright": "This content from LOINC® is copyright © 1995 Regenstrief Institute, Inc. and the LOINC Committee, and available at no cost under the license at http://loinc.org/terms-of-use.",

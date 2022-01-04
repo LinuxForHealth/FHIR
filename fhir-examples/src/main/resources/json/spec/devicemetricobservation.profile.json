@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/devicemetricobservation",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Device Metric Observation Profile",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "This profile describes the direct or derived, qualitative or quantitative physiological measurement, setting, or calculation data produced by a medical device or a device component.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -728,7 +728,7 @@
           ],
           "strength": "required",
           "description": "Codes providing the status of an observation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

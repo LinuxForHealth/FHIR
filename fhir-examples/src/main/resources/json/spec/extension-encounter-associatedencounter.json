@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/encounter-associatedEncounter",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "associatedEncounter",
   "title": "associatedEncounter",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "This encounter occurs within the scope of the referenced encounter.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

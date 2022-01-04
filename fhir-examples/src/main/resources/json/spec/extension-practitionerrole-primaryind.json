@@ -12,14 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/practitionerrole-primaryInd",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "primaryInd",
   "title": "primaryInd",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Flag indicating if the specialty is the primary specialty of the provider. Normally, a practitioner will have one primary specialty, but in some cases more than one can be primary.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

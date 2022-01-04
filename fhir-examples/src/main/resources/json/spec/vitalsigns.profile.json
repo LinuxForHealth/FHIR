@@ -24,7 +24,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/vitalsigns",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "observation-vitalsigns",
   "title": "Vital Signs Profile",
   "status": "draft",
@@ -42,7 +42,7 @@
     }
   ],
   "description": "FHIR Vital Signs Profile",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1012,7 +1012,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1154,7 +1154,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1199,7 +1199,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1252,7 +1252,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1307,7 +1307,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1353,7 +1353,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1409,7 +1409,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",

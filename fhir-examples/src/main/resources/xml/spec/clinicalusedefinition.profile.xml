@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ClinicalUseDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -97,7 +97,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">indication | contraindication | interaction | undesirable-effect | warning
             <br/>
-            <a href="valueset-clinical-use-issue-type.html">ClinicalUseIssueType</a> (
+            <a href="valueset-clinical-use-definition-type.html">ClinicalUseDefinitionType</a> (
             <a href="terminologies.html#required" title="To be conformant, the concept in this element SHALL be from the specified value set.">Required</a>)
           </td>
         </tr>
@@ -853,10 +853,10 @@
     <valueCode value="brr"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ClinicalUseDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Biomedical Research and Regulation)"/>
   <contact>
     <telecom>
@@ -871,7 +871,7 @@
     </telecom>
   </contact>
   <description value="A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal product, medication, device or procedure."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="idmp"/>
     <uri value="https://en.wikipedia.org/wiki/Identification_of_medicinal_products"/>
@@ -1297,8 +1297,8 @@
           <valueString value="ClinicalUseDefinitionType"/>
         </extension>
         <strength value="required"/>
-        <description value="Overall defining type of this clinical use issue."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/clinical-use-issue-type|4.1.0"/>
+        <description value="Overall defining type of this clinical use definition."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="idmp"/>
@@ -3186,8 +3186,8 @@
           <valueString value="ClinicalUseDefinitionType"/>
         </extension>
         <strength value="required"/>
-        <description value="Overall defining type of this clinical use issue."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/clinical-use-issue-type|4.1.0"/>
+        <description value="Overall defining type of this clinical use definition."/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="idmp"/>

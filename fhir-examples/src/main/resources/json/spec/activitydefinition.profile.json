@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ActivityDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ActivityDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -807,7 +807,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1810,7 +1810,7 @@
           ],
           "strength": "required",
           "description": "The kind of activity the definition is describing.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1949,7 +1949,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1997,7 +1997,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2355,7 +2355,7 @@
           ],
           "strength": "required",
           "description": "The type of participant in the activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3255,7 +3255,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3928,7 +3928,7 @@
           ],
           "strength": "required",
           "description": "The kind of activity the definition is describing.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4022,7 +4022,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4055,7 +4055,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4202,7 +4202,7 @@
           ],
           "strength": "required",
           "description": "The type of participant in the activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {

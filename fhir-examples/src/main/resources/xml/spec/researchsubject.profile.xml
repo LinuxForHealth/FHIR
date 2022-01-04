@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ResearchSubject"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -230,10 +230,10 @@
     <valueCode value="brr"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ResearchSubject"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ResearchSubject"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Biomedical Research and Regulation)"/>
   <contact>
     <telecom>
@@ -248,7 +248,7 @@
     </telecom>
   </contact>
   <description value="A physical entity which is the primary unit of operational and/or administrative interest in a study."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="BRIDG5.1"/>
     <uri value="https://bridgmodel.nci.nih.gov"/>
@@ -691,7 +691,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the progression of a study subject through a study."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/research-subject-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -967,7 +967,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the progression of a study subject through a study."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/research-subject-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>

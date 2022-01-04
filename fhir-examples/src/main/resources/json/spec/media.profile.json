@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Media",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Media",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Media",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by direct reference.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -693,7 +693,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of an event.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1754,7 +1754,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of an event.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

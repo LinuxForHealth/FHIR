@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DataRequirement",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DataRequirement",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Base StructureDefinition for DataRequirement Type: Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -221,7 +221,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -1053,7 +1053,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-CIBUILD"
         }
       }
     ]
@@ -1103,7 +1103,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -1401,7 +1401,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-CIBUILD"
         }
       }
     ]

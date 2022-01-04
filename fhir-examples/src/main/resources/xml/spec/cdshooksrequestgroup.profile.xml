@@ -16,14 +16,14 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/cdshooksrequestgroup"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="CDS Hooks RequestGroup"/>
   <status value="draft"/>
   <experimental value="false"/>
   <date value="2021-01-17T07:06:13+11:00"/>
   <publisher value="HL7"/>
   <description value="Defines a RequestGroup that can represent a CDS Hooks response"/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -610,7 +610,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes identifying the lifecycle stage of a request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -655,7 +655,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes indicating the degree of authority/intentionality associated with a request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -698,7 +698,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1269,7 +1269,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1503,7 +1503,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of condition for the action."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-condition-kind|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-condition-kind|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.condition.expression">
@@ -1724,7 +1724,7 @@
         </extension>
         <strength value="required"/>
         <description value="Defines the types of relationships between actions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-relationship-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.relatedAction.offset[x]">
@@ -1905,7 +1905,7 @@
         </extension>
         <strength value="required"/>
         <description value="Defines organization behavior of a group."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.selectionBehavior">
@@ -1939,7 +1939,7 @@
         </extension>
         <strength value="required"/>
         <description value="Defines selection behavior of a group."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-selection-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-selection-behavior|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.requiredBehavior">
@@ -1973,7 +1973,7 @@
         </extension>
         <strength value="required"/>
         <description value="Defines expectations around whether an action or action group is required."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-required-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-required-behavior|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.precheckBehavior">
@@ -2007,7 +2007,7 @@
         </extension>
         <strength value="required"/>
         <description value="Defines selection frequency behavior for an action or group."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.cardinalityBehavior">
@@ -2041,14 +2041,14 @@
         </extension>
         <strength value="required"/>
         <description value="Defines behavior for an action or a group for how many times that item may be repeated."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="RequestGroup.action.resource">
       <path value="RequestGroup.action.resource"/>
       <short value="The target of the action"/>
       <definition value="The resource that is the target of the action (e.g. CommunicationRequest)."/>
-      <comment value="The target resource SHALL be a [Request](http://hl7.org/fhir/request.html) resource with a Request.intent set to &quot;option&quot;."/>
+      <comment value="The target resource SHALL be a [Request](request.html) resource with a Request.intent set to &quot;option&quot;."/>
       <min value="0"/>
       <max value="1"/>
       <base>

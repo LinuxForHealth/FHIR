@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-sequelTo",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "sequelTo",
   "title": "Sequel To",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "This observation follows the target observation (e.g. timed tests such as Glucose Tolerance Test).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

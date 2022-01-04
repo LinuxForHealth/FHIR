@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/cqf-recipientType",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "recipientType",
   "title": "recipientType",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "The type of individual that will consume the response content. This may be different from the requesting user type (e.g. if a clinician is getting disease management guidance for provision to a patient). E.g. patient, healthcare provider or specific type of healthcare provider (physician, nurse, etc.).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

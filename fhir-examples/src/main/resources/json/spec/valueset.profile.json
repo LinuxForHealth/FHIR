@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ValueSet",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -31,10 +31,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ValueSet",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ValueSet",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Vocabulary)",
   "contact": [
     {
@@ -55,7 +55,7 @@
     }
   ],
   "description": "A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements](terminologies.html).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -749,7 +749,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2547,7 +2547,7 @@
           ],
           "strength": "required",
           "description": "The kind of operation to perform as a part of a property based filter.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3872,7 +3872,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4602,7 +4602,7 @@
           ],
           "strength": "required",
           "description": "The kind of operation to perform as a part of a property based filter.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"
         },
         "mapping": [
           {

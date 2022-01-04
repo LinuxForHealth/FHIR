@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for SubstanceDefinition.moiety.amount[x]",
       "expansion": {
-        "identifier": "urn:uuid:c3fbba40-ecc4-4354-9f1f-032bfcd3ddb1",
-        "timestamp": "2021-12-06T19:04:40+00:00",
+        "identifier": "urn:uuid:fd00ced2-3f2e-42c0-8dfe-d91d2215a883",
+        "timestamp": "2022-01-01T15:25:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for SubstanceDefinition.property.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:0e24777a-c40e-4e29-bfec-42d7466a444b",
-        "timestamp": "2021-12-06T19:04:40+00:00",
+        "identifier": "urn:uuid:71b9211c-bb43-4566-8a59-ce2e5e93d8b2",
+        "timestamp": "2022-01-01T15:25:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for SubstanceDefinition.relationship.substanceDefinition[x]",
       "expansion": {
-        "identifier": "urn:uuid:55194cff-139a-42ca-ba12-f8df4ae2123f",
-        "timestamp": "2021-12-06T19:04:40+00:00",
+        "identifier": "urn:uuid:73a8889d-446c-4c08-9568-ee9cc939755d",
+        "timestamp": "2022-01-01T15:25:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -93,8 +93,8 @@
       "status": "active",
       "description": "Type options for SubstanceDefinition.relationship.amount[x]",
       "expansion": {
-        "identifier": "urn:uuid:3c010a5b-8fa6-406d-819e-e373857a8b64",
-        "timestamp": "2021-12-06T19:04:40+00:00",
+        "identifier": "urn:uuid:ab3d5dac-3a9e-4f95-936a-9ed0a16c2c35",
+        "timestamp": "2022-01-01T15:25:58+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -120,9 +120,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -147,6 +147,7 @@
               }
             }
           ],
+          "linkId": "SubstanceDefinition-flyover",
           "text": "The detailed description of a substance, typically at a level beyond what is used for prescribing.",
           "type": "display"
         },
@@ -181,6 +182,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -221,6 +223,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -257,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -300,6 +304,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -341,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -368,6 +374,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -395,6 +402,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -422,6 +430,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -455,6 +464,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.identifier-flyover",
               "text": "Identifier by which this substance is known.",
               "type": "display"
             },
@@ -512,6 +522,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.version-flyover",
               "text": "A business level identifier of the substance.",
               "type": "display"
             },
@@ -556,6 +567,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.status-flyover",
               "text": "Status of substance within the catalogue e.g. approved.",
               "type": "display"
             },
@@ -604,6 +616,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.classification-flyover",
               "text": "A high level categorization, e.g. polymer or nucleic acid, or food, chemical, biological, or a lower level such as the general types of polymer (linear or branch chain) or type of impurity (process related or contaminant).",
               "type": "display"
             },
@@ -656,6 +669,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.domain-flyover",
               "text": "If the substance applies to only human or veterinary use.",
               "type": "display"
             },
@@ -704,6 +718,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.grade-flyover",
               "text": "The quality standard, established benchmark, to which substance complies (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard).",
               "type": "display"
             },
@@ -755,6 +770,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.description-flyover",
               "text": "Textual description of the substance.",
               "type": "display"
             },
@@ -794,6 +810,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.informationSource-flyover",
               "text": "Supporting literature.",
               "type": "display"
             },
@@ -844,6 +861,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.note-flyover",
               "text": "Textual comment about the substance\u0027s catalogue or registry record.",
               "type": "display"
             }
@@ -876,6 +894,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.manufacturer-flyover",
               "text": "A company that makes this substance.",
               "type": "display"
             },
@@ -925,6 +944,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.supplier-flyover",
               "text": "A company that supplies this substance.",
               "type": "display"
             },
@@ -969,6 +989,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.moiety-flyover",
               "text": "Moiety, for structural modifications.",
               "type": "display"
             },
@@ -1003,6 +1024,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1037,6 +1059,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1064,6 +1087,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1101,6 +1125,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.role-flyover",
                   "text": "Role that the moiety is playing.",
                   "type": "display"
                 },
@@ -1153,6 +1178,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.identifier-flyover",
                   "text": "Identifier by which this moiety substance is known.",
                   "type": "display"
                 },
@@ -1210,6 +1236,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.name-flyover",
                   "text": "Textual name for this moiety substance.",
                   "type": "display"
                 },
@@ -1254,6 +1281,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.stereochemistry-flyover",
                   "text": "Stereochemistry type.",
                   "type": "display"
                 },
@@ -1306,6 +1334,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.opticalActivity-flyover",
                   "text": "Optical activity type.",
                   "type": "display"
                 },
@@ -1357,6 +1386,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.molecularFormula-flyover",
                   "text": "Molecular formula for this moiety of this substance, typically using the Hill system.",
                   "type": "display"
                 },
@@ -1397,6 +1427,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.amount[x]-flyover",
                   "text": "Quantitative value for this moiety.",
                   "type": "display"
                 },
@@ -1511,6 +1542,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.moiety.amountType-flyover",
                   "text": "The measurement type of the quantitative value.",
                   "type": "display"
                 },
@@ -1555,6 +1587,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.property-flyover",
               "text": "General specifications for this substance.",
               "type": "display"
             },
@@ -1589,6 +1622,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.property.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1623,6 +1657,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.property.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1650,6 +1685,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.property.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1691,6 +1727,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.property.type-flyover",
                   "text": "A code expressing the type of characteristic.",
                   "type": "display"
                 },
@@ -1739,6 +1776,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.property.value[x]-flyover",
                   "text": "A value for the characteristic.",
                   "type": "display"
                 },
@@ -1900,6 +1938,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.molecularWeight-flyover",
               "text": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
               "type": "display"
             },
@@ -1934,6 +1973,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1968,6 +2008,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1995,6 +2036,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2032,6 +2074,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.method-flyover",
                   "text": "The method by which the molecular weight was determined.",
                   "type": "display"
                 },
@@ -2084,6 +2127,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.type-flyover",
                   "text": "Type of molecular weight such as exact, average (also known as. number average), weight average.",
                   "type": "display"
                 },
@@ -2140,6 +2184,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.molecularWeight.amount-flyover",
                   "text": "Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be the average. If only a single definite value for a given element is given, it would be captured in this field.",
                   "type": "display"
                 },
@@ -2211,6 +2256,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.structure-flyover",
               "text": "Structural information.",
               "type": "display"
             },
@@ -2245,6 +2291,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2279,6 +2326,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2306,6 +2354,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2343,6 +2392,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.stereochemistry-flyover",
                   "text": "Stereochemistry type.",
                   "type": "display"
                 },
@@ -2395,6 +2445,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.opticalActivity-flyover",
                   "text": "Optical activity type.",
                   "type": "display"
                 },
@@ -2446,6 +2497,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.molecularFormula-flyover",
                   "text": "Molecular formula of this substance, typically using the Hill system.",
                   "type": "display"
                 },
@@ -2489,6 +2541,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.molecularFormulaByMoiety-flyover",
                   "text": "Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a dot.",
                   "type": "display"
                 },
@@ -2529,6 +2582,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.molecularWeight-flyover",
                   "text": "The molecular weight or weight range (for proteins, polymers or nucleic acids).",
                   "type": "display"
                 }
@@ -2562,6 +2616,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.technique-flyover",
                   "text": "The method used to elucidate the structure or characterization of the drug substance. Examples: X-ray, HPLC, NMR, Peptide mapping, Ligand binding assay.",
                   "type": "display"
                 },
@@ -2609,6 +2664,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.sourceDocument-flyover",
                   "text": "Supporting literature about the source of information.",
                   "type": "display"
                 },
@@ -2653,6 +2709,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.structure.representation-flyover",
                   "text": "A depiction of the structure or characterization of the substance.",
                   "type": "display"
                 },
@@ -2687,6 +2744,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2721,6 +2779,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2748,6 +2807,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2785,6 +2845,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.type-flyover",
                       "text": "The kind of structural representation (e.g. full, partial) or the technique used to derive the analytical characterization of the substance (e.g. x-ray, HPLC, NMR, peptide mapping, ligand binding assay, etc.).",
                       "type": "display"
                     },
@@ -2836,6 +2897,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.representation-flyover",
                       "text": "The structural representation or characterization as a text string in a standard format.",
                       "type": "display"
                     },
@@ -2880,6 +2942,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.format-flyover",
                       "text": "The format of the representation e.g. InChI, SMILES, MOLFILE, CDX, SDF, PDB, mmCIF. The logical content type rather than the physical file format of a document.",
                       "type": "display"
                     },
@@ -2931,6 +2994,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.structure.representation.document-flyover",
                       "text": "An attached file with the structural representation or characterization e.g. a molecular structure graphic of the substance, a JCAMP or AnIML file.",
                       "type": "display"
                     },
@@ -2979,6 +3043,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.code-flyover",
               "text": "Codes associated with the substance.",
               "type": "display"
             },
@@ -3013,6 +3078,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3047,6 +3113,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3074,6 +3141,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3111,6 +3179,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.code-flyover",
                   "text": "The specific code.",
                   "type": "display"
                 },
@@ -3163,6 +3232,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.status-flyover",
                   "text": "Status of the code assignment, for example \u0027provisional\u0027, \u0027approved\u0027.",
                   "type": "display"
                 },
@@ -3214,6 +3284,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.statusDate-flyover",
                   "text": "The date at which the code status is changed as part of the terminology maintenance.",
                   "type": "display"
                 },
@@ -3254,6 +3325,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.note-flyover",
                   "text": "Any comment can be provided in this field, if necessary.",
                   "type": "display"
                 }
@@ -3286,6 +3358,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.code.source-flyover",
                   "text": "Supporting literature.",
                   "type": "display"
                 },
@@ -3332,6 +3405,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.name-flyover",
               "text": "Names applicable to this substance.",
               "type": "display"
             },
@@ -3366,6 +3440,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3400,6 +3475,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3427,6 +3503,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3467,6 +3544,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.name-flyover",
                   "text": "The actual name.",
                   "type": "display"
                 },
@@ -3511,6 +3589,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.type-flyover",
                   "text": "Name type, for example \u0027systematic\u0027,  \u0027scientific, \u0027brand\u0027.",
                   "type": "display"
                 },
@@ -3563,6 +3642,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.status-flyover",
                   "text": "The status of the name, for example \u0027current\u0027, \u0027proposed\u0027.",
                   "type": "display"
                 },
@@ -3614,6 +3694,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.preferred-flyover",
                   "text": "If this is the preferred name for this substance.",
                   "type": "display"
                 },
@@ -3654,6 +3735,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.language-flyover",
                   "text": "Human language that the name is written in.",
                   "type": "display"
                 },
@@ -3702,6 +3784,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.domain-flyover",
                   "text": "The use context of this name for example if there is a different name a drug active ingredient as opposed to a food colour additive.",
                   "type": "display"
                 },
@@ -3750,6 +3833,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.jurisdiction-flyover",
                   "text": "The jurisdiction where this name applies.",
                   "type": "display"
                 },
@@ -3792,6 +3876,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.synonym-flyover",
                   "text": "A synonym of this particular name, by which the substance is also known.",
                   "type": "display"
                 }
@@ -3819,6 +3904,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.translation-flyover",
                   "text": "A translation for this name into another human language.",
                   "type": "display"
                 }
@@ -3846,6 +3932,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.official-flyover",
                   "text": "Details of the official nature of this name.",
                   "type": "display"
                 },
@@ -3880,6 +3967,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3914,6 +4002,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3941,6 +4030,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3978,6 +4068,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.authority-flyover",
                       "text": "Which authority uses this official name.",
                       "type": "display"
                     },
@@ -4030,6 +4121,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.status-flyover",
                       "text": "The status of the official name, for example \u0027provisional\u0027, \u0027approved\u0027.",
                       "type": "display"
                     },
@@ -4081,6 +4173,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubstanceDefinition.name.official.date-flyover",
                       "text": "Date of official name change.",
                       "type": "display"
                     },
@@ -4122,6 +4215,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.name.source-flyover",
                   "text": "Supporting literature.",
                   "type": "display"
                 },
@@ -4168,6 +4262,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.relationship-flyover",
               "text": "A link between this substance and another, with details of the relationship.",
               "type": "display"
             },
@@ -4202,6 +4297,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4236,6 +4332,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4263,6 +4360,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4296,6 +4394,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.substanceDefinition[x]-flyover",
                   "text": "A pointer to another substance, as a resource or just a representational code.",
                   "type": "display"
                 },
@@ -4403,6 +4502,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.type-flyover",
                   "text": "For example \"salt to parent\", \"active moiety\", \"starting material\", \"polymorph\", \"impurity of\".",
                   "type": "display"
                 },
@@ -4454,6 +4554,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.isDefining-flyover",
                   "text": "For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that enzyme, out of several possible substance relationships.",
                   "type": "display"
                 },
@@ -4494,6 +4595,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.amount[x]-flyover",
                   "text": "A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the active substance in relation to some other.",
                   "type": "display"
                 },
@@ -4641,6 +4743,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.amountRatioHighLimit-flyover",
                   "text": "For use when the numeric has an uncertain range.",
                   "type": "display"
                 },
@@ -4699,6 +4802,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.amountType-flyover",
                   "text": "An operator for the amount, for example \"average\", \"approximately\", \"less than\".",
                   "type": "display"
                 },
@@ -4746,6 +4850,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.relationship.source-flyover",
                   "text": "Supporting literature.",
                   "type": "display"
                 },
@@ -4798,6 +4903,7 @@
                   }
                 }
               ],
+              "linkId": "SubstanceDefinition.sourceMaterial-flyover",
               "text": "Material or taxonomic/anatomical source for the substance.",
               "type": "display"
             },
@@ -4832,6 +4938,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4866,6 +4973,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4893,6 +5001,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4930,6 +5039,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.type-flyover",
                   "text": "A classification that provides the origin of the raw material. Example: cat hair would be an Animal source type.",
                   "type": "display"
                 },
@@ -4982,6 +5092,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.genus-flyover",
                   "text": "The genus of an organism, typically referring to the Latin epithet of the genus element of the plant/animal scientific name.",
                   "type": "display"
                 },
@@ -5034,6 +5145,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.species-flyover",
                   "text": "The species of an organism, typically referring to the Latin epithet of the species of the plant/animal.",
                   "type": "display"
                 },
@@ -5086,6 +5198,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.part-flyover",
                   "text": "An anatomical origin of the source material within an organism.",
                   "type": "display"
                 },
@@ -5134,6 +5247,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubstanceDefinition.sourceMaterial.countryOfOrigin-flyover",
                   "text": "The country or countries where the material is harvested.",
                   "type": "display"
                 },

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Group",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Group",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Group",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Represents a defined collection of entities that may be discussed or acted upon collectively but which are not expected to act collectively, and are not formally or legally recognized; i.e. a collection of entities that isn\u0027t an Organization.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -610,7 +610,7 @@
           ],
           "strength": "required",
           "description": "Types of resources that are part of group.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1589,7 +1589,7 @@
           ],
           "strength": "required",
           "description": "Types of resources that are part of group.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {

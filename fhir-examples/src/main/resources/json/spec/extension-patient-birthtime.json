@@ -12,14 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "birthTime",
   "title": "Birth Time",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "The time of day that the Patient was born. This includes the date to ensure that the timezone information can be communicated effectively.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

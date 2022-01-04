@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ResearchElementDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ResearchElementDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "The ResearchElementDefinition resource describes a \"PICO\" element that knowledge (evidence, assertion, recommendation) is about.",
   "purpose": "Need to be able to define and reuse the definition of individual elements of a research question.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -806,7 +806,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1747,7 +1747,7 @@
           ],
           "strength": "required",
           "description": "The possible types of research elements (E.g. Population, Exposure, Outcome).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1789,7 +1789,7 @@
           ],
           "strength": "required",
           "description": "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -2107,7 +2107,7 @@
           ],
           "strength": "required",
           "description": "Unified Code for Units of Measure (UCUM).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-CIBUILD"
         }
       },
       {
@@ -2251,7 +2251,7 @@
           ],
           "strength": "required",
           "description": "Possible group measure aggregates (E.g. Mean, Median).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
         }
       },
       {
@@ -2395,7 +2395,7 @@
           ],
           "strength": "required",
           "description": "Possible group measure aggregates (E.g. Mean, Median).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
         }
       }
     ]
@@ -2624,7 +2624,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3220,7 +3220,7 @@
           ],
           "strength": "required",
           "description": "The possible types of research elements (E.g. Population, Exposure, Outcome).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/research-element-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3247,7 +3247,7 @@
           ],
           "strength": "required",
           "description": "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/variable-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3354,7 +3354,7 @@
           ],
           "strength": "required",
           "description": "Unified Code for Units of Measure (UCUM).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-CIBUILD"
         }
       },
       {
@@ -3438,7 +3438,7 @@
           ],
           "strength": "required",
           "description": "Possible group measure aggregates (E.g. Mean, Median).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
         }
       },
       {
@@ -3522,7 +3522,7 @@
           ],
           "strength": "required",
           "description": "Possible group measure aggregates (E.g. Mean, Median).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"
         }
       }
     ]

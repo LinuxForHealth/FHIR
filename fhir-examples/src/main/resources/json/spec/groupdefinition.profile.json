@@ -20,14 +20,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/groupdefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Group Definition",
   "status": "draft",
   "experimental": false,
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Enforces a descriptive group that can be used in definitional resources",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -586,7 +586,7 @@
           ],
           "strength": "required",
           "description": "Types of resources that are part of group.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
