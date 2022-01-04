@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "NutritionOrder",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/NutritionOrder",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "NutritionOrder",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -741,7 +741,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of the nutrition order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -807,7 +807,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3693,7 +3693,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of the nutrition order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3744,7 +3744,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {

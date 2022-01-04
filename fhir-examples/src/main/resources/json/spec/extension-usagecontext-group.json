@@ -12,14 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/usagecontext-group",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "group",
   "title": "Context Group",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7",
   "description": "Defines the group in which this usage context is a member. Multiple groups are \"OR\u0027ed\", contexts within a group are \"AND\u0027ed\".",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

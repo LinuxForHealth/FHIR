@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "media-type",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,11 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.1000"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MediaType",
   "title": "Media Type",
   "status": "draft",
-  "experimental": false,
+  "experimental": true,
   "date": "2017-12-08T02:32:59+00:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [

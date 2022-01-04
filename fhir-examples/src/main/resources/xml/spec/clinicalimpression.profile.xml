@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ClinicalImpression"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -599,10 +599,10 @@
     <valueCode value="pc"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ClinicalImpression"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ClinicalImpression"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Patient Care)"/>
   <contact>
     <telecom>
@@ -617,7 +617,7 @@
     </telecom>
   </contact>
   <description value="A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient&#39;s condition. Assessments are often 1:1 with a clinical consultation / encounter,  but this varies greatly depending on the clinical workflow. This resource is called &quot;ClinicalImpression&quot; rather than &quot;ClinicalAssessment&quot; to avoid confusion with the recording of assessment tools such as Apgar score."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1057,7 +1057,7 @@
         </extension>
         <strength value="required"/>
         <description value="The workflow state of a clinical impression."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2131,7 +2131,7 @@
         </extension>
         <strength value="required"/>
         <description value="The workflow state of a clinical impression."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

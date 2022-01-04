@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/tz-offset",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Timezone Offset",
   "title": "Timezone offset, for date",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Timezone offset, for dates where timezone is not allowed as part of the base date.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/consent-NotificationEndpoint",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "NotificationEndpoint",
   "title": "Disclosure Notification Endpoint",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Endpoint for sending Disclosure notifications in the form of FHIR AuditEvent records.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

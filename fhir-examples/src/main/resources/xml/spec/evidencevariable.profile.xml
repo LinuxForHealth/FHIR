@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="EvidenceVariable"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -887,10 +887,10 @@
     <valueCode value="cds"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/EvidenceVariable"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="EvidenceVariable"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Clinical Decision Support)"/>
   <contact>
     <telecom>
@@ -906,7 +906,7 @@
   </contact>
   <description value="The EvidenceVariable resource describes an element that knowledge (Evidence) is about."/>
   <purpose value="Need to be able to define and reuse the definition of individual elements of a research question."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1538,7 +1538,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1946,7 +1946,7 @@
         </extension>
         <strength value="required"/>
         <description value="Logical grouping of characteristics."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/characteristic-combination|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.characteristic">
@@ -2510,7 +2510,7 @@
         </extension>
         <strength value="required"/>
         <description value="Possible group measure aggregates (E.g. Mean, Median)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/group-measure|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.handling">
@@ -2544,7 +2544,7 @@
         </extension>
         <strength value="required"/>
         <description value="The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/variable-handling|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.category">
@@ -2924,7 +2924,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3163,7 +3163,7 @@
         </extension>
         <strength value="required"/>
         <description value="Logical grouping of characteristics."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/characteristic-combination|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.characteristic">
@@ -3353,7 +3353,7 @@
         </extension>
         <strength value="required"/>
         <description value="Possible group measure aggregates (E.g. Mean, Median)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/group-measure|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/group-measure|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.handling">
@@ -3374,7 +3374,7 @@
         </extension>
         <strength value="required"/>
         <description value="The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/variable-handling|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="EvidenceVariable.category">

@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/servicerequest-genetics",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ServiceRequest-Genetics",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "Describes how the ServiceRequest resource is used to for genetics",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -854,7 +854,7 @@
         "path": "ServiceRequest.status",
         "short": "draft | active | on-hold | revoked | completed | entered-in-error | unknown",
         "definition": "The status of the order.",
-        "comment": "The status is generally fully in the control of the requester - they determine whether the order is draft or active and, after it has been activated, competed, cancelled or suspended. States relating to the activities of the performer are reflected on either the corresponding event (see [Event Pattern](http://hl7.org/fhir/event.html) for general discussion) or using the [Task](http://hl7.org/fhir/2021Mar/task.html) resource.",
+        "comment": "The status is generally fully in the control of the requester - they determine whether the order is draft or active and, after it has been activated, competed, cancelled or suspended. States relating to the activities of the performer are reflected on either the corresponding event (see [Event Pattern](event.html) for general discussion) or using the [Task](http://hl7.org/fhir/2021Mar/task.html) resource.",
         "min": 1,
         "max": "1",
         "base": {
@@ -890,7 +890,7 @@
           ],
           "strength": "required",
           "description": "The status of a service order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -956,7 +956,7 @@
           ],
           "strength": "required",
           "description": "The kind of service request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1075,7 +1075,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1909,7 +1909,7 @@
         "path": "ServiceRequest.reasonCode",
         "short": "Explanation/Justification for procedure or service",
         "definition": "An explanation or justification for why this service is being requested in coded or textual form.   This is often for billing purposes.  May relate to the resources referred to in `supportingInfo`.",
-        "comment": "This element represents why the referral is being made and may be used to decide how the service will be performed, or even if it will be performed at all.   Use `CodeableConcept.text` element if the data is free (uncoded) text as shown in the [CT Scan example](http://hl7.org/fhir/servicerequest-example-di.html).",
+        "comment": "This element represents why the referral is being made and may be used to decide how the service will be performed, or even if it will be performed at all.   Use `CodeableConcept.text` element if the data is free (uncoded) text as shown in the [CT Scan example](servicerequest-example-di.html).",
         "min": 0,
         "max": "*",
         "base": {
@@ -1970,7 +1970,7 @@
         "path": "ServiceRequest.reasonReference",
         "short": "Explanation/Justification for service or service",
         "definition": "Indicates another resource that provides a justification for why this service is being requested.   May relate to the resources referred to in `supportingInfo`.",
-        "comment": "This element represents why the referral is being made and may be used to decide how the service will be performed, or even if it will be performed at all.    To be as specific as possible,  a reference to  *Observation* or *Condition* should be used if available.  Otherwise when referencing  *DiagnosticReport*  it should contain a finding  in `DiagnosticReport.conclusion` and/or `DiagnosticReport.conclusionCode`.   When using a reference to *DocumentReference*, the target document should contain clear findings language providing the relevant reason for this service request.  Use  the CodeableConcept text element in `ServiceRequest.reasonCode` if the data is free (uncoded) text as shown in the [CT Scan example](http://hl7.org/fhir/servicerequest-example-di.html).",
+        "comment": "This element represents why the referral is being made and may be used to decide how the service will be performed, or even if it will be performed at all.    To be as specific as possible,  a reference to  *Observation* or *Condition* should be used if available.  Otherwise when referencing  *DiagnosticReport*  it should contain a finding  in `DiagnosticReport.conclusion` and/or `DiagnosticReport.conclusionCode`.   When using a reference to *DocumentReference*, the target document should contain clear findings language providing the relevant reason for this service request.  Use  the CodeableConcept text element in `ServiceRequest.reasonCode` if the data is free (uncoded) text as shown in the [CT Scan example](servicerequest-example-di.html).",
         "min": 0,
         "max": "*",
         "base": {

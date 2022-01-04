@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "CommunicationRequest",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/CommunicationRequest",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CommunicationRequest",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A request to convey information; e.g. the CDS system proposes that an alert be sent to a responsible provider, the CDS system proposes that the public health agency be notified about a reportable condition.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -706,7 +706,7 @@
           ],
           "strength": "required",
           "description": "The status of the communication request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -864,7 +864,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the relative importance of a communication request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1890,7 +1890,7 @@
           ],
           "strength": "required",
           "description": "The status of the communication request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2003,7 +2003,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the relative importance of a communication request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {

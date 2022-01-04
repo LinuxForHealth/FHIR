@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "GraphDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/GraphDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "GraphDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by following references. The Graph Definition resource defines a set and makes rules about the set.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -656,7 +656,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1057,7 +1057,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -1628,7 +1628,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -1904,7 +1904,7 @@
           ],
           "strength": "required",
           "description": "Defines how a compartment rule is used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.3.0-CIBUILD"
         }
       },
       {
@@ -1946,7 +1946,7 @@
           ],
           "strength": "required",
           "description": "Identifies a compartment.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1988,7 +1988,7 @@
           ],
           "strength": "required",
           "description": "How a compartment must be linked.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.3.0-CIBUILD"
         }
       },
       {
@@ -2217,7 +2217,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2483,7 +2483,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -2647,7 +2647,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -2727,7 +2727,7 @@
           ],
           "strength": "required",
           "description": "Defines how a compartment rule is used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.3.0-CIBUILD"
         }
       },
       {
@@ -2754,7 +2754,7 @@
           ],
           "strength": "required",
           "description": "Identifies a compartment.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -2781,7 +2781,7 @@
           ],
           "strength": "required",
           "description": "How a compartment must be linked.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.3.0-CIBUILD"
         }
       },
       {

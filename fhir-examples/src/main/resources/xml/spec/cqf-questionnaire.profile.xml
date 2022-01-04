@@ -16,7 +16,7 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/cqf-questionnaire"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="CQF-Questionnaire"/>
   <status value="draft"/>
   <experimental value="false"/>
@@ -29,7 +29,7 @@
     </telecom>
   </contact>
   <description value="A questionnaire with the ability to specify behavior associated with questions or groups of questions"/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -719,7 +719,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -809,7 +809,7 @@
         </extension>
         <strength value="required"/>
         <description value="One of the resource types defined as part of this version of FHIR."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1724,7 +1724,7 @@
         </extension>
         <strength value="required"/>
         <description value="Distinguishes groups from questions and display text and indicates data type for questions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/item-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/item-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1942,7 +1942,7 @@
         </extension>
         <strength value="required"/>
         <description value="The criteria by which a question is enabled."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2049,7 +2049,7 @@
         </extension>
         <strength value="required"/>
         <description value="Controls how multiple enableWhen values are interpreted -  whether all or any must be true."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

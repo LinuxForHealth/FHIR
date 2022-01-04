@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Consent",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Consent",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Consent",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Community Based Collaborative Care)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A record of a healthcare consumer’s  choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -622,7 +622,7 @@
           ],
           "strength": "required",
           "description": "Indicates the state of the consent.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-state-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1758,7 +1758,7 @@
           ],
           "strength": "required",
           "description": "How a rule statement is applied, such as adding additional consent or removing consent.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-provision-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -2524,7 +2524,7 @@
           ],
           "strength": "required",
           "description": "How a resource reference is interpreted when testing consent restrictions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"
         }
       },
       {
@@ -2721,7 +2721,7 @@
           ],
           "strength": "required",
           "description": "Indicates the state of the consent.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-state-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3194,7 +3194,7 @@
           ],
           "strength": "required",
           "description": "How a rule statement is applied, such as adding additional consent or removing consent.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-provision-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3508,7 +3508,7 @@
           ],
           "strength": "required",
           "description": "How a resource reference is interpreted when testing consent restrictions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"
         }
       },
       {

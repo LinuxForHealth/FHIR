@@ -1,0 +1,55 @@
+{
+  "resourceType": "MedicinalProductDefinition",
+  "id": "product-with-contained-package-and-ingredient",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv\u003e\u003cp\u003eResource \u0026quot;product-with-contained-package-and-ingredient\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003ch3\u003eNames\u003c/h3\u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eProductName\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003eExampleocillin\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "contained": [
+    {
+      "resourceType": "PackagedProductDefinition",
+      "packageFor": [
+        {
+          "reference": "#"
+        }
+      ],
+      "description": "A full text description with markup can go here"
+    },
+    {
+      "resourceType": "Ingredient",
+      "for": [
+        {
+          "reference": "#"
+        }
+      ],
+      "role": {
+        "coding": [
+          {
+            "code": "component"
+          }
+        ]
+      },
+      "substance": {
+        "code": {
+          "reference": {
+            "reference": "SubstanceDefinition/componentSubstance"
+          }
+        }
+      }
+    }
+  ],
+  "name": [
+    {
+      "productName": "Exampleocillin"
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

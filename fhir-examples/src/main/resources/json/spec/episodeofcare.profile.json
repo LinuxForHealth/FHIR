@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "EpisodeOfCare",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/EpisodeOfCare",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "EpisodeOfCare",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. The managing organization assumes a level of responsibility for the patient during this time.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -569,7 +569,7 @@
           ],
           "strength": "required",
           "description": "The status of the episode of care.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -788,7 +788,7 @@
           ],
           "strength": "required",
           "description": "The status of the episode of care.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -1540,7 +1540,7 @@
           ],
           "strength": "required",
           "description": "The status of the episode of care.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1593,7 +1593,7 @@
           ],
           "strength": "required",
           "description": "The status of the episode of care.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.3.0-CIBUILD"
         }
       },
       {

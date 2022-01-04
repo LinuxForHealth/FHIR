@@ -51,7 +51,9 @@
                         },
                         "amount": {
                           "value": 5,
-                          "unit": "g"
+                          "unit": "g",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "g"
                         }
                       }
                     ]
@@ -73,7 +75,9 @@
                         },
                         "amount": {
                           "value": 20,
-                          "unit": "ml"
+                          "unit": "ml",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "mL"
                         }
                       }
                     ]
