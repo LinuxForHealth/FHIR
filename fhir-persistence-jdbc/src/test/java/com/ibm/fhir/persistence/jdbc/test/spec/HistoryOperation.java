@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,11 +13,18 @@ import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
+/**
+ * Test the history interaction for a resource
+ */
 public class HistoryOperation extends BaseOperation {
     
     // the number of resource versions we expect to read from the database
     final int expectedCount;
-    
+
+    /**
+     * Public constructor
+     * @param expectedCount
+     */
     public HistoryOperation(int expectedCount) {
         this.expectedCount = expectedCount;
     }
