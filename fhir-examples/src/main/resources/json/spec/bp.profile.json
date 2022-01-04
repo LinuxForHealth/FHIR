@@ -24,7 +24,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/bp",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "observation-bp",
   "title": "Observation Blood Pressure Profile",
   "status": "draft",
@@ -42,7 +42,7 @@
     }
   ],
   "description": "FHIR Blood Pressure Profile",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1013,7 +1013,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1155,7 +1155,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1200,7 +1200,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1253,7 +1253,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1308,7 +1308,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1354,7 +1354,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1410,7 +1410,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1642,7 +1642,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1689,7 +1689,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1830,7 +1830,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1875,7 +1875,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1927,7 +1927,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1982,7 +1982,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -2028,7 +2028,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -2084,7 +2084,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4459,7 +4459,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4506,7 +4506,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4647,7 +4647,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4692,7 +4692,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4744,7 +4744,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4799,7 +4799,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4845,7 +4845,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -4901,7 +4901,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5111,7 +5111,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5154,7 +5154,7 @@
         ],
         "isModifier": true,
         "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
-        "isSummary": true,
+        "isSummary": false,
         "binding": {
           "extension": [
             {
@@ -5167,7 +5167,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5220,7 +5220,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5266,7 +5266,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5316,7 +5316,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5886,7 +5886,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -5933,7 +5933,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6074,7 +6074,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6119,7 +6119,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6171,7 +6171,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6226,7 +6226,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6272,7 +6272,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6328,7 +6328,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6538,7 +6538,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6581,7 +6581,7 @@
         ],
         "isModifier": true,
         "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
-        "isSummary": true,
+        "isSummary": false,
         "binding": {
           "extension": [
             {
@@ -6594,7 +6594,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -6647,7 +6647,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6693,7 +6693,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -6743,7 +6743,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",

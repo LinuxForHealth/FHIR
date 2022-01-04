@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "CapabilityStatement",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -31,10 +31,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/CapabilityStatement",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CapabilityStatement",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -55,7 +55,7 @@
     }
   ],
   "description": "A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR that may be used as a statement of actual server functionality or a statement of required or desired server implementation.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -755,7 +755,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1211,7 +1211,7 @@
           ],
           "strength": "required",
           "description": "How a capability statement is intended to be used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-CIBUILD"
         }
       },
       {
@@ -1871,7 +1871,7 @@
           ],
           "strength": "required",
           "description": "All published FHIR Versions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-CIBUILD"
         }
       },
       {
@@ -1918,7 +1918,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         }
       },
       {
@@ -1965,7 +1965,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         }
       },
       {
@@ -2220,7 +2220,7 @@
           ],
           "strength": "required",
           "description": "The mode of a RESTful capability statement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -2751,7 +2751,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -3074,7 +3074,7 @@
           ],
           "strength": "required",
           "description": "Operations supported by REST at the type or instance level.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-CIBUILD"
         }
       },
       {
@@ -3155,7 +3155,7 @@
           ],
           "strength": "required",
           "description": "How the system supports versioning for a resource.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-CIBUILD"
         }
       },
       {
@@ -3318,7 +3318,7 @@
           ],
           "strength": "required",
           "description": "A code that indicates how the server supports conditional read.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -3405,7 +3405,7 @@
           ],
           "strength": "required",
           "description": "A code that indicates how the server supports conditional delete.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -3453,7 +3453,7 @@
           ],
           "strength": "required",
           "description": "A set of flags that defines how references are supported.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-CIBUILD"
         }
       },
       {
@@ -3811,7 +3811,7 @@
           ],
           "strength": "required",
           "description": "Data types allowed to be used for search parameters.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4323,7 +4323,7 @@
           ],
           "strength": "required",
           "description": "Operations supported by REST at the system level.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-CIBUILD"
         }
       },
       {
@@ -5138,7 +5138,7 @@
           ],
           "strength": "required",
           "description": "The mode of a message capability statement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -5390,7 +5390,7 @@
           ],
           "strength": "required",
           "description": "Whether the application produces or consumes documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -5676,7 +5676,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -5982,7 +5982,7 @@
           ],
           "strength": "required",
           "description": "How a capability statement is intended to be used.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.3.0-CIBUILD"
         }
       },
       {
@@ -6205,7 +6205,7 @@
           ],
           "strength": "required",
           "description": "All published FHIR Versions.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-CIBUILD"
         }
       },
       {
@@ -6237,7 +6237,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         }
       },
       {
@@ -6269,7 +6269,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         }
       },
       {
@@ -6345,7 +6345,7 @@
           ],
           "strength": "required",
           "description": "The mode of a RESTful capability statement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -6501,7 +6501,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -6613,7 +6613,7 @@
           ],
           "strength": "required",
           "description": "Operations supported by REST at the type or instance level.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.3.0-CIBUILD"
         }
       },
       {
@@ -6664,7 +6664,7 @@
           ],
           "strength": "required",
           "description": "How the system supports versioning for a resource.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/versioning-policy|4.3.0-CIBUILD"
         }
       },
       {
@@ -6767,7 +6767,7 @@
           ],
           "strength": "required",
           "description": "A code that indicates how the server supports conditional read.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-read-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -6824,7 +6824,7 @@
           ],
           "strength": "required",
           "description": "A code that indicates how the server supports conditional delete.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -6857,7 +6857,7 @@
           ],
           "strength": "required",
           "description": "A set of flags that defines how references are supported.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.3.0-CIBUILD"
         }
       },
       {
@@ -6989,7 +6989,7 @@
           ],
           "strength": "required",
           "description": "Data types allowed to be used for search parameters.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -7124,7 +7124,7 @@
           ],
           "strength": "required",
           "description": "Operations supported by REST at the system level.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.3.0-CIBUILD"
         }
       },
       {
@@ -7351,7 +7351,7 @@
           ],
           "strength": "required",
           "description": "The mode of a message capability statement.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/event-capability-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -7422,7 +7422,7 @@
           ],
           "strength": "required",
           "description": "Whether the application produces or consumes documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-mode|4.3.0-CIBUILD"
         }
       },
       {

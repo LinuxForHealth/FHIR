@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "AllergyIntolerance",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "AllergyIntolerance",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure to a substance.",
   "purpose": "To record a clinical assessment of a propensity, or potential risk to an individual, of an adverse reaction upon future exposure to the specified substance, or class of substance.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -595,7 +595,7 @@
           ],
           "strength": "required",
           "description": "The clinical status of the allergy or intolerance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -653,7 +653,7 @@
           ],
           "strength": "required",
           "description": "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -710,7 +710,7 @@
           ],
           "strength": "required",
           "description": "Identification of the underlying physiological mechanism for a Reaction Risk.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -773,7 +773,7 @@
           ],
           "strength": "required",
           "description": "Category of an identified substance associated with allergies or intolerances.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -836,7 +836,7 @@
           ],
           "strength": "required",
           "description": "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1694,7 +1694,7 @@
           ],
           "strength": "required",
           "description": "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1900,7 +1900,7 @@
           ],
           "strength": "required",
           "description": "The clinical status of the allergy or intolerance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1943,7 +1943,7 @@
           ],
           "strength": "required",
           "description": "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1985,7 +1985,7 @@
           ],
           "strength": "required",
           "description": "Identification of the underlying physiological mechanism for a Reaction Risk.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2033,7 +2033,7 @@
           ],
           "strength": "required",
           "description": "Category of an identified substance associated with allergies or intolerances.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2081,7 +2081,7 @@
           ],
           "strength": "required",
           "description": "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2578,7 +2578,7 @@
           ],
           "strength": "required",
           "description": "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {

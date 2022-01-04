@@ -12,11 +12,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Request",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Request",
   "title": "request",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International fhir",
   "contact": [
     {
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Logical Model: A pattern to be followed by resources that represent a specific proposal, plan and/or order for some sort of action or service.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -443,7 +443,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -561,7 +561,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -620,7 +620,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {

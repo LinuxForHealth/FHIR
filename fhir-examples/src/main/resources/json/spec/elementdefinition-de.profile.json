@@ -16,7 +16,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-de",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DataElement constraint on ElementDefinition data type",
   "status": "draft",
   "experimental": false,
@@ -33,7 +33,7 @@
     }
   ],
   "description": "Identifies how the ElementDefinition data type is used when it appears within a data element",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -560,7 +560,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1109,7 +1109,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1293,7 +1293,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2029,7 +2029,7 @@
             "key": "eld-17",
             "severity": "error",
             "human": "targetProfile is only allowed if the type is Reference or canonical",
-            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027) or targetProfile.empty()",
+            "expression": "(code\u003d\u0027Reference\u0027 or code \u003d \u0027canonical\u0027 or code \u003d \u0027CodeableReference\u0027) or targetProfile.empty()",
             "xpath": "not(exists(f:targetProfile)) or (f:code/@value \u003d \u0027Reference\u0027)",
             "source": "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
           },
@@ -2362,7 +2362,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2417,7 +2417,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2513,6 +2513,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -2547,6 +2550,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -2787,6 +2793,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -2821,6 +2830,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -2980,6 +2992,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -3014,6 +3029,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -3345,6 +3363,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -3379,6 +3400,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -3914,7 +3938,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4097,7 +4121,7 @@
         "path": "ElementDefinition.mustSupport",
         "short": "If the element must be supported",
         "definition": "If true, implementations that produce or consume resources SHALL provide \"support\" for the element in some meaningful way.  If false, the element may be ignored and not supported. If false, whether to populate or use the data element in any way is at the discretion of the implementation.",
-        "comment": "\"Something useful\" is context dependent and impossible to describe in the base FHIR specification. For this reason, tue mustSupport flag is never set to true by the FHIR specification itself - it is only set to true in profiles.  A profile on a type can always make musSupport \u003d true if it is false in the base type but cannot make mustSupport \u003d false if it is true in the base type.   This is done in [Resource Profiles](http://hl7.org/fhir/profiling.html#mustsupport), where the profile labels an element as mustSupport\u003dtrue. When a profile does this, it SHALL also make clear exactly what kind of \"support\" is required, as this can mean many things.    Note that an element that has the property IsModifier is not necessarily a \"key\" element (e.g. one of the important elements to make use of the resource), nor is it automatically mustSupport - however both of these things are more likely to be true for IsModifier elements than for other elements.",
+        "comment": "\"Something useful\" is context dependent and impossible to describe in the base FHIR specification. For this reason, tue mustSupport flag is never set to true by the FHIR specification itself - it is only set to true in profiles.  A profile on a type can always make musSupport \u003d true if it is false in the base type but cannot make mustSupport \u003d false if it is true in the base type.   This is done in [Resource Profiles](profiling.html#mustsupport), where the profile labels an element as mustSupport\u003dtrue. When a profile does this, it SHALL also make clear exactly what kind of \"support\" is required, as this can mean many things.    Note that an element that has the property IsModifier is not necessarily a \"key\" element (e.g. one of the important elements to make use of the resource), nor is it automatically mustSupport - however both of these things are more likely to be true for IsModifier elements than for other elements.",
         "requirements": "Allows a profile to set expectations for system capabilities beyond merely respecting cardinality constraints.",
         "min": 0,
         "max": "1",
@@ -4467,7 +4491,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -4812,7 +4836,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {

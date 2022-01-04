@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -19,6 +19,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "ResearchStudy-display",
           "text": "Need to make sure we encompass public health studies.",
           "type": "display"
         },
@@ -37,6 +38,7 @@
               }
             }
           ],
+          "linkId": "ResearchStudy-flyover",
           "text": "A process where a researcher or organization plans and then executes a series of steps intended to increase the field of healthcare-related knowledge.  This includes studies of safety, efficacy, comparative effectiveness and other information about medications, devices, therapies and other interventional and investigative techniques.  A ResearchStudy involves the gathering of information about human or animal subjects.",
           "type": "display"
         },
@@ -71,6 +73,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -111,6 +114,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -147,6 +151,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -190,6 +195,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -231,6 +237,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -258,6 +265,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -285,6 +293,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -312,6 +321,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -345,6 +355,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.identifier-flyover",
               "text": "Identifiers assigned to this research study by the sponsor or other systems.",
               "type": "display"
             },
@@ -402,6 +413,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.title-flyover",
               "text": "A short, descriptive user-friendly label for the study.",
               "type": "display"
             },
@@ -441,6 +453,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.protocol-flyover",
               "text": "The set of steps expected to be performed as part of the execution of the study.",
               "type": "display"
             },
@@ -490,6 +503,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.partOf-flyover",
               "text": "A larger research study of which this particular study is a component or step.",
               "type": "display"
             },
@@ -547,6 +561,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.status-flyover",
               "text": "The current state of the study.",
               "type": "display"
             },
@@ -592,6 +607,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.primaryPurposeType-flyover",
               "text": "The type of study based upon the intent of the study\u0027s activities. A classification of the intent of the study.",
               "type": "display"
             },
@@ -644,6 +660,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.phase-flyover",
               "text": "The stage in the progression of a therapy from initial experimental use in humans in clinical trials to post-market evaluation.",
               "type": "display"
             },
@@ -692,6 +709,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.category-flyover",
               "text": "Codes categorizing the type of study such as investigational vs. observational, type of blinding, type of randomization, safety vs. efficacy, etc.",
               "type": "display"
             },
@@ -740,6 +758,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.focus-flyover",
               "text": "The medication(s), food(s), therapy(ies), device(s) or other concerns or interventions that the study is seeking to gain more information about.",
               "type": "display"
             },
@@ -788,6 +807,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.condition-flyover",
               "text": "The condition that is the focus of the study.  For example, In a study to examine risk factors for Lupus, might have as an inclusion criterion \"healthy volunteer\", but the target condition code would be a Lupus SNOMED code.",
               "type": "display"
             },
@@ -830,6 +850,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.contact-flyover",
               "text": "Contact details to assist a user in learning more about or engaging with the study.",
               "type": "display"
             }
@@ -857,6 +878,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.relatedArtifact-flyover",
               "text": "Citations, references and other related documents.",
               "type": "display"
             }
@@ -890,6 +912,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.keyword-flyover",
               "text": "Key terms to aid in searching for or filtering the study.",
               "type": "display"
             },
@@ -938,6 +961,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.location-flyover",
               "text": "Indicates a country, state or other region where the study is taking place.",
               "type": "display"
             },
@@ -989,6 +1013,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.description-flyover",
               "text": "A full description of how the study is being conducted.",
               "type": "display"
             },
@@ -1028,6 +1053,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.enrollment-flyover",
               "text": "Reference to a Group that defines the criteria for and quantity of subjects participating in the study.  E.g. \" 200 female Europeans between the ages of 20 and 45 with early onset diabetes\". The Group referenced should not generally enumerate specific subjects.  Subjects will be linked to the study using the ResearchSubject resource.",
               "type": "display"
             },
@@ -1082,6 +1108,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.period-flyover",
               "text": "Identifies the start date and the expected (or actual, depending on status) end date for the study.",
               "type": "display"
             },
@@ -1132,6 +1159,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.sponsor-flyover",
               "text": "An organization that initiates the investigation and is legally responsible for the study.",
               "type": "display"
             },
@@ -1185,6 +1213,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.principalInvestigator-flyover",
               "text": "A researcher in a study who oversees multiple aspects of the study, such as concept development, protocol writing, protocol submission for IRB approval, participant recruitment, informed consent, data collection, analysis, interpretation and presentation.",
               "type": "display"
             },
@@ -1234,6 +1263,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.site-flyover",
               "text": "A facility in which study activities are conducted.",
               "type": "display"
             },
@@ -1288,6 +1318,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.reasonStopped-flyover",
               "text": "A description and/or code explaining the premature termination of the study.",
               "type": "display"
             },
@@ -1336,6 +1367,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.note-flyover",
               "text": "Comments made about the study by the performer, subject or other participants.",
               "type": "display"
             }
@@ -1363,6 +1395,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.arm-flyover",
               "text": "Describes an expected sequence of events for one of the participants of a study.  E.g. Exposure to drug A, wash-out, exposure to drug B, wash-out, follow-up.",
               "type": "display"
             },
@@ -1397,6 +1430,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1431,6 +1465,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1458,6 +1493,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1498,6 +1534,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.name-flyover",
                   "text": "Unique, human-readable label for this arm of the study.",
                   "type": "display"
                 },
@@ -1542,6 +1579,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.type-flyover",
                   "text": "Categorization of study arm, e.g. experimental, active comparator, placebo comparater.",
                   "type": "display"
                 },
@@ -1593,6 +1631,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.arm.description-flyover",
                   "text": "A succinct description of the path through the study that would be followed by a subject adhering to this arm.",
                   "type": "display"
                 },
@@ -1629,6 +1668,7 @@
                   }
                 }
               ],
+              "linkId": "ResearchStudy.objective-flyover",
               "text": "A goal that the study is aiming to achieve in terms of a scientific question to be answered by the analysis of data collected during the study.",
               "type": "display"
             },
@@ -1663,6 +1703,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.objective.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1697,6 +1738,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.objective.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1724,6 +1766,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.objective.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1760,6 +1803,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.objective.name-flyover",
                   "text": "Unique, human-readable label for this objective of the study.",
                   "type": "display"
                 },
@@ -1804,6 +1848,7 @@
                       }
                     }
                   ],
+                  "linkId": "ResearchStudy.objective.type-flyover",
                   "text": "The kind of study objective.",
                   "type": "display"
                 },

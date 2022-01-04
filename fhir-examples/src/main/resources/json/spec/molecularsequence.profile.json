@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MolecularSequence",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MolecularSequence",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MolecularSequence",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Raw data describing a biological sequence.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "w5",
@@ -556,7 +556,7 @@
           ],
           "strength": "required",
           "description": "Type if a sequence -- DNA, RNA, or amino acid sequence.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/sequence-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/sequence-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1052,7 +1052,7 @@
           ],
           "strength": "required",
           "description": "Type for orientation",
-          "valueSet": "http://hl7.org/fhir/ValueSet/orientation-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/orientation-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1201,7 +1201,7 @@
           ],
           "strength": "required",
           "description": "Type for strand",
-          "valueSet": "http://hl7.org/fhir/ValueSet/strand-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/strand-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1859,7 +1859,7 @@
           ],
           "strength": "required",
           "description": "Type for quality",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quality-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quality-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -2908,7 +2908,7 @@
           ],
           "strength": "required",
           "description": "Type for repository",
-          "valueSet": "http://hl7.org/fhir/ValueSet/repository-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/repository-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3306,7 +3306,7 @@
           ],
           "strength": "required",
           "description": "DNA change type.",
-          "valueSet": "http://loinc.org/vs/LL379-9|4.1.0"
+          "valueSet": "http://loinc.org/vs/LL379-9|4.3.0-CIBUILD"
         }
       },
       {
@@ -3906,7 +3906,7 @@
           ],
           "strength": "required",
           "description": "Type if a sequence -- DNA, RNA, or amino acid sequence.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/sequence-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/sequence-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4118,7 +4118,7 @@
           ],
           "strength": "required",
           "description": "Type for orientation",
-          "valueSet": "http://hl7.org/fhir/ValueSet/orientation-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/orientation-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4207,7 +4207,7 @@
           ],
           "strength": "required",
           "description": "Type for strand",
-          "valueSet": "http://hl7.org/fhir/ValueSet/strand-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/strand-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4413,7 +4413,7 @@
           ],
           "strength": "required",
           "description": "Type for quality",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quality-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quality-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4830,7 +4830,7 @@
           ],
           "strength": "required",
           "description": "Type for repository",
-          "valueSet": "http://hl7.org/fhir/ValueSet/repository-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/repository-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -4972,7 +4972,7 @@
           ],
           "strength": "required",
           "description": "DNA change type.",
-          "valueSet": "http://loinc.org/vs/LL379-9|4.1.0"
+          "valueSet": "http://loinc.org/vs/LL379-9|4.3.0-CIBUILD"
         }
       },
       {

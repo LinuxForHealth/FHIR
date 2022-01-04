@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Consent"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -820,10 +820,10 @@
     <valueCode value="cbcc"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Consent"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Consent"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Community Based Collaborative Care)"/>
   <contact>
     <telecom>
@@ -838,7 +838,7 @@
     </telecom>
   </contact>
   <description value="A record of a healthcare consumer’s  choices, which permits or denies identified recipient(s) or recipient role(s) to perform one or more actions within a given policy context, for specific purposes and periods of time."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1323,7 +1323,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the state of the consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2244,7 +2244,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a rule statement is applied, such as adding additional consent or removing consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Consent.provision.period">
@@ -2863,7 +2863,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a resource reference is interpreted when testing consent restrictions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Consent.provision.data.reference">
@@ -3032,7 +3032,7 @@
         </extension>
         <strength value="required"/>
         <description value="Indicates the state of the consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3405,7 +3405,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a rule statement is applied, such as adding additional consent or removing consent."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Consent.provision.period">
@@ -3650,7 +3650,7 @@
         </extension>
         <strength value="required"/>
         <description value="How a resource reference is interpreted when testing consent restrictions."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Consent.provision.data.reference">

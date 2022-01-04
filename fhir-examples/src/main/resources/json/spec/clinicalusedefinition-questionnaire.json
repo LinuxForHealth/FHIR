@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ClinicalUseDefinition.interaction.interactant.item[x]",
       "expansion": {
-        "identifier": "urn:uuid:5b5fd959-92ae-493d-94a6-677a20e384e6",
-        "timestamp": "2021-12-06T19:02:42+00:00",
+        "identifier": "urn:uuid:1f0a71b7-b2b4-44b4-8ccb-b8dd3d739142",
+        "timestamp": "2022-01-01T15:24:01+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -46,9 +46,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "item": [
     {
@@ -73,6 +73,7 @@
               }
             }
           ],
+          "linkId": "ClinicalUseDefinition-flyover",
           "text": "A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal product, medication, device or procedure.",
           "type": "display"
         },
@@ -107,6 +108,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -147,6 +149,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -183,6 +186,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -226,6 +230,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -267,6 +272,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -294,6 +300,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -321,6 +328,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -348,6 +356,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -381,6 +390,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.identifier-flyover",
               "text": "Business identifier for this issue.",
               "type": "display"
             },
@@ -442,6 +452,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.type-flyover",
               "text": "indication | contraindication | interaction | undesirable-effect | warning.",
               "type": "display"
             },
@@ -483,6 +494,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.category-flyover",
               "text": "A categorisation of the issue, primarily for dividing warnings into subject heading areas such as \"Pregnancy and Lactation\", \"Overdose\", \"Effects on Ability to Drive and Use Machines\".",
               "type": "display"
             },
@@ -530,6 +542,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.subject-flyover",
               "text": "The medication or procedure for which this is an indication.",
               "type": "display"
             },
@@ -584,6 +597,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.status-flyover",
               "text": "Whether this is a current issue or one that has been retired etc.",
               "type": "display"
             },
@@ -632,6 +646,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.contraindication-flyover",
               "text": "Specifics for when this is a contraindication.",
               "type": "display"
             },
@@ -666,6 +681,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -700,6 +716,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -727,6 +744,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -760,6 +778,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure-flyover",
                   "text": "The situation that is being documented as contraindicating against this item.",
                   "type": "display"
                 }
@@ -793,6 +812,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.diseaseStatus-flyover",
                   "text": "The status of the disease or symptom for the contraindication.",
                   "type": "display"
                 }
@@ -820,6 +840,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.comorbidity-flyover",
                   "text": "A comorbidity (concurrent condition) or coinfection.",
                   "type": "display"
                 }
@@ -852,6 +873,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.indication-flyover",
                   "text": "The indication which this is a contraidication for.",
                   "type": "display"
                 },
@@ -896,6 +918,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.contraindication.otherTherapy-flyover",
                   "text": "Information about the use of the medicinal product in relation to other therapies described as part of the contraindication.",
                   "type": "display"
                 },
@@ -930,6 +953,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -964,6 +988,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -991,6 +1016,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1032,6 +1058,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.relationshipType-flyover",
                       "text": "The type of relationship between the medicinal product indication or contraindication and another therapy.",
                       "type": "display"
                     },
@@ -1084,6 +1111,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.contraindication.otherTherapy.therapy-flyover",
                       "text": "Reference to a specific medication (active substance, medicinal product or class of products) as part of an indication or contraindication.",
                       "type": "display"
                     }
@@ -1121,6 +1149,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.indication-flyover",
               "text": "Specifics for when this is an indication.",
               "type": "display"
             },
@@ -1155,6 +1184,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1189,6 +1219,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1216,6 +1247,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1249,6 +1281,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.diseaseSymptomProcedure-flyover",
                   "text": "The situation that is being documented as an indicaton for this item.",
                   "type": "display"
                 }
@@ -1282,6 +1315,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.diseaseStatus-flyover",
                   "text": "The status of the disease or symptom for the indication.",
                   "type": "display"
                 }
@@ -1309,6 +1343,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.comorbidity-flyover",
                   "text": "A comorbidity (concurrent condition) or coinfection as part of the indication.",
                   "type": "display"
                 }
@@ -1342,6 +1377,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.intendedEffect-flyover",
                   "text": "The intended effect, aim or strategy to be achieved.",
                   "type": "display"
                 }
@@ -1379,6 +1415,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.duration-flyover",
                   "text": "Timing or duration information.",
                   "type": "display"
                 },
@@ -1447,6 +1484,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.undesirableEffect-flyover",
                   "text": "The specific undesirable effects of the medicinal product.",
                   "type": "display"
                 },
@@ -1491,6 +1529,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.indication.otherTherapy-flyover",
                   "text": "Information about the use of the medicinal product in relation to other therapies described as part of the indication.",
                   "type": "display"
                 }
@@ -1526,6 +1565,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.interaction-flyover",
               "text": "Specifics for when this is an interaction.",
               "type": "display"
             },
@@ -1560,6 +1600,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1594,6 +1635,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1621,6 +1663,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1648,6 +1691,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.interactant-flyover",
                   "text": "The specific medication, food, substance or laboratory test that interacts.",
                   "type": "display"
                 },
@@ -1682,6 +1726,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.interaction.interactant.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1716,6 +1761,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.interaction.interactant.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1743,6 +1789,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.interaction.interactant.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1780,6 +1827,7 @@
                           }
                         }
                       ],
+                      "linkId": "ClinicalUseDefinition.interaction.interactant.item[x]-flyover",
                       "text": "The specific medication, food or laboratory test that interacts.",
                       "type": "display"
                     },
@@ -1885,6 +1933,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.type-flyover",
                   "text": "The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction.",
                   "type": "display"
                 },
@@ -1933,6 +1982,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.effect-flyover",
                   "text": "The effect of the interaction, for example \"reduced gastric absorption of primary medication\".",
                   "type": "display"
                 }
@@ -1970,6 +2020,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.incidence-flyover",
                   "text": "The incidence of the interaction, e.g. theoretical, observed.",
                   "type": "display"
                 },
@@ -2018,6 +2069,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.interaction.management-flyover",
                   "text": "Actions for managing the interaction.",
                   "type": "display"
                 },
@@ -2067,6 +2119,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.population-flyover",
               "text": "The population group to which this applies.",
               "type": "display"
             },
@@ -2117,6 +2170,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.undesirableEffect-flyover",
               "text": "Describe the undesirable effects of the medicinal product.",
               "type": "display"
             },
@@ -2151,6 +2205,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2185,6 +2240,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2212,6 +2268,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2245,6 +2302,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.symptomConditionEffect-flyover",
                   "text": "The situation in which the undesirable effect may manifest.",
                   "type": "display"
                 }
@@ -2282,6 +2340,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.classification-flyover",
                   "text": "High level classification of the effect.",
                   "type": "display"
                 },
@@ -2334,6 +2393,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.undesirableEffect.frequencyOfOccurrence-flyover",
                   "text": "How often the effect is seen.",
                   "type": "display"
                 },
@@ -2384,6 +2444,7 @@
                   }
                 }
               ],
+              "linkId": "ClinicalUseDefinition.warning-flyover",
               "text": "A critical piece of information about environmental, health or physical risks or hazards that serve as caution to the user. For example \u0027Do not operate heavy machinery\u0027, \u0027May cause drowsiness\u0027, or \u0027Get medical advice/attention if you feel unwell\u0027.",
               "type": "display"
             },
@@ -2418,6 +2479,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.warning.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2452,6 +2514,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.warning.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2479,6 +2542,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.warning.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2515,6 +2579,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.warning.description-flyover",
                   "text": "A textual definition of this warning, with formatting.",
                   "type": "display"
                 },
@@ -2559,6 +2624,7 @@
                       }
                     }
                   ],
+                  "linkId": "ClinicalUseDefinition.warning.code-flyover",
                   "text": "A coded or unformatted textual definition of this warning.",
                   "type": "display"
                 },

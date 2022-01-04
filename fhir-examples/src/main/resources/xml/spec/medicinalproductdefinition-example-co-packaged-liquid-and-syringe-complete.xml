@@ -218,6 +218,8 @@
 								<amount>
 									<value value="5"/>
 									<unit value="g"/>
+									<system value="http://unitsofmeasure.org"/> 
+									<code value="g"/>
 								</amount>
 							</containedItem>
 						</package>
@@ -236,6 +238,8 @@
 								<amount>
 									<value value="20"/>
 									<unit value="ml"/>
+									<system value="http://unitsofmeasure.org"/> 
+									<code value="mL"/>
 								</amount>
 							</containedItem>
 						</package>

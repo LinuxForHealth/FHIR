@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "TestReport",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/TestReport",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "TestReport",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A summary of information based on the results of executing a TestScript.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -600,7 +600,7 @@
           ],
           "strength": "required",
           "description": "The current status of the test script execution.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -683,7 +683,7 @@
           ],
           "strength": "required",
           "description": "The overall execution result of the TestScript.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-CIBUILD"
         }
       },
       {
@@ -998,7 +998,7 @@
           ],
           "strength": "required",
           "description": "The type of participant.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1618,7 +1618,7 @@
           ],
           "strength": "required",
           "description": "The result of the execution of an individual action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
         }
       },
       {
@@ -1889,7 +1889,7 @@
           ],
           "strength": "required",
           "description": "The result of the execution of an individual action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
         }
       },
       {
@@ -2886,7 +2886,7 @@
           ],
           "strength": "required",
           "description": "The current status of the test script execution.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2939,7 +2939,7 @@
           ],
           "strength": "required",
           "description": "The overall execution result of the TestScript.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-CIBUILD"
         }
       },
       {
@@ -3043,7 +3043,7 @@
           ],
           "strength": "required",
           "description": "The type of participant.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3167,7 +3167,7 @@
           ],
           "strength": "required",
           "description": "The result of the execution of an individual action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
         }
       },
       {
@@ -3242,7 +3242,7 @@
           ],
           "strength": "required",
           "description": "The result of the execution of an individual action.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-CIBUILD"
         }
       },
       {

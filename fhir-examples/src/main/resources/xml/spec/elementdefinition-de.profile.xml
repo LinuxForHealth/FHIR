@@ -13,7 +13,7 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/elementdefinition-de"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="DataElement constraint on ElementDefinition data type"/>
   <status value="draft"/>
   <experimental value="false"/>
@@ -26,7 +26,7 @@
     </telecom>
   </contact>
   <description value="Identifies how the ElementDefinition data type is used when it appears within a data element"/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -481,7 +481,7 @@
           <valueString value="PropertyRepresentation"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -924,7 +924,7 @@
           <valueString value="DiscriminatorType"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1070,7 +1070,7 @@
           <valueString value="SlicingRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1660,7 +1660,7 @@
         <key value="eld-17"/>
         <severity value="error"/>
         <human value="targetProfile is only allowed if the type is Reference or canonical"/>
-        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39;) or targetProfile.empty()"/>
+        <expression value="(code=&#39;Reference&#39; or code = &#39;canonical&#39; or code = &#39;CodeableReference&#39;) or targetProfile.empty()"/>
         <xpath value="not(exists(f:targetProfile)) or (f:code/@value = &#39;Reference&#39;)"/>
         <source value="http://hl7.org/fhir/StructureDefinition/ElementDefinition"/>
       </constraint>
@@ -1928,7 +1928,7 @@
           <valueString value="AggregationMode"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1972,7 +1972,7 @@
           <valueString value="ReferenceVersionRules"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2064,6 +2064,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -2098,6 +2101,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -2309,6 +2315,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -2343,6 +2352,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -2493,6 +2505,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -2527,6 +2542,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -2810,6 +2828,9 @@
         <code value="CodeableConcept"/>
       </type>
       <type>
+        <code value="CodeableReference"/>
+      </type>
+      <type>
         <code value="Coding"/>
       </type>
       <type>
@@ -2844,6 +2865,9 @@
       </type>
       <type>
         <code value="Ratio"/>
+      </type>
+      <type>
+        <code value="RatioRange"/>
       </type>
       <type>
         <code value="Reference"/>
@@ -3293,7 +3317,7 @@
           <valueString value="ConstraintSeverity"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3436,7 +3460,7 @@
       <path value="ElementDefinition.mustSupport"/>
       <short value="If the element must be supported"/>
       <definition value="If true, implementations that produce or consume resources SHALL provide &quot;support&quot; for the element in some meaningful way.  If false, the element may be ignored and not supported. If false, whether to populate or use the data element in any way is at the discretion of the implementation."/>
-      <comment value="&quot;Something useful&quot; is context dependent and impossible to describe in the base FHIR specification. For this reason, tue mustSupport flag is never set to true by the FHIR specification itself - it is only set to true in profiles.  A profile on a type can always make musSupport = true if it is false in the base type but cannot make mustSupport = false if it is true in the base type.   This is done in [Resource Profiles](http://hl7.org/fhir/profiling.html#mustsupport), where the profile labels an element as mustSupport=true. When a profile does this, it SHALL also make clear exactly what kind of &quot;support&quot; is required, as this can mean many things.    Note that an element that has the property IsModifier is not necessarily a &quot;key&quot; element (e.g. one of the important elements to make use of the resource), nor is it automatically mustSupport - however both of these things are more likely to be true for IsModifier elements than for other elements."/>
+      <comment value="&quot;Something useful&quot; is context dependent and impossible to describe in the base FHIR specification. For this reason, tue mustSupport flag is never set to true by the FHIR specification itself - it is only set to true in profiles.  A profile on a type can always make musSupport = true if it is false in the base type but cannot make mustSupport = false if it is true in the base type.   This is done in [Resource Profiles](profiling.html#mustsupport), where the profile labels an element as mustSupport=true. When a profile does this, it SHALL also make clear exactly what kind of &quot;support&quot; is required, as this can mean many things.    Note that an element that has the property IsModifier is not necessarily a &quot;key&quot; element (e.g. one of the important elements to make use of the resource), nor is it automatically mustSupport - however both of these things are more likely to be true for IsModifier elements than for other elements."/>
       <requirements value="Allows a profile to set expectations for system capabilities beyond merely respecting cardinality constraints."/>
       <min value="0"/>
       <max value="1"/>
@@ -3734,7 +3758,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -4010,7 +4034,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

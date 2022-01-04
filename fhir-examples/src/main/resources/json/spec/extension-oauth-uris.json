@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "oauth-uris",
   "status": "active",
   "date": "2018-02-15",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Supports automated discovery of OAuth2 endpoints.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -1057,6 +1057,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -1091,6 +1094,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

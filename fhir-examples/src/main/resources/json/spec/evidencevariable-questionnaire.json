@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for EvidenceVariable.characteristic.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:b978c60d-9126-43a4-bb92-6f34513666f8",
-        "timestamp": "2021-12-06T19:03:13+00:00",
+        "identifier": "urn:uuid:5bf00713-2c3d-4e8d-93fd-d9b8bd5eb8e1",
+        "timestamp": "2022-01-01T15:24:31+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -47,8 +47,8 @@
       "status": "active",
       "description": "Type options for EvidenceVariable.category.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:be22d955-6e85-4147-a37b-b6b6b7a32549",
-        "timestamp": "2021-12-06T19:03:13+00:00",
+        "identifier": "urn:uuid:75116575-b2f0-439c-9876-325f5b0e6bb2",
+        "timestamp": "2022-01-01T15:24:31+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -74,9 +74,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -87,6 +87,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "EvidenceVariable-display",
           "text": "The EvidenceVariable may be an exposure variable (intervention, condition, or state), a measured variable (outcome or observed parameter), or other variable (such as confounding factor).",
           "type": "display"
         },
@@ -105,6 +106,7 @@
               }
             }
           ],
+          "linkId": "EvidenceVariable-flyover",
           "text": "The EvidenceVariable resource describes an element that knowledge (Evidence) is about.",
           "type": "display"
         },
@@ -139,6 +141,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -179,6 +182,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -215,6 +219,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -258,6 +263,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -299,6 +305,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -326,6 +333,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -353,6 +361,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -380,6 +389,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -416,6 +426,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.url-flyover",
               "text": "An absolute URI that is used to identify this evidence variable when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this evidence variable is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the evidence variable is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
@@ -456,6 +467,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.identifier-flyover",
               "text": "A formal identifier that is used to identify this evidence variable when it is represented in other formats, or referenced in a specification, model, design or an instance. Typically, this is used for identifiers that can go in an HL7 V3 II (instance identifier) data type, and can then identify this evidence variable outside of FHIR, where it is not possible to use the logical URI.",
               "type": "display"
             },
@@ -513,6 +525,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.version-flyover",
               "text": "The identifier that is used to identify this version of the evidence variable when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the evidence variable author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. To provide a version consistent with the Decision Support Service specification, use the format Major.Minor.Revision (e.g. 1.0.0). For more information on versioning knowledge assets, refer to the Decision Support Service specification. Note that a version is required for non-experimental active artifacts. There may be different evidence variable instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the evidence variable with the format [url]|[version].",
               "type": "display"
             },
@@ -556,6 +569,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.name-flyover",
               "text": "A natural language name identifying the evidence variable. This name should be usable as an identifier for the module by machine processing applications such as code generation. The name is not expected to be globally unique. The name should be a simple alphanumeric type name to ensure that it is machine-processing friendly.",
               "type": "display"
             },
@@ -599,6 +613,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.title-flyover",
               "text": "A short, descriptive, user-friendly title for the evidence variable. This name does not need to be machine-processing friendly and may contain punctuation, white-space, etc.",
               "type": "display"
             },
@@ -642,6 +657,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.shortTitle-flyover",
               "text": "The short title provides an alternate title for use in informal descriptive contexts where the full, formal title is not necessary.",
               "type": "display"
             },
@@ -685,6 +701,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.subtitle-flyover",
               "text": "An explanatory or alternate title for the EvidenceVariable giving additional information about its content.",
               "type": "display"
             },
@@ -732,6 +749,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.status-flyover",
               "text": "The status of this evidence variable. Enables tracking the life-cycle of the content. Allows filtering of evidence variables that are appropriate for use versus not.",
               "type": "display"
             },
@@ -776,6 +794,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.date-flyover",
               "text": "The date  (and optionally time) when the evidence variable was published. The date must change when the business version changes and it must change if the status code changes. In addition, it should change when the substantive content of the evidence variable changes. Note that this is not the same as the resource last-modified-date, since the resource may be a secondary representation of the evidence variable. Additional specific dates may be added as extensions or be found by consulting Provenances associated with past versions of the resource.",
               "type": "display"
             },
@@ -819,6 +838,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.description-flyover",
               "text": "A free text natural language description of the evidence variable from a consumer\u0027s perspective. This description can be used to capture details such as why the evidence variable was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the evidence variable as conveyed in the \u0027text\u0027 field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the evidence variable is presumed to be the predominant language in the place the evidence variable was created).",
               "type": "display"
             },
@@ -859,6 +879,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.note-flyover",
               "text": "A human-readable string to clarify or explain concepts about the resource.",
               "type": "display"
             }
@@ -872,6 +893,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.useContext-display",
               "text": "When multiple useContexts are specified, there is no expectation that all or any of the contexts apply.",
               "type": "display"
             },
@@ -890,6 +912,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and may be used to assist with indexing and searching for appropriate evidence variable instances.",
               "type": "display"
             }
@@ -926,6 +949,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.publisher-flyover",
               "text": "The name of the organization or individual that published the evidence variable. Usually an organization but may be an individual. The publisher (or steward) of the evidence variable is the organization or individual primarily responsible for the maintenance and upkeep of the evidence variable. This is not necessarily the same individual or organization that developed and initially authored the content. The publisher is the primary point of contact for questions or issues with the evidence variable. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -946,6 +970,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.contact-display",
               "text": "Extensions to ContactDetail include: contactReference, contactAddress, and contributionTime (Details at: http://build.fhir.org/clinicalreasoning-module.html).",
               "type": "display"
             },
@@ -964,6 +989,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -977,6 +1003,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.author-display",
               "text": "Extensions to ContactDetail include: contactReference, contactAddress, and contributionTime (Details at: http://build.fhir.org/clinicalreasoning-module.html).",
               "type": "display"
             },
@@ -995,6 +1022,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.author-flyover",
               "text": "An individiual or organization primarily involved in the creation and maintenance of the content.",
               "type": "display"
             }
@@ -1008,6 +1036,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.editor-display",
               "text": "Extensions to ContactDetail include: contactReference, contactAddress, and contributionTime (Details at: http://build.fhir.org/clinicalreasoning-module.html).",
               "type": "display"
             },
@@ -1026,6 +1055,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.editor-flyover",
               "text": "An individual or organization primarily responsible for internal coherence of the content.",
               "type": "display"
             }
@@ -1039,6 +1069,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.reviewer-display",
               "text": "Extensions to ContactDetail include: contactReference, contactAddress, and contributionTime (Details at: http://build.fhir.org/clinicalreasoning-module.html).",
               "type": "display"
             },
@@ -1057,6 +1088,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.reviewer-flyover",
               "text": "An individual or organization primarily responsible for review of some aspect of the content.",
               "type": "display"
             }
@@ -1070,6 +1102,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.endorser-display",
               "text": "Extensions to ContactDetail include: contactReference, contactAddress, and contributionTime (Details at: http://build.fhir.org/clinicalreasoning-module.html).",
               "type": "display"
             },
@@ -1088,6 +1121,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.endorser-flyover",
               "text": "An individual or organization responsible for officially endorsing the content for use in some setting.",
               "type": "display"
             }
@@ -1101,6 +1135,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.relatedArtifact-display",
               "text": "Each related artifact is either an attachment, or a reference to another resource, but not both.",
               "type": "display"
             },
@@ -1119,6 +1154,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.relatedArtifact-flyover",
               "text": "Related artifacts such as additional documentation, justification, or bibliographic references.",
               "type": "display"
             }
@@ -1155,6 +1191,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.actual-flyover",
               "text": "True if the actual variable measured, false if a conceptual representation of the intended variable.",
               "type": "display"
             },
@@ -1198,6 +1235,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.characteristicCombination-flyover",
               "text": "Used to specify if two or more characteristics are combined with OR or AND.",
               "type": "display"
             },
@@ -1219,6 +1257,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "EvidenceVariable.characteristic-display",
               "text": "Characteristics can be defined flexibly to accommodate different use cases for membership criteria, ranging from simple codes, all the way to using an expression language to express the criteria.",
               "type": "display"
             },
@@ -1237,6 +1276,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.characteristic-flyover",
               "text": "A characteristic that defines the members of the evidence element. Multiple characteristics are applied with \"and\" semantics.",
               "type": "display"
             },
@@ -1271,6 +1311,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1305,6 +1346,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1332,6 +1374,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1368,6 +1411,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.description-flyover",
                   "text": "A short, natural language description of the characteristic that could be used to communicate the criteria to an end-user.",
                   "type": "display"
                 },
@@ -1412,6 +1456,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.definition[x]-flyover",
                   "text": "Define members of the evidence element using Codes (such as condition, medication, or observation), Expressions ( using an expression language such as FHIRPath or CQL) or DataRequirements (such as Diabetes diagnosis onset in the last year).",
                   "type": "display"
                 },
@@ -1519,6 +1564,7 @@
                               }
                             }
                           ],
+                          "linkId": "Expression-flyover",
                           "text": "A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
                           "type": "display"
                         },
@@ -1553,6 +1599,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -1587,6 +1634,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -1623,6 +1671,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.description-flyover",
                               "text": "A brief, natural language description of the condition that effectively communicates the intended semantics.",
                               "type": "display"
                             },
@@ -1666,6 +1715,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.name-flyover",
                               "text": "A short name assigned to the expression to allow for multiple reuse of the expression in the context where it is defined.",
                               "type": "display"
                             },
@@ -1713,6 +1763,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.language-flyover",
                               "text": "The media type of the language for the expression.",
                               "type": "display"
                             },
@@ -1757,6 +1808,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.expression-flyover",
                               "text": "An expression in the specified language that returns a value.",
                               "type": "display"
                             },
@@ -1800,6 +1852,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "Expression.reference-flyover",
                               "text": "A URI that defines where the expression is found. If both a reference and an expression is found, the reference SHALL point to the same expression.",
                               "type": "display"
                             },
@@ -1850,6 +1903,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.method-flyover",
                   "text": "Method used for describing characteristic.",
                   "type": "display"
                 },
@@ -1901,6 +1955,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.device-flyover",
                   "text": "Device used for determining characteristic.",
                   "type": "display"
                 },
@@ -1954,6 +2009,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.exclude-flyover",
                   "text": "When true, members with this characteristic are excluded from the element.",
                   "type": "display"
                 },
@@ -1994,6 +2050,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.timeFromStart-flyover",
                   "text": "Indicates duration, period, or point of observation from the participant\u0027s study entry.",
                   "type": "display"
                 },
@@ -2028,6 +2085,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2062,6 +2120,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2089,6 +2148,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2125,6 +2185,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.description-flyover",
                       "text": "A short, natural language description.",
                       "type": "display"
                     },
@@ -2169,6 +2230,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.quantity-flyover",
                       "text": "Used to express the observation at a defined amount of time after the study start.",
                       "type": "display"
                     },
@@ -2242,6 +2304,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.range-flyover",
                       "text": "Used to express the observation within a period after the study start.",
                       "type": "display"
                     },
@@ -2296,6 +2359,7 @@
                           }
                         }
                       ],
+                      "linkId": "EvidenceVariable.characteristic.timeFromStart.note-flyover",
                       "text": "A human-readable string to clarify or explain concepts about the resource.",
                       "type": "display"
                     }
@@ -2334,6 +2398,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.characteristic.groupMeasure-flyover",
                   "text": "Indicates how elements are aggregated within the study effective period.",
                   "type": "display"
                 },
@@ -2380,6 +2445,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.handling-flyover",
               "text": "Used for an outcome to classify.",
               "type": "display"
             },
@@ -2415,6 +2481,7 @@
                   }
                 }
               ],
+              "linkId": "EvidenceVariable.category-flyover",
               "text": "A grouping (or set of values) described along with other groupings to specify the set of groupings allowed for the variable.",
               "type": "display"
             },
@@ -2449,6 +2516,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.category.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2483,6 +2551,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.category.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2510,6 +2579,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.category.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2546,6 +2616,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.category.name-flyover",
                   "text": "A human-readable title or representation of the grouping.",
                   "type": "display"
                 },
@@ -2586,6 +2657,7 @@
                       }
                     }
                   ],
+                  "linkId": "EvidenceVariable.category.value[x]-flyover",
                   "text": "Value or set of values that define the grouping.",
                   "type": "display"
                 },

@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "system-restful-interaction",
   "meta": {
-    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "lastUpdated": "2022-01-02T02:17:18.597+11:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -36,7 +36,7 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.181"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "SystemRestfulInteraction",
   "title": "SystemRestfulInteraction",
   "status": "active",

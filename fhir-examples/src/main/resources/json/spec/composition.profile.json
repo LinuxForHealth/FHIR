@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Composition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Composition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Composition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "A set of healthcare-related information that is assembled together into a single logical package that provides a single coherent statement of meaning, establishes its own context and that has clinical attestation with regard to who is making the statement. A Composition defines the structure and narrative content necessary for a document. However, a Composition alone does not constitute a document. Rather, the Composition must be the first entry in a Bundle where Bundle.type\u003ddocument, and any other resources referenced from Composition must be included as subsequent entries in the Bundle (for example Patient, Practitioner, Encounter, etc.).",
   "purpose": "To support documents, and also to capture the EN13606 notion of an attested commit to the patient EHR, and to allow a set of disparate resources at the information/engineering level to be gathered into a clinical statement.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -600,7 +600,7 @@
           ],
           "strength": "required",
           "description": "The workflow/clinical status of the composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1315,7 +1315,7 @@
           ],
           "strength": "required",
           "description": "The way in which a person authenticated a composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1695,7 +1695,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2574,7 +2574,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2894,7 +2894,7 @@
           ],
           "strength": "required",
           "description": "The workflow/clinical status of the composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3323,7 +3323,7 @@
           ],
           "strength": "required",
           "description": "The way in which a person authenticated a composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3492,7 +3492,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3921,7 +3921,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {

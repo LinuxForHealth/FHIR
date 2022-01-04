@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Immunization.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:647de7c2-2280-4305-b14d-4df221e902f9",
-        "timestamp": "2021-12-06T19:03:24+00:00",
+        "identifier": "urn:uuid:f768570f-e4a7-4592-9fc9-e83bf746d105",
+        "timestamp": "2022-01-01T15:24:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.doseNumber[x]",
       "expansion": {
-        "identifier": "urn:uuid:2e717de1-a509-4b03-8ecf-bd7740215e85",
-        "timestamp": "2021-12-06T19:03:24+00:00",
+        "identifier": "urn:uuid:36afc1f9-e547-4627-8793-674f0984bba2",
+        "timestamp": "2022-01-01T15:24:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for Immunization.protocolApplied.seriesDoses[x]",
       "expansion": {
-        "identifier": "urn:uuid:8bfa7095-5f5c-4707-87b5-bb1c7f8d5dae",
-        "timestamp": "2021-12-06T19:03:24+00:00",
+        "identifier": "urn:uuid:d25a79a8-c96c-4622-934a-4f63255c6a5e",
+        "timestamp": "2022-01-01T15:24:42+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Public Health and Emergency Response)",
   "item": [
     {
@@ -104,6 +104,7 @@
               }
             }
           ],
+          "linkId": "Immunization-flyover",
           "text": "Describes the event of a patient being administered a vaccine or a record of an immunization as reported by a patient, a clinician or another party.",
           "type": "display"
         },
@@ -138,6 +139,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -178,6 +180,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -214,6 +217,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -257,6 +261,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -298,6 +303,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -325,6 +331,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -352,6 +359,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -379,6 +387,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -412,6 +421,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.identifier-flyover",
               "text": "A unique identifier assigned to this immunization record.",
               "type": "display"
             },
@@ -473,6 +483,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.status-flyover",
               "text": "Indicates the current status of the immunization event. Will generally be set to show that the immunization has been completed or not done.  This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -518,6 +529,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.statusReason-flyover",
               "text": "Indicates the reason the immunization event was not performed. This is generally only used for the status of \"not-done\". The reason for performing the immunization event is captured in reasonCode, not here.",
               "type": "display"
             },
@@ -574,6 +586,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.vaccineCode-flyover",
               "text": "Vaccine that was administered or was to be administered.",
               "type": "display"
             },
@@ -629,6 +642,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.patient-flyover",
               "text": "The patient who either received or did not receive the immunization.",
               "type": "display"
             },
@@ -682,6 +696,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.encounter-flyover",
               "text": "The visit or admission or other contact between patient and health care provider the immunization was performed as part of.",
               "type": "display"
             },
@@ -736,6 +751,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.occurrence[x]-flyover",
               "text": "Date vaccine administered or was to be administered. When immunizations are given a specific date and time should always be known.   When immunizations are patient reported, a specific date might not be known.  Although partial dates are allowed, an adult patient might not be able to recall the year a childhood immunization was given. An exact date is always preferable, but the use of the String data type is acceptable when an exact date is not known. A small number of vaccines (e.g. live oral typhoid vaccine) are given as a series of patient self-administered dose over a span of time. In cases like this, often, only the first dose (typically a provider supervised dose) is recorded with the occurrence indicating the date/time of the first dose.",
               "type": "display"
             },
@@ -819,6 +835,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.recorded-flyover",
               "text": "The date the occurrence of the immunization was first captured in the record - potentially significantly after the occurrence of the event.",
               "type": "display"
             },
@@ -862,6 +879,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.primarySource-flyover",
               "text": "An indication that the content of the record is based on information from the person who administered the vaccine. This reflects the context under which the data was originally recorded. Reflects the “reliability” of the content.",
               "type": "display"
             },
@@ -906,6 +924,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.reportOrigin-flyover",
               "text": "The source of the data when the report of the immunization event is not based on information from the person who administered the vaccine. Should not be populated if primarySource \u003d True, not required even if primarySource \u003d False.",
               "type": "display"
             },
@@ -957,6 +976,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.location-flyover",
               "text": "The service delivery location where the vaccine administration occurred.",
               "type": "display"
             },
@@ -1010,6 +1030,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.manufacturer-flyover",
               "text": "Name of vaccine manufacturer.",
               "type": "display"
             },
@@ -1063,6 +1084,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.lotNumber-flyover",
               "text": "Lot number of the  vaccine product.",
               "type": "display"
             },
@@ -1106,6 +1128,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.expirationDate-flyover",
               "text": "Date vaccine batch expires.",
               "type": "display"
             },
@@ -1150,6 +1173,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.site-flyover",
               "text": "Body site where vaccine was administered.",
               "type": "display"
             },
@@ -1202,6 +1226,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.route-flyover",
               "text": "The path by which the vaccine product is taken into the body.",
               "type": "display"
             },
@@ -1254,6 +1279,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.doseQuantity-flyover",
               "text": "The quantity of vaccine product that was administered.",
               "type": "display"
             },
@@ -1317,6 +1343,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.performer-flyover",
               "text": "Indicates who performed the immunization event.",
               "type": "display"
             },
@@ -1351,6 +1378,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.performer.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1385,6 +1413,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.performer.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1412,6 +1441,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.performer.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1449,6 +1479,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.performer.function-flyover",
                   "text": "Describes the type of performance (e.g. ordering provider, administering provider, etc.).",
                   "type": "display"
                 },
@@ -1504,6 +1535,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.performer.actor-flyover",
                   "text": "The practitioner or organization who performed the action. When the individual practitioner who performed the action is known, it is best to send.",
                   "type": "display"
                 },
@@ -1556,6 +1588,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.note-flyover",
               "text": "Extra information about the immunization that is not conveyed by the other attributes.",
               "type": "display"
             }
@@ -1589,6 +1622,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.reasonCode-flyover",
               "text": "Reasons why the vaccine was administered.",
               "type": "display"
             },
@@ -1636,6 +1670,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.reasonReference-flyover",
               "text": "Condition, Observation or DiagnosticReport that supports why the immunization was administered.",
               "type": "display"
             },
@@ -1689,6 +1724,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.isSubpotent-flyover",
               "text": "Indication if a dose is considered to be subpotent. By default, a dose should be considered to be potent. Typically, the recognition of the dose being sub-potent is retrospective, after the administration (ex. notification of a manufacturer recall after administration). However, in the case of a partial administration (the patient moves unexpectedly and only some of the dose is actually administered), subpotency may be recognized immediately, but it is still important to record the event.",
               "type": "display"
             },
@@ -1729,6 +1765,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.subpotentReason-flyover",
               "text": "Reason why a dose is considered to be subpotent.",
               "type": "display"
             },
@@ -1771,6 +1808,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.education-flyover",
               "text": "Educational material presented to the patient (or guardian) at the time of vaccine administration.",
               "type": "display"
             },
@@ -1805,6 +1843,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1839,6 +1878,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1866,6 +1906,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1902,6 +1943,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.documentType-flyover",
                   "text": "Identifier of the material presented to the patient.",
                   "type": "display"
                 },
@@ -1945,6 +1987,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.reference-flyover",
                   "text": "Reference pointer to the educational material given to the patient if the information was on line.",
                   "type": "display"
                 },
@@ -1988,6 +2031,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.publicationDate-flyover",
                   "text": "Date the educational material was published.",
                   "type": "display"
                 },
@@ -2031,6 +2075,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.education.presentationDate-flyover",
                   "text": "Date the educational material was given to the patient.",
                   "type": "display"
                 },
@@ -2073,6 +2118,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.programEligibility-flyover",
               "text": "Indicates a patient\u0027s eligibility for a funding program.",
               "type": "display"
             },
@@ -2125,6 +2171,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.fundingSource-flyover",
               "text": "Indicates the source of the vaccine actually administered. This may be different than the patient eligibility (e.g. the patient may be eligible for a publically purchased vaccine but due to inventory issues, vaccine purchased with private funds was actually administered).",
               "type": "display"
             },
@@ -2153,6 +2200,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Immunization.reaction-display",
               "text": "A reaction may be an indication of an allergy or intolerance and, if this is determined to be the case, it should be recorded as a new AllergyIntolerance resource instance as most systems will not query against past Immunization.reaction elements.",
               "type": "display"
             },
@@ -2171,6 +2219,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.reaction-flyover",
               "text": "Categorical data indicating that an adverse event is associated in time to an immunization.",
               "type": "display"
             },
@@ -2205,6 +2254,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2239,6 +2289,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2266,6 +2317,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2302,6 +2354,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.date-flyover",
                   "text": "Date of reaction to the immunization.",
                   "type": "display"
                 },
@@ -2345,6 +2398,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.detail-flyover",
                   "text": "Details of the reaction.",
                   "type": "display"
                 },
@@ -2398,6 +2452,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.reaction.reported-flyover",
                   "text": "Self-reported indicator.",
                   "type": "display"
                 },
@@ -2434,6 +2489,7 @@
                   }
                 }
               ],
+              "linkId": "Immunization.protocolApplied-flyover",
               "text": "The protocol (set of recommendations) being followed by the provider who administered the dose.",
               "type": "display"
             },
@@ -2468,6 +2524,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2502,6 +2559,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2529,6 +2587,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2565,6 +2624,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.series-flyover",
                   "text": "One possible path to achieve presumed immunity against a disease - within the context of an authority.",
                   "type": "display"
                 },
@@ -2608,6 +2668,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.authority-flyover",
                   "text": "Indicates the authority who published the protocol (e.g. ACIP) that is being followed.",
                   "type": "display"
                 },
@@ -2658,6 +2719,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.targetDisease-flyover",
                   "text": "The vaccine preventable disease the dose is being administered against.",
                   "type": "display"
                 },
@@ -2710,6 +2772,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.doseNumber[x]-flyover",
                   "text": "Nominal position in a series. The use of an integer is preferred if known. A string should only be used in cases where an integer is not available (such as when documenting a recurring booster dose).",
                   "type": "display"
                 },
@@ -2790,6 +2853,7 @@
                       }
                     }
                   ],
+                  "linkId": "Immunization.protocolApplied.seriesDoses[x]-flyover",
                   "text": "The recommended number of doses to achieve immunity. The use of an integer is preferred if known. A string should only be used in cases where an integer is not available (such as when documenting a recurring booster dose).",
                   "type": "display"
                 },

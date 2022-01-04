@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MedicationAdministration",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MedicationAdministration",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MedicationAdministration",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Describes the event of a patient consuming or otherwise being administered a medication.  This may be as simple as swallowing a tablet or it may be a long running infusion.  Related resources tie this event to the authorizing prescription, and the specific encounter between patient and health care practitioner.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -667,7 +667,7 @@
           ],
           "strength": "required",
           "description": "A set of codes indicating the current status of a MedicationAdministration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medication-admin-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2246,7 +2246,7 @@
           ],
           "strength": "required",
           "description": "A set of codes indicating the current status of a MedicationAdministration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medication-admin-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

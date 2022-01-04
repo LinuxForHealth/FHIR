@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.enableWhen.answer[x]",
       "expansion": {
-        "identifier": "urn:uuid:46b81805-1a23-4bf1-bd7b-94f47c195064",
-        "timestamp": "2021-12-06T19:04:22+00:00",
+        "identifier": "urn:uuid:c6925d40-19d5-4324-9de9-bfc29e178415",
+        "timestamp": "2022-01-01T15:25:41+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -72,8 +72,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.answerOption.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:10694117-48cc-48ec-ae6e-8a0618525da0",
-        "timestamp": "2021-12-06T19:04:22+00:00",
+        "identifier": "urn:uuid:6e61b5af-6f20-4d74-a790-43967d05319a",
+        "timestamp": "2022-01-01T15:25:41+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -115,8 +115,8 @@
       "status": "active",
       "description": "Type options for Questionnaire.item.initial.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:5eb353e6-9bab-43e1-b6c8-65ba88072324",
-        "timestamp": "2021-12-06T19:04:22+00:00",
+        "identifier": "urn:uuid:087c25a0-0215-4756-9576-245ba6fc50a6",
+        "timestamp": "2022-01-01T15:25:41+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -187,9 +187,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -214,6 +214,7 @@
               }
             }
           ],
+          "linkId": "Questionnaire-flyover",
           "text": "A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.",
           "type": "display"
         },
@@ -248,6 +249,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -288,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -324,6 +327,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -367,6 +371,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -408,6 +413,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -435,6 +441,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -462,6 +469,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -489,6 +497,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -525,6 +534,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.url-flyover",
               "text": "An absolute URI that is used to identify this questionnaire when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this questionnaire is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the questionnaire is stored on different servers. The name of the referenced questionnaire can be conveyed using the http://hl7.org/fhir/StructureDefinition/display extension.",
               "type": "display"
             },
@@ -565,6 +575,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.identifier-flyover",
               "text": "A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced in a specification, model, design or an instance. Typically, this is used for identifiers that can go in an HL7 V3 II (instance identifier) data type, and can then identify this questionnaire outside of FHIR, where it is not possible to use the logical URI.",
               "type": "display"
             },
@@ -622,6 +633,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.version-flyover",
               "text": "The identifier that is used to identify this version of the questionnaire when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the questionnaire author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. There may be different questionnaire instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the questionnaire with the format [url]|[version].",
               "type": "display"
             },
@@ -665,6 +677,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.name-flyover",
               "text": "A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by machine processing applications such as code generation. The name is not expected to be globally unique. The name should be a simple alphanumeric type name to ensure that it is machine-processing friendly.",
               "type": "display"
             },
@@ -708,6 +721,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.title-flyover",
               "text": "A short, descriptive, user-friendly title for the questionnaire. This name does not need to be machine-processing friendly and may contain punctuation, white-space, etc.",
               "type": "display"
             },
@@ -747,6 +761,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.derivedFrom-flyover",
               "text": "The URL of a Questionnaire that this Questionnaire is based on.",
               "type": "display"
             },
@@ -794,6 +809,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.status-flyover",
               "text": "The status of this questionnaire. Enables tracking the life-cycle of the content. Allows filtering of questionnaires that are appropriate for use versus not.",
               "type": "display"
             },
@@ -838,6 +854,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.experimental-flyover",
               "text": "A Boolean value to indicate that this questionnaire is authored for testing purposes (or education/evaluation/marketing) and is not intended to be used for genuine usage. Allows filtering of questionnaires that are appropriate for use versus not.",
               "type": "display"
             },
@@ -877,6 +894,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.subjectType-flyover",
               "text": "The types of subjects that can be the subject of responses created for the questionnaire. If none are specified, then the subject is unlimited.",
               "type": "display"
             },
@@ -921,6 +939,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.date-flyover",
               "text": "The date  (and optionally time) when the questionnaire was published. The date must change when the business version changes and it must change if the status code changes. In addition, it should change when the substantive content of the questionnaire changes. Note that this is not the same as the resource last-modified-date, since the resource may be a secondary representation of the questionnaire. Additional specific dates may be added as extensions or be found by consulting Provenances associated with past versions of the resource.",
               "type": "display"
             },
@@ -964,6 +983,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.publisher-flyover",
               "text": "The name of the organization or individual that published the questionnaire. Usually an organization but may be an individual. The publisher (or steward) of the questionnaire is the organization or individual primarily responsible for the maintenance and upkeep of the questionnaire. This is not necessarily the same individual or organization that developed and initially authored the content. The publisher is the primary point of contact for questions or issues with the questionnaire. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -984,6 +1004,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Questionnaire.contact-display",
               "text": "May be a web site, an email address, a telephone number, etc.",
               "type": "display"
             },
@@ -1002,6 +1023,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -1038,6 +1060,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.description-flyover",
               "text": "A free text natural language description of the questionnaire from a consumer\u0027s perspective. This description can be used to capture details such as why the questionnaire was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the questionnaire as conveyed in the \u0027text\u0027 field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the questionnaire is presumed to be the predominant language in the place the questionnaire was created).",
               "type": "display"
             },
@@ -1058,6 +1081,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Questionnaire.useContext-display",
               "text": "When multiple useContexts are specified, there is no expectation that all or any of the contexts apply.",
               "type": "display"
             },
@@ -1076,6 +1100,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and may be used to assist with indexing and searching for appropriate questionnaire instances.",
               "type": "display"
             }
@@ -1109,6 +1134,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.jurisdiction-flyover",
               "text": "A legal or geographic region in which the questionnaire is intended to be used. It may be possible for the questionnaire to be used in jurisdictions other than those for which it was originally designed or intended.",
               "type": "display"
             },
@@ -1160,6 +1186,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.purpose-flyover",
               "text": "Explanation of why this questionnaire is needed and why it has been designed as it has. This element does not describe the usage of the questionnaire. Instead, it provides traceability of \u0027\u0027why\u0027\u0027 the resource is either needed or \u0027\u0027why\u0027\u0027 it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this questionnaire.",
               "type": "display"
             },
@@ -1203,6 +1230,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.copyright-flyover",
               "text": "A copyright statement relating to the questionnaire and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the questionnaire.",
               "type": "display"
             },
@@ -1246,6 +1274,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.approvalDate-flyover",
               "text": "The date on which the resource content was approved by the publisher. Approval happens once when the content is officially approved for usage. The \u0027date\u0027 element may be more recent than the approval date because of minor changes or editorial corrections.",
               "type": "display"
             },
@@ -1289,6 +1318,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.lastReviewDate-flyover",
               "text": "The date on which the resource content was last reviewed. Review happens periodically after approval but does not change the original approval date. If specified, this date follows the original approval date.",
               "type": "display"
             },
@@ -1333,6 +1363,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.effectivePeriod-flyover",
               "text": "The period during which the questionnaire content was or is planned to be in active use. The effective period for a questionnaire  determines when the content is applicable for usage and is independent of publication and review dates. For example, a measure intended to be used for the year 2016 might be published in 2015.",
               "type": "display"
             },
@@ -1379,6 +1410,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.code-flyover",
               "text": "An identifier for this question or group of questions in a particular terminology such as LOINC.",
               "type": "display"
             },
@@ -1400,6 +1432,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Questionnaire.item-display",
               "text": "The content of the questionnaire is constructed from an ordered, hierarchical collection of items.",
               "type": "display"
             },
@@ -1418,6 +1451,7 @@
                   }
                 }
               ],
+              "linkId": "Questionnaire.item-flyover",
               "text": "A particular question, question grouping or display text that is part of the questionnaire.",
               "type": "display"
             },
@@ -1452,6 +1486,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1486,6 +1521,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1513,6 +1549,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1553,6 +1590,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.linkId-flyover",
                   "text": "An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a QuestionnaireResponse resource. This \u0027\u0027can\u0027\u0027 be a meaningful identifier (e.g. a LOINC code) but is not intended to have any meaning.  GUIDs or sequential numbers are appropriate here.",
                   "type": "display"
                 },
@@ -1596,6 +1634,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.definition-flyover",
                   "text": "This element is a URI that refers to an [ElementDefinition](elementdefinition.html) that provides information about this item, including information that might otherwise be included in the instance of the Questionnaire resource. A detailed description of the construction of the URI is shown in Comments, below. If this element is present then the following element values MAY be derived from the Element Definition if the corresponding elements of this Questionnaire resource instance have no value:\n\n* code (ElementDefinition.code) \n* type (ElementDefinition.type) \n* required (ElementDefinition.min) \n* repeats (ElementDefinition.max) \n* maxLength (ElementDefinition.maxLength) \n* answerValueSet (ElementDefinition.binding)\n* options (ElementDefinition.binding). The uri refers to an ElementDefinition in a [StructureDefinition](structuredefinition.html#) and always starts with the [canonical URL](references.html#canonical) for the target resource. When referring to a StructureDefinition, a fragment identifier is used to specify the element definition by its id [Element.id](element-definitions.html#Element.id). E.g. http://hl7.org/fhir/StructureDefinition/Observation#Observation.value[x]. In the absence of a fragment identifier, the first/root element definition in the target is the matching element definition.",
                   "type": "display"
                 },
@@ -1635,6 +1674,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.code-flyover",
                   "text": "A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions and answers). The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -1679,6 +1719,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.prefix-flyover",
                   "text": "A short label for a particular group, question or set of display text within the questionnaire used for reference by the individual completing the questionnaire. These are generally unique within a questionnaire, though this is not guaranteed. Some questionnaires may have multiple questions with the same label with logic to control which gets exposed.  Typically, these won\u0027t be used for \"display\" items, though such use is not prohibited.  Systems SHOULD NOT generate their own prefixes if prefixes are defined for any items within a Questionnaire.",
                   "type": "display"
                 },
@@ -1722,6 +1763,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.text-flyover",
                   "text": "The name of a section, the text of a question or text content for a display item. When using this element to represent the name of a section, use group type item and also make sure to limit the text element to a short string suitable for display as a section heading.  Group item instructions should be included as a display type item within the group.",
                   "type": "display"
                 },
@@ -1769,6 +1811,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.type-flyover",
                   "text": "The type of questionnaire item this is - whether text for display, a grouping of other items or a particular type of data to be captured (string, integer, coded choice, etc.). Additional constraints on the type of answer can be conveyed by extensions. The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -1790,6 +1833,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Questionnaire.item.enableWhen-display",
                   "text": "If multiple repetitions of this extension are present, the item should be enabled when the condition for *any* of the repetitions is true.  I.e. treat \"enableWhen\"s as being joined by an \"or\" clause.  This element is a modifier because if enableWhen is present for an item, \"required\" is ignored unless one of the enableWhen conditions is met. When an item is disabled, all of its descendants are disabled, regardless of what their own enableWhen logic might evaluate to.",
                   "type": "display"
                 },
@@ -1808,6 +1852,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.enableWhen-flyover",
                   "text": "A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the specified condition is true.",
                   "type": "display"
                 },
@@ -1842,6 +1887,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1876,6 +1922,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1903,6 +1950,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1943,6 +1991,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.question-flyover",
                       "text": "The linkId for the question whose answer (or lack of answer) governs whether this item is enabled. If multiple question occurrences are present for the same question (same linkId), then this refers to the nearest question occurrence reachable by tracing first the \"ancestor\" axis and then the \"preceding\" axis and then the \"following\" axis.",
                       "type": "display"
                     },
@@ -1990,6 +2039,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.operator-flyover",
                       "text": "Specifies the criteria by which the question is enabled.",
                       "type": "display"
                     },
@@ -2035,6 +2085,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.enableWhen.answer[x]-flyover",
                       "text": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
                       "type": "display"
                     },
@@ -2305,6 +2356,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.enableBehavior-flyover",
                   "text": "Controls how multiple enableWhen values are interpreted -  whether all or any must be true. This element must be specified if more than one enableWhen value is provided.",
                   "type": "display"
                 },
@@ -2349,6 +2401,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.required-flyover",
                   "text": "An indication, if true, that the item must be present in a \"completed\" QuestionnaireResponse.  If false, the item may be skipped when answering the questionnaire. Questionnaire.item.required only has meaning for elements that are conditionally enabled with enableWhen if the condition evaluates to true.  If an item that contains other items is marked as required, that does not automatically make the contained elements required (though required groups must contain at least one child element). The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -2392,6 +2445,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.repeats-flyover",
                   "text": "An indication, if true, that the item may occur multiple times in the response, collecting multiple answers for questions or multiple sets of answers for groups. If a question is marked as repeats\u003dtrue, then multiple answers can be provided for the question in the corresponding QuestionnaireResponse.  When rendering the questionnaire, it is up to the rendering software whether to render the question text for each answer repetition (i.e. \"repeat the question\") or to simply allow entry/selection of multiple answers for the question (repeat the answers).  Which is most appropriate visually may depend on the type of answer as well as whether there are nested items.\n\nThe resulting QuestionnaireResponse will be populated the same way regardless of rendering - one \u0027question\u0027 item with multiple answer values.\n\n The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -2435,6 +2489,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.readOnly-flyover",
                   "text": "An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire. The value of readOnly elements can be established by asserting  extensions for defaultValues, linkages that support pre-population and/or extensions that support calculation based on other answers.",
                   "type": "display"
                 },
@@ -2478,6 +2533,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.maxLength-flyover",
                   "text": "The maximum number of characters that are permitted in the answer to be considered a \"valid\" QuestionnaireResponse. For base64binary, reflects the number of characters representing the encoded data, not the number of bytes of the binary data. The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -2521,6 +2577,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.answerValueSet-flyover",
                   "text": "A reference to a value set containing a list of codes representing permitted answers for a \"choice\" or \"open-choice\" question. LOINC defines many useful value sets for questionnaire responses. See [LOINC Answer Lists](loinc.html#alist). The value may come from the ElementDefinition referred to by .definition.",
                   "type": "display"
                 },
@@ -2541,6 +2598,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Questionnaire.item.answerOption-display",
                   "text": "This element can be used when the value set machinery of answerValueSet is deemed too cumbersome or when there\u0027s a need to capture possible answers that are not codes.",
                   "type": "display"
                 },
@@ -2559,6 +2617,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.answerOption-flyover",
                   "text": "One of the permitted answers for a \"choice\" or \"open-choice\" question.",
                   "type": "display"
                 },
@@ -2593,6 +2652,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.answerOption.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2627,6 +2687,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.answerOption.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2654,6 +2715,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.answerOption.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2691,6 +2753,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.answerOption.value[x]-flyover",
                       "text": "A potential answer that\u0027s allowed as the answer to this question. The data type of the value must agree with the item.type.",
                       "type": "display"
                     },
@@ -2857,6 +2920,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.answerOption.initialSelected-flyover",
                       "text": "Indicates whether the answer value is selected when the list of possible answers is initially shown. Use this instead of initial[v] if answerValueSet is present.",
                       "type": "display"
                     },
@@ -2879,6 +2943,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Questionnaire.item.initial-display",
                   "text": "The user is allowed to change the value and override the default (unless marked as read-only). If the user doesn\u0027t change the value, then this initial value will be persisted when the QuestionnaireResponse is initially created.  Note that initial values can influence results.  The data type of initial[x] must agree with the item.type, and only repeating items can have more then one initial value.",
                   "type": "display"
                 },
@@ -2897,6 +2962,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.initial-flyover",
                   "text": "One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user input.",
                   "type": "display"
                 },
@@ -2931,6 +2997,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.initial.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2965,6 +3032,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.initial.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2992,6 +3060,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.initial.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3029,6 +3098,7 @@
                           }
                         }
                       ],
+                      "linkId": "Questionnaire.item.initial.value[x]-flyover",
                       "text": "The actual value to for an initial answer. The type of the initial value must be consistent with the type of the item.",
                       "type": "display"
                     },
@@ -3304,6 +3374,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Questionnaire.item.item-display",
                   "text": "There is no specified limit to the depth of nesting.  However, Questionnaire authors are encouraged to consider the impact on the user and user interface of overly deep nesting.",
                   "type": "display"
                 },
@@ -3322,6 +3393,7 @@
                       }
                     }
                   ],
+                  "linkId": "Questionnaire.item.item-flyover",
                   "text": "Text, questions and other groups to be nested beneath a question or group.",
                   "type": "display"
                 }

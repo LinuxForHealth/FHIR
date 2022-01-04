@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/RelatedArtifact",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "RelatedArtifact",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -29,7 +29,7 @@
   ],
   "description": "Base StructureDefinition for RelatedArtifact Type: Related artifacts such as additional documentation, justification, or bibliographic references.",
   "purpose": "Knowledge resources must be able to provide enough information for consumers of the content (and/or interventions or results produced by the content) to be able to determine and understand the justification for and evidence in support of the content.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -219,7 +219,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/related-artifact-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/related-artifact-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -452,7 +452,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/related-artifact-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/related-artifact-type|4.3.0-CIBUILD"
         }
       },
       {
