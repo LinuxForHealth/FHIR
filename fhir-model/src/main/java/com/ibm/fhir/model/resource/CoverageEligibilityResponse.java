@@ -71,7 +71,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
     )
     @Required
     private final EligibilityResponseStatus status;
@@ -80,7 +80,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "EligibilityResponsePurpose",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
-        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.3.0-CIBUILD"
     )
     @Required
     private final List<EligibilityResponsePurpose> purpose;
@@ -104,7 +104,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-CIBUILD"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -884,7 +884,7 @@ public class CoverageEligibilityResponse extends DomainResource {
          * <p>This element is required.
          * 
          * @param outcome
-         *     complete | error | partial
+         *     queued | complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance

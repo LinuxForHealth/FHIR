@@ -64,7 +64,7 @@ public class GuidanceResponse extends DomainResource {
         bindingName = "GuidanceResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a guidance response.",
-        valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.3.0-CIBUILD"
     )
     @Required
     private final GuidanceResponseStatus status;

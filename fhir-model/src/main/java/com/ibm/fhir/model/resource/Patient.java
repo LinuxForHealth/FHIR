@@ -107,7 +107,7 @@ public class Patient extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -1335,7 +1335,7 @@ public class Patient extends DomainResource {
             bindingName = "AdministrativeGender",
             strength = BindingStrength.Value.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         )
         private final AdministrativeGender gender;
         @ReferenceTarget({ "Organization" })
@@ -1834,7 +1834,7 @@ public class Patient extends DomainResource {
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.Value.PREFERRED,
-            description = "A human language.",
+            description = "IETF language tag",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
@@ -2154,7 +2154,7 @@ public class Patient extends DomainResource {
             bindingName = "LinkType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.3.0-CIBUILD"
         )
         @Required
         private final LinkType type;

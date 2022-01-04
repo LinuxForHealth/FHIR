@@ -12,14 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-disability",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "disability",
     "title": "disability",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Value(s) identifying physical or mental condition(s) that limits a person's movements, senses, or activities.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -95,7 +95,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -179,7 +179,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

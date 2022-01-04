@@ -98,7 +98,7 @@ public class Coverage extends DomainResource {
         bindingName = "CoverageStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
     )
     @Required
     private final CoverageStatus status;

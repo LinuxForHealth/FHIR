@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "heartrate",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/heartrate",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "observation-heartrate",
     "title": "Observation Heart Rate Profile",
     "status": "draft",
@@ -42,7 +42,7 @@
         }
     ],
     "description": "FHIR Heart Rate Profile",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -225,7 +225,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -908,7 +908,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1013,7 +1013,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1049,7 +1049,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1155,7 +1155,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1200,7 +1200,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1253,7 +1253,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1308,7 +1308,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1354,7 +1354,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1410,7 +1410,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1524,7 +1524,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1642,7 +1642,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1689,7 +1689,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1725,7 +1725,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1830,7 +1830,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1875,7 +1875,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1927,7 +1927,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -1982,7 +1982,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2028,7 +2028,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2084,7 +2084,7 @@
                     }
                 ],
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2586,7 +2586,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2691,7 +2691,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2734,7 +2734,7 @@
                 ],
                 "isModifier": true,
                 "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
-                "isSummary": true,
+                "isSummary": false,
                 "binding": {
                     "extension": [
                         {
@@ -2747,7 +2747,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -2800,7 +2800,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2846,7 +2846,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -2896,7 +2896,7 @@
                 ],
                 "mustSupport": true,
                 "isModifier": false,
-                "isSummary": true,
+                "isSummary": false,
                 "mapping": [
                     {
                         "identity": "v2",
@@ -3371,7 +3371,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3943,7 +3943,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

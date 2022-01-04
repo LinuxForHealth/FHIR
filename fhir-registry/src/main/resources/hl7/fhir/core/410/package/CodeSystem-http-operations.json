@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "http-operations",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>TestScriptRequestMethodCode</h2>\n      \n      <div>\n        \n        <p>The allowable request method or HTTP operation codes.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/http-operations defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">delete\n            \n            <a name=\"http-operations-delete\"> </a>\n          \n          </td>\n          \n          <td>DELETE</td>\n          \n          <td>HTTP DELETE operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">get\n            \n            <a name=\"http-operations-get\"> </a>\n          \n          </td>\n          \n          <td>GET</td>\n          \n          <td>HTTP GET operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">options\n            \n            <a name=\"http-operations-options\"> </a>\n          \n          </td>\n          \n          <td>OPTIONS</td>\n          \n          <td>HTTP OPTIONS operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">patch\n            \n            <a name=\"http-operations-patch\"> </a>\n          \n          </td>\n          \n          <td>PATCH</td>\n          \n          <td>HTTP PATCH operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">post\n            \n            <a name=\"http-operations-post\"> </a>\n          \n          </td>\n          \n          <td>POST</td>\n          \n          <td>HTTP POST operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">put\n            \n            <a name=\"http-operations-put\"> </a>\n          \n          </td>\n          \n          <td>PUT</td>\n          \n          <td>HTTP PUT operation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">head\n            \n            <a name=\"http-operations-head\"> </a>\n          \n          </td>\n          \n          <td>HEAD</td>\n          \n          <td>HTTP HEAD operation.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.717"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "TestScriptRequestMethodCode",
     "title": "TestScriptRequestMethodCode",
     "status": "draft",

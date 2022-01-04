@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "guidance-response-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>GuidanceResponseStatus</h2>\n      \n      <div>\n        \n        <p>The status of a guidance response.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/guidance-response-status defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">success\n            \n            <a name=\"guidance-response-status-success\"> </a>\n          \n          </td>\n          \n          <td>Success</td>\n          \n          <td>The request was processed successfully.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">data-requested\n            \n            <a name=\"guidance-response-status-data-requested\"> </a>\n          \n          </td>\n          \n          <td>Data Requested</td>\n          \n          <td>The request was processed successfully, but more data may result in a more complete evaluation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">data-required\n            \n            <a name=\"guidance-response-status-data-required\"> </a>\n          \n          </td>\n          \n          <td>Data Required</td>\n          \n          <td>The request was processed, but more data is required to complete the evaluation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">in-progress\n            \n            <a name=\"guidance-response-status-in-progress\"> </a>\n          \n          </td>\n          \n          <td>In Progress</td>\n          \n          <td>The request is currently being processed.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">failure\n            \n            <a name=\"guidance-response-status-failure\"> </a>\n          \n          </td>\n          \n          <td>Failure</td>\n          \n          <td>The request was not processed successfully.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            <a name=\"guidance-response-status-entered-in-error\"> </a>\n          \n          </td>\n          \n          <td>Entered In Error</td>\n          \n          <td>The response was entered in error.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.818"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "GuidanceResponseStatus",
     "title": "GuidanceResponseStatus",
     "status": "draft",

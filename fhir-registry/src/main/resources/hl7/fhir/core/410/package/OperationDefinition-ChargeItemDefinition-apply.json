@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "ChargeItemDefinition-apply",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>apply</h2><p>OPERATION: apply</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/ChargeItemDefinition-apply</pre><div><p>The apply operation applies a definition in a specific context</p>\n</div><p>URL: [base]/ChargeItemDefinition/[id]/$apply</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>chargeItem</td><td>1..1</td><td><a href=\"references.html#Reference\">Reference</a></td><td/><td><div><p>The ChargeItem on which the definition is to ba applies</p>\n</div></td></tr><tr><td>IN</td><td>account</td><td>0..1</td><td><a href=\"references.html#Reference\">Reference</a></td><td/><td><div><p>The account in context, if any</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>Any</td><td/><td><div><p>The resource that is the result of applying the definition</p>\n</div></td></tr></table><div><p>The result of invoking this operation is a resource of the type specified by the activity definition, with all the definitions resolved as appropriate for the type of resource. Any dynamicValue elements will be evaluated (in the order in which they appear in the resource) and the results applied to the returned resource.  If the ActivityDefinition includes library references, those libraries will be available to the evaluated expressions. If those libraries have parameters, those parameters will be bound by name to the parameters given to the operation. For a more detailed description, refer to the ActivityDefinition resource</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/ChargeItemDefinition-apply",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "apply",
     "title": "Apply",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

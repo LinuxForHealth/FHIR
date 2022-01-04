@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "udi-entry-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>UDIEntryType</h2>\n      \n      <div>\n        \n        <p>Codes to identify how UDI data was entered.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/udi-entry-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">barcode\n            \n            <a name=\"udi-entry-type-barcode\"> </a>\n          \n          </td>\n          \n          <td>Barcode</td>\n          \n          <td>a barcodescanner captured the data from the device label.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">rfid\n            \n            <a name=\"udi-entry-type-rfid\"> </a>\n          \n          </td>\n          \n          <td>RFID</td>\n          \n          <td>An RFID chip reader captured the data from the device label.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">manual\n            \n            <a name=\"udi-entry-type-manual\"> </a>\n          \n          </td>\n          \n          <td>Manual</td>\n          \n          <td>The data was read from the label by a person and manually entered. (e.g.  via a keyboard).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">card\n            \n            <a name=\"udi-entry-type-card\"> </a>\n          \n          </td>\n          \n          <td>Card</td>\n          \n          <td>The data originated from a patient's implant card and was read by an operator.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">self-reported\n            \n            <a name=\"udi-entry-type-self-reported\"> </a>\n          \n          </td>\n          \n          <td>Self Reported</td>\n          \n          <td>The data originated from a patient source and was not directly scanned or read from a label or card.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">unknown\n            \n            <a name=\"udi-entry-type-unknown\"> </a>\n          \n          </td>\n          \n          <td>Unknown</td>\n          \n          <td>The method of data capture has not been determined.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.212"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "UDIEntryType",
     "title": "UDIEntryType",
     "status": "draft",

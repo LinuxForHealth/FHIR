@@ -167,11 +167,25 @@ public class FHIRVersion extends Code {
     public static final FHIRVersion VERSION_4_0_0 = FHIRVersion.builder().value(Value.VERSION_4_0_0).build();
 
     /**
-     * 4.1.0
+     * 4.0.1
      * 
      * <p>FHIR Release 4 Technical Correction.
      */
+    public static final FHIRVersion VERSION_4_0_1 = FHIRVersion.builder().value(Value.VERSION_4_0_1).build();
+
+    /**
+     * 4.1.0
+     * 
+     * <p>FHIR Release 4B Ballot #1.
+     */
     public static final FHIRVersion VERSION_4_1_0 = FHIRVersion.builder().value(Value.VERSION_4_1_0).build();
+
+    /**
+     * 4.3.0-CIBUILD
+     * 
+     * <p>FHIR Release 4B CI-Build.
+     */
+    public static final FHIRVersion VERSION_4_3_0_CIBUILD = FHIRVersion.builder().value(Value.VERSION_4_3_0_CIBUILD).build();
 
     private volatile int hashCode;
 
@@ -233,8 +247,12 @@ public class FHIRVersion extends Code {
             return VERSION_3_5_0;
         case VERSION_4_0_0:
             return VERSION_4_0_0;
+        case VERSION_4_0_1:
+            return VERSION_4_0_1;
         case VERSION_4_1_0:
             return VERSION_4_1_0;
+        case VERSION_4_3_0_CIBUILD:
+            return VERSION_4_3_0_CIBUILD;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -367,7 +385,6 @@ public class FHIRVersion extends Code {
     }
 
     public enum Value {
-        VERSION_4_0_1("4.0.1"),
         /**
          * 0.01
          * 
@@ -516,11 +533,25 @@ public class FHIRVersion extends Code {
         VERSION_4_0_0("4.0.0"),
 
         /**
-         * 4.1.0
+         * 4.0.1
          * 
          * <p>FHIR Release 4 Technical Correction.
          */
-        VERSION_4_1_0("4.1.0");
+        VERSION_4_0_1("4.0.1"),
+
+        /**
+         * 4.1.0
+         * 
+         * <p>FHIR Release 4B Ballot #1.
+         */
+        VERSION_4_1_0("4.1.0"),
+
+        /**
+         * 4.3.0-CIBUILD
+         * 
+         * <p>FHIR Release 4B CI-Build.
+         */
+        VERSION_4_3_0_CIBUILD("4.3.0-CIBUILD");
 
         private final java.lang.String value;
 
@@ -551,8 +582,6 @@ public class FHIRVersion extends Code {
                 return null;
             }
             switch (value) {
-            case "4.0.1":
-                return VERSION_4_0_1;
             case "0.01":
                 return VERSION_0_01;
             case "0.05":
@@ -595,8 +624,12 @@ public class FHIRVersion extends Code {
                 return VERSION_3_5_0;
             case "4.0.0":
                 return VERSION_4_0_0;
+            case "4.0.1":
+                return VERSION_4_0_1;
             case "4.1.0":
                 return VERSION_4_1_0;
+            case "4.3.0-CIBUILD":
+                return VERSION_4_3_0_CIBUILD;
             default:
                 throw new IllegalArgumentException(value);
             }

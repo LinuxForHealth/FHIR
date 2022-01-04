@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "artifact-relationship-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <ul>\n        \n        <li>Include all codes defined in \n          \n          <a href=\"codesystem-artifact-relationship-type.html\">\n            \n            <code>http://terminology.hl7.org/CodeSystem/artifact-relationship-type</code>\n          \n          </a>\n        \n        </li>\n      \n      </ul>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,11 +36,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ArtifactRelationshipType",
     "title": "ArtifactRelationshipType",
     "status": "draft",
-    "experimental": false,
+    "experimental": true,
     "date": "2021-03-11T10:55:11.085+11:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [

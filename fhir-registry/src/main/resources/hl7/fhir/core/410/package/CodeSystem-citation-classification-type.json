@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "citation-classification-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/citation-classification-type defines the following codes:</p>\n      \n      \n      <table class=\"codes\">\n        \n        \n        <tr>\n          \n          \n          <td style=\"white-space:nowrap\">\n            \n            \n            <b>Code</b>\n          \n          \n          </td>\n          \n          \n          <td>\n            \n            \n            <b>Display</b>\n          \n          \n          </td>\n          \n          \n          <td>\n            \n            \n            <b>Definition</b>\n          \n          \n          </td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td style=\"white-space:nowrap\">citation-source\n            \n            \n            <a name=\"citation-classification-type-citation-source\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Citation Source</td>\n          \n          \n          <td>Citation repository where this citation was created or copied from</td>\n        \n        \n        </tr>\n\t\t\n        <tr>\n          \n          \n          <td style=\"white-space:nowrap\">medline-owner\n            \n            \n            <a name=\"citation-classification-type-medline-owner\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>MEDLINE Citation Owner</td>\n          \n          \n          <td>The party responsible for creating and validating the MEDLINE citation</td>\n        \n        \n        </tr>\n\t\t\n        <tr>\n          \n          \n          <td style=\"white-space:nowrap\">fevir-platform-use\n            \n            \n            <a name=\"citation-classification-type-fevir-platform-use\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>FEvIR Platform Use</td>\n          \n          \n          <td>Used for Citation sharing on the Fast Evidence Interoperability Resources (FEvIR) Platform</td>\n        \n        \n        </tr>\n      \n      \n      </table>\n    \n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CitationClassificationType",
     "title": "CitationClassificationType",
     "status": "draft",

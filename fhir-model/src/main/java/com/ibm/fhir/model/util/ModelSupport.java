@@ -1086,7 +1086,6 @@ public final class ModelSupport {
         codeSubtypeMap.put("ClaimStatus", com.ibm.fhir.model.type.code.ClaimStatus.class);
         codeSubtypeMap.put("ClinicalImpressionStatus", com.ibm.fhir.model.type.code.ClinicalImpressionStatus.class);
         codeSubtypeMap.put("ClinicalUseDefinitionType", com.ibm.fhir.model.type.code.ClinicalUseDefinitionType.class);
-        codeSubtypeMap.put("ClinicalUseIssueType", com.ibm.fhir.model.type.code.ClinicalUseIssueType.class);
         codeSubtypeMap.put("CodeSearchSupport", com.ibm.fhir.model.type.code.CodeSearchSupport.class);
         codeSubtypeMap.put("CodeSystemContentMode", com.ibm.fhir.model.type.code.CodeSystemContentMode.class);
         codeSubtypeMap.put("CodeSystemHierarchyMeaning", com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning.class);

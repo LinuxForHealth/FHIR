@@ -61,7 +61,7 @@ public class DeviceUseStatement extends DomainResource {
         bindingName = "DeviceUseStatementStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
-        valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0-CIBUILD"
     )
     @Required
     private final DeviceUseStatementStatus status;
@@ -93,7 +93,7 @@ public class DeviceUseStatement extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;

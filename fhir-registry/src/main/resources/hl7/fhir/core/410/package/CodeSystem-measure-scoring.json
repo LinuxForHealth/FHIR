@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "measure-scoring",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/measure-scoring defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">proportion\n            \n            <a name=\"measure-scoring-proportion\"> </a>\n          \n          </td>\n          \n          <td>Proportion</td>\n          \n          <td>The measure score is defined using a proportion.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">ratio\n            \n            <a name=\"measure-scoring-ratio\"> </a>\n          \n          </td>\n          \n          <td>Ratio</td>\n          \n          <td>The measure score is defined using a ratio.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">continuous-variable\n            \n            <a name=\"measure-scoring-continuous-variable\"> </a>\n          \n          </td>\n          \n          <td>Continuous Variable</td>\n          \n          <td>The score is defined by a calculation of some quantity.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">cohort\n            \n            <a name=\"measure-scoring-cohort\"> </a>\n          \n          </td>\n          \n          <td>Cohort</td>\n          \n          <td>The measure is a cohort definition.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1232"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "MeasureScoring",
     "title": "MeasureScoring",
     "status": "draft",

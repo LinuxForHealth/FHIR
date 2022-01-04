@@ -97,7 +97,7 @@ public class RelatedPerson extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -1040,7 +1040,7 @@ public class RelatedPerson extends DomainResource {
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.Value.PREFERRED,
-            description = "A human language.",
+            description = "IETF language tag",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )

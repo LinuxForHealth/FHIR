@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "event-timing",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/event-timing defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">MORN<a name=\"event-timing-MORN\"> </a></td><td>Morning</td><td>Event occurs during the morning. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">MORN.early<a name=\"event-timing-MORN.46early\"> </a></td><td>Early Morning</td><td>Event occurs during the early morning. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">MORN.late<a name=\"event-timing-MORN.46late\"> </a></td><td>Late Morning</td><td>Event occurs during the late morning. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">NOON<a name=\"event-timing-NOON\"> </a></td><td>Noon</td><td>Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">AFT<a name=\"event-timing-AFT\"> </a></td><td>Afternoon</td><td>Event occurs during the afternoon. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">AFT.early<a name=\"event-timing-AFT.46early\"> </a></td><td>Early Afternoon</td><td>Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">AFT.late<a name=\"event-timing-AFT.46late\"> </a></td><td>Late Afternoon</td><td>Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">EVE<a name=\"event-timing-EVE\"> </a></td><td>Evening</td><td>Event occurs during the evening. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">EVE.early<a name=\"event-timing-EVE.46early\"> </a></td><td>Early Evening</td><td>Event occurs during the early evening. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">EVE.late<a name=\"event-timing-EVE.46late\"> </a></td><td>Late Evening</td><td>Event occurs during the late evening. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">NIGHT<a name=\"event-timing-NIGHT\"> </a></td><td>Night</td><td>Event occurs during the night. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr><tr><td style=\"white-space:nowrap\">PHS<a name=\"event-timing-PHS\"> </a></td><td>After Sleep</td><td>Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution convention or patient interpretation.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.76"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "EventTiming",
     "title": "EventTiming",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

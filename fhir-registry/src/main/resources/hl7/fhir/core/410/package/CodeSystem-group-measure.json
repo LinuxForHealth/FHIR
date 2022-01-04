@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "group-measure",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>GroupMeasure</h2>\n      \n      <div>\n        \n        <p>Possible group measure aggregates (E.g. Mean, Median).</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/group-measure defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">mean\n            \n            <a name=\"group-measure-mean\"> </a>\n          \n          </td>\n          \n          <td>Mean</td>\n          \n          <td>Aggregated using Mean of participant values.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">median\n            \n            <a name=\"group-measure-median\"> </a>\n          \n          </td>\n          \n          <td>Median</td>\n          \n          <td>Aggregated using Median of participant values.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">mean-of-mean\n            \n            <a name=\"group-measure-mean-of-mean\"> </a>\n          \n          </td>\n          \n          <td>Mean of Study Means</td>\n          \n          <td>Aggregated using Mean of study mean values.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">mean-of-median\n            \n            <a name=\"group-measure-mean-of-median\"> </a>\n          \n          </td>\n          \n          <td>Mean of Study Medins</td>\n          \n          <td>Aggregated using Mean of study median values.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">median-of-mean\n            \n            <a name=\"group-measure-median-of-mean\"> </a>\n          \n          </td>\n          \n          <td>Median of Study Means</td>\n          \n          <td>Aggregated using Median of study mean values.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">median-of-median\n            \n            <a name=\"group-measure-median-of-median\"> </a>\n          \n          </td>\n          \n          <td>Median of Study Medians</td>\n          \n          <td>Aggregated using Median of study median values.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1346"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "GroupMeasure",
     "title": "GroupMeasure",
     "status": "draft",

@@ -87,7 +87,7 @@ public class MedicationStatement extends DomainResource {
         bindingName = "MedicationStatementStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of a MedicationStatement.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.3.0-CIBUILD"
     )
     @Required
     private final MedicationStatementStatus status;

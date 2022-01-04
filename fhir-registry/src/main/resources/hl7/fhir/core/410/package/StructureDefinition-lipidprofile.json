@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "lipidprofile",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -28,7 +28,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/lipidprofile",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Example Lipid Profile",
     "status": "draft",
     "experimental": true,
@@ -45,7 +45,7 @@
         }
     ],
     "description": "Lipid Lab Report",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -192,7 +192,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -650,7 +650,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of the diagnostic report.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1623,7 +1623,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

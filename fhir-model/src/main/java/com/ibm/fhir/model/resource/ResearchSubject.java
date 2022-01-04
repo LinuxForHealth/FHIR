@@ -52,7 +52,7 @@ public class ResearchSubject extends DomainResource {
         bindingName = "ResearchSubjectStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
-        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.3.0-CIBUILD"
     )
     @Required
     private final ResearchSubjectStatus status;

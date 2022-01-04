@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "container-cap",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ContainerCap</h2>\n      \n      <div>\n        \n        <p>Color of the container cap.</p>\n\n      \n      </div>\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/container-cap defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">red\n            \n            <a name=\"container-cap-red\"> </a>\n          \n          </td>\n          \n          <td>red cap</td>\n          \n          <td>red cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">yellow\n            \n            <a name=\"container-cap-yellow\"> </a>\n          \n          </td>\n          \n          <td>yellow cap</td>\n          \n          <td>yellow cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">dark-yellow\n            \n            <a name=\"container-cap-dark-yellow\"> </a>\n          \n          </td>\n          \n          <td>dark yellow cap</td>\n          \n          <td>dark yellow cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">grey\n            \n            <a name=\"container-cap-grey\"> </a>\n          \n          </td>\n          \n          <td>grey cap</td>\n          \n          <td>grey cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">light-blue\n            \n            <a name=\"container-cap-light-blue\"> </a>\n          \n          </td>\n          \n          <td>light blue cap</td>\n          \n          <td>light blue cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">black\n            \n            <a name=\"container-cap-black\"> </a>\n          \n          </td>\n          \n          <td>black cap</td>\n          \n          <td>black cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">green\n            \n            <a name=\"container-cap-green\"> </a>\n          \n          </td>\n          \n          <td>green cap</td>\n          \n          <td>green cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">light-green\n            \n            <a name=\"container-cap-light-green\"> </a>\n          \n          </td>\n          \n          <td>light green cap</td>\n          \n          <td>light green cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">lavender\n            \n            <a name=\"container-cap-lavender\"> </a>\n          \n          </td>\n          \n          <td>lavender cap</td>\n          \n          <td>lavender cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">brown\n            \n            <a name=\"container-cap-brown\"> </a>\n          \n          </td>\n          \n          <td>brown cap</td>\n          \n          <td>brown cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">white\n            \n            <a name=\"container-cap-white\"> </a>\n          \n          </td>\n          \n          <td>white cap</td>\n          \n          <td>white cap.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">pink\n            \n            <a name=\"container-cap-pink\"> </a>\n          \n          </td>\n          \n          <td>pink cap</td>\n          \n          <td>pink cap.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1258"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ContainerCap",
     "title": "ContainerCap",
     "status": "draft",

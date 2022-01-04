@@ -2,18 +2,18 @@
     "resourceType": "CapabilityStatement",
     "id": "base2",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Base FHIR Capability Statement (Empty)</h2><div><p>This is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement</p>\n</div><table><tr><td>Mode</td><td>SERVER</td></tr><tr><td>Description</td><td><div><p>An empty Capability Statement</p>\n</div></td></tr><tr><td>Transaction</td><td></td></tr><tr><td>System History</td><td></td></tr><tr><td>System Search</td><td></td></tr></table><table><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th><b title=\"GET a resource (read interaction)\">Read</b></th><th><b title=\"GET all set of resources of the type (search interaction)\">Search</b></th><th><b title=\"PUT a new resource version (update interaction)\">Update</b></th><th><b title=\"POST a new resource (create interaction)\">Create</b></th></tr></table></div>"
     },
     "url": "http://hl7.org/fhir/CapabilityStatement/base2",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Base FHIR Capability Statement (Empty)",
     "status": "draft",
     "experimental": true,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "FHIR Project Team",
     "contact": [
         {
@@ -30,7 +30,7 @@
     "software": {
         "name": "Insert your software name here..."
     },
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "format": [
         "xml",
         "json"

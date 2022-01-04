@@ -143,10 +143,7 @@ public class CodeGenerator {
         "SubstanceProtein",
         "SubstanceReferenceInformation",
         "SubstanceSourceMaterial",
-        "SubstanceSpecification",
-        // This one was introduced in 4.1.0 but should be removed before it gets published.
-        // TODO: remove it from here BEFORE we release!
-        "ClinicalUseIssue"
+        "SubstanceSpecification"
     );
 
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
@@ -293,7 +290,7 @@ public class CodeGenerator {
         // this valueset is missing in FHIR R4B https://jira.hl7.org/browse/FHIR-34183
         generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
         generateCodeSubtypeClass("DataAbsentReason", "http://hl7.org/fhir/ValueSet/data-absent-reason", basePath);
-        generateCodeSubtypeClass("StandardsStatus", "http://terminology.hl7.org/ValueSet/standards-status", basePath);
+        generateCodeSubtypeClass("StandardsStatus", "http://hl7.org/fhir/ValueSet/standards-status", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
@@ -3907,9 +3904,6 @@ public class CodeGenerator {
                 cb.enumConstant(enumConstantName, args(quote(retiredResourceType)), false);
             }
             cb.newLine();
-        } else if ("FHIRVersion".equals(bindingName)) {
-            // Workaround for https://jira.hl7.org/browse/FHIR-34426
-            cb.enumConstant("VERSION_4_0_1", args(quote("4.0.1")), false);
         }
         
         int i = 0;
@@ -3951,10 +3945,6 @@ public class CodeGenerator {
                     cb._case('"' + retiredResourceType + '"')
                         ._return(enumConstantName);
                 }
-            } else if ("FHIRVersion".equals(bindingName)) {
-                // Workaround for https://jira.hl7.org/browse/FHIR-34426
-                cb._case('"' + "4.0.1" + '"')
-                        ._return("VERSION_4_0_1");
             }
             for (JsonObject concept : concepts) {
                 String value = concept.getString("code");
@@ -5022,11 +5012,6 @@ public class CodeGenerator {
 
         Map<String, JsonObject> valueSetMap = buildResourceMap("./definitions/R4B/valuesets.json", "ValueSet");
         valueSetMap.putAll(buildResourceMap("./definitions/R4B/fhir-expansions.json", "ValueSet"));
-
-        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/CodeSystem-standards-status.json");
-        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/ValueSet-standards-status.json");
-        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/CodeSystem-concept-subsumption-outcome.json");
-        addResource(codeSystemMap, valueSetMap, "definitions/R4B/terminology/ValueSet-concept-subsumption-outcome.json");
 
         CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
         generator.generate("./src/main/java");

@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "animal-species",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/125097000\">125097000</a></td><td>goat</td></tr><tr><td><a href=\"http://snomed.info/id/125099002\">125099002</a></td><td>sheep</td></tr><tr><td><a href=\"http://snomed.info/id/34618005\">34618005</a></td><td>cow</td></tr><tr><td><a href=\"http://snomed.info/id/425134008\">425134008</a></td><td>turkey</td></tr><tr><td><a href=\"http://snomed.info/id/47290002\">47290002</a></td><td>chicken</td></tr><tr><td><a href=\"http://snomed.info/id/15778005\">15778005</a></td><td>goose</td></tr><tr><td><a href=\"http://snomed.info/id/396620009\">396620009</a></td><td>duck</td></tr><tr><td><a href=\"http://snomed.info/id/388445009\">388445009</a></td><td>horse</td></tr><tr><td><a href=\"http://snomed.info/id/85626006\">85626006</a></td><td>donkey</td></tr><tr><td><a href=\"http://snomed.info/id/132950000\">132950000</a></td><td>mule</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.420"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AnimalSpecies",
     "status": "draft",
     "publisher": "FHIR Project team",

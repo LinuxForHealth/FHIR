@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "contact-point-use",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/contact-point-use defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">home<a name=\"contact-point-use-home\"> </a></td><td>Home</td><td>A communication contact point at a home; attempted contacts for business purposes might intrude privacy and chances are one will contact family or other household members instead of the person one wishes to call. Typically used with urgent cases, or if no other contacts are available.</td></tr><tr><td style=\"white-space:nowrap\">work<a name=\"contact-point-use-work\"> </a></td><td>Work</td><td>An office contact point. First choice for business related contacts during business hours.</td></tr><tr><td style=\"white-space:nowrap\">temp<a name=\"contact-point-use-temp\"> </a></td><td>Temp</td><td>A temporary contact point. The period can provide more detailed information.</td></tr><tr><td style=\"white-space:nowrap\">old<a name=\"contact-point-use-old\"> </a></td><td>Old</td><td>This contact point is no longer in use (or was never correct, but retained for records).</td></tr><tr><td style=\"white-space:nowrap\">mobile<a name=\"contact-point-use-mobile\"> </a></td><td>Mobile</td><td>A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes, suitable for urgent matters, not the first choice for routine business.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.74"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ContactPointUse",
     "title": "ContactPointUse",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

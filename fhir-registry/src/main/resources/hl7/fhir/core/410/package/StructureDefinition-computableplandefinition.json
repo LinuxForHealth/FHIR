@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "computableplandefinition",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,14 +20,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/computableplandefinition",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Computable PlanDefinition",
     "status": "draft",
     "experimental": false,
     "date": "2020-12-28T16:55:11+11:00",
     "publisher": "HL7",
     "description": "Defines a computable PlanDefinition that specifies a single library and requires all expressions referenced from the PlanDefinition to be definitions in that single library",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -169,7 +169,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -831,7 +831,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1859,7 +1859,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2310,7 +2310,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2616,7 +2616,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2931,7 +2931,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -3270,7 +3270,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3426,7 +3426,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the kinds of conditions that can appear on actions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -3605,7 +3605,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3797,7 +3797,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the types of relationships between actions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -3955,7 +3955,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -4110,7 +4110,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant for the action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4254,7 +4254,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines organization behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4302,7 +4302,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4350,7 +4350,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines expectations around whether an action or action group is required.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4398,7 +4398,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection frequency behavior for an action or group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4446,7 +4446,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines behavior for an action or a group for how many times that item may be repeated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -4604,7 +4604,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "FHIR-version",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/FHIR-version defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">0.01<a name=\"FHIR-version-0.4601\"> </a></td><td>0.01</td><td>Oldest archived version of FHIR.</td></tr><tr><td style=\"white-space:nowrap\">0.05<a name=\"FHIR-version-0.4605\"> </a></td><td>0.05</td><td>1st Draft for Comment (Sept 2012 Ballot).</td></tr><tr><td style=\"white-space:nowrap\">0.06<a name=\"FHIR-version-0.4606\"> </a></td><td>0.06</td><td>2nd Draft for Comment (January 2013 Ballot).</td></tr><tr><td style=\"white-space:nowrap\">0.11<a name=\"FHIR-version-0.4611\"> </a></td><td>0.11</td><td>DSTU 1 Ballot version.</td></tr><tr><td style=\"white-space:nowrap\">0.0.80<a name=\"FHIR-version-0.460.4680\"> </a></td><td>0.0.80</td><td>DSTU 1 Official version.</td></tr><tr><td style=\"white-space:nowrap\">0.0.81<a name=\"FHIR-version-0.460.4681\"> </a></td><td>0.0.81</td><td>DSTU 1 Official version Technical Errata #1.</td></tr><tr><td style=\"white-space:nowrap\">0.0.82<a name=\"FHIR-version-0.460.4682\"> </a></td><td>0.0.82</td><td>DSTU 1 Official version Technical Errata #2.</td></tr><tr><td style=\"white-space:nowrap\">0.4.0<a name=\"FHIR-version-0.464.460\"> </a></td><td>0.4.0</td><td>Draft For Comment (January 2015 Ballot).</td></tr><tr><td style=\"white-space:nowrap\">0.5.0<a name=\"FHIR-version-0.465.460\"> </a></td><td>0.5.0</td><td>DSTU 2 Ballot version (May 2015 Ballot).</td></tr><tr><td style=\"white-space:nowrap\">1.0.0<a name=\"FHIR-version-1.460.460\"> </a></td><td>1.0.0</td><td>DSTU 2 QA Preview + CQIF Ballot (Sep 2015).</td></tr><tr><td style=\"white-space:nowrap\">1.0.1<a name=\"FHIR-version-1.460.461\"> </a></td><td>1.0.1</td><td>DSTU 2 (Official version).</td></tr><tr><td style=\"white-space:nowrap\">1.0.2<a name=\"FHIR-version-1.460.462\"> </a></td><td>1.0.2</td><td>DSTU 2 (Official version) with 1 technical errata.</td></tr><tr><td style=\"white-space:nowrap\">1.1.0<a name=\"FHIR-version-1.461.460\"> </a></td><td>1.1.0</td><td>GAO Ballot + draft changes to main FHIR standard.</td></tr><tr><td style=\"white-space:nowrap\">1.4.0<a name=\"FHIR-version-1.464.460\"> </a></td><td>1.4.0</td><td>CQF on FHIR Ballot + Connectathon 12 (Montreal).</td></tr><tr><td style=\"white-space:nowrap\">1.6.0<a name=\"FHIR-version-1.466.460\"> </a></td><td>1.6.0</td><td>FHIR STU3 Ballot + Connectathon 13 (Baltimore).</td></tr><tr><td style=\"white-space:nowrap\">1.8.0<a name=\"FHIR-version-1.468.460\"> </a></td><td>1.8.0</td><td>FHIR STU3 Candidate + Connectathon 14 (San Antonio).</td></tr><tr><td style=\"white-space:nowrap\">3.0.0<a name=\"FHIR-version-3.460.460\"> </a></td><td>3.0.0</td><td>FHIR Release 3 (STU).</td></tr><tr><td style=\"white-space:nowrap\">3.0.1<a name=\"FHIR-version-3.460.461\"> </a></td><td>3.0.1</td><td>FHIR Release 3 (STU) with 1 technical errata.</td></tr><tr><td style=\"white-space:nowrap\">3.3.0<a name=\"FHIR-version-3.463.460\"> </a></td><td>3.3.0</td><td>R4 Ballot #1.</td></tr><tr><td style=\"white-space:nowrap\">3.5.0<a name=\"FHIR-version-3.465.460\"> </a></td><td>3.5.0</td><td>R4 Ballot #2.</td></tr><tr><td style=\"white-space:nowrap\">4.0.0<a name=\"FHIR-version-4.460.460\"> </a></td><td>4.0.0</td><td>FHIR Release 4 (Normative + STU).</td></tr><tr><td style=\"white-space:nowrap\">4.0.1<a name=\"FHIR-version-4.460.461\"> </a></td><td>4.0.1</td><td>FHIR Release 4 Technical Correction.</td></tr><tr><td style=\"white-space:nowrap\">4.1.0<a name=\"FHIR-version-4.461.460\"> </a></td><td>4.1.0</td><td>FHIR Release 4B Ballot #1.</td></tr><tr><td style=\"white-space:nowrap\">4.3.0-CIBUILD<a name=\"FHIR-version-4.463.460-CIBUILD\"> </a></td><td>4.3.0-CIBUILD</td><td>FHIR Release 4B CI-Build.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1310"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "FHIRVersion",
     "title": "FHIRVersion",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "description": "All published FHIR Versions.",
     "caseSensitive": true,
     "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version",
@@ -150,9 +150,19 @@
             "definition": "FHIR Release 4 (Normative + STU)."
         },
         {
+            "code": "4.0.1",
+            "display": "4.0.1",
+            "definition": "FHIR Release 4 Technical Correction."
+        },
+        {
             "code": "4.1.0",
             "display": "4.1.0",
-            "definition": "FHIR Release 4 Technical Correction."
+            "definition": "FHIR Release 4B Ballot #1."
+        },
+        {
+            "code": "4.3.0-CIBUILD",
+            "display": "4.3.0-CIBUILD",
+            "definition": "FHIR Release 4B CI-Build."
         }
     ]
 }

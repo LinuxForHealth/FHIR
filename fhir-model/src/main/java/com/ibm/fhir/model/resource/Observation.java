@@ -153,7 +153,7 @@ public class Observation extends DomainResource {
         bindingName = "ObservationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status of an observation.",
-        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
     )
     @Required
     private final ObservationStatus status;
@@ -210,7 +210,7 @@ public class Observation extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;

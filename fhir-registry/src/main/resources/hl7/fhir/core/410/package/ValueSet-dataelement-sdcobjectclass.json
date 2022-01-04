@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "dataelement-sdcobjectclass",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include all codes defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a></li><li>Include all codes defined in <a href=\"http://loinc.org\"><code>http://loinc.org</code></a></li><li>Include all codes defined in <a href=\"http://www.nlm.nih.gov/research/umls/rxnorm\"><code>http://www.nlm.nih.gov/research/umls/rxnorm</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -24,12 +24,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.910"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DataElementSDCObjectClass",
     "title": "DataElement SDC Object Class",
     "status": "draft",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "Office of the National Coordinator for Health IT",
     "contact": [
         {

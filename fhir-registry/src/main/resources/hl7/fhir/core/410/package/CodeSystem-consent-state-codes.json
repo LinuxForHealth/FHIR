@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "consent-state-codes",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ConsentState</h2>\n      \n      <div>\n        \n        <p>Indicates the state of the consent.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/consent-state-codes defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">draft\n            \n            <a name=\"consent-state-codes-draft\"> </a>\n          \n          </td>\n          \n          <td>Pending</td>\n          \n          <td>The consent is in development or awaiting use but is not yet intended to be acted upon.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">proposed\n            \n            <a name=\"consent-state-codes-proposed\"> </a>\n          \n          </td>\n          \n          <td>Proposed</td>\n          \n          <td>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">active\n            \n            <a name=\"consent-state-codes-active\"> </a>\n          \n          </td>\n          \n          <td>Active</td>\n          \n          <td>The consent is to be followed and enforced.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">rejected\n            \n            <a name=\"consent-state-codes-rejected\"> </a>\n          \n          </td>\n          \n          <td>Rejected</td>\n          \n          <td>The consent has been rejected by one or more of the parties.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">inactive\n            \n            <a name=\"consent-state-codes-inactive\"> </a>\n          \n          </td>\n          \n          <td>Inactive</td>\n          \n          <td>The consent is terminated or replaced.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            <a name=\"consent-state-codes-entered-in-error\"> </a>\n          \n          </td>\n          \n          <td>Entered in Error</td>\n          \n          <td>The consent was created wrongly (e.g. wrong patient) and should be ignored.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.756"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConsentState",
     "title": "ConsentState",
     "status": "draft",

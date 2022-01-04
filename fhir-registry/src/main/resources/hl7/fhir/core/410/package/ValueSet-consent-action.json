@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "consent-action",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-consent-action.html\"><code>http://terminology.hl7.org/CodeSystem/consentaction</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.753"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConsentActionCodes",
     "title": "Consent Action Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "CBCC",
     "contact": [
         {

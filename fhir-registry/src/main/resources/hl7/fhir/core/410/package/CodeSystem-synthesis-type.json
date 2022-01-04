@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "synthesis-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/synthesis-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">std-MA\n            \n            <a name=\"synthesis-type-std-MA\"> </a>\n          \n          </td>\n          \n          <td>summary data meta-analysis</td>\n          \n          <td>A meta-analysis of the summary data of estimates from individual studies or data sets.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">IPD-MA\n            \n            <a name=\"synthesis-type-IPD-MA\"> </a>\n          \n          </td>\n          \n          <td>individual patient data meta-analysis</td>\n          \n          <td>A meta-analysis of the individual participant data from individual studies or data sets.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">indirect-NMA\n            \n            <a name=\"synthesis-type-indirect-NMA\"> </a>\n          \n          </td>\n          \n          <td>indirect network meta-analysis</td>\n          \n          <td>An indirect meta-analysis derived from 2 or more direct comparisons in a network meta-analysis.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">combined-NMA\n            \n            <a name=\"synthesis-type-combined-NMA\"> </a>\n          \n          </td>\n          \n          <td>combined direct plus indirect network meta-analysis</td>\n          \n          <td>An composite meta-analysis derived from direct comparisons and indirect comparisons in a network meta-analysis.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">range\n            \n            <a name=\"synthesis-type-range\"> </a>\n          \n          </td>\n          \n          <td>range of results</td>\n          \n          <td>A range of results across a body of evidence.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">classification\n            \n            <a name=\"synthesis-type-classification\"> </a>\n          \n          </td>\n          \n          <td>classifcation of results</td>\n          \n          <td>An approach describing a body of evidence by categorically classifying individual studies (eg 3 studies showed beneft and 2 studied found no effect).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">NotApplicable\n            \n            <a name=\"synthesis-type-NotApplicable\"> </a>\n          \n          </td>\n          \n          <td>not applicable</td>\n          \n          <td>Not applicable because the evidence is not from a synthesis but from a single study. Used fo explicitly state that it's not a synthesis.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1348"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SynthesisType",
     "title": "SynthesisType",
     "status": "draft",

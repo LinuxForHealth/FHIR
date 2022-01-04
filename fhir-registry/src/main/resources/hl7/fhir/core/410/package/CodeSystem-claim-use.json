@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "claim-use",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>Use</h2>\n      \n      <div>\n        \n        <p>The purpose of the Claim: predetermination, preauthorization, claim.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/claim-use defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">claim\n            \n            <a name=\"claim-use-claim\"> </a>\n          \n          </td>\n          \n          <td>Claim</td>\n          \n          <td>The treatment is complete and this represents a Claim for the services.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">preauthorization\n            \n            <a name=\"claim-use-preauthorization\"> </a>\n          \n          </td>\n          \n          <td>Preauthorization</td>\n          \n          <td>The treatment is proposed and this represents a Pre-authorization for the services.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">predetermination\n            \n            <a name=\"claim-use-predetermination\"> </a>\n          \n          </td>\n          \n          <td>Predetermination</td>\n          \n          <td>The treatment is proposed and this represents a Pre-determination for the services.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.545"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Use",
     "title": "Use",
     "status": "draft",

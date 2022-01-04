@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "security-labels",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification</li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-InformationSensitivityPolicy.html\">http://terminology.hl7.org/ValueSet/v3-InformationSensitivityPolicy</a></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-Compartment.html\">http://terminology.hl7.org/ValueSet/v3-Compartment</a></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-SecurityIntegrityObservationValue.html\">http://terminology.hl7.org/ValueSet/v3-SecurityIntegrityObservationValue</a></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-SecurityControlObservationValue.html\">http://terminology.hl7.org/ValueSet/v3-SecurityControlObservationValue</a></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-ActUSPrivacyLaw.html\">http://terminology.hl7.org/ValueSet/v3-ActUSPrivacyLaw</a></li></ul></div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.47"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "All Security Labels",
     "title": "SecurityLabels",
     "status": "active",

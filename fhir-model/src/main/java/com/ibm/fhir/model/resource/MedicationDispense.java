@@ -79,8 +79,8 @@ public class MedicationDispense extends DomainResource {
     @Binding(
         bindingName = "MedicationDispenseStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "A coded concept specifying the state of the dispense event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.1.0"
+        description = "Describes the lifecycle of the dispense.",
+        valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.3.0-CIBUILD"
     )
     @Required
     private final MedicationDispenseStatus status;
@@ -125,7 +125,7 @@ public class MedicationDispense extends DomainResource {
     @Binding(
         bindingName = "MedicationDispenseType",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, Emergency Fill, Samples, etc.",
+        description = "ActPharmacySupplyType ",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPharmacySupplyType"
     )
     private final CodeableConcept type;
@@ -1933,14 +1933,14 @@ public class MedicationDispense extends DomainResource {
         @Binding(
             bindingName = "MedicationIntendedSubstitutionType",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "A coded concept describing whether a different medicinal product may be dispensed other than the product as specified exactly in the prescription.",
+            description = "ActSubstanceAdminSubstitutionCode",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionReason",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "A coded concept describing the reason that a different medication should (or should not) be substituted from what was prescribed.",
+            description = "SubstanceAdminSubstitutionReason",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )
         private final List<CodeableConcept> reason;

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/geolocation",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Geolocation",
     "title": "Geolocation",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system used in KML).",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -106,7 +106,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -239,7 +239,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -428,7 +428,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -579,7 +579,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -681,6 +681,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -715,6 +718,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
