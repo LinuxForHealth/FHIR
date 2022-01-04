@@ -46,7 +46,6 @@ public class Reference extends Element {
     @Binding(
         bindingName = "FHIRResourceTypeExt",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "Aa resource (or, for logical models, the URI of the logical model).",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types"
     )
     private final Uri type;

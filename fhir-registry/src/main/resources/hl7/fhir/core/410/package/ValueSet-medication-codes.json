@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "medication-codes",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t\n\t\t\n      <p>The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains medictation concepts.</p>\n\t\t\t\t\t\n      <p>Possible sources include:</p>\n\t\t\t\n\t\t\n      <ul>\n\n\t\t\t\n        <li>Include codes from http://snomed.info/sct where concept  is-a 763158003</li>\n\t\t\t\n\t\t\n      </ul>\n\t\t\t\n\t\t\n      <p>SNOMED CT is being used here as the example terminology.</p>\n\t\t\t\n\t\t\n      <p>This value set includes content from SNOMED CT, which is copyright © 2002 International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement.</p>\n\n\t\n    </div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.375"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SNOMEDCTMedicationCodes",
     "title": "SNOMED CT Medication Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project team",
     "contact": [
         {

@@ -20,6 +20,13 @@ import javax.annotation.Generated;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RemittanceOutcome extends Code {
     /**
+     * Queued
+     * 
+     * <p>The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
+     */
+    public static final RemittanceOutcome QUEUED = RemittanceOutcome.builder().value(Value.QUEUED).build();
+
+    /**
      * Complete
      * 
      * <p>The processing completed without errors.
@@ -58,6 +65,8 @@ public class RemittanceOutcome extends Code {
      */
     public static RemittanceOutcome of(Value value) {
         switch (value) {
+        case QUEUED:
+            return QUEUED;
         case COMPLETE:
             return COMPLETE;
         case ERROR:
@@ -197,6 +206,13 @@ public class RemittanceOutcome extends Code {
 
     public enum Value {
         /**
+         * Queued
+         * 
+         * <p>The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
+         */
+        QUEUED("queued"),
+
+        /**
          * Complete
          * 
          * <p>The processing completed without errors.
@@ -246,6 +262,8 @@ public class RemittanceOutcome extends Code {
                 return null;
             }
             switch (value) {
+            case "queued":
+                return QUEUED;
             case "complete":
                 return COMPLETE;
             case "error":

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "measure-supplemental-data-example",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/measure-supplemental-data-example defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">age<a name=\"measure-supplemental-data-example-age\"> </a></td><td>Age</td><td>Age Supplemental Data.</td></tr><tr><td style=\"white-space:nowrap\">gender<a name=\"measure-supplemental-data-example-gender\"> </a></td><td>Gender</td><td>Gender Supplemental Data .</td></tr><tr><td style=\"white-space:nowrap\">ethnicity<a name=\"measure-supplemental-data-example-ethnicity\"> </a></td><td>Ethnicity</td><td>Ethnicity Supplemental Data .</td></tr><tr><td style=\"white-space:nowrap\">payer<a name=\"measure-supplemental-data-example-payer\"> </a></td><td>Payer</td><td>Payer Supplemental Data.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "MeasureSupplementalDataExample",
     "title": "MeasureSupplementalDataExample",
     "status": "draft",

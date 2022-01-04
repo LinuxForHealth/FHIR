@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "concept-property-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>PropertyType</h2>\n      \n      <div>\n        \n        <p>The type of a property value.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/concept-property-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">code\n            \n            <a name=\"concept-property-type-code\"> </a>\n          \n          </td>\n          \n          <td>code (internal reference)</td>\n          \n          <td>The property value is a code that identifies a concept defined in the code system.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">Coding\n            \n            <a name=\"concept-property-type-Coding\"> </a>\n          \n          </td>\n          \n          <td>Coding (external reference)</td>\n          \n          <td>The property  value is a code defined in an external code system. This may be used for translations, but is not the intent.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">string\n            \n            <a name=\"concept-property-type-string\"> </a>\n          \n          </td>\n          \n          <td>string</td>\n          \n          <td>The property value is a string.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">integer\n            \n            <a name=\"concept-property-type-integer\"> </a>\n          \n          </td>\n          \n          <td>integer</td>\n          \n          <td>The property value is a string (often used to assign ranking values to concepts for supporting score assessments).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">boolean\n            \n            <a name=\"concept-property-type-boolean\"> </a>\n          \n          </td>\n          \n          <td>boolean</td>\n          \n          <td>The property value is a boolean true | false.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">dateTime\n            \n            <a name=\"concept-property-type-dateTime\"> </a>\n          \n          </td>\n          \n          <td>dateTime</td>\n          \n          <td>The property is a date or a date + time.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">decimal\n            \n            <a name=\"concept-property-type-decimal\"> </a>\n          \n          </td>\n          \n          <td>decimal</td>\n          \n          <td>The property value is a decimal number.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.781"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "PropertyType",
     "title": "PropertyType",
     "status": "active",

@@ -2,15 +2,15 @@
     "resourceType": "ValueSet",
     "id": "provenance-history-agent-type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/provenance-history-agent-role",
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ParticipationType.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ParticipationType</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ParticipationType.html#v3-ParticipationType-AUT\">AUT</a></td><td>Author</td><td>**Definition:** A party that originates the Act and therefore has responsibility for the information given in the Act and ownership of this Act.<br/><br/>**Example:** the report writer, the person writing the act definition, the guideline author, the placer of an order, the EKG cart (device) creating a report etc. Every Act should have an author. Authorship is regardless of mood always actual authorship.<br/><br/>Examples of such policies might include:<br/><br/> *  The author and anyone they explicitly delegate may update the report;<br/> *  All administrators within the same clinic may cancel and reschedule appointments created by other administrators within that clinic;<br/><br/>A party that is neither an author nor a party who is extended authorship maintenance rights by policy, may only amend, reverse, override, replace, or follow up in other ways on this Act, whereby the Act remains intact and is linked to another Act authored by that other party.</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ParticipationType.html#v3-ParticipationType-INF\">INF</a></td><td>Informant</td><td>A source of reported information (e.g., a next of kin who answers questions about the patient's history). For history questions, the patient is logically an informant, yet the informant of history questions is implicitly the subject.</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ParticipationType.html#v3-ParticipationType-VRF\">VRF</a></td><td>Verifier</td><td>A person who verifies the correctness and appropriateness of the service (plan, order, event, etc.) and hence takes on accountability.</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ParticipationType.html#v3-ParticipationType-ENT\">ENT</a></td><td>Data Enterer</td><td>A person entering the data into the originating system. The data entry person is collected optionally for internal quality control purposes. This includes the transcriptionist for dictated text.</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -25,7 +25,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.927"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ProvenanceEventHistoryAgentRoleCodes",
     "title": "Provenance Event History Agent Role Codes",
     "status": "draft",

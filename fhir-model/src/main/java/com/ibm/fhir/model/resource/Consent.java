@@ -166,7 +166,7 @@ public class Consent extends DomainResource {
         bindingName = "ConsentState",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the state of the consent.",
-        valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.3.0-CIBUILD"
     )
     @Required
     private final ConsentState status;
@@ -1822,7 +1822,7 @@ public class Consent extends DomainResource {
             bindingName = "ConsentProvisionType",
             strength = BindingStrength.Value.REQUIRED,
             description = "How a rule statement is applied, such as adding additional consent or removing consent.",
-            valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.3.0-CIBUILD"
         )
         private final ConsentProvisionType type;
         @Summary
@@ -2964,7 +2964,7 @@ public class Consent extends DomainResource {
                 bindingName = "ConsentDataMeaning",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "How a resource reference is interpreted when testing consent restrictions.",
-                valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.1.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.3.0-CIBUILD"
             )
             @Required
             private final ConsentDataMeaning meaning;

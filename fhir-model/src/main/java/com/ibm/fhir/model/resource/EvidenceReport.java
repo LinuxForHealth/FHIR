@@ -121,7 +121,7 @@ public class EvidenceReport extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -2149,7 +2149,7 @@ public class EvidenceReport extends DomainResource {
             bindingName = "ReportRelationshipType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between reports.",
-            valueSet = "http://hl7.org/fhir/ValueSet/report-relation-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-CIBUILD"
         )
         @Required
         private final ReportRelationshipType code;
@@ -2472,7 +2472,7 @@ public class EvidenceReport extends DomainResource {
             bindingName = "SectionMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "The processing mode that applies to this section.",
-            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         )
         private final SectionMode mode;
         @Binding(

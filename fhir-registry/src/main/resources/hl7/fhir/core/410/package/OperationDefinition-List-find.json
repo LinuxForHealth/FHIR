@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "List-find",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>find</h2><p>OPERATION: find</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/List-find</pre><div><p>This operation allows a client to find an identified list for a particular function by its function. The operation takes two parameters, the identity of a patient, and the name of a functional list.     The list of defined functional lists can be found at <a href=\"lifecycle.html#lists\">Current Resource Lists</a>. Applications are not required to support all the lists, and may define additional lists of their own.   If the system is able to locate a list that serves the identified purpose, it returns it as the body of the response with a 200 OK status. If the resource cannot be located, the server returns a 404 not found (optionally with an OperationOutcome resource)</p>\n</div><p>URL: [base]/List/$find</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>patient</td><td>1..1</td><td><a href=\"datatypes.html#id\">id</a></td><td/><td><div><p>The id of a patient resource located on the server on which this operation is executed</p>\n</div></td></tr><tr><td>IN</td><td>name</td><td>1..1</td><td><a href=\"datatypes.html#code\">code</a></td><td/><td><div><p>The code for the functional list that is being found</p>\n</div></td></tr></table><div><p>Note that servers may support searching by a functional list, and not support this operation that allows clients to find the list directly</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/List-find",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "find",
     "title": "Find a functional list",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

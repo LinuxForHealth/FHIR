@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "Resource-meta-add",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>meta-add</h2><p>OPERATION: meta-add</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Resource-meta-add</pre><div><p>This operation takes a meta, and adds the profiles, tags, and security labels found in it to the nominated resource</p>\n</div><p>URL: [base]/Resource/[id]/$meta-add</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>meta</td><td>1..1</td><td><a href=\"resource.html#Meta\">Meta</a></td><td/><td><div><p>Profiles, tags, and security labels to add to the existing resource. Note that profiles, tags, and security labels are sets, and duplicates are not created.  The identity of a tag or security label is the system+code. When matching existing tags during adding, version and display are ignored. For profiles, matching is based on the full URL</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"resource.html#Meta\">Meta</a></td><td/><td><div><p>Resulting meta for the resource</p>\n</div></td></tr></table><div/></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Resource-meta-add",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "meta-add",
     "title": "Add profiles, tags, and security labels to a resource",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

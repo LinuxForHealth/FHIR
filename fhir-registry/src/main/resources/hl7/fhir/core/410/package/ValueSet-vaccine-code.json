@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "vaccine-code",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>Around the world, various different coding systems are used for immunizations:</p>\n      \n      <ul> \n        \n        <li>USA: CVX (\n          \n          <a href=\"http://hl7.org/fhir/sid/cvx\">http://hl7.org/fhir/sid/cvx</a>)\n        \n        </li>\n        \n        <li>Australia: ACIR (\n          \n          <a href=\"http://www.medicareaustralia.gov.au/provider/vendors/files/9560-1301-acir-idi-vaccine-codes.pdf\">urn:oid:1.2.36.1.2001.1005.17</a>)\n        \n        </li>\n      \n      </ul>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.3.88.12.80.22"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "VaccineAdministeredValueSet",
     "title": "Vaccine Administered Value Set",
     "status": "active",
+    "experimental": true,
     "publisher": "HL7 FHIR",
     "contact": [
         {

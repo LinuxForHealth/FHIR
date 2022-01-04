@@ -60,7 +60,7 @@ public class Ingredient extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -790,7 +790,7 @@ public class Ingredient extends DomainResource {
             bindingName = "IngredientManufacturerRole",
             strength = BindingStrength.Value.REQUIRED,
             description = "The way in which this manufacturer is associated with the ingredient.",
-            valueSet = "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role|4.3.0-CIBUILD"
         )
         private final Coding role;
         @Summary

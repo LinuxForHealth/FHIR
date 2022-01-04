@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "location-mode",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>LocationMode</h2>\n      \n      <div>\n        \n        <p>Indicates whether a resource instance represents a specific location or a class of locations.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/location-mode defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">instance\n            \n            <a name=\"location-mode-instance\"> </a>\n          \n          </td>\n          \n          <td>Instance</td>\n          \n          <td>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">kind\n            \n            <a name=\"location-mode-kind\"> </a>\n          \n          </td>\n          \n          <td>Kind</td>\n          \n          <td>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be constrained within a specific boundary (such as organization, or parent location, address etc.).</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.331"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "LocationMode",
     "title": "LocationMode",
     "status": "draft",

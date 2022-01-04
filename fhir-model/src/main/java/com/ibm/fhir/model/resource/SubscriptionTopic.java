@@ -118,7 +118,7 @@ public class SubscriptionTopic extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -1563,7 +1563,7 @@ public class SubscriptionTopic extends DomainResource {
             bindingName = "MethodCode",
             strength = BindingStrength.Value.REQUIRED,
             description = "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-            valueSet = "http://hl7.org/fhir/ValueSet/interaction-trigger|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
         )
         private final List<MethodCode> supportedInteraction;
         @Summary
@@ -2008,7 +2008,7 @@ public class SubscriptionTopic extends DomainResource {
                 bindingName = "CriteriaNotExistsBehavior",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
             )
             private final CriteriaNotExistsBehavior resultForCreate;
             @Summary
@@ -2018,7 +2018,7 @@ public class SubscriptionTopic extends DomainResource {
                 bindingName = "CriteriaNotExistsBehavior",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
             )
             private final CriteriaNotExistsBehavior resultForDelete;
             @Summary
@@ -2808,7 +2808,7 @@ public class SubscriptionTopic extends DomainResource {
             bindingName = "SubscriptionTopicFilterBySearchModifier",
             strength = BindingStrength.Value.REQUIRED,
             description = "Operator to apply to filter label.",
-            valueSet = "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
         )
         private final List<SubscriptionTopicFilterBySearchModifier> modifier;
 

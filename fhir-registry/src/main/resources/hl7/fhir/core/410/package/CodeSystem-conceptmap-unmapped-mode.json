@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "conceptmap-unmapped-mode",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ConceptMapGroupUnmappedMode</h2>\n      \n      <div>\n        \n        <p>Defines which action to take if there is no match in the group.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/conceptmap-unmapped-mode defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">provided\n            \n            <a name=\"conceptmap-unmapped-mode-provided\"> </a>\n          \n          </td>\n          \n          <td>Provided Code</td>\n          \n          <td>Use the code as provided in the $translate request.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">fixed\n            \n            <a name=\"conceptmap-unmapped-mode-fixed\"> </a>\n          \n          </td>\n          \n          <td>Fixed Code</td>\n          \n          <td>Use the code explicitly provided in the group.unmapped.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">other-map\n            \n            <a name=\"conceptmap-unmapped-mode-other-map\"> </a>\n          \n          </td>\n          \n          <td>Other Map</td>\n          \n          <td>Use the map identified by the canonical URL in the url element.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.481"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConceptMapGroupUnmappedMode",
     "title": "ConceptMapGroupUnmappedMode",
     "status": "draft",

@@ -51,7 +51,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "EnrollmentResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
     )
     private final EnrollmentResponseStatus status;
     @ReferenceTarget({ "EnrollmentRequest" })
@@ -60,7 +60,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-CIBUILD"
     )
     private final RemittanceOutcome outcome;
     private final String disposition;
@@ -568,7 +568,7 @@ public class EnrollmentResponse extends DomainResource {
          * Processing status: error, complete.
          * 
          * @param outcome
-         *     complete | error | partial
+         *     queued | complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance

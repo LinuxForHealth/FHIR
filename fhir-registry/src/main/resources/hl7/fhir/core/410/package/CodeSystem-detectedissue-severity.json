@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "detectedissue-severity",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>DetectedIssueSeverity</h2>\n      \n      <div>\n        \n        <p>Indicates the potential degree of impact of the identified issue on the patient.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/detectedissue-severity defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">high\n            \n            <a name=\"detectedissue-severity-high\"> </a>\n          \n          </td>\n          \n          <td>High</td>\n          \n          <td>Indicates the issue may be life-threatening or has the potential to cause permanent injury.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">moderate\n            \n            <a name=\"detectedissue-severity-moderate\"> </a>\n          \n          </td>\n          \n          <td>Moderate</td>\n          \n          <td>Indicates the issue may result in noticeable adverse consequences but is unlikely to be life-threatening or cause permanent injury.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">low\n            \n            <a name=\"detectedissue-severity-low\"> </a>\n          \n          </td>\n          \n          <td>Low</td>\n          \n          <td>Indicates the issue may result in some adverse consequences but is unlikely to substantially affect the situation of the subject.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.207"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DetectedIssueSeverity",
     "title": "DetectedIssueSeverity",
     "status": "draft",

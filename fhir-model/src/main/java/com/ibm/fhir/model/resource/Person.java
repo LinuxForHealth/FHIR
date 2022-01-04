@@ -61,7 +61,7 @@ public class Person extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -885,7 +885,7 @@ public class Person extends DomainResource {
             bindingName = "IdentityAssuranceLevel",
             strength = BindingStrength.Value.REQUIRED,
             description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
-            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-CIBUILD"
         )
         private final IdentityAssuranceLevel assurance;
 

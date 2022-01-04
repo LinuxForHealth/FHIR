@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "icd-10-procedures",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/sid/ex-icd-10-procedures defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">123001<a name=\"icd-10-procedures-123001\"> </a></td><td>PROC-1</td><td>Procedure 1</td></tr><tr><td style=\"white-space:nowrap\">123002<a name=\"icd-10-procedures-123002\"> </a></td><td>PROC-2</td><td>Procedure 2</td></tr><tr><td style=\"white-space:nowrap\">123003<a name=\"icd-10-procedures-123003\"> </a></td><td>PROC-3</td><td>Procedure 3</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.575"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ICD-10ProcedureCodes",
     "title": "ICD-10 Procedure Codes",
     "status": "draft",

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "ex-diagnosisrelatedgroup",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/ex-diagnosisrelatedgroup defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">100<a name=\"ex-diagnosisrelatedgroup-100\"> </a></td><td>Normal Vaginal Delivery</td><td>Normal Vaginal Delivery.</td></tr><tr><td style=\"white-space:nowrap\">101<a name=\"ex-diagnosisrelatedgroup-101\"> </a></td><td>Appendectomy - uncomplicated</td><td>Appendectomy without rupture or other complications.</td></tr><tr><td style=\"white-space:nowrap\">300<a name=\"ex-diagnosisrelatedgroup-300\"> </a></td><td>Tooth abscess</td><td>Emergency department treatment of a tooth abscess.</td></tr><tr><td style=\"white-space:nowrap\">400<a name=\"ex-diagnosisrelatedgroup-400\"> </a></td><td>Head trauma - concussion</td><td>Head trauma - concussion.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1166"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ExampleDiagnosisRelatedGroupCodes",
     "title": "Example Diagnosis Related Group Codes",
     "status": "draft",

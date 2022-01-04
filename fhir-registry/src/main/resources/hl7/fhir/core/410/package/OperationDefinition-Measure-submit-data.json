@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "Measure-submit-data",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>submit-data</h2><p>OPERATION: submit-data</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Measure-submit-data</pre><div><p>The submit-data operation is used to submit data-of-interest for a measure. There is no expectation that the submitted data represents all the data-of-interest, only that all the data submitted is relevant to the calculation of the measure for a particular subject or population</p>\n</div><p>URL: [base]/Measure/$submit-data</p><p>URL: [base]/Measure/[id]/$submit-data</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>measureReport</td><td>1..1</td><td><a href=\"measurereport.html\">MeasureReport</a></td><td/><td><div><p>The measure report being submitted</p>\n</div></td></tr><tr><td>IN</td><td>resource</td><td>0..*</td><td><a href=\"resource.html\">Resource</a></td><td/><td><div><p>The individual resources that make up the data-of-interest being submitted</p>\n</div></td></tr></table><div><p>The effect of invoking this operation is that the submitted data is posted to the receiving system and can be used for subsequent calculation of the relevant quality measure. The data-of-interest for a measure can be determined by examining the measure definition, or by invoking the $data-requirements operation</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Measure-submit-data",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "submit-data",
     "title": "Submit Data",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

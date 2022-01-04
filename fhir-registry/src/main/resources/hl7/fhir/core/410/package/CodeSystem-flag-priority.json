@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "flag-priority",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/flag-priority-code defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">PN<a name=\"flag-priority-PN\"> </a></td><td>No alarm</td><td>No alarm.</td></tr><tr><td style=\"white-space:nowrap\">PL<a name=\"flag-priority-PL\"> </a></td><td>Low priority</td><td>Low priority.</td></tr><tr><td style=\"white-space:nowrap\">PM<a name=\"flag-priority-PM\"> </a></td><td>Medium priority</td><td>Medium priority.</td></tr><tr><td style=\"white-space:nowrap\">PH<a name=\"flag-priority-PH\"> </a></td><td>High priority</td><td>High priority.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.951"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "FlagPriorityCodes",
     "title": "Flag Priority Codes",
     "status": "draft",

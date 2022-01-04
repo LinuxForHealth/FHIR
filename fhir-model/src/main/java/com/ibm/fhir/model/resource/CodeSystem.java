@@ -120,7 +120,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -154,7 +154,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "CodeSystemHierarchyMeaning",
         strength = BindingStrength.Value.REQUIRED,
         description = "The meaning of the hierarchy of concepts in a code system.",
-        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.3.0-CIBUILD"
     )
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
     @Summary
@@ -166,7 +166,7 @@ public class CodeSystem extends DomainResource {
         bindingName = "CodeSystemContentMode",
         strength = BindingStrength.Value.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
-        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.3.0-CIBUILD"
     )
     @Required
     private final CodeSystemContentMode content;
@@ -1687,7 +1687,7 @@ public class CodeSystem extends DomainResource {
             bindingName = "FilterOperator",
             strength = BindingStrength.Value.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"
         )
         @Required
         private final List<FilterOperator> operator;
@@ -2120,7 +2120,7 @@ public class CodeSystem extends DomainResource {
             bindingName = "PropertyType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of a property value.",
-            valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.3.0-CIBUILD"
         )
         @Required
         private final PropertyType type;
@@ -3033,7 +3033,7 @@ public class CodeSystem extends DomainResource {
             @Binding(
                 bindingName = "Language",
                 strength = BindingStrength.Value.PREFERRED,
-                description = "A human language.",
+                description = "IETF language tag",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages",
                 maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
             )

@@ -68,7 +68,7 @@ public class ChargeItem extends DomainResource {
         bindingName = "ChargeItemStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of a ChargeItem.",
-        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.3.0-CIBUILD"
     )
     @Required
     private final ChargeItemStatus status;
@@ -78,7 +78,7 @@ public class ChargeItem extends DomainResource {
     @Binding(
         bindingName = "ChargeItemCode",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Example set of codes that can be used for billing purposes.",
+        description = "Example codes for billing purposes",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
     @Required
@@ -106,7 +106,7 @@ public class ChargeItem extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodysite;
@@ -121,7 +121,7 @@ public class ChargeItem extends DomainResource {
     @Binding(
         bindingName = "ChargeItemReason",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Example binding for reason.",
+        description = "ICD 10 diagnosis codes",
         valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
     )
     private final List<CodeableConcept> reason;

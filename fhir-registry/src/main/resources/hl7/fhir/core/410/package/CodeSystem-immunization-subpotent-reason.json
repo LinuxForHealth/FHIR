@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "immunization-subpotent-reason",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/immunization-subpotent-reason defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">partial<a name=\"immunization-subpotent-reason-partial\"> </a></td><td>Partial Dose</td><td>The full volume of the dose was not administered to the patient.</td></tr><tr><td style=\"white-space:nowrap\">coldchainbreak<a name=\"immunization-subpotent-reason-coldchainbreak\"> </a></td><td>Cold Chain Break</td><td>The vaccine experienced a cold chain break.</td></tr><tr><td style=\"white-space:nowrap\">recall<a name=\"immunization-subpotent-reason-recall\"> </a></td><td>Manufacturer Recall</td><td>The vaccine was recalled by the manufacturer.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1098"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ImmunizationEventSubpotentReason",
     "title": "Immunization Event Subpotent Reason",
     "status": "draft",

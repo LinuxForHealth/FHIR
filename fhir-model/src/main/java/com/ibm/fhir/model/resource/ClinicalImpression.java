@@ -62,7 +62,7 @@ public class ClinicalImpression extends DomainResource {
         bindingName = "ClinicalImpressionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The workflow state of a clinical impression.",
-        valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.3.0-CIBUILD"
     )
     @Required
     private final ClinicalImpressionStatus status;

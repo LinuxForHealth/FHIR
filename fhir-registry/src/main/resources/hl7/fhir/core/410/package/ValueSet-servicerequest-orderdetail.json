@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-orderdetail",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/47545007\">47545007</a></td><td>Continuous positive airway pressure ventilation treatment (regime/therapy)</td></tr><tr><td><a href=\"http://snomed.info/id/286812008\">286812008</a></td><td>Pressure controlled ventilation (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/243144002\">243144002</a></td><td>Patient triggered inspiratory assistance (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/243150007\">243150007</a></td><td>Assisted controlled mandatory ventilation (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/59427005\">59427005</a></td><td>Synchronized intermittent mandatory ventilation (procedure)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.435"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ServiceRequestOrderDetailsCodes",
     "title": "Service Request Order Details Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "Orders and Observations Workgroup",
     "contact": [
         {

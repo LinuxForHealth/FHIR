@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "namingsystem-identifier-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>NamingSystemIdentifierType</h2>\n      \n      <div>\n        \n        <p>Identifies the style of unique identifier used to identify a namespace.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/namingsystem-identifier-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">oid\n            \n            <a name=\"namingsystem-identifier-type-oid\"> </a>\n          \n          </td>\n          \n          <td>OID</td>\n          \n          <td>An ISO object identifier; e.g. 1.2.3.4.5.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">uuid\n            \n            <a name=\"namingsystem-identifier-type-uuid\"> </a>\n          \n          </td>\n          \n          <td>UUID</td>\n          \n          <td>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">uri\n            \n            <a name=\"namingsystem-identifier-type-uri\"> </a>\n          \n          </td>\n          \n          <td>URI</td>\n          \n          <td>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">other\n            \n            <a name=\"namingsystem-identifier-type-other\"> </a>\n          \n          </td>\n          \n          <td>Other</td>\n          \n          <td>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.493"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "NamingSystemIdentifierType",
     "title": "NamingSystemIdentifierType",
     "status": "draft",

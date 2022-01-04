@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "CodeSystem-subsumes",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>subsumes</h2><p>OPERATION: subsumes</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes</pre><div><p>Test the subsumption relationship between code/Coding A and code/Coding B given the semantics of subsumption in the underlying code system (see <a href=\"codesystem-definitions.html#CodeSystem.hierarchyMeaning\">hierarchyMeaning</a>).</p>\n<p>When invoking this operation, a client SHALL provide both a and codes, either as code or Coding parameters. The system parameter is required unless the operation is invoked on an instance of a code system resource. Other parameters are optional</p>\n</div><p>URL: [base]/CodeSystem/$subsumes</p><p>URL: [base]/CodeSystem/[id]/$subsumes</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>codeA</td><td>0..1</td><td><a href=\"datatypes.html#code\">code</a></td><td/><td><div><p>The &quot;A&quot; code that is to be tested. If a code is provided, a system must be provided</p>\n</div></td></tr><tr><td>IN</td><td>codeB</td><td>0..1</td><td><a href=\"datatypes.html#code\">code</a></td><td/><td><div><p>The &quot;B&quot; code that is to be tested. If a code is provided, a system must be provided</p>\n</div></td></tr><tr><td>IN</td><td>system</td><td>0..1</td><td><a href=\"datatypes.html#uri\">uri</a></td><td/><td><div><p>The code system in which subsumption testing is to be performed. This must be provided unless the operation is invoked on a code system instance</p>\n</div></td></tr><tr><td>IN</td><td>version</td><td>0..1</td><td><a href=\"datatypes.html#string\">string</a></td><td/><td><div><p>The version of the code system, if one was provided in the source data</p>\n</div></td></tr><tr><td>IN</td><td>codingA</td><td>0..1</td><td><a href=\"datatypes.html#Coding\">Coding</a></td><td/><td><div><p>The &quot;A&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established</p>\n</div></td></tr><tr><td>IN</td><td>codingB</td><td>0..1</td><td><a href=\"datatypes.html#Coding\">Coding</a></td><td/><td><div><p>The &quot;B&quot; Coding that is to be tested. The code system does not have to match the specified subsumption code system, but the relationships between the code systems must be well established</p>\n</div></td></tr><tr><td>OUT</td><td>outcome</td><td>1..1</td><td><a href=\"datatypes.html#code\">code</a></td><td><a href=\"valueset-concept-subsumption-outcome.html\">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD</a> (Required)</td><td><div><p>The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome.</p>\n</div></td></tr></table><div/></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "subsumes",
     "title": "Subsumption Testing",
     "status": "active",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -113,7 +113,7 @@
                     }
                 ],
                 "strength": "required",
-                "valueSet": "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.1.0"
+                "valueSet": "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD"
             }
         }
     ]

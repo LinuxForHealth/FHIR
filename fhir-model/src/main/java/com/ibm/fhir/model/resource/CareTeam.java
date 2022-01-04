@@ -65,7 +65,7 @@ public class CareTeam extends DomainResource {
         bindingName = "CareTeamStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the care team.",
-        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.3.0-CIBUILD"
     )
     private final CareTeamStatus status;
     @Summary
@@ -1100,7 +1100,7 @@ public class CareTeam extends DomainResource {
             bindingName = "CareTeamParticipantRole",
             strength = BindingStrength.Value.EXAMPLE,
             description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
-            valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
+            valueSet = "http://hl7.org/fhir/ValueSet/careteam-participant-role"
         )
         private final List<CodeableConcept> role;
         @Summary

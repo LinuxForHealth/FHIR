@@ -41,7 +41,6 @@ public class UsageContext extends Element {
     @Binding(
         bindingName = "UsageContextType",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "A code that specifies a type of context being specified by a usage context.",
         valueSet = "http://hl7.org/fhir/ValueSet/usage-context-type"
     )
     @Required
@@ -52,7 +51,6 @@ public class UsageContext extends Element {
     @Binding(
         bindingName = "UsageContextValue",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "A code that defines the specific value for the context being specified.",
         valueSet = "http://hl7.org/fhir/ValueSet/use-context"
     )
     @Required

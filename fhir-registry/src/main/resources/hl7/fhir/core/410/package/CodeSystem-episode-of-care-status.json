@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "episode-of-care-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>EpisodeOfCareStatus</h2>\n      \n      <div>\n        \n        <p>The status of the episode of care.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/episode-of-care-status defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">planned\n            \n            <a name=\"episode-of-care-status-planned\"> </a>\n          \n          </td>\n          \n          <td>Planned</td>\n          \n          <td>This episode of care is planned to start at the date specified in the period.start. During this status, an organization may perform assessments to determine if the patient is eligible to receive services, or be organizing to make resources available to provide care services.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">waitlist\n            \n            <a name=\"episode-of-care-status-waitlist\"> </a>\n          \n          </td>\n          \n          <td>Waitlist</td>\n          \n          <td>This episode has been placed on a waitlist, pending the episode being made active (or cancelled).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">active\n            \n            <a name=\"episode-of-care-status-active\"> </a>\n          \n          </td>\n          \n          <td>Active</td>\n          \n          <td>This episode of care is current.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">onhold\n            \n            <a name=\"episode-of-care-status-onhold\"> </a>\n          \n          </td>\n          \n          <td>On Hold</td>\n          \n          <td>This episode of care is on hold; the organization has limited responsibility for the patient (such as while on respite).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">finished\n            \n            <a name=\"episode-of-care-status-finished\"> </a>\n          \n          </td>\n          \n          <td>Finished</td>\n          \n          <td>This episode of care is finished and the organization is not expecting to be providing further care to the patient. Can also be known as &quot;closed&quot;, &quot;completed&quot; or other similar terms.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">cancelled\n            \n            <a name=\"episode-of-care-status-cancelled\"> </a>\n          \n          </td>\n          \n          <td>Cancelled</td>\n          \n          <td>The episode of care was cancelled, or withdrawn from service, often selected during the planned stage as the patient may have gone elsewhere, or the circumstances have changed and the organization is unable to provide the care. It indicates that services terminated outside the planned/expected workflow.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            <a name=\"episode-of-care-status-entered-in-error\"> </a>\n          \n          </td>\n          \n          <td>Entered in Error</td>\n          \n          <td>This instance should not have been part of this patient's medical record.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.665"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "EpisodeOfCareStatus",
     "title": "EpisodeOfCareStatus",
     "status": "draft",

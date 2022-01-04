@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "immunization-reason",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/429060002\">429060002</a></td><td>Procedure to meet occupational requirement</td></tr><tr><td><a href=\"http://snomed.info/id/281657000\">281657000</a></td><td>Travel vaccinations</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.290"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ImmunizationReasonCodes",
     "title": "Immunization Reason Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project team",
     "contact": [
         {

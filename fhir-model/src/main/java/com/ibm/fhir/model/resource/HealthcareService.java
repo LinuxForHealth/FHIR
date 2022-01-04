@@ -139,7 +139,7 @@ public class HealthcareService extends DomainResource {
     @Binding(
         bindingName = "Language",
         strength = BindingStrength.Value.PREFERRED,
-        description = "A human language.",
+        description = "IETF language tag",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
     )
@@ -2068,7 +2068,7 @@ public class HealthcareService extends DomainResource {
             bindingName = "DaysOfWeek",
             strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
-            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
         )
         private final List<DaysOfWeek> daysOfWeek;
         private final Boolean allDay;

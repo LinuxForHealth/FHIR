@@ -2,11 +2,11 @@
     "resourceType": "ValueSet",
     "id": "cpt-all",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-CPT.html\"><code>http://www.ama-assn.org/go/cpt</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -15,7 +15,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/cpt-all",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "All CPT codes",
     "status": "active",
     "date": "2015-03-12",
