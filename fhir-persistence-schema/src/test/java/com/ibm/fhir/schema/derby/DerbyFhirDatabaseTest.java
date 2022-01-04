@@ -138,7 +138,7 @@ public class DerbyFhirDatabaseTest {
 
                 // Check that we have the correct number of tables. This will need to be updated
                 // whenever tables, views or sequences are added or removed
-                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2099);
+                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2087);
                 c.commit();
             } catch (Throwable t) {
                 c.rollback();

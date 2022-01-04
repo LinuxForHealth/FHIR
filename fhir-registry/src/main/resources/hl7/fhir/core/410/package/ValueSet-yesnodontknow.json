@@ -2,11 +2,11 @@
     "resourceType": "ValueSet",
     "id": "yesnodontknow",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set contains 3 concepts</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>System</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---terminology.hl7.org-CodeSystem-v2-0136-Y\"> </a>Y</td><td>http://terminology.hl7.org/CodeSystem/v2-0136</td><td>Yes</td><td/></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---terminology.hl7.org-CodeSystem-v2-0136-N\"> </a>N</td><td>http://terminology.hl7.org/CodeSystem/v2-0136</td><td>No</td><td/></tr><tr><td style=\"white-space:nowrap\"><a name=\"http---terminology.hl7.org-CodeSystem-data-absent-reason-asked-unknown\"> </a><a href=\"codesystem-data-absent-reason.html#data-absent-reason-asked-unknown\">asked-unknown</a></td><td>http://terminology.hl7.org/CodeSystem/data-absent-reason</td><td>Don't know</td><td>The source was asked but does not know the value.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -15,7 +15,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/yesnodontknow",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Yes/No/Don't Know",
     "status": "draft",
     "description": "For Capturing simple yes-no-don't know answers",

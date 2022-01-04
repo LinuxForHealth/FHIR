@@ -74,7 +74,7 @@ public class Device extends DomainResource {
         bindingName = "FHIRDeviceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The availability status of the device.",
-        valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.3.0-CIBUILD"
     )
     private final FHIRDeviceStatus status;
     @Binding(
@@ -1667,7 +1667,7 @@ public class Device extends DomainResource {
             bindingName = "UDIEntryType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Codes to identify how UDI data was entered.",
-            valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.3.0-CIBUILD"
         )
         private final UDIEntryType entryType;
 
@@ -2137,7 +2137,7 @@ public class Device extends DomainResource {
             bindingName = "DeviceNameType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
-            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0-CIBUILD"
         )
         @Required
         private final DeviceNameType type;

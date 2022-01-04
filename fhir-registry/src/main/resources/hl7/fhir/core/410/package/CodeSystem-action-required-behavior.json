@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "action-required-behavior",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://hl7.org/fhir/action-required-behavior defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">must\n            \n            <a name=\"action-required-behavior-must\"> </a>\n          \n          </td>\n          \n          <td>Must</td>\n          \n          <td>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT choose not to include this action.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">could\n            \n            <a name=\"action-required-behavior-could\"> </a>\n          \n          </td>\n          \n          <td>Could</td>\n          \n          <td>An action with this behavior may be included in the set of actions processed by the end user.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">must-unless-documented\n            \n            <a name=\"action-required-behavior-must-unless-documented\"> </a>\n          \n          </td>\n          \n          <td>Must Unless Documented</td>\n          \n          <td>An action with this behavior must be included in the set of actions processed by the end user, unless the end user provides documentation as to why the action was not included.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.804"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ActionRequiredBehavior",
     "title": "ActionRequiredBehavior",
     "status": "draft",

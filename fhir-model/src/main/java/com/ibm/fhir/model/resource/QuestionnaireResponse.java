@@ -82,7 +82,7 @@ public class QuestionnaireResponse extends DomainResource {
         bindingName = "QuestionnaireResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
-        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-CIBUILD"
     )
     @Required
     private final QuestionnaireResponseStatus status;
@@ -1386,7 +1386,7 @@ public class QuestionnaireResponse extends DomainResource {
             @Binding(
                 bindingName = "QuestionnaireAnswer",
                 strength = BindingStrength.Value.EXAMPLE,
-                description = "Code indicating the response provided for a question.",
+                description = "Binding this is problematic because one value set can't apply to both codes and quantities.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
             private final Element value;

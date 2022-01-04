@@ -158,7 +158,7 @@ public class ValueSet extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -2611,7 +2611,7 @@ public class ValueSet extends DomainResource {
                     @Binding(
                         bindingName = "Language",
                         strength = BindingStrength.Value.PREFERRED,
-                        description = "A human language.",
+                        description = "IETF language tag",
                         valueSet = "http://hl7.org/fhir/ValueSet/languages",
                         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
                     )
@@ -2968,7 +2968,7 @@ public class ValueSet extends DomainResource {
                     bindingName = "FilterOperator",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The kind of operation to perform as a part of a property based filter.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"
                 )
                 @Required
                 private final FilterOperator op;

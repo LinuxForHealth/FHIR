@@ -119,7 +119,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionClinicalStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.3.0-CIBUILD"
     )
     private final CodeableConcept clinicalStatus;
     @Summary
@@ -127,7 +127,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionVerificationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.3.0-CIBUILD"
     )
     private final CodeableConcept verificationStatus;
     @Binding(
@@ -156,7 +156,7 @@ public class Condition extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;

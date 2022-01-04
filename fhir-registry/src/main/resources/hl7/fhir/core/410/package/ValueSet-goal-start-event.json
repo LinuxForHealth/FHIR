@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "goal-start-event",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/32485007\">32485007</a></td><td>Admission to hospital</td></tr><tr><td><a href=\"http://snomed.info/id/308283009\">308283009</a></td><td>Discharge from hospital</td></tr><tr><td><a href=\"http://snomed.info/id/442137000\">442137000</a></td><td>Completion time of procedure</td></tr><tr><td><a href=\"http://snomed.info/id/386216000\">386216000</a></td><td>Childbirth</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -32,9 +32,10 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.279"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "GoalStartEvent",
     "status": "draft",
+    "experimental": true,
     "publisher": "HL7 International - Patient Care WG",
     "contact": [
         {

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "report-action-result-codes",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>TestReportActionResult</h2>\n      \n      <div>\n        \n        <p>The results of executing an action.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/report-action-result-codes defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">pass\n            \n            <a name=\"report-action-result-codes-pass\"> </a>\n          \n          </td>\n          \n          <td>Pass</td>\n          \n          <td>The action was successful.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">skip\n            \n            <a name=\"report-action-result-codes-skip\"> </a>\n          \n          </td>\n          \n          <td>Skip</td>\n          \n          <td>The action was skipped.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">fail\n            \n            <a name=\"report-action-result-codes-fail\"> </a>\n          \n          </td>\n          \n          <td>Fail</td>\n          \n          <td>The action failed.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">warning\n            \n            <a name=\"report-action-result-codes-warning\"> </a>\n          \n          </td>\n          \n          <td>Warning</td>\n          \n          <td>The action passed but with warnings.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">error\n            \n            <a name=\"report-action-result-codes-error\"> </a>\n          \n          </td>\n          \n          <td>Error</td>\n          \n          <td>The action encountered a fatal error and the engine was unable to process.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.721"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "TestReportActionResult",
     "title": "TestReportActionResult",
     "status": "draft",

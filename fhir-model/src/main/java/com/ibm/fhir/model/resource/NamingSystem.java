@@ -103,7 +103,7 @@ public class NamingSystem extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -112,7 +112,7 @@ public class NamingSystem extends DomainResource {
         bindingName = "NamingSystemType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose of the naming system.",
-        valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0-CIBUILD"
     )
     @Required
     private final NamingSystemType kind;
@@ -1093,7 +1093,7 @@ public class NamingSystem extends DomainResource {
             bindingName = "NamingSystemIdentifierType",
             strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
-            valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-CIBUILD"
         )
         @Required
         private final NamingSystemIdentifierType type;

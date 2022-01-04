@@ -40,7 +40,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Binding(
     bindingName = "DistanceUnits",
     strength = BindingStrength.Value.EXTENSIBLE,
-    description = "Appropriate units for Distance.",
     valueSet = "http://hl7.org/fhir/ValueSet/distance-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-distance-units"
 )

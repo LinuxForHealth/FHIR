@@ -66,7 +66,7 @@ public class SpecimenDefinition extends DomainResource {
     @Binding(
         bindingName = "PreparePatient",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Checks on the patient prior specimen collection.",
+        description = "SCT descendants of 703763000 |Precondition value (qualifier value)|",
         valueSet = "http://hl7.org/fhir/ValueSet/prepare-patient-prior-specimen-collection"
     )
     private final List<CodeableConcept> patientPreparation;
@@ -76,7 +76,7 @@ public class SpecimenDefinition extends DomainResource {
     @Binding(
         bindingName = "SpecimenCollection",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The action to collect a type of specimen.",
+        description = "SCT actions and procedures for specimen collection",
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection"
     )
     private final List<CodeableConcept> collection;
@@ -699,7 +699,7 @@ public class SpecimenDefinition extends DomainResource {
             bindingName = "SpecimenContainedPreference",
             strength = BindingStrength.Value.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
-            valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.3.0-CIBUILD"
         )
         @Required
         private final SpecimenContainedPreference preference;
@@ -1274,14 +1274,14 @@ public class SpecimenDefinition extends DomainResource {
             @Binding(
                 bindingName = "ContainerMaterial",
                 strength = BindingStrength.Value.EXAMPLE,
-                description = "Types of material for specimen containers.",
+                description = "SCT 32039001 |Glass|, 61088005 |Plastic|, 425620007 |Metal|",
                 valueSet = "http://hl7.org/fhir/ValueSet/container-material"
             )
             private final CodeableConcept material;
             @Binding(
                 bindingName = "ContainerType",
                 strength = BindingStrength.Value.EXAMPLE,
-                description = "Type of specimen container.",
+                description = "SCT descendants of 706041008 |Device for body fluid and tissue collection/transfer/processing (physical object)|",
                 valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
             )
             private final CodeableConcept type;

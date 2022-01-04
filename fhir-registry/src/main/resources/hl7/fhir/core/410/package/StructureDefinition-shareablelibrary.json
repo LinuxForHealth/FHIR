@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "shareablelibrary",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,14 +20,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/shareablelibrary",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Shareable Library",
     "status": "draft",
     "experimental": false,
     "date": "2020-12-28T16:55:11+11:00",
     "publisher": "HL7",
     "description": "Enforces the minimum information set for the library metadata required by HL7 and other organizations that share and publish libraries",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -165,7 +165,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -779,7 +779,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {

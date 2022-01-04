@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "ucum-units",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    \n      \n      <p>\n      This value set includes all UCUM codes.\n     </p>\n     \n      \n      <p> \n      The UCUM codes, UCUM table (regardless of format), and UCUM Specification are copyright © 1999-2009, Regenstrief Institute, Inc. and the Unified Codes for Units of Measures (UCUM) Organization. All rights reserved.\n     </p>\n    \n    \n    </div>"
     },
     "extension": [
         {
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.912"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "UCUMCodes",
     "title": "UCUM Codes",
     "status": "draft",
-    "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "experimental": true,
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "FHIR Project team",
     "contact": [
         {

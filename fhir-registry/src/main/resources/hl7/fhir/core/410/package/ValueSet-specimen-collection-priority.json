@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "specimen-collection-priority",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <code>http://example.com</code><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>1</td><td>STAT</td></tr><tr><td>2</td><td>ASAP</td></tr><tr><td>3</td><td>ASAP-ED</td></tr><tr><td>4</td><td>AM</td></tr><tr><td>5</td><td>ROUTINE</td></tr><tr><td>6</td><td>NURSE COLLECT</td></tr><tr><td>7</td><td>CALL OR FAX</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.939"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SpecimenCollectionPriority",
     "status": "draft",
     "publisher": "FHIR Project team",

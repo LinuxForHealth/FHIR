@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "condition-severity",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This value set includes the following SNOMED CT &quot;Severity&quot; concepts:</p>\n      \n      <ul>\n        \n        <li>24484000: Severe</li>\n        \n        <li>6736007: Moderate</li>\n        \n        <li>255604002: Mild</li>\n      \n      </ul>\n      \n      <p>This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement</p>  \n    \n    </div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.168"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Condition/DiagnosisSeverity",
     "title": "Condition/Diagnosis Severity",
     "status": "draft",

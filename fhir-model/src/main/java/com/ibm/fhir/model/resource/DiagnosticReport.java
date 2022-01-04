@@ -74,7 +74,7 @@ public class DiagnosticReport extends DomainResource {
         bindingName = "DiagnosticReportStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the diagnostic report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-CIBUILD"
     )
     @Required
     private final DiagnosticReportStatus status;
@@ -82,7 +82,7 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "DiagnosticServiceSection",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes for diagnostic service sections.",
+        description = "HL7 V2 table 0074",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
     private final List<CodeableConcept> category;
@@ -90,7 +90,7 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "DiagnosticReportCodes",
         strength = BindingStrength.Value.PREFERRED,
-        description = "Codes that describe Diagnostic Reports.",
+        description = "LOINC Codes for Diagnostic Reports",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
     @Required
@@ -124,7 +124,7 @@ public class DiagnosticReport extends DomainResource {
     @Binding(
         bindingName = "AdjunctDiagnosis",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Diagnosis codes provided as adjuncts to the report.",
+        description = "SNOMED CT Clinical Findings",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> conclusionCode;

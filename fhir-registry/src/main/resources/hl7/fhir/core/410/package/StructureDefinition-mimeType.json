@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/mimeType",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "mimeType",
     "status": "draft",
     "date": "2014-04-27",
@@ -28,7 +28,7 @@
         }
     ],
     "description": "Identifies the kind(s) of attachment allowed to be sent for an element.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -124,7 +124,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -208,7 +208,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -270,7 +270,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -338,7 +338,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
                 }
             }
         ]
