@@ -20,6 +20,35 @@ import javax.annotation.Generated;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRResourceType extends Code {
     /**
+     * Resource
+     * 
+     * <p>--- Abstract Type! ---This is the base resource type for everything.
+     */
+    public static final FHIRResourceType RESOURCE = FHIRResourceType.builder().value(Value.RESOURCE).build();
+
+    /**
+     * Binary
+     * 
+     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
+     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+     */
+    public static final FHIRResourceType BINARY = FHIRResourceType.builder().value(Value.BINARY).build();
+
+    /**
+     * Bundle
+     * 
+     * <p>A container for a collection of resources.
+     */
+    public static final FHIRResourceType BUNDLE = FHIRResourceType.builder().value(Value.BUNDLE).build();
+
+    /**
+     * DomainResource
+     * 
+     * <p>--- Abstract Type! ---A resource that includes narrative, extensions, and contained resources.
+     */
+    public static final FHIRResourceType DOMAIN_RESOURCE = FHIRResourceType.builder().value(Value.DOMAIN_RESOURCE).build();
+
+    /**
      * Account
      * 
      * <p>A financial tool for tracking value accrued for a particular purpose. In the healthcare field, used to track 
@@ -92,14 +121,6 @@ public class FHIRResourceType extends Code {
     public static final FHIRResourceType BASIC = FHIRResourceType.builder().value(Value.BASIC).build();
 
     /**
-     * Binary
-     * 
-     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
-     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
-     */
-    public static final FHIRResourceType BINARY = FHIRResourceType.builder().value(Value.BINARY).build();
-
-    /**
      * BiologicallyDerivedProduct
      * 
      * <p>A material substance originating from a biological entity intended to be transplanted or infused
@@ -114,13 +135,6 @@ public class FHIRResourceType extends Code {
      * necessary detail needed for the use case.
      */
     public static final FHIRResourceType BODY_STRUCTURE = FHIRResourceType.builder().value(Value.BODY_STRUCTURE).build();
-
-    /**
-     * Bundle
-     * 
-     * <p>A container for a collection of resources.
-     */
-    public static final FHIRResourceType BUNDLE = FHIRResourceType.builder().value(Value.BUNDLE).build();
 
     /**
      * CapabilityStatement
@@ -385,13 +399,6 @@ public class FHIRResourceType extends Code {
      * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
      */
     public static final FHIRResourceType DOCUMENT_REFERENCE = FHIRResourceType.builder().value(Value.DOCUMENT_REFERENCE).build();
-
-    /**
-     * DomainResource
-     * 
-     * <p>A resource that includes narrative, extensions, and contained resources.
-     */
-    public static final FHIRResourceType DOMAIN_RESOURCE = FHIRResourceType.builder().value(Value.DOMAIN_RESOURCE).build();
 
     /**
      * Encounter
@@ -831,14 +838,6 @@ public class FHIRResourceType extends Code {
     public static final FHIRResourceType PACKAGED_PRODUCT_DEFINITION = FHIRResourceType.builder().value(Value.PACKAGED_PRODUCT_DEFINITION).build();
 
     /**
-     * Parameters
-     * 
-     * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
-     * html). It has no other use, and there is no RESTful endpoint associated with it.
-     */
-    public static final FHIRResourceType PARAMETERS = FHIRResourceType.builder().value(Value.PARAMETERS).build();
-
-    /**
      * Patient
      * 
      * <p>Demographics and other administrative information about an individual or animal receiving care or other health-
@@ -988,13 +987,6 @@ public class FHIRResourceType extends Code {
     public static final FHIRResourceType RESEARCH_SUBJECT = FHIRResourceType.builder().value(Value.RESEARCH_SUBJECT).build();
 
     /**
-     * Resource
-     * 
-     * <p>This is the base resource type for everything.
-     */
-    public static final FHIRResourceType RESOURCE = FHIRResourceType.builder().value(Value.RESOURCE).build();
-
-    /**
      * RiskAssessment
      * 
      * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
@@ -1078,8 +1070,8 @@ public class FHIRResourceType extends Code {
     /**
      * SubscriptionTopic
      * 
-     * <p>Describes a stream of resource state changes or events and annotated with labels useful to filter projections from 
-     * this topic.
+     * <p>Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to 
+     * filter projections from this topic.
      */
     public static final FHIRResourceType SUBSCRIPTION_TOPIC = FHIRResourceType.builder().value(Value.SUBSCRIPTION_TOPIC).build();
 
@@ -1145,7 +1137,7 @@ public class FHIRResourceType extends Code {
      * ValueSet
      * 
      * <p>A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
-     * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
+     * particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements]
      * (terminologies.html).
      */
     public static final FHIRResourceType VALUE_SET = FHIRResourceType.builder().value(Value.VALUE_SET).build();
@@ -1163,6 +1155,14 @@ public class FHIRResourceType extends Code {
      * <p>An authorization for the provision of glasses and/or contact lenses to a patient.
      */
     public static final FHIRResourceType VISION_PRESCRIPTION = FHIRResourceType.builder().value(Value.VISION_PRESCRIPTION).build();
+
+    /**
+     * Parameters
+     * 
+     * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
+     * html). It has no other use, and there is no RESTful endpoint associated with it.
+     */
+    public static final FHIRResourceType PARAMETERS = FHIRResourceType.builder().value(Value.PARAMETERS).build();
 
     private volatile int hashCode;
 
@@ -1182,6 +1182,14 @@ public class FHIRResourceType extends Code {
      */
     public static FHIRResourceType of(Value value) {
         switch (value) {
+        case RESOURCE:
+            return RESOURCE;
+        case BINARY:
+            return BINARY;
+        case BUNDLE:
+            return BUNDLE;
+        case DOMAIN_RESOURCE:
+            return DOMAIN_RESOURCE;
         case ACCOUNT:
             return ACCOUNT;
         case ACTIVITY_DEFINITION:
@@ -1200,14 +1208,10 @@ public class FHIRResourceType extends Code {
             return AUDIT_EVENT;
         case BASIC:
             return BASIC;
-        case BINARY:
-            return BINARY;
         case BIOLOGICALLY_DERIVED_PRODUCT:
             return BIOLOGICALLY_DERIVED_PRODUCT;
         case BODY_STRUCTURE:
             return BODY_STRUCTURE;
-        case BUNDLE:
-            return BUNDLE;
         case CAPABILITY_STATEMENT:
             return CAPABILITY_STATEMENT;
         case CARE_PLAN:
@@ -1272,8 +1276,6 @@ public class FHIRResourceType extends Code {
             return DOCUMENT_MANIFEST;
         case DOCUMENT_REFERENCE:
             return DOCUMENT_REFERENCE;
-        case DOMAIN_RESOURCE:
-            return DOMAIN_RESOURCE;
         case ENCOUNTER:
             return ENCOUNTER;
         case ENDPOINT:
@@ -1382,8 +1384,6 @@ public class FHIRResourceType extends Code {
             return ORGANIZATION_AFFILIATION;
         case PACKAGED_PRODUCT_DEFINITION:
             return PACKAGED_PRODUCT_DEFINITION;
-        case PARAMETERS:
-            return PARAMETERS;
         case PATIENT:
             return PATIENT;
         case PAYMENT_NOTICE:
@@ -1420,8 +1420,6 @@ public class FHIRResourceType extends Code {
             return RESEARCH_STUDY;
         case RESEARCH_SUBJECT:
             return RESEARCH_SUBJECT;
-        case RESOURCE:
-            return RESOURCE;
         case RISK_ASSESSMENT:
             return RISK_ASSESSMENT;
         case SCHEDULE:
@@ -1468,6 +1466,8 @@ public class FHIRResourceType extends Code {
             return VERIFICATION_RESULT;
         case VISION_PRESCRIPTION:
             return VISION_PRESCRIPTION;
+        case PARAMETERS:
+            return PARAMETERS;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -1708,12 +1708,35 @@ public class FHIRResourceType extends Code {
          */
         @Deprecated
         SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
+
         /**
-         * This resource type is retired and should never be used.
-         * It is retained here only for backwards compatibility.
+         * Resource
+         * 
+         * <p>--- Abstract Type! ---This is the base resource type for everything.
          */
-        @Deprecated
-        CLINICAL_USE_ISSUE("ClinicalUseIssue"),
+        RESOURCE("Resource"),
+
+        /**
+         * Binary
+         * 
+         * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
+         * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+         */
+        BINARY("Binary"),
+
+        /**
+         * Bundle
+         * 
+         * <p>A container for a collection of resources.
+         */
+        BUNDLE("Bundle"),
+
+        /**
+         * DomainResource
+         * 
+         * <p>--- Abstract Type! ---A resource that includes narrative, extensions, and contained resources.
+         */
+        DOMAIN_RESOURCE("DomainResource"),
 
         /**
          * Account
@@ -1788,14 +1811,6 @@ public class FHIRResourceType extends Code {
         BASIC("Basic"),
 
         /**
-         * Binary
-         * 
-         * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
-         * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
-         */
-        BINARY("Binary"),
-
-        /**
          * BiologicallyDerivedProduct
          * 
          * <p>A material substance originating from a biological entity intended to be transplanted or infused
@@ -1810,13 +1825,6 @@ public class FHIRResourceType extends Code {
          * necessary detail needed for the use case.
          */
         BODY_STRUCTURE("BodyStructure"),
-
-        /**
-         * Bundle
-         * 
-         * <p>A container for a collection of resources.
-         */
-        BUNDLE("Bundle"),
 
         /**
          * CapabilityStatement
@@ -2081,13 +2089,6 @@ public class FHIRResourceType extends Code {
          * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
          */
         DOCUMENT_REFERENCE("DocumentReference"),
-
-        /**
-         * DomainResource
-         * 
-         * <p>A resource that includes narrative, extensions, and contained resources.
-         */
-        DOMAIN_RESOURCE("DomainResource"),
 
         /**
          * Encounter
@@ -2527,14 +2528,6 @@ public class FHIRResourceType extends Code {
         PACKAGED_PRODUCT_DEFINITION("PackagedProductDefinition"),
 
         /**
-         * Parameters
-         * 
-         * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
-         * html). It has no other use, and there is no RESTful endpoint associated with it.
-         */
-        PARAMETERS("Parameters"),
-
-        /**
          * Patient
          * 
          * <p>Demographics and other administrative information about an individual or animal receiving care or other health-
@@ -2684,13 +2677,6 @@ public class FHIRResourceType extends Code {
         RESEARCH_SUBJECT("ResearchSubject"),
 
         /**
-         * Resource
-         * 
-         * <p>This is the base resource type for everything.
-         */
-        RESOURCE("Resource"),
-
-        /**
          * RiskAssessment
          * 
          * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
@@ -2774,8 +2760,8 @@ public class FHIRResourceType extends Code {
         /**
          * SubscriptionTopic
          * 
-         * <p>Describes a stream of resource state changes or events and annotated with labels useful to filter projections from 
-         * this topic.
+         * <p>Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to 
+         * filter projections from this topic.
          */
         SUBSCRIPTION_TOPIC("SubscriptionTopic"),
 
@@ -2841,7 +2827,7 @@ public class FHIRResourceType extends Code {
          * ValueSet
          * 
          * <p>A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
-         * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
+         * particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements]
          * (terminologies.html).
          */
         VALUE_SET("ValueSet"),
@@ -2858,7 +2844,15 @@ public class FHIRResourceType extends Code {
          * 
          * <p>An authorization for the provision of glasses and/or contact lenses to a patient.
          */
-        VISION_PRESCRIPTION("VisionPrescription");
+        VISION_PRESCRIPTION("VisionPrescription"),
+
+        /**
+         * Parameters
+         * 
+         * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
+         * html). It has no other use, and there is no RESTful endpoint associated with it.
+         */
+        PARAMETERS("Parameters");
 
         private final java.lang.String value;
 
@@ -2925,8 +2919,14 @@ public class FHIRResourceType extends Code {
                 return SUBSTANCE_SOURCE_MATERIAL;
             case "SubstanceSpecification":
                 return SUBSTANCE_SPECIFICATION;
-            case "ClinicalUseIssue":
-                return CLINICAL_USE_ISSUE;
+            case "Resource":
+                return RESOURCE;
+            case "Binary":
+                return BINARY;
+            case "Bundle":
+                return BUNDLE;
+            case "DomainResource":
+                return DOMAIN_RESOURCE;
             case "Account":
                 return ACCOUNT;
             case "ActivityDefinition":
@@ -2945,14 +2945,10 @@ public class FHIRResourceType extends Code {
                 return AUDIT_EVENT;
             case "Basic":
                 return BASIC;
-            case "Binary":
-                return BINARY;
             case "BiologicallyDerivedProduct":
                 return BIOLOGICALLY_DERIVED_PRODUCT;
             case "BodyStructure":
                 return BODY_STRUCTURE;
-            case "Bundle":
-                return BUNDLE;
             case "CapabilityStatement":
                 return CAPABILITY_STATEMENT;
             case "CarePlan":
@@ -3017,8 +3013,6 @@ public class FHIRResourceType extends Code {
                 return DOCUMENT_MANIFEST;
             case "DocumentReference":
                 return DOCUMENT_REFERENCE;
-            case "DomainResource":
-                return DOMAIN_RESOURCE;
             case "Encounter":
                 return ENCOUNTER;
             case "Endpoint":
@@ -3127,8 +3121,6 @@ public class FHIRResourceType extends Code {
                 return ORGANIZATION_AFFILIATION;
             case "PackagedProductDefinition":
                 return PACKAGED_PRODUCT_DEFINITION;
-            case "Parameters":
-                return PARAMETERS;
             case "Patient":
                 return PATIENT;
             case "PaymentNotice":
@@ -3165,8 +3157,6 @@ public class FHIRResourceType extends Code {
                 return RESEARCH_STUDY;
             case "ResearchSubject":
                 return RESEARCH_SUBJECT;
-            case "Resource":
-                return RESOURCE;
             case "RiskAssessment":
                 return RISK_ASSESSMENT;
             case "Schedule":
@@ -3213,6 +3203,8 @@ public class FHIRResourceType extends Code {
                 return VERIFICATION_RESULT;
             case "VisionPrescription":
                 return VISION_PRESCRIPTION;
+            case "Parameters":
+                return PARAMETERS;
             default:
                 throw new IllegalArgumentException(value);
             }

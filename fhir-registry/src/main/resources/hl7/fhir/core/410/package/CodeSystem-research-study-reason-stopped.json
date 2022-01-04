@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "research-study-reason-stopped",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ResearchStudyReasonStopped</h2>\n      \n      <div>\n        \n        <p>Codes for why the study ended prematurely.</p>\n\n      \n      </div>\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/research-study-reason-stopped defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">accrual-goal-met\n            \n            <a name=\"research-study-reason-stopped-accrual-goal-met\"> </a>\n          \n          </td>\n          \n          <td>Accrual Goal Met</td>\n          \n          <td>The study prematurely ended because the accrual goal was met.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">closed-due-to-toxicity\n            \n            <a name=\"research-study-reason-stopped-closed-due-to-toxicity\"> </a>\n          \n          </td>\n          \n          <td>Closed due to toxicity</td>\n          \n          <td>The study prematurely ended due to toxicity.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">closed-due-to-lack-of-study-progress\n            \n            <a name=\"research-study-reason-stopped-closed-due-to-lack-of-study-progress\"> </a>\n          \n          </td>\n          \n          <td>Closed due to lack of study progress</td>\n          \n          <td>The study prematurely ended due to lack of study progress.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">temporarily-closed-per-study-design\n            \n            <a name=\"research-study-reason-stopped-temporarily-closed-per-study-design\"> </a>\n          \n          </td>\n          \n          <td>Temporarily closed per study design</td>\n          \n          <td>The study prematurely ended temporarily per study design.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1249"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ResearchStudyReasonStopped",
     "title": "ResearchStudyReasonStopped",
     "status": "draft",

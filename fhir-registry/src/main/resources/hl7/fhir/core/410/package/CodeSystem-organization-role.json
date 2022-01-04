@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "organization-role",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/organization-role defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">provider<a name=\"organization-role-provider\"> </a></td><td>Provider</td><td/></tr><tr><td style=\"white-space:nowrap\">agency<a name=\"organization-role-agency\"> </a></td><td>Agency</td><td>An organization such as a public health agency, community/social services provider, etc.</td></tr><tr><td style=\"white-space:nowrap\">research<a name=\"organization-role-research\"> </a></td><td>Research</td><td>An organization providing research-related services such as conducting research, recruiting research participants, analyzing data, etc.</td></tr><tr><td style=\"white-space:nowrap\">payer<a name=\"organization-role-payer\"> </a></td><td>Payer</td><td>An organization providing reimbursement, payment, or related services</td></tr><tr><td style=\"white-space:nowrap\">diagnostics<a name=\"organization-role-diagnostics\"> </a></td><td>Diagnostics</td><td>An organization providing diagnostic testing/laboratory services</td></tr><tr><td style=\"white-space:nowrap\">supplier<a name=\"organization-role-supplier\"> </a></td><td>Supplier</td><td>An organization that provides medical supplies (e.g. medical devices, equipment, pharmaceutical products, etc.)</td></tr><tr><td style=\"white-space:nowrap\">HIE/HIO<a name=\"organization-role-HIE.47HIO\"> </a></td><td>HIE/HIO</td><td>An organization that facilitates electronic clinical data exchange between entities</td></tr><tr><td style=\"white-space:nowrap\">member<a name=\"organization-role-member\"> </a></td><td>Member</td><td>A type of non-ownership relationship between entities (encompasses partnerships, collaboration, joint ventures, etc.)</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.881"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "OrganizationAffiliationRole",
     "status": "draft",
     "experimental": false,

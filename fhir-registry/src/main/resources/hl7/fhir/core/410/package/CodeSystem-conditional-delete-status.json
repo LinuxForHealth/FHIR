@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "conditional-delete-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ConditionalDeleteStatus</h2>\n      \n      <div>\n        \n        <p>A code that indicates how the server supports conditional delete.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/conditional-delete-status defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">not-supported\n            \n            <a name=\"conditional-delete-status-not-supported\"> </a>\n          \n          </td>\n          \n          <td>Not Supported</td>\n          \n          <td>No support for conditional deletes.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">single\n            \n            <a name=\"conditional-delete-status-single\"> </a>\n          \n          </td>\n          \n          <td>Single Deletes Supported</td>\n          \n          <td>Conditional deletes are supported, but only single resources at a time.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">multiple\n            \n            <a name=\"conditional-delete-status-multiple\"> </a>\n          \n          </td>\n          \n          <td>Multiple Deletes Supported</td>\n          \n          <td>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.195"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConditionalDeleteStatus",
     "title": "ConditionalDeleteStatus",
     "status": "active",

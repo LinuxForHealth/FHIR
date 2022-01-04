@@ -2,11 +2,11 @@
     "resourceType": "ValueSet",
     "id": "object-lifecycle-events",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"> This value set includes codes from multiple codesets. </div>"
     },
     "extension": [
         {
@@ -27,7 +27,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/ValueSet/object-lifecycle-events",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ObjectLifecycleEvents",
     "status": "draft",
     "experimental": false,

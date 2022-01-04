@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "all-distance-units",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p>\n        This value set includes all possible UCUM codes used for distance measures - that it is, all units which have the same canonical unit as &quot;m&quot; (metre)\n      </p>\n      <p> \n        The UCUM codes, UCUM table (regardless of format), and UCUM Specification are copyright © 1999-2009, Regenstrief Institute, Inc. and the Unified Codes for Units of Measures (UCUM) Organization. All rights reserved.\n     </p>\n    \n    </div>"
     },
     "url": "http://hl7.org/fhir/ValueSet/all-distance-units",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AllUCUMExpressionForDistance",
     "title": "All UCUM Expression for Distance",
     "status": "draft",

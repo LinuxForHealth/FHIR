@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "subscription-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>SubscriptionStatus</h2>\n      \n      <div>\n        \n        <p>The status of a subscription.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/subscription-status defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">requested\n            \n            <a name=\"subscription-status-requested\"> </a>\n          \n          </td>\n          \n          <td>Requested</td>\n          \n          <td>The client has requested the subscription, and the server has not yet set it up.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">active\n            \n            <a name=\"subscription-status-active\"> </a>\n          \n          </td>\n          \n          <td>Active</td>\n          \n          <td>The subscription is active.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">error\n            \n            <a name=\"subscription-status-error\"> </a>\n          \n          </td>\n          \n          <td>Error</td>\n          \n          <td>The server has an error executing the notification.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">off\n            \n            <a name=\"subscription-status-off\"> </a>\n          \n          </td>\n          \n          <td>Off</td>\n          \n          <td>Too many errors have occurred or the subscription has expired.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.503"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SubscriptionStatus",
     "title": "SubscriptionStatus",
     "status": "draft",

@@ -45,8 +45,7 @@ public class Narrative extends Element {
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The status of a resource narrative.",
-        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
     )
     @Required
     private final NarrativeStatus status;

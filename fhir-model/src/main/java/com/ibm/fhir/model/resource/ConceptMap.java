@@ -112,7 +112,7 @@ public class ConceptMap extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -2098,7 +2098,7 @@ public class ConceptMap extends DomainResource {
                     bindingName = "ConceptMapEquivalence",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "The degree of equivalence between concepts.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.1.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-CIBUILD"
                 )
                 @Required
                 private final ConceptMapEquivalence equivalence;
@@ -3007,7 +3007,7 @@ public class ConceptMap extends DomainResource {
                 bindingName = "ConceptMapGroupUnmappedMode",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Defines which action to take if there is no match in the group.",
-                valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.1.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0-CIBUILD"
             )
             @Required
             private final ConceptMapGroupUnmappedMode mode;

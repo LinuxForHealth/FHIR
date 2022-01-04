@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-ElementDefinition.mapping.language",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-ElementDefinition.mapping.language",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ElementDefinition.mapping.language",
     "title": "ElementDefinition.mapping.language",
     "status": "draft",
     "experimental": true,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for ElementDefinition.mapping.language",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -96,7 +96,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {

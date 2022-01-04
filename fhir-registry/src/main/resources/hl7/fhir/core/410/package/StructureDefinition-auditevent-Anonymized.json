@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/auditevent-Anonymized",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Anonymized",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
@@ -28,7 +28,7 @@
         }
     ],
     "description": "True or False indicating whether all patient identifying information was removed from the data.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "dicom",
@@ -115,7 +115,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -199,7 +199,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

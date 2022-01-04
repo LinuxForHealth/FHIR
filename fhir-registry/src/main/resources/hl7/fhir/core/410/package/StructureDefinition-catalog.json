@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "catalog",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/catalog",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Profile for Catalog",
     "status": "draft",
     "experimental": false,
@@ -37,7 +37,7 @@
         }
     ],
     "description": "A set of resources composed into a single coherent clinical statement with clinical attestation",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -185,7 +185,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -629,7 +629,7 @@
                     ],
                     "strength": "required",
                     "description": "The workflow/clinical status of the composition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1199,7 +1199,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1355,7 +1355,7 @@
                     ],
                     "strength": "required",
                     "description": "The way in which a person authenticated a composition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1579,7 +1579,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1735,7 +1735,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of relationship between documents.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1870,7 +1870,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2215,7 +2215,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2614,7 +2614,7 @@
                     ],
                     "strength": "required",
                     "description": "The processing mode that applies to this section.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {

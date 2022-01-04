@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "goal-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      \n      <h2>GoalLifecycleStatus</h2>\n      \n      \n      <div>\n        \n        \n        <p>Codes that reflect the current state of a goal and whether the goal is still being targeted.</p>\n\n      \n      \n      </div>\n      \n      \n      <p>This code system http://hl7.org/fhir/goal-status defines the following codes:</p>\n      \n      \n      <table class=\"codes\">\n        \n        \n        <tr>\n          \n          \n          <td>\n            \n            \n            <b>Lvl</b>\n          \n          \n          </td>\n          \n          \n          <td style=\"white-space:nowrap\">\n            \n            \n            <b>Code</b>\n          \n          \n          </td>\n          \n          \n          <td>\n            \n            \n            <b>Display</b>\n          \n          \n          </td>\n          \n          \n          <td>\n            \n            \n            <b>Definition</b>\n          \n          \n          </td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">proposed\n            \n            \n            <a name=\"goal-status-proposed\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Proposed</td>\n          \n          \n          <td>A goal is proposed for this patient.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">planned\n            \n            \n            <a name=\"goal-status-planned\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Planned</td>\n          \n          \n          <td>A goal is planned for this patient.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">accepted\n            \n            \n            <a name=\"goal-status-accepted\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Accepted</td>\n          \n          \n          <td>A proposed goal was accepted or acknowledged.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>2</td>\n          \n          \n          <td style=\"white-space:nowrap\">  active\n            \n            \n            <a name=\"goal-status-active\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Active</td>\n          \n          \n          <td>The goal is being sought actively.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>2</td>\n          \n          \n          <td style=\"white-space:nowrap\">  on-hold\n            \n            \n            <a name=\"goal-status-on-hold\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>On Hold</td>\n          \n          \n          <td>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>2</td>\n          \n          \n          <td style=\"white-space:nowrap\">  completed\n            \n            \n            <a name=\"goal-status-completed\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Completed</td>\n          \n          \n          <td>The goal is no longer being sought.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">cancelled\n            \n            \n            <a name=\"goal-status-cancelled\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Cancelled</td>\n          \n          \n          <td>The goal has been abandoned.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            \n            <a name=\"goal-status-entered-in-error\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Entered in Error</td>\n          \n          \n          <td>The goal was entered in error and voided.</td>\n        \n        \n        </tr>\n        \n        \n        <tr>\n          \n          \n          <td>1</td>\n          \n          \n          <td style=\"white-space:nowrap\">rejected\n            \n            \n            <a name=\"goal-status-rejected\"> </a>\n          \n          \n          </td>\n          \n          \n          <td>Rejected</td>\n          \n          \n          <td>A proposed goal was rejected.</td>\n        \n        \n        </tr>\n      \n      \n      </table>\n    \n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.272"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "GoalLifecycleStatus",
     "title": "GoalLifecycleStatus",
     "status": "draft",
@@ -56,6 +56,7 @@
     "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
     "caseSensitive": true,
     "valueSet": "http://hl7.org/fhir/ValueSet/goal-status",
+    "hierarchyMeaning": "is-a",
     "content": "complete",
     "concept": [
         {

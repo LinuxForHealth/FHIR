@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-resolutionAge",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "resolutionAge",
     "title": "resolutionAge",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "The estimated patient age at which the allergy or intolerance resolved. Should be specified only if the status is resolved.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -106,7 +106,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -190,7 +190,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

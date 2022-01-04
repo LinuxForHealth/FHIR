@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "service-uscls",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/ex-USCLS defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">1101<a name=\"service-uscls-1101\"> </a></td><td>Exam, comp, primary</td><td>Exam, comp, primary</td></tr><tr><td style=\"white-space:nowrap\">1102<a name=\"service-uscls-1102\"> </a></td><td>Exam, comp, mixed</td><td>Exam, comp, mixed</td></tr><tr><td style=\"white-space:nowrap\">1103<a name=\"service-uscls-1103\"> </a></td><td>Exam, comp, permanent</td><td>Exam, comp, permanent</td></tr><tr><td style=\"white-space:nowrap\">1201<a name=\"service-uscls-1201\"> </a></td><td>Exam, recall</td><td>Exam, recall</td></tr><tr><td style=\"white-space:nowrap\">1205<a name=\"service-uscls-1205\"> </a></td><td>Exam, emergency</td><td>Exam, emergency</td></tr><tr><td style=\"white-space:nowrap\">2101<a name=\"service-uscls-2101\"> </a></td><td>Radiograph, series (12)</td><td>Radiograph, series (12)</td></tr><tr><td style=\"white-space:nowrap\">2102<a name=\"service-uscls-2102\"> </a></td><td>Radiograph, series (16)</td><td>Radiograph, series (16)</td></tr><tr><td style=\"white-space:nowrap\">2141<a name=\"service-uscls-2141\"> </a></td><td>Radiograph, bitewing</td><td>Radiograph, bitewing</td></tr><tr><td style=\"white-space:nowrap\">2601<a name=\"service-uscls-2601\"> </a></td><td>Radiograph, panoramic</td><td>Radiograph, panoramic</td></tr><tr><td style=\"white-space:nowrap\">11101<a name=\"service-uscls-11101\"> </a></td><td>Polishing, 1 unit</td><td>Polishing, 1 unit</td></tr><tr><td style=\"white-space:nowrap\">11102<a name=\"service-uscls-11102\"> </a></td><td>Polishing, 2 unit</td><td>Polishing, 2 unit</td></tr><tr><td style=\"white-space:nowrap\">11103<a name=\"service-uscls-11103\"> </a></td><td>Polishing, 3 unit</td><td>Polishing, 3 unit</td></tr><tr><td style=\"white-space:nowrap\">11104<a name=\"service-uscls-11104\"> </a></td><td>Polishing, 4 unit</td><td>Polishing, 4 unit</td></tr><tr><td style=\"white-space:nowrap\">21211<a name=\"service-uscls-21211\"> </a></td><td>Amalgam, 1 surface</td><td>Amalgam, 1 surface</td></tr><tr><td style=\"white-space:nowrap\">21212<a name=\"service-uscls-21212\"> </a></td><td>Amalgam, 2 surface</td><td>Amalgam, 2 surface</td></tr><tr><td style=\"white-space:nowrap\">27211<a name=\"service-uscls-27211\"> </a></td><td>Crown, PFM</td><td>Crown, PFM</td></tr><tr><td style=\"white-space:nowrap\">67211<a name=\"service-uscls-67211\"> </a></td><td>Maryland Bridge</td><td>Maryland Bridge</td></tr><tr><td style=\"white-space:nowrap\">99111<a name=\"service-uscls-99111\"> </a></td><td>Lab, commercial</td><td>Lab, commercial</td></tr><tr><td style=\"white-space:nowrap\">99333<a name=\"service-uscls-99333\"> </a></td><td>Lab, in office</td><td>Lab, in office</td></tr><tr><td style=\"white-space:nowrap\">99555<a name=\"service-uscls-99555\"> </a></td><td>Expense</td><td>Expense</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1153"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "USCLSCodes",
     "title": "USCLS Codes",
     "status": "draft",

@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "document-reference-status",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/document-reference-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">current<a name=\"document-reference-status-current\"> </a></td><td>Current</td><td>This is the current reference for this document.</td></tr><tr><td style=\"white-space:nowrap\">superseded<a name=\"document-reference-status-superseded\"> </a></td><td>Superseded</td><td>This reference has been superseded by another reference.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"document-reference-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>This reference was created in error.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -29,12 +29,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.8"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DocumentReferenceStatus",
     "title": "DocumentReferenceStatus",
     "status": "draft",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "description": "The status of the document reference.",
     "caseSensitive": true,
     "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status",

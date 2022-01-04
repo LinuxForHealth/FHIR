@@ -44,15 +44,15 @@ public class Attachment extends Element {
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+        description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
     )
     private final Code contentType;
     @Summary
     @Binding(
         bindingName = "Language",
         strength = BindingStrength.Value.PREFERRED,
-        description = "A human language.",
+        description = "IETF language tag",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
     )

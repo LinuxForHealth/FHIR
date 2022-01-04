@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "composite-measure-scoring",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/composite-measure-scoring defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">opportunity\n            \n            <a name=\"composite-measure-scoring-opportunity\"> </a>\n          \n          </td>\n          \n          <td>Opportunity</td>\n          \n          <td>Opportunity scoring combines the scores from component measures by combining the numerators and denominators for each component.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">all-or-nothing\n            \n            <a name=\"composite-measure-scoring-all-or-nothing\"> </a>\n          \n          </td>\n          \n          <td>All-or-nothing</td>\n          \n          <td>All-or-nothing scoring includes an individual in the numerator of the composite measure if they are in the numerators of all of the component measures in which they are in the denominator.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">linear\n            \n            <a name=\"composite-measure-scoring-linear\"> </a>\n          \n          </td>\n          \n          <td>Linear</td>\n          \n          <td>Linear scoring gives an individual a score based on the number of numerators in which they appear.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">weighted\n            \n            <a name=\"composite-measure-scoring-weighted\"> </a>\n          \n          </td>\n          \n          <td>Weighted</td>\n          \n          <td>Weighted scoring gives an individual a score based on a weighted factor for each component numerator in which they appear.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1235"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CompositeMeasureScoring",
     "title": "CompositeMeasureScoring",
     "status": "draft",

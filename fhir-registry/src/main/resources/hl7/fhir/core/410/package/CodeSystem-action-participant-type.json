@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "action-participant-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://hl7.org/fhir/action-participant-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">patient\n            \n            <a name=\"action-participant-type-patient\"> </a>\n          \n          </td>\n          \n          <td>Patient</td>\n          \n          <td>The participant is the patient under evaluation.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">practitioner\n            \n            <a name=\"action-participant-type-practitioner\"> </a>\n          \n          </td>\n          \n          <td>Practitioner</td>\n          \n          <td>The participant is a practitioner involved in the patient's care.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">related-person\n            \n            <a name=\"action-participant-type-related-person\"> </a>\n          \n          </td>\n          \n          <td>Related Person</td>\n          \n          <td>The participant is a person related to the patient.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">device\n            \n            <a name=\"action-participant-type-device\"> </a>\n          \n          </td>\n          \n          <td>Device</td>\n          \n          <td>The participant is a system or device used in the care of the patient.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.812"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ActionParticipantType",
     "title": "ActionParticipantType",
     "status": "draft",

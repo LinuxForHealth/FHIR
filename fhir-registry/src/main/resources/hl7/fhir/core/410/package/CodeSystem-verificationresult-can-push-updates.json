@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "verificationresult-can-push-updates",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/verificationresult-can-push-updates defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">yes<a name=\"verificationresult-can-push-updates-yes\"> </a></td><td>Yes</td></tr><tr><td style=\"white-space:nowrap\">no<a name=\"verificationresult-can-push-updates-no\"> </a></td><td>No</td></tr><tr><td style=\"white-space:nowrap\">undetermined<a name=\"verificationresult-can-push-updates-undetermined\"> </a></td><td>Undetermined</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.897"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "can-push-updates",
     "status": "draft",
     "experimental": false,

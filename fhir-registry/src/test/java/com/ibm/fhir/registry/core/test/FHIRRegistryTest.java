@@ -43,7 +43,7 @@ public class FHIRRegistryTest {
     @Test
     public void testGetResourcesByResourceType() {
         Collection<SearchParameter> searchParameters = FHIRRegistry.getInstance().getResources(SearchParameter.class);
-        Assert.assertEquals(searchParameters.size(), 2796);
+        Assert.assertEquals(searchParameters.size(), 2785);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class FHIRRegistryTest {
     @Test
     public void testGetSearchParametersByType() {
         Collection<SearchParameter> tokenSearchParameters = FHIRRegistry.getInstance().getSearchParameters("token");
-        Assert.assertEquals(tokenSearchParameters.size(), 1106);
+        Assert.assertEquals(tokenSearchParameters.size(), 1100);
     }
 
     @Test

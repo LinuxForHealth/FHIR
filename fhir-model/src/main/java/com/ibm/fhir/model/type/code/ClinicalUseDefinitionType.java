@@ -16,20 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/clinical-use-issue-type")
+@System("http://hl7.org/fhir/clinical-use-definition-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalUseDefinitionType extends Code {
     /**
      * Indication
      * 
-     * <p>A reason for giving the medicaton.
+     * <p>A reason for giving the medication.
      */
     public static final ClinicalUseDefinitionType INDICATION = ClinicalUseDefinitionType.builder().value(Value.INDICATION).build();
 
     /**
      * Contraindication
      * 
-     * <p>A reason for not giving the medicaition.
+     * <p>A reason for not giving the medication.
      */
     public static final ClinicalUseDefinitionType CONTRAINDICATION = ClinicalUseDefinitionType.builder().value(Value.CONTRAINDICATION).build();
 
@@ -217,14 +217,14 @@ public class ClinicalUseDefinitionType extends Code {
         /**
          * Indication
          * 
-         * <p>A reason for giving the medicaton.
+         * <p>A reason for giving the medication.
          */
         INDICATION("indication"),
 
         /**
          * Contraindication
          * 
-         * <p>A reason for not giving the medicaition.
+         * <p>A reason for not giving the medication.
          */
         CONTRAINDICATION("contraindication"),
 

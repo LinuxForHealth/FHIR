@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "nullFlavor",
     "status": "draft",
     "date": "2012-06-24",
@@ -28,7 +28,7 @@
         }
     ],
     "description": "If the value is not a proper value, indicates the reason.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -120,7 +120,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -204,7 +204,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -261,7 +261,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.1.0"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -324,7 +324,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.1.0"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-CIBUILD"
                 }
             }
         ]

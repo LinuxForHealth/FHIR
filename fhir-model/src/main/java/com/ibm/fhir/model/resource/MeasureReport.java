@@ -93,8 +93,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureReportStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The status of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.1.0"
+        description = "The status of the measure report (e.g. complete, pending, or error)",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-CIBUILD"
     )
     @Required
     private final MeasureReportStatus status;
@@ -102,8 +102,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureReportType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The type of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.1.0"
+        description = "The type of the measure report: individual, patient listing, or summary",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-CIBUILD"
     )
     @Required
     private final MeasureReportType type;
@@ -125,8 +125,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+        description = "The improvement notation of the measure report (e.g. increase or decrease)",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
     )
     private final CodeableConcept improvementNotation;
     private final List<Group> group;

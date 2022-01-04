@@ -2,11 +2,11 @@
     "resourceType": "StructureDefinition",
     "id": "SimpleQuantity",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Data type SimpleQuantity</h2><p>A fixed quantity (no comparator)</p><h3>Rule</h3><p>The comparator is not used on a SimpleQuantity</p><p>XPath:</p><blockquote><pre>not(exists(f:comparator))</pre></blockquote></div>"
     },
     "extension": [
         {
@@ -19,10 +19,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SimpleQuantity",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SimpleQuantity",
     "status": "active",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -35,7 +35,7 @@
         }
     ],
     "description": "A fixed quantity (no comparator)",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -132,7 +132,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -292,7 +292,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {

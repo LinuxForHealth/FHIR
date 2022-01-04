@@ -66,8 +66,8 @@ public class ClinicalUseDefinition extends DomainResource {
     @Binding(
         bindingName = "ClinicalUseDefinitionType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Overall defining type of this clinical use issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/clinical-use-issue-type|4.1.0"
+        description = "Overall defining type of this clinical use definition.",
+        valueSet = "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-CIBUILD"
     )
     @Required
     private final ClinicalUseDefinitionType type;

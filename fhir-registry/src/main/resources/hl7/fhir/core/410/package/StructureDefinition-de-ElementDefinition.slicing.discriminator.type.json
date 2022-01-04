@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-ElementDefinition.slicing.discriminator.type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-ElementDefinition.slicing.discriminator.type",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ElementDefinition.slicing.discriminator.type",
     "title": "ElementDefinition.slicing.discriminator.type",
     "status": "draft",
     "experimental": true,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for ElementDefinition.slicing.discriminator.type",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -90,7 +90,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {

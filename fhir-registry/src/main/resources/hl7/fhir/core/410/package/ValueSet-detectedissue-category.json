@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "detectedissue-category",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include codes from <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActCode</code></a> where concept  is-a  <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html#v3-ActCode-_AdministrationDetectedIssueCode\">_AdministrationDetectedIssueCode</a></li><li>Include codes from <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActCode</code></a> where concept  is-a  <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html#v3-ActCode-_ActSuppliedItemDetectedIssueCode\">_ActSuppliedItemDetectedIssueCode</a></li><li>Include codes from <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html\"><code>http://terminology.hl7.org/CodeSystem/v3-ActCode</code></a> where concept  is-a  <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-ActCode.html#v3-ActCode-_SupplyDetectedIssueCode\">_SupplyDetectedIssueCode</a></li></ul></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.204"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DetectedIssueCategory",
     "title": "Detected Issue Category",
     "status": "draft",

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "questionnaire-enable-behavior",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>EnableWhenBehavior</h2>\n      \n      <div>\n        \n        <p>Controls how multiple enableWhen values are interpreted -  whether all or any must be true.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/questionnaire-enable-behavior defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">all\n            \n            <a name=\"questionnaire-enable-behavior-all\"> </a>\n          \n          </td>\n          \n          <td>All</td>\n          \n          <td>Enable the question when all the enableWhen criteria are satisfied.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">any\n            \n            <a name=\"questionnaire-enable-behavior-any\"> </a>\n          \n          </td>\n          \n          <td>Any</td>\n          \n          <td>Enable the question when any of the enableWhen criteria are satisfied.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1008"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "EnableWhenBehavior",
     "title": "EnableWhenBehavior",
     "status": "draft",

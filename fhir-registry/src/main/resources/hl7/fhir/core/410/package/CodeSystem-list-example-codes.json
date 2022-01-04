@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "list-example-codes",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/list-example-use-codes defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">alerts<a name=\"list-example-codes-alerts\"> </a></td><td>Alerts</td><td>A list of alerts for the patient.</td></tr><tr><td style=\"white-space:nowrap\">adverserxns<a name=\"list-example-codes-adverserxns\"> </a></td><td>Adverse Reactions</td><td>A list of part adverse reactions.</td></tr><tr><td style=\"white-space:nowrap\">allergies<a name=\"list-example-codes-allergies\"> </a></td><td>Allergies</td><td>A list of Allergies for the patient.</td></tr><tr><td style=\"white-space:nowrap\">medications<a name=\"list-example-codes-medications\"> </a></td><td>Medication List</td><td>A list of medication statements for the patient.</td></tr><tr><td style=\"white-space:nowrap\">problems<a name=\"list-example-codes-problems\"> </a></td><td>Problem List</td><td>A list of problems that the patient is known of have (or have had in the past).</td></tr><tr><td style=\"white-space:nowrap\">worklist<a name=\"list-example-codes-worklist\"> </a></td><td>Worklist</td><td>A list of items that constitute a set of work to be performed (typically this code would be specialized for more specific uses, such as a ward round list).</td></tr><tr><td style=\"white-space:nowrap\">waiting<a name=\"list-example-codes-waiting\"> </a></td><td>Waiting List</td><td>A list of items waiting for an event (perhaps a surgical patient waiting list).</td></tr><tr><td style=\"white-space:nowrap\">protocols<a name=\"list-example-codes-protocols\"> </a></td><td>Protocols</td><td>A set of protocols to be followed.</td></tr><tr><td style=\"white-space:nowrap\">plans<a name=\"list-example-codes-plans\"> </a></td><td>Care Plans</td><td>A set of care plans that apply in a particular context of care.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1105"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ExampleUseCodesForList",
     "title": "Example Use Codes for List",
     "status": "draft",

@@ -86,7 +86,7 @@ public class ClaimResponse extends DomainResource {
         bindingName = "ClaimResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
     )
     @Required
     private final ClaimResponseStatus status;
@@ -111,7 +111,7 @@ public class ClaimResponse extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.Value.REQUIRED,
         description = "Claim, preauthorization, predetermination.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-CIBUILD"
     )
     @Required
     private final Use use;
@@ -136,7 +136,7 @@ public class ClaimResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-CIBUILD"
     )
     @Required
     private final RemittanceOutcome outcome;
@@ -1120,7 +1120,7 @@ public class ClaimResponse extends DomainResource {
          * <p>This element is required.
          * 
          * @param outcome
-         *     complete | error | partial
+         *     queued | complete | error | partial
          * 
          * @return
          *     A reference to this Builder instance
@@ -6435,7 +6435,7 @@ public class ClaimResponse extends DomainResource {
             bindingName = "NoteType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0-CIBUILD"
         )
         private final NoteType type;
         @Required
@@ -6443,7 +6443,7 @@ public class ClaimResponse extends DomainResource {
         @Binding(
             bindingName = "Language",
             strength = BindingStrength.Value.PREFERRED,
-            description = "A human language.",
+            description = "IETF language tag",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )

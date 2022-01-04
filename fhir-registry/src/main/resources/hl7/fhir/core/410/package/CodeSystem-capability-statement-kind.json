@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "capability-statement-kind",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>CapabilityStatementKind</h2>\n      \n      <div>\n        \n        <p>How a capability statement is intended to be used.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/capability-statement-kind defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Comments</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">instance\n            \n            <a name=\"capability-statement-kind-instance\"> </a>\n          \n          </td>\n          \n          <td>Instance</td>\n          \n          <td>The CapabilityStatement instance represents the present capabilities of a specific system instance.  This is the kind returned by /metadata for a FHIR server end-point.</td>\n          \n          <td/>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">capability\n            \n            <a name=\"capability-statement-kind-capability\"> </a>\n          \n          </td>\n          \n          <td>Capability</td>\n          \n          <td>The CapabilityStatement instance represents the capabilities of a system or piece of software, independent of a particular installation.</td>\n          \n          <td>Elements marked as 'optional' represent configurable capabilities</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">requirements\n            \n            <a name=\"capability-statement-kind-requirements\"> </a>\n          \n          </td>\n          \n          <td>Requirements</td>\n          \n          <td>The CapabilityStatement instance represents a set of requirements for other systems to meet; e.g. as part of an implementation guide or 'request for proposal'.</td>\n          \n          <td/>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.199"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CapabilityStatementKind",
     "title": "CapabilityStatementKind",
     "status": "active",

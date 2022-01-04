@@ -12,14 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-relatedPerson",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "relatedPerson",
     "title": "relatedPerson",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "In some cases a Patient.contact will also be populated as a RelatedPerson resource. This linkage permits the linkage between the 2 resources to be able to accurately indicate a representation of the same individual, and updating details between could be appropriate.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -95,7 +95,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -179,7 +179,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

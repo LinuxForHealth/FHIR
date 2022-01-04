@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "slotstatus",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>SlotStatus</h2>\n      \n      <div>\n        \n        <p>The free/busy status of the slot.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/slotstatus defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">busy\n            \n            <a name=\"slotstatus-busy\"> </a>\n          \n          </td>\n          \n          <td>Busy</td>\n          \n          <td>Indicates that the time interval is busy because one  or more events have been scheduled for that interval.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">free\n            \n            <a name=\"slotstatus-free\"> </a>\n          \n          </td>\n          \n          <td>Free</td>\n          \n          <td>Indicates that the time interval is free for scheduling.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">busy-unavailable\n            \n            <a name=\"slotstatus-busy-unavailable\"> </a>\n          \n          </td>\n          \n          <td>Busy (Unavailable)</td>\n          \n          <td>Indicates that the time interval is busy and that the interval cannot be scheduled.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">busy-tentative\n            \n            <a name=\"slotstatus-busy-tentative\"> </a>\n          \n          </td>\n          \n          <td>Busy (Tentative)</td>\n          \n          <td>Indicates that the time interval is busy because one or more events have been tentatively scheduled for that interval.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            <a name=\"slotstatus-entered-in-error\"> </a>\n          \n          </td>\n          \n          <td>Entered in error</td>\n          \n          <td>This instance should not have been part of this patient's medical record.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.483"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SlotStatus",
     "title": "SlotStatus",
     "status": "draft",

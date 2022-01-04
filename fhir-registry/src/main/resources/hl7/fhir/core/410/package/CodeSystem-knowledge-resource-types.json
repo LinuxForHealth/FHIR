@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "knowledge-resource-types",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/knowledge-resource-types defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">ActivityDefinition<a name=\"knowledge-resource-types-ActivityDefinition\"> </a></td><td>ActivityDefinition</td><td>The definition of a specific activity to be taken, independent of any particular patient or context.</td></tr><tr><td style=\"white-space:nowrap\">CodeSystem<a name=\"knowledge-resource-types-CodeSystem\"> </a></td><td>CodeSystem</td><td>A set of codes drawn from one or more code systems.</td></tr><tr><td style=\"white-space:nowrap\">ConceptMap<a name=\"knowledge-resource-types-ConceptMap\"> </a></td><td>ConceptMap</td><td>A map from one set of concepts to one or more other concepts.</td></tr><tr><td style=\"white-space:nowrap\">Library<a name=\"knowledge-resource-types-Library\"> </a></td><td>Library</td><td>Represents a library of quality improvement components.</td></tr><tr><td style=\"white-space:nowrap\">Measure<a name=\"knowledge-resource-types-Measure\"> </a></td><td>Measure</td><td>A quality measure definition.</td></tr><tr><td style=\"white-space:nowrap\">PlanDefinition<a name=\"knowledge-resource-types-PlanDefinition\"> </a></td><td>PlanDefinition</td><td>The definition of a plan for a series of actions, independent of any specific patient or context.</td></tr><tr><td style=\"white-space:nowrap\">StructureDefinition<a name=\"knowledge-resource-types-StructureDefinition\"> </a></td><td>StructureDefinition</td><td>Structural Definition.</td></tr><tr><td style=\"white-space:nowrap\">StructureMap<a name=\"knowledge-resource-types-StructureMap\"> </a></td><td>StructureMap</td><td>A Map of relationships between 2 structures that can be used to transform data.</td></tr><tr><td style=\"white-space:nowrap\">ValueSet<a name=\"knowledge-resource-types-ValueSet\"> </a></td><td>ValueSet</td><td>A set of codes drawn from one or more code systems.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -21,12 +21,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1063"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "KnowledgeResourceType",
     "title": "KnowledgeResourceType",
     "status": "draft",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "description": "A list of all the knowledge resource types defined in this version of the FHIR specification.",
     "caseSensitive": true,
     "valueSet": "http://hl7.org/fhir/ValueSet/knowledge-resource-types",

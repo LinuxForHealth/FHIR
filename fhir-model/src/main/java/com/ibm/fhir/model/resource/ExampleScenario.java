@@ -83,7 +83,7 @@ public class ExampleScenario extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -1283,7 +1283,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "ExampleScenarioActorType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of actor - system or human.",
-            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.3.0-CIBUILD"
         )
         @Required
         private final ExampleScenarioActorType type;
@@ -1678,7 +1678,7 @@ public class ExampleScenario extends DomainResource {
             bindingName = "FHIRResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of resource.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         )
         @Required
         private final FHIRResourceType resourceType;

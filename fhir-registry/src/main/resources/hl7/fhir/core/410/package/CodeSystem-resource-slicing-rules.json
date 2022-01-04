@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "resource-slicing-rules",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/resource-slicing-rules defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">closed<a name=\"resource-slicing-rules-closed\"> </a></td><td>Closed</td><td>No additional content is allowed other than that described by the slices in this profile.</td></tr><tr><td style=\"white-space:nowrap\">open<a name=\"resource-slicing-rules-open\"> </a></td><td>Open</td><td>Additional content is allowed anywhere in the list.</td></tr><tr><td style=\"white-space:nowrap\">openAtEnd<a name=\"resource-slicing-rules-openAtEnd\"> </a></td><td>Open at End</td><td>Additional content is allowed, but only at the end of the list. Note that using this requires that the slices be ordered, which makes it hard to share uses. This should only be done where absolutely required.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.84"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SlicingRules",
     "title": "SlicingRules",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

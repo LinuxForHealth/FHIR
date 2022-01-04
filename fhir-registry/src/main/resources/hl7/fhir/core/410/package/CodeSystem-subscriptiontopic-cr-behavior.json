@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "subscriptiontopic-cr-behavior",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://hl7.org/fhir/subscriptiontopic-cr-behavior defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">test-passes\n            \n            <a name=\"subscriptiontopic-cr-behavior-test-passes\"> </a>\n          \n          </td>\n          \n          <td>test passes</td>\n          \n          <td>The requested conditional statement will pass if a matching state does not exist (e.g., previous state during create).</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">test-fails\n            \n            <a name=\"subscriptiontopic-cr-behavior-test-fails\"> </a>\n          \n          </td>\n          \n          <td>test fails</td>\n          \n          <td>The requested conditional statement will fail if a matching state does not exist (e.g., previous state during create).</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CriteriaNotExistsBehavior",
     "title": "CriteriaNotExistsBehavior",
     "status": "draft",
