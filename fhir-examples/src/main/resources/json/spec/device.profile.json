@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Device",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Device",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Device",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "A type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device.",
   "purpose": "Allows institutions to track their devices.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -999,7 +999,7 @@
           ],
           "strength": "required",
           "description": "Codes to identify how UDI data was entered.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/udi-entry-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/udi-entry-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1049,7 +1049,7 @@
           ],
           "strength": "required",
           "description": "The availability status of the device.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1621,7 +1621,7 @@
           ],
           "strength": "required",
           "description": "The type of name the device is referred by.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-nametype|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3127,7 +3127,7 @@
           ],
           "strength": "required",
           "description": "Codes to identify how UDI data was entered.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/udi-entry-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/udi-entry-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3162,7 +3162,7 @@
           ],
           "strength": "required",
           "description": "The availability status of the device.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3448,7 +3448,7 @@
           ],
           "strength": "required",
           "description": "The type of name the device is referred by.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/device-nametype|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0-CIBUILD"
         },
         "mapping": [
           {

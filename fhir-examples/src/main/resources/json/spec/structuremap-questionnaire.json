@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for StructureMap.group.rule.source.defaultValue[x]",
       "expansion": {
-        "identifier": "urn:uuid:6c3a633e-8ec8-4c78-9b0c-1e553ee9b126",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:c1a5d265-d814-4b53-a0ec-bd9f48e2a1f6",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -262,8 +262,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:2446f0a1-9d4d-4af4-b5b0-3536d06cc251",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:826ef3f8-0685-4341-97ef-214d60f04a28",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -285,8 +285,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:8b16b8a0-c035-4b43-9ea0-4f9c237ebf07",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:fc8dda35-eafb-4e95-8fc6-429e4b0ba399",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -313,8 +313,8 @@
       "status": "active",
       "description": "Type options for TriggerDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:2644f4a8-597f-49d1-a766-81bcb55c8335",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:804a853a-371b-437a-a31a-ec58699833d5",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -346,8 +346,8 @@
       "status": "active",
       "description": "Type options for UsageContext.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:9428189e-4430-429f-927d-66af240ef0d6",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:c91c66a3-63ef-4bd2-ad9b-7b93df643e43",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -409,8 +409,8 @@
       "status": "active",
       "description": "Type options for Dosage.asNeeded[x]",
       "expansion": {
-        "identifier": "urn:uuid:9c0ae0ef-d0f1-4285-93d5-d68037151a77",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:b468cff7-d9a9-41c7-bdf2-89a5446d7ecc",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -432,8 +432,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.dose[x]",
       "expansion": {
-        "identifier": "urn:uuid:2e6d7f2a-e812-49e0-a0bc-e4e9dfa95627",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:a37bcbcd-8d44-4c93-8efc-121f313e2d87",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -455,8 +455,8 @@
       "status": "active",
       "description": "Type options for Dosage.doseAndRate.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:d88451d3-3c5e-4d50-9618-d55036e108e9",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:e085003e-6253-4719-aa02-7d6d6b5ec283",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -483,8 +483,8 @@
       "status": "active",
       "description": "Type options for StructureMap.group.rule.target.parameter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:d34e02d8-a056-4ba4-884f-6d6d96c915e2",
-        "timestamp": "2021-12-06T19:04:36+00:00",
+        "identifier": "urn:uuid:47a0bfff-1b80-477c-95fb-bd7e408a6b21",
+        "timestamp": "2022-01-01T15:25:54+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -520,9 +520,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -547,6 +547,7 @@
               }
             }
           ],
+          "linkId": "StructureMap-flyover",
           "text": "A Map of relationships between 2 structures that can be used to transform data.",
           "type": "display"
         },
@@ -581,6 +582,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -621,6 +623,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -657,6 +660,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -700,6 +704,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -741,6 +746,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -768,6 +774,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -795,6 +802,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -822,6 +830,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -862,6 +871,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.url-flyover",
               "text": "An absolute URI that is used to identify this structure map when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this structure map is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the structure map is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
@@ -902,6 +912,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.identifier-flyover",
               "text": "A formal identifier that is used to identify this structure map when it is represented in other formats, or referenced in a specification, model, design or an instance. Typically, this is used for identifiers that can go in an HL7 V3 II (instance identifier) data type, and can then identify this structure map outside of FHIR, where it is not possible to use the logical URI.",
               "type": "display"
             },
@@ -959,6 +970,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.version-flyover",
               "text": "The identifier that is used to identify this version of the structure map when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the structure map author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. There may be different structure map instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the structure map with the format [url]|[version].",
               "type": "display"
             },
@@ -1006,6 +1018,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.name-flyover",
               "text": "A natural language name identifying the structure map. This name should be usable as an identifier for the module by machine processing applications such as code generation. The name is not expected to be globally unique. The name should be a simple alphanumeric type name to ensure that it is machine-processing friendly.",
               "type": "display"
             },
@@ -1049,6 +1062,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.title-flyover",
               "text": "A short, descriptive, user-friendly title for the structure map. This name does not need to be machine-processing friendly and may contain punctuation, white-space, etc.",
               "type": "display"
             },
@@ -1096,6 +1110,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.status-flyover",
               "text": "The status of this structure map. Enables tracking the life-cycle of the content. Allows filtering of structure maps that are appropriate for use versus not.",
               "type": "display"
             },
@@ -1140,6 +1155,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.experimental-flyover",
               "text": "A Boolean value to indicate that this structure map is authored for testing purposes (or education/evaluation/marketing) and is not intended to be used for genuine usage. Allows filtering of structure maps that are appropriate for use versus not.",
               "type": "display"
             },
@@ -1183,6 +1199,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.date-flyover",
               "text": "The date  (and optionally time) when the structure map was published. The date must change when the business version changes and it must change if the status code changes. In addition, it should change when the substantive content of the structure map changes. Note that this is not the same as the resource last-modified-date, since the resource may be a secondary representation of the structure map. Additional specific dates may be added as extensions or be found by consulting Provenances associated with past versions of the resource.",
               "type": "display"
             },
@@ -1226,6 +1243,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.publisher-flyover",
               "text": "The name of the organization or individual that published the structure map. Usually an organization but may be an individual. The publisher (or steward) of the structure map is the organization or individual primarily responsible for the maintenance and upkeep of the structure map. This is not necessarily the same individual or organization that developed and initially authored the content. The publisher is the primary point of contact for questions or issues with the structure map. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -1246,6 +1264,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "StructureMap.contact-display",
               "text": "May be a web site, an email address, a telephone number, etc.",
               "type": "display"
             },
@@ -1264,6 +1283,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -1300,6 +1320,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.description-flyover",
               "text": "A free text natural language description of the structure map from a consumer\u0027s perspective. This description can be used to capture details such as why the structure map was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the structure map as conveyed in the \u0027text\u0027 field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the structure map is presumed to be the predominant language in the place the structure map was created).",
               "type": "display"
             },
@@ -1320,6 +1341,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "StructureMap.useContext-display",
               "text": "When multiple useContexts are specified, there is no expectation that all or any of the contexts apply.",
               "type": "display"
             },
@@ -1338,6 +1360,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and may be used to assist with indexing and searching for appropriate structure map instances.",
               "type": "display"
             }
@@ -1371,6 +1394,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.jurisdiction-flyover",
               "text": "A legal or geographic region in which the structure map is intended to be used. It may be possible for the structure map to be used in jurisdictions other than those for which it was originally designed or intended.",
               "type": "display"
             },
@@ -1422,6 +1446,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.purpose-flyover",
               "text": "Explanation of why this structure map is needed and why it has been designed as it has. This element does not describe the usage of the structure map. Instead, it provides traceability of \u0027\u0027why\u0027\u0027 the resource is either needed or \u0027\u0027why\u0027\u0027 it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this structure map.",
               "type": "display"
             },
@@ -1465,6 +1490,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.copyright-flyover",
               "text": "A copyright statement relating to the structure map and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the structure map.",
               "type": "display"
             },
@@ -1485,6 +1511,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "StructureMap.structure-display",
               "text": "It is not necessary for a structure map to identify any dependent structures, though not listing them may restrict its usefulness.",
               "type": "display"
             },
@@ -1503,6 +1530,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.structure-flyover",
               "text": "A structure definition used by this map. The structure definition may describe instances that are converted, or the instances that are produced.",
               "type": "display"
             },
@@ -1537,6 +1565,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1571,6 +1600,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1598,6 +1628,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1638,6 +1669,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.url-flyover",
                   "text": "The canonical reference to the structure.",
                   "type": "display"
                 },
@@ -1685,6 +1717,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.mode-flyover",
                   "text": "How the referenced structure is used in this mapping.",
                   "type": "display"
                 },
@@ -1729,6 +1762,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.alias-flyover",
                   "text": "The name used for this type in the map. This is needed if both types have the same name (e.g. version conversion).",
                   "type": "display"
                 },
@@ -1772,6 +1806,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.structure.documentation-flyover",
                   "text": "Documentation that describes how the structure is used in the mapping.",
                   "type": "display"
                 },
@@ -1813,6 +1848,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.import-flyover",
               "text": "Other maps used by this map (canonical URLs).",
               "type": "display"
             },
@@ -1853,6 +1889,7 @@
                   }
                 }
               ],
+              "linkId": "StructureMap.group-flyover",
               "text": "Organizes the mapping into manageable chunks for human review/ease of maintenance.",
               "type": "display"
             },
@@ -1887,6 +1924,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1921,6 +1959,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1948,6 +1987,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1988,6 +2028,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.name-flyover",
                   "text": "A unique name for the group for the convenience of human readers.",
                   "type": "display"
                 },
@@ -2031,6 +2072,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.extends-flyover",
                   "text": "Another group that this group adds rules to.",
                   "type": "display"
                 },
@@ -2078,6 +2120,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.typeMode-flyover",
                   "text": "If this is the default rule set to apply for the source type or this combination of types. Not applicable if the underlying model is untyped. There can only be one default mapping for any particular type combination.",
                   "type": "display"
                 },
@@ -2122,6 +2165,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.documentation-flyover",
                   "text": "Additional supporting documentation that explains the purpose of the group and the types of mappings within it.",
                   "type": "display"
                 },
@@ -2148,6 +2192,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "StructureMap.group.input-display",
                   "text": "If no inputs are named, then the entry mappings are type based.",
                   "type": "display"
                 },
@@ -2166,6 +2211,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.input-flyover",
                   "text": "A name assigned to an instance of data. The instance must be provided when the mapping is invoked.",
                   "type": "display"
                 },
@@ -2200,6 +2246,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2234,6 +2281,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2261,6 +2309,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2301,6 +2350,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.name-flyover",
                       "text": "Name for this instance of data.",
                       "type": "display"
                     },
@@ -2344,6 +2394,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.type-flyover",
                       "text": "Type for this instance of data.",
                       "type": "display"
                     },
@@ -2391,6 +2442,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.mode-flyover",
                       "text": "Mode for this instance of data.",
                       "type": "display"
                     },
@@ -2435,6 +2487,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.input.documentation-flyover",
                       "text": "Documentation for this instance of data.",
                       "type": "display"
                     },
@@ -2477,6 +2530,7 @@
                       }
                     }
                   ],
+                  "linkId": "StructureMap.group.rule-flyover",
                   "text": "Transform Rule from source to target.",
                   "type": "display"
                 },
@@ -2511,6 +2565,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2545,6 +2600,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2572,6 +2628,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2612,6 +2669,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.name-flyover",
                       "text": "Name of the rule for internal references.",
                       "type": "display"
                     },
@@ -2652,6 +2710,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.source-flyover",
                       "text": "Source inputs to the mapping.",
                       "type": "display"
                     },
@@ -2686,6 +2745,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -2720,6 +2780,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -2747,6 +2808,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -2787,6 +2849,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.context-flyover",
                           "text": "Type or variable this rule applies to.",
                           "type": "display"
                         },
@@ -2830,6 +2893,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.min-flyover",
                           "text": "Specified minimum cardinality for the element. This is optional; if present, it acts an implicit check on the input content.",
                           "type": "display"
                         },
@@ -2873,6 +2937,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.max-flyover",
                           "text": "Specified maximum cardinality for the element - a number or a \"*\". This is optional; if present, it acts an implicit check on the input content (* just serves as documentation; it\u0027s the default value).",
                           "type": "display"
                         },
@@ -2916,6 +2981,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.type-flyover",
                           "text": "Specified type for the element. This works as a condition on the mapping - use for polymorphic elements.",
                           "type": "display"
                         },
@@ -2956,6 +3022,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.defaultValue[x]-flyover",
                           "text": "A value to use if there is no existing value in the source object. If there\u0027s a default value on an item that can repeat, it will only be used once.",
                           "type": "display"
                         },
@@ -4020,6 +4087,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "ContactDetail-flyover",
                                   "text": "Specifies contact information for a person or organization.",
                                   "type": "display"
                                 },
@@ -4054,6 +4122,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ContactDetail.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -4088,6 +4157,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ContactDetail.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -4124,6 +4194,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ContactDetail.name-flyover",
                                       "text": "The name of an individual to contact. If there is no named individual, the telecom information is for the organization as a whole.",
                                       "type": "display"
                                     },
@@ -4164,6 +4235,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ContactDetail.telecom-flyover",
                                       "text": "The contact details for the individual (if a name was provided) or the organization.",
                                       "type": "display"
                                     },
@@ -4216,6 +4288,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "Contributor-flyover",
                                   "text": "A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.",
                                   "type": "display"
                                 },
@@ -4250,6 +4323,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Contributor.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -4284,6 +4358,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Contributor.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -4324,6 +4399,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Contributor.type-flyover",
                                       "text": "The type of contributor.",
                                       "type": "display"
                                     },
@@ -4372,6 +4448,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Contributor.name-flyover",
                                       "text": "The name of the individual or organization responsible for the contribution.",
                                       "type": "display"
                                     },
@@ -4406,6 +4483,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Contributor.contact-flyover",
                                       "text": "Contact details to assist a user in finding and communicating with the contributor.",
                                       "type": "display"
                                     }
@@ -4435,6 +4513,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "DataRequirement-flyover",
                                   "text": "Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.",
                                   "type": "display"
                                 },
@@ -4469,6 +4548,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -4503,6 +4583,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -4543,6 +4624,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.type-flyover",
                                       "text": "The type of the required data, specified as the type name of a resource. For profiles, this value is set to the type of the base resource of the profile.",
                                       "type": "display"
                                     },
@@ -4583,6 +4665,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.profile-flyover",
                                       "text": "The profile of the required data, specified as the uri of the profile definition.",
                                       "type": "display"
                                     },
@@ -4623,6 +4706,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.subject[x]-flyover",
                                       "text": "The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed. The subject of a data requirement is critical, as the data being specified is determined with respect to a particular subject. This corresponds roughly to the notion of a Compartment in that it limits what data is available based on its relationship to the subject. In CQL, this corresponds to the context declaration.",
                                       "type": "display"
                                     },
@@ -4721,6 +4805,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.mustSupport-flyover",
                                       "text": "Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, only that the consuming system must understand the element and be able to provide values for it if they are available. \n\nThe value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).",
                                       "type": "display"
                                     },
@@ -4755,6 +4840,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.codeFilter-flyover",
                                       "text": "Code filters specify additional constraints on the data, specifying the value set of interest for a particular element of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND\u0027ed, not OR\u0027ed.",
                                       "type": "display"
                                     },
@@ -4789,6 +4875,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.id-flyover",
                                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                           "type": "display"
                                         },
@@ -4823,6 +4910,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.extension-flyover",
                                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                           "type": "display"
                                         }
@@ -4859,6 +4947,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.path-flyover",
                                           "text": "The code-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an integer constant. The path must resolve to an element of type code, Coding, or CodeableConcept. The path attribute contains a [Simple FHIRPath Subset](fhirpath.html#simple) that allows path traversal, but not calculation.",
                                           "type": "display"
                                         },
@@ -4902,6 +4991,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.searchParam-flyover",
                                           "text": "A token parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which searches on elements of type code, Coding, or CodeableConcept.",
                                           "type": "display"
                                         },
@@ -4945,6 +5035,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.valueSet-flyover",
                                           "text": "The valueset for the code filter. The valueSet and code elements are additive. If valueSet is specified, the filter will return only those data items for which the value of the code-valued element specified in the path is a member of the specified valueset.",
                                           "type": "display"
                                         },
@@ -4984,6 +5075,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.codeFilter.code-flyover",
                                           "text": "The codes for the code filter. If values are given, the filter will return only those data items for which the code-valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.",
                                           "type": "display"
                                         },
@@ -5021,6 +5113,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.dateFilter-flyover",
                                       "text": "Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. Each date filter specifies an additional constraint on the data, i.e. date filters are AND\u0027ed, not OR\u0027ed.",
                                       "type": "display"
                                     },
@@ -5055,6 +5148,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.dateFilter.id-flyover",
                                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                           "type": "display"
                                         },
@@ -5089,6 +5183,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.dateFilter.extension-flyover",
                                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                           "type": "display"
                                         }
@@ -5125,6 +5220,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.dateFilter.path-flyover",
                                           "text": "The date-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an integer constant. The path must resolve to an element of type date, dateTime, Period, Schedule, or Timing. The path attribute contains a [Simple FHIR Subset](fhirpath.html#simple) that allows path traversal, but not calculation.",
                                           "type": "display"
                                         },
@@ -5168,6 +5264,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.dateFilter.searchParam-flyover",
                                           "text": "A date parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which searches on elements of type date, dateTime, Period, Schedule, or Timing.",
                                           "type": "display"
                                         },
@@ -5208,6 +5305,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.dateFilter.value[x]-flyover",
                                           "text": "The value of the filter. If period is specified, the filter will return only those data items that fall within the bounds determined by the Period, inclusive of the period boundaries. If dateTime is specified, the filter will return only those data items that are equal to the specified dateTime. If a Duration is specified, the filter will return only those data items that fall within Duration before now.",
                                           "type": "display"
                                         },
@@ -5349,6 +5447,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.limit-flyover",
                                       "text": "Specifies a maximum number of results that are required (uses the _count search parameter). This element can be used in combination with the sort element to specify quota requirements such as \"the most recent 5\" or \"the highest 5\".",
                                       "type": "display"
                                     },
@@ -5369,6 +5468,7 @@
                                   "repeats": true,
                                   "item": [
                                     {
+                                      "linkId": "DataRequirement.sort-display",
                                       "text": "This element can be used in combination with the sort element to specify quota requirements such as \"the most recent 5\" or \"the highest 5\". When multiple sorts are specified, they are applied in the order they appear in the resource.",
                                       "type": "display"
                                     },
@@ -5387,6 +5487,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "DataRequirement.sort-flyover",
                                       "text": "Specifies the order of the results to be returned.",
                                       "type": "display"
                                     },
@@ -5421,6 +5522,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.sort.id-flyover",
                                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                           "type": "display"
                                         },
@@ -5455,6 +5557,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.sort.extension-flyover",
                                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                           "type": "display"
                                         }
@@ -5495,6 +5598,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.sort.path-flyover",
                                           "text": "The attribute of the sort. The specified path must be resolvable from the type of the required data. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-elements. Note that the index must be an integer constant.",
                                           "type": "display"
                                         },
@@ -5542,6 +5646,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "DataRequirement.sort.direction-flyover",
                                           "text": "The direction of the sort, ascending or descending.",
                                           "type": "display"
                                         },
@@ -5581,6 +5686,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "Expression-flyover",
                                   "text": "A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
                                   "type": "display"
                                 },
@@ -5615,6 +5721,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -5649,6 +5756,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -5685,6 +5793,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.description-flyover",
                                       "text": "A brief, natural language description of the condition that effectively communicates the intended semantics.",
                                       "type": "display"
                                     },
@@ -5728,6 +5837,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.name-flyover",
                                       "text": "A short name assigned to the expression to allow for multiple reuse of the expression in the context where it is defined.",
                                       "type": "display"
                                     },
@@ -5775,6 +5885,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.language-flyover",
                                       "text": "The media type of the language for the expression.",
                                       "type": "display"
                                     },
@@ -5819,6 +5930,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.expression-flyover",
                                       "text": "An expression in the specified language that returns a value.",
                                       "type": "display"
                                     },
@@ -5862,6 +5974,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Expression.reference-flyover",
                                       "text": "A URI that defines where the expression is found. If both a reference and an expression is found, the reference SHALL point to the same expression.",
                                       "type": "display"
                                     },
@@ -5898,6 +6011,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "ParameterDefinition-flyover",
                                   "text": "The parameters to the module. This collection specifies both the input and output parameters. Input parameters are provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.",
                                   "type": "display"
                                 },
@@ -5932,6 +6046,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -5966,6 +6081,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -6002,6 +6118,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.name-flyover",
                                       "text": "The name of the parameter used to allow access to the value of the parameter in evaluation contexts.",
                                       "type": "display"
                                     },
@@ -6050,6 +6167,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.use-flyover",
                                       "text": "Whether the parameter is input or output for the module.",
                                       "type": "display"
                                     },
@@ -6094,6 +6212,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.min-flyover",
                                       "text": "The minimum number of times this parameter SHALL appear in the request or response.",
                                       "type": "display"
                                     },
@@ -6137,6 +6256,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.max-flyover",
                                       "text": "The maximum number of times this element is permitted to appear in the request or response.",
                                       "type": "display"
                                     },
@@ -6180,6 +6300,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.documentation-flyover",
                                       "text": "A brief discussion of what the parameter is for and how it is used by the module.",
                                       "type": "display"
                                     },
@@ -6227,6 +6348,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.type-flyover",
                                       "text": "The type of the parameter.",
                                       "type": "display"
                                     },
@@ -6271,6 +6393,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "ParameterDefinition.profile-flyover",
                                       "text": "If specified, this indicates a profile that the input data must conform to, or that the output data will conform to.",
                                       "type": "display"
                                     },
@@ -6293,6 +6416,7 @@
                               "repeats": true,
                               "item": [
                                 {
+                                  "linkId": "RelatedArtifact-display",
                                   "text": "Each related artifact is either an attachment, or a reference to another knowledge resource, but not both.",
                                   "type": "display"
                                 },
@@ -6311,6 +6435,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "RelatedArtifact-flyover",
                                   "text": "Related artifacts such as additional documentation, justification, or bibliographic references.",
                                   "type": "display"
                                 },
@@ -6345,6 +6470,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -6379,6 +6505,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -6419,6 +6546,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.type-flyover",
                                       "text": "The type of relationship to the related artifact.",
                                       "type": "display"
                                     },
@@ -6463,6 +6591,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.label-flyover",
                                       "text": "A short label that can be used to reference the citation from elsewhere in the containing artifact, such as a footnote index.",
                                       "type": "display"
                                     },
@@ -6506,6 +6635,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.display-flyover",
                                       "text": "A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.",
                                       "type": "display"
                                     },
@@ -6549,6 +6679,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.citation-flyover",
                                       "text": "A bibliographic citation for the related artifact. This text SHOULD be formatted according to an accepted citation format. Additional structured information about citations should be captured as extensions.",
                                       "type": "display"
                                     },
@@ -6592,6 +6723,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.url-flyover",
                                       "text": "A url for the artifact that can be followed to access the actual content. If a document or resource element is present, this element SHALL NOT be provided (use the url or reference in the Attachment or resource reference).",
                                       "type": "display"
                                     },
@@ -6636,6 +6768,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.document-flyover",
                                       "text": "The document being referenced, represented as an attachment. This is exclusive with the resource element.",
                                       "type": "display"
                                     }
@@ -6672,6 +6805,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "RelatedArtifact.resource-flyover",
                                       "text": "The related resource, such as a library, value set, profile, or other knowledge resource. If the type is predecessor, this is a reference to the succeeding knowledge resource. If the type is successor, this is a reference to the prior knowledge resource.",
                                       "type": "display"
                                     },
@@ -6694,6 +6828,7 @@
                               "repeats": true,
                               "item": [
                                 {
+                                  "linkId": "TriggerDefinition-display",
                                   "text": "If an event is a named-event, it means the event is completely pre-coordinated, and no other information can be specified for the event. If the event is one of the data- events, the data and condition elements specify the triggering criteria. The data element specifies the structured component, and the condition element provides additional optional refinement of that structured component. If the event is periodic, the timing element defines when the event is triggered. For both data- and periodic events, a name can be provided as a shorthand for the formal semantics provided by the other elements.",
                                   "type": "display"
                                 },
@@ -6712,6 +6847,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "TriggerDefinition-flyover",
                                   "text": "A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by the type element.",
                                   "type": "display"
                                 },
@@ -6746,6 +6882,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -6780,6 +6917,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -6820,6 +6958,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.type-flyover",
                                       "text": "The type of triggering event.",
                                       "type": "display"
                                     },
@@ -6864,6 +7003,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.name-flyover",
                                       "text": "A formal name for the event. This may be an absolute URI that identifies the event formally (e.g. from a trigger registry), or a simple relative URI that identifies the event in a local context. An event name can be provided for all event types, but is required for named events. If a name is provided for a type other than named events, it is considered to be a shorthand for the semantics described by the formal description of the event.",
                                       "type": "display"
                                     },
@@ -6904,6 +7044,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.timing[x]-flyover",
                                       "text": "The timing of the event (if this is a periodic trigger).",
                                       "type": "display"
                                     },
@@ -7039,6 +7180,7 @@
                                   "repeats": true,
                                   "item": [
                                     {
+                                      "linkId": "TriggerDefinition.data-display",
                                       "text": "This element shall be present for any data type trigger.",
                                       "type": "display"
                                     },
@@ -7057,6 +7199,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.data-flyover",
                                       "text": "The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then all the data requirements must be true.",
                                       "type": "display"
                                     }
@@ -7076,6 +7219,7 @@
                                   "repeats": false,
                                   "item": [
                                     {
+                                      "linkId": "TriggerDefinition.condition-display",
                                       "text": "This element can be only be specified for data type triggers and provides additional semantics for the trigger. The context available within the condition is based on the type of data event. For all events, the current resource will be available as context. In addition, for modification events, the previous resource will also be available. The expression may be inlined, or may be a simple absolute URI, which is a reference to a named expression within a logic library referenced by a library element or extension within the containing resource. If the expression is a FHIR Path expression, it evaluates in the context of a resource of one of the type identified in the data requirement, and may also refer to the variable %previous for delta comparisons on events of type data-changed, data-modified, and data-deleted which will always have the same type.",
                                       "type": "display"
                                     },
@@ -7094,6 +7238,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "TriggerDefinition.condition-flyover",
                                       "text": "A boolean-valued expression that is evaluated in the context of the container of the trigger definition and returns whether or not the trigger fires.",
                                       "type": "display"
                                     }
@@ -7123,6 +7268,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "UsageContext-flyover",
                                   "text": "Specifies clinical/business/etc. metadata that can be used to retrieve, index and/or categorize an artifact. This metadata can either be specific to the applicable population (e.g., age category, DRG) or the specific context of care (e.g., venue, care setting, provider of care).",
                                   "type": "display"
                                 },
@@ -7157,6 +7303,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "UsageContext.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -7191,6 +7338,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "UsageContext.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -7231,6 +7379,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "UsageContext.code-flyover",
                                       "text": "A code that identifies the type of context being specified by this usage context.",
                                       "type": "display"
                                     },
@@ -7276,6 +7425,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "UsageContext.value[x]-flyover",
                                       "text": "A value that defines the context specified in this context of use. The interpretation of the value is defined by the code.",
                                       "type": "display"
                                     },
@@ -7452,6 +7602,7 @@
                                       }
                                     }
                                   ],
+                                  "linkId": "Dosage-flyover",
                                   "text": "Indicates how the medication is/was taken or should be taken by the patient.",
                                   "type": "display"
                                 },
@@ -7486,6 +7637,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.id-flyover",
                                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                       "type": "display"
                                     },
@@ -7520,6 +7672,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.extension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -7547,6 +7700,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.modifierExtension-flyover",
                                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                       "type": "display"
                                     }
@@ -7583,6 +7737,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.sequence-flyover",
                                       "text": "Indicates the order in which the dosage instructions should be applied or interpreted.",
                                       "type": "display"
                                     },
@@ -7626,6 +7781,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.text-flyover",
                                       "text": "Free text dosage instructions e.g. SIG.",
                                       "type": "display"
                                     },
@@ -7666,6 +7822,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.additionalInstruction-flyover",
                                       "text": "Supplemental instructions to the patient on how to take the medication  (e.g. \"with meals\" or\"take half to one hour before food\") or warnings for the patient about the medication (e.g. \"may cause drowsiness\" or \"avoid exposure of skin to direct sunlight or sunlamps\"). Information about administration or preparation of the medication (e.g. \"infuse as rapidly as possibly via intraperitoneal port\" or \"immediately following drug x\") should be populated in dosage.text.",
                                       "type": "display"
                                     },
@@ -7717,6 +7874,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.patientInstruction-flyover",
                                       "text": "Instructions in terms that are understood by the patient or consumer.",
                                       "type": "display"
                                     },
@@ -7761,6 +7919,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.timing-flyover",
                                       "text": "When medication should be administered. This attribute might not always be populated while the Dosage.text is expected to be populated.  If both are populated, then the Dosage.text should reflect the content of the Dosage.timing.",
                                       "type": "display"
                                     },
@@ -7829,6 +7988,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.asNeeded[x]-flyover",
                                       "text": "Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option), or it indicates the precondition for taking the Medication (CodeableConcept). Can express \"as needed\" without a reason by setting the Boolean \u003d True.  In this case the CodeableConcept is not populated.  Or you can express \"as needed\" with a reason by including the CodeableConcept.  In this case the Boolean is assumed to be True.  If you set the Boolean to False, then the dose is given according to the schedule and is not \"prn\" or \"as needed\".",
                                       "type": "display"
                                     },
@@ -7922,6 +8082,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.site-flyover",
                                       "text": "Body site to administer to. If the use case requires attributes from the BodySite resource (e.g. to identify and track separately) then use the standard extension [bodySite](extension-bodysite.html).  May be a summary code, or a reference to a very precise definition of the location, or both.",
                                       "type": "display"
                                     },
@@ -7974,6 +8135,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.route-flyover",
                                       "text": "How drug should enter body.",
                                       "type": "display"
                                     },
@@ -8026,6 +8188,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.method-flyover",
                                       "text": "Technique for administering medication. Terminologies used often pre-coordinate this term with the route and or form of administration.",
                                       "type": "display"
                                     },
@@ -8068,6 +8231,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.doseAndRate-flyover",
                                       "text": "The amount of medication administered.",
                                       "type": "display"
                                     },
@@ -8102,6 +8266,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "Dosage.doseAndRate.id-flyover",
                                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                                           "type": "display"
                                         },
@@ -8136,6 +8301,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "Dosage.doseAndRate.extension-flyover",
                                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                                           "type": "display"
                                         }
@@ -8173,6 +8339,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "Dosage.doseAndRate.type-flyover",
                                           "text": "The kind of dose or rate specified, for example, ordered or calculated.",
                                           "type": "display"
                                         },
@@ -8221,6 +8388,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "Dosage.doseAndRate.dose[x]-flyover",
                                           "text": "Amount of medication per dose. Note that this specifies the quantity of the specified medication, not the quantity for each active ingredient(s). Each ingredient amount can be communicated in the Medication resource. For example, if one wants to communicate that a tablet was 375 mg, where the dose was one tablet, you can use the Medication resource to document that the tablet was comprised of 375 mg of drug XYZ. Alternatively if the dose was 375 mg, then you may only need to use the Medication resource to indicate this was a tablet. If the example were an IV such as dopamine and you wanted to communicate that 400mg of dopamine was mixed in 500 ml of some IV solution, then this would all be communicated in the Medication resource. If the administration is not intended to be instantaneous (rate is present or timing has a duration), this can be specified to convey the total amount to be administered over the period of time as indicated by the schedule e.g. 500 ml in dose, with timing used to convey that this should be done over 4 hours.",
                                           "type": "display"
                                         },
@@ -8346,6 +8514,7 @@
                                               }
                                             }
                                           ],
+                                          "linkId": "Dosage.doseAndRate.rate[x]-flyover",
                                           "text": "Amount of medication per unit of time. It is possible to supply both a rate and a doseQuantity to provide full details about how the medication is to be administered and supplied. If the rate is intended to change over time, depending on local rules/regulations, each change should be captured as a new version of the MedicationRequest with an updated rate, or captured with a new MedicationRequest with the new rate.\r\rIt is possible to specify a rate over time (for example, 100 ml/hour) using either the rateRatio and rateQuantity.  The rateQuantity approach requires systems to have the capability to parse UCUM grammer where ml/hour is included rather than a specific ratio where the time is specified as the denominator.  Where a rate such as 500ml over 2 hours is specified, the use of rateRatio may be more semantically correct than specifying using a rateQuantity of 250 mg/hour.",
                                           "type": "display"
                                         },
@@ -8510,6 +8679,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.maxDosePerPeriod-flyover",
                                       "text": "Upper limit on medication per unit of time. This is intended for use as an adjunct to the dosage when there is an upper cap.  For example \"2 tablets every 4 hours to a maximum of 8/day\".",
                                       "type": "display"
                                     },
@@ -8568,6 +8738,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.maxDosePerAdministration-flyover",
                                       "text": "Upper limit on medication per administration. This is intended for use as an adjunct to the dosage when there is an upper cap.  For example, a body surface area related dose with a maximum amount, such as 1.5 mg/m2 (maximum 2 mg) IV over 5 – 10 minutes would have doseQuantity of 1.5 mg/m2 and maxDosePerAdministration of 2 mg.",
                                       "type": "display"
                                     },
@@ -8641,6 +8812,7 @@
                                           }
                                         }
                                       ],
+                                      "linkId": "Dosage.maxDosePerLifetime-flyover",
                                       "text": "Upper limit on medication per lifetime of the patient.",
                                       "type": "display"
                                     },
@@ -8723,6 +8895,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.element-flyover",
                           "text": "Optional field for this source.",
                           "type": "display"
                         },
@@ -8766,6 +8939,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.listMode-flyover",
                           "text": "How to handle the list mode for this element.",
                           "type": "display"
                         },
@@ -8810,6 +8984,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.variable-flyover",
                           "text": "Named context for field, if a field is specified.",
                           "type": "display"
                         },
@@ -8853,6 +9028,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.condition-flyover",
                           "text": "FHIRPath expression  - must be true or the rule does not apply.",
                           "type": "display"
                         },
@@ -8896,6 +9072,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.check-flyover",
                           "text": "FHIRPath expression  - must be true or the mapping engine throws an error instead of completing.",
                           "type": "display"
                         },
@@ -8939,6 +9116,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.source.logMessage-flyover",
                           "text": "A FHIRPath expression which specifies a message to put in the transform log when content matching the source rule is found. This is typically used for recording that something Is not transformed to the target for some reason.",
                           "type": "display"
                         },
@@ -8975,6 +9153,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.target-flyover",
                       "text": "Content to create because of this mapping rule.",
                       "type": "display"
                     },
@@ -9009,6 +9188,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -9043,6 +9223,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -9070,6 +9251,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -9106,6 +9288,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.context-flyover",
                           "text": "Type or variable this rule applies to.",
                           "type": "display"
                         },
@@ -9149,6 +9332,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.contextType-flyover",
                           "text": "How to interpret the context.",
                           "type": "display"
                         },
@@ -9193,6 +9377,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.element-flyover",
                           "text": "Field to create in the context.",
                           "type": "display"
                         },
@@ -9236,6 +9421,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.variable-flyover",
                           "text": "Named context for field, if desired, and a field is specified.",
                           "type": "display"
                         },
@@ -9275,6 +9461,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.listMode-flyover",
                           "text": "If field is a list, how to manage the list.",
                           "type": "display"
                         },
@@ -9319,6 +9506,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.listRuleId-flyover",
                           "text": "Internal rule reference for shared list items.",
                           "type": "display"
                         },
@@ -9362,6 +9550,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.transform-flyover",
                           "text": "How the data is copied / created.",
                           "type": "display"
                         },
@@ -9397,6 +9586,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.target.parameter-flyover",
                           "text": "Parameters to the transform.",
                           "type": "display"
                         },
@@ -9431,6 +9621,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "StructureMap.group.rule.target.parameter.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -9465,6 +9656,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "StructureMap.group.rule.target.parameter.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -9492,6 +9684,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "StructureMap.group.rule.target.parameter.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -9529,6 +9722,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "StructureMap.group.rule.target.parameter.value[x]-flyover",
                               "text": "Parameter value - variable or literal.",
                               "type": "display"
                             },
@@ -9661,6 +9855,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.rule-flyover",
                       "text": "Rules contained in this rule.",
                       "type": "display"
                     }
@@ -9688,6 +9883,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.dependent-flyover",
                       "text": "Which other rules to apply in the context of this rule.",
                       "type": "display"
                     },
@@ -9722,6 +9918,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.dependent.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -9756,6 +9953,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.dependent.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -9783,6 +9981,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.dependent.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -9823,6 +10022,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.dependent.name-flyover",
                           "text": "Name of a rule or group to apply.",
                           "type": "display"
                         },
@@ -9866,6 +10066,7 @@
                               }
                             }
                           ],
+                          "linkId": "StructureMap.group.rule.dependent.variable-flyover",
                           "text": "Variable to pass to the rule or group.",
                           "type": "display"
                         },
@@ -9911,6 +10112,7 @@
                           }
                         }
                       ],
+                      "linkId": "StructureMap.group.rule.documentation-flyover",
                       "text": "Documentation for this instance of data.",
                       "type": "display"
                     },

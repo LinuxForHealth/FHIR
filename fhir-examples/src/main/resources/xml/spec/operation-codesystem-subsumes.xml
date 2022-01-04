@@ -138,7 +138,9 @@
           <td>
             <a href="datatypes.html#code">code</a>
           </td>
-          <td>http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.1.0 (Required)</td>
+          <td>
+            <a href="valueset-concept-subsumption-outcome.html">http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD</a> (Required)
+          </td>
           <td>
             <div>
               <p>The subsumption relationship between code/Coding &quot;A&quot; and code/Coding &quot;B&quot;. There are 4 possible codes to be returned (equivalent, subsumes, subsumed-by, and not-subsumed) as defined in the concept-subsumption-outcome value set.  If the server is unable to determine the relationship between the codes/Codings, then it returns an error response with an OperationOutcome.</p>
@@ -157,12 +159,12 @@
     <valueCode value="normative"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-subsumes"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="subsumes"/>
   <title value="Subsumption Testing"/>
   <status value="active"/>
   <kind value="operation"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -241,7 +243,7 @@
         <valueString value="ConceptSubsumptionOutcome"/>
       </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.1.0"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/concept-subsumption-outcome|4.3.0-CIBUILD"/>
     </binding>
   </parameter>
 </OperationDefinition>

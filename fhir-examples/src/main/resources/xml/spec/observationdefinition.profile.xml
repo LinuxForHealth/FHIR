@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ObservationDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -551,10 +551,10 @@
     <valueCode value="oo"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ObservationDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ObservationDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Orders and Observations)"/>
   <contact>
     <telecom>
@@ -570,7 +570,7 @@
   </contact>
   <description value="Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable health care service."/>
   <purpose value="In a catalog of health-related services that use or produce observations and measurements, this resource describes the expected characteristics of these observation / measurements."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -1087,7 +1087,7 @@
         </extension>
         <strength value="required"/>
         <description value="Permitted data type for observation value."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/permitted-data-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/permitted-data-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1648,7 +1648,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes identifying the category of observation range."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/observation-range-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/observation-range-category|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1801,7 +1801,7 @@
         </extension>
         <strength value="required"/>
         <description value="The gender of a person used for administrative purposes."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2149,7 +2149,7 @@
         </extension>
         <strength value="required"/>
         <description value="Permitted data type for observation value."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/permitted-data-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/permitted-data-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2362,7 +2362,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes identifying the category of observation range."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/observation-range-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/observation-range-category|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -2463,7 +2463,7 @@
         </extension>
         <strength value="required"/>
         <description value="The gender of a person used for administrative purposes."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>

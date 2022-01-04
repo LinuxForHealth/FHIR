@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "item": [
     {
@@ -33,6 +33,7 @@
               }
             }
           ],
+          "linkId": "MolecularSequence-flyover",
           "text": "Raw data describing a biological sequence.",
           "type": "display"
         },
@@ -67,6 +68,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +109,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +146,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +190,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -227,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -254,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -281,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -308,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -341,6 +350,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.identifier-flyover",
               "text": "A unique identifier for this particular sequence instance. This is a FHIR-defined id.",
               "type": "display"
             },
@@ -398,6 +408,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.type-flyover",
               "text": "Amino Acid Sequence/ DNA Sequence / RNA Sequence.",
               "type": "display"
             },
@@ -446,6 +457,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.coordinateSystem-flyover",
               "text": "Whether the sequence is numbered starting at 0 (0-based numbering or coordinates, inclusive start, exclusive end) or starting at 1 (1-based numbering, inclusive start and inclusive end).",
               "type": "display"
             },
@@ -489,6 +501,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.patient-flyover",
               "text": "The patient whose sequencing results are described by this resource.",
               "type": "display"
             },
@@ -542,6 +555,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.specimen-flyover",
               "text": "Specimen used for sequencing.",
               "type": "display"
             },
@@ -595,6 +609,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.device-flyover",
               "text": "The method for sequencing, for example, chip information.",
               "type": "display"
             },
@@ -648,6 +663,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.performer-flyover",
               "text": "The organization or lab that should be responsible for this result.",
               "type": "display"
             },
@@ -702,6 +718,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.quantity-flyover",
               "text": "The number of copies of the sequence of interest. (RNASeq).",
               "type": "display"
             },
@@ -771,6 +788,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.referenceSeq-flyover",
               "text": "A sequence that is used as a reference to describe variants that are present in a sequence analyzed.",
               "type": "display"
             },
@@ -805,6 +823,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -839,6 +858,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -866,6 +886,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -903,6 +924,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.chromosome-flyover",
                   "text": "Structural unit composed of a nucleic acid molecule which controls its own replication through the interaction of specific proteins at one or more origins of replication ([SO:0000340](http://www.sequenceontology.org/browser/current_svn/term/SO:0000340)).",
                   "type": "display"
                 },
@@ -954,6 +976,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.genomeBuild-flyover",
                   "text": "The Genome Build used for reference, following GRCh build versions e.g. \u0027GRCh 37\u0027.  Version number must be included if a versioned release of a primary build was used.",
                   "type": "display"
                 },
@@ -997,6 +1020,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.orientation-flyover",
                   "text": "A relative reference to a DNA strand based on gene orientation. The strand that contains the open reading frame of the gene is the \"sense\" strand, and the opposite complementary strand is the \"antisense\" strand.",
                   "type": "display"
                 },
@@ -1042,6 +1066,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.referenceSeqId-flyover",
                   "text": "Reference identifier of reference sequence submitted to NCBI. It must match the type in the MolecularSequence.type field. For example, the prefix, “NG_” identifies reference sequence for genes, “NM_” for messenger RNA transcripts, and “NP_” for amino acid sequences.",
                   "type": "display"
                 },
@@ -1093,6 +1118,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.referenceSeqPointer-flyover",
                   "text": "A pointer to another MolecularSequence entity as reference sequence.",
                   "type": "display"
                 },
@@ -1146,6 +1172,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.referenceSeqString-flyover",
                   "text": "A string like \"ACGT\".",
                   "type": "display"
                 },
@@ -1189,6 +1216,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.strand-flyover",
                   "text": "An absolute reference to a strand. The Watson strand is the strand whose 5\u0027-end is on the short arm of the chromosome, and the Crick strand as the one whose 5\u0027-end is on the long arm.",
                   "type": "display"
                 },
@@ -1233,6 +1261,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.windowStart-flyover",
                   "text": "Start position of the window on the reference sequence. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
                   "type": "display"
                 },
@@ -1276,6 +1305,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.referenceSeq.windowEnd-flyover",
                   "text": "End position of the window on the reference sequence. If the coordinate system is 0-based then end is exclusive and does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last position.",
                   "type": "display"
                 },
@@ -1312,6 +1342,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.variant-flyover",
               "text": "The definition of variant here originates from Sequence ontology ([variant_of](http://www.sequenceontology.org/browser/current_svn/term/variant_of)). This element can represent amino acid or nucleic sequence change(including insertion,deletion,SNP,etc.)  It can represent some complex mutation or segment variation with the assist of CIGAR string.",
               "type": "display"
             },
@@ -1346,6 +1377,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1380,6 +1412,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1407,6 +1440,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1443,6 +1477,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.start-flyover",
                   "text": "Start position of the variant on the  reference sequence. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
                   "type": "display"
                 },
@@ -1486,6 +1521,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.end-flyover",
                   "text": "End position of the variant on the reference sequence. If the coordinate system is 0-based then end is exclusive and does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last position.",
                   "type": "display"
                 },
@@ -1529,6 +1565,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.observedAllele-flyover",
                   "text": "An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)).  Nucleotide(s)/amino acids from start position of sequence to stop position of sequence on the positive (+) strand of the observed  sequence. When the sequence  type is DNA, it should be the sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.",
                   "type": "display"
                 },
@@ -1572,6 +1609,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.referenceAllele-flyover",
                   "text": "An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position of sequence on the positive (+) strand of the reference sequence. When the sequence  type is DNA, it should be the sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.",
                   "type": "display"
                 },
@@ -1615,6 +1653,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.cigar-flyover",
                   "text": "Extended CIGAR string for aligning the sequence with reference bases. See detailed documentation [here](http://support.illumina.com/help/SequencingAnalysisWorkflow/Content/Vault/Informatics/Sequencing_Analysis/CASAVA/swSEQ_mCA_ExtendedCIGARFormat.htm).",
                   "type": "display"
                 },
@@ -1658,6 +1697,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.variant.variantPointer-flyover",
                   "text": "A pointer to an Observation containing variant information.",
                   "type": "display"
                 },
@@ -1713,6 +1753,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.observedSeq-flyover",
               "text": "Sequence that was observed. It is the result marked by referenceSeq along with variant records on referenceSeq. This shall start from referenceSeq.windowStart and end by referenceSeq.windowEnd.",
               "type": "display"
             },
@@ -1747,6 +1788,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.quality-flyover",
               "text": "An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).",
               "type": "display"
             },
@@ -1781,6 +1823,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1815,6 +1858,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1842,6 +1886,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1882,6 +1927,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.type-flyover",
                   "text": "INDEL / SNP / Undefined variant.",
                   "type": "display"
                 },
@@ -1927,6 +1973,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.standardSequence-flyover",
                   "text": "Gold standard sequence used for comparing against.",
                   "type": "display"
                 },
@@ -1978,6 +2025,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.start-flyover",
                   "text": "Start position of the sequence. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
                   "type": "display"
                 },
@@ -2021,6 +2069,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.end-flyover",
                   "text": "End position of the sequence. If the coordinate system is 0-based then end is exclusive and does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last position.",
                   "type": "display"
                 },
@@ -2065,6 +2114,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.score-flyover",
                   "text": "The score of an experimentally derived feature such as a p-value ([SO:0001685](http://www.sequenceontology.org/browser/current_svn/term/SO:0001685)).",
                   "type": "display"
                 },
@@ -2138,6 +2188,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.method-flyover",
                   "text": "Which method is used to get sequence quality.",
                   "type": "display"
                 },
@@ -2189,6 +2240,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.truthTP-flyover",
                   "text": "True positives, from the perspective of the truth data, i.e. the number of sites in the Truth Call Set for which there are paths through the Query Call Set that are consistent with all of the alleles at this site, and for which there is an accurate genotype call for the event.",
                   "type": "display"
                 },
@@ -2232,6 +2284,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.queryTP-flyover",
                   "text": "True positives, from the perspective of the query data, i.e. the number of sites in the Query Call Set for which there are paths through the Truth Call Set that are consistent with all of the alleles at this site, and for which there is an accurate genotype call for the event.",
                   "type": "display"
                 },
@@ -2275,6 +2328,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.truthFN-flyover",
                   "text": "False negatives, i.e. the number of sites in the Truth Call Set for which there is no path through the Query Call Set that is consistent with all of the alleles at this site, or sites for which there is an inaccurate genotype call for the event. Sites with correct variant but incorrect genotype are counted here.",
                   "type": "display"
                 },
@@ -2318,6 +2372,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.queryFP-flyover",
                   "text": "False positives, i.e. the number of sites in the Query Call Set for which there is no path through the Truth Call Set that is consistent with this site. Sites with correct variant but incorrect genotype are counted here.",
                   "type": "display"
                 },
@@ -2361,6 +2416,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.gtFP-flyover",
                   "text": "The number of false positives where the non-REF alleles in the Truth and Query Call Sets match (i.e. cases where the truth is 1/1 and the query is 0/1 or similar).",
                   "type": "display"
                 },
@@ -2404,6 +2460,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.precision-flyover",
                   "text": "QUERY.TP / (QUERY.TP + QUERY.FP).",
                   "type": "display"
                 },
@@ -2447,6 +2504,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.recall-flyover",
                   "text": "TRUTH.TP / (TRUTH.TP + TRUTH.FN).",
                   "type": "display"
                 },
@@ -2490,6 +2548,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.fScore-flyover",
                   "text": "Harmonic mean of Recall and Precision, computed as: 2 * precision * recall / (precision + recall).",
                   "type": "display"
                 },
@@ -2530,6 +2589,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.quality.roc-flyover",
                   "text": "Receiver Operator Characteristic (ROC) Curve  to give sensitivity/specificity tradeoff.",
                   "type": "display"
                 },
@@ -2564,6 +2624,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2598,6 +2659,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2625,6 +2687,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2657,6 +2720,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.score-flyover",
                       "text": "Invidual data point representing the GQ (genotype quality) score threshold.",
                       "type": "display"
                     },
@@ -2696,6 +2760,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.numTP-flyover",
                       "text": "The number of true positives if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2735,6 +2800,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.numFP-flyover",
                       "text": "The number of false positives if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2774,6 +2840,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.numFN-flyover",
                       "text": "The number of false negatives if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2813,6 +2880,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.precision-flyover",
                       "text": "Calculated precision if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2852,6 +2920,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.sensitivity-flyover",
                       "text": "Calculated sensitivity if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2891,6 +2960,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.quality.roc.fMeasure-flyover",
                       "text": "Calculated fScore if the GQ score threshold was set to \"score\" field value.",
                       "type": "display"
                     },
@@ -2938,6 +3008,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.readCoverage-flyover",
               "text": "Coverage (read depth or depth) is the average number of reads representing a given nucleotide in the reconstructed sequence.",
               "type": "display"
             },
@@ -2972,6 +3043,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.repository-flyover",
               "text": "Configurations of the external repository. The repository shall store target\u0027s observedSeq or records related with target\u0027s observedSeq.",
               "type": "display"
             },
@@ -3006,6 +3078,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3040,6 +3113,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3067,6 +3141,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3107,6 +3182,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.type-flyover",
                   "text": "Click and see / RESTful API / Need login to see / RESTful API with authentication / Other ways to see resource.",
                   "type": "display"
                 },
@@ -3151,6 +3227,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.url-flyover",
                   "text": "URI of an external repository which contains further details about the genetics data.",
                   "type": "display"
                 },
@@ -3194,6 +3271,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.name-flyover",
                   "text": "URI of an external repository which contains further details about the genetics data.",
                   "type": "display"
                 },
@@ -3237,6 +3315,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.datasetId-flyover",
                   "text": "Id of the variant in this external repository. The server will understand how to use this id to call for more info about datasets in external repository.",
                   "type": "display"
                 },
@@ -3280,6 +3359,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.variantsetId-flyover",
                   "text": "Id of the variantset in this external repository. The server will understand how to use this id to call for more info about variantsets in external repository.",
                   "type": "display"
                 },
@@ -3323,6 +3403,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.repository.readsetId-flyover",
                   "text": "Id of the read in this external repository.",
                   "type": "display"
                 },
@@ -3364,6 +3445,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.pointer-flyover",
               "text": "Pointer to next atomic sequence which at most contains one variant.",
               "type": "display"
             },
@@ -3408,6 +3490,7 @@
                   }
                 }
               ],
+              "linkId": "MolecularSequence.structureVariant-flyover",
               "text": "Information about chromosome structure variation.",
               "type": "display"
             },
@@ -3442,6 +3525,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3476,6 +3560,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3503,6 +3588,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3540,6 +3626,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.variantType-flyover",
                   "text": "Information about chromosome structure variation DNA change type.",
                   "type": "display"
                 },
@@ -3591,6 +3678,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.exact-flyover",
                   "text": "Used to indicate if the outer and inner start-end values have the same meaning.",
                   "type": "display"
                 },
@@ -3634,6 +3722,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.length-flyover",
                   "text": "Length of the variant chromosome.",
                   "type": "display"
                 },
@@ -3674,6 +3763,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.outer-flyover",
                   "text": "Structural variant outer.",
                   "type": "display"
                 },
@@ -3708,6 +3798,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.outer.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3742,6 +3833,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.outer.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3769,6 +3861,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.outer.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3805,6 +3898,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.outer.start-flyover",
                       "text": "Structural variant outer start. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
                       "type": "display"
                     },
@@ -3848,6 +3942,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.outer.end-flyover",
                       "text": "Structural variant outer end. If the coordinate system is 0-based then end is exclusive and does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last position.",
                       "type": "display"
                     },
@@ -3890,6 +3985,7 @@
                       }
                     }
                   ],
+                  "linkId": "MolecularSequence.structureVariant.inner-flyover",
                   "text": "Structural variant inner.",
                   "type": "display"
                 },
@@ -3924,6 +4020,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.inner.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -3958,6 +4055,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.inner.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -3985,6 +4083,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.inner.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -4021,6 +4120,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.inner.start-flyover",
                       "text": "Structural variant inner start. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
                       "type": "display"
                     },
@@ -4064,6 +4164,7 @@
                           }
                         }
                       ],
+                      "linkId": "MolecularSequence.structureVariant.inner.end-flyover",
                       "text": "Structural variant inner end. If the coordinate system is 0-based then end is exclusive and does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last position.",
                       "type": "display"
                     },

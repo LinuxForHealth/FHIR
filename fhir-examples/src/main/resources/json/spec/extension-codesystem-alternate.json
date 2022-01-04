@@ -12,13 +12,13 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/codesystem-alternate",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "alternate",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "An additional code that may be used to represent the concept.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -686,6 +686,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -720,6 +723,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

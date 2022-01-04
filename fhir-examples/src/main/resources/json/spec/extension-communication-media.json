@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/communication-media",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "media",
   "title": "media",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "It contains enriched media representation of the alert message, such as a voice recording.  This may be used, for example for compliance with jurisdictional accessibility requirements, literacy issues, or translations of the unstructured text content in other languages.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

@@ -20,14 +20,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/shareablemeasure",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Shareable Measure",
   "status": "draft",
   "experimental": false,
   "date": "2020-12-28T16:55:11+11:00",
   "publisher": "HL7",
   "description": "Enforces the minimum information set for the measure metadata required by HL7 and other organizations that share and publish measures",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -791,7 +791,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2127,7 +2127,7 @@
           ],
           "strength": "required",
           "description": "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
         },
         "mapping": [
           {

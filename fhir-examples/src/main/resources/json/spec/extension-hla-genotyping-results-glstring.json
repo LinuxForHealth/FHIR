@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/hla-genotyping-results-glstring",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "glstring",
   "status": "draft",
   "date": "2015-10-09",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "glstring.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -679,6 +679,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -713,6 +716,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

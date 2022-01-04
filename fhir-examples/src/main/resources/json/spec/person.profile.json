@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Person",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Person",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Person",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "Demographics and administrative information about a person independent of a specific health-related context.",
   "purpose": "Need to track persons potentially across multiple roles.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -659,7 +659,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1138,7 +1138,7 @@
           ],
           "strength": "required",
           "description": "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1289,7 +1289,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1512,7 +1512,7 @@
           ],
           "strength": "required",
           "description": "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-CIBUILD"
         },
         "mapping": [
           {

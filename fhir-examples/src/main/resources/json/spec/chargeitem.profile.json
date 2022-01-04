@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ChargeItem",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ChargeItem",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ChargeItem",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The resource ChargeItem describes the provision of healthcare provider products for a certain patient, therefore referring not only to the product, but containing in addition details of the provision, like date, time, amounts and participating organizations and persons. Main Usage of the ChargeItem is to enable the billing process and internal cost allocation.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -677,7 +677,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of a ChargeItem.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/chargeitem-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/chargeitem-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2153,7 +2153,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of a ChargeItem.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/chargeitem-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/chargeitem-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

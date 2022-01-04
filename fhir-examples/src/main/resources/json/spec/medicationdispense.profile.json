@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MedicationDispense",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MedicationDispense",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Indicates that a medication product is to be or has been dispensed for a named person/patient.  This includes a description of the medication product (supply) provided and the instructions for administering the medication.  The medication dispense is the result of a pharmacy system responding to a medication order.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -637,7 +637,7 @@
           ],
           "strength": "required",
           "description": "Describes the lifecycle of the dispense.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2351,7 +2351,7 @@
           ],
           "strength": "required",
           "description": "Describes the lifecycle of the dispense.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
