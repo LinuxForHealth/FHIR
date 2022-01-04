@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-hierarchy",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "hierarchy",
   "title": "Hierarchy",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "For circular references (references back to the same type of resource): whether they are allowed to transitively point back to the same instance (false), or whether the relationship must be a strict one-way hierarchy (true).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

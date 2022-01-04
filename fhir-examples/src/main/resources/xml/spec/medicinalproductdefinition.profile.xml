@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="MedicinalProductDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -95,7 +95,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Regulatory type, e.g. Investigational or Authorized
             <br/>
-            <a href="http://hl7.org/fhir/ValueSet/medicinal-product-type">MedicinalProductType</a> (
+            <a href="valueset-medicinal-product-type.html">MedicinalProductType</a> (
             <a href="terminologies.html#example" title="Instances are not expected or even encouraged to draw from the specified value set.  The value set merely provides examples of the types of concepts intended to be included.">Example</a>)
           </td>
         </tr>
@@ -117,7 +117,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">If this medicine applies to human or veterinary uses
             <br/>
-            <a href="http://hl7.org/fhir/ValueSet/medicinal-product-domain">MedicinalProductType</a> (
+            <a href="valueset-medicinal-product-domain.html">MedicinalProductDomain</a> (
             <a href="terminologies.html#example" title="Instances are not expected or even encouraged to draw from the specified value set.  The value set merely provides examples of the types of concepts intended to be included.">Example</a>)
           </td>
         </tr>
@@ -216,7 +216,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: white; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">The dose form for a single part product, or combined form of a multiple part product
             <br/>
-            <a href="http://hl7.org/fhir/ValueSet/combined-dose-form">CombinedDoseForm</a> (
+            <a href="valueset-combined-dose-form.html">CombinedDoseForm</a> (
             <a href="terminologies.html#example" title="Instances are not expected or even encouraged to draw from the specified value set.  The value set merely provides examples of the types of concepts intended to be included.">Example</a>)
           </td>
         </tr>
@@ -279,7 +279,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">The legal status of supply of the medicinal product as classified by the regulator
             <br/>
-            <a href="http://hl7.org/fhir/ValueSet/legal-status-of-supply">LegalStatusOfSupply</a> (
+            <a href="valueset-legal-status-of-supply.html">LegalStatusOfSupply</a> (
             <a href="terminologies.html#example" title="Instances are not expected or even encouraged to draw from the specified value set.  The value set merely provides examples of the types of concepts intended to be included.">Example</a>)
           </td>
         </tr>
@@ -397,7 +397,7 @@
           </td>
           <td style="vertical-align: top; text-align : left; background-color: #F7F7F7; border: 0px #F0F0F0 solid; padding:0px 4px 0px 4px" class="hierarchy">Package representation for the product
             <br/>
-            <a href="http://hl7.org/fhir/ValueSet/medicinal-product-package-type">MedicinalProductPackageType</a> (
+            <a href="valueset-medicinal-product-package-type.html">MedicinalProductPackageType</a> (
             <a href="terminologies.html#example" title="Instances are not expected or even encouraged to draw from the specified value set.  The value set merely provides examples of the types of concepts intended to be included.">Example</a>)
             <br/>
           </td>
@@ -1115,10 +1115,10 @@
     <valueCode value="brr"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MedicinalProductDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="MedicinalProductDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Biomedical Research and Regulation)"/>
   <contact>
     <telecom>
@@ -1133,7 +1133,7 @@
     </telecom>
   </contact>
   <description value="Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use, drug catalogs)."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="idmp"/>
     <uri value="https://en.wikipedia.org/wiki/Identification_of_medicinal_products"/>

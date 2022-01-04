@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="QuestionnaireResponse"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -655,10 +655,10 @@
     <valueCode value="fhir"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="QuestionnaireResponse"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
     <telecom>
@@ -674,7 +674,7 @@
   </contact>
   <description value="A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, corresponding to the structure of the grouping of the questionnaire being responded to."/>
   <purpose value="To support structured, hierarchical reporting of data gathered using digital forms and other questionnaires."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1225,7 +1225,7 @@
         </extension>
         <strength value="required"/>
         <description value="Lifecycle status of the questionnaire response."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2125,7 +2125,7 @@
         </extension>
         <strength value="required"/>
         <description value="Lifecycle status of the questionnaire response."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

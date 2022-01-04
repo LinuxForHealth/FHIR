@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "DetectedIssue",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DetectedIssue",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DetectedIssue",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, etc.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -593,7 +593,7 @@
           ],
           "strength": "required",
           "description": "Indicates the status of the identified issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -711,7 +711,7 @@
           ],
           "strength": "required",
           "description": "Indicates the potential degree of impact of the identified issue on the patient.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1687,7 +1687,7 @@
           ],
           "strength": "required",
           "description": "Indicates the status of the identified issue.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1775,7 +1775,7 @@
           ],
           "strength": "required",
           "description": "Indicates the potential degree of impact of the identified issue on the patient.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.3.0-CIBUILD"
         },
         "mapping": [
           {

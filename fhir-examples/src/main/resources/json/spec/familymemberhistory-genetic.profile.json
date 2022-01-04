@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/familymemberhistory-genetic",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Family member history for genetics analysis",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "Adds additional information to a family member history supporting both the capture of mother/father relationships as well as additional observations necessary to enable genetics-based risk analysis for patients",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -822,7 +822,7 @@
           ],
           "strength": "required",
           "description": "A code that identifies the status of the family history record.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/clinicaldocument",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Clinical Document",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "The Clinical Document profile constrains Composition to specify a clinical document (matching CDA). \n\nThe base Composition is a general resource for compositions or documents about any kind of subject that might be encountered in healthcare including such things as guidelines, medicines, etc. A clinical document is focused on documents related to the provision of care process, where the subject is a patient, a group of patients, or a closely related concept. A clinical document has additional requirements around confidentiality that do not apply in the same way to other kinds of documents.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -630,7 +630,7 @@
           ],
           "strength": "required",
           "description": "The workflow/clinical status of the composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1349,7 +1349,7 @@
           ],
           "strength": "required",
           "description": "The way in which a person authenticated a composition.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1729,7 +1729,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2608,7 +2608,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {

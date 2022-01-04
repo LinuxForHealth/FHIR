@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/goal-acceptance",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "acceptance",
   "title": "Goal acceptance",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Information about the acceptance and relative priority assigned to the goal by the patient, practitioners and other stake-holders.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -904,6 +904,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -938,6 +941,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

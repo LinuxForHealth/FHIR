@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "search-parameter-combination",
   "title": "Search Parameter Combination",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "This extension defines a possible search parameter combination,  by listing a set of search parameters and indicating whether they are required or optional. If a search combination is specified, clients should expect that they must submit a search that meets one of the required combinations or the search will be unsuccessful. If multiple search parameter combinations are specified, a client may pick between them, and supply the minimal required parameters for any of the combinations.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -717,6 +717,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -751,6 +754,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

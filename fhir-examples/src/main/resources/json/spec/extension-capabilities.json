@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/capabilities",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "capabilities",
   "status": "active",
   "date": "2018-02-15",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "A set of codes that defines what the server is capable of.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -245,7 +245,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/smart-capabilities|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/smart-capabilities|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -297,7 +297,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/smart-capabilities|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/smart-capabilities|4.3.0-CIBUILD"
         }
       }
     ]

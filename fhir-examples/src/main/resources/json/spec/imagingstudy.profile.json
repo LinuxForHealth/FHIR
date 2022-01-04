@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "ImagingStudy",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ImagingStudy",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Imaging Integration)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Representation of the content produced in a DICOM imaging study. A study comprises a set of series, each of which includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a common context.  A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple series of different modalities.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -594,7 +594,7 @@
           ],
           "strength": "required",
           "description": "The status of the ImagingStudy.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2927,7 +2927,7 @@
           ],
           "strength": "required",
           "description": "The status of the ImagingStudy.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

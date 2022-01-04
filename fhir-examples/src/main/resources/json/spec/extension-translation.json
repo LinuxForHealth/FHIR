@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/translation",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Translation",
   "title": "Translation",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Language translation from base language of resource to another language.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -721,6 +721,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -755,6 +758,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

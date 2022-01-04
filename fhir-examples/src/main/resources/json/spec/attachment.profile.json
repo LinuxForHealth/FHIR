@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Attachment",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Attachment",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -33,7 +33,7 @@
   ],
   "description": "Base StructureDefinition for Attachment Type: For referring to data content defined in other formats.",
   "purpose": "Many models need to include data defined in other specifications that is complex and opaque to the healthcare model. This includes documents, media recordings, structured data, etc.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -260,7 +260,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -675,7 +675,7 @@
           ],
           "strength": "required",
           "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
         },
         "mapping": [
           {

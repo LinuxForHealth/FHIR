@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "item": [
     {
@@ -33,6 +33,7 @@
               }
             }
           ],
+          "linkId": "Encounter-flyover",
           "text": "An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or assessing the health status of a patient.",
           "type": "display"
         },
@@ -67,6 +68,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +109,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +146,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +190,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -227,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -254,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -281,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -308,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -341,6 +350,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.identifier-flyover",
               "text": "Identifier(s) by which this encounter is known.",
               "type": "display"
             },
@@ -402,6 +412,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.status-flyover",
               "text": "planned | arrived | triaged | in-progress | onleave | finished | cancelled +. Note that internal business rules will determine the appropriate transitions that may occur between statuses (and also classes).",
               "type": "display"
             },
@@ -423,6 +434,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Encounter.statusHistory-display",
               "text": "The current status is always found in the current version of the resource, not the status history.",
               "type": "display"
             },
@@ -441,6 +453,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.statusHistory-flyover",
               "text": "The status history permits the encounter resource to contain the status history without needing to read through the historical versions of the resource, or even have the server store them.",
               "type": "display"
             },
@@ -475,6 +488,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.statusHistory.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -509,6 +523,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.statusHistory.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -536,6 +551,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.statusHistory.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -576,6 +592,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.statusHistory.status-flyover",
                   "text": "planned | arrived | triaged | in-progress | onleave | finished | cancelled +.",
                   "type": "display"
                 },
@@ -625,6 +642,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.statusHistory.period-flyover",
                   "text": "The time that the episode was in the specified status.",
                   "type": "display"
                 },
@@ -681,6 +699,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.class-flyover",
               "text": "Concepts representing classification of patient encounter such as ambulatory (outpatient), inpatient, emergency, home health or others due to local variations.",
               "type": "display"
             },
@@ -716,6 +735,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.classHistory-flyover",
               "text": "The class history permits the tracking of the encounters transitions without needing to go  through the resource history.  This would be used for a case where an admission starts of as an emergency encounter, then transitions into an inpatient scenario. Doing this and not restarting a new encounter ensures that any lab/diagnostic results can more easily follow the patient and not require re-processing and not get lost or cancelled during a kind of discharge from emergency to inpatient.",
               "type": "display"
             },
@@ -750,6 +770,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.classHistory.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -784,6 +805,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.classHistory.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -811,6 +833,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.classHistory.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -851,6 +874,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.classHistory.class-flyover",
                   "text": "inpatient | outpatient | ambulatory | emergency +.",
                   "type": "display"
                 },
@@ -900,6 +924,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.classHistory.period-flyover",
                   "text": "The time that the episode was in the specified class.",
                   "type": "display"
                 },
@@ -949,6 +974,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.type-flyover",
               "text": "Specific type of encounter (e.g. e-mail consultation, surgical day-care, skilled nursing, rehabilitation). Since there are many ways to further classify encounters, this element is 0..*.",
               "type": "display"
             },
@@ -1001,6 +1027,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.serviceType-flyover",
               "text": "Broad categorization of the service that is to be provided (e.g. cardiology).",
               "type": "display"
             },
@@ -1053,6 +1080,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.priority-flyover",
               "text": "Indicates the urgency of the encounter.",
               "type": "display"
             },
@@ -1104,6 +1132,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.subject-flyover",
               "text": "The patient or group present at the encounter. While the encounter is always about the patient, the patient might not actually be known in all contexts of use, and there may be a group of patients that could be anonymous (such as in a group therapy for Alcoholics Anonymous - where the recording of the encounter could be used for billing on the number of people/staff and not important to the context of the specific patients) or alternately in veterinary care a herd of sheep receiving treatment (where the animals are not individually tracked).",
               "type": "display"
             },
@@ -1153,6 +1182,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.episodeOfCare-flyover",
               "text": "Where a specific encounter should be classified as a part of a specific episode(s) of care this field should be used. This association can facilitate grouping of related encounters together for a specific purpose, such as government reporting, issue tracking, association via a common problem.  The association is recorded on the encounter as these are typically created after the episode of care and grouped on entry rather than editing the episode of care to append another encounter to it (the episode of care could span years).",
               "type": "display"
             },
@@ -1202,6 +1232,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.basedOn-flyover",
               "text": "The request this encounter satisfies (e.g. incoming referral or procedure request).",
               "type": "display"
             },
@@ -1246,6 +1277,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.participant-flyover",
               "text": "The list of people responsible for providing the service.",
               "type": "display"
             },
@@ -1280,6 +1312,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1314,6 +1347,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1341,6 +1375,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1374,6 +1409,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.type-flyover",
                   "text": "Role of participant in encounter. The participant type indicates how an individual participates in an encounter. It includes non-practitioner participants, and for practitioners this is to describe the action type in the context of this encounter (e.g. Admitting Dr, Attending Dr, Translator, Consulting Dr). This is different to the practitioner roles which are functional roles, derived from terms of employment, education, licensing, etc.",
                   "type": "display"
                 },
@@ -1426,6 +1462,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.period-flyover",
                   "text": "The period of time that the specified participant participated in the encounter. These can overlap or be sub-sets of the overall encounter\u0027s period.",
                   "type": "display"
                 },
@@ -1476,6 +1513,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.participant.individual-flyover",
                   "text": "Persons involved in the encounter other than the patient.",
                   "type": "display"
                 },
@@ -1527,6 +1565,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.appointment-flyover",
               "text": "The appointment that scheduled this encounter.",
               "type": "display"
             },
@@ -1581,6 +1620,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.period-flyover",
               "text": "The start and end time of the encounter. If not (yet) known, the end of the Period may be omitted.",
               "type": "display"
             },
@@ -1632,6 +1672,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.length-flyover",
               "text": "Quantity of time the encounter lasted. This excludes the time during leaves of absence. May differ from the time the Encounter.period lasted because of leave of absence.",
               "type": "display"
             },
@@ -1701,6 +1742,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.reasonCode-flyover",
               "text": "Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission diagnosis. For systems that need to know which was the primary diagnosis, these will be marked with the standard extension primaryDiagnosis (which is a sequence value rather than a flag, 1 \u003d primary diagnosis).",
               "type": "display"
             },
@@ -1748,6 +1790,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.reasonReference-flyover",
               "text": "Reason the encounter takes place, expressed as a code. For admissions, this can be used for a coded admission diagnosis. For systems that need to know which was the primary diagnosis, these will be marked with the standard extension primaryDiagnosis (which is a sequence value rather than a flag, 1 \u003d primary diagnosis).",
               "type": "display"
             },
@@ -1792,6 +1835,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.diagnosis-flyover",
               "text": "The list of diagnosis relevant to this encounter.",
               "type": "display"
             },
@@ -1826,6 +1870,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1860,6 +1905,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1887,6 +1933,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1927,6 +1974,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.condition-flyover",
                   "text": "Reason the encounter takes place, as specified using information from another resource. For admissions, this is the admission diagnosis. The indication will typically be a Condition (with other resources referenced in the evidence.detail), or a Procedure. For systems that need to know which was the primary diagnosis, these will be marked with the standard extension primaryDiagnosis (which is a sequence value rather than a flag, 1 \u003d primary diagnosis).",
                   "type": "display"
                 },
@@ -1981,6 +2029,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.use-flyover",
                   "text": "Role that this diagnosis has within the encounter (e.g. admission, billing, discharge …).",
                   "type": "display"
                 },
@@ -2032,6 +2081,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.diagnosis.rank-flyover",
                   "text": "Ranking of the diagnosis (for each role type).",
                   "type": "display"
                 },
@@ -2073,6 +2123,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.account-flyover",
               "text": "The set of accounts that may be used for billing for this Encounter. The billing system may choose to allocate billable items associated with the Encounter to different referenced Accounts based on internal business rules.",
               "type": "display"
             },
@@ -2109,6 +2160,7 @@
           "repeats": false,
           "item": [
             {
+              "linkId": "Encounter.hospitalization-display",
               "text": "An Encounter may cover more than just the inpatient stay. Contexts such as outpatients, community clinics, and aged care facilities are also included.\r\rThe duration recorded in the period of this encounter covers the entire scope of this hospitalization record.",
               "type": "display"
             },
@@ -2127,6 +2179,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.hospitalization-flyover",
               "text": "Details about the admission to a healthcare service.",
               "type": "display"
             },
@@ -2161,6 +2214,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2195,6 +2249,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2222,6 +2277,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2259,6 +2315,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.preAdmissionIdentifier-flyover",
                   "text": "Pre-admission identifier.",
                   "type": "display"
                 },
@@ -2316,6 +2373,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.origin-flyover",
                   "text": "The location/organization from which the patient came before admission.",
                   "type": "display"
                 },
@@ -2370,6 +2428,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.admitSource-flyover",
                   "text": "From where patient was admitted (physician referral, transfer).",
                   "type": "display"
                 },
@@ -2422,6 +2481,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.reAdmission-flyover",
                   "text": "Whether this hospitalization is a readmission and why if known.",
                   "type": "display"
                 },
@@ -2470,6 +2530,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.dietPreference-flyover",
                   "text": "Diet preferences reported by the patient. For example, a patient may request both a dairy-free and nut-free diet preference (not mutually exclusive).",
                   "type": "display"
                 },
@@ -2518,6 +2579,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.specialCourtesy-flyover",
                   "text": "Special courtesies (VIP, board member).",
                   "type": "display"
                 },
@@ -2566,6 +2628,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.specialArrangement-flyover",
                   "text": "Any special requests that have been made for this hospitalization encounter, such as the provision of specific equipment or other things.",
                   "type": "display"
                 },
@@ -2617,6 +2680,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.destination-flyover",
                   "text": "Location/organization to which the patient is discharged.",
                   "type": "display"
                 },
@@ -2671,6 +2735,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.hospitalization.dischargeDisposition-flyover",
                   "text": "Category or kind of location after discharge.",
                   "type": "display"
                 },
@@ -2701,6 +2766,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Encounter.location-display",
               "text": "Virtual encounters can be recorded in the Encounter by specifying a location reference to a location of type \"kind\" such as \"client\u0027s home\" and an encounter.class \u003d \"virtual\".",
               "type": "display"
             },
@@ -2719,6 +2785,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.location-flyover",
               "text": "List of locations where  the patient has been during this encounter.",
               "type": "display"
             },
@@ -2753,6 +2820,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2787,6 +2855,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2814,6 +2883,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2854,6 +2924,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.location-flyover",
                   "text": "The location where the encounter takes place.",
                   "type": "display"
                 },
@@ -2907,6 +2978,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.status-flyover",
                   "text": "The status of the participants\u0027 presence at the specified location during the period specified. If the participant is no longer at the location, then the period will have an end date/time. When the patient is no longer active at a location, then the period end date is entered, and the status may be changed to completed.",
                   "type": "display"
                 },
@@ -2952,6 +3024,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.physicalType-flyover",
                   "text": "This will be used to specify the required levels (bed/ward/room/etc.) desired to be recorded to simplify either messaging or query. This information is de-normalized from the Location resource to support the easier understanding of the encounter resource and processing in messaging or query.\n\nThere may be many levels in the hierachy, and this may only pic specific levels that are required for a specific usage scenario.",
                   "type": "display"
                 },
@@ -3004,6 +3077,7 @@
                       }
                     }
                   ],
+                  "linkId": "Encounter.location.period-flyover",
                   "text": "Time period during which the patient was present at the location.",
                   "type": "display"
                 },
@@ -3056,6 +3130,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.serviceProvider-flyover",
               "text": "The organization that is primarily responsible for this Encounter\u0027s services. This MAY be the same as the organization on the Patient record, however it could be different, such as if the actor performing the services was from an external organization (which may be billed seperately) for an external consultation.  Refer to the example bundle showing an abbreviated set of Encounters for a colonoscopy.",
               "type": "display"
             },
@@ -3109,6 +3184,7 @@
                   }
                 }
               ],
+              "linkId": "Encounter.partOf-flyover",
               "text": "Another Encounter of which this encounter is a part of (administratively or in time). This is also used for associating a child\u0027s encounter back to the mother\u0027s encounter.\r\rRefer to the Notes section in the Patient resource for further details.",
               "type": "display"
             },

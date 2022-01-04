@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/TriggerDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "TriggerDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Base StructureDefinition for TriggerDefinition Type: A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by the type element.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -242,7 +242,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/trigger-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -451,7 +451,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/trigger-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-CIBUILD"
         }
       },
       {

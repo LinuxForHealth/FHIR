@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ImagingStudy"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -872,10 +872,10 @@
     <valueCode value="ii"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ImagingStudy"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ImagingStudy"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Imaging Integration)"/>
   <contact>
     <telecom>
@@ -890,7 +890,7 @@
     </telecom>
   </contact>
   <description value="Representation of the content produced in a DICOM imaging study. A study comprises a set of series, each of which includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a common context.  A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple series of different modalities."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1345,7 +1345,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the ImagingStudy."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/imagingstudy-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3223,7 +3223,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the ImagingStudy."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/imagingstudy-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "MedicationRequest",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MedicationRequest",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "MedicationRequest",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "An order or request for both supply of the medication and the instructions for administration of the medication to a patient. The resource is called \"MedicationRequest\" rather than \"MedicationPrescription\" or \"MedicationOrder\" to generalize the use across inpatient and outpatient settings, including care plans, etc., and to harmonize with workflow patterns.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -597,7 +597,7 @@
           ],
           "strength": "required",
           "description": "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -712,7 +712,7 @@
           ],
           "strength": "required",
           "description": "The kind of medication order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -825,7 +825,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3112,7 +3112,7 @@
           ],
           "strength": "required",
           "description": "A coded concept specifying the state of the prescribing event. Describes the lifecycle of the prescription.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3197,7 +3197,7 @@
           ],
           "strength": "required",
           "description": "The kind of medication order.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-intent|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3280,7 +3280,7 @@
           ],
           "strength": "required",
           "description": "Identifies the level of importance to be assigned to actioning the request.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"
         },
         "mapping": [
           {

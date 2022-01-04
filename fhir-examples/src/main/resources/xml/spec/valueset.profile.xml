@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ValueSet"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -1236,10 +1236,10 @@
     <valueCode value="vocab"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ValueSet"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ValueSet"/>
   <status value="active"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Vocabulary)"/>
   <contact>
     <telecom>
@@ -1254,7 +1254,7 @@
     </telecom>
   </contact>
   <description value="A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements](terminologies.html)."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1835,7 +1835,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3286,7 +3286,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of operation to perform as a part of a property based filter."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -4375,7 +4375,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -4943,7 +4943,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of operation to perform as a part of a property based filter."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

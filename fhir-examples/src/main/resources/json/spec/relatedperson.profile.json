@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "RelatedPerson",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "RelatedPerson",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Administration)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process.",
   "purpose": "Need to track persons related to the patient or the healthcare process.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -803,7 +803,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1491,7 +1491,7 @@
           ],
           "strength": "required",
           "description": "The gender of a person used for administrative purposes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"
         },
         "mapping": [
           {

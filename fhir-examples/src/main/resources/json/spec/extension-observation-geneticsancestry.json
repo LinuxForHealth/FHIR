@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsAncestry",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Ancestry",
   "status": "draft",
   "date": "2016-03-14",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Ancestry information.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -868,6 +868,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -902,6 +905,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

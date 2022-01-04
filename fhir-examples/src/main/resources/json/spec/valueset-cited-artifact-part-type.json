@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "cited-artifact-part-type",
   "meta": {
-    "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+    "lastUpdated": "2022-01-02T02:17:18.597+11:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,11 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.1484"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CitedArtifactPartType",
   "title": "CitedArtifactPartType",
   "status": "draft",
-  "experimental": false,
+  "experimental": true,
   "date": "2020-12-28T16:55:11+11:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [

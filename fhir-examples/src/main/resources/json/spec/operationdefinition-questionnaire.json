@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -33,6 +33,7 @@
               }
             }
           ],
+          "linkId": "OperationDefinition-flyover",
           "text": "A formal computable definition of an operation (on the RESTful interface) or a named query (using the search interaction).",
           "type": "display"
         },
@@ -67,6 +68,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +109,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +146,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +190,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -227,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -254,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -281,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -308,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -344,6 +353,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.url-flyover",
               "text": "An absolute URI that is used to identify this operation definition when it is referenced in a specification, model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at which at which an authoritative instance of this operation definition is (or will be) published. This URL can be the target of a canonical reference. It SHALL remain the same when the operation definition is stored on different servers. Can be a urn:uuid: or a urn:oid: but real http: addresses are preferred.  Multiple instances may share the same URL if they have a distinct version.\n\nThe determination of when to create a new version of a resource (same url, new version) vs. defining a new artifact is up to the author.  Considerations for making this decision are found in [Technical and Business Versions](resource.html#versions). \n\nIn some cases, the resource can no longer be found at the stated url, but the url itself cannot change. Implementations can use the [meta.source](resource.html#meta) element to indicate where the current master source of the resource can be found.",
               "type": "display"
             },
@@ -387,6 +397,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.version-flyover",
               "text": "The identifier that is used to identify this version of the operation definition when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the operation definition author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions can be placed in a lexicographical sequence. There may be different operation definition instances that have the same identifier but different versions.  The version can be appended to the url in a reference to allow a reference to a particular business version of the operation definition with the format [url]|[version].",
               "type": "display"
             },
@@ -434,6 +445,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.name-flyover",
               "text": "A natural language name identifying the operation definition. This name should be usable as an identifier for the module by machine processing applications such as code generation. The name is not expected to be globally unique. The name should be a simple alphanumeric type name to ensure that it is machine-processing friendly.",
               "type": "display"
             },
@@ -477,6 +489,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.title-flyover",
               "text": "A short, descriptive, user-friendly title for the operation definition. This name does not need to be machine-processing friendly and may contain punctuation, white-space, etc.",
               "type": "display"
             },
@@ -524,6 +537,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.status-flyover",
               "text": "The status of this operation definition. Enables tracking the life-cycle of the content. Allows filtering of operation definitions that are appropriate for use versus not.",
               "type": "display"
             },
@@ -572,6 +586,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.kind-flyover",
               "text": "Whether this is an operation or a named query. Named queries are invoked differently, and have different capabilities.",
               "type": "display"
             },
@@ -616,6 +631,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.experimental-flyover",
               "text": "A Boolean value to indicate that this operation definition is authored for testing purposes (or education/evaluation/marketing) and is not intended to be used for genuine usage. Allows filtering of operation definitions that are appropriate for use versus not.",
               "type": "display"
             },
@@ -659,6 +675,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.date-flyover",
               "text": "The date  (and optionally time) when the operation definition was published. The date must change when the business version changes and it must change if the status code changes. In addition, it should change when the substantive content of the operation definition changes. Note that this is not the same as the resource last-modified-date, since the resource may be a secondary representation of the operation definition. Additional specific dates may be added as extensions or be found by consulting Provenances associated with past versions of the resource.",
               "type": "display"
             },
@@ -702,6 +719,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.publisher-flyover",
               "text": "The name of the organization or individual that published the operation definition. Usually an organization but may be an individual. The publisher (or steward) of the operation definition is the organization or individual primarily responsible for the maintenance and upkeep of the operation definition. This is not necessarily the same individual or organization that developed and initially authored the content. The publisher is the primary point of contact for questions or issues with the operation definition. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -722,6 +740,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "OperationDefinition.contact-display",
               "text": "May be a web site, an email address, a telephone number, etc.",
               "type": "display"
             },
@@ -740,6 +759,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -776,6 +796,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.description-flyover",
               "text": "A free text natural language description of the operation definition from a consumer\u0027s perspective. This description can be used to capture details such as why the operation definition was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the operation definition as conveyed in the \u0027text\u0027 field of the resource itself. This item SHOULD be populated unless the information is available from context (e.g. the language of the operation definition is presumed to be the predominant language in the place the operation definition was created).",
               "type": "display"
             },
@@ -796,6 +817,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "OperationDefinition.useContext-display",
               "text": "When multiple useContexts are specified, there is no expectation that all or any of the contexts apply.",
               "type": "display"
             },
@@ -814,6 +836,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and may be used to assist with indexing and searching for appropriate operation definition instances.",
               "type": "display"
             }
@@ -847,6 +870,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.jurisdiction-flyover",
               "text": "A legal or geographic region in which the operation definition is intended to be used. It may be possible for the operation definition to be used in jurisdictions other than those for which it was originally designed or intended.",
               "type": "display"
             },
@@ -898,6 +922,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.purpose-flyover",
               "text": "Explanation of why this operation definition is needed and why it has been designed as it has. This element does not describe the usage of the operation definition. Instead, it provides traceability of \u0027\u0027why\u0027\u0027 the resource is either needed or \u0027\u0027why\u0027\u0027 it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this operation definition.",
               "type": "display"
             },
@@ -941,6 +966,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.affectsState-flyover",
               "text": "Whether the operation affects state. Side effects such as producing audit trail entries do not count as \u0027affecting  state\u0027. What http methods can be used for the operation depends on the .affectsState value and whether the input parameters are primitive or complex:\n\n1. Servers SHALL support POST method for all operations.\n\n2. Servers SHALL support GET method if all the parameters for the operation are primitive or there are no parameters and the operation has affectsState \u003d false.",
               "type": "display"
             },
@@ -988,6 +1014,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.code-flyover",
               "text": "The name used to invoke the operation.",
               "type": "display"
             },
@@ -1032,6 +1059,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.comment-flyover",
               "text": "Additional information about how to use this operation or named query.",
               "type": "display"
             },
@@ -1075,6 +1103,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.base-flyover",
               "text": "Indicates that this operation definition is a constraining profile on the base. A constrained profile can make optional parameters required or not used and clarify documentation.",
               "type": "display"
             },
@@ -1114,6 +1143,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.resource-flyover",
               "text": "The types on which this operation can be executed. If the type is an abstract resource (\"Resource\" or \"DomainResource\") then the operation can be invoked on any concrete specialization.",
               "type": "display"
             },
@@ -1162,6 +1192,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.system-flyover",
               "text": "Indicates whether this operation or named query can be invoked at the system level (e.g. without needing to choose a resource type for the context).",
               "type": "display"
             },
@@ -1209,6 +1240,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.type-flyover",
               "text": "Indicates whether this operation or named query can be invoked at the resource type level for any given resource type level (e.g. without needing to choose a specific resource id for the context).",
               "type": "display"
             },
@@ -1256,6 +1288,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.instance-flyover",
               "text": "Indicates whether this operation can be invoked on a particular instance of one of the given types.",
               "type": "display"
             },
@@ -1299,6 +1332,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.inputProfile-flyover",
               "text": "Additional validation information for the in parameters - a single profile that covers all the parameters. The profile is a constraint on the parameters resource as a whole. If present the profile shall not conflict with what is specified in the parameters in the operation definition (max/min etc.), though it may provide additional constraints. The constraints expressed in the profile apply whether the operation is invoked by a POST wih parameters or not.",
               "type": "display"
             },
@@ -1342,6 +1376,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.outputProfile-flyover",
               "text": "Additional validation information for the out parameters - a single profile that covers all the parameters. The profile is a constraint on the parameters resource. If present the profile shall not conflict with what is specified in the parameters in the operation definition (max/min etc.), though it may provide additional constraints. The constraints expressed in the profile apply whether the operation is invoked by a POST wih parameters or not.",
               "type": "display"
             },
@@ -1362,6 +1397,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "OperationDefinition.parameter-display",
               "text": "Query Definitions only have one output parameter, named \"result\". This might not be described, but can be to allow a profile to be defined.",
               "type": "display"
             },
@@ -1380,6 +1416,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.parameter-flyover",
               "text": "The parameters for the operation/query.",
               "type": "display"
             },
@@ -1414,6 +1451,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1448,6 +1486,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1475,6 +1514,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1515,6 +1555,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.name-flyover",
                   "text": "The name of used to identify the parameter. This name must be a token (start with a letter in a..z, and only contain letters, numerals, and underscore. Note that for search parameters (type \u003d string, with a search type), the name may be altered by the search modifiers.",
                   "type": "display"
                 },
@@ -1563,6 +1604,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.use-flyover",
                   "text": "Whether this is an input or an output parameter. If a parameter name is used for both an input and an output parameter, the parameter should be defined twice.",
                   "type": "display"
                 },
@@ -1611,6 +1653,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.min-flyover",
                   "text": "The minimum number of times this parameter SHALL appear in the request or response.",
                   "type": "display"
                 },
@@ -1658,6 +1701,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.max-flyover",
                   "text": "The maximum number of times this element is permitted to appear in the request or response.",
                   "type": "display"
                 },
@@ -1701,6 +1745,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.documentation-flyover",
                   "text": "Describes the meaning or use of this parameter.",
                   "type": "display"
                 },
@@ -1744,6 +1789,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.type-flyover",
                   "text": "The type for this parameter. if there is no stated parameter, then the parameter is a multi-part parameter; type and must have at least one part defined.",
                   "type": "display"
                 },
@@ -1784,6 +1830,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.targetProfile-flyover",
                   "text": "Used when the type is \"Reference\" or \"canonical\", and identifies a profile structure or implementation Guide that applies to the target of the reference this parameter refers to. If any profiles are specified, then the content must conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, the target resource SHALL conform to at least one profile defined in the implementation guide. Often, these profiles are the base definitions from the spec (e.g. http://hl7.org/fhir/StructureDefinition/Patient).",
                   "type": "display"
                 },
@@ -1827,6 +1874,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.searchType-flyover",
                   "text": "How the parameter is understood as a search parameter. This is only used if the parameter type is \u0027string\u0027.",
                   "type": "display"
                 },
@@ -1868,6 +1916,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.binding-flyover",
                   "text": "Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).",
                   "type": "display"
                 },
@@ -1902,6 +1951,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.binding.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1936,6 +1986,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.binding.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1963,6 +2014,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.binding.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2003,6 +2055,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.binding.strength-flyover",
                       "text": "Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the provided value set must be adhered to in the instances. For further discussion, see [Using Terminologies](terminologies.html).",
                       "type": "display"
                     },
@@ -2051,6 +2104,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.binding.valueSet-flyover",
                       "text": "Points to the value set or external definition (e.g. implicit value set) that identifies the set of codes to be used. For value sets with a referenceResource, the display can contain the value set description.  The reference may be version-specific or not.",
                       "type": "display"
                     },
@@ -2073,6 +2127,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "OperationDefinition.parameter.referencedFrom-display",
                   "text": "Resolution applies if the referenced parameter exists.",
                   "type": "display"
                 },
@@ -2091,6 +2146,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.referencedFrom-flyover",
                   "text": "Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.",
                   "type": "display"
                 },
@@ -2125,6 +2181,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.referencedFrom.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -2159,6 +2216,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.referencedFrom.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2186,6 +2244,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.referencedFrom.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -2226,6 +2285,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.referencedFrom.source-flyover",
                       "text": "The name of the parameter or dot-separated path of parameter names pointing to the resource parameter that is expected to contain a reference to this resource.",
                       "type": "display"
                     },
@@ -2269,6 +2329,7 @@
                           }
                         }
                       ],
+                      "linkId": "OperationDefinition.parameter.referencedFrom.sourceId-flyover",
                       "text": "The id of the element in the referencing resource that is expected to resolve to this resource.",
                       "type": "display"
                     },
@@ -2291,6 +2352,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "OperationDefinition.parameter.part-display",
                   "text": "Query Definitions only have one output parameter, named \"result\". This might not be described, but can be to allow a profile to be defined.",
                   "type": "display"
                 },
@@ -2309,6 +2371,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.parameter.part-flyover",
                   "text": "The parts of a nested Parameter.",
                   "type": "display"
                 }
@@ -2324,6 +2387,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "OperationDefinition.overload-display",
               "text": "The combinations are suggestions as to which sets of parameters to use together, but the combinations are not intended to be authoritative.",
               "type": "display"
             },
@@ -2342,6 +2406,7 @@
                   }
                 }
               ],
+              "linkId": "OperationDefinition.overload-flyover",
               "text": "Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when generating overloaded parameter sets for this operation.",
               "type": "display"
             },
@@ -2376,6 +2441,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.overload.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2410,6 +2476,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.overload.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2437,6 +2504,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.overload.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2469,6 +2537,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.overload.parameterName-flyover",
                   "text": "Name of parameter to include in overload.",
                   "type": "display"
                 },
@@ -2512,6 +2581,7 @@
                       }
                     }
                   ],
+                  "linkId": "OperationDefinition.overload.comment-flyover",
                   "text": "Comments to go on overload.",
                   "type": "display"
                 },

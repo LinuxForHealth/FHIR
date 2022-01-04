@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Person"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -312,10 +312,10 @@
     <valueCode value="pa"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Person"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Person"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Patient Administration)"/>
   <contact>
     <telecom>
@@ -331,7 +331,7 @@
   </contact>
   <description value="Demographics and administrative information about a person independent of a specific health-related context."/>
   <purpose value="Need to track persons potentially across multiple roles."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -837,7 +837,7 @@
         </extension>
         <strength value="required"/>
         <description value="The gender of a person used for administrative purposes."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1226,7 +1226,7 @@
         </extension>
         <strength value="required"/>
         <description value="The level of confidence that this link represents the same actual person, based on NIST Authentication Levels."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1348,7 +1348,7 @@
         </extension>
         <strength value="required"/>
         <description value="The gender of a person used for administrative purposes."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1524,7 +1524,7 @@
         </extension>
         <strength value="required"/>
         <description value="The level of confidence that this link represents the same actual person, based on NIST Authentication Levels."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

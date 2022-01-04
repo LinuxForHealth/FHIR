@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "notGiven" </p></div><p><b>status</b>: not-done</p><p><b>statusReason</b>: medical precaution <span> (<a>ActReason</a>#MEDPREC)</span></p><p><b>vaccineCode</b>: DTP <span> (<a>PH_VaccinesAdministeredCVX_CDC_NIP</a>#01)</span></p><p><b>patient</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>occurrence</b>: 2013-01-10</p><p><b>primarySource</b>: true</p></div></text><status value="not-done"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "notGiven" </p></div><p><b>status</b>: not-done</p><p><b>statusReason</b>: medical precaution <span> (<a>ActReason</a>#MEDPREC)</span></p><p><b>vaccineCode</b>: DTP <span> (<a>Vaccine Administered Code Set (CVX)</a>#01)</span></p><p><b>patient</b>: <a>Patient/example</a> "Peter CHALMERS"</p><p><b>occurrence</b>: 2013-01-10</p><p><b>primarySource</b>: true</p></div></text><status value="not-done"/>
 	<statusReason>
 		<coding>
 			<system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>

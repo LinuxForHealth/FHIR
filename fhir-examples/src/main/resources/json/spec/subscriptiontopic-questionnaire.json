@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -33,6 +33,7 @@
               }
             }
           ],
+          "linkId": "SubscriptionTopic-flyover",
           "text": "Describes a stream of resource state changes or events and annotated with labels useful to filter projections from this topic.",
           "type": "display"
         },
@@ -67,6 +68,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +109,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +146,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +190,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -227,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -254,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -281,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -308,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -348,6 +357,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.url-flyover",
               "text": "An absolute URL that is used to identify this SubscriptionTopic when it is referenced in a specification, model, design or an instance. This SHALL be a URL, SHOULD be globally unique, and SHOULD be an address at which this Topic is (or will be) published. The URL SHOULD include the major version of the Topic. For more information see [Technical and Business Versions](resource.html#versions). Can be a urn:uuid: or a urn:oid:, but real http: addresses are preferred.  This is the URI that will be used when making canonical references to this resource.",
               "type": "display"
             },
@@ -388,6 +398,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.identifier-flyover",
               "text": "Business identifiers assigned to this SubscriptionTopic by the performer and/or other systems.  These identifiers remain constant as the resource is updated and propagates from server to server. Note: This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
@@ -445,6 +456,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.version-flyover",
               "text": "The identifier that is used to identify this version of the SubscriptionTopic when it is referenced in a specification, model, design or instance. This is an arbitrary value managed by the Topic author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no expectation that versions are orderable. There may be multiple different instances of a SubscriptionTopic that have the same identifier but different versions.",
               "type": "display"
             },
@@ -488,6 +500,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.title-flyover",
               "text": "A short, descriptive, user-friendly title for the SubscriptionTopic, for example, \"admission\".",
               "type": "display"
             },
@@ -527,6 +540,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.derivedFrom-flyover",
               "text": "The canonical URL pointing to another FHIR-defined SubscriptionTopic that is adhered to in whole or in part by this SubscriptionTopic.",
               "type": "display"
             },
@@ -574,6 +588,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.status-flyover",
               "text": "The current state of the SubscriptionTopic. A nominal state-transition diagram can be found in the [[definition.html#statemachine | Definition pattern]] documentation\n\nUnknown does not represent \"other\" - one of the defined statuses must apply.  Unknown is used when the authoring system is not sure what the current status is.",
               "type": "display"
             },
@@ -618,6 +633,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.experimental-flyover",
               "text": "A flag to indicate that this TopSubscriptionTopicic is authored for testing purposes (or education/evaluation/marketing), and is not intended to be used for genuine usage. Allows filtering of SubscriptionTopic that are appropriate for use vs. not.",
               "type": "display"
             },
@@ -661,6 +677,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.date-flyover",
               "text": "For draft definitions, indicates the date of initial creation.  For active definitions, represents the date of activation.  For withdrawn definitions, indicates the date of withdrawal.",
               "type": "display"
             },
@@ -704,6 +721,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.publisher-flyover",
               "text": "Helps establish the \"authority/credibility\" of the SubscriptionTopic.  May also allow for contact.",
               "type": "display"
             },
@@ -724,6 +742,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "SubscriptionTopic.contact-display",
               "text": "May be a web site, an email address, a telephone number, etc.",
               "type": "display"
             },
@@ -742,6 +761,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.contact-flyover",
               "text": "Contact details to assist a user in finding and communicating with the publisher.",
               "type": "display"
             }
@@ -778,6 +798,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.description-flyover",
               "text": "A free text natural language description of the Topic from the consumer\u0027s perspective. This description can be used to capture details such as why the Topic was built, comments about misuse, instructions for clinical use and interpretation, literature references, examples from the paper world, etc. It is not a rendering of the module as conveyed in the text field of the resource itself. This item SHOULD be populated unless the information is available from context.",
               "type": "display"
             },
@@ -798,6 +819,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "SubscriptionTopic.useContext-display",
               "text": "When multiple usageContexts are specified, there is no expectation for whether all or any of the contexts apply.",
               "type": "display"
             },
@@ -816,6 +838,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.useContext-flyover",
               "text": "The content was developed with a focus and intent of supporting the contexts that are listed. These terms may be used to assist with indexing and searching of code system definitions.",
               "type": "display"
             }
@@ -849,6 +872,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.jurisdiction-flyover",
               "text": "A jurisdiction in which the Topic is intended to be used.",
               "type": "display"
             },
@@ -900,6 +924,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.purpose-flyover",
               "text": "Explains why this Topic is needed and why it has been designed as it has. This element does not describe the usage of the Topic.  Rather it is for traceability of \u0027\u0027why\u0027\u0027 the resource is either needed or \u0027\u0027why\u0027\u0027 it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this Topic.",
               "type": "display"
             },
@@ -943,6 +968,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.copyright-flyover",
               "text": "A copyright statement relating to the SubscriptionTopic and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the SubscriptionTopic.",
               "type": "display"
             },
@@ -986,6 +1012,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.approvalDate-flyover",
               "text": "The date on which the asset content was approved by the publisher. Approval happens once when the content is officially approved for usage. The date may be more recent than the approval date because of minor changes / editorial corrections.",
               "type": "display"
             },
@@ -1029,6 +1056,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.lastReviewDate-flyover",
               "text": "The date on which the asset content was last reviewed. Review happens periodically after that, but doesn\u0027t change the original approval date. If specified, this is usually after the approval date.",
               "type": "display"
             },
@@ -1073,6 +1101,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.effectivePeriod-flyover",
               "text": "The period during which the SubscriptionTopic content was or is planned to be effective. The effective period for a SubscriptionTopic  determines when the content is applicable for usage and is independent of publication and review dates. For example, a measure intended to be used for the year 2016 would be published in 2015.",
               "type": "display"
             },
@@ -1114,6 +1143,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.resourceTrigger-flyover",
               "text": "A definition of a resource-based event that triggers a notification based on the SubscriptionTopic. The criteria may be just a human readable description and/or a full FHIR search string or FHIRPath expression. Multiple triggers are considered OR joined (e.g., a resource update matching ANY of the definitions will trigger a notification).",
               "type": "display"
             },
@@ -1148,6 +1178,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1182,6 +1213,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1209,6 +1241,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1245,6 +1278,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.description-flyover",
                   "text": "The human readable description of this resource trigger for the SubscriptionTopic -  for example, \"An Encounter enters the \u0027in-progress\u0027 state\". Implementation of particular subscription topics might not use a computable definition and instead base their design on the definition.",
                   "type": "display"
                 },
@@ -1292,6 +1326,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.resource-flyover",
                   "text": "URL of the Resource that is the type used in this resource trigger.  Relative URLs are relative to the StructureDefinition root of the implemented FHIR version (e.g., http://hl7.org/fhir/StructureDefinition). For example, \"Patient\" maps to http://hl7.org/fhir/StructureDefinition/Patient.  For more information, see \u003ca href\u003d\"elementdefinition-definitions.html#ElementDefinition.type.code\"\u003eElementDefinition.type.code\u003c/a\u003e.",
                   "type": "display"
                 },
@@ -1331,6 +1366,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.supportedInteraction-flyover",
                   "text": "The FHIR RESTful interaction which can be used to trigger a notification for the SubscriptionTopic. Multiple values are considered OR joined (e.g., CREATE or UPDATE).",
                   "type": "display"
                 },
@@ -1372,6 +1408,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria-flyover",
                   "text": "The FHIR query based rules that the server should use to determine when to trigger a notification for this subscription topic.",
                   "type": "display"
                 },
@@ -1406,6 +1443,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1440,6 +1478,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1467,6 +1506,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1503,6 +1543,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.previous-flyover",
                       "text": "The FHIR query based rules are applied to the previous resource state (e.g., state before an update). The rules are search criteria (without the [base] part). Like Bundle.entry.request.url, it has no leading \"/\".",
                       "type": "display"
                     },
@@ -1546,6 +1587,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForCreate-flyover",
                       "text": "What behavior a server will exhibit if the previous state of a resource does NOT exist (e.g., prior to a create).",
                       "type": "display"
                     },
@@ -1590,6 +1632,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.current-flyover",
                       "text": "The FHIR query based rules are applied to the current resource state (e.g., state after an update). The rules are search criteria (without the [base] part). Like Bundle.entry.request.url, it has no leading \"/\".",
                       "type": "display"
                     },
@@ -1633,6 +1676,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.resultForDelete-flyover",
                       "text": "What behavior a server will exhibit if the current state of a resource does NOT exist (e.g., after a DELETE).",
                       "type": "display"
                     },
@@ -1677,6 +1721,7 @@
                           }
                         }
                       ],
+                      "linkId": "SubscriptionTopic.resourceTrigger.queryCriteria.requireBoth-flyover",
                       "text": "If set to true, both current and previous criteria must evaluate true to  trigger a notification for this topic.  Otherwise a notification for this topic will be triggered if either one evaluates to true.",
                       "type": "display"
                     },
@@ -1722,6 +1767,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.resourceTrigger.fhirPathCriteria-flyover",
                   "text": "The FHIRPath based rules that the server should use to determine when to trigger a notification for this topic. FHIRPath expression with %previous and %current vars.",
                   "type": "display"
                 },
@@ -1758,6 +1804,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.eventTrigger-flyover",
               "text": "Event definition which can be used to trigger the SubscriptionTopic.",
               "type": "display"
             },
@@ -1792,6 +1839,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1826,6 +1874,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1853,6 +1902,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1889,6 +1939,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.description-flyover",
                   "text": "The human readable description of an event to trigger a notification for the SubscriptionTopic - for example, \"Patient Admission, as defined in HL7v2 via message ADT^A01\". Multiple values are considered OR joined (e.g., matching any single event listed). Implementation of particular subscription topics might not use a computable definition and instead base their design on the definition.",
                   "type": "display"
                 },
@@ -1937,6 +1988,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.event-flyover",
                   "text": "A well-defined event which can be used to trigger notifications from the SubscriptionTopic.",
                   "type": "display"
                 },
@@ -1992,6 +2044,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.eventTrigger.resource-flyover",
                   "text": "URL of the Resource that is the focus type used in this event trigger.  Relative URLs are relative to the StructureDefinition root of the implemented FHIR version (e.g., http://hl7.org/fhir/StructureDefinition). For example, \"Patient\" maps to http://hl7.org/fhir/StructureDefinition/Patient.  For more information, see \u003ca href\u003d\"elementdefinition-definitions.html#ElementDefinition.type.code\"\u003eElementDefinition.type.code\u003c/a\u003e.",
                   "type": "display"
                 },
@@ -2028,6 +2081,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.canFilterBy-flyover",
               "text": "List of properties by which Subscriptions on the SubscriptionTopic can be filtered. May be defined Search Parameters (e.g., Encounter.patient) or parameters defined within this SubscriptionTopic context (e.g., hub.event).",
               "type": "display"
             },
@@ -2062,6 +2116,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2096,6 +2151,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2123,6 +2179,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2159,6 +2216,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.description-flyover",
                   "text": "Description of how this filtering parameter is intended to be used.",
                   "type": "display"
                 },
@@ -2202,6 +2260,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.resource-flyover",
                   "text": "URL of the Resource that is the type used in this filter. This is the \"focus\" of the topic (or one of them if there are more than one). It will be the same, a generality, or a specificity of SubscriptionTopic.resourceTrigger.resource or SubscriptionTopic.eventTrigger.resource when they are present. URL of the Resource that is the type used in this filter. Relative URLs are relative to the StructureDefinition root of the implemented FHIR version (e.g., http://hl7.org/fhir/StructureDefinition). For example, \"Patient\" maps to http://hl7.org/fhir/StructureDefinition/Patient. For more information, see \u003ca href\u003d\"elementdefinition-definitions.html#ElementDefinition.type.code\"\u003eElementDefinition.type.code\u003c/a\u003e.",
                   "type": "display"
                 },
@@ -2245,6 +2304,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.filterParameter-flyover",
                   "text": "Either the canonical URL to a search parameter (like \"http://hl7.org/fhir/SearchParameter/encounter-patient\") or topic-defined parameter (like \"hub.event\") which is a label for the filter. Chained parameters are allowed (like \"patient.gender\") - but can not use colons or modifiers.",
                   "type": "display"
                 },
@@ -2284,6 +2344,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.canFilterBy.modifier-flyover",
                   "text": "Allowable operators to apply when determining matches (Search Modifiers).",
                   "type": "display"
                 },
@@ -2321,6 +2382,7 @@
                   }
                 }
               ],
+              "linkId": "SubscriptionTopic.notificationShape-flyover",
               "text": "List of properties to describe the shape (e.g., resources) included in notifications from this Subscription Topic.",
               "type": "display"
             },
@@ -2355,6 +2417,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2389,6 +2452,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2416,6 +2480,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2456,6 +2521,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.resource-flyover",
                   "text": "URL of the Resource that is the type used in this shape. This is the \"focus\" of the topic (or one of them if there are more than one) and the root resource for this shape definition. It will be the same, a generality, or a specificity of SubscriptionTopic.resourceTrigger.resource or SubscriptionTopic.eventTrigger.resource when they are present. URL of the Resource that is the type used in this shape. Relative URLs are relative to the StructureDefinition root of the implemented FHIR version (e.g., http://hl7.org/fhir/StructureDefinition). For example, \"Patient\" maps to http://hl7.org/fhir/StructureDefinition/Patient. For more information, see \u003ca href\u003d\"elementdefinition-definitions.html#ElementDefinition.type.code\"\u003eElementDefinition.type.code\u003c/a\u003e.",
                   "type": "display"
                 },
@@ -2495,6 +2561,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.include-flyover",
                   "text": "Search-style _include directives, rooted in the resource for this shape. Servers SHOULD include resources listed here, if they exist and the user is authorized to receive them.  Clients SHOULD be prepared to receive these additional resources, but SHALL function properly without them.",
                   "type": "display"
                 },
@@ -2534,6 +2601,7 @@
                       }
                     }
                   ],
+                  "linkId": "SubscriptionTopic.notificationShape.revInclude-flyover",
                   "text": "Search-style _revinclude directives, rooted in the resource for this shape. Servers SHOULD include resources listed here, if they exist and the user is authorized to receive them.  Clients SHOULD be prepared to receive these additional resources, but SHALL function properly without them.",
                   "type": "display"
                 },

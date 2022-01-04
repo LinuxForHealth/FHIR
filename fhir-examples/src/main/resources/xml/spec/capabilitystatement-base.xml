@@ -407,20 +407,6 @@
           <td>y</td>
         </tr>
         <tr>
-          <td>ClinicalUseIssue</td>
-          <td>
-            <a href="http://hl7.org/fhir/StructureDefinition/ClinicalUseIssue">http://hl7.org/fhir/StructureDefinition/ClinicalUseIssue</a>
-          </td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-          <td>y</td>
-        </tr>
-        <tr>
           <td>CodeSystem</td>
           <td>
             <a href="http://hl7.org/fhir/StructureDefinition/CodeSystem">http://hl7.org/fhir/StructureDefinition/CodeSystem</a>
@@ -2048,11 +2034,11 @@
     </div>
   </text>
   <url value="http://hl7.org/fhir/CapabilityStatement/base"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Base FHIR Capability Statement (Full)"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -2065,7 +2051,7 @@
   <software>
     <name value="Insert your software name here..."/>
   </software>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <format value="xml"/>
   <format value="json"/>
   <rest>
@@ -2226,8 +2212,6 @@
       <searchRevInclude value="CarePlan.instantiates-canonical"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="Communication.instantiates-canonical"/>
       <searchRevInclude value="DeviceRequest.instantiates-canonical"/>
       <searchRevInclude value="FamilyMemberHistory.instantiates-canonical"/>
@@ -4868,118 +4852,6 @@
       </searchParam>
     </resource>
     <resource>
-      <type value="ClinicalUseIssue"/>
-      <profile value="http://hl7.org/fhir/StructureDefinition/ClinicalUseIssue"/>
-      <interaction>
-        <code value="read"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="vread"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="update"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="delete"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="history-instance"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="history-type"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="create"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <interaction>
-        <code value="search-type"/>
-        <documentation value="Implemented per the specification (or Insert other doco here)"/>
-      </interaction>
-      <conditionalCreate value="true"/>
-      <conditionalUpdate value="true"/>
-      <conditionalDelete value="multiple"/>
-      <referencePolicy value="literal"/>
-      <referencePolicy value="logical"/>
-      <searchInclude value="ClinicalUseIssue.contraindication-reference"/>
-      <searchInclude value="ClinicalUseIssue.indication-reference"/>
-      <searchInclude value="ClinicalUseIssue.product"/>
-      <searchInclude value="ClinicalUseIssue.subject"/>
-      <searchInclude value="ClinicalUseIssue.effect-reference"/>
-      <searchParam>
-        <name value="contraindication-reference"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-contraindication-reference"/>
-        <type value="reference"/>
-        <documentation value="The situation that is being documented as contraindicating against this item, as a reference"/>
-      </searchParam>
-      <searchParam>
-        <name value="identifier"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-identifier"/>
-        <type value="token"/>
-        <documentation value="Business identifier for this issue"/>
-      </searchParam>
-      <searchParam>
-        <name value="indication-reference"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-indication-reference"/>
-        <type value="reference"/>
-        <documentation value="The situation that is being documented as an indicaton for this item, as a reference"/>
-      </searchParam>
-      <searchParam>
-        <name value="product"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-product"/>
-        <type value="reference"/>
-        <documentation value="The medicinal product for which this is a clinical usage issue"/>
-      </searchParam>
-      <searchParam>
-        <name value="subject"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-subject"/>
-        <type value="reference"/>
-        <documentation value="The resource for which this is a clinical usage issue"/>
-      </searchParam>
-      <searchParam>
-        <name value="effect"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-effect"/>
-        <type value="token"/>
-        <documentation value="The situation in which the undesirable effect may manifest, as a code"/>
-      </searchParam>
-      <searchParam>
-        <name value="interaction"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-interaction"/>
-        <type value="token"/>
-        <documentation value="The type of the interaction e.g. drug-drug interaction, drug-food interaction, drug-lab test interaction"/>
-      </searchParam>
-      <searchParam>
-        <name value="indication"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-indication"/>
-        <type value="token"/>
-        <documentation value="The situation that is being documented as an indicaton for this item, as a code"/>
-      </searchParam>
-      <searchParam>
-        <name value="type"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-type"/>
-        <type value="token"/>
-        <documentation value="indication | contraindication | interaction | undesirable-effect | warning"/>
-      </searchParam>
-      <searchParam>
-        <name value="contraindication"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-contraindication"/>
-        <type value="token"/>
-        <documentation value="The situation that is being documented as contraindicating against this item, as a code"/>
-      </searchParam>
-      <searchParam>
-        <name value="effect-reference"/>
-        <definition value="http://hl7.org/fhir/SearchParameter/ClinicalUseIssue-effect-reference"/>
-        <type value="reference"/>
-        <documentation value="The situation in which the undesirable effect may manifest, as a reference"/>
-      </searchParam>
-    </resource>
-    <resource>
       <type value="CodeSystem"/>
       <profile value="http://hl7.org/fhir/StructureDefinition/CodeSystem"/>
       <interaction>
@@ -6788,8 +6660,6 @@
       <searchRevInclude value="Claim.item-udi"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="Communication.sender"/>
       <searchRevInclude value="Communication.recipient"/>
       <searchRevInclude value="CommunicationRequest.requester"/>
@@ -6975,8 +6845,6 @@
       <searchRevInclude value="AdministrableProductDefinition.device"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="DeviceDefinition.parent"/>
       <searchRevInclude value="RegulatedAuthorization.subject"/>
       <searchParam>
@@ -11950,8 +11818,6 @@
       <searchRevInclude value="AdverseEvent.substance"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="DiagnosticReport.subject"/>
       <searchRevInclude value="DiagnosticReport.patient"/>
       <searchRevInclude value="Flag.patient"/>
@@ -12726,8 +12592,6 @@
       <searchRevInclude value="AdministrableProductDefinition.form-of"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="Ingredient.for"/>
       <searchRevInclude value="PackagedProductDefinition.package-for"/>
       <searchRevInclude value="RegulatedAuthorization.subject"/>
@@ -15315,8 +15179,6 @@
       <searchRevInclude value="CarePlan.instantiates-canonical"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="Communication.instantiates-canonical"/>
       <searchRevInclude value="DeviceRequest.instantiates-canonical"/>
       <searchRevInclude value="FamilyMemberHistory.instantiates-canonical"/>
@@ -18924,8 +18786,6 @@
       <searchRevInclude value="AdverseEvent.substance"/>
       <searchRevInclude value="ClinicalUseDefinition.product"/>
       <searchRevInclude value="ClinicalUseDefinition.subject"/>
-      <searchRevInclude value="ClinicalUseIssue.product"/>
-      <searchRevInclude value="ClinicalUseIssue.subject"/>
       <searchRevInclude value="DiagnosticReport.subject"/>
       <searchRevInclude value="DiagnosticReport.patient"/>
       <searchRevInclude value="Group.member"/>

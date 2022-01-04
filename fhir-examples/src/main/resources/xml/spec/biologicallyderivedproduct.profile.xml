@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="BiologicallyDerivedProduct"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -613,10 +613,10 @@
     <valueCode value="oo"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/BiologicallyDerivedProduct"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="BiologicallyDerivedProduct"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Orders and Observations)"/>
   <contact>
     <telecom>
@@ -631,7 +631,7 @@
     </telecom>
   </contact>
   <description value="A material substance originating from a biological entity intended to be transplanted or infused&#xA;into another (possibly the same) biological entity."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1059,7 +1059,7 @@
         </extension>
         <strength value="required"/>
         <description value="Biologically Derived Product Category."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-category|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.productCode">
@@ -1126,7 +1126,7 @@
         </extension>
         <strength value="required"/>
         <description value="Biologically Derived Product Status."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-status|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.request">
@@ -2089,7 +2089,7 @@
         </extension>
         <strength value="required"/>
         <description value="BiologicallyDerived Product Storage Scale."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-storage-scale|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-storage-scale|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.storage.duration">
@@ -2181,7 +2181,7 @@
         </extension>
         <strength value="required"/>
         <description value="Biologically Derived Product Category."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-category|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-category|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.productCode">
@@ -2222,7 +2222,7 @@
         </extension>
         <strength value="required"/>
         <description value="Biologically Derived Product Status."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-status|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.request">
@@ -2502,7 +2502,7 @@
         </extension>
         <strength value="required"/>
         <description value="BiologicallyDerived Product Storage Scale."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/product-storage-scale|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/product-storage-scale|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="BiologicallyDerivedProduct.storage.duration">

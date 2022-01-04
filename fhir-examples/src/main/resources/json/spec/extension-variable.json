@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/variable",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Variable",
   "status": "draft",
   "date": "2013-12-05",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Variable specifying a logic to generate a variable for use in subsequent logic.  The name of the variable will be added to FHIRPath\u0027s context when processing descendants of the element that contains this extension.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

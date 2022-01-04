@@ -12,13 +12,13 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/codesystem-usage",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "usage",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Consumers of the value set and the implementations, projects or standards that the author has utilized the value set in.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -670,6 +670,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -704,6 +707,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"

@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/contactpoint-country",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "country",
   "title": "Country Code",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "The country code as defined by the ITU. This extension is used when a system wishes to designate specific parts of a phone number (and potentially place constraints on which components must be present and how they\u0027re filled in).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",

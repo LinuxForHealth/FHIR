@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Endpoint"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -302,10 +302,10 @@
     <valueCode value="pa"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Endpoint"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Endpoint"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Patient Administration)"/>
   <contact>
     <telecom>
@@ -320,7 +320,7 @@
     </telecom>
   </contact>
   <description value="The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.b or a REST endpoint for another FHIR server. This may include any security context information."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -740,7 +740,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the endpoint."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/endpoint-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -996,7 +996,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -1121,7 +1121,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the endpoint."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/endpoint-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -1286,7 +1286,7 @@
         </extension>
         <strength value="required"/>
         <description value="BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

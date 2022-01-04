@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="OperationOutcome"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -233,10 +233,10 @@
     <valueCode value="fhir"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/OperationOutcome"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="OperationOutcome"/>
   <status value="active"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (FHIR Infrastructure)"/>
   <contact>
     <telecom>
@@ -251,7 +251,7 @@
     </telecom>
   </contact>
   <description value="A collection of error, warning, or information messages that result from a system action."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -786,7 +786,7 @@
         </extension>
         <strength value="required"/>
         <description value="How the issue affects the success of the action."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/issue-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/issue-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -829,7 +829,7 @@
         </extension>
         <strength value="required"/>
         <description value="A code that describes the type of issue."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/issue-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/issue-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1054,7 +1054,7 @@
         </extension>
         <strength value="required"/>
         <description value="How the issue affects the success of the action."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/issue-severity|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/issue-severity|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -1084,7 +1084,7 @@
         </extension>
         <strength value="required"/>
         <description value="A code that describes the type of issue."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/issue-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/issue-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>

@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Identifier",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Identifier",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -33,7 +33,7 @@
   ],
   "description": "Base StructureDefinition for Identifier Type: An identifier - identifies some entity uniquely and unambiguously. Typically this is used for business identifiers.",
   "purpose": "Need to be able to identify things with confidence and be sure that the identification is not subject to misinterpretation.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -251,7 +251,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -584,7 +584,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {

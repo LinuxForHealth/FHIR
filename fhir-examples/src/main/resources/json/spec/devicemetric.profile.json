@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "DeviceMetric",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DeviceMetric",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Health Care Devices)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Describes a measurement, calculation or setting capability of a medical device.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "w5",
@@ -709,7 +709,7 @@
           ],
           "strength": "required",
           "description": "Describes the operational status of the DeviceMetric.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -751,7 +751,7 @@
           ],
           "strength": "required",
           "description": "Describes the typical color of representation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0-CIBUILD"
         }
       },
       {
@@ -793,7 +793,7 @@
           ],
           "strength": "required",
           "description": "Describes the category of the metric.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1039,7 +1039,7 @@
           ],
           "strength": "required",
           "description": "Describes the type of a metric calibration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1081,7 +1081,7 @@
           ],
           "strength": "required",
           "description": "Describes the state of a metric calibration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0-CIBUILD"
         }
       },
       {
@@ -1283,7 +1283,7 @@
           ],
           "strength": "required",
           "description": "Describes the operational status of the DeviceMetric.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-operational-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -1310,7 +1310,7 @@
           ],
           "strength": "required",
           "description": "Describes the typical color of representation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-color|4.3.0-CIBUILD"
         }
       },
       {
@@ -1337,7 +1337,7 @@
           ],
           "strength": "required",
           "description": "Describes the category of the metric.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-category|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1402,7 +1402,7 @@
           ],
           "strength": "required",
           "description": "Describes the type of a metric calibration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1429,7 +1429,7 @@
           ],
           "strength": "required",
           "description": "Describes the state of a metric calibration.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.3.0-CIBUILD"
         }
       },
       {

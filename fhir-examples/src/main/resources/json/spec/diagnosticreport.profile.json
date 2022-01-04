@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "DiagnosticReport",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DiagnosticReport",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -52,7 +52,7 @@
   ],
   "description": "The findings and interpretation of diagnostic  tests performed on patients, groups of patients, devices, and locations, and/or specimens derived from these. The report includes clinical context such as requesting and provider information, and some mix of atomic results, images, textual and coded interpretations, and formatted representation of diagnostic reports.",
   "purpose": "To support reporting for any diagnostic report into a clinical data repository.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -657,7 +657,7 @@
           ],
           "strength": "required",
           "description": "The status of the diagnostic report.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1863,7 +1863,7 @@
           ],
           "strength": "required",
           "description": "The status of the diagnostic report.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

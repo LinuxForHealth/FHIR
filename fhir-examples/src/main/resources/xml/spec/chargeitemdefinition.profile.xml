@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ChargeItemDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -688,10 +688,10 @@
     <valueCode value="pa"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ChargeItemDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ChargeItemDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Patient Administration)"/>
   <contact>
     <telecom>
@@ -706,7 +706,7 @@
     </telecom>
   </contact>
   <description value="The ChargeItemDefinition resource provides the properties that apply to the (billing) codes necessary to calculate costs and prices. The properties may differ largely depending on type and realm, therefore this resource gives only a rough structure and requires profiling for each type of billing code system."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -1367,7 +1367,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2455,7 +2455,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes indicating the kind of the price component."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2765,7 +2765,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3253,7 +3253,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes indicating the kind of the price component."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

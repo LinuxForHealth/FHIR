@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ImmunizationEvaluation"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -383,10 +383,10 @@
     <valueCode value="pher"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ImmunizationEvaluation"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ImmunizationEvaluation"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Public Health and Emergency Response)"/>
   <contact>
     <telecom>
@@ -401,7 +401,7 @@
     </telecom>
   </contact>
   <description value="Describes a comparison of an immunization event against published recommendations to determine if the administration is &quot;valid&quot; in relation to those  recommendations."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -834,7 +834,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the evaluation being done."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1289,7 +1289,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of the evaluation being done."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
