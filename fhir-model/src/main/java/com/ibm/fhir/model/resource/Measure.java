@@ -154,7 +154,7 @@ public class Measure extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -246,7 +246,7 @@ public class Measure extends DomainResource {
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.Value.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-CIBUILD"
     )
     private final CodeableConcept improvementNotation;
     @Summary

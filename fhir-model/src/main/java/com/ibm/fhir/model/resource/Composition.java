@@ -110,7 +110,7 @@ public class Composition extends DomainResource {
         bindingName = "CompositionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The workflow/clinical status of the composition.",
-        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
     )
     @Required
     private final CompositionStatus status;
@@ -1202,7 +1202,7 @@ public class Composition extends DomainResource {
             bindingName = "CompositionAttestationMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "The way in which a person authenticated a composition.",
-            valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.3.0-CIBUILD"
         )
         @Required
         private final CompositionAttestationMode mode;
@@ -1537,7 +1537,7 @@ public class Composition extends DomainResource {
             bindingName = "DocumentRelationshipType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between documents.",
-            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         )
         @Required
         private final DocumentRelationshipType code;
@@ -2241,7 +2241,7 @@ public class Composition extends DomainResource {
             bindingName = "SectionMode",
             strength = BindingStrength.Value.REQUIRED,
             description = "The processing mode that applies to this section.",
-            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         )
         private final SectionMode mode;
         @Binding(

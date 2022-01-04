@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "consent-action",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/consentaction defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">collect<a name=\"consent-action-collect\"> </a></td><td>Collect</td><td>Gather retrieved information for storage</td></tr><tr><td style=\"white-space:nowrap\">access<a name=\"consent-action-access\"> </a></td><td>Access</td><td>Retrieval without permitting collection, use or disclosure. e.g., no screen-scraping for collection, use or disclosure (view-only access)</td></tr><tr><td style=\"white-space:nowrap\">use<a name=\"consent-action-use\"> </a></td><td>Use</td><td>Utilize the retrieved information</td></tr><tr><td style=\"white-space:nowrap\">disclose<a name=\"consent-action-disclose\"> </a></td><td>Disclose</td><td>Transfer retrieved information</td></tr><tr><td style=\"white-space:nowrap\">correct<a name=\"consent-action-correct\"> </a></td><td>Access and Correct</td><td>Allow retrieval of a patient's information for the purpose of update or rectify</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1227"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConsentActionCodes",
     "title": "Consent Action Codes",
     "status": "draft",

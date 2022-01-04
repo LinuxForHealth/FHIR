@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "device-nametype",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>DeviceNameType</h2>\n      \n      <div>\n        \n        <p>The type of name the device is referred by.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/device-nametype defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">udi-label-name\n            \n            <a name=\"device-nametype-udi-label-name\"> </a>\n          \n          </td>\n          \n          <td>UDI Label name</td>\n          \n          <td>UDI Label name.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">user-friendly-name\n            \n            <a name=\"device-nametype-user-friendly-name\"> </a>\n          \n          </td>\n          \n          <td>User Friendly name</td>\n          \n          <td>User Friendly name.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">patient-reported-name\n            \n            <a name=\"device-nametype-patient-reported-name\"> </a>\n          \n          </td>\n          \n          <td>Patient Reported name</td>\n          \n          <td>Patient Reported name.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">manufacturer-name\n            \n            <a name=\"device-nametype-manufacturer-name\"> </a>\n          \n          </td>\n          \n          <td>Manufacturer name</td>\n          \n          <td>Manufacturer name.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">model-name\n            \n            <a name=\"device-nametype-model-name\"> </a>\n          \n          </td>\n          \n          <td>Model name</td>\n          \n          <td>Model name.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">other\n            \n            <a name=\"device-nametype-other\"> </a>\n          \n          </td>\n          \n          <td>other</td>\n          \n          <td>other.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1084"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DeviceNameType",
     "title": "DeviceNameType",
     "status": "draft",

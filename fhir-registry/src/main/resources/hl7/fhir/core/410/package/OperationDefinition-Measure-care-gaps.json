@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "Measure-care-gaps",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>care-gaps</h2><p>OPERATION: care-gaps</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Measure-care-gaps</pre><div><p>The care-gaps operation is used to determine gaps-in-care based on the results of quality measures</p>\n</div><p>URL: [base]/Measure/$care-gaps</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>periodStart</td><td>1..1</td><td><a href=\"datatypes.html#date\">date</a></td><td/><td><div><p>The start of the measurement period. In keeping with the semantics of the date parameter used in the FHIR search operation, the period will start at the beginning of the period implied by the supplied timestamp. E.g. a value of 2014 would set the period s</p>\n</div></td></tr><tr><td>IN</td><td>periodEnd</td><td>1..1</td><td><a href=\"datatypes.html#date\">date</a></td><td/><td><div><p>The end of the measurement period. The period will end at the end of the period implied by the supplied timestamp. E.g. a value of 2014 would set the period end to be 2014-12-31T23:59:59 inclusive</p>\n</div></td></tr><tr><td>IN</td><td>topic</td><td>1..1</td><td><a href=\"datatypes.html#string\">string</a></td><td/><td><div><p>The topic to be used to determine which measures are considered for the care gaps report. Any measure with the given topic will be included in the report</p>\n</div></td></tr><tr><td>IN</td><td>subject</td><td>1..1</td><td><a href=\"datatypes.html#string\">string</a><br/>(<a href=\"search.html#reference\">reference</a>)</td><td/><td><div><p>Subject for which the care gaps report will be produced</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"bundle.html\">Bundle</a></td><td/><td><div><p>The result of the care gaps report will be returned as a document bundle with a MeasureReport entry for each included measure</p>\n</div></td></tr></table><div><p>The effect of invoking this operation is to calculate a set of measures for a particular topic (e.g. Preventive Care and Screening) and return a document describing the results of each measure for the given subject. Note that it is up to the server to determine whether or not the generated care gaps report is persisted. If the server does not persist the results, the operation does not affect state and can be invoked with a GET</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Measure-care-gaps",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "care-gaps",
     "title": "Care Gaps",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "condition-category",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/condition-category defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">problem-list-item<a name=\"condition-category-problem-list-item\"> </a></td><td>Problem List Item</td><td>An item on a problem list that can be managed over time and can be expressed by a practitioner (e.g. physician, nurse), patient, or related person.</td></tr><tr><td style=\"white-space:nowrap\">encounter-diagnosis<a name=\"condition-category-encounter-diagnosis\"> </a></td><td>Encounter Diagnosis</td><td>A point in time diagnosis (e.g. from a physician or nurse) in context of an encounter.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1073"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ConditionCategoryCodes",
     "title": "Condition Category Codes",
     "status": "draft",

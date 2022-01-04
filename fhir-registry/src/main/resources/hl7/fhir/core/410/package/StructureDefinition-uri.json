@@ -2,11 +2,11 @@
     "resourceType": "StructureDefinition",
     "id": "uri",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -19,10 +19,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/uri",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "uri",
     "status": "active",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -35,7 +35,7 @@
         }
     ],
     "description": "Base StructureDefinition for uri Type: String of characters used to identify a name or a resource",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "kind": "primitive-type",
     "abstract": false,
     "type": "uri",
@@ -89,7 +89,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -161,7 +161,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             },
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
@@ -202,7 +202,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             },
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/regex",

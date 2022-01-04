@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "eligibilityrequest-purpose",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>EligibilityRequestPurpose</h2>\n      \n      <div>\n        \n        <p>A code specifying the types of information being requested.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/eligibilityrequest-purpose defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">auth-requirements\n            \n            <a name=\"eligibilityrequest-purpose-auth-requirements\"> </a>\n          \n          </td>\n          \n          <td>Coverage auth-requirements</td>\n          \n          <td>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of service and/or specifed biling codes are requested.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">benefits\n            \n            <a name=\"eligibilityrequest-purpose-benefits\"> </a>\n          \n          </td>\n          \n          <td>Coverage benefits</td>\n          \n          <td>The plan benefits and optionally benefits consumed  for the listed, or discovered if specified, converages are requested.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">discovery\n            \n            <a name=\"eligibilityrequest-purpose-discovery\"> </a>\n          \n          </td>\n          \n          <td>Coverage Discovery</td>\n          \n          <td>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">validation\n            \n            <a name=\"eligibilityrequest-purpose-validation\"> </a>\n          \n          </td>\n          \n          <td>Coverage Validation</td>\n          \n          <td>A check that the specified coverages are in-force is requested.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.1183"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "EligibilityRequestPurpose",
     "title": "EligibilityRequestPurpose",
     "status": "draft",

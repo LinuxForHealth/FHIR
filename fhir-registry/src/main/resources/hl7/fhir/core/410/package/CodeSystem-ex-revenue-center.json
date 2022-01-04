@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "ex-revenue-center",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://terminology.hl7.org/CodeSystem/ex-revenue-center defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">0370<a name=\"ex-revenue-center-0370\"> </a></td><td>Anaesthesia</td><td>Anaesthesia.</td></tr><tr><td style=\"white-space:nowrap\">0420<a name=\"ex-revenue-center-0420\"> </a></td><td>Physical Therapy</td><td>Physical Therapy.</td></tr><tr><td style=\"white-space:nowrap\">0421<a name=\"ex-revenue-center-0421\"> </a></td><td>Physical Therapy - </td><td>Physical Therapy - visit charge.</td></tr><tr><td style=\"white-space:nowrap\">0440<a name=\"ex-revenue-center-0440\"> </a></td><td>Speech-Language Pathology</td><td>Speech-Language Pathology.</td></tr><tr><td style=\"white-space:nowrap\">0441<a name=\"ex-revenue-center-0441\"> </a></td><td>Speech-Language Pathology - Visit</td><td>Speech-Language Pathology- visit charge</td></tr><tr><td style=\"white-space:nowrap\">0450<a name=\"ex-revenue-center-0450\"> </a></td><td>Emergency Room</td><td>Emergency Room</td></tr><tr><td style=\"white-space:nowrap\">0451<a name=\"ex-revenue-center-0451\"> </a></td><td>Emergency Room - EM/EMTALA</td><td>Emergency Room - EM/EMTALA</td></tr><tr><td style=\"white-space:nowrap\">0452<a name=\"ex-revenue-center-0452\"> </a></td><td>Emergency Room - beyond EMTALA</td><td>Emergency Room - beyond EMTALA</td></tr><tr><td style=\"white-space:nowrap\">0010<a name=\"ex-revenue-center-0010\"> </a></td><td>Vision Clinic</td><td>Vision Clinic</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1168"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ExampleRevenueCenterCodes",
     "title": "Example Revenue Center Codes",
     "status": "draft",

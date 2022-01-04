@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "search-comparator",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>SearchComparator</h2>\n      \n      <div>\n        \n        <p>What Search Comparator Codes are supported in search.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/search-comparator defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">eq\n            \n            <a name=\"search-comparator-eq\"> </a>\n          \n          </td>\n          \n          <td>Equals</td>\n          \n          <td>the value for the parameter in the resource is equal to the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">ne\n            \n            <a name=\"search-comparator-ne\"> </a>\n          \n          </td>\n          \n          <td>Not Equals</td>\n          \n          <td>the value for the parameter in the resource is not equal to the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">gt\n            \n            <a name=\"search-comparator-gt\"> </a>\n          \n          </td>\n          \n          <td>Greater Than</td>\n          \n          <td>the value for the parameter in the resource is greater than the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">lt\n            \n            <a name=\"search-comparator-lt\"> </a>\n          \n          </td>\n          \n          <td>Less Than</td>\n          \n          <td>the value for the parameter in the resource is less than the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">ge\n            \n            <a name=\"search-comparator-ge\"> </a>\n          \n          </td>\n          \n          <td>Greater or Equals</td>\n          \n          <td>the value for the parameter in the resource is greater or equal to the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">le\n            \n            <a name=\"search-comparator-le\"> </a>\n          \n          </td>\n          \n          <td>Less of Equal</td>\n          \n          <td>the value for the parameter in the resource is less or equal to the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">sa\n            \n            <a name=\"search-comparator-sa\"> </a>\n          \n          </td>\n          \n          <td>Starts After</td>\n          \n          <td>the value for the parameter in the resource starts after the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">eb\n            \n            <a name=\"search-comparator-eb\"> </a>\n          \n          </td>\n          \n          <td>Ends Before</td>\n          \n          <td>the value for the parameter in the resource ends before the provided value.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">ap\n            \n            <a name=\"search-comparator-ap\"> </a>\n          \n          </td>\n          \n          <td>Approximately</td>\n          \n          <td>the value for the parameter in the resource is approximately the same to the provided value.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.638"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SearchComparator",
     "title": "SearchComparator",
     "status": "draft",

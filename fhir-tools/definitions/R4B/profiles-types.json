@@ -2,7 +2,7 @@
   "resourceType" : "Bundle",
   "id" : "types",
   "meta" : {
-    "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+    "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
   },
   "type" : "collection",
   "entry" : [{
@@ -11,7 +11,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Element",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -26,10 +26,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Element",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Element",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -38,7 +38,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Element Type: Base definition for all elements in a resource.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -99,7 +99,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -201,7 +201,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -245,7 +245,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "BackboneElement",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -260,10 +260,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/BackboneElement",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "BackboneElement",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -272,7 +272,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for BackboneElement Type: Base definition for all elements that are defined inside a resource - but not those in a data type.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -335,7 +335,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -493,7 +493,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "base64Binary",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -508,10 +508,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/base64Binary",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "base64Binary",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -520,7 +520,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for base64Binary Type: A stream of bytes",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "base64Binary",
@@ -567,7 +567,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -627,7 +627,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "base64Binary"
+              "valueUrl" : "base64Binary"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -660,7 +660,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "base64Binary"
+              "valueUrl" : "base64Binary"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -678,7 +678,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "boolean",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -693,10 +693,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/boolean",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "boolean",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -705,7 +705,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for boolean Type: Value of \"true\" or \"false\"",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "boolean",
@@ -751,7 +751,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -811,7 +811,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "boolean"
+              "valueUrl" : "boolean"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -843,7 +843,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "boolean"
+              "valueUrl" : "boolean"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -861,7 +861,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "canonical",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -876,10 +876,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/canonical",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "canonical",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -888,7 +888,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for canonical type: A URI that is a reference to a canonical URL on a FHIR resource",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "canonical",
@@ -935,7 +935,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -995,7 +995,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1028,7 +1028,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "canonical"
+              "valueUrl" : "canonical"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1046,7 +1046,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "code",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1061,10 +1061,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/code",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "code",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1073,7 +1073,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for code type: A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other than single spaces in the contents",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "code",
@@ -1119,7 +1119,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -1179,7 +1179,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1211,7 +1211,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "code"
+              "valueUrl" : "code"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1229,7 +1229,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "date",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1244,10 +1244,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/date",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "date",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1256,7 +1256,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for date Type: A date or partial date (e.g. just year or year + month). There is no time zone. The format is a union of the schema types gYear, gYearMonth and date.  Dates SHALL be valid dates.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "date",
@@ -1302,7 +1302,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -1362,7 +1362,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "date"
+              "valueUrl" : "date"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1394,7 +1394,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "date"
+              "valueUrl" : "date"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1412,7 +1412,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "dateTime",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1427,10 +1427,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/dateTime",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "dateTime",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1439,7 +1439,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for dateTime Type: A date, date-time or partial date (e.g. just year or year + month).  If hours and minutes are specified, a time zone SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored.                 Dates SHALL be valid dates.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "dateTime",
@@ -1485,7 +1485,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -1545,7 +1545,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "dateTime"
+              "valueUrl" : "dateTime"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1577,7 +1577,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "dateTime"
+              "valueUrl" : "dateTime"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1595,7 +1595,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "decimal",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1610,10 +1610,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/decimal",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "decimal",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1622,7 +1622,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for decimal Type: A rational number with implicit precision",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "decimal",
@@ -1669,7 +1669,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -1729,7 +1729,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "decimal"
+              "valueUrl" : "decimal"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1762,7 +1762,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "decimal"
+              "valueUrl" : "decimal"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1780,7 +1780,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "id",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1795,10 +1795,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/id",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "id",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1807,7 +1807,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for id type: Any combination of letters, numerals, \"-\" and \".\", with a length limit of 64 characters.  (This might be an integer, an unprefixed OID, UUID or any other identifier pattern that meets these constraints.)  Ids are case-insensitive.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "id",
@@ -1854,7 +1854,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -1914,7 +1914,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1947,7 +1947,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "id"
+              "valueUrl" : "id"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -1965,7 +1965,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "instant",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -1980,10 +1980,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/instant",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "instant",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -1992,7 +1992,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for instant Type: An instant in time - known at least to the second",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "instant",
@@ -2039,7 +2039,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -2099,7 +2099,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "instant"
+              "valueUrl" : "instant"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2132,7 +2132,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "instant"
+              "valueUrl" : "instant"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2150,7 +2150,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "integer",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -2165,10 +2165,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/integer",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "integer",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2177,7 +2177,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for integer Type: A whole number",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "integer",
@@ -2224,7 +2224,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -2284,7 +2284,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "integer"
+              "valueUrl" : "integer"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2319,7 +2319,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "integer"
+              "valueUrl" : "integer"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2339,7 +2339,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "markdown",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -2354,10 +2354,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/markdown",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "markdown",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2366,7 +2366,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for markdown type: A string that may contain Github Flavored Markdown syntax for optional processing by a mark down presentation engine",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "markdown",
@@ -2413,7 +2413,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -2473,7 +2473,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2506,7 +2506,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "markdown"
+              "valueUrl" : "markdown"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2524,7 +2524,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "oid",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -2539,10 +2539,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/oid",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "oid",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2551,7 +2551,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for oid type: An OID represented as a URI",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "oid",
@@ -2598,7 +2598,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -2658,7 +2658,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2691,7 +2691,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "oid"
+              "valueUrl" : "oid"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2709,7 +2709,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "positiveInt",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -2724,10 +2724,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/positiveInt",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "positiveInt",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2736,7 +2736,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for positiveInt type: An integer with a value that is positive (e.g. >0)",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "positiveInt",
@@ -2782,7 +2782,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -2842,7 +2842,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2874,7 +2874,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "positiveInt"
+              "valueUrl" : "positiveInt"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -2892,7 +2892,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "string",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -2907,10 +2907,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/string",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "string",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -2919,7 +2919,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for string Type: A sequence of Unicode characters",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "string",
@@ -2966,7 +2966,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3026,7 +3026,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3060,7 +3060,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3079,7 +3079,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "time",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -3094,10 +3094,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/time",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "time",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3106,7 +3106,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for time Type: A time during the day, with no date specified",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "time",
@@ -3152,7 +3152,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3212,7 +3212,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "time"
+              "valueUrl" : "time"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3244,7 +3244,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "time"
+              "valueUrl" : "time"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3262,7 +3262,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "unsignedInt",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -3277,10 +3277,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/unsignedInt",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "unsignedInt",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3289,7 +3289,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for unsignedInt type: An integer with a value that is not negative (e.g. >= 0)",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "unsignedInt",
@@ -3335,7 +3335,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3395,7 +3395,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3427,7 +3427,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "unsignedInt"
+              "valueUrl" : "unsignedInt"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3445,7 +3445,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "uri",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -3460,10 +3460,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/uri",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "uri",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3472,7 +3472,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for uri Type: String of characters used to identify a name or a resource",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "uri",
@@ -3519,7 +3519,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3579,7 +3579,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "uri"
+              "valueUrl" : "uri"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3612,7 +3612,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "uri"
+              "valueUrl" : "uri"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3630,7 +3630,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "url",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -3645,10 +3645,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/url",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "url",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3657,7 +3657,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for url type: A URI that is a literal reference",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "url",
@@ -3703,7 +3703,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3763,7 +3763,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3795,7 +3795,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "url"
+              "valueUrl" : "url"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3813,7 +3813,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "uuid",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -3828,10 +3828,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/uuid",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "uuid",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -3840,7 +3840,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for uuid type: A UUID, represented as a URI",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "uuid",
@@ -3887,7 +3887,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -3947,7 +3947,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3980,7 +3980,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "uuid"
+              "valueUrl" : "uuid"
             },
             {
               "url" : "http://hl7.org/fhir/StructureDefinition/regex",
@@ -3998,7 +3998,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "xhtml",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -4013,10 +4013,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/xhtml",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "xhtml",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -4025,7 +4025,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for xhtml Type",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "kind" : "primitive-type",
       "abstract" : false,
       "type" : "xhtml",
@@ -4127,7 +4127,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -4160,7 +4160,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }]
@@ -4174,7 +4174,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Address",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -4189,10 +4189,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Address",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Address",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -4202,7 +4202,7 @@
       }],
       "description" : "Base StructureDefinition for Address Type: An address expressed using postal conventions (as opposed to GPS or other location definition formats).  This data type may be used to convey addresses for use in delivering mail as well as for visiting locations which might not be valid for mail delivery.  There are a variety of postal address formats defined around the world.",
       "purpose" : "Need to be able to record postal addresses, along with notes about their use.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -4293,7 +4293,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -4387,7 +4387,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The use of an address."
             },
             {
@@ -4396,7 +4396,7 @@
             }],
             "strength" : "required",
             "description" : "The use of an address (home / work / etc.).",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/address-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -4443,7 +4443,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of an address (physical / postal)."
             },
             {
@@ -4452,7 +4452,7 @@
             }],
             "strength" : "required",
             "description" : "The type of an address (physical / postal).",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/address-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -4877,7 +4877,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The use of an address."
             },
             {
@@ -4886,7 +4886,7 @@
             }],
             "strength" : "required",
             "description" : "The use of an address (home / work / etc.).",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/address-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/address-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -4919,7 +4919,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of an address (physical / postal)."
             },
             {
@@ -4928,7 +4928,7 @@
             }],
             "strength" : "required",
             "description" : "The type of an address (physical / postal).",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/address-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/address-type|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -5198,7 +5198,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Age",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -5209,10 +5209,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Age",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Age",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -5221,7 +5221,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Age Type: A duration of time during which an organism (or a process) has existed.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -5282,7 +5282,7 @@
           "isModifier" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Age."
             },
             {
@@ -5325,7 +5325,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -5451,7 +5451,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -5459,7 +5459,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -5612,7 +5612,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Age."
             },
             {
@@ -5640,7 +5640,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Annotation",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -5655,10 +5655,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Annotation",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Annotation",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -5667,7 +5667,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Annotation Type: A  text note which also  contains information about who made the statement and when.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -5744,7 +5744,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -6018,7 +6018,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Attachment",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -6033,10 +6033,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Attachment",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Attachment",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -6046,7 +6046,7 @@
       }],
       "description" : "Base StructureDefinition for Attachment Type: For referring to data content defined in other formats.",
       "purpose" : "Many models need to include data defined in other specifications that is complex and opaque to the healthcare model. This includes documents, media recordings, structured data, etc.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -6131,7 +6131,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -6223,7 +6223,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -6236,7 +6236,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -6279,7 +6279,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A human language."
             },
             {
@@ -6570,7 +6570,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -6583,7 +6583,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -6612,7 +6612,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A human language."
             },
             {
@@ -6774,7 +6774,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "CodeableConcept",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -6789,10 +6789,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/CodeableConcept",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "CodeableConcept",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -6802,7 +6802,7 @@
       }],
       "description" : "Base StructureDefinition for CodeableConcept Type: A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.",
       "purpose" : "This is a common pattern in healthcare - a concept that may be defined by one or more codes from formal definitions including LOINC and SNOMED CT, and/or defined by the provision of text that captures a human sense of the concept.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -6888,7 +6888,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7136,7 +7136,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "CodeableReference",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -7147,10 +7147,10 @@
         "valueCode" : "draft"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/CodeableReference",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "CodeableReference",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -7160,7 +7160,7 @@
       }],
       "description" : "Base StructureDefinition for CodeableReference Type: A reference to a resource (by instance), or instead, a reference to a cencept defined in a terminology or ontology (by class).",
       "purpose" : "This is a common pattern in record keeping - a reference may be made to a specific condition, observation, plan, or definition, or a reference may be made to a general concept defined in a knowledge base somewhere.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -7218,7 +7218,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7393,7 +7393,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Coding",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -7408,10 +7408,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Coding",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Coding",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -7421,7 +7421,7 @@
       }],
       "description" : "Base StructureDefinition for Coding Type: A reference to a code defined by a terminology system.",
       "purpose" : "References to codes are very common in healthcare models.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -7507,7 +7507,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -7955,7 +7955,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ContactDetail",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -7970,10 +7970,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ContactDetail",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ContactDetail",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -7983,7 +7983,7 @@
       }],
       "description" : "Base StructureDefinition for ContactDetail Type: Specifies contact information for a person or organization.",
       "purpose" : "Need to track contact information in the same way across multiple resources.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -8046,7 +8046,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -8211,7 +8211,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ContactPoint",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -8226,10 +8226,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ContactPoint",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ContactPoint",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -8239,7 +8239,7 @@
       }],
       "description" : "Base StructureDefinition for ContactPoint Type: Details for all kinds of technology mediated contact points for a person or organization, including telephone, email, etc.",
       "purpose" : "Need to track phone, fax, mobile, sms numbers, email addresses, twitter tags, etc.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -8332,7 +8332,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -8420,7 +8420,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Telecommunications form for contact point."
             },
             {
@@ -8428,7 +8428,7 @@
               "valueString" : "ContactPointSystem"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-system|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -8513,7 +8513,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Use of contact point."
             },
             {
@@ -8521,7 +8521,7 @@
               "valueString" : "ContactPointUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -8661,7 +8661,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Telecommunications form for contact point."
             },
             {
@@ -8669,7 +8669,7 @@
               "valueString" : "ContactPointSystem"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-system|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -8727,7 +8727,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Use of contact point."
             },
             {
@@ -8735,7 +8735,7 @@
               "valueString" : "ContactPointUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -8804,7 +8804,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Contributor",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -8815,10 +8815,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Contributor",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Contributor",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -8828,7 +8828,7 @@
       }],
       "description" : "Base StructureDefinition for Contributor Type: A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.",
       "purpose" : "Need to track contributor information in the same way across multiple resources.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -8887,7 +8887,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -8974,7 +8974,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of contributor."
             },
             {
@@ -8982,7 +8982,7 @@
               "valueString" : "ContributorType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contributor-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -9064,7 +9064,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of contributor."
             },
             {
@@ -9072,7 +9072,7 @@
               "valueString" : "ContributorType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/contributor-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -9108,7 +9108,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Count",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -9119,10 +9119,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Count",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Count",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -9132,7 +9132,7 @@
       }],
       "description" : "Base StructureDefinition for Count Type: A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies.",
       "purpose" : "Need to able to capture all sorts of measured values, even if the measured value are not precisely quantified. Values include exact measures such as 3.51g, customary units such as 3 tablets, and currencies such as $100.32USD.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -9216,7 +9216,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -9342,7 +9342,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -9350,7 +9350,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -9520,7 +9520,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "DataRequirement",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -9531,10 +9531,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/DataRequirement",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "DataRequirement",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -9543,7 +9543,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for DataRequirement Type: Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -9602,7 +9602,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -9689,7 +9689,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."
             },
             {
@@ -9701,7 +9701,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
           }
         },
         {
@@ -9764,7 +9764,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.)."
             },
             {
@@ -9851,7 +9851,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -10067,7 +10067,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -10284,7 +10284,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -10397,7 +10397,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The possible sort directions, ascending or descending."
             },
             {
@@ -10405,7 +10405,7 @@
               "valueString" : "SortDirection"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/sort-direction|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-CIBUILD"
           }
         }]
       },
@@ -10435,7 +10435,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."
             },
             {
@@ -10447,7 +10447,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
           }
         },
         {
@@ -10482,7 +10482,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.)."
             },
             {
@@ -10691,7 +10691,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The possible sort directions, ascending or descending."
             },
             {
@@ -10699,7 +10699,7 @@
               "valueString" : "SortDirection"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/sort-direction|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-CIBUILD"
           }
         }]
       }
@@ -10711,7 +10711,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "DataType",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -10726,10 +10726,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/DataType",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "DataType",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -10738,7 +10738,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for DataType Type: The base class for all re-useable types defined as part of the FHIR Specification.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -10801,7 +10801,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -10892,7 +10892,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Distance",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -10903,10 +10903,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Distance",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Distance",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -10915,7 +10915,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Distance Type: A length - a value with a unit that is a physical distance.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -10976,7 +10976,7 @@
           "isModifier" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Distance."
             },
             {
@@ -11019,7 +11019,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -11145,7 +11145,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -11153,7 +11153,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -11306,7 +11306,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Distance."
             },
             {
@@ -11334,7 +11334,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Dosage",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -11345,10 +11345,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Dosage",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Dosage",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -11357,7 +11357,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Dosage Type: Indicates how the medication is/was taken or should be taken by the patient.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -11424,7 +11424,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -11627,7 +11627,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept identifying additional instructions such as \"take with water\" or \"avoid operating heavy machinery\"."
             },
             {
@@ -11743,7 +11743,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept identifying the precondition that should be met or evaluated prior to consuming or administering a medication dose.  For example \"pain\", \"30 minutes prior to sexual intercourse\", \"on flare-up\" etc."
             },
             {
@@ -11791,7 +11791,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the site location the medicine enters into or onto the body."
             },
             {
@@ -11838,7 +11838,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject."
             },
             {
@@ -11886,7 +11886,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the technique by which the medicine is administered."
             },
             {
@@ -11951,7 +11951,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -12039,7 +12039,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The kind of dose or rate specified."
             },
             {
@@ -12313,7 +12313,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept identifying additional instructions such as \"take with water\" or \"avoid operating heavy machinery\"."
             },
             {
@@ -12387,7 +12387,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept identifying the precondition that should be met or evaluated prior to consuming or administering a medication dose.  For example \"pain\", \"30 minutes prior to sexual intercourse\", \"on flare-up\" etc."
             },
             {
@@ -12421,7 +12421,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the site location the medicine enters into or onto the body."
             },
             {
@@ -12454,7 +12454,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject."
             },
             {
@@ -12488,7 +12488,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded concept describing the technique by which the medicine is administered."
             },
             {
@@ -12537,7 +12537,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The kind of dose or rate specified."
             },
             {
@@ -12675,7 +12675,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Duration",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -12690,10 +12690,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Duration",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Duration",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -12702,7 +12702,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Duration Type: A length of time.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -12767,7 +12767,7 @@
           "isModifier" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Duration."
             },
             {
@@ -12810,7 +12810,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -12936,7 +12936,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -12944,7 +12944,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -13101,7 +13101,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Appropriate units for Duration."
             },
             {
@@ -13129,7 +13129,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ElementDefinition",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -13144,10 +13144,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ElementDefinition",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -13156,7 +13156,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for ElementDefinition Type: Captures constraints on each element within the resource, profile, or extension.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -13366,7 +13366,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -13536,7 +13536,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How a property is represented when serialized."
             },
             {
@@ -13544,7 +13544,7 @@
               "valueString" : "PropertyRepresentation"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -13715,7 +13715,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Codes that indicate the meaning of a data element."
             },
             {
@@ -13801,7 +13801,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -13912,7 +13912,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -13999,7 +13999,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How an element value is interpreted when discrimination is evaluated."
             },
             {
@@ -14007,7 +14007,7 @@
               "valueString" : "DiscriminatorType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -14153,7 +14153,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How slices are interpreted when evaluating an instance."
             },
             {
@@ -14161,7 +14161,7 @@
               "valueString" : "SlicingRules"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -14549,7 +14549,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -14829,7 +14829,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -14917,7 +14917,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Either a resource or a data type, including logical model types."
             },
             {
@@ -15050,7 +15050,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How resource references can be aggregated."
             },
             {
@@ -15058,7 +15058,7 @@
               "valueString" : "AggregationMode"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -15097,7 +15097,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Whether a reference needs to be version specific or version independent, or whether either can be used."
             },
             {
@@ -15105,7 +15105,7 @@
               "valueString" : "ReferenceVersionRules"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -15198,6 +15198,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15232,6 +15235,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15448,6 +15454,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15482,6 +15491,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15633,6 +15645,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15667,6 +15682,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -15775,7 +15793,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -15958,6 +15976,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -15992,6 +16013,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -16296,7 +16320,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -16446,7 +16470,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "SHALL applications comply with this constraint?"
             },
             {
@@ -16454,7 +16478,7 @@
               "valueString" : "ConstraintSeverity"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -16813,7 +16837,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -16903,7 +16927,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Indication of the degree of conformance expectations associated with a binding."
             },
             {
@@ -16915,7 +16939,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -17073,7 +17097,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -17191,7 +17215,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -17204,7 +17228,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -17460,7 +17484,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How a property is represented when serialized."
             },
             {
@@ -17468,7 +17492,7 @@
               "valueString" : "PropertyRepresentation"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/property-representation|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -17583,7 +17607,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Codes that indicate the meaning of a data element."
             },
             {
@@ -17673,7 +17697,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How an element value is interpreted when discrimination is evaluated."
             },
             {
@@ -17681,7 +17705,7 @@
               "valueString" : "DiscriminatorType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/discriminator-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -17771,7 +17795,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How slices are interpreted when evaluating an instance."
             },
             {
@@ -17779,7 +17803,7 @@
               "valueString" : "SlicingRules"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -18187,7 +18211,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Either a resource or a data type, including logical model types."
             },
             {
@@ -18278,7 +18302,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How resource references can be aggregated."
             },
             {
@@ -18286,7 +18310,7 @@
               "valueString" : "AggregationMode"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -18311,7 +18335,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Whether a reference needs to be version specific or version independent, or whether either can be used."
             },
             {
@@ -18319,7 +18343,7 @@
               "valueString" : "ReferenceVersionRules"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/reference-version-rules|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -18407,6 +18431,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18441,6 +18468,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18615,6 +18645,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18649,6 +18682,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18786,6 +18822,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -18820,6 +18859,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -18993,6 +19035,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -19027,6 +19072,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -19284,7 +19332,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "SHALL applications comply with this constraint?"
             },
             {
@@ -19292,7 +19340,7 @@
               "valueString" : "ConstraintSeverity"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/constraint-severity|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -19525,7 +19573,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Indication of the degree of conformance expectations associated with a binding."
             },
             {
@@ -19537,7 +19585,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/binding-strength|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -19667,7 +19715,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -19680,7 +19728,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -19733,7 +19781,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Expression",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -19744,10 +19792,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Expression",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Expression",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -19756,7 +19804,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Expression Type: A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -19823,7 +19871,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -19962,7 +20010,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The media type of the expression language."
             },
             {
@@ -20089,7 +20137,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The media type of the expression language."
             },
             {
@@ -20138,7 +20186,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Extension",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -20153,10 +20201,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Extension",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Extension",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -20166,7 +20214,7 @@
       }],
       "description" : "Base StructureDefinition for Extension Type: Optional Extension Element - found in all resources.",
       "purpose" : "The ability to add extensions in a structured way is what keeps FHIR resources simple.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -20241,7 +20289,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -20318,7 +20366,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "uri"
+              "valueUrl" : "uri"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -20414,6 +20462,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -20448,6 +20499,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -20548,7 +20602,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "uri"
+              "valueUrl" : "uri"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -20637,6 +20691,9 @@
             "code" : "CodeableConcept"
           },
           {
+            "code" : "CodeableReference"
+          },
+          {
             "code" : "Coding"
           },
           {
@@ -20671,6 +20728,9 @@
           },
           {
             "code" : "Ratio"
+          },
+          {
+            "code" : "RatioRange"
           },
           {
             "code" : "Reference"
@@ -20728,7 +20788,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "HumanName",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -20743,10 +20803,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/HumanName",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "HumanName",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -20756,7 +20816,7 @@
       }],
       "description" : "Base StructureDefinition for HumanName Type: A human's name with the ability to identify parts and usage.",
       "purpose" : "Need to be able to record names, along with notes about their use.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -20842,7 +20902,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -20932,7 +20992,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The use of a human name."
             },
             {
@@ -20940,7 +21000,7 @@
               "valueString" : "NameUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/name-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/name-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -21234,7 +21294,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The use of a human name."
             },
             {
@@ -21242,7 +21302,7 @@
               "valueString" : "NameUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/name-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/name-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -21413,7 +21473,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Identifier",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -21428,10 +21488,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Identifier",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Identifier",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -21441,7 +21501,7 @@
       }],
       "description" : "Base StructureDefinition for Identifier Type: An identifier - identifies some entity uniquely and unambiguously. Typically this is used for business identifiers.",
       "purpose" : "Need to be able to identify things with confidence and be sure that the identification is not subject to misinterpretation.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -21526,7 +21586,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -21616,7 +21676,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Identifies the purpose for this identifier, if known ."
             },
             {
@@ -21624,7 +21684,7 @@
               "valueString" : "IdentifierUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -21664,7 +21724,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose."
             },
             {
@@ -21899,7 +21959,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Identifies the purpose for this identifier, if known ."
             },
             {
@@ -21907,7 +21967,7 @@
               "valueString" : "IdentifierUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -21933,7 +21993,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose."
             },
             {
@@ -22074,7 +22134,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "MarketingStatus",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -22085,10 +22145,10 @@
         "valueCode" : "draft"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/MarketingStatus",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "MarketingStatus",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22097,7 +22157,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for MarketingStatus Type: The marketing status describes the date when a medicinal product is actually put on the market or the date as of which it is no longer available.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "w5",
         "uri" : "http://hl7.org/fhir/fivews",
@@ -22164,7 +22224,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -22485,7 +22545,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Meta",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -22500,10 +22560,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Meta",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Meta",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22512,7 +22572,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Meta Type: The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -22579,7 +22639,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -22776,7 +22836,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Security Labels from the Healthcare Privacy and Security Classification System."
             },
             {
@@ -22819,7 +22879,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\"."
             },
             {
@@ -22919,7 +22979,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Security Labels from the Healthcare Privacy and Security Classification System."
             },
             {
@@ -22948,7 +23008,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\"."
             },
             {
@@ -22968,7 +23028,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Money",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -22983,10 +23043,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Money",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Money",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -22995,7 +23055,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Money Type: An amount of economic utility in some recognized currency.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -23067,7 +23127,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23187,7 +23247,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code indicating the currency, taken from ISO 4217."
             },
             {
@@ -23199,7 +23259,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/currencies|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/currencies|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -23260,7 +23320,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code indicating the currency, taken from ISO 4217."
             },
             {
@@ -23272,7 +23332,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/currencies|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/currencies|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -23288,7 +23348,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Narrative",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -23303,10 +23363,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Narrative",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Narrative",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -23315,7 +23375,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Narrative Type: A human-readable summary of the resource conveying the essential clinical and business information for the resource.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -23382,7 +23442,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23469,7 +23529,7 @@
           "isSummary" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The status of a resource narrative."
             },
             {
@@ -23477,7 +23537,7 @@
               "valueString" : "NarrativeStatus"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/narrative-status|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -23565,7 +23625,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The status of a resource narrative."
             },
             {
@@ -23573,7 +23633,7 @@
               "valueString" : "NarrativeStatus"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/narrative-status|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -23621,7 +23681,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ParameterDefinition",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -23632,10 +23692,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ParameterDefinition",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ParameterDefinition",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -23644,7 +23704,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for ParameterDefinition Type: The parameters to the module. This collection specifies both the input and output parameters. Input parameters are provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -23703,7 +23763,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -23820,7 +23880,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Whether the parameter is input or output."
             },
             {
@@ -23828,7 +23888,7 @@
               "valueString" : "ParameterUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"
           }
         },
         {
@@ -23936,7 +23996,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."
             },
             {
@@ -23948,7 +24008,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
           }
         },
         {
@@ -24021,7 +24081,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Whether the parameter is input or output."
             },
             {
@@ -24029,7 +24089,7 @@
               "valueString" : "ParameterUse"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"
           }
         },
         {
@@ -24081,7 +24141,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types."
             },
             {
@@ -24093,7 +24153,7 @@
               "valueBoolean" : true
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"
           }
         },
         {
@@ -24118,7 +24178,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Period",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -24133,10 +24193,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Period",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Period",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24145,7 +24205,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Period Type: A time period defined by a start and end date and optionally time.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -24230,7 +24290,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -24452,7 +24512,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Population",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -24463,10 +24523,10 @@
         "valueCode" : "draft"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Population",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Population",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24475,7 +24535,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Population Type: A populatioof people with some set of grouping criteria.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -24533,7 +24593,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -24818,7 +24878,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ProdCharacteristic",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -24829,10 +24889,10 @@
         "valueCode" : "draft"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ProdCharacteristic",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ProdCharacteristic",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -24841,7 +24901,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for ProdCharacteristic Type: The marketing status describes the date when a medicinal product is actually put on the market or the date as of which it is no longer available.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "w5",
         "uri" : "http://hl7.org/fhir/fivews",
@@ -24908,7 +24968,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -25457,7 +25517,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "ProductShelfLife",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -25468,10 +25528,10 @@
         "valueCode" : "draft"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/ProductShelfLife",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "ProductShelfLife",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -25480,7 +25540,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for ProductShelfLife Type: The shelf-life and storage information for a medicinal product item or container can be described using this class.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "w5",
         "uri" : "http://hl7.org/fhir/fivews",
@@ -25547,7 +25607,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -25798,7 +25858,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Quantity",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -25813,10 +25873,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Quantity",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Quantity",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -25826,7 +25886,7 @@
       }],
       "description" : "Base StructureDefinition for Quantity Type: A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are not precisely quantified, including amounts involving arbitrary units and floating currencies.",
       "purpose" : "Need to able to capture all sorts of measured values, even if the measured value are not precisely quantified. Values include exact measures such as 3.51g, customary units such as 3 tablets, and currencies such as $100.32USD.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -25911,7 +25971,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26037,7 +26097,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -26045,7 +26105,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -26249,7 +26309,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -26257,7 +26317,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -26354,7 +26414,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Range",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -26369,10 +26429,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Range",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Range",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -26382,7 +26442,7 @@
       }],
       "description" : "Base StructureDefinition for Range Type: A set of ordered Quantities defined by a low and high limit.",
       "purpose" : "Need to be able to specify ranges of values.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -26467,7 +26527,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26687,7 +26747,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Ratio",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -26702,10 +26762,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Ratio",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Ratio",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -26715,7 +26775,7 @@
       }],
       "description" : "Base StructureDefinition for Ratio Type: A relationship of two Quantity values - expressed as a numerator and a denominator.",
       "purpose" : "Need to able to capture ratios for some measurements (titers) and some rates (costs).",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -26766,7 +26826,7 @@
             "key" : "rat-1",
             "severity" : "error",
             "human" : "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-            "expression" : "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+            "expression" : "(numerator.exists() and denominator.exists()) or (numerator.empty() and denominator.empty() and extension.exists())",
             "xpath" : "(count(f:numerator) = count(f:denominator)) and ((count(f:numerator) > 0) or (count(f:extension) > 0))",
             "source" : "http://hl7.org/fhir/StructureDefinition/Ratio"
           }],
@@ -26800,7 +26860,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -26942,7 +27002,7 @@
             "key" : "rat-1",
             "severity" : "error",
             "human" : "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-            "expression" : "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+            "expression" : "(numerator.exists() and denominator.exists()) or (numerator.empty() and denominator.empty() and extension.exists())",
             "xpath" : "(count(f:numerator) = count(f:denominator)) and ((count(f:numerator) > 0) or (count(f:extension) > 0))",
             "source" : "http://hl7.org/fhir/StructureDefinition/Ratio"
           }],
@@ -26996,7 +27056,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "RatioRange",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -27007,10 +27067,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/RatioRange",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "RatioRange",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27020,7 +27080,7 @@
       }],
       "description" : "Base StructureDefinition for RatioRange Type: A range of ratios expressed as a low and high numerator and a denominator.",
       "purpose" : "Need to be able to specify ranges of ratios.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -27066,7 +27126,7 @@
             "key" : "inv-1",
             "severity" : "error",
             "human" : "One of lowNumerator or highNumerator and denominator SHALL be present, or all are absent. If all are absent, there SHALL be some extension present",
-            "expression" : "((lowNumerator.empty() and highNumerator.empty()) xor denominator.exists()) and (lowNumerator.exists() or extension.exists())",
+            "expression" : "((lowNumerator.exists() or highNumerator.exists()) and denominator.exists()) or (lowNumerator.empty() and highNumerator.empty() and denominator.empty() and extension.exists())",
             "xpath" : "(count(f:numerator) = count(f:denominator)) and ((count(f:numerator) > 0) or (count(f:extension) > 0))",
             "source" : "http://hl7.org/fhir/StructureDefinition/RatioRange"
           },
@@ -27108,7 +27168,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -27293,7 +27353,7 @@
             "key" : "inv-1",
             "severity" : "error",
             "human" : "One of lowNumerator or highNumerator and denominator SHALL be present, or all are absent. If all are absent, there SHALL be some extension present",
-            "expression" : "((lowNumerator.empty() and highNumerator.empty()) xor denominator.exists()) and (lowNumerator.exists() or extension.exists())",
+            "expression" : "((lowNumerator.exists() or highNumerator.exists()) and denominator.exists()) or (lowNumerator.empty() and highNumerator.empty() and denominator.empty() and extension.exists())",
             "xpath" : "(count(f:numerator) = count(f:denominator)) and ((count(f:numerator) > 0) or (count(f:extension) > 0))",
             "source" : "http://hl7.org/fhir/StructureDefinition/RatioRange"
           }],
@@ -27372,7 +27432,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Reference",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -27387,10 +27447,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Reference",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Reference",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27399,7 +27459,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for Reference Type: A reference from one resource to another.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -27475,7 +27535,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -27595,7 +27655,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Aa resource (or, for logical models, the URI of the logical model)."
             },
             {
@@ -27747,7 +27807,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Aa resource (or, for logical models, the URI of the logical model)."
             },
             {
@@ -27817,7 +27877,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "RelatedArtifact",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -27828,10 +27888,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/RelatedArtifact",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "RelatedArtifact",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -27841,7 +27901,7 @@
       }],
       "description" : "Base StructureDefinition for RelatedArtifact Type: Related artifacts such as additional documentation, justification, or bibliographic references.",
       "purpose" : "Knowledge resources must be able to provide enough information for consumers of the content (and/or interventions or results produced by the content) to be able to determine and understand the justification for and evidence in support of the content.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -27901,7 +27961,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -27988,7 +28048,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of relationship to the related artifact."
             },
             {
@@ -27996,7 +28056,7 @@
               "valueString" : "RelatedArtifactType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/related-artifact-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/related-artifact-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -28187,7 +28247,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of relationship to the related artifact."
             },
             {
@@ -28195,7 +28255,7 @@
               "valueString" : "RelatedArtifactType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/related-artifact-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/related-artifact-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -28283,7 +28343,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "SampledData",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -28294,10 +28354,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/SampledData",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "SampledData",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -28307,7 +28367,7 @@
       }],
       "description" : "Base StructureDefinition for SampledData Type: A series of measurements taken by a device, with upper and lower limits. There may be more than one dimension in the data.",
       "purpose" : "There is a need for a concise way to handle the data produced by devices that sample a physical state at a high frequency.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -28380,7 +28440,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -28803,7 +28863,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Signature",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -28814,10 +28874,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Signature",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Signature",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -28827,7 +28887,7 @@
       }],
       "description" : "Base StructureDefinition for Signature Type: A signature along with supporting context. The signature may be a digital signature that is cryptographic in nature, or some other signature acceptable to the domain. This other signature may be as simple as a graphical image representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities.",
       "purpose" : "There are a number of places where content must be signed in healthcare.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -28891,7 +28951,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -28979,7 +29039,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "An indication of the reason that an entity signed the object."
             },
             {
@@ -29112,7 +29172,7 @@
           "isSummary" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -29125,7 +29185,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           }
         },
         {
@@ -29155,7 +29215,7 @@
           "isSummary" : false,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -29168,7 +29228,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           }
         },
         {
@@ -29231,7 +29291,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "An indication of the reason that an entity signed the object."
             },
             {
@@ -29307,7 +29367,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -29320,7 +29380,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           }
         },
         {
@@ -29335,7 +29395,7 @@
           }],
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The mime type of an attachment. Any valid mime type is allowed."
             },
             {
@@ -29348,7 +29408,7 @@
             }],
             "strength" : "required",
             "description" : "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
           }
         },
         {
@@ -29372,7 +29432,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "Timing",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -29387,10 +29447,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/Timing",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "Timing",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -29400,7 +29460,7 @@
       }],
       "description" : "Base StructureDefinition for Timing Type: Specifies an event that may occur multiple times. Timing schedules are used to record when things are planned, expected or requested to occur. The most common usage is in dosage instructions for medications. They are also used when planning care of various kinds, and may be used for reporting the schedule to which past regular activities were carried out.",
       "purpose" : "Need to able to track proposed timing schedules. There are several different ways to do this: one or more specified times, a simple rules like three times a day, or  before/after meals.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -29476,7 +29536,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -29730,7 +29790,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -29979,7 +30039,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A unit of time (units from UCUM)."
             },
             {
@@ -29987,7 +30047,7 @@
               "valueString" : "UnitsOfTime"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30142,7 +30202,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A unit of time (units from UCUM)."
             },
             {
@@ -30150,7 +30210,7 @@
               "valueString" : "UnitsOfTime"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30189,7 +30249,7 @@
               "valueString" : "DayOfWeek"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30256,7 +30316,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Real world event relating to the schedule."
             },
             {
@@ -30264,7 +30324,7 @@
               "valueString" : "EventTiming"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/event-timing|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30329,7 +30389,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Code for a known / defined timing pattern."
             },
             {
@@ -30582,7 +30642,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A unit of time (units from UCUM)."
             },
             {
@@ -30590,7 +30650,7 @@
               "valueString" : "UnitsOfTime"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30675,7 +30735,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A unit of time (units from UCUM)."
             },
             {
@@ -30683,7 +30743,7 @@
               "valueString" : "UnitsOfTime"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/units-of-time|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30708,7 +30768,7 @@
               "valueString" : "DayOfWeek"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/days-of-week|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/days-of-week|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30747,7 +30807,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Real world event relating to the schedule."
             },
             {
@@ -30755,7 +30815,7 @@
               "valueString" : "EventTiming"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/event-timing|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/event-timing|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "rim",
@@ -30792,7 +30852,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "Code for a known / defined timing pattern."
             },
             {
@@ -30816,7 +30876,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "TriggerDefinition",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -30827,10 +30887,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/TriggerDefinition",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "TriggerDefinition",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -30839,7 +30899,7 @@
         }]
       }],
       "description" : "Base StructureDefinition for TriggerDefinition Type: A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by the type element.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -30923,7 +30983,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31010,7 +31070,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of trigger."
             },
             {
@@ -31018,7 +31078,7 @@
               "valueString" : "TriggerType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/trigger-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -31191,7 +31251,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "The type of trigger."
             },
             {
@@ -31199,7 +31259,7 @@
               "valueString" : "TriggerType"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/trigger-type|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/trigger-type|4.3.0-CIBUILD"
           }
         },
         {
@@ -31273,7 +31333,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "UsageContext",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -31284,10 +31344,10 @@
         "valueCode" : "trial-use"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/UsageContext",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "UsageContext",
       "status" : "draft",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -31297,7 +31357,7 @@
       }],
       "description" : "Base StructureDefinition for UsageContext Type: Specifies clinical/business/etc. metadata that can be used to retrieve, index and/or categorize an artifact. This metadata can either be specific to the applicable population (e.g., age category, DRG) or the specific context of care (e.g., venue, care setting, provider of care).",
       "purpose" : "Consumers of the resource must be able to determine the intended applicability for the resource. Ideally, this information would be used programmatically to determine when and how it should be incorporated or exposed.",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "rim",
         "uri" : "http://hl7.org/v3",
@@ -31356,7 +31416,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31443,7 +31503,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code that specifies a type of context being specified by a usage context."
             },
             {
@@ -31497,7 +31557,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code that defines the specific value for the context being specified."
             },
             {
@@ -31539,7 +31599,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code that specifies a type of context being specified by a usage context."
             },
             {
@@ -31579,7 +31639,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "A code that defines the specific value for the context being specified."
             },
             {
@@ -31603,7 +31663,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "MoneyQuantity",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -31618,10 +31678,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/MoneyQuantity",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "MoneyQuantity",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -31630,7 +31690,7 @@
         }]
       }],
       "description" : "An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -31714,7 +31774,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -31840,7 +31900,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -31848,7 +31908,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",
@@ -32005,7 +32065,7 @@
       "resourceType" : "StructureDefinition",
       "id" : "SimpleQuantity",
       "meta" : {
-        "lastUpdated" : "2021-11-09T20:52:39.301+00:00"
+        "lastUpdated" : "2022-01-01T15:17:18.597+00:00"
       },
       "text" : {
         "status" : "generated",
@@ -32020,10 +32080,10 @@
         "valueCode" : "4.0.0"
       }],
       "url" : "http://hl7.org/fhir/StructureDefinition/SimpleQuantity",
-      "version" : "4.1.0",
+      "version" : "4.3.0-CIBUILD",
       "name" : "SimpleQuantity",
       "status" : "active",
-      "date" : "2021-11-09T20:52:39+00:00",
+      "date" : "2022-01-01T15:17:18+00:00",
       "publisher" : "HL7 FHIR Standard",
       "contact" : [{
         "telecom" : [{
@@ -32032,7 +32092,7 @@
         }]
       }],
       "description" : "A fixed quantity (no comparator)",
-      "fhirVersion" : "4.1.0",
+      "fhirVersion" : "4.3.0-CIBUILD",
       "mapping" : [{
         "identity" : "v2",
         "uri" : "http://hl7.org/v2",
@@ -32116,7 +32176,7 @@
           "type" : [{
             "extension" : [{
               "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-              "valueUri" : "string"
+              "valueUrl" : "string"
             }],
             "code" : "http://hl7.org/fhirpath/System.String"
           }],
@@ -32242,7 +32302,7 @@
           "isSummary" : true,
           "binding" : {
             "extension" : [{
-              "url" : "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "url" : "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
               "valueString" : "How the Quantity should be understood and represented."
             },
             {
@@ -32250,7 +32310,7 @@
               "valueString" : "QuantityComparator"
             }],
             "strength" : "required",
-            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+            "valueSet" : "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
           },
           "mapping" : [{
             "identity" : "v2",

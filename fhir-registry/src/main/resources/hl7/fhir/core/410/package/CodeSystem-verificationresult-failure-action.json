@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "verificationresult-failure-action",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/verificationresult-failure-action defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">fatal<a name=\"verificationresult-failure-action-fatal\"> </a></td><td>Fatal</td></tr><tr><td style=\"white-space:nowrap\">warn<a name=\"verificationresult-failure-action-warn\"> </a></td><td>Warning</td></tr><tr><td style=\"white-space:nowrap\">rec-only<a name=\"verificationresult-failure-action-rec-only\"> </a></td><td>Record only</td></tr><tr><td style=\"white-space:nowrap\">none<a name=\"verificationresult-failure-action-none\"> </a></td><td>None</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.891"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "failure-action",
     "status": "draft",
     "experimental": false,

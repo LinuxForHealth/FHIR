@@ -56,7 +56,7 @@ public class DocumentManifest extends DomainResource {
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the document reference.",
-        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.3.0-CIBUILD"
     )
     @Required
     private final DocumentReferenceStatus status;

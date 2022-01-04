@@ -28,8 +28,7 @@ public class RelatedArtifact extends Element {
     @Binding(
         bindingName = "RelatedArtifactType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The type of relationship to the related artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.3.0-CIBUILD"
     )
     @Required
     private final RelatedArtifactType type;

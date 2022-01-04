@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "Resource-graphql",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>graphql</h2><p>OPERATION: graphql</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Resource-graphql</pre><div><p>Execute a graphql statement on a since resource or against the entire system. See the <a href=\"graphql.html\">Using GraphQL with FHIR</a> page for further details.</p>\n<p>For the purposes of graphQL compatibility, this operation can also be invoked using a POST with the graphQL as the body, or a JSON body (see <a href=\"http://graphql.org/\">graphQL spec</a> for details)</p>\n</div><p>URL: [base]/$graphql</p><p>URL: [base]/Resource/[id]/$graphql</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>query</td><td>1..1</td><td><a href=\"datatypes.html#string\">string</a></td><td/><td/></tr><tr><td>OUT</td><td>result</td><td>1..1</td><td><a href=\"binary.html\">Binary</a></td><td/><td><div><p>The content is always returned as application/json; this SHOULD be specified in the Accept header</p>\n</div></td></tr></table><div/></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Resource-graphql",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "graphql",
     "title": "Execute a graphql statement",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
