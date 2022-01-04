@@ -43,7 +43,6 @@ public class Signature extends Element {
     @Binding(
         bindingName = "SignatureType",
         strength = BindingStrength.Value.PREFERRED,
-        description = "An indication of the reason that an entity signed the object.",
         valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
     )
     @Required
@@ -61,15 +60,15 @@ public class Signature extends Element {
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+        description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
     )
     private final Code targetFormat;
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.1.0"
+        description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-CIBUILD"
     )
     private final Code sigFormat;
     private final Base64Binary data;

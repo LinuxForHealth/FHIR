@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "immunization-target-disease",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/1857005\">1857005</a></td><td>Gestational rubella syndrome</td></tr><tr><td><a href=\"http://snomed.info/id/397430003\">397430003</a></td><td>Diphtheria due to Corynebacterium diphtheriae</td></tr><tr><td><a href=\"http://snomed.info/id/14189004\">14189004</a></td><td>Measles</td></tr><tr><td><a href=\"http://snomed.info/id/36989005\">36989005</a></td><td>Mumps</td></tr><tr><td><a href=\"http://snomed.info/id/36653000\">36653000</a></td><td>Rubella</td></tr><tr><td><a href=\"http://snomed.info/id/76902006\">76902006</a></td><td>Tetanus</td></tr><tr><td><a href=\"http://snomed.info/id/709410003\">709410003</a></td><td>Haemophilus influenzae type b infection</td></tr><tr><td><a href=\"http://snomed.info/id/27836007\">27836007</a></td><td>Pertussis</td></tr><tr><td><a href=\"http://snomed.info/id/398102009\">398102009</a></td><td>Acute poliomyelitis (disorder)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1047"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ImmunizationTargetDiseaseCodes",
     "title": "Immunization Target Disease Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project team",
     "contact": [
         {

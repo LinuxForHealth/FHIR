@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-prohibited",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "prohibited",
     "title": "Conformance prohibition",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "If set to true, indicates that support for the specified behavior would make a system non-conformant with the specification.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -141,7 +141,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -225,7 +225,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "account-status",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>AccountStatus</h2>\n      \n      <div>\n        \n        <p>Indicates whether the account is available to be used.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/account-status defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">active\n            \n            <a name=\"account-status-active\"> </a>\n          \n          </td>\n          \n          <td>Active</td>\n          \n          <td>This account is active and may be used.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">inactive\n            \n            <a name=\"account-status-inactive\"> </a>\n          \n          </td>\n          \n          <td>Inactive</td>\n          \n          <td>This account is inactive and should not be used to track financial information.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">entered-in-error\n            \n            <a name=\"account-status-entered-in-error\"> </a>\n          \n          </td>\n          \n          <td>Entered in error</td>\n          \n          <td>This instance should not have been part of this patient's medical record.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">on-hold\n            \n            <a name=\"account-status-on-hold\"> </a>\n          \n          </td>\n          \n          <td>On Hold</td>\n          \n          <td>This account is on hold.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">unknown\n            \n            <a name=\"account-status-unknown\"> </a>\n          \n          </td>\n          \n          <td>Unknown</td>\n          \n          <td>The account status is unknown.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.727"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AccountStatus",
     "title": "AccountStatus",
     "status": "draft",

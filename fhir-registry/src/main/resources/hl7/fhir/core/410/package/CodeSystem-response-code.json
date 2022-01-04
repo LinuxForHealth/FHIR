@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "response-code",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ResponseType</h2>\n      \n      <div>\n        \n        <p>The kind of response to a message.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/response-code defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">ok\n            \n            <a name=\"response-code-ok\"> </a>\n          \n          </td>\n          \n          <td>OK</td>\n          \n          <td>The message was accepted and processed without error.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">transient-error\n            \n            <a name=\"response-code-transient-error\"> </a>\n          \n          </td>\n          \n          <td>Transient Error</td>\n          \n          <td>Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like database unavailable, which may be expected to resolve, though human intervention may be required.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">fatal-error\n            \n            <a name=\"response-code-fatal-error\"> </a>\n          \n          </td>\n          \n          <td>Fatal Error</td>\n          \n          <td>The message was rejected because of a problem with the content. There is no point in re-sending without change. The response narrative SHALL describe the issue.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.381"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ResponseType",
     "title": "ResponseType",
     "status": "draft",

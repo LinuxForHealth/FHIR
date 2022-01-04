@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "use-context",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in http://hl7.org/fhir/ValueSet/usps-state</li><li>Import all the codes that are contained in http://hl7.org/fhir/ValueSet/practitioner-specialty</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  394733009 (Medical specialties)</li><li>Include all codes defined in <code>urn:iso:std:iso:3166</code></li><li>Include all codes defined in <code>urn:iso:std:iso:3166</code></li><li>Include codes from <code>http://unstats.un.org/unsd/methods/m49/m49.htm</code> where class  =  region</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  387961004 (Kingdom Animalia)</li><li>Import all the codes that are contained in <a href=\"valueset-administrative-gender.html\">http://hl7.org/fhir/ValueSet/administrative-gender</a></li><li>Import all the codes that are contained in <a href=\"valueset-condition-code.html\">http://hl7.org/fhir/ValueSet/condition-code</a></li><li>Include all codes defined in <code>http://nucc.org/provider-taxonomy</code></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-ActEncounterCode.html\">http://terminology.hl7.org/ValueSet/v3-ActEncounterCode</a></li><li>Import all the codes that are contained in <a href=\"http://terminology.hl7.org/3.0.0/ValueSet-v3-ActTaskCode.html\">http://terminology.hl7.org/ValueSet/v3-ActTaskCode</a></li></ul></div>"
     },
     "extension": [
         {
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.28"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Context of Use ValueSet",
     "title": "ConformanceUseContext",
     "status": "draft",
-    "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "experimental": true,
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "FHIR Project team",
     "contact": [
         {

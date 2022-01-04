@@ -78,11 +78,6 @@ public class R4BModelGeneratorImpl implements ModelGenerator {
                 Map<String, JsonObject> valueSetMap = CodeGenerator.buildResourceMap(definitionsDir + "/R4B/valuesets.json", "ValueSet");
                 valueSetMap.putAll(CodeGenerator.buildResourceMap(definitionsDir + "/R4B/fhir-expansions.json", "ValueSet"));
 
-                addResource(codeSystemMap, valueSetMap, definitionsDir + "/R4B/terminology/CodeSystem-standards-status.json");
-                addResource(codeSystemMap, valueSetMap, definitionsDir + "/R4B/terminology/ValueSet-standards-status.json");
-                addResource(codeSystemMap, valueSetMap, definitionsDir + "/R4B/terminology/CodeSystem-concept-subsumption-outcome.json");
-                addResource(codeSystemMap, valueSetMap, definitionsDir + "/R4B/terminology/ValueSet-concept-subsumption-outcome.json");
-
                 log.info("[Started] generating the code for fhir-model");
                 CodeGenerator generator = new CodeGenerator(structureDefinitionMap, codeSystemMap, valueSetMap);
                 generator.generate(targetDir);

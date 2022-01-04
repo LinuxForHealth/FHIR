@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "participationstatus",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>ParticipationStatus</h2>\n      \n      <div>\n        \n        <p>The Participation status of an appointment.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/participationstatus defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">accepted\n            \n            <a name=\"participationstatus-accepted\"> </a>\n          \n          </td>\n          \n          <td>Accepted</td>\n          \n          <td>The participant has accepted the appointment.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">declined\n            \n            <a name=\"participationstatus-declined\"> </a>\n          \n          </td>\n          \n          <td>Declined</td>\n          \n          <td>The participant has declined the appointment and will not participate in the appointment.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">tentative\n            \n            <a name=\"participationstatus-tentative\"> </a>\n          \n          </td>\n          \n          <td>Tentative</td>\n          \n          <td>The participant has  tentatively accepted the appointment. This could be automatically created by a system and requires further processing before it can be accepted. There is no commitment that attendance will occur.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">needs-action\n            \n            <a name=\"participationstatus-needs-action\"> </a>\n          \n          </td>\n          \n          <td>Needs Action</td>\n          \n          <td>The participant needs to indicate if they accept the appointment by changing this status to one of the other statuses.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.487"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ParticipationStatus",
     "title": "ParticipationStatus",
     "status": "draft",

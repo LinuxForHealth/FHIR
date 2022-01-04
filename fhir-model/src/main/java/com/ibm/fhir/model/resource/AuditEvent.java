@@ -184,8 +184,8 @@ public class AuditEvent extends DomainResource {
     @Binding(
         bindingName = "AuditEventAction",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Indicator for type of action performed during the event that generated the event.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.1.0"
+        description = "DICOM Audit Event Action",
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.3.0-CIBUILD"
     )
     private final AuditEventAction action;
     private final Period period;
@@ -196,8 +196,8 @@ public class AuditEvent extends DomainResource {
     @Binding(
         bindingName = "AuditEventOutcome",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Indicates whether the event succeeded or failed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.1.0"
+        description = "DICOM Audit Event Outcome",
+        valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.3.0-CIBUILD"
     )
     private final AuditEventOutcome outcome;
     @Summary
@@ -1804,8 +1804,8 @@ public class AuditEvent extends DomainResource {
             @Binding(
                 bindingName = "AuditEventAgentNetworkType",
                 strength = BindingStrength.Value.REQUIRED,
-                description = "The type of network access point of this agent in the audit event.",
-                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.1.0"
+                description = "DICOM Audit Event Network Type",
+                valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.3.0-CIBUILD"
             )
             private final AuditEventAgentNetworkType type;
 
@@ -2486,14 +2486,14 @@ public class AuditEvent extends DomainResource {
         @Binding(
             bindingName = "AuditEventEntityType",
             strength = BindingStrength.Value.EXTENSIBLE,
-            description = "Code for the entity type involved in the audit event.",
+            description = "DICOM Audit Event Entity Type",
             valueSet = "http://hl7.org/fhir/ValueSet/audit-entity-type"
         )
         private final Coding type;
         @Binding(
             bindingName = "AuditEventEntityRole",
             strength = BindingStrength.Value.EXTENSIBLE,
-            description = "Code representing the role the entity played in the audit event.",
+            description = "DICOM Audit Event Entity Role",
             valueSet = "http://hl7.org/fhir/ValueSet/object-role"
         )
         private final Coding role;

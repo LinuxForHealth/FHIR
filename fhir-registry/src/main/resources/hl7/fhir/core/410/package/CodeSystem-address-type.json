@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "address-type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/address-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">postal<a name=\"address-type-postal\"> </a></td><td>Postal</td><td>Mailing addresses - PO Boxes and care-of addresses.</td></tr><tr><td style=\"white-space:nowrap\">physical<a name=\"address-type-physical\"> </a></td><td>Physical</td><td>A physical address that can be visited.</td></tr><tr><td style=\"white-space:nowrap\">both<a name=\"address-type-both\"> </a></td><td>Postal &amp; Physical</td><td>An address that is both physical and postal.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.70"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AddressType",
     "title": "AddressType",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

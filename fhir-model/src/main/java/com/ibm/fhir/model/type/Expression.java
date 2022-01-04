@@ -50,7 +50,6 @@ public class Expression extends Element {
     @Binding(
         bindingName = "ExpressionLanguage",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "The media type of the expression language.",
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
         maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
     )

@@ -79,7 +79,7 @@ public class RiskAssessment extends DomainResource {
         bindingName = "RiskAssessmentStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
-        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
     )
     @Required
     private final RiskAssessmentStatus status;

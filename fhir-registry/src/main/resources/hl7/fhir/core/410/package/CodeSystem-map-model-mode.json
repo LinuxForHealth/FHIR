@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "map-model-mode",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>StructureMapModelMode</h2>\n      \n      <div>\n        \n        <p>How the referenced structure is used in this mapping.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/map-model-mode defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">source\n            \n            <a name=\"map-model-mode-source\"> </a>\n          \n          </td>\n          \n          <td>Source Structure Definition</td>\n          \n          <td>This structure describes an instance passed to the mapping engine that is used a source of data.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">queried\n            \n            <a name=\"map-model-mode-queried\"> </a>\n          \n          </td>\n          \n          <td>Queried Structure Definition</td>\n          \n          <td>This structure describes an instance that the mapping engine may ask for that is used a source of data.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">target\n            \n            <a name=\"map-model-mode-target\"> </a>\n          \n          </td>\n          \n          <td>Target Structure Definition</td>\n          \n          <td>This structure describes an instance passed to the mapping engine that is used a target of data.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">produced\n            \n            <a name=\"map-model-mode-produced\"> </a>\n          \n          </td>\n          \n          <td>Produced Structure Definition</td>\n          \n          <td>This structure describes an instance that the mapping engine may ask to create that is used a target of data.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.676"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "StructureMapModelMode",
     "title": "StructureMapModelMode",
     "status": "draft",

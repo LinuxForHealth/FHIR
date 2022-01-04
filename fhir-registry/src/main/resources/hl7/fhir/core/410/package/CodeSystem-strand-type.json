@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "strand-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>strandType</h2>\n      \n      <div>\n        \n        <p>Type for strand.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/strand-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">watson\n            \n            <a name=\"strand-type-watson\"> </a>\n          \n          </td>\n          \n          <td>Watson strand of referenceSeq</td>\n          \n          <td>Watson strand of reference sequence.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">crick\n            \n            <a name=\"strand-type-crick\"> </a>\n          \n          </td>\n          \n          <td>Crick strand of referenceSeq</td>\n          \n          <td>Crick strand of reference sequence.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.986"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "strandType",
     "title": "strandType",
     "status": "draft",

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DiagnosticReport-geneticsAnalysis",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Analysis",
     "status": "draft",
     "date": "2015-10-09",
@@ -28,7 +28,7 @@
         }
     ],
     "description": "Knowledge-based comments on the effect of the sequence on patient's condition/medication reaction.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -104,7 +104,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -237,7 +237,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -426,7 +426,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -577,7 +577,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -679,6 +679,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -713,6 +716,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

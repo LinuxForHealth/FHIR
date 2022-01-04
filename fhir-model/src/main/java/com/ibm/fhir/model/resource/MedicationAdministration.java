@@ -84,7 +84,7 @@ public class MedicationAdministration extends DomainResource {
         bindingName = "MedicationAdministrationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.3.0-CIBUILD"
     )
     @Required
     private final MedicationAdministrationStatus status;

@@ -57,7 +57,7 @@ config(){
 
 # bringup
 bringup(){
-    # In order not to hit this after packaging everything up,w e want to run this before we start up the db.
+    # In order not to hit this after packaging everything up, we want to run this before we start up the db.
     # waiting for server to start....2021-07-16 20:42:03.136 UTC [9] FATAL:  data directory "/db/data" has invalid permissions
     # 2021-07-16 20:42:03.136 UTC [9] DETAIL:  Permissions should be u=rwx (0700) or u=rwx,g=rx (0750).
     sudo chown -R 70:70 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db

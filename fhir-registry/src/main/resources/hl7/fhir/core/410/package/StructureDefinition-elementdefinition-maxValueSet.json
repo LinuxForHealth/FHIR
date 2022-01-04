@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "maxValueSet",
     "status": "draft",
     "date": "2015-02-28",
@@ -28,7 +28,7 @@
         }
     ],
     "description": "The maximum allowable value set, for use when the binding strength is 'extensible' or 'preferred'. This value set is the value set from which additional codes can be taken from. This defines a 'required' binding over the top of the extensible binding.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -111,7 +111,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -195,7 +195,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

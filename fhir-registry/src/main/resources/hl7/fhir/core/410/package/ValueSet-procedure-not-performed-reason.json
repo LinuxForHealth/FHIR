@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "procedure-not-performed-reason",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  183932001 (Procedure contraindicated)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  416406003 (Procedure discontinued)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  416237000 (Procedure not done)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  428119001 (Procedure not indicated)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  416064006 (Procedure not offered)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  416432009 (Procedure not wanted)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  183944003 (Procedure refused)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  394908001 (Procedure stopped)</li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.431"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "ProcedureNotPerformedReason(SNOMED-CT)",
     "title": "Procedure Not Performed Reason (SNOMED-CT)",
     "status": "active",
+    "experimental": true,
     "publisher": "Health Level Seven, Inc. - CQI WG",
     "contact": [
         {

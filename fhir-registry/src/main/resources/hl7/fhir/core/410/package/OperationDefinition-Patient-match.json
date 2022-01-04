@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "Patient-match",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>match</h2><p>OPERATION: match</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/Patient-match</pre><div><p>A Master Patient Index (<a href=\"http://en.wikipedia.org/wiki/Enterprise_master_patient_index\">MPI</a> ) is a service used to manage patient identification in a context where multiple patient databases exist. Healthcare applications and middleware use the MPI to match patients between the databases, and to store new patient details as they are encountered. MPIs are highly specialized applications, often tailored extensively to the institution's particular mix of patients. MPIs can also be run on a regional and national basis.</p>\n<p>To ask an MPI to match a patient, clients use the &quot;$match&quot; operation, which accepts a patient resource which may be only partially complete. The data provided is interpreted as an MPI input and processed by an algorithm of some kind that uses the data to determine the most appropriate matches in the patient set.  Note that different MPI matching algorithms have different required inputs. The generic $match operation does not specify any particular algorithm, nor a minimum set of information that must be provided when asking for an MPI match operation to be performed, but many implementations will have a set of minimum information, which may be declared in their definition of the $match operation by specifying a profile on the resource parameter, indicating which properties are required in the search.  The patient resource submitted to the operation does not have to be complete, nor does it need to pass validation (i.e. mandatory fields don't need to be populated), but it does have to be a valid instance, as it is used as the reference data to match against.</p>\n</div><p>URL: [base]/Patient/$match</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>resource</td><td>1..1</td><td><a href=\"resource.html\">Resource</a></td><td/><td><div><p>Use this to provide an entire set of patient details for the MPI to match against (e.g. POST a patient record to Patient/$match).</p>\n</div></td></tr><tr><td>IN</td><td>onlyCertainMatches</td><td>0..1</td><td><a href=\"datatypes.html#boolean\">boolean</a></td><td/><td><div><p>If there are multiple potential matches, then the match should not return the results with this flag set to true.  When false, the server may return multiple results with each result graded accordingly.</p>\n</div></td></tr><tr><td>IN</td><td>count</td><td>0..1</td><td><a href=\"datatypes.html#integer\">integer</a></td><td/><td><div><p>The maximum number of records to return. If no value is provided, the server decides how many matches to return. Note that clients should be careful when using this, as it may prevent probable - and valid - matches from being returned</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"bundle.html\">Bundle</a></td><td/><td><div><p>A bundle contain a set of Patient records that represent possible matches, optionally it may also contain an OperationOutcome with further information about the search results (such as warnings or information messages, such as a count of records that were close but eliminated)  If the operation was unsuccessful, then an OperationOutcome may be returned along with a BadRequest status Code (e.g. security issue, or insufficient properties in patient fragment - check against profile)</p>\n</div></td></tr></table><div><p>The response from an &quot;mpi&quot; query is a bundle containing patient records, ordered from most likely to least likely. If there are no patient matches, the MPI SHALL return an empty search set with no error, but may include an operation outcome with further advice regarding patient selection. All patient records SHALL have a search score from 0 to 1, where 1 is the most certain match, along with an extension &quot;<a href=\"extension-match-grade.html\">match-grade</a>&quot; that indicates the MPI's position on the match quality.</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/Patient-match",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "match",
     "title": "Find patient matches using MPI based logic",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

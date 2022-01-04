@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-substanceExposureRisk",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "substanceExposureRisk",
     "title": "substanceExposureRisk",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "A complex extension allowing structured capture of the exposure risk of the patient for an adverse reaction (allergy or intolerance) to the specified substance/product.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -118,7 +118,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -262,7 +262,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -467,7 +467,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -633,7 +633,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -735,6 +735,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -769,6 +772,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"

@@ -293,7 +293,7 @@ public class Citation extends DomainResource {
     @Binding(
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
     )
     @Required
     private final PublicationStatus status;
@@ -4759,7 +4759,6 @@ public class Citation extends DomainResource {
             @Binding(
                 bindingName = "Language",
                 strength = BindingStrength.Value.PREFERRED,
-                description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages"
             )
             private final CodeableConcept language;
@@ -5114,7 +5113,6 @@ public class Citation extends DomainResource {
             @Binding(
                 bindingName = "Language",
                 strength = BindingStrength.Value.PREFERRED,
-                description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages"
             )
             private final CodeableConcept language;
@@ -6178,7 +6176,6 @@ public class Citation extends DomainResource {
             @Binding(
                 bindingName = "Language",
                 strength = BindingStrength.Value.PREFERRED,
-                description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages"
             )
             private final List<CodeableConcept> language;

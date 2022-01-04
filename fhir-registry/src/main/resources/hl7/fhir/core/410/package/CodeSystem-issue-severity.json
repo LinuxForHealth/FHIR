@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "issue-severity",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>IssueSeverity</h2>\n      \n      <div>\n        \n        <p>How the issue affects the success of the action.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/issue-severity defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">fatal\n            \n            <a name=\"issue-severity-fatal\"> </a>\n          \n          </td>\n          \n          <td>Fatal</td>\n          \n          <td>The issue caused the action to fail and no further checking could be performed.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">error\n            \n            <a name=\"issue-severity-error\"> </a>\n          \n          </td>\n          \n          <td>Error</td>\n          \n          <td>The issue is sufficiently important to cause the action to fail.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">warning\n            \n            <a name=\"issue-severity-warning\"> </a>\n          \n          </td>\n          \n          <td>Warning</td>\n          \n          <td>The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a way that is not as desired.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">information\n            \n            <a name=\"issue-severity-information\"> </a>\n          \n          </td>\n          \n          <td>Information</td>\n          \n          <td>The issue has no relation to the degree of success of the action.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.409"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "IssueSeverity",
     "title": "IssueSeverity",
     "status": "active",

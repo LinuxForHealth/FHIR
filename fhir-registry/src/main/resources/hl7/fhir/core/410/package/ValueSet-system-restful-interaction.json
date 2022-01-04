@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "system-restful-interaction",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>SystemRestfulInteraction</h2>\n      <div>\n        <p>Operations supported by REST at the system level.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include these codes as defined in \n          <a href=\"codesystem-restful-interaction.html\">\n            <code>http://hl7.org/fhir/restful-interaction</code>\n          </a>\n          <table class=\"none\">\n            <tr>\n              <td style=\"white-space:nowrap\">\n                <b>Code</b>\n              </td>\n              <td>\n                <b>Display</b>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-restful-interaction.html#restful-interaction-transaction\">transaction</a>\n              </td>\n              <td>transaction</td>\n              <td>Update, create or delete a set of resources as a single transaction.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-restful-interaction.html#restful-interaction-batch\">batch</a>\n              </td>\n              <td>batch</td>\n              <td>perform a set of a separate interactions in a single http operation</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-restful-interaction.html#restful-interaction-search-system\">search-system</a>\n              </td>\n              <td>search-system</td>\n              <td>Search all resources based on some filter criteria.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-restful-interaction.html#restful-interaction-history-system\">history-system</a>\n              </td>\n              <td>history-system</td>\n              <td>Retrieve the change history for all resources on a system.</td>\n            </tr>\n          </table>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.181"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SystemRestfulInteraction",
     "title": "SystemRestfulInteraction",
     "status": "active",

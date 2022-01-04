@@ -36,8 +36,6 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.MoneyQuantity;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuantityComparator;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.Value;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
