@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "DocumentReference",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/DocumentReference",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "DocumentReference",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -674,7 +674,7 @@
           ],
           "strength": "required",
           "description": "The status of the document reference.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -739,7 +739,7 @@
           ],
           "strength": "required",
           "description": "Status of the underlying document.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1429,7 +1429,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2615,7 +2615,7 @@
           ],
           "strength": "required",
           "description": "The status of the document reference.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2665,7 +2665,7 @@
           ],
           "strength": "required",
           "description": "Status of the underlying document.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/composition-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3084,7 +3084,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between documents.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/document-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {

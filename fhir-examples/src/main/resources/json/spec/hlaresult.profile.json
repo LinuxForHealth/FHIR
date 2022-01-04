@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/hlaresult",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Profile for HLA Genotyping Results",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "Describes how the HLA genotyping results",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -821,7 +821,7 @@
           ],
           "strength": "required",
           "description": "The status of the diagnostic report.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

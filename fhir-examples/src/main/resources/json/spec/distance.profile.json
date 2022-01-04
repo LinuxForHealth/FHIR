@@ -12,10 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Distance",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Distance",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Base StructureDefinition for Distance Type: A length - a value with a unit that is a physical distance.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -307,7 +307,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"
         },
         "mapping": [
           {

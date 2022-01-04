@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="GuidanceResponse"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -404,10 +404,10 @@
     <valueCode value="cds"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/GuidanceResponse"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="GuidanceResponse"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Clinical Decision Support)"/>
   <contact>
     <telecom>
@@ -423,7 +423,7 @@
   </contact>
   <description value="A guidance response is the formal response to a guidance request, including any output parameters returned by the evaluation, as well as the description of any proposed actions to be taken."/>
   <purpose value="The GuidanceResponse resource supports recording the results of decision support interactions, reportability determination for public health, as well as the communication of additional data requirements for subsequent interactions."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -914,7 +914,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of a guidance response."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/guidance-response-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/guidance-response-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -1380,7 +1380,7 @@
         </extension>
         <strength value="required"/>
         <description value="The status of a guidance response."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/guidance-response-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/guidance-response-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

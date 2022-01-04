@@ -283,7 +283,7 @@
             <a href="datatypes.html#code">code</a>
           </td>
           <td>
-            <a href="valueset-observation-statistics.html">http://hl7.org/fhir/ValueSet/observation-statistics|4.1.0</a> (Required)
+            <a href="valueset-observation-statistics.html">http://hl7.org/fhir/ValueSet/observation-statistics|4.3.0-CIBUILD</a> (Required)
           </td>
           <td>
             <div>
@@ -374,12 +374,12 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/Observation-stats"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="stats"/>
   <title value="Observation Statistics"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -459,7 +459,7 @@
         <valueString value="ObservationStatsCode"/>
       </extension>
       <strength value="required"/>
-      <valueSet value="http://hl7.org/fhir/ValueSet/observation-statistics|4.1.0"/>
+      <valueSet value="http://hl7.org/fhir/ValueSet/observation-statistics|4.3.0-CIBUILD"/>
     </binding>
   </parameter>
   <parameter>

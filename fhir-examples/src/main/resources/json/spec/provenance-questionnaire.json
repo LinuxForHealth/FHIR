@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Provenance.occurred[x]",
       "expansion": {
-        "identifier": "urn:uuid:bd901d8f-29b4-4a53-9c96-3545e243d80d",
-        "timestamp": "2021-12-06T19:04:21+00:00",
+        "identifier": "urn:uuid:195919e6-3a2c-44e6-8947-827b6a4a7ac1",
+        "timestamp": "2022-01-01T15:25:40+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Security)",
   "item": [
     {
@@ -44,6 +44,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "Provenance-display",
           "text": "Some parties may be duplicated between the target resource and its provenance.  For instance, the prescriber is usually (but not always) the author of the prescription resource. This resource is defined with close consideration for W3C Provenance.",
           "type": "display"
         },
@@ -62,6 +63,7 @@
               }
             }
           ],
+          "linkId": "Provenance-flyover",
           "text": "Provenance of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource. Provenance provides a critical foundation for assessing authenticity, enabling trust, and allowing reproducibility. Provenance assertions are a form of contextual metadata and can themselves become important records with their own provenance. Provenance statement indicates clinical significance in terms of confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust policies.",
           "type": "display"
         },
@@ -96,6 +98,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -136,6 +139,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -172,6 +176,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -215,6 +220,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -256,6 +262,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -283,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -310,6 +318,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -337,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -373,6 +383,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.target-flyover",
               "text": "The Reference(s) that were generated or updated by  the activity described in this resource. A provenance can point to more than one target if multiple resources were created/updated by the same activity. Target references are usually version specific, but might not be, if a version has not been assigned or if the provenance information is part of the set of resources being maintained (i.e. a document). When using the RESTful API, the identity of the resource might not be known (especially not the version specific one); the client may either submit the resource first, and then the provenance, or it may submit both using a single transaction. See the notes on transaction for further discussion.",
               "type": "display"
             },
@@ -423,6 +434,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.occurred[x]-flyover",
               "text": "The period during which the activity occurred. The period can be a little arbitrary; where possible, the time should correspond to human assessment of the activity time.",
               "type": "display"
             },
@@ -518,6 +530,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.recorded-flyover",
               "text": "The instant of time at which the activity was recorded. This can be a little different from the time stamp on the resource if there is a delay between recording the event and updating the provenance and target resource.",
               "type": "display"
             },
@@ -557,6 +570,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.policy-flyover",
               "text": "Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy documents, such as patient consent, guarantor funding, etc. For example: Where an OAuth token authorizes, the unique identifier from the OAuth token is placed into the policy element Where a policy engine (e.g. XACML) holds policy logic, the unique policy identifier is placed into the policy element.",
               "type": "display"
             },
@@ -600,6 +614,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.location-flyover",
               "text": "Where the activity occurred, if relevant.",
               "type": "display"
             },
@@ -650,6 +665,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.reason-flyover",
               "text": "The reason that the activity was taking place.",
               "type": "display"
             },
@@ -702,6 +718,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.activity-flyover",
               "text": "An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities.",
               "type": "display"
             },
@@ -736,6 +753,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Provenance.agent-display",
               "text": "Several agents may be associated (i.e. has some responsibility for an activity) with an activity and vice-versa.",
               "type": "display"
             },
@@ -754,6 +772,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.agent-flyover",
               "text": "An actor taking a role in an activity  for which it can be assigned some degree of responsibility for the activity taking place.",
               "type": "display"
             },
@@ -788,6 +807,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -822,6 +842,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -849,6 +870,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -886,6 +908,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.type-flyover",
                   "text": "The participation the agent had with respect to the activity. For example: author, performer, enterer, attester, etc.",
                   "type": "display"
                 },
@@ -934,6 +957,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.role-flyover",
                   "text": "The function of the agent with respect to the activity. The security role enabling the agent with respect to the activity. For example: doctor, nurse, clerk, etc.",
                   "type": "display"
                 },
@@ -989,6 +1013,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.who-flyover",
                   "text": "The individual, device or organization that participated in the event. whoIdentity should be used when the agent is not a Resource type.",
                   "type": "display"
                 },
@@ -1042,6 +1067,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.agent.onBehalfOf-flyover",
                   "text": "The individual, device, or organization for whom the change was made. onBehalfOfIdentity should be used when the agent is not a Resource type.",
                   "type": "display"
                 },
@@ -1088,6 +1114,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.entity-flyover",
               "text": "An entity used in this activity.",
               "type": "display"
             },
@@ -1122,6 +1149,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1156,6 +1184,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1183,6 +1212,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1223,6 +1253,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.role-flyover",
                   "text": "How the entity was used during the activity.",
                   "type": "display"
                 },
@@ -1271,6 +1302,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.what-flyover",
                   "text": "Identity of the  Entity used. May be a logical or physical uri and maybe absolute or relative. whatIdentity should be used for entities that are not a Resource type.",
                   "type": "display"
                 },
@@ -1301,6 +1333,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "Provenance.entity.agent-display",
                   "text": "A usecase where one Provenance.entity.agent is used where the Entity that was used in the creation/updating of the Target, is not in the context of the same custodianship as the Target, and thus the meaning of Provenance.entity.agent is to say that the entity referenced is managed elsewhere and that this Agent provided access to it.  This would be similar to where the Entity being referenced is managed outside FHIR, such as through HL7 v2, v3, or XDS. This might be where the Entity being referenced is managed in another FHIR resource server. Thus it explains the Provenance of that Entity\u0027s use in the context of this Provenance activity.",
                   "type": "display"
                 },
@@ -1319,6 +1352,7 @@
                       }
                     }
                   ],
+                  "linkId": "Provenance.entity.agent-flyover",
                   "text": "The entity is attributed to an agent to express the agent\u0027s responsibility for that entity, possibly along with other agents. This description can be understood as shorthand for saying that the agent was responsible for the activity which generated the entity.",
                   "type": "display"
                 }
@@ -1348,6 +1382,7 @@
                   }
                 }
               ],
+              "linkId": "Provenance.signature-flyover",
               "text": "A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the signature is indicated.",
               "type": "display"
             }

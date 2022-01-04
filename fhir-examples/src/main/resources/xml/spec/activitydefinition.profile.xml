@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="ActivityDefinition"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -1184,10 +1184,10 @@
     <valueCode value="cds"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ActivityDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ActivityDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Clinical Decision Support)"/>
   <contact>
     <telecom>
@@ -1202,7 +1202,7 @@
     </telecom>
   </contact>
   <description value="This resource allows for the definition of some activity to be performed, independent of a particular patient, practitioner, or other performance context."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -1834,7 +1834,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -2661,7 +2661,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of activity the definition is describing."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2771,7 +2771,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes indicating the degree of authority/intentionality associated with a request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -2809,7 +2809,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3098,7 +3098,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of participant in the activity."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -3816,7 +3816,7 @@
         </extension>
         <strength value="required"/>
         <description value="The lifecycle status of an artifact."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -4357,7 +4357,7 @@
         </extension>
         <strength value="required"/>
         <description value="The kind of activity the definition is describing."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-resource-types|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -4428,7 +4428,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes indicating the degree of authority/intentionality associated with a request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -4453,7 +4453,7 @@
         </extension>
         <strength value="required"/>
         <description value="Identifies the level of importance to be assigned to actioning the request."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>
@@ -4568,7 +4568,7 @@
         </extension>
         <strength value="required"/>
         <description value="The type of participant in the activity."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/action-participant-type|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="rim"/>

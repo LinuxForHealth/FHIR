@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/auditevent-ParticipantObjectContainsStudy",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ParticipantObjectContainsStudy",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "A Study Instance ID, which may be used when the Entity type is not (110180, DCM, \"Study Instance UID\").",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "dicom",

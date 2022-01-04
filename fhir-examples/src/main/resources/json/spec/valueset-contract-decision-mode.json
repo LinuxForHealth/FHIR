@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "contract-decision-mode",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,10 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.1291"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ContractResourceDecisionModeCodes",
   "title": "Contract Resource Decision Mode codes",
   "status": "draft",
+  "experimental": true,
   "publisher": "Financial Management",
   "contact": [
     {

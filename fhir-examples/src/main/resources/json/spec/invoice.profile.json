@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Invoice",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Invoice",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Invoice",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Invoice containing collected ChargeItems from an Account with calculated individual and total price for Billing purpose.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -575,7 +575,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of an Invoice.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1655,7 +1655,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the kind of the price component.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2067,7 +2067,7 @@
           ],
           "strength": "required",
           "description": "Codes identifying the lifecycle stage of an Invoice.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2514,7 +2514,7 @@
           ],
           "strength": "required",
           "description": "Codes indicating the kind of the price component.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0-CIBUILD"
         },
         "mapping": [
           {

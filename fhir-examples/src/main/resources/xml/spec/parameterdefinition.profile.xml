@@ -192,10 +192,10 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/ParameterDefinition"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="ParameterDefinition"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -204,7 +204,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for ParameterDefinition Type: The parameters to the module. This collection specifies both the input and output parameters. Input parameters are provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -379,7 +379,7 @@
           <valueString value="ParameterUse"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/operation-parameter-use|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="ParameterDefinition.min">
@@ -492,7 +492,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="ParameterDefinition.profile">
@@ -565,7 +565,7 @@
           <valueString value="ParameterUse"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/operation-parameter-use|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="ParameterDefinition.min">
@@ -622,7 +622,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/all-types|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="ParameterDefinition.profile">

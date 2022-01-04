@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for QuestionnaireResponse.item.answer.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:5da5776f-a37a-4a5f-8da3-169ac6b4d098",
-        "timestamp": "2021-12-06T19:04:24+00:00",
+        "identifier": "urn:uuid:6a111196-b56b-423c-a1b2-bb869660dc56",
+        "timestamp": "2022-01-01T15:25:43+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -81,9 +81,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -94,6 +94,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "QuestionnaireResponse-display",
           "text": "The QuestionnaireResponse contains enough information about the questions asked and their organization that it can be interpreted somewhat independently from the Questionnaire it is based on.  I.e. You don\u0027t need access to the Questionnaire in order to extract basic information from a QuestionnaireResponse.",
           "type": "display"
         },
@@ -112,6 +113,7 @@
               }
             }
           ],
+          "linkId": "QuestionnaireResponse-flyover",
           "text": "A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, corresponding to the structure of the grouping of the questionnaire being responded to.",
           "type": "display"
         },
@@ -146,6 +148,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -186,6 +189,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -222,6 +226,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -265,6 +270,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -306,6 +312,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -333,6 +340,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -360,6 +368,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -387,6 +396,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -424,6 +434,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.identifier-flyover",
               "text": "A business identifier assigned to a particular completed (or partially completed) questionnaire.",
               "type": "display"
             },
@@ -477,6 +488,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.basedOn-flyover",
               "text": "The order, proposal or plan that is fulfilled in whole or in part by this QuestionnaireResponse.  For example, a ServiceRequest seeking an intake assessment or a decision support recommendation to assess for post-partum depression.",
               "type": "display"
             },
@@ -526,6 +538,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.partOf-flyover",
               "text": "A procedure or observation that this questionnaire was performed as part of the execution of.  For example, the surgery a checklist was executed as part of. Composition of questionnaire responses will be handled by the parent questionnaire having answers that reference the child questionnaire.  For relationships to referrals, and other types of requests, use basedOn.",
               "type": "display"
             },
@@ -579,6 +592,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.questionnaire-flyover",
               "text": "The Questionnaire that defines and organizes the questions for which answers are being provided. If a QuestionnaireResponse references a Questionnaire, then the QuestionnaireResponse structure must be consistent with the Questionnaire (i.e. questions must be organized into the same groups, nested questions must still be nested, etc.).",
               "type": "display"
             },
@@ -626,6 +640,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.status-flyover",
               "text": "The position of the questionnaire response within its overall lifecycle. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -670,6 +685,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.subject-flyover",
               "text": "The subject of the questionnaire response.  This could be a patient, organization, practitioner, device, etc.  This is who/what the answers apply to, but is not necessarily the source of information. If the Questionnaire declared a subjectType, the resource pointed to by this element must be an instance of one of the listed types.",
               "type": "display"
             },
@@ -723,6 +739,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.encounter-flyover",
               "text": "The Encounter during which this questionnaire response was created or to which the creation of this record is tightly associated. This will typically be the encounter the event occurred within, but some activities may be initiated prior to or after the official completion of an encounter but still be tied to the context of the encounter. A questionnaire that was initiated during an encounter but not fully completed during the encounter would still generally be associated with the encounter.",
               "type": "display"
             },
@@ -776,6 +793,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.authored-flyover",
               "text": "The date and/or time that this set of answers were last changed. May be different from the lastUpdateTime of the resource itself, because that reflects when the data was known to the server, not when the data was captured.\n\nThis element is optional to allow for systems that might not know the value, however it SHOULD be populated if possible.",
               "type": "display"
             },
@@ -819,6 +837,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.author-flyover",
               "text": "Person who received the answers to the questions in the QuestionnaireResponse and recorded them in the system. Mapping a subject\u0027s answers to multiple choice options and determining what to put in the textual answer is a matter of interpretation.  Authoring by device would indicate that some portion of the questionnaire had been auto-populated.",
               "type": "display"
             },
@@ -872,6 +891,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.source-flyover",
               "text": "The person who answered the questions about the subject. If not specified, no inference can be made about who provided the data.",
               "type": "display"
             },
@@ -902,6 +922,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "QuestionnaireResponse.item-display",
               "text": "Groups cannot have answers and therefore must nest directly within item. When dealing with questions, nesting must occur within each answer because some questions may have multiple answers (and the nesting occurs for each answer).",
               "type": "display"
             },
@@ -920,6 +941,7 @@
                   }
                 }
               ],
+              "linkId": "QuestionnaireResponse.item-flyover",
               "text": "A group or question item from the original questionnaire for which answers are provided.",
               "type": "display"
             },
@@ -954,6 +976,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -988,6 +1011,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1015,6 +1039,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1055,6 +1080,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.linkId-flyover",
                   "text": "The item from the Questionnaire that corresponds to this item in the QuestionnaireResponse resource.",
                   "type": "display"
                 },
@@ -1098,6 +1124,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.definition-flyover",
                   "text": "A reference to an [ElementDefinition](elementdefinition.html) that provides the details for the item. The ElementDefinition must be in a [StructureDefinition](structuredefinition.html#), and must have a fragment identifier that identifies the specific data element by its id (Element.id). E.g. http://hl7.org/fhir/StructureDefinition/Observation#Observation.value[x].\n\nThere is no need for this element if the item pointed to by the linkId has a definition listed.",
                   "type": "display"
                 },
@@ -1141,6 +1168,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.text-flyover",
                   "text": "Text that is displayed above the contents of the group or as the text of the question being answered.",
                   "type": "display"
                 },
@@ -1161,6 +1189,7 @@
               "repeats": true,
               "item": [
                 {
+                  "linkId": "QuestionnaireResponse.item.answer-display",
                   "text": "The value is nested because we cannot have a repeating structure that has variable type.",
                   "type": "display"
                 },
@@ -1179,6 +1208,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.answer-flyover",
                   "text": "The respondent\u0027s answer(s) to the question.",
                   "type": "display"
                 },
@@ -1213,6 +1243,7 @@
                           }
                         }
                       ],
+                      "linkId": "QuestionnaireResponse.item.answer.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1247,6 +1278,7 @@
                           }
                         }
                       ],
+                      "linkId": "QuestionnaireResponse.item.answer.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1274,6 +1306,7 @@
                           }
                         }
                       ],
+                      "linkId": "QuestionnaireResponse.item.answer.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1307,6 +1340,7 @@
                           }
                         }
                       ],
+                      "linkId": "QuestionnaireResponse.item.answer.value[x]-flyover",
                       "text": "The answer (or one of the answers) provided by the respondent to the question. More complex structures (Attachment, Resource and Quantity) will typically be limited to electronic forms that can expose an appropriate user interface to capture the components and enforce the constraints of a complex data type.  Additional complex types can be introduced through extensions. Must match the datatype specified by Questionnaire.item.type in the corresponding Questionnaire.",
                       "type": "display"
                     },
@@ -1594,6 +1628,7 @@
                           }
                         }
                       ],
+                      "linkId": "QuestionnaireResponse.item.answer.item-flyover",
                       "text": "Nested groups and/or questions found within this particular answer.",
                       "type": "display"
                     }
@@ -1623,6 +1658,7 @@
                       }
                     }
                   ],
+                  "linkId": "QuestionnaireResponse.item.item-flyover",
                   "text": "Questions or sub-groups nested beneath a question or group.",
                   "type": "display"
                 }

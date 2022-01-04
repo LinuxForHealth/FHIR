@@ -6,9 +6,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Structured Documents)",
   "item": [
     {
@@ -19,6 +19,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "DocumentReference-display",
           "text": "Usually, this is used for documents other than those defined by FHIR.",
           "type": "display"
         },
@@ -37,6 +38,7 @@
               }
             }
           ],
+          "linkId": "DocumentReference-flyover",
           "text": "A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.",
           "type": "display"
         },
@@ -71,6 +73,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -111,6 +114,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -147,6 +151,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -190,6 +195,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -231,6 +237,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -258,6 +265,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -285,6 +293,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -312,6 +321,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -349,6 +359,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.masterIdentifier-flyover",
               "text": "Document identifier as assigned by the source of the document. This identifier is specific to this version of the document. This unique identifier may be used elsewhere to identify this version of the document. CDA Document Id extension and root.",
               "type": "display"
             },
@@ -403,6 +414,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.identifier-flyover",
               "text": "Other identifiers associated with the document, including version independent identifiers.",
               "type": "display"
             },
@@ -464,6 +476,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.status-flyover",
               "text": "The status of this document reference. This is the status of the DocumentReference object, which might be independent from the docStatus element.\n\nThis element is labeled as a modifier because the status contains the codes that mark the document or reference as not currently valid.",
               "type": "display"
             },
@@ -508,6 +521,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.docStatus-flyover",
               "text": "The status of the underlying document. The document that is pointed to might be in various lifecycle states.",
               "type": "display"
             },
@@ -553,6 +567,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.type-flyover",
               "text": "Specifies the particular kind of document referenced  (e.g. History and Physical, Discharge Summary, Progress Note). This usually equates to the purpose of making the document referenced. Key metadata element describing the document that describes he exact type of document. Helps humans to assess whether the document is of interest when viewing a list of documents.",
               "type": "display"
             },
@@ -601,6 +616,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.category-flyover",
               "text": "A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or derived from the code specified in the DocumentReference.type. Key metadata element describing the the category or classification of the document. This is a broader perspective that groups similar documents based on how they would be used. This is a primary key used in searching.",
               "type": "display"
             },
@@ -652,6 +668,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.subject-flyover",
               "text": "Who or what the document is about. The document can be about a person, (patient or healthcare practitioner), a device (e.g. a machine) or even a group of subjects (such as a document about a herd of farm animals, or a set of patients that share a common exposure).",
               "type": "display"
             },
@@ -705,6 +722,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.date-flyover",
               "text": "When the document reference was created. Referencing/indexing time is used for tracking, organizing versions and searching.",
               "type": "display"
             },
@@ -744,6 +762,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.author-flyover",
               "text": "Identifies who is responsible for adding the information to the document. Not necessarily who did the actual data entry (i.e. typist) or who was the source (informant).",
               "type": "display"
             },
@@ -797,6 +816,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.authenticator-flyover",
               "text": "Which person or organization authenticates that this document is valid. Represents a participant within the author institution who has legally authenticated or attested the document. Legal authentication implies that a document has been signed manually or electronically by the legal Authenticator.",
               "type": "display"
             },
@@ -850,6 +870,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.custodian-flyover",
               "text": "Identifies the organization or group who is responsible for ongoing maintenance of and access to the document. Identifies the logical organization (software system, vendor, or department) to go to find the current version, where to report issues, etc. This is different from the physical location (URL, disk drive, or server) of the document, which is the technical location of the document, which host may be delegated to the management of some other organization.",
               "type": "display"
             },
@@ -880,6 +901,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "DocumentReference.relatesTo-display",
               "text": "This element is labeled as a modifier because documents that append to other documents are incomplete on their own.",
               "type": "display"
             },
@@ -898,6 +920,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.relatesTo-flyover",
               "text": "Relationships that this document has with other document references that already exist.",
               "type": "display"
             },
@@ -932,6 +955,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.relatesTo.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -966,6 +990,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.relatesTo.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -993,6 +1018,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.relatesTo.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1033,6 +1059,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.relatesTo.code-flyover",
                   "text": "The type of relationship that this document has with anther document. If this document appends another document, then the document cannot be fully understood without also accessing the referenced document.",
                   "type": "display"
                 },
@@ -1081,6 +1108,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.relatesTo.target-flyover",
                   "text": "The target document of this relationship.",
                   "type": "display"
                 },
@@ -1136,6 +1164,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.description-flyover",
               "text": "Human-readable description of the source document. What the document is about,  a terse summary of the document.",
               "type": "display"
             },
@@ -1176,6 +1205,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.securityLabel-flyover",
               "text": "A set of Security-Tag codes specifying the level of privacy/security of the Document. Note that DocumentReference.meta.security contains the security labels of the \"reference\" to the document, while DocumentReference.securityLabel contains a snapshot of the security labels on the document the reference refers to. The confidentiality codes can carry multiple vocabulary items. HL7 has developed an understanding of security and privacy tags that might be desirable in a Document Sharing environment, called HL7 Healthcare Privacy and Security Classification System (HCS). The following specification is recommended but not mandated, as the vocabulary bindings are an administrative domain responsibility. The use of this method is up to the policy domain such as the XDS Affinity Domain or other Trust Domain where all parties including sender and recipients are trusted to appropriately tag and enforce.   \n\nIn the HL7 Healthcare Privacy and Security Classification (HCS) there are code systems specific to Confidentiality, Sensitivity, Integrity, and Handling Caveats. Some values would come from a local vocabulary as they are related to workflow roles and special projects.",
               "type": "display"
             },
@@ -1224,6 +1254,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.content-flyover",
               "text": "The document and format referenced. There may be multiple content element repetitions, each with a different format.",
               "type": "display"
             },
@@ -1258,6 +1289,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.content.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1292,6 +1324,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.content.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1319,6 +1352,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.content.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1360,6 +1394,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.content.attachment-flyover",
                   "text": "The document or URL of the document along with critical metadata to prove content has integrity.",
                   "type": "display"
                 }
@@ -1396,6 +1431,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.content.format-flyover",
                   "text": "An identifier of the document encoding, structure, and template that the document conforms to beyond the base format indicated in the mimeType. Note that while IHE mostly issues URNs for format types, not all documents can be identified by a URI.",
                   "type": "display"
                 },
@@ -1425,6 +1461,7 @@
           "repeats": false,
           "item": [
             {
+              "linkId": "DocumentReference.context-display",
               "text": "These values are primarily added to help with searching for interesting/relevant documents.",
               "type": "display"
             },
@@ -1443,6 +1480,7 @@
                   }
                 }
               ],
+              "linkId": "DocumentReference.context-flyover",
               "text": "The clinical context in which the document was prepared.",
               "type": "display"
             },
@@ -1477,6 +1515,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1511,6 +1550,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1538,6 +1578,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1570,6 +1611,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.encounter-flyover",
                   "text": "Describes the clinical encounter or type of care that the document content is associated with.",
                   "type": "display"
                 },
@@ -1620,6 +1662,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.event-flyover",
                   "text": "This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In some cases, the event is inherent in the type Code, such as a \"History and Physical Report\" in which the procedure being documented is necessarily a \"History and Physical\" act. An event can further specialize the act inherent in the type, such as  where it is simply \"Procedure Report\" and the procedure was a \"colonoscopy\". If one or more event codes are included, they shall not conflict with the values inherent in the class or type elements as such a conflict would create an ambiguous situation.",
                   "type": "display"
                 },
@@ -1672,6 +1715,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.period-flyover",
                   "text": "The time period over which the service that is described by the document was provided.",
                   "type": "display"
                 },
@@ -1723,6 +1767,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.facilityType-flyover",
                   "text": "The kind of facility where the patient was seen.",
                   "type": "display"
                 },
@@ -1775,6 +1820,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.practiceSetting-flyover",
                   "text": "This property may convey specifics about the practice setting where the content was created, often reflecting the clinical specialty. This element should be based on a coarse classification system for the class of specialty practice. Recommend the use of the classification system for Practice Setting, such as that described by the Subject Matter Domain in LOINC.",
                   "type": "display"
                 },
@@ -1826,6 +1872,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.sourcePatientInfo-flyover",
                   "text": "The Patient Information as known when the document was published. May be a reference to a version specific, or contained.",
                   "type": "display"
                 },
@@ -1875,6 +1922,7 @@
                       }
                     }
                   ],
+                  "linkId": "DocumentReference.context.related-flyover",
                   "text": "Related identifiers or resources associated with the DocumentReference. May be identifiers or resources that caused the DocumentReference or referenced Document to be created.",
                   "type": "display"
                 },

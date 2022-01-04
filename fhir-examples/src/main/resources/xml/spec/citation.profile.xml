@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Citation"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -2800,10 +2800,10 @@
     <valueCode value="cds"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Citation"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Citation"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Clinical Decision Support)"/>
   <contact>
     <telecom>
@@ -2818,7 +2818,7 @@
     </telecom>
   </contact>
   <description value="The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. The Citation Resource supports existing reference structures and developing publication practices such as versioning, expressing complex contributorship roles, and referencing computable resources."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="w5"/>
     <uri value="http://hl7.org/fhir/fivews"/>
@@ -3392,7 +3392,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Citation.experimental">
@@ -9572,7 +9572,7 @@
           <valueBoolean value="true"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"/>
       </binding>
     </element>
     <element id="Citation.experimental">

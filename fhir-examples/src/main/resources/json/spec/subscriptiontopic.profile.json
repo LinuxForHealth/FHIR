@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "SubscriptionTopic",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/SubscriptionTopic",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "SubscriptionTopic",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to filter projections from this topic.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -768,7 +768,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1621,7 +1621,7 @@
           ],
           "strength": "required",
           "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
         }
       },
       {
@@ -1862,7 +1862,7 @@
           ],
           "strength": "required",
           "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
         }
       },
       {
@@ -1936,7 +1936,7 @@
           ],
           "strength": "required",
           "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
         }
       },
       {
@@ -2611,7 +2611,7 @@
           ],
           "strength": "required",
           "description": "Operator to apply to filter label.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3137,7 +3137,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3614,7 +3614,7 @@
           ],
           "strength": "required",
           "description": "FHIR RESTful interaction used to filter a resource-based SubscriptionTopic trigger.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/interaction-trigger|4.3.0-CIBUILD"
         }
       },
       {
@@ -3674,7 +3674,7 @@
           ],
           "strength": "required",
           "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
         }
       },
       {
@@ -3718,7 +3718,7 @@
           ],
           "strength": "required",
           "description": "Behavior a server can exhibit when a criteria state does not exist (e.g., state prior to a create or after a delete).",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscriptiontopic-cr-behavior|4.3.0-CIBUILD"
         }
       },
       {
@@ -3956,7 +3956,7 @@
           ],
           "strength": "required",
           "description": "Operator to apply to filter label.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/subscription-search-modifier|4.3.0-CIBUILD"
         },
         "mapping": [
           {

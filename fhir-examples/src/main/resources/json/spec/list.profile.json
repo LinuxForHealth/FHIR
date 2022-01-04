@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "List",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/List",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "List",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A list is a curated collection of resources.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -586,7 +586,7 @@
           ],
           "strength": "required",
           "description": "The current state of the list.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -641,7 +641,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this list.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1540,7 +1540,7 @@
           ],
           "strength": "required",
           "description": "The current state of the list.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1580,7 +1580,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this list.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         },
         "mapping": [
           {

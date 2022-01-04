@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "AdministrableProductDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/AdministrableProductDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "AdministrableProductDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "idmp",
@@ -565,7 +565,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2069,7 +2069,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

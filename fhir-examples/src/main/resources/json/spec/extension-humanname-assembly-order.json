@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/humanname-assembly-order",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "assembly-order",
   "status": "draft",
   "date": "2015-11-22",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "A code that represents the preferred display order of the components of this human name.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -245,7 +245,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -297,7 +297,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0-CIBUILD"
         }
       }
     ]

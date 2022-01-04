@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Ratio",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Ratio",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -33,7 +33,7 @@
   ],
   "description": "Base StructureDefinition for Ratio Type: A relationship of two Quantity values - expressed as a numerator and a denominator.",
   "purpose": "Need to able to capture ratios for some measurements (titers) and some rates (costs).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -92,7 +92,7 @@
             "key": "rat-1",
             "severity": "error",
             "human": "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-            "expression": "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+            "expression": "(numerator.exists() and denominator.exists()) or (numerator.empty() and denominator.empty() and extension.exists())",
             "xpath": "(count(f:numerator) \u003d count(f:denominator)) and ((count(f:numerator) \u003e 0) or (count(f:extension) \u003e 0))",
             "source": "http://hl7.org/fhir/StructureDefinition/Ratio"
           }
@@ -306,7 +306,7 @@
             "key": "rat-1",
             "severity": "error",
             "human": "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-            "expression": "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+            "expression": "(numerator.exists() and denominator.exists()) or (numerator.empty() and denominator.empty() and extension.exists())",
             "xpath": "(count(f:numerator) \u003d count(f:denominator)) and ((count(f:numerator) \u003e 0) or (count(f:extension) \u003e 0))",
             "source": "http://hl7.org/fhir/StructureDefinition/Ratio"
           }

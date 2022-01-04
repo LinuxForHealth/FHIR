@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/condition-outcome",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "outcome",
   "title": "Outcome",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "A result of the condition. The \"Cause of death\" for a patient is typically captured as an Observation.  The \"outcome\" doesn\u0027t imply causality.  Some outcomes might not be assessable until the condition.clinicalStatus is no longer active.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

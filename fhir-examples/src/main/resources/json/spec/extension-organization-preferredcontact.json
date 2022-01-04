@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/organization-preferredContact",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "preferredContact",
   "title": "Preferred Contact",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "This Contact is the preferred contact at this organization for the purpose of the contact\n\nThere can be multiple contacts on an Organizations record with this value set to true, but these should all have different purpose values.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

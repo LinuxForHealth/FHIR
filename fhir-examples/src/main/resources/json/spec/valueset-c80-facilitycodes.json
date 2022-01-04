@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "c80-facilitycodes",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00",
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,11 +32,11 @@
       "value": "urn:oid:2.16.840.1.113883.3.88.12.80.67"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "FacilityTypeCodeValueSet",
   "title": "Facility Type Code Value Set",
   "status": "active",
-  "experimental": false,
+  "experimental": true,
   "publisher": "HITSP",
   "description": "This is the code representing the type of organizational setting where the clinical encounter, service, interaction, or treatment occurred. The value set used for Healthcare Facility Type has been defined by HITSP to be the value set reproduced from HITSP C80 Table 2-147.",
   "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",

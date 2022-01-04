@@ -179,10 +179,10 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Identifier"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Identifier"/>
   <status value="active"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -192,7 +192,7 @@
   </contact>
   <description value="Base StructureDefinition for Identifier Type: An identifier - identifies some entity uniquely and unambiguously. Typically this is used for business identifiers."/>
   <purpose value="Need to be able to identify things with confidence and be sure that the identification is not subject to misinterpretation."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -367,7 +367,7 @@
           <valueString value="IdentifierUse"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -636,7 +636,7 @@
           <valueString value="IdentifierUse"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
