@@ -56,7 +56,7 @@ public class ImmunizationEvaluation extends DomainResource {
         bindingName = "ImmunizationEvaluationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the evaluation being done.",
-        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.3.0-CIBUILD"
     )
     @Required
     private final ImmunizationEvaluationStatus status;

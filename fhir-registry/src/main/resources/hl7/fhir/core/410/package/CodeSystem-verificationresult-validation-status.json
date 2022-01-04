@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "verificationresult-validation-status",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/verificationresult-validation-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">successful<a name=\"verificationresult-validation-status-successful\"> </a></td><td>Successful</td><td/></tr><tr><td style=\"white-space:nowrap\">failed<a name=\"verificationresult-validation-status-failed\"> </a></td><td>Failed</td><td/></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"verificationresult-validation-status-unknown\"> </a></td><td>Unknown</td><td>The validations status has not been determined yet</td></tr></table></div>"
     },
     "extension": [
         {
@@ -24,7 +24,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.895"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "validation-status",
     "status": "draft",
     "experimental": false,

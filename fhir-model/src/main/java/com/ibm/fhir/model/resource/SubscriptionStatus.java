@@ -54,7 +54,7 @@ public class SubscriptionStatus extends DomainResource {
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription at the time this notification was generated.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-CIBUILD"
     )
     private final SubscriptionStatusCode status;
     @Summary
@@ -62,7 +62,7 @@ public class SubscriptionStatus extends DomainResource {
         bindingName = "SubscriptionNotificationType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of notification represented by the status message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-CIBUILD"
     )
     @Required
     private final SubscriptionNotificationType type;

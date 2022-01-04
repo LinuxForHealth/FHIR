@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/task-candidateList",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "candidateList",
     "title": "Candidate List",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "Identifies the individuals who are candidates for being the owner of the task.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "workflow",
@@ -121,7 +121,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -205,7 +205,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

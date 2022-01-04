@@ -82,7 +82,7 @@ public class Procedure extends DomainResource {
         bindingName = "ProcedureStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the procedure.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.3.0-CIBUILD"
     )
     @Required
     private final ProcedureStatus status;
@@ -146,7 +146,7 @@ public class Procedure extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;

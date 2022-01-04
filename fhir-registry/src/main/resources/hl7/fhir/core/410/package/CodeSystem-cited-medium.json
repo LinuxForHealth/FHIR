@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "cited-medium",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/cited-medium defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">internet\n            \n            <a name=\"cited-medium-internet\"> </a>\n          \n          </td>\n          \n          <td>Internet</td>\n          \n          <td>Online publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for online version.</td>\n        \n        </tr>\n\n\n\n        <tr>\n          \n          <td style=\"white-space:nowrap\">print\n            \n            <a name=\"cited-medium-print\"> </a>\n          \n          </td>\n          \n          <td>Print</td>\n          \n          <td>Print publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for print version.</td>\n        \n        </tr>\n\n\n\n        <tr>\n          \n          <td style=\"white-space:nowrap\">offline-digital-storage\n            \n            <a name=\"cited-medium-offline-digital-storage\"> </a>\n          \n          </td>\n          \n          <td>Offline Digital Storage</td>\n          \n          <td>Publication in a physical device for electronic data storage, organized in issues for periodic release.</td>\n        \n        </tr>\n\n\n\n        <tr>\n          \n          <td style=\"white-space:nowrap\">internet-without-issue\n            \n            <a name=\"cited-medium-internet-without-issue\"> </a>\n          \n          </td>\n          \n          <td>Internet without issue</td>\n          \n          <td>Online publication without any periodic release. Used for article specific publication date which could be the same as or different from journal issue publication date.</td>\n        \n        </tr>\n\n\n\n        <tr>\n          \n          <td style=\"white-space:nowrap\">print-without-issue\n            \n            <a name=\"cited-medium-print-without-issue\"> </a>\n          \n          </td>\n          \n          <td>Print without issue</td>\n          \n          <td>Print publication without any periodic release.</td>\n        \n        </tr>\n\n\n\n        <tr>\n          \n          <td style=\"white-space:nowrap\">offline-digital-storage-without-issue\n            \n            <a name=\"cited-medium-offline-digital-storage-without-issue\"> </a>\n          \n          </td>\n          \n          <td>Offline Digital Storage without issue</td>\n          \n          <td>Publication in a physical device for electronic data storage, without any periodic release.</td>\n        \n        </tr>\n\n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1489"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CitedMedium",
     "title": "CitedMedium",
     "status": "draft",

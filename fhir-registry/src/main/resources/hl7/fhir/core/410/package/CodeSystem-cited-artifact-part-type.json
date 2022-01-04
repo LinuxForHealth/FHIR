@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "cited-artifact-part-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/cited-artifact-part-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n                \n        <tr>\n          \n          <td style=\"white-space:nowrap\">pages\n            \n            <a name=\"cited-artifact-part-type-pages\"> </a>\n          \n          </td>\n          \n          <td>pages</td>\n          \n          <td>Denotes specific page or pages of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">sections\n            \n            <a name=\"cited-artifact-part-type-sections\"> </a>\n          \n          </td>\n          \n          <td>sections</td>\n          \n          <td>Denotes specific section or sections of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">paragraphs\n            \n            <a name=\"cited-artifact-part-type-paragraphs\"> </a>\n          \n          </td>\n          \n          <td>paragraphs</td>\n          \n          <td>Denotes specific paragraph or paragraphs of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">lines\n            \n            <a name=\"cited-artifact-part-type-lines\"> </a>\n          \n          </td>\n          \n          <td>lines</td>\n          \n          <td>Denotes specific line or lines of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">tables\n            \n            <a name=\"cited-artifact-part-type-tables\"> </a>\n          \n          </td>\n          \n          <td>tables</td>\n          \n          <td>Denotes specific table or tables of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">figures\n            \n            <a name=\"cited-artifact-part-type-figures\"> </a>\n          \n          </td>\n          \n          <td>figures</td>\n          \n          <td>Denotes specific figure or figures of an article or artifact.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">supplement\n            \n            <a name=\"cited-artifact-part-type-supplement\"> </a>\n          \n          </td>\n          \n          <td>Supplement or Appendix</td>\n          \n          <td>Used to denote a supplementary file, appendix, or additional part that is not a subpart of the primary article.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">supplement-subpart\n            \n            <a name=\"cited-artifact-part-type-supplement-subpart\"> </a>\n          \n          </td>\n          \n          <td>Supplement or Appendix Subpart</td>\n          \n          <td>Used to denote a subpart within a supplementary file or appendix.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">article-set\n            \n            <a name=\"cited-artifact-part-type-article-set\"> </a>\n          \n          </td>\n          \n          <td>Part of an article set</td>\n          \n          <td>Used to distinguish an individual article within an article set where the article set is a base citation.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.1485"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "CitedArtifactPartType",
     "title": "CitedArtifactPartType",
     "status": "draft",

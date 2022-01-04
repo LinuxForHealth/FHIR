@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/operationdefinition-allowed-type",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "allowed-type",
     "title": "Allowed Type",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "When the base type is an abstract type (e.g. Resource or Element) then this extension defines which concrete types are allowed to be used for a parameter. In the absence of this extension, any type is allowed.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -105,7 +105,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -189,7 +189,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

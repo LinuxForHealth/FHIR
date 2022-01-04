@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "metric-calibration-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>DeviceMetricCalibrationType</h2>\n      \n      <div>\n        \n        <p>Describes the type of a metric calibration.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/metric-calibration-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">unspecified\n            \n            <a name=\"metric-calibration-type-unspecified\"> </a>\n          \n          </td>\n          \n          <td>Unspecified</td>\n          \n          <td>Metric calibration method has not been identified.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">offset\n            \n            <a name=\"metric-calibration-type-offset\"> </a>\n          \n          </td>\n          \n          <td>Offset</td>\n          \n          <td>Offset metric calibration method.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">gain\n            \n            <a name=\"metric-calibration-type-gain\"> </a>\n          \n          </td>\n          \n          <td>Gain</td>\n          \n          <td>Gain metric calibration method.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">two-point\n            \n            <a name=\"metric-calibration-type-two-point\"> </a>\n          \n          </td>\n          \n          <td>Two Point</td>\n          \n          <td>Two-point metric calibration method.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.651"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "DeviceMetricCalibrationType",
     "title": "DeviceMetricCalibrationType",
     "status": "draft",

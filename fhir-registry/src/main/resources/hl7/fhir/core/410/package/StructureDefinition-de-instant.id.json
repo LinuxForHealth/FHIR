@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-instant.id",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-instant.id",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "instant.id",
     "title": "instant.id",
     "status": "draft",
     "experimental": true,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for instant.id",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "kind": "logical",
     "abstract": false,
     "type": "instant.id",
@@ -52,7 +52,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

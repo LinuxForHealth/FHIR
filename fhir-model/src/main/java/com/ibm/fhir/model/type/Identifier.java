@@ -38,15 +38,13 @@ public class Identifier extends Element {
     @Binding(
         bindingName = "IdentifierUse",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Identifies the purpose for this identifier, if known .",
-        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.1.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-CIBUILD"
     )
     private final IdentifierUse use;
     @Summary
     @Binding(
         bindingName = "IdentifierType",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
     private final CodeableConcept type;

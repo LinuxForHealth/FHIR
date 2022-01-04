@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "bundle-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <h2>BundleType</h2>\n      \n      <div>\n        \n        <p>Indicates the purpose of a bundle - how it is intended to be used.</p>\n\n      \n      </div>\n      \n      <p>This code system http://hl7.org/fhir/bundle-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">document\n            \n            <a name=\"bundle-type-document\"> </a>\n          \n          </td>\n          \n          <td>Document</td>\n          \n          <td>The bundle is a document. The first resource is a Composition.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">message\n            \n            <a name=\"bundle-type-message\"> </a>\n          \n          </td>\n          \n          <td>Message</td>\n          \n          <td>The bundle is a message. The first resource is a MessageHeader.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">transaction\n            \n            <a name=\"bundle-type-transaction\"> </a>\n          \n          </td>\n          \n          <td>Transaction</td>\n          \n          <td>The bundle is a transaction - intended to be processed by a server as an atomic commit.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">transaction-response\n            \n            <a name=\"bundle-type-transaction-response\"> </a>\n          \n          </td>\n          \n          <td>Transaction Response</td>\n          \n          <td>The bundle is a transaction response. Because the response is a transaction response, the transaction has succeeded, and all responses are error free.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">batch\n            \n            <a name=\"bundle-type-batch\"> </a>\n          \n          </td>\n          \n          <td>Batch</td>\n          \n          <td>The bundle is a set of actions - intended to be processed by a server as a group of independent actions.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">batch-response\n            \n            <a name=\"bundle-type-batch-response\"> </a>\n          \n          </td>\n          \n          <td>Batch Response</td>\n          \n          <td>The bundle is a batch response. Note that as a batch, some responses may indicate failure and others success.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">history\n            \n            <a name=\"bundle-type-history\"> </a>\n          \n          </td>\n          \n          <td>History List</td>\n          \n          <td>The bundle is a list of resources from a history interaction on a server.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">searchset\n            \n            <a name=\"bundle-type-searchset\"> </a>\n          \n          </td>\n          \n          <td>Search Results</td>\n          \n          <td>The bundle is a list of resources returned as a result of a search/query interaction, operation, or message.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">collection\n            \n            <a name=\"bundle-type-collection\"> </a>\n          \n          </td>\n          \n          <td>Collection</td>\n          \n          <td>The bundle is a set of resources collected into a single package for ease of distribution that imposes no processing obligations or behavioral rules beyond persistence.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -36,7 +36,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.4.621"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "BundleType",
     "title": "BundleType",
     "status": "active",

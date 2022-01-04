@@ -21,7 +21,6 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ValidationSupport;
 

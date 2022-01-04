@@ -2,8 +2,8 @@
     "resourceType": "StructureDefinition",
     "id": "shareablevalueset",
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">to do</div>"
     },
     "extension": [
         {
@@ -20,14 +20,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/shareablevalueset",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "Shareable ValueSet",
     "status": "draft",
     "experimental": false,
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Enforces the minimum information set for the value set metadata required by HL7 and other organizations that share and publish value sets",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "rim",
@@ -165,7 +165,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -721,7 +721,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -1239,7 +1239,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1513,7 +1513,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1776,7 +1776,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2026,7 +2026,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2328,7 +2328,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2527,7 +2527,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of operation to perform as a part of a property based filter.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.1.0"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-CIBUILD"
                 },
                 "mapping": [
                     {
@@ -2713,7 +2713,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3010,7 +3010,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -3282,7 +3282,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "id"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

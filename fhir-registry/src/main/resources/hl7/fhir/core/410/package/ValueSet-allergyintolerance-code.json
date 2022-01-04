@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "allergyintolerance-code",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"valueset-substance-code.html\">http://hl7.org/fhir/ValueSet/substance-code</a></li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  418038007 (Propensity to adverse reactions to substance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  267425008 (Lactose intolerance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  29736007 (Syndrome of carbohydrate intolerance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  340519003 (Lysine intolerance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  190753003 (Sucrose intolerance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  413427002 (Acquired fructose intolerance)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  716186003 (No known allergy)</li></ul></div>"
     },
     "extension": [
         {
@@ -32,10 +32,11 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.137"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AllergyIntoleranceSubstance/Product,ConditionAndNegationCodes",
     "title": "AllergyIntolerance Substance/Product, Condition and Negation Codes",
     "status": "draft",
+    "experimental": true,
     "publisher": "FHIR Project team",
     "contact": [
         {

@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "signature-type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-signature-type.html\"><code>urn:iso-astm:E1762-95:2013</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -24,12 +24,12 @@
             "value": "urn:oid:1.2.840.10065.1.12"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "SignatureTypeCodes",
     "title": "Signature Type Codes",
     "status": "draft",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "ASTM",
     "contact": [
         {

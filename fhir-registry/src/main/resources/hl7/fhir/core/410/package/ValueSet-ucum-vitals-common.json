@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "ucum-vitals-common",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://unitsofmeasure.org\"><code>http://unitsofmeasure.org</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>%</td><td>percent</td></tr><tr><td>cm</td><td>centimeter</td></tr><tr><td>[in_i]</td><td>inch (international)</td></tr><tr><td>kg</td><td>kilogram</td></tr><tr><td>g</td><td>gram</td></tr><tr><td>[lb_av]</td><td>pound (US and British)</td></tr><tr><td>Cel</td><td>degree Celsius</td></tr><tr><td>[degF]</td><td>degree Fahrenheit</td></tr><tr><td>mm[Hg]</td><td>millimeter of mercury</td></tr><tr><td>/min</td><td>per minute</td></tr><tr><td>kg/m2</td><td>kilogram / (meter ^ 2)</td></tr><tr><td>m2</td><td>square meter</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.955"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "VitalSignsUnits",
     "title": "Vital Signs Units",
     "status": "draft",

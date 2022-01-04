@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "property-representation",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/property-representation defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">xmlAttr<a name=\"property-representation-xmlAttr\"> </a></td><td>XML Attribute</td><td>In XML, this property is represented as an attribute not an element.</td></tr><tr><td style=\"white-space:nowrap\">xmlText<a name=\"property-representation-xmlText\"> </a></td><td>XML Text</td><td>This element is represented using the XML text attribute (primitives only).</td></tr><tr><td style=\"white-space:nowrap\">typeAttr<a name=\"property-representation-typeAttr\"> </a></td><td>Type Attribute</td><td>The type of this element is indicated using xsi:type.</td></tr><tr><td style=\"white-space:nowrap\">cdaText<a name=\"property-representation-cdaText\"> </a></td><td>CDA Text Format</td><td>Use CDA narrative instead of XHTML.</td></tr><tr><td style=\"white-space:nowrap\">xhtml<a name=\"property-representation-xhtml\"> </a></td><td>XHTML</td><td>The property is represented using XHTML.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.88"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "PropertyRepresentation",
     "title": "PropertyRepresentation",
     "status": "active",
     "experimental": false,
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

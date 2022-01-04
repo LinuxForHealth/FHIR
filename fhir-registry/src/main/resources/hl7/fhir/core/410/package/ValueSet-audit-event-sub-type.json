@@ -2,14 +2,14 @@
     "resourceType": "ValueSet",
     "id": "audit-event-sub-type",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z",
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include these codes as defined in <a href=\"http://dicom.nema.org/resources/ontology/DCM\"><code>http://dicom.nema.org/resources/ontology/DCM</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>110120</td><td>Application Start</td></tr><tr><td>110121</td><td>Application Stop</td></tr><tr><td>110122</td><td>Login</td></tr><tr><td>110123</td><td>Logout</td></tr><tr><td>110124</td><td>Attach</td></tr><tr><td>110125</td><td>Detach</td></tr><tr><td>110126</td><td>Node Authentication</td></tr><tr><td>110127</td><td>Emergency Override Started</td></tr><tr><td>110128</td><td>Network Configuration</td></tr><tr><td>110129</td><td>Security Configuration</td></tr><tr><td>110130</td><td>Hardware Configuration</td></tr><tr><td>110131</td><td>Software Configuration</td></tr><tr><td>110132</td><td>Use of Restricted Function</td></tr><tr><td>110133</td><td>Audit Recording Stopped</td></tr><tr><td>110134</td><td>Audit Recording Started</td></tr><tr><td>110135</td><td>Object Security Attributes Changed</td></tr><tr><td>110136</td><td>Security Roles Changed</td></tr><tr><td>110137</td><td>User security Attributes Changed</td></tr><tr><td>110138</td><td>Emergency Override Stopped</td></tr><tr><td>110139</td><td>Remote Service Operation Started</td></tr><tr><td>110140</td><td>Remote Service Operation Stopped</td></tr><tr><td>110141</td><td>Local Service Operation Started</td></tr><tr><td>110142</td><td>Local Service Operation Stopped</td></tr></table></li><li>Include all codes defined in <a href=\"codesystem-restful-interaction.html\"><code>http://hl7.org/fhir/restful-interaction</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.464"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "AuditEventSub-Type",
     "title": "Audit Event Sub-Type",
     "status": "active",

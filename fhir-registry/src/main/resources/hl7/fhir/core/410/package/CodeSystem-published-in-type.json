@@ -2,14 +2,14 @@
     "resourceType": "CodeSystem",
     "id": "published-in-type",
     "meta": {
-        "lastUpdated": "2021-12-07T05:53:36.888+11:00",
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This code system http://terminology.hl7.org/CodeSystem/published-in-type defines the following codes:</p>\n      \n      <table class=\"codes\">\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">\n            \n            <b>Code</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Display</b>\n          \n          </td>\n          \n          <td>\n            \n            <b>Definition</b>\n          \n          </td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">D020492\n            \n            <a name=\"published-in-type-D020492\"> </a>\n          \n          </td>\n          \n          <td>Periodical</td>\n          \n          <td>Publication intended to be issued on an ongoing basis, generally more frequently than annually, containing separate articles, stories, or writings.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">D019991\n            \n            <a name=\"published-in-type-D019991\"> </a>\n          \n          </td>\n          \n          <td>Database</td>\n          \n          <td>A structured file of information or a set of logically related data stored and retrieved using computer-based means.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">D001877\n            \n            <a name=\"published-in-type-D001877\"> </a>\n          \n          </td>\n          \n          <td>Book</td>\n          \n          <td>Non-periodical written or printed works consisting of sheets of pages fastened or bound together within covers.</td>\n        \n        </tr>\n        \n        <tr>\n          \n          <td style=\"white-space:nowrap\">D064886\n            \n            <a name=\"published-in-type-D064886\"> </a>\n          \n          </td>\n          \n          <td>Dataset</td>\n          \n          <td>Works consisting of organized collections of data, which have been stored permanently in a formalized manner suitable for communication, interpretation, or processing.</td>\n        \n        </tr>\n      \n      </table>\n    \n    </div>"
     },
     "extension": [
         {
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
         }
     ],
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "PublishedInType",
     "title": "PublishedInType",
     "status": "draft",

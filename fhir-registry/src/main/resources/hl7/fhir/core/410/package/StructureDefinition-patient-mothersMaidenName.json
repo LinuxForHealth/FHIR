@@ -12,14 +12,14 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/patient-mothersMaidenName",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "mothersMaidenName",
     "title": "Mother's Maiden Name",
     "status": "draft",
     "date": "2021-01-17T07:06:13+11:00",
     "publisher": "HL7",
     "description": "Mother's maiden (unmarried) name, commonly collected to help verify patient identity.",
-    "fhirVersion": "4.1.0",
+    "fhirVersion": "4.3.0-CIBUILD",
     "mapping": [
         {
             "identity": "v2",
@@ -110,7 +110,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "string"
+                                "valueUrl": "string"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -194,7 +194,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUri": "uri"
+                                "valueUrl": "uri"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,11 +2,11 @@
     "resourceType": "OperationDefinition",
     "id": "CapabilityStatement-implements",
     "meta": {
-        "lastUpdated": "2021-12-06T18:53:36.888Z"
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
     },
     "text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>implements</h2><p>OPERATION: implements</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-implements</pre><div><p>This operation asks the server to check that it implements all the resources, interactions, search parameters, and operations that the client provides in its capability statement. The client provides its capability statement inline, or by referring the server to the canonical URL of its capability statement</p>\n</div><p>URL: [base]/CapabilityStatement/$implements</p><p>URL: [base]/CapabilityStatement/[id]/$implements</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>server</td><td>0..1</td><td><a href=\"datatypes.html#canonical\">canonical</a></td><td/><td><div><p>A canonical reference to the server capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)</p>\n</div></td></tr><tr><td>IN</td><td>client</td><td>0..1</td><td><a href=\"datatypes.html#canonical\">canonical</a></td><td/><td><div><p>A canonical reference to the client capability statement - use this if the implements is not invoked on an instance (or on the /metadata end-point)</p>\n</div></td></tr><tr><td>IN</td><td>resource</td><td>0..1</td><td><a href=\"capabilitystatement.html\">CapabilityStatement</a></td><td/><td><div><p>The client capability statement, provided inline</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"operationoutcome.html\">OperationOutcome</a></td><td/><td><div><p>Outcome of the CapabilityStatement test</p>\n</div></td></tr></table><div><p>The operation does not perform a full conformance check; in particular it does not check that the profiles align. It merely checks that the behaviors the client wishes to use are provided    Technically, this operation is implemented as follows:</p>\n<ul>\n<li>The server's capability statement must have an entry for each resource in the client's capability statement</li>\n<li>The server's resource support must have matching flags for updateCreate, conditionalCreate, conditionalRead, conditionalUpdate, conditionalDelete, searchInclude, searchRevInclude</li>\n<li>The server's capability statement must have a matching interaction for each interaction in the client capability statement (whether or not it is on a resource)</li>\n<li>The server's capability statement must have a search parameter with matching name and definition for any search parameters in the client capability statement</li>\n<li>The server must have an operation definition with a matching reference for any operations in the client capability statement</li>\n</ul>\n<p>If the capability statements match by these rules, then the return value is a 200 OK with an operation outcome that contains no issues with severity &gt;= error. If the capability statement doesn't match, the return value is a 4xx error, with an OperationOutcome with at least one issue with severity &gt;= error</p>\n</div></div>"
     },
     "extension": [
         {
@@ -19,12 +19,12 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/CapabilityStatement-implements",
-    "version": "4.1.0",
+    "version": "4.3.0-CIBUILD",
     "name": "implements",
     "title": "Test if a server implements a client's required operations",
     "status": "draft",
     "kind": "operation",
-    "date": "2021-12-06T18:53:36Z",
+    "date": "2022-01-01T15:17:18Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
