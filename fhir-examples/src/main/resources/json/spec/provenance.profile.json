@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Provenance",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Provenance",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Provenance",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Security)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Provenance of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource. Provenance provides a critical foundation for assessing authenticity, enabling trust, and allowing reproducibility. Provenance assertions are a form of contextual metadata and can themselves become important records with their own provenance. Provenance statement indicates clinical significance in terms of confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust policies.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1511,7 +1511,7 @@
           ],
           "strength": "required",
           "description": "How an entity was used in an activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2211,7 +2211,7 @@
           ],
           "strength": "required",
           "description": "How an entity was used in an activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-CIBUILD"
         },
         "mapping": [
           {

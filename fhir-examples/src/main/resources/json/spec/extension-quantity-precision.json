@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/quantity-precision",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "precision",
   "status": "draft",
   "date": "2015-02-28",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Explicit precision of the number. This is the number of significant decimal places after the decimal point, irrespective of how many are actually present in the explicitly represented decimal.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",

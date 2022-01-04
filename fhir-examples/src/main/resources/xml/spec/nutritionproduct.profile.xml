@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="NutritionProduct"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -589,10 +589,10 @@
     <valueCode value="oo"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/NutritionProduct"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="NutritionProduct"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Orders and Observations)"/>
   <contact>
     <telecom>
@@ -607,7 +607,7 @@
     </telecom>
   </contact>
   <description value="A food or fluid product that is consumed by patients."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="rim"/>
     <uri value="http://hl7.org/v3"/>
@@ -998,7 +998,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes identifying the lifecycle stage of a product."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>
@@ -2115,7 +2115,7 @@
         </extension>
         <strength value="required"/>
         <description value="Codes identifying the lifecycle stage of a product."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/nutritionproduct-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="w5"/>

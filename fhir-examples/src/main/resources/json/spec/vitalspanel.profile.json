@@ -24,7 +24,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/vitalspanel",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "observation-vitalspanel",
   "title": "Observation Vital Signs Panel Profile",
   "status": "draft",
@@ -42,7 +42,7 @@
     }
   ],
   "description": "FHIR Vital Signs Panel Profile",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1013,7 +1013,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1155,7 +1155,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1200,7 +1200,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1253,7 +1253,7 @@
         ],
         "mustSupport": true,
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1308,7 +1308,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1354,7 +1354,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1410,7 +1410,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1643,7 +1643,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1690,7 +1690,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1831,7 +1831,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1876,7 +1876,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1928,7 +1928,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -1983,7 +1983,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -2029,7 +2029,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",
@@ -2085,7 +2085,7 @@
           }
         ],
         "isModifier": false,
-        "isSummary": true,
+        "isSummary": false,
         "mapping": [
           {
             "identity": "v2",

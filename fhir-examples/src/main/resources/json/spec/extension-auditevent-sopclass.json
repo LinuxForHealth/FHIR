@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/auditevent-SOPClass",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "SOPClass",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "Required if ParticipantObjectIDTypeCode is (110180, DCM, \"Study Instance UID\") and any of the optional fields (AccessionNumber, ContainsMPPS, NumberOfInstances, ContainsSOPInstances,Encrypted,Anonymized) are present in this Participant Object. May be present if ParticipantObjectIDTypeCode is (110180, DCM, \"Study Instance UID\") even though none of the optional fields are present.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "dicom",

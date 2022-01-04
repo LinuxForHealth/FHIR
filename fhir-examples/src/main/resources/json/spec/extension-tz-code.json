@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/tz-code",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Timezone Code",
   "title": "An IANA timezone code for  the timezone offset per BCP 175",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "An IANA timezone code for  the timezone offset per [BCP 175](https://www.iana.org/go/rfc6557). The offset is specified as part of a dateTime/instant (or using the tzOffset extension on a date if necessary). The timezone code may also be provided to allow for human display of the location associated with the offset.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -256,7 +256,7 @@
           ],
           "strength": "required",
           "description": "IANA Timezones (BCP 175)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/timezones|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/timezones|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -310,7 +310,7 @@
           ],
           "strength": "required",
           "description": "IANA Timezones (BCP 175)",
-          "valueSet": "http://hl7.org/fhir/ValueSet/timezones|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/timezones|4.3.0-CIBUILD"
         }
       }
     ]

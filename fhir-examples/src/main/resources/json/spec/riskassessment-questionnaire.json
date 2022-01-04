@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.occurrence[x]",
       "expansion": {
-        "identifier": "urn:uuid:3eae2680-b9ac-4b2d-b931-0518f26028d4",
-        "timestamp": "2021-12-06T19:04:30+00:00",
+        "identifier": "urn:uuid:11053453-9471-47bf-814f-760f70746c7e",
+        "timestamp": "2022-01-01T15:25:48+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.probability[x]",
       "expansion": {
-        "identifier": "urn:uuid:30343ea1-e209-483a-8fc8-4473ab11fcb2",
-        "timestamp": "2021-12-06T19:04:30+00:00",
+        "identifier": "urn:uuid:a907bb32-315f-4896-910d-8eaac7295043",
+        "timestamp": "2022-01-01T15:25:48+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for RiskAssessment.prediction.when[x]",
       "expansion": {
-        "identifier": "urn:uuid:609dc762-804f-4e07-8a5c-60643da4ce59",
-        "timestamp": "2021-12-06T19:04:30+00:00",
+        "identifier": "urn:uuid:5ca98358-5d09-49cb-a07b-db0c2917cf7a",
+        "timestamp": "2022-01-01T15:25:48+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {
@@ -104,6 +104,7 @@
               }
             }
           ],
+          "linkId": "RiskAssessment-flyover",
           "text": "An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.",
           "type": "display"
         },
@@ -138,6 +139,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -178,6 +180,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -214,6 +217,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -257,6 +261,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -298,6 +303,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -325,6 +331,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -352,6 +359,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -379,6 +387,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -412,6 +421,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.identifier-flyover",
               "text": "Business identifier assigned to the risk assessment.",
               "type": "display"
             },
@@ -469,6 +479,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.basedOn-flyover",
               "text": "A reference to the request that is fulfilled by this risk assessment.",
               "type": "display"
             },
@@ -522,6 +533,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.parent-flyover",
               "text": "A reference to a resource that this risk assessment is part of, such as a Procedure.",
               "type": "display"
             },
@@ -579,6 +591,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.status-flyover",
               "text": "The status of the RiskAssessment, using the same statuses as an Observation.",
               "type": "display"
             },
@@ -624,6 +637,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.method-flyover",
               "text": "The algorithm, process or mechanism used to evaluate the risk.",
               "type": "display"
             },
@@ -676,6 +690,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.code-flyover",
               "text": "The type of the risk assessment performed.",
               "type": "display"
             },
@@ -731,6 +746,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.subject-flyover",
               "text": "The patient or group the risk assessment applies to.",
               "type": "display"
             },
@@ -784,6 +800,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.encounter-flyover",
               "text": "The encounter where the assessment was performed.",
               "type": "display"
             },
@@ -834,6 +851,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.occurrence[x]-flyover",
               "text": "The date (and possibly time) the risk assessment was performed.",
               "type": "display"
             },
@@ -925,6 +943,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.condition-flyover",
               "text": "For assessments or prognosis specific to a particular condition, indicates the condition being assessed.",
               "type": "display"
             },
@@ -978,6 +997,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.performer-flyover",
               "text": "The provider or software application that performed the assessment.",
               "type": "display"
             },
@@ -1028,6 +1048,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.reasonCode-flyover",
               "text": "The reason the risk assessment was performed.",
               "type": "display"
             },
@@ -1075,6 +1096,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.reasonReference-flyover",
               "text": "Resources supporting the reason the risk assessment was performed.",
               "type": "display"
             },
@@ -1124,6 +1146,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.basis-flyover",
               "text": "Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, Conditions, etc.).",
               "type": "display"
             },
@@ -1154,6 +1177,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "RiskAssessment.prediction-display",
               "text": "Multiple repetitions can be used to identify the same type of outcome in different timeframes as well as different types of outcomes.",
               "type": "display"
             },
@@ -1172,6 +1196,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.prediction-flyover",
               "text": "Describes the expected outcome for the subject.",
               "type": "display"
             },
@@ -1206,6 +1231,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1240,6 +1266,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1267,6 +1294,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1304,6 +1332,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.outcome-flyover",
                   "text": "One of the potential outcomes for the patient (e.g. remission, death,  a particular condition).",
                   "type": "display"
                 },
@@ -1352,6 +1381,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.probability[x]-flyover",
                   "text": "Indicates how likely the outcome is (in the specified timeframe). If range is used, it represents the lower and upper bounds of certainty; e.g. 40-60%  Decimal values are expressed as percentages as well (max \u003d 100).",
                   "type": "display"
                 },
@@ -1451,6 +1481,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.qualitativeRisk-flyover",
                   "text": "Indicates how likely the outcome is (in the specified timeframe), expressed as a qualitative value (e.g. low, medium, or high).",
                   "type": "display"
                 },
@@ -1502,6 +1533,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.relativeRisk-flyover",
                   "text": "Indicates the risk for this particular subject (with their specific characteristics) divided by the risk of the population in general.  (Numbers greater than 1 \u003d higher risk than the population, numbers less than 1 \u003d lower risk.).",
                   "type": "display"
                 },
@@ -1542,6 +1574,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.when[x]-flyover",
                   "text": "Indicates the period of time or age range of the subject to which the specified probability applies. If not specified, the risk applies \"over the subject\u0027s lifespan\".",
                   "type": "display"
                 },
@@ -1648,6 +1681,7 @@
                       }
                     }
                   ],
+                  "linkId": "RiskAssessment.prediction.rationale-flyover",
                   "text": "Additional information explaining the basis for the prediction.",
                   "type": "display"
                 },
@@ -1693,6 +1727,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.mitigation-flyover",
               "text": "A description of the steps that might be taken to reduce the identified risk(s).",
               "type": "display"
             },
@@ -1733,6 +1768,7 @@
                   }
                 }
               ],
+              "linkId": "RiskAssessment.note-flyover",
               "text": "Additional comments about the risk assessment.",
               "type": "display"
             }

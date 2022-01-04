@@ -3,7 +3,7 @@
 <StructureDefinition xmlns="http://hl7.org/fhir">
   <id value="Task"/>
   <meta>
-    <lastUpdated value="2021-12-06T18:53:36.888+00:00"/>
+    <lastUpdated value="2022-01-01T15:17:18.597+00:00"/>
   </meta>
   <text>
     <status value="generated"/>
@@ -2518,10 +2518,10 @@
     <valueCode value="oo"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/Task"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="Task"/>
   <status value="draft"/>
-  <date value="2021-12-06T18:53:36+00:00"/>
+  <date value="2022-01-01T15:17:18+00:00"/>
   <publisher value="Health Level Seven International (Orders and Observations)"/>
   <contact>
     <telecom>
@@ -2536,7 +2536,7 @@
     </telecom>
   </contact>
   <description value="A task to be performed."/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -3160,7 +3160,7 @@
         </extension>
         <strength value="required"/>
         <description value="The current status of the task."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/task-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/task-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3283,7 +3283,7 @@
         </extension>
         <strength value="required"/>
         <description value="Distinguishes whether the task is a proposal, plan or full order."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/task-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/task-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -3331,7 +3331,7 @@
         </extension>
         <strength value="required"/>
         <description value="The priority of a task (may affect service level applied to the task)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -5186,7 +5186,7 @@
         </extension>
         <strength value="required"/>
         <description value="The current status of the task."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/task-status|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/task-status|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -5270,7 +5270,7 @@
         </extension>
         <strength value="required"/>
         <description value="Distinguishes whether the task is a proposal, plan or full order."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/task-intent|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/task-intent|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>
@@ -5305,7 +5305,7 @@
         </extension>
         <strength value="required"/>
         <description value="The priority of a task (may affect service level applied to the task)."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/request-priority|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="workflow"/>

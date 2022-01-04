@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/provenance-relevant-history",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Provenance Relevant History",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "Guidance on using Provenance for related history elements",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1932,7 +1932,7 @@
           ],
           "strength": "required",
           "description": "How an entity was used in an activity.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-CIBUILD"
         },
         "mapping": [
           {

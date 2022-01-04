@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "BiologicallyDerivedProduct",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/BiologicallyDerivedProduct",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "BiologicallyDerivedProduct",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A material substance originating from a biological entity intended to be transplanted or infused\ninto another (possibly the same) biological entity.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -565,7 +565,7 @@
           ],
           "strength": "required",
           "description": "Biologically Derived Product Category.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-category|4.3.0-CIBUILD"
         }
       },
       {
@@ -648,7 +648,7 @@
           ],
           "strength": "required",
           "description": "Biologically Derived Product Status.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -1830,7 +1830,7 @@
           ],
           "strength": "required",
           "description": "BiologicallyDerived Product Storage Scale.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-storage-scale|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-storage-scale|4.3.0-CIBUILD"
         }
       },
       {
@@ -1943,7 +1943,7 @@
           ],
           "strength": "required",
           "description": "Biologically Derived Product Category.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-category|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-category|4.3.0-CIBUILD"
         }
       },
       {
@@ -1996,7 +1996,7 @@
           ],
           "strength": "required",
           "description": "Biologically Derived Product Status.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-status|4.3.0-CIBUILD"
         }
       },
       {
@@ -2349,7 +2349,7 @@
           ],
           "strength": "required",
           "description": "BiologicallyDerived Product Storage Scale.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/product-storage-scale|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/product-storage-scale|4.3.0-CIBUILD"
         }
       },
       {

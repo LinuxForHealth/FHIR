@@ -20,7 +20,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-genetics",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Observation-genetics",
   "status": "draft",
   "experimental": false,
@@ -37,7 +37,7 @@
     }
   ],
   "description": "Describes how the observation resource is used to report structured genetic test results",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -1210,7 +1210,7 @@
           ],
           "strength": "required",
           "description": "Codes providing the status of an observation.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

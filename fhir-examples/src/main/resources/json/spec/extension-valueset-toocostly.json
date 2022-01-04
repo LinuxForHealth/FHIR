@@ -12,14 +12,14 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/valueset-toocostly",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "toocostly",
   "title": "Expansion Truncated",
   "status": "draft",
   "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7",
   "description": "Marks that the expansion is  incomplete, because the full value set is too large to represent, and the client asked for an incomplete fragment.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

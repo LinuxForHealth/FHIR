@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/relative-date",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Relative Date Criteria",
   "title": "Relative Date Criteria",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "Specifies that a date is relative to some event. The event happens [Duration] after [Event].",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",
@@ -574,7 +574,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -895,6 +895,9 @@
             "code": "CodeableConcept"
           },
           {
+            "code": "CodeableReference"
+          },
+          {
             "code": "Coding"
           },
           {
@@ -929,6 +932,9 @@
           },
           {
             "code": "Ratio"
+          },
+          {
+            "code": "RatioRange"
           },
           {
             "code": "Reference"
@@ -1101,7 +1107,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-CIBUILD"
         }
       },
       {

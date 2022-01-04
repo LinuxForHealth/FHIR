@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "CoverageEligibilityRequest",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/CoverageEligibilityRequest",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CoverageEligibilityRequest",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The CoverageEligibilityRequest provides patient and insurance coverage information to an insurer for them to respond, in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is valid and in-force and optionally to provide the insurance details of the policy.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "workflow",
@@ -569,7 +569,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -675,7 +675,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the types of information being requested.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2372,7 +2372,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the state of the resource instance.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -2448,7 +2448,7 @@
           ],
           "strength": "required",
           "description": "A code specifying the types of information being requested.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0-CIBUILD"
         },
         "mapping": [
           {

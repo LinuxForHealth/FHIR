@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:83aed1bd-58ae-4a2d-90c8-eb8d70f171de",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:f50fe7a7-327b-4145-b05b-cc2e59c86035",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Claim.supportingInfo.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:e18a474d-14d5-41d7-ba87-2143aec2dd78",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:b246ffbe-edf8-4f43-8c17-5a9f4a9ee221",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -70,8 +70,8 @@
       "status": "active",
       "description": "Type options for Claim.diagnosis.diagnosis[x]",
       "expansion": {
-        "identifier": "urn:uuid:16a13ff5-bfaa-460d-b758-202b20978cc6",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:828df1a3-19b9-4372-89b3-56f1f20f1601",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -93,8 +93,8 @@
       "status": "active",
       "description": "Type options for Claim.procedure.procedure[x]",
       "expansion": {
-        "identifier": "urn:uuid:322d59d4-e75f-45c0-b444-9ff9a6bc16c8",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:a839ee22-1cc5-4fe6-88e3-a20c5b0d4e6d",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -116,8 +116,8 @@
       "status": "active",
       "description": "Type options for Claim.accident.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:ab2303a3-eafd-4700-99b5-4e8458bf0146",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:4864d851-5959-4045-9fc1-8cb598635413",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -139,8 +139,8 @@
       "status": "active",
       "description": "Type options for Claim.item.serviced[x]",
       "expansion": {
-        "identifier": "urn:uuid:3979ce83-9590-4b27-87f5-00345f622858",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:902ad47b-c2b5-4f42-8b22-7b66e3e7844e",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -162,8 +162,8 @@
       "status": "active",
       "description": "Type options for Claim.item.location[x]",
       "expansion": {
-        "identifier": "urn:uuid:9048edae-ee8f-4962-bdd7-d7b549324b75",
-        "timestamp": "2021-12-06T19:02:37+00:00",
+        "identifier": "urn:uuid:82ed092f-8d58-4d2c-8cb8-cba8bc6ea2c3",
+        "timestamp": "2022-01-01T15:23:56+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -189,9 +189,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -202,6 +202,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "Claim-display",
           "text": "The Claim resource fulfills three information request requirements: Claim - a request for adjudication for reimbursement for products and/or services provided; Preauthorization - a request to authorize the future provision of products and/or services including an anticipated adjudication; and, Predetermination - a request for a non-bind adjudication of possible future products and/or services.",
           "type": "display"
         },
@@ -220,6 +221,7 @@
               }
             }
           ],
+          "linkId": "Claim-flyover",
           "text": "A provider issued list of professional services and products which have been provided, or are to be provided, to a patient which is sent to an insurer for reimbursement.",
           "type": "display"
         },
@@ -254,6 +256,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -294,6 +297,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -330,6 +334,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -373,6 +378,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -414,6 +420,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -441,6 +448,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -468,6 +476,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -495,6 +504,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -528,6 +538,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.identifier-flyover",
               "text": "A unique identifier assigned to this claim.",
               "type": "display"
             },
@@ -589,6 +600,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.status-flyover",
               "text": "The status of the resource instance. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -638,6 +650,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.type-flyover",
               "text": "The category of claim, e.g. oral, pharmacy, vision, institutional, professional. The majority of jurisdictions use: oral, pharmacy, vision, professional and institutional, or variants on those terms, as the general styles of claims. The valueset is extensible to accommodate other jurisdictional requirements.",
               "type": "display"
             },
@@ -690,6 +703,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.subType-flyover",
               "text": "A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient and/or a specialty service. This may contain the local bill type codes, for example the US UB-04 bill type code or the CMS bill type.",
               "type": "display"
             },
@@ -745,6 +759,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.use-flyover",
               "text": "A code to indicate whether the nature of the request is: to request adjudication of products and services previously rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding adjudication of the listed products and services which could be provided in the future.",
               "type": "display"
             },
@@ -793,6 +808,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.patient-flyover",
               "text": "The party to whom the professional services and/or products have been supplied or are being considered and for whom actual or forecast reimbursement is sought.",
               "type": "display"
             },
@@ -847,6 +863,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.billablePeriod-flyover",
               "text": "The period for which charges are being submitted. Typically this would be today or in the past for a claim, and today or in the future for preauthorizations and predeterminations. Typically line item dates of service should fall within the billing period if one is specified.",
               "type": "display"
             },
@@ -901,6 +918,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.created-flyover",
               "text": "The date this resource was created. This field is independent of the date of creation of the resource as it may reflect the creation date of a source document prior to digitization. Typically for claims all services must be completed as of this date.",
               "type": "display"
             },
@@ -944,6 +962,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.enterer-flyover",
               "text": "Individual who created the claim, predetermination or preauthorization.",
               "type": "display"
             },
@@ -997,6 +1016,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.insurer-flyover",
               "text": "The Insurer who is target of the request.",
               "type": "display"
             },
@@ -1054,6 +1074,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.provider-flyover",
               "text": "The provider which is responsible for the claim, predetermination or preauthorization. Typically this field would be 1..1 where this party is responsible for the claim but not necessarily professionally responsible for the provision of the individual products and services listed below.",
               "type": "display"
             },
@@ -1112,6 +1133,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.priority-flyover",
               "text": "The provider-required urgency of processing the request. Typical values include: stat, routine deferred. If a claim processor is unable to complete the processing as per the priority then they should generate and error and not process the request.",
               "type": "display"
             },
@@ -1164,6 +1186,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.fundsReserve-flyover",
               "text": "A code to indicate whether and for whom funds are to be reserved for future claims. This field is only used for preauthorizations.",
               "type": "display"
             },
@@ -1192,6 +1215,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Claim.related-display",
               "text": "For example,  for the original treatment and follow-up exams.",
               "type": "display"
             },
@@ -1210,6 +1234,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.related-flyover",
               "text": "Other claims which are related to this claim such as prior submissions or claims for related services or for the same event.",
               "type": "display"
             },
@@ -1244,6 +1269,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1278,6 +1304,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1305,6 +1332,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1341,6 +1369,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.claim-flyover",
                   "text": "Reference to a related claim.",
                   "type": "display"
                 },
@@ -1395,6 +1424,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.relationship-flyover",
                   "text": "A code to convey how the claims are related. For example, prior claim or umbrella.",
                   "type": "display"
                 },
@@ -1447,6 +1477,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.related.reference-flyover",
                   "text": "An alternate organizational reference to the case or file to which this particular claim pertains. For example, Property/Casualty insurer claim # or Workers Compensation case # .",
                   "type": "display"
                 },
@@ -1506,6 +1537,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.prescription-flyover",
               "text": "Prescription to support the dispensing of pharmacy, device or vision products.",
               "type": "display"
             },
@@ -1559,6 +1591,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.originalPrescription-flyover",
               "text": "Original prescription which has been superseded by this prescription to support the dispensing of pharmacy services, medications or products. For example, a physician may prescribe a medication which the pharmacy determines is contraindicated, or for which the patient has an intolerance, and therefore issues a new prescription for an alternate medication which has the same therapeutic intent. The prescription from the pharmacy becomes the \u0027prescription\u0027 and that from the physician becomes the \u0027original prescription\u0027.",
               "type": "display"
             },
@@ -1595,6 +1628,7 @@
           "repeats": false,
           "item": [
             {
+              "linkId": "Claim.payee-display",
               "text": "Often providers agree to receive the benefits payable to reduce the near-term costs to the patient. The insurer may decline to pay the provider and choose to pay the subscriber instead.",
               "type": "display"
             },
@@ -1613,6 +1647,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.payee-flyover",
               "text": "The party to be reimbursed for cost of the products and services according to the terms of the policy.",
               "type": "display"
             },
@@ -1647,6 +1682,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.payee.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1681,6 +1717,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.payee.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1708,6 +1745,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.payee.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1749,6 +1787,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.payee.type-flyover",
                   "text": "Type of Party to be reimbursed: subscriber, provider, other.",
                   "type": "display"
                 },
@@ -1800,6 +1839,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.payee.party-flyover",
                   "text": "Reference to the individual or organization to whom any payment will be made. Not required if the payee is \u0027subscriber\u0027 or \u0027provider\u0027.",
                   "type": "display"
                 },
@@ -1855,6 +1895,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.referral-flyover",
               "text": "A reference to a referral resource. The referral resource which lists the date, practitioner, reason and other supporting information.",
               "type": "display"
             },
@@ -1908,6 +1949,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.facility-flyover",
               "text": "Facility where the services were provided.",
               "type": "display"
             },
@@ -1952,6 +1994,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.careTeam-flyover",
               "text": "The members of the team who provided the products and services.",
               "type": "display"
             },
@@ -1986,6 +2029,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2020,6 +2064,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2047,6 +2092,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2087,6 +2133,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.sequence-flyover",
                   "text": "A number to uniquely identify care team entries.",
                   "type": "display"
                 },
@@ -2134,6 +2181,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.provider-flyover",
                   "text": "Member of the team who provided the product or service.",
                   "type": "display"
                 },
@@ -2187,6 +2235,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.responsible-flyover",
                   "text": "The party who is billing and/or responsible for the claimed products or services. Responsible might not be required when there is only a single provider listed.",
                   "type": "display"
                 },
@@ -2231,6 +2280,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.role-flyover",
                   "text": "The lead, assisting or supervising practitioner and their discipline if a multidisciplinary team. Role might not be required when there is only a single provider listed.",
                   "type": "display"
                 },
@@ -2283,6 +2333,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.careTeam.qualification-flyover",
                   "text": "The qualification of the practitioner which is applicable for this service.",
                   "type": "display"
                 },
@@ -2313,6 +2364,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Claim.supportingInfo-display",
               "text": "Often there are multiple jurisdiction specific valuesets which are required.",
               "type": "display"
             },
@@ -2331,6 +2383,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.supportingInfo-flyover",
               "text": "Additional information codes regarding exceptions, special considerations, the condition, situation, prior or concurrent issues.",
               "type": "display"
             },
@@ -2365,6 +2418,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2399,6 +2453,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2426,6 +2481,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2466,6 +2522,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.sequence-flyover",
                   "text": "A number to uniquely identify supporting information entries.",
                   "type": "display"
                 },
@@ -2514,6 +2571,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.category-flyover",
                   "text": "The general class of the information supplied: information; exception; accident, employment; onset, etc. This may contain a category for the local bill type codes.",
                   "type": "display"
                 },
@@ -2566,6 +2624,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.code-flyover",
                   "text": "System and code pertaining to the specific information regarding special conditions relating to the setting, treatment or patient  for which care is sought.",
                   "type": "display"
                 },
@@ -2614,6 +2673,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.timing[x]-flyover",
                   "text": "The date when or period to which this information refers.",
                   "type": "display"
                 },
@@ -2702,6 +2762,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.value[x]-flyover",
                   "text": "Additional data or information such as resources, documents, images etc. including references to the data or the actual inclusion of the data. Could be used to provide references to other resources, document. For example could contain a PDF in an Attachment of the Police Report for an Accident.",
                   "type": "display"
                 },
@@ -2872,6 +2933,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.supportingInfo.reason-flyover",
                   "text": "Provides the reason in the situation where a reason code is required in addition to the content. For example: the reason for the additional stay, or why a tooth is  missing.",
                   "type": "display"
                 },
@@ -2916,6 +2978,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.diagnosis-flyover",
               "text": "Information about diagnoses relevant to the claim items.",
               "type": "display"
             },
@@ -2950,6 +3013,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2984,6 +3048,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3011,6 +3076,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3051,6 +3117,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.sequence-flyover",
                   "text": "A number to uniquely identify diagnosis entries. Diagnosis are presented in list order to their expected importance: primary, secondary, etc.",
                   "type": "display"
                 },
@@ -3095,6 +3162,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.diagnosis[x]-flyover",
                   "text": "The nature of illness or problem in a coded form or as a reference to an external defined Condition.",
                   "type": "display"
                 },
@@ -3194,6 +3262,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.type-flyover",
                   "text": "When the condition was observed or the relative ranking. For example: admitting, primary, secondary, discharge.",
                   "type": "display"
                 },
@@ -3246,6 +3315,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.onAdmission-flyover",
                   "text": "Indication of whether the diagnosis was present on admission to a facility.",
                   "type": "display"
                 },
@@ -3298,6 +3368,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.diagnosis.packageCode-flyover",
                   "text": "A package billing code or bundle code used to group products and services to a particular health condition (such as heart attack) which is based on a predetermined grouping code system. For example DRG (Diagnosis Related Group) or a bundled billing code. A patient may have a diagnosis of a Myocardial Infarction and a DRG for HeartAttack would be assigned. The Claim item (and possible subsequent claims) would refer to the DRG for those line items that were for services related to the heart attack event.",
                   "type": "display"
                 },
@@ -3342,6 +3413,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.procedure-flyover",
               "text": "Procedures performed on the patient relevant to the billing items with the claim.",
               "type": "display"
             },
@@ -3376,6 +3448,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3410,6 +3483,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3437,6 +3511,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3477,6 +3552,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.sequence-flyover",
                   "text": "A number to uniquely identify procedure entries.",
                   "type": "display"
                 },
@@ -3517,6 +3593,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.type-flyover",
                   "text": "When the condition was observed or the relative ranking. For example: primary, secondary.",
                   "type": "display"
                 },
@@ -3568,6 +3645,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.date-flyover",
                   "text": "Date and optionally time the procedure was performed.",
                   "type": "display"
                 },
@@ -3612,6 +3690,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.procedure[x]-flyover",
                   "text": "The code or reference to a Procedure resource which identifies the clinical intervention performed.",
                   "type": "display"
                 },
@@ -3710,6 +3789,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.procedure.udi-flyover",
                   "text": "Unique Device Identifiers associated with this line item.",
                   "type": "display"
                 },
@@ -3748,6 +3828,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Claim.insurance-display",
               "text": "All insurance coverages for the patient which may be applicable for reimbursement, of the products and services listed in the claim, are typically provided in the claim to allow insurers to confirm the ordering of the insurance coverages relative to local \u0027coordination of benefit\u0027 rules. One coverage (and only one) with \u0027focal\u003dtrue\u0027 is to be used in the adjudication of this claim. Coverages appearing before the focal Coverage in the list, and where \u0027Coverage.subrogation\u003dfalse\u0027, should provide a reference to the ClaimResponse containing the adjudication results of the prior claim.",
               "type": "display"
             },
@@ -3766,6 +3847,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.insurance-flyover",
               "text": "Financial instruments for reimbursement for the health care products and services specified on the claim.",
               "type": "display"
             },
@@ -3800,6 +3882,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -3834,6 +3917,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3861,6 +3945,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -3901,6 +3986,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.sequence-flyover",
                   "text": "A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit order.",
                   "type": "display"
                 },
@@ -3948,6 +4034,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.focal-flyover",
                   "text": "A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true. A patient may (will) have multiple insurance policies which provide reimbursement for healthcare services and products. For example a person may also be covered by their spouse\u0027s policy and both appear in the list (and may be from the same insurer). This flag will be set to true for only one of the listed policies and that policy will be used for adjudicating this claim. Other claims would be created to request adjudication against the other listed policies.",
                   "type": "display"
                 },
@@ -3992,6 +4079,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.identifier-flyover",
                   "text": "The business identifier to be used when the claim is sent for adjudication against this insurance policy. Only required in jurisdictions where insurers, rather than the provider, are required to send claims to  insurers that appear after them in the list. This element is not required when \u0027subrogation\u003dtrue\u0027.",
                   "type": "display"
                 },
@@ -4053,6 +4141,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.coverage-flyover",
                   "text": "Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer will use these details to locate the patient\u0027s actual coverage within the insurer\u0027s information system.",
                   "type": "display"
                 },
@@ -4106,6 +4195,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.businessArrangement-flyover",
                   "text": "A business agreement number established between the provider and the insurer for special business processing purposes.",
                   "type": "display"
                 },
@@ -4145,6 +4235,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.preAuthRef-flyover",
                   "text": "Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing services or products related to the prior authorization. This value is an alphanumeric string that may be provided over the phone, via text, via paper, or within a ClaimResponse resource and is not a FHIR Identifier.",
                   "type": "display"
                 },
@@ -4188,6 +4279,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.insurance.claimResponse-flyover",
                   "text": "The result of the adjudication of the line items for the Coverage specified in this insurance. Must not be specified when \u0027focal\u003dtrue\u0027 for this insurance.",
                   "type": "display"
                 },
@@ -4240,6 +4332,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.accident-flyover",
               "text": "Details of an accident which resulted in injuries which required the products and services listed in the claim.",
               "type": "display"
             },
@@ -4274,6 +4367,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4308,6 +4402,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4335,6 +4430,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4375,6 +4471,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.date-flyover",
                   "text": "Date of an accident event  related to the products and services contained in the claim. The date of the accident has to precede the dates of the products and services but within a reasonable timeframe.",
                   "type": "display"
                 },
@@ -4419,6 +4516,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.type-flyover",
                   "text": "The type or context of the accident event for the purposes of selection of potential insurance coverages and determination of coordination between insurers.",
                   "type": "display"
                 },
@@ -4467,6 +4565,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.accident.location[x]-flyover",
                   "text": "The physical location of the accident event.",
                   "type": "display"
                 },
@@ -4597,6 +4696,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.item-flyover",
               "text": "A claim line. Either a simple  product or service or a \u0027group\u0027 of details which can each be a simple items or groups of sub-details.",
               "type": "display"
             },
@@ -4631,6 +4731,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -4665,6 +4766,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4692,6 +4794,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -4732,6 +4835,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.sequence-flyover",
                   "text": "A number to uniquely identify item entries.",
                   "type": "display"
                 },
@@ -4771,6 +4875,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.careTeamSequence-flyover",
                   "text": "CareTeam members related to this service or product.",
                   "type": "display"
                 },
@@ -4810,6 +4915,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.diagnosisSequence-flyover",
                   "text": "Diagnosis applicable for this service or product.",
                   "type": "display"
                 },
@@ -4849,6 +4955,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.procedureSequence-flyover",
                   "text": "Procedures applicable for this service or product.",
                   "type": "display"
                 },
@@ -4888,6 +4995,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.informationSequence-flyover",
                   "text": "Exceptions, special conditions and supporting information applicable for this service or product.",
                   "type": "display"
                 },
@@ -4932,6 +5040,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.revenue-flyover",
                   "text": "The type of revenue or cost center providing the product and/or service.",
                   "type": "display"
                 },
@@ -4984,6 +5093,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.category-flyover",
                   "text": "Code to identify the general type of benefits under which products and services are provided. Examples include Medical Care, Periodontics, Renal Dialysis, Vision Coverage.",
                   "type": "display"
                 },
@@ -5040,6 +5150,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.productOrService-flyover",
                   "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                   "type": "display"
                 },
@@ -5088,6 +5199,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.modifier-flyover",
                   "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or outside of office hours.",
                   "type": "display"
                 },
@@ -5136,6 +5248,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.programCode-flyover",
                   "text": "Identifies the program under which this may be recovered. For example: Neonatal program, child dental program or drug users recovery program.",
                   "type": "display"
                 },
@@ -5184,6 +5297,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.serviced[x]-flyover",
                   "text": "The date or dates when the service or product was supplied, performed or completed.",
                   "type": "display"
                 },
@@ -5272,6 +5386,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.location[x]-flyover",
                   "text": "Where the product or service was provided.",
                   "type": "display"
                 },
@@ -5437,6 +5552,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.quantity-flyover",
                   "text": "The number of repetitions of a service or product.",
                   "type": "display"
                 },
@@ -5510,6 +5626,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.unitPrice-flyover",
                   "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                   "type": "display"
                 },
@@ -5582,6 +5699,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.factor-flyover",
                   "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                   "type": "display"
                 },
@@ -5626,6 +5744,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.net-flyover",
                   "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                   "type": "display"
                 },
@@ -5694,6 +5813,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.udi-flyover",
                   "text": "Unique Device Identifiers associated with this line item.",
                   "type": "display"
                 },
@@ -5748,6 +5868,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.bodySite-flyover",
                   "text": "Physical service site on the patient (limb, tooth, etc.). For example: Providing a tooth code, allows an insurer to identify a provider performing a filling on a tooth that was previously removed.",
                   "type": "display"
                 },
@@ -5796,6 +5917,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.subSite-flyover",
                   "text": "A region or surface of the bodySite, e.g. limb region or tooth surface(s).",
                   "type": "display"
                 },
@@ -5843,6 +5965,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.encounter-flyover",
                   "text": "The Encounters during which this Claim was created or to which the creation of this record is tightly associated. This will typically be the encounter the event occurred within, but some activities may be initiated prior to or after the official completion of an encounter but still be tied to the context of the encounter.",
                   "type": "display"
                 },
@@ -5887,6 +6010,7 @@
                       }
                     }
                   ],
+                  "linkId": "Claim.item.detail-flyover",
                   "text": "A claim detail line. Either a simple (a product or service) or a \u0027group\u0027 of sub-details which are simple items.",
                   "type": "display"
                 },
@@ -5921,6 +6045,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -5955,6 +6080,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -5982,6 +6108,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -6022,6 +6149,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.sequence-flyover",
                       "text": "A number to uniquely identify item entries.",
                       "type": "display"
                     },
@@ -6066,6 +6194,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.revenue-flyover",
                       "text": "The type of revenue or cost center providing the product and/or service.",
                       "type": "display"
                     },
@@ -6118,6 +6247,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.category-flyover",
                       "text": "Code to identify the general type of benefits under which products and services are provided. Examples include Medical Care, Periodontics, Renal Dialysis, Vision Coverage.",
                       "type": "display"
                     },
@@ -6174,6 +6304,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.productOrService-flyover",
                       "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                       "type": "display"
                     },
@@ -6222,6 +6353,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.modifier-flyover",
                       "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or out of office hours.",
                       "type": "display"
                     },
@@ -6270,6 +6402,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.programCode-flyover",
                       "text": "Identifies the program under which this may be recovered. For example: Neonatal program, child dental program or drug users recovery program.",
                       "type": "display"
                     },
@@ -6322,6 +6455,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.quantity-flyover",
                       "text": "The number of repetitions of a service or product.",
                       "type": "display"
                     },
@@ -6395,6 +6529,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.unitPrice-flyover",
                       "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                       "type": "display"
                     },
@@ -6467,6 +6602,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.factor-flyover",
                       "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                       "type": "display"
                     },
@@ -6511,6 +6647,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.net-flyover",
                       "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                       "type": "display"
                     },
@@ -6579,6 +6716,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.udi-flyover",
                       "text": "Unique Device Identifiers associated with this line item.",
                       "type": "display"
                     },
@@ -6623,6 +6761,7 @@
                           }
                         }
                       ],
+                      "linkId": "Claim.item.detail.subDetail-flyover",
                       "text": "A claim detail line. Either a simple (a product or service) or a \u0027group\u0027 of sub-details which are simple items.",
                       "type": "display"
                     },
@@ -6657,6 +6796,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -6691,6 +6831,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -6718,6 +6859,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -6758,6 +6900,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.sequence-flyover",
                           "text": "A number to uniquely identify item entries.",
                           "type": "display"
                         },
@@ -6802,6 +6945,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.revenue-flyover",
                           "text": "The type of revenue or cost center providing the product and/or service.",
                           "type": "display"
                         },
@@ -6854,6 +6998,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.category-flyover",
                           "text": "Code to identify the general type of benefits under which products and services are provided. Examples include Medical Care, Periodontics, Renal Dialysis, Vision Coverage.",
                           "type": "display"
                         },
@@ -6910,6 +7055,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.productOrService-flyover",
                           "text": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item. If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. \u0027glasses\u0027 or \u0027compound\u0027.",
                           "type": "display"
                         },
@@ -6958,6 +7104,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.modifier-flyover",
                           "text": "Item typification or modifiers codes to convey additional context for the product or service. For example in Oral whether the treatment is cosmetic or associated with TMJ, or for Medical whether the treatment was outside the clinic or out of office hours.",
                           "type": "display"
                         },
@@ -7006,6 +7153,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.programCode-flyover",
                           "text": "Identifies the program under which this may be recovered. For example: Neonatal program, child dental program or drug users recovery program.",
                           "type": "display"
                         },
@@ -7058,6 +7206,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.quantity-flyover",
                           "text": "The number of repetitions of a service or product.",
                           "type": "display"
                         },
@@ -7131,6 +7280,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.unitPrice-flyover",
                           "text": "If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees for the details of the group.",
                           "type": "display"
                         },
@@ -7203,6 +7353,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.factor-flyover",
                           "text": "A real number that represents a multiplier used in determining the overall value of services delivered and/or goods received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount. To show a 10% senior\u0027s discount, the value entered is: 0.90 (1.00 - 0.10).",
                           "type": "display"
                         },
@@ -7247,6 +7398,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.net-flyover",
                           "text": "The quantity times the unit price for an additional service or product or charge. For example, the formula: quantity * unitPrice * factor  \u003d net. Quantity and factor are assumed to be 1 if not supplied.",
                           "type": "display"
                         },
@@ -7315,6 +7467,7 @@
                               }
                             }
                           ],
+                          "linkId": "Claim.item.detail.subDetail.udi-flyover",
                           "text": "Unique Device Identifiers associated with this line item.",
                           "type": "display"
                         },
@@ -7375,6 +7528,7 @@
                   }
                 }
               ],
+              "linkId": "Claim.total-flyover",
               "text": "The total value of the all the items in the claim.",
               "type": "display"
             },

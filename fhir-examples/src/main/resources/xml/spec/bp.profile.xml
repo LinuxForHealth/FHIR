@@ -19,7 +19,7 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/bp"/>
-  <version value="4.1.0"/>
+  <version value="4.3.0-CIBUILD"/>
   <name value="observation-bp"/>
   <title value="Observation Blood Pressure Profile"/>
   <status value="draft"/>
@@ -33,7 +33,7 @@
     </telecom>
   </contact>
   <description value="FHIR Blood Pressure Profile"/>
-  <fhirVersion value="4.1.0"/>
+  <fhirVersion value="4.3.0-CIBUILD"/>
   <mapping>
     <identity value="workflow"/>
     <uri value="http://hl7.org/fhir/workflow"/>
@@ -840,7 +840,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -954,7 +954,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.3"/>
@@ -992,7 +992,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.7"/>
@@ -1035,7 +1035,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1"/>
@@ -1079,7 +1079,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.2 - but note this is not well followed"/>
@@ -1118,7 +1118,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="Sometimes implied by being first"/>
@@ -1163,7 +1163,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.9. But note many systems use C*E.2 for this"/>
@@ -1352,7 +1352,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -1392,7 +1392,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -1505,7 +1505,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.3"/>
@@ -1543,7 +1543,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.7"/>
@@ -1585,7 +1585,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1"/>
@@ -1629,7 +1629,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.2 - but note this is not well followed"/>
@@ -1668,7 +1668,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="Sometimes implied by being first"/>
@@ -1713,7 +1713,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.9. But note many systems use C*E.2 for this"/>
@@ -3661,7 +3661,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -3701,7 +3701,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -3814,7 +3814,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.3"/>
@@ -3852,7 +3852,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.7"/>
@@ -3894,7 +3894,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1"/>
@@ -3938,7 +3938,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.2 - but note this is not well followed"/>
@@ -3977,7 +3977,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="Sometimes implied by being first"/>
@@ -4022,7 +4022,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.9. But note many systems use C*E.2 for this"/>
@@ -4191,7 +4191,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="SN.2  / CQ - N/A"/>
@@ -4227,7 +4227,7 @@
       </constraint>
       <isModifier value="true"/>
       <isModifierReason value="This is labeled as &quot;Is Modifier&quot; because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <binding>
         <extension url="http://hl7.org/fhir/build/StructureDefinition/binding-definition">
           <valueString value="How the Quantity should be understood and represented."/>
@@ -4236,7 +4236,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -4278,7 +4278,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>
@@ -4315,7 +4315,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>
@@ -4355,7 +4355,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>
@@ -4819,7 +4819,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -4859,7 +4859,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1-8, C*E.10-22"/>
@@ -4972,7 +4972,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.3"/>
@@ -5010,7 +5010,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.7"/>
@@ -5052,7 +5052,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.1"/>
@@ -5096,7 +5096,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.2 - but note this is not well followed"/>
@@ -5135,7 +5135,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="Sometimes implied by being first"/>
@@ -5180,7 +5180,7 @@
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="C*E.9. But note many systems use C*E.2 for this"/>
@@ -5349,7 +5349,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="SN.2  / CQ - N/A"/>
@@ -5385,7 +5385,7 @@
       </constraint>
       <isModifier value="true"/>
       <isModifierReason value="This is labeled as &quot;Is Modifier&quot; because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <binding>
         <extension url="http://hl7.org/fhir/build/StructureDefinition/binding-definition">
           <valueString value="How the Quantity should be understood and represented."/>
@@ -5394,7 +5394,7 @@
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.1.0"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-CIBUILD"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -5436,7 +5436,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>
@@ -5473,7 +5473,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>
@@ -5513,7 +5513,7 @@
       </constraint>
       <mustSupport value="true"/>
       <isModifier value="false"/>
-      <isSummary value="true"/>
+      <isSummary value="false"/>
       <mapping>
         <identity value="v2"/>
         <map value="(see OBX.6 etc.) / CQ.2"/>

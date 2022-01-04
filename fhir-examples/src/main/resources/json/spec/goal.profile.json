@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "Goal",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/Goal",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Goal",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -570,7 +570,7 @@
           ],
           "strength": "required",
           "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1603,7 +1603,7 @@
           ],
           "strength": "required",
           "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {

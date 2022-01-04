@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: active</p><p><b>role</b>: ActiveBase <span> (ingredientRole#ActiveBase)</span></p><h3>Manufacturers</h3><table><tr><td>-</td><td><b>Manufacturer</b></td></tr><tr><td>*</td><td><a>Organization/example</a></td></tr></table><blockquote><p><b>substance</b></p></blockquote><p><b>Exception generating Narrative: Unknown type </b></p></div></text><status value="active"/> 
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>status</b>: active</p><p><b>role</b>: ActiveBase <span> (ingredientRole#ActiveBase)</span></p><h3>Manufacturers</h3><table><tr><td>-</td><td><b>Manufacturer</b></td></tr><tr><td>*</td><td><a>Organization/example</a></td></tr></table><blockquote><p><b>substance</b></p><h3>Strengths</h3><table><tr><td>-</td><td><b>Presentation[x]</b></td></tr><tr><td>*</td><td/></tr></table></blockquote></div></text><status value="active"/> 
 	<role>
 		<coding>
 			<system value="http://ema.europa.eu/example/ingredientRole"/>
@@ -32,10 +32,14 @@
 				<numerator>
 					<value value="2.5"/>
 					<unit value="mg"/>
+					<system value="http://unitsofmeasure.org"/> 
+					<code value="mg"/>
 				</numerator>
 				<denominator>
 					<value value="1"/>
-					<unit value="{tablet}"/>
+					<unit value="tablet"/>
+					<system value="http://unitsofmeasure.org"/> 
+					<code value="{tablet}"/>
 				</denominator>
 			</presentation>
 		</strength>

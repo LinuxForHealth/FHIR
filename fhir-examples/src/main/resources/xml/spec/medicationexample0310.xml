@@ -7,13 +7,15 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "med0310" </p></div><p><b>code</b>: Oral Form Oxycodone (product) <span> (<a>SNOMED CT</a>#430127000)</span></p><p><b>form</b>: Tablet dose form (qualifier value) <span> (<a>SNOMED CT</a>#385055001)</span></p><h3>Ingredients</h3><table><tr><td>-</td><td><b>Item[x]</b></td><td><b>Strength</b></td></tr><tr><td>*</td><td><a> </a><blockquote><div><p>Resource "sub03" </p></div><p><b>code</b>: </p><p><b>Exception generating Narrative: Unknown Content system @  START_TAG seen .../hl7.org/fhir"&gt;\n          &lt;system value="http://snomed.info/sct"/&gt;... @2:51</b></p></blockquote></td><td>5 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></td></tr></table></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "med0310" </p></div><p><b>code</b>: Oral Form Oxycodone (product) <span> (<a>SNOMED CT</a>#430127000)</span></p><p><b>form</b>: Tablet dose form (qualifier value) <span> (<a>SNOMED CT</a>#385055001)</span></p><h3>Ingredients</h3><table><tr><td>-</td><td><b>Item[x]</b></td><td><b>Strength</b></td></tr><tr><td>*</td><td><a> </a><blockquote><div><p>Resource "sub03" </p></div><p><b>code</b>: Oxycodone (substance) <span> (<a>SNOMED CT</a>#55452001)</span></p></blockquote></td><td>5 mg<span> (Details: UCUM code mg = 'mg')</span>/1 TAB<span> (Details: http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm code TAB = 'Tablet')</span></td></tr></table></div></text><contained>
     <Substance>
       <id value="sub03"/>
       <code>
+        <coding>
           <system value="http://snomed.info/sct"/>
           <code value="55452001"/>
           <display value="Oxycodone (substance)"/>
+        </coding>
       </code>
     </Substance>
   </contained>

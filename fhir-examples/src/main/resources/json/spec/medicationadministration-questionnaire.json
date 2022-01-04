@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:b8dbfa32-384f-474a-9551-06177bb569f6",
-        "timestamp": "2021-12-06T19:03:43+00:00",
+        "identifier": "urn:uuid:0c9b763a-20df-4c7d-b922-8b9bda917fc8",
+        "timestamp": "2022-01-01T15:25:01+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.effective[x]",
       "expansion": {
-        "identifier": "urn:uuid:63872512-056c-4785-9066-ddf4054fffdd",
-        "timestamp": "2021-12-06T19:03:43+00:00",
+        "identifier": "urn:uuid:9d838144-87c1-40de-8735-374849d12c34",
+        "timestamp": "2022-01-01T15:25:01+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for MedicationAdministration.dosage.rate[x]",
       "expansion": {
-        "identifier": "urn:uuid:e6650e02-d1a2-418c-84ab-ec11e63d07e5",
-        "timestamp": "2021-12-06T19:03:43+00:00",
+        "identifier": "urn:uuid:e3545cb1-547d-46bd-9ebb-0f3131815258",
+        "timestamp": "2022-01-01T15:25:01+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {
@@ -104,6 +104,7 @@
               }
             }
           ],
+          "linkId": "MedicationAdministration-flyover",
           "text": "Describes the event of a patient consuming or otherwise being administered a medication.  This may be as simple as swallowing a tablet or it may be a long running infusion.  Related resources tie this event to the authorizing prescription, and the specific encounter between patient and health care practitioner.",
           "type": "display"
         },
@@ -138,6 +139,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -178,6 +180,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -214,6 +217,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -257,6 +261,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -298,6 +303,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -325,6 +331,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -352,6 +359,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -379,6 +387,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -412,6 +421,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.identifier-flyover",
               "text": "Identifiers associated with this Medication Administration that are defined by business processes and/or used to refer to it when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to this resource by the performer or other systems and remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier.",
               "type": "display"
             },
@@ -465,6 +475,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.instantiates-flyover",
               "text": "A protocol, guideline, orderset, or other definition that was adhered to in whole or in part by this event.",
               "type": "display"
             },
@@ -504,6 +515,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.partOf-flyover",
               "text": "A larger event of which this particular event is a component or step.",
               "type": "display"
             },
@@ -561,6 +573,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.status-flyover",
               "text": "Will generally be set to show that the administration has been completed.  For some long running administrations such as infusions, it is possible for an administration to be started but not completed or it may be paused while some other process is under way. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -602,6 +615,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.statusReason-flyover",
               "text": "A code indicating why the administration was not performed.",
               "type": "display"
             },
@@ -654,6 +668,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.category-flyover",
               "text": "Indicates where the medication is expected to be consumed or administered.",
               "type": "display"
             },
@@ -706,6 +721,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.medication[x]-flyover",
               "text": "Identifies the medication that was administered. This is either a link to a resource representing the details of the medication or a simple attribute carrying a code that identifies the medication from a known list of medications. If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the medication resource is recommended.  For example, if you require form or lot number, then you must reference the Medication resource.",
               "type": "display"
             },
@@ -812,6 +828,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.subject-flyover",
               "text": "The person or animal or group receiving the medication.",
               "type": "display"
             },
@@ -865,6 +882,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.context-flyover",
               "text": "The visit, admission, or other contact between patient and health care provider during which the medication administration was performed.",
               "type": "display"
             },
@@ -914,6 +932,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.supportingInformation-flyover",
               "text": "Additional information (for example, patient height and weight) that supports the administration of the medication.",
               "type": "display"
             },
@@ -968,6 +987,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.effective[x]-flyover",
               "text": "A specific date/time or interval of time during which the administration took place (or did not take place, when the \u0027notGiven\u0027 attribute is true). For many administrations, such as swallowing a tablet the use of dateTime is more appropriate.",
               "type": "display"
             },
@@ -1050,6 +1070,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.performer-flyover",
               "text": "Indicates who or what performed the medication administration and how they were involved.",
               "type": "display"
             },
@@ -1084,6 +1105,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.performer.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1118,6 +1140,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.performer.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1145,6 +1168,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.performer.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1182,6 +1206,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.performer.function-flyover",
                   "text": "Distinguishes the type of involvement of the performer in the medication administration.",
                   "type": "display"
                 },
@@ -1237,6 +1262,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.performer.actor-flyover",
                   "text": "Indicates who or what performed the medication administration.",
                   "type": "display"
                 },
@@ -1289,6 +1315,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.reasonCode-flyover",
               "text": "A code indicating why the medication was given.",
               "type": "display"
             },
@@ -1336,6 +1363,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.reasonReference-flyover",
               "text": "Condition or observation that supports why the medication was administered. This is a reference to a condition that is the reason for the medication request.  If only a code exists, use reasonCode.",
               "type": "display"
             },
@@ -1389,6 +1417,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.request-flyover",
               "text": "The original request, instruction or authority to perform the administration. This is a reference to the MedicationRequest  where the intent is either order or instance-order.  It should not reference MedicationRequests where the intent is any other value.",
               "type": "display"
             },
@@ -1438,6 +1467,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.device-flyover",
               "text": "The device used in administering the medication to the patient.  For example, a particular infusion pump.",
               "type": "display"
             },
@@ -1488,6 +1518,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.note-flyover",
               "text": "Extra information about the medication administration that is not conveyed by the other attributes.",
               "type": "display"
             }
@@ -1521,6 +1552,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.dosage-flyover",
               "text": "Describes the medication dosage information details e.g. dose, rate, site, route, etc.",
               "type": "display"
             },
@@ -1555,6 +1587,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1589,6 +1622,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1616,6 +1650,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1652,6 +1687,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.text-flyover",
                   "text": "Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is present, the free text dosage may still be present for display to humans.\r\rThe dosage instructions should reflect the dosage of the medication that was administered.",
                   "type": "display"
                 },
@@ -1696,6 +1732,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.site-flyover",
                   "text": "A coded specification of the anatomic site where the medication first entered the body.  For example, \"left arm\". If the use case requires attributes from the BodySite resource (e.g. to identify and track separately) then use the standard extension [bodySite](extension-bodysite.html).  May be a summary code, or a reference to a very precise definition of the location, or both.",
                   "type": "display"
                 },
@@ -1748,6 +1785,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.route-flyover",
                   "text": "A code specifying the route or physiological path of administration of a therapeutic agent into or onto the patient.  For example, topical, intravenous, etc.",
                   "type": "display"
                 },
@@ -1800,6 +1838,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.method-flyover",
                   "text": "A coded value indicating the method by which the medication is intended to be or was introduced into or on the body.  This attribute will most often NOT be populated.  It is most commonly used for injections.  For example, Slow Push, Deep IV. One of the reasons this attribute is not used often, is that the method is often pre-coordinated with the route and/or form of administration.  This means the codes used in route or form may pre-coordinate the method in the route code or the form code.  The implementation decision about what coding system to use for route or form code will determine how frequently the method code will be populated e.g. if route or form code pre-coordinate method code, then this attribute will not be populated often; if there is no pre-coordination then method code may  be used frequently.",
                   "type": "display"
                 },
@@ -1852,6 +1891,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.dose-flyover",
                   "text": "The amount of the medication given at one administration event.   Use this value when the administration is essentially an instantaneous event such as a swallowing a tablet or giving an injection. If the administration is not instantaneous (rate is present), this can be specified to convey the total amount administered over period of time of a single administration.",
                   "type": "display"
                 },
@@ -1921,6 +1961,7 @@
                       }
                     }
                   ],
+                  "linkId": "MedicationAdministration.dosage.rate[x]-flyover",
                   "text": "Identifies the speed with which the medication was or will be introduced into the patient.  Typically, the rate for an infusion e.g. 100 ml per 1 hour or 100 ml/hr.  May also be expressed as a rate per unit of time, e.g. 500 ml per 2 hours.  Other examples:  200 mcg/min or 200 mcg/1 minute; 1 liter/8 hours. If the rate changes over time, and you want to capture this in MedicationAdministration, then each change should be captured as a distinct MedicationAdministration, with a specific MedicationAdministration.dosage.rate, and the date time when the rate change occurred. Typically, the MedicationAdministration.dosage.rate element is not used to convey an average rate.",
                   "type": "display"
                 },
@@ -2047,6 +2088,7 @@
                   }
                 }
               ],
+              "linkId": "MedicationAdministration.eventHistory-flyover",
               "text": "A summary of the events of interest that have occurred, such as when the administration was verified. This might not include provenances for all versions of the request – only those deemed “relevant” or important. This SHALL NOT include the Provenance associated with this current version of the resource. (If that provenance is deemed to be a “relevant” change, it will need to be added as part of a later update. Until then, it can be queried directly as the Provenance that points to this version using _revinclude All Provenances should have some historical version of this Request as their subject.",
               "type": "display"
             },

@@ -6,11 +6,11 @@
     "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eBase FHIR Capability Statement (Empty)\u003c/h2\u003e\u003cdiv\u003e\u003cp\u003eThis is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement\u003c/p\u003e\n\u003c/div\u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003eMode\u003c/td\u003e\u003ctd\u003eSERVER\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eDescription\u003c/td\u003e\u003ctd\u003e\u003cdiv\u003e\u003cp\u003eAn empty Capability Statement\u003c/p\u003e\n\u003c/div\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eTransaction\u003c/td\u003e\u003ctd\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eSystem History\u003c/td\u003e\u003ctd\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eSystem Search\u003c/td\u003e\u003ctd\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003ctable\u003e\u003ctr\u003e\u003cth\u003e\u003cb\u003eResource Type\u003c/b\u003e\u003c/th\u003e\u003cth\u003e\u003cb\u003eProfile\u003c/b\u003e\u003c/th\u003e\u003cth\u003e\u003cb title\u003d\"GET a resource (read interaction)\"\u003eRead\u003c/b\u003e\u003c/th\u003e\u003cth\u003e\u003cb title\u003d\"GET all set of resources of the type (search interaction)\"\u003eSearch\u003c/b\u003e\u003c/th\u003e\u003cth\u003e\u003cb title\u003d\"PUT a new resource version (update interaction)\"\u003eUpdate\u003c/b\u003e\u003c/th\u003e\u003cth\u003e\u003cb title\u003d\"POST a new resource (create interaction)\"\u003eCreate\u003c/b\u003e\u003c/th\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
   },
   "url": "http://hl7.org/fhir/CapabilityStatement/base2",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "Base FHIR Capability Statement (Empty)",
   "status": "draft",
   "experimental": true,
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "FHIR Project Team",
   "contact": [
     {
@@ -27,7 +27,7 @@
   "software": {
     "name": "Insert your software name here..."
   },
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "format": [
     "xml",
     "json"

@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>identifier</b>: id: {PCID}</p><p><b>description</b>: ALU-PVC/PVDC BLISTERS. CARTONS OF 10 FILM-COATED TABLETS.</p><blockquote><p><b>package</b></p><p><b>type</b>: Carton <span> (packageitemcontainertype#Carton)</span></p><p><b>quantity</b>: 1</p><p><b>material</b>: Paperboard <span> (packageItemContainerMaterial#Paperboard)</span></p><p><b>manufacturer</b>: <a>Organization/example</a></p><blockquote><p><b>property</b></p><p><b>type</b>: height <span> ([not stated]#height)</span></p><p><b>value</b>: 50 mm</p></blockquote><blockquote><p><b>property</b></p><p><b>type</b>: width <span> ([not stated]#width)</span></p><p><b>value</b>: 45 mm</p></blockquote><blockquote><p><b>property</b></p><p><b>type</b>: depth <span> ([not stated]#depth)</span></p><p><b>value</b>: 23.5 mm</p></blockquote></blockquote></div></text><identifier>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "example" </p></div><p><b>identifier</b>: id: {PCID}</p><p><b>description</b>: ALU-PVC/PVDC BLISTERS. CARTONS OF 10 FILM-COATED TABLETS.</p><blockquote><p><b>package</b></p><p><b>type</b>: Carton <span> (packageitemcontainertype#Carton)</span></p><p><b>quantity</b>: 1</p><p><b>material</b>: Paperboard <span> (packageItemContainerMaterial#Paperboard)</span></p><p><b>manufacturer</b>: <a>Organization/example</a></p><blockquote><p><b>property</b></p><p><b>type</b>: height <span> ([not stated]#height)</span></p><p><b>value</b>: 50 mm<span> (Details: UCUM code mm = 'mm')</span></p></blockquote><blockquote><p><b>property</b></p><p><b>type</b>: width <span> ([not stated]#width)</span></p><p><b>value</b>: 45 mm<span> (Details: UCUM code mm = 'mm')</span></p></blockquote><blockquote><p><b>property</b></p><p><b>type</b>: depth <span> ([not stated]#depth)</span></p><p><b>value</b>: 23.5 mm<span> (Details: UCUM code mm = 'mm')</span></p></blockquote></blockquote></div></text><identifier>
 		<system value="http://ema.europa.eu/example/pcid"/>
 		<value value="{PCID}"/>
 	</identifier>
@@ -40,6 +40,8 @@
 			<valueQuantity>
 				<value value="50"/>
 				<unit value="mm"/>
+				<system value="http://unitsofmeasure.org"/> 
+				<code value="mm"/>
 			</valueQuantity>
 		</property>
 		<property>
@@ -51,6 +53,8 @@
 			<valueQuantity>
 				<value value="45"/>
 				<unit value="mm"/>
+				<system value="http://unitsofmeasure.org"/> 
+				<code value="mm"/>
 			</valueQuantity>
 		</property>
 		<property>
@@ -62,6 +66,8 @@
 			<valueQuantity>
 				<value value="23.5"/>
 				<unit value="mm"/>
+				<system value="http://unitsofmeasure.org"/> 
+				<code value="mm"/>
 			</valueQuantity>
 		</property>
 		<!--   inner packaging   -->
@@ -100,7 +106,9 @@
 				</type>
 				<periodDuration>
 					<value value="3"/>
-					<unit value="a"/>
+					<unit value="year"/>
+					<system value="http://unitsofmeasure.org"/> 
+					<code value="a"/>
 				</periodDuration>
 				<specialPrecautionsForStorage>
 					<coding>
@@ -121,6 +129,8 @@
 				<valueQuantity>
 					<value value="45"/>
 					<unit value="mm"/>
+					<system value="http://unitsofmeasure.org"/> 
+					<code value="mm"/>
 				</valueQuantity>
 			</property>
 			<property>
@@ -132,6 +142,8 @@
 				<valueQuantity>
 					<value value="35"/>
 					<unit value="mm"/>
+					<system value="http://unitsofmeasure.org"/> 
+					<code value="mm"/>
 				</valueQuantity>
 			</property>
 			<containedItem>

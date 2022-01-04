@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "EvidenceReport",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/EvidenceReport",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "EvidenceReport",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "w5",
@@ -578,7 +578,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1788,7 +1788,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between reports.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -2228,7 +2228,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         }
       },
       {
@@ -2545,7 +2545,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -3017,7 +3017,7 @@
           ],
           "strength": "required",
           "description": "The type of relationship between reports.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -3201,7 +3201,7 @@
           ],
           "strength": "required",
           "description": "The processing mode that applies to this section.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-CIBUILD"
         }
       },
       {

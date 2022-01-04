@@ -976,204 +976,24 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/address-type",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/knowledge-resource-types",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "address-type",
-        "name": "AddressType",
-        "status": "active",
+        "id": "knowledge-resource-types",
+        "name": "KnowledgeResourceType",
+        "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "The type of an address (physical / postal).",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "A list of all the knowledge resource types defined in this version of the FHIR specification.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/address-type",
+            "value": "http://hl7.org/fhir/knowledge-resource-types",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.70",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/property-representation",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "property-representation",
-        "name": "PropertyRepresentation",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "How a property is represented when serialized.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/property-representation",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.88",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/constraint-severity",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "constraint-severity",
-        "name": "ConstraintSeverity",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "SHALL applications comply with this constraint?",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/constraint-severity",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.82",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/binding-strength",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "binding-strength",
-        "name": "BindingStrength",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "Indication of the degree of conformance expectations associated with a binding.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/binding-strength",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.44",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/search-param-type",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "search-param-type",
-        "name": "SearchParamType",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "Data types allowed to be used for search parameters.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/search-param-type",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.12",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-timing",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "event-timing",
-        "name": "EventTiming",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "Real world event relating to the schedule.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/event-timing",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.76",
+            "value": "2.16.840.1.113883.4.642.1.1063",
             "preferred": false
           }
         ]
@@ -1187,7 +1007,7 @@
         "name": "RequestStatus",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1219,14 +1039,14 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/contact-point-use",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/reference-version-rules",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "contact-point-use",
-        "name": "ContactPointUse",
+        "id": "reference-version-rules",
+        "name": "ReferenceVersionRules",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1242,30 +1062,30 @@
             ]
           }
         ],
-        "description": "Use of contact point.",
+        "description": "Whether a reference needs to be version specific or version independent, or whether either can be used.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/contact-point-use",
+            "value": "http://hl7.org/fhir/reference-version-rules",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.74",
+            "value": "2.16.840.1.113883.4.642.1.90",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/trigger-type",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/constraint-severity",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "trigger-type",
-        "name": "TriggerType",
-        "status": "draft",
+        "id": "constraint-severity",
+        "name": "ConstraintSeverity",
+        "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1281,40 +1101,94 @@
             ]
           }
         ],
-        "description": "The type of trigger.",
+        "description": "SHALL applications comply with this constraint?",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/trigger-type",
+            "value": "http://hl7.org/fhir/constraint-severity",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.104",
+            "value": "2.16.840.1.113883.4.642.1.82",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/concept-map-equivalence",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/property-representation",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "concept-map-equivalence",
-        "name": "ConceptMapEquivalence",
-        "status": "draft",
+        "id": "property-representation",
+        "name": "PropertyRepresentation",
+        "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The degree of equivalence between concepts.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "How a property is represented when serialized.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/concept-map-equivalence",
+            "value": "http://hl7.org/fhir/property-representation",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.18",
+            "value": "2.16.840.1.113883.4.642.1.88",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/expression-language",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "expression-language",
+        "name": "ExpressionLanguage",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The media type of the expression language.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/expression-language",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.106",
             "preferred": false
           }
         ]
@@ -1328,7 +1202,7 @@
         "name": "IdentifierUse",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1360,24 +1234,63 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/definition-resource-types",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-resource-types",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "definition-resource-types",
-        "name": "DefinitionResourceType",
+        "id": "event-resource-types",
+        "name": "EventResourceType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "A list of all the definition resource types defined in this version of the FHIR specification.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "A list of all the event resource types defined in this version of the FHIR specification.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/definition-resource-types",
+            "value": "http://hl7.org/fhir/event-resource-types",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1057",
+            "value": "2.16.840.1.113883.4.642.1.1061",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/address-type",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "address-type",
+        "name": "AddressType",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The type of an address (physical / postal).",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/address-type",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.70",
             "preferred": false
           }
         ]
@@ -1391,7 +1304,7 @@
         "name": "SlicingRules",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1423,38 +1336,38 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/knowledge-resource-types",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/note-type",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "knowledge-resource-types",
-        "name": "KnowledgeResourceType",
+        "id": "note-type",
+        "name": "NoteType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "A list of all the knowledge resource types defined in this version of the FHIR specification.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The presentation types of notes.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/knowledge-resource-types",
+            "value": "http://hl7.org/fhir/note-type",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1063",
+            "value": "2.16.840.1.113883.4.642.1.16",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/address-use",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/quantity-comparator",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "address-use",
-        "name": "AddressUse",
+        "id": "quantity-comparator",
+        "name": "QuantityComparator",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1470,79 +1383,40 @@
             ]
           }
         ],
-        "description": "The use of an address.",
+        "description": "How the Quantity should be understood and represented.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/address-use",
+            "value": "http://hl7.org/fhir/quantity-comparator",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.68",
+            "value": "2.16.840.1.113883.4.642.1.60",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/document-reference-status",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/remittance-outcome",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "document-reference-status",
-        "name": "DocumentReferenceStatus",
+        "id": "remittance-outcome",
+        "name": "RemittanceOutcome",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The status of the document reference.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The outcome of the processing.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/document-reference-status",
+            "value": "http://hl7.org/fhir/remittance-outcome",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.8",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/contributor-type",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "contributor-type",
-        "name": "ContributorType",
-        "status": "draft",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "The type of contributor.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/contributor-type",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.94",
+            "value": "2.16.840.1.113883.4.642.1.14",
             "preferred": false
           }
         ]
@@ -1556,7 +1430,7 @@
         "name": "ContactPointSystem",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1595,7 +1469,7 @@
         "name": "SortDirection",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1627,14 +1501,14 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/narrative-status",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/contributor-type",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "narrative-status",
-        "name": "NarrativeStatus",
+        "id": "contributor-type",
+        "name": "ContributorType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1650,103 +1524,118 @@
             ]
           }
         ],
-        "description": "The status of a resource narrative.",
+        "description": "The type of contributor.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/narrative-status",
+            "value": "http://hl7.org/fhir/contributor-type",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.56",
+            "value": "2.16.840.1.113883.4.642.1.94",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-intent",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/administrative-gender",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "request-intent",
-        "name": "RequestIntent",
-        "status": "draft",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "Codes indicating the degree of authority/intentionality associated with a request.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/request-intent",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.114",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/remittance-outcome",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "remittance-outcome",
-        "name": "RemittanceOutcome",
-        "status": "draft",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The outcome of the processing.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/remittance-outcome",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.14",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/publication-status",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "publication-status",
-        "name": "PublicationStatus",
+        "id": "administrative-gender",
+        "name": "AdministrativeGender",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The lifecycle status of an artifact.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The gender of a person used for administrative purposes.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/publication-status",
+            "value": "http://hl7.org/fhir/administrative-gender",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.4",
+            "value": "2.16.840.1.113883.4.642.1.2",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/trigger-type",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "trigger-type",
+        "name": "TriggerType",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The type of trigger.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/trigger-type",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.104",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/discriminator-type",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "discriminator-type",
+        "name": "DiscriminatorType",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "How an element value is interpreted when discrimination is evaluated.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/discriminator-type",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.92",
             "preferred": false
           }
         ]
@@ -1760,7 +1649,7 @@
         "name": "RelatedArtifactType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1792,14 +1681,62 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-status",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/concept-map-equivalence",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "event-status",
-        "name": "EventStatus",
+        "id": "concept-map-equivalence",
+        "name": "ConceptMapEquivalence",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The degree of equivalence between concepts.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/concept-map-equivalence",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.18",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/FHIR-version",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "FHIR-version",
+        "name": "FHIRVersion",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "All published FHIR Versions.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/FHIR-version",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1310",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/resource-aggregation-mode",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "resource-aggregation-mode",
+        "name": "AggregationMode",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -1815,16 +1752,16 @@
             ]
           }
         ],
-        "description": "Codes identifying the lifecycle stage of an event.",
+        "description": "How resource references can be aggregated.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/event-status",
+            "value": "http://hl7.org/fhir/resource-aggregation-mode",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.110",
+            "value": "2.16.840.1.113883.4.642.1.86",
             "preferred": false
           }
         ]
@@ -2356,39 +2293,24 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/quantity-comparator",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/publication-status",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "quantity-comparator",
-        "name": "QuantityComparator",
+        "id": "publication-status",
+        "name": "PublicationStatus",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "How the Quantity should be understood and represented.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The lifecycle status of an artifact.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/quantity-comparator",
+            "value": "http://hl7.org/fhir/publication-status",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.60",
+            "value": "2.16.840.1.113883.4.642.1.4",
             "preferred": false
           }
         ]
@@ -2402,7 +2324,7 @@
         "name": "AbstractType",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -2780,30 +2702,6 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/note-type",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "note-type",
-        "name": "NoteType",
-        "status": "draft",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The presentation types of notes.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/note-type",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.16",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "http://hl7.org/fhir/NamingSystem/adverse-event-actuality",
       "resource": {
         "resourceType": "NamingSystem",
@@ -2837,6 +2735,45 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.4.832",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/name-use",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "name-use",
+        "name": "NameUse",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The use of a human name.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/name-use",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.66",
             "preferred": false
           }
         ]
@@ -2967,7 +2904,7 @@
         "name": "GenderStatus",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This example value set defines a set of codes that can be used to indicate the current state of the animal\u0027s reproductive organs.",
         "uniqueId": [
           {
@@ -2991,7 +2928,7 @@
         "name": "AnimalSpecies",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This example value set defines a set of codes that can be used to indicate species of animal patients.",
         "uniqueId": [
           {
@@ -3200,31 +3137,6 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/atc",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "atc",
-        "name": "Atc",
-        "status": "retired",
-        "kind": "codesystem",
-        "date": "2021-11-09T00:00:00+00:00",
-        "publisher": "WHO Collaborating Centre for Drug Statistics Methodology",
-        "description": "American Type Culture Collection",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://www.whocc.no/atc",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.6.77",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "http://hl7.org/fhir/NamingSystem/audit-event-action",
       "resource": {
         "resourceType": "NamingSystem",
@@ -3303,24 +3215,102 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-resource-types",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/contact-point-use",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "event-resource-types",
-        "name": "EventResourceType",
-        "status": "draft",
+        "id": "contact-point-use",
+        "name": "ContactPointUse",
+        "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "A list of all the event resource types defined in this version of the FHIR specification.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Use of contact point.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/event-resource-types",
+            "value": "http://hl7.org/fhir/contact-point-use",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1061",
+            "value": "2.16.840.1.113883.4.642.1.74",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/definition-resource-types",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "definition-resource-types",
+        "name": "DefinitionResourceType",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "A list of all the definition resource types defined in this version of the FHIR specification.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/definition-resource-types",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1057",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-intent",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "request-intent",
+        "name": "RequestIntent",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Codes indicating the degree of authority/intentionality associated with a request.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/request-intent",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.114",
             "preferred": false
           }
         ]
@@ -3360,45 +3350,6 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.4.621",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-priority",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "request-priority",
-        "name": "RequestPriority",
-        "status": "draft",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "Identifies the level of importance to be assigned to actioning the request.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/request-priority",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.116",
             "preferred": false
           }
         ]
@@ -3552,14 +3503,14 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/name-use",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-timing",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "name-use",
-        "name": "NameUse",
+        "id": "event-timing",
+        "name": "EventTiming",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -3575,16 +3526,40 @@
             ]
           }
         ],
-        "description": "The use of a human name.",
+        "description": "Real world event relating to the schedule.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/name-use",
+            "value": "http://hl7.org/fhir/event-timing",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.66",
+            "value": "2.16.840.1.113883.4.642.1.76",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-resource-types",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "request-resource-types",
+        "name": "RequestResourceType",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "A list of all the request resource types defined in this version of the FHIR specification.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/request-resource-types",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1059",
             "preferred": false
           }
         ]
@@ -3598,7 +3573,7 @@
         "name": "Indicator",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "FHIR Project team",
         "contact": [
           {
@@ -3743,11 +3718,11 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/clinical-use-issue-type",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/clinical-use-definition-type",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "clinical-use-issue-type",
-        "name": "ClinicalUseIssueType",
+        "id": "clinical-use-definition-type",
+        "name": "ClinicalUseDefinitionType",
         "status": "draft",
         "kind": "codesystem",
         "date": "2021-01-04T23:01:24+00:00",
@@ -3766,16 +3741,16 @@
             ]
           }
         ],
-        "description": "Overall defining type of this clinical use issue.",
+        "description": "Overall defining type of this clinical use definition.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/clinical-use-issue-type",
+            "value": "http://hl7.org/fhir/clinical-use-definition-type",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1455",
+            "value": "2.16.840.1.113883.4.642.1.1563",
             "preferred": false
           }
         ]
@@ -3893,6 +3868,45 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.4.785",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/combined-dose-form",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "combined-dose-form",
+        "name": "CombinedDoseForm",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2021-01-04T23:01:24+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Dose forms for a product as a whole, considering all individual parts, but before any mixing",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/combined-dose-form",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1554",
             "preferred": false
           }
         ]
@@ -4023,7 +4037,7 @@
         "name": "FHIR Defined Concept Properties",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "FHIR Project",
         "description": "A set of common concept properties for use on coded systems throughout the FHIR eco-system.",
         "uniqueId": [
@@ -4069,6 +4083,29 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.4.781",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/concept-subsumption-outcome",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "concept-subsumption-outcome",
+        "name": "ConceptSubsumptionOutcome",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/concept-subsumption-outcome",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1239",
             "preferred": false
           }
         ]
@@ -4316,7 +4353,7 @@
         "name": "ContractActionCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Action codes.",
         "uniqueId": [
           {
@@ -4376,7 +4413,7 @@
         "name": "ContractActorRoleCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Actor Role codes.",
         "uniqueId": [
           {
@@ -4976,7 +5013,7 @@
         "name": "ContractSignerTypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Signer Type codes.",
         "uniqueId": [
           {
@@ -5036,7 +5073,7 @@
         "name": "ContractSubtypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Subtype codes.",
         "uniqueId": [
           {
@@ -5060,7 +5097,7 @@
         "name": "ContractTermSubtypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Term SubType codes.",
         "uniqueId": [
           {
@@ -5084,7 +5121,7 @@
         "name": "ContractTermTypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Term Type codes.",
         "uniqueId": [
           {
@@ -5108,7 +5145,7 @@
         "name": "ContractTypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample Contract Type codes.",
         "uniqueId": [
           {
@@ -5125,48 +5162,126 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/administrative-gender",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/search-param-type",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "administrative-gender",
-        "name": "AdministrativeGender",
+        "id": "search-param-type",
+        "name": "SearchParamType",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "The gender of a person used for administrative purposes.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "Data types allowed to be used for search parameters.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/administrative-gender",
+            "value": "http://hl7.org/fhir/search-param-type",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.2",
+            "value": "2.16.840.1.113883.4.642.1.12",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-resource-types",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/narrative-status",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "request-resource-types",
-        "name": "RequestResourceType",
+        "id": "narrative-status",
+        "name": "NarrativeStatus",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "A list of all the request resource types defined in this version of the FHIR specification.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The status of a resource narrative.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/request-resource-types",
+            "value": "http://hl7.org/fhir/narrative-status",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1059",
+            "value": "2.16.840.1.113883.4.642.1.56",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/request-priority",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "request-priority",
+        "name": "RequestPriority",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Identifies the level of importance to be assigned to actioning the request.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/request-priority",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.116",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/binding-strength",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "binding-strength",
+        "name": "BindingStrength",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "Indication of the degree of conformance expectations associated with a binding.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/binding-strength",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.44",
             "preferred": false
           }
         ]
@@ -5180,7 +5295,7 @@
         "name": "DataType",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -5292,7 +5407,7 @@
         "name": "ProcedureDeviceActionCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Example value set for Procedure Device Action code (what happened to a device during a procedure.",
         "uniqueId": [
           {
@@ -5578,53 +5693,38 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/reference-version-rules",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/document-reference-status",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "reference-version-rules",
-        "name": "ReferenceVersionRules",
-        "status": "active",
+        "id": "document-reference-status",
+        "name": "DocumentReferenceStatus",
+        "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "Whether a reference needs to be version specific or version independent, or whether either can be used.",
+        "date": "2022-01-01T15:17:18+00:00",
+        "description": "The status of the document reference.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/reference-version-rules",
+            "value": "http://hl7.org/fhir/document-reference-status",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.90",
+            "value": "2.16.840.1.113883.4.642.1.8",
             "preferred": false
           }
         ]
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/resource-aggregation-mode",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/address-use",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "resource-aggregation-mode",
-        "name": "AggregationMode",
+        "id": "address-use",
+        "name": "AddressUse",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -5640,16 +5740,16 @@
             ]
           }
         ],
-        "description": "How resource references can be aggregated.",
+        "description": "The use of an address.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/resource-aggregation-mode",
+            "value": "http://hl7.org/fhir/address-use",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.86",
+            "value": "2.16.840.1.113883.4.642.1.68",
             "preferred": false
           }
         ]
@@ -6114,7 +6214,7 @@
         "name": "ExtraActivityType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes coded concepts not well covered in any of the included valuesets.",
         "uniqueId": [
           {
@@ -6126,77 +6226,14 @@
       }
     },
     {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/FHIR-version",
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/event-status",
       "resource": {
         "resourceType": "NamingSystem",
-        "id": "FHIR-version",
-        "name": "FHIRVersion",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "description": "All published FHIR Versions.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/FHIR-version",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.1310",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/discriminator-type",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "discriminator-type",
-        "name": "DiscriminatorType",
-        "status": "active",
-        "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
-        "publisher": "HL7 (FHIR Project)",
-        "contact": [
-          {
-            "telecom": [
-              {
-                "system": "url",
-                "value": "http://hl7.org/fhir"
-              },
-              {
-                "system": "email",
-                "value": "fhir@lists.hl7.org"
-              }
-            ]
-          }
-        ],
-        "description": "How an element value is interpreted when discrimination is evaluated.",
-        "uniqueId": [
-          {
-            "type": "uri",
-            "value": "http://hl7.org/fhir/discriminator-type",
-            "preferred": true
-          },
-          {
-            "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.92",
-            "preferred": false
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://hl7.org/fhir/NamingSystem/expression-language",
-      "resource": {
-        "resourceType": "NamingSystem",
-        "id": "expression-language",
-        "name": "ExpressionLanguage",
+        "id": "event-status",
+        "name": "EventStatus",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -6212,16 +6249,16 @@
             ]
           }
         ],
-        "description": "The media type of the expression language.",
+        "description": "Codes identifying the lifecycle stage of an event.",
         "uniqueId": [
           {
             "type": "uri",
-            "value": "http://hl7.org/fhir/expression-language",
+            "value": "http://hl7.org/fhir/event-status",
             "preferred": true
           },
           {
             "type": "oid",
-            "value": "2.16.840.1.113883.4.642.1.106",
+            "value": "2.16.840.1.113883.4.642.1.110",
             "preferred": false
           }
         ]
@@ -6235,7 +6272,7 @@
         "name": "FeedingDeviceCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Materials used or needed to feed the patient. These values are provided as a suggestive example.",
         "uniqueId": [
           {
@@ -6298,7 +6335,7 @@
         "name": "FlagPriorityCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set is provided as an exemplar. The value set is driven by IHE Table B.8-4: Abnormal Flags, Alert Priority.",
         "uniqueId": [
           {
@@ -6361,7 +6398,7 @@
         "name": "FinancialResourceStatusCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes Status codes.",
         "uniqueId": [
           {
@@ -6385,7 +6422,7 @@
         "name": "GenderIdentity",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This example code System defines a set of codes that can be used to indicate a patient\u0027s gender identity.",
         "uniqueId": [
           {
@@ -7009,7 +7046,7 @@
         "name": "MedicationStatement Status Codes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "uniqueId": [
           {
             "type": "uri",
@@ -7032,7 +7069,7 @@
         "name": "Medication Status Codes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "uniqueId": [
           {
             "type": "uri",
@@ -7055,7 +7092,7 @@
         "name": "MedicationRequest Intent Codes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "uniqueId": [
           {
             "type": "uri",
@@ -7078,7 +7115,7 @@
         "name": "MedicationRequest Status Codes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "uniqueId": [
           {
             "type": "uri",
@@ -7101,7 +7138,7 @@
         "name": "Code system summary example for ACME body sites",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 International",
         "contact": [
           {
@@ -7132,7 +7169,7 @@
         "name": "TaskCode",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Codes indicating the type of action that is expected to be performed",
         "uniqueId": [
           {
@@ -7273,7 +7310,7 @@
         "name": "InsurancePlanType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This example value set defines a set of codes that can be used to indicate a type of product plan.",
         "uniqueId": [
           {
@@ -7492,7 +7529,7 @@
         "name": "LanguagePreferenceType",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This code system defines a defines the set of codes for describing the type or mode of the patient\u0027s preferred language.",
         "uniqueId": [
           {
@@ -7503,6 +7540,45 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.1.1023",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/legal-status-of-supply",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "legal-status-of-supply",
+        "name": "LegalStatusOfSupply",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2021-01-04T23:01:24+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "The prescription supply types appropriate to a medicinal product",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/legal-status-of-supply",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1556",
             "preferred": false
           }
         ]
@@ -8094,6 +8170,123 @@
       }
     },
     {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/medicinal-product-domain",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "medicinal-product-domain",
+        "name": "MedicinalProductDomain",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2021-01-04T23:01:24+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Applicable domain for this product (e.g. human, veterinary).",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/medicinal-product-domain",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1550",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/medicinal-product-package-type",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "medicinal-product-package-type",
+        "name": "MedicinalProductPackageType",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2021-01-04T23:01:24+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Types of medicinal product packs",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/medicinal-product-package-type",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1552",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/medicinal-product-type",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "medicinal-product-type",
+        "name": "MedicinalProductType",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2021-01-04T23:01:24+00:00",
+        "publisher": "HL7 (FHIR Project)",
+        "contact": [
+          {
+            "telecom": [
+              {
+                "system": "url",
+                "value": "http://hl7.org/fhir"
+              },
+              {
+                "system": "email",
+                "value": "fhir@lists.hl7.org"
+              }
+            ]
+          }
+        ],
+        "description": "Overall defining type of this Medicinal Product.",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/medicinal-product-type",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.1548",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "http://hl7.org/fhir/NamingSystem/message-events",
       "resource": {
         "resourceType": "NamingSystem",
@@ -8101,7 +8294,7 @@
         "name": "MessageEvent",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -8601,9 +8794,9 @@
         "resourceType": "NamingSystem",
         "id": "observation-statistics",
         "name": "StatisticsCode",
-        "status": "draft",
+        "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "uniqueId": [
           {
             "type": "uri",
@@ -8743,7 +8936,7 @@
         "name": "OrganizationAffiliationRole",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This example value set defines a set of codes that can be used to indicate the role of one Organization in relation to its affiliation with another.",
         "uniqueId": [
           {
@@ -8923,7 +9116,7 @@
         "name": "ProcedureProgressStatusCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set is provided as an exemplar. The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains concepts to support the procedure performance process.",
         "uniqueId": [
           {
@@ -9205,7 +9398,7 @@
         "name": "QuestionnaireTextCategories",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Codes defining the purpose of a Questionnaire item of type \u0027text\u0027.",
         "uniqueId": [
           {
@@ -9307,7 +9500,7 @@
         "name": "QuestionnaireItemUIControlCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Starter set of user interface control/display mechanisms that might be used when rendering an item in a questionnaire.",
         "uniqueId": [
           {
@@ -9370,7 +9563,7 @@
         "name": "ReasonMedicationNotGivenCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set is provided as an example. The value set to instantiate this attribute should be drawn from a robust terminology code system that consists of or contains concepts to support the medication process.",
         "uniqueId": [
           {
@@ -9472,7 +9665,7 @@
         "name": "Beneficiary Relationship Codes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "FHIR Project team",
         "contact": [
           {
@@ -9851,6 +10044,29 @@
       }
     },
     {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/resource-security-category",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "resource-security-category",
+        "name": "ResourceSecurityCategory",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/resource-security-category",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.0",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "http://hl7.org/fhir/NamingSystem/resource-status",
       "resource": {
         "resourceType": "NamingSystem",
@@ -9858,7 +10074,7 @@
         "name": "Canonical Status Codes for FHIR Resources",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "FHIR Project",
         "description": "The master set of status codes used throughout FHIR. All status codes are mapped to one of these codes.",
         "uniqueId": [
@@ -9878,7 +10094,7 @@
         "name": "ResourceType",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "HL7 (FHIR Project)",
         "contact": [
           {
@@ -9900,6 +10116,29 @@
             "type": "uri",
             "value": "http://hl7.org/fhir/resource-types",
             "preferred": true
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/resource-validation-mode",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "resource-validation-mode",
+        "name": "ResourceValidationMode",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/resource-validation-mode",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.119",
+            "preferred": false
           }
         ]
       }
@@ -9990,7 +10229,7 @@
         "name": "FHIR Restful Interactions",
         "status": "active",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "FHIR Project",
         "description": "The set of interactions defined by the RESTful part of the FHIR specification.",
         "uniqueId": [
@@ -10166,7 +10405,7 @@
         "name": "GeneticObservationSecondaryFindings",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Codes to denote a guideline or policy statement.when a genetic test result is being shared as a secondary finding.",
         "uniqueId": [
           {
@@ -10229,7 +10468,7 @@
         "name": "ICD-10ProcedureCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "This value set includes sample ICD-10 Procedure codes.",
         "uniqueId": [
           {
@@ -10572,6 +10811,29 @@
           {
             "type": "oid",
             "value": "2.16.840.1.113883.4.642.4.472",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/standards-status",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "standards-status",
+        "name": "StandardsStatus",
+        "status": "draft",
+        "kind": "codesystem",
+        "date": "2022-01-01T15:17:18+00:00",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/standards-status",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.642.1.0",
             "preferred": false
           }
         ]
@@ -12103,6 +12365,36 @@
       }
     },
     {
+      "fullUrl": "http://hl7.org/fhir/NamingSystem/v3-WC",
+      "resource": {
+        "resourceType": "NamingSystem",
+        "id": "v3-WC",
+        "name": "WC",
+        "status": "active",
+        "kind": "codesystem",
+        "date": "2019-03-20T04:00:00+00:00",
+        "publisher": "TBD - External Body",
+        "contact": [
+          {
+            "name": "World Health Organization"
+          }
+        ],
+        "description": "WHO ATC",
+        "uniqueId": [
+          {
+            "type": "uri",
+            "value": "http://www.whocc.no/atc",
+            "preferred": true
+          },
+          {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.73",
+            "preferred": false
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "http://hl7.org/fhir/NamingSystem/pclocd",
       "resource": {
         "resourceType": "NamingSystem",
@@ -12315,7 +12607,7 @@
         "name": "PatientMedicineChangeTypes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "description": "Example Item Flags for the List Resource. In this case, these are the kind of flags that would be used on a medication list at the end of a consultation.",
         "uniqueId": [
           {
@@ -12339,7 +12631,7 @@
         "name": "SignatureTypeCodes",
         "status": "draft",
         "kind": "codesystem",
-        "date": "2021-12-06T18:53:36+00:00",
+        "date": "2022-01-01T15:17:18+00:00",
         "publisher": "ASTM",
         "contact": [
           {

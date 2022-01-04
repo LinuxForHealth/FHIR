@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-reasonRefuted",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "reasonRefuted",
   "title": "reasonRefuted",
   "status": "draft",
@@ -29,7 +29,7 @@
     }
   ],
   "description": "A code capturing the explanation of why the allergy or intolerance has been refuted. Should be specified only if the status is refuted.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

@@ -9,7 +9,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "package-with-liquid-and-syringe" </p></div><p><b>packageFor</b>: <a>MedicinalProductDefinition/ProductThatHasThisPackType</a></p><blockquote><p><b>package</b></p><blockquote><p><b>containedItem</b></p><p><b>amount</b>: 20 ml</p></blockquote><blockquote><p><b>containedItem</b></p></blockquote></blockquote></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div><p>Resource "package-with-liquid-and-syringe" </p></div><p><b>packageFor</b>: <a>MedicinalProductDefinition/ProductThatHasThisPackType</a></p><blockquote><p><b>package</b></p><blockquote><p><b>containedItem</b></p><p><b>amount</b>: 20 ml<span> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>containedItem</b></p></blockquote></blockquote></div></text><contained>
 		<DeviceDefinition>
 			<id value="syringeDevice"/>
 			<type>
@@ -53,6 +53,8 @@
 			<amount>
 				<value value="20"/>
 				<unit value="ml"/>
+				<system value="http://unitsofmeasure.org"/> 
+				<code value="mL"/>
 			</amount>
 		</containedItem>
 		<containedItem>

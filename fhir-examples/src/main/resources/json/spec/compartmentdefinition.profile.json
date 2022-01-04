@@ -2,7 +2,7 @@
   "resourceType": "StructureDefinition",
   "id": "CompartmentDefinition",
   "meta": {
-    "lastUpdated": "2021-12-06T18:53:36.888+00:00"
+    "lastUpdated": "2022-01-01T15:17:18.597+00:00"
   },
   "text": {
     "status": "generated",
@@ -27,10 +27,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "CompartmentDefinition",
   "status": "draft",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "contact": [
     {
@@ -51,7 +51,7 @@
     }
   ],
   "description": "A compartment definition that defines how resources are accessed on a server.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -666,7 +666,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1011,7 +1011,7 @@
           ],
           "strength": "required",
           "description": "Which type a compartment definition describes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1256,7 +1256,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {
@@ -1464,7 +1464,7 @@
           ],
           "strength": "required",
           "description": "The lifecycle status of an artifact.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -1689,7 +1689,7 @@
           ],
           "strength": "required",
           "description": "Which type a compartment definition describes.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-CIBUILD"
         }
       },
       {
@@ -1753,7 +1753,7 @@
           ],
           "strength": "required",
           "description": "One of the resource types defined as part of this version of FHIR.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         }
       },
       {

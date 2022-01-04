@@ -12,7 +12,7 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/iso21090-uncertainty",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "uncertainty",
   "status": "draft",
   "date": "2012-06-24",
@@ -28,7 +28,7 @@
     }
   ],
   "description": "The primary measure of variance/uncertainty of the value (the square root of the sum of the squares of the differences between all data points and the mean).",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "rim",

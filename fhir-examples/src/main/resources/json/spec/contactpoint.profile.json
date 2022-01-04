@@ -16,10 +16,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/ContactPoint",
-  "version": "4.1.0",
+  "version": "4.3.0-CIBUILD",
   "name": "ContactPoint",
   "status": "active",
-  "date": "2021-12-06T18:53:36+00:00",
+  "date": "2022-01-01T15:17:18+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -33,7 +33,7 @@
   ],
   "description": "Base StructureDefinition for ContactPoint Type: Details for all kinds of technology mediated contact points for a person or organization, including telephone, email, etc.",
   "purpose": "Need to track phone, fax, mobile, sms numbers, email addresses, twitter tags, etc.",
-  "fhirVersion": "4.1.0",
+  "fhirVersion": "4.3.0-CIBUILD",
   "mapping": [
     {
       "identity": "v2",
@@ -259,7 +259,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-system|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -366,7 +366,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -542,7 +542,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-system|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-system|4.3.0-CIBUILD"
         },
         "mapping": [
           {
@@ -618,7 +618,7 @@
             }
           ],
           "strength": "required",
-          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-use|4.1.0"
+          "valueSet": "http://hl7.org/fhir/ValueSet/contact-point-use|4.3.0-CIBUILD"
         },
         "mapping": [
           {
