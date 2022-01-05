@@ -63,18 +63,17 @@ public class FHIRModelResolver implements ModelResolver {
     public static final String RESOURCE_PACKAGE_NAME = BASE_PACKAGE_NAME + ".resource";
     public static final String TYPE_PACKAGE_NAME = BASE_PACKAGE_NAME + ".type";
     public static final String CODE_PACKAGE_NAME = TYPE_PACKAGE_NAME + ".code";
-    
-    
-    
+
+
+
     public static final String[] ALL_PACKAGES = new String[] {
             RESOURCE_PACKAGE_NAME,
             TYPE_PACKAGE_NAME,
-            CODE_PACKAGE_NAME }; 
+            CODE_PACKAGE_NAME };
 
     public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
-    
-    public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
 
+    public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
 
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
@@ -144,6 +143,9 @@ public class FHIRModelResolver implements ModelResolver {
         case "CurrencyCode":
         case "MimeType":
         case "RequestResourceType":
+        //removed in 4.3.0
+        case "ExposureState":
+        case "EvidenceVariableType":
             return "code";
         case "strandType":
         case "orientationType":
@@ -176,13 +178,13 @@ public class FHIRModelResolver implements ModelResolver {
                 target = resolveProperty(target, identifier);
             }
         }
-        
+
         return target;
     }
-    
+
     private Object resolveProperty(Object target, String path) {
         Object value = null;
-        
+
         if( target != null ) {
             if( target instanceof Visitable) {
                 Visitable visitable = (Visitable) target;
@@ -194,11 +196,11 @@ public class FHIRModelResolver implements ModelResolver {
                         if( Code.class.isAssignableFrom(clazz) ) {
                             clazz = Code.class;
                         }
-                        
+
                         ElementInfo elementInfo = ModelSupport.getElementInfo(clazz, path);
                         if( elementInfo.isRepeating() ) {
                             value = result.stream().map( n -> unpack(n, path) ).collect(Collectors.toList());
-                        } else { 
+                        } else {
                             value = unpack( result.iterator().next(), path);
                         }
                     }
@@ -207,13 +209,13 @@ public class FHIRModelResolver implements ModelResolver {
                 }
             }
         }
-        
+
         return value;
     }
-    
+
     protected Object unpack(FHIRPathNode node, String path) {
         Object result = null;
-        
+
         if( node.isResourceNode() ) {
             result = node.asResourceNode().resource();
         } else if( node.isElementNode() ) {
@@ -224,7 +226,7 @@ public class FHIRModelResolver implements ModelResolver {
                 result = system.asBooleanValue()._boolean();
             } else if( system.isNumberValue() ) {
                 result = system.asNumberValue().number();
-            } else if( system.isQuantityValue() ) { 
+            } else if( system.isQuantityValue() ) {
                 result = system.asQuantityValue().value();
             } else if( system.isStringValue() ) {
                 result = system.asStringValue().string();
@@ -238,9 +240,9 @@ public class FHIRModelResolver implements ModelResolver {
         } else if( node.isTypeInfoNode() ) {
             result = node.asTypeInfoNode().typeInfo();
         }
-        
+
         result = patchResult(path, result);
-        
+
         return result;
     }
 
