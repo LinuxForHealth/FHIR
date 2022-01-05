@@ -141,6 +141,9 @@ public class FHIRModelResolver implements ModelResolver {
         case "CurrencyCode":
         case "MimeType":
         case "RequestResourceType":
+        //removed in 4.3.0 
+        case "ExposureState":
+        case "EvidenceVariableType":
             return "code";
         case "strandType":
         case "orientationType":
