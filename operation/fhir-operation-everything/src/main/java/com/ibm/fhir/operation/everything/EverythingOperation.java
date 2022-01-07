@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -127,19 +128,6 @@ public class EverythingOperation extends AbstractOperation {
         "RiskAssessment",
         "SupplyRequest"));
 
-    private List<String> defaultResourceTypes;
-
-    /**
-     * Initialize the operation and load the sub-resources that will be retrieved.
-     */
-    public EverythingOperation() {
-        try {
-            defaultResourceTypes = getDefaultIncludedResourceTypes();
-        } catch (FHIRSearchException e) {
-            throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
-        }
-    }
-
     @Override
     protected OperationDefinition buildOperationDefinition() {
         return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/Patient-everything",
@@ -194,7 +182,14 @@ public class EverythingOperation extends AbstractOperation {
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
 
-        List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
+        List<String> defaultResourceTypes = new ArrayList<String>(0);
+        try {
+            defaultResourceTypes = getDefaultIncludedResourceTypes();
+        } catch (FHIRSearchException e) {
+            throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
+        }
+        
+        List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
 
         int totalResourceCount = 0;
@@ -304,7 +299,7 @@ public class EverythingOperation extends AbstractOperation {
      * @return the list of patient subresources that will be included in the $everything operation, as provided by the user
      * @throws FHIRSearchException
      */
-    protected List<String> getOverridenIncludedResourceTypes(Parameters parameters) throws FHIRSearchException {
+    protected List<String> getOverridenIncludedResourceTypes(Parameters parameters, List<String> defaultResourceTypes) throws FHIRSearchException {
         List<String> typeOverrides = new ArrayList<>();
         Parameter typesParameter = getParameter(parameters, SearchConstants.RESOURCE_TYPE);
         if (typesParameter == null) {
@@ -333,16 +328,26 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
-     * @return the list of patient subresources that will be included in the $everything operaetion
+     * @return the list of patient subresources that will be included in the $everything operation
      * @throws FHIRSearchException
      */
     private List<String> getDefaultIncludedResourceTypes() throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
-        // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
-        // like a couple of good additional resources to include and they are even mentioned as examples of resources
-        // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html
-        // resourceTypes.add(Practitioner.class.getSimpleName());
-        // resourceTypes.add(Organization.class.getSimpleName());
+        
+        try {
+            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+            // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
+            // like a couple of good additional resources to include and they are even mentioned as examples of resources
+            // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html
+            // resourceTypes.add(Practitioner.class.getSimpleName());
+            // resourceTypes.add(Organization.class.getSimpleName());
+            resourceTypes.retainAll(supportedResourceTypes);
+        } catch (Exception e) {
+            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported resource types of the $everything operation.", e);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
+        }
+            
         return resourceTypes;
     }
 

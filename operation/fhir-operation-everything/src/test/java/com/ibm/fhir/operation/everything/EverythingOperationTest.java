@@ -11,6 +11,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -59,7 +60,7 @@ public class EverythingOperationTest {
     @Test
     public void testConvertParametersType() throws FHIRParserException, IOException, FHIRSearchException {
         Parameters parameters = loadParametersFile("parameters-type.json");
-        List<String> overrideTypes = everythingOperation.getOverridenIncludedResourceTypes(parameters);
+        List<String> overrideTypes = everythingOperation.getOverridenIncludedResourceTypes(parameters, new ArrayList<String>(0));
         assertEquals(2, overrideTypes.size());
         assertTrue(overrideTypes.contains("CarePlan"));
         assertTrue(overrideTypes.contains("CareTeam"));
