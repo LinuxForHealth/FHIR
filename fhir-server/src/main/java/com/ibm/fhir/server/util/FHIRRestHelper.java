@@ -88,6 +88,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
@@ -107,7 +108,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
@@ -213,7 +213,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 resource = event.getFhirResource();
 
                 final String resourcePayloadKey = UUID.randomUUID().toString();
-                int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+                int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resource);
                 PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
                 response = doCreatePersist(event, warnings, resource, offloadResponse);
             }
@@ -451,11 +451,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Store the payload if we're offloading
-            // TODO perhaps store the newVersionNumber value in the FHIRRestOperationResponse so
-            // we don't have to keep converting to an int. At the very least we need a helper
-            // function for this.
             final String resourcePayloadKey = UUID.randomUUID().toString();
-            int newVersionNumber = Integer.parseInt(metaResponse.getResource().getMeta().getVersionId().getValue());
+            int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(metaResponse.getResource());
             PayloadPersistenceResponse offloadResponse = storePayload(metaResponse.getResource(), metaResponse.getResource().getId(), newVersionNumber, resourcePayloadKey);
 
             // Persist the resource
@@ -712,7 +709,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // again under a database lock during the persistence phase and the request will be rejected if there's
             // a mismatch (can happen when there are concurrent updates).
             final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-            final int newVersionNumber = updateCreate ? 1 : Integer.parseInt(ior.getPrevResource().getMeta().getVersionId().getValue()) + 1;
+            final int newVersionNumber = updateCreate ? 1 : FHIRPersistenceSupport.getMetaVersionId(ior.getPrevResource()) + 1;
             newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
 
             ior.setResource(newResource);
@@ -994,7 +991,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // flag set. Update the resource meta so that it has the correct version id
                     final String resourcePayloadKey = UUID.randomUUID().toString();
                     final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-                    final int newVersionNumber = Integer.parseInt(resourceToDelete.getMeta().getVersionId().getValue()) + 1;
+                    final int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete) + 1;
                     final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
 
                     // If we're offloading, the payload gets stored outside the RDBMS
@@ -3279,7 +3276,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return current time in UTC
      */
     protected com.ibm.fhir.model.type.Instant getCurrentInstant() {
-        return PayloadPersistenceHelper.getCurrentInstant();
+        return FHIRPersistenceSupport.getCurrentInstant();
     }
 
     @Override

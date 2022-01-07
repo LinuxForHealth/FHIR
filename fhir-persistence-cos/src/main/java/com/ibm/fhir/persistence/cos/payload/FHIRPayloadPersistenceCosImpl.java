@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,12 +16,12 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult.Status;
@@ -48,7 +48,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
         try {
             // Render the object to a byte-stream but don't compress when storing in Cos
             // (although this could be made a configurable option if we want)
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, false);
+            InputOutputByteStream ioStream = FHIRPersistenceSupport.render(resource, false);
             cpc.write(objectName, ioStream);
             
             result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.OK));
@@ -60,7 +60,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
                 logger.fine(String.format("Wrote resource payload to COS: '%s/%s/%d' [took %5.3f s]", resourceTypeName, logicalId, version, elapsed/1e9));
             }
         }
-        PayloadPersistenceResponse response = new PayloadPersistenceResponse(resourcePayloadKey, resourceTypeName, resourceTypeId, logicalId, version, null, result);
+        PayloadPersistenceResponse response = new PayloadPersistenceResponse(resourcePayloadKey, resourceTypeName, resourceTypeId, logicalId, version, result);
         return response;
     }
 
@@ -102,15 +102,6 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
         return objectName.toString();
     }
 
-    /**
-     * Obtain the COS object name using the information encoded in the payloadKey
-     * @param payloadKey
-     * @return
-     */
-    private static String makeObjectName(PayloadPersistenceResponse payloadKey) {
-        return makeObjectName(payloadKey.getResourceTypeId(), payloadKey.getLogicalId(), payloadKey.getVersionId(), payloadKey.getResourcePayloadKey());
-    }
-    
     @Override
     public void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) throws FHIRPersistenceException {
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();

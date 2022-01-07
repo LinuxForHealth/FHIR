@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class FHIRPersistenceJDBCCassandraFactory extends FHIRPersistenceJDBCFact
         // the impl otherwise null
         FHIRPayloadPersistence result = null;
         if (DatasourceSessions.isPayloadPersistenceConfigured()) {
-            result = new FHIRPayloadPersistenceCassandraImpl(FHIRPayloadPersistenceCassandraImpl.defaultPartitionStrategy());
+            result = new FHIRPayloadPersistenceCassandraImpl();
         }
         
         return result;

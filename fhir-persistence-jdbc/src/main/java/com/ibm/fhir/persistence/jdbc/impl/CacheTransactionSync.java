@@ -38,10 +38,14 @@ public class CacheTransactionSync implements Synchronization {
 
     /**
      * Public constructor
-     * @param cacheImpl
+     * 
+     * @param txSyncRegistry
+     * @param cache
+     * @param transactionDataKey
+     * @param rolledBackHandler
      */
     public CacheTransactionSync(TransactionSynchronizationRegistry txSyncRegistry, FHIRPersistenceJDBCCache cache, String transactionDataKey,
-        Runnable rolledBackHandler) {
+            Runnable rolledBackHandler) {
         this.txSyncRegistry = txSyncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;

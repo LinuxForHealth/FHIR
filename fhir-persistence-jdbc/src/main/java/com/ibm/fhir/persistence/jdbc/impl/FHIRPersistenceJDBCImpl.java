@@ -474,11 +474,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
-     *
+     * 
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
      * @param updatedResource
+     * @param resourcePayloadKey
      * @return
      * @throws IOException
      * @throws FHIRGeneratorException
@@ -1240,7 +1241,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             final T resource = convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true) // TODO even if resource is null?
+                    .success(true)
                     .resource(resource)
                     .deleted(resourceIsDeleted)
                     .interactionStatus(InteractionStatus.READ)

@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -35,6 +35,7 @@ public class BlobReadPayload {
      * @param logicalId
      * @param version
      * @param resourcePayloadKey
+     * @param elements
      * @param compress
      */
     public BlobReadPayload(int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements, boolean compress) {
@@ -48,6 +49,7 @@ public class BlobReadPayload {
 
     /**
      * Execute this command against the given client
+     * @param resourceType
      * @param client
      * @throws FHIRPersistenceException
      */
@@ -66,7 +68,7 @@ public class BlobReadPayload {
         try {
             BinaryData binaryData = bc.downloadContent();
             InputOutputByteStream readStream = new InputOutputByteStream(binaryData.toBytes(), 0);
-            result = PayloadPersistenceHelper.parse(resourceType, readStream.inputStream(), this.elements, this.compress);
+            result = FHIRPersistenceSupport.parse(resourceType, readStream.inputStream(), this.elements, this.compress);
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Error reading resource, resourceTypeId=" + resourceTypeId
                 + ", logicalId=" + logicalId);

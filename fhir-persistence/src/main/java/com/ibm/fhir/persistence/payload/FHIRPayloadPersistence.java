@@ -34,9 +34,10 @@ public interface FHIRPayloadPersistence {
      * Retrieve the payload data for the given resourceTypeId, logicalId and version. Synchronous.
      * @param resourceType the expected resource type class
      * @param rowResourceTypeName the resource type name of the resource read from the database (matching the resourceTypeId)
-     * @param resourceTypeId the unique int idenfifier for the resource type name
+     * @param resourceTypeId the unique int identifier for the resource type name
      * @param logicalId the logical identifier of the desired resource
      * @param version the specific version of the desired resource
+     * @param resourcePayloadKey the resource payload key connecting the entry to the RDBMS record
      * @param elements to filter elements within the resource - can be null
      * @return the fhirResourcePayload exactly as it was provided to {@link #storePayload(String, int, String, int, String, byte[])}
      */

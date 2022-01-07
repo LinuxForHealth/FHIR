@@ -205,7 +205,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey)
-        throws FHIRPersistenceException {
+            throws FHIRPersistenceException {
         return null;
     }
 

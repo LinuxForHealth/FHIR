@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.payload;
+package com.ibm.fhir.persistence;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,15 +23,16 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Collection of helper methods related to the persistence of FHIR resource payload data
  */
-public class PayloadPersistenceHelper {
+public class FHIRPersistenceSupport {
     // the logger to use for this class
-    private static final Logger logger = Logger.getLogger(PayloadPersistenceHelper.class.getName());
+    private static final Logger logger = Logger.getLogger(FHIRPersistenceSupport.class.getName());
     
     // initial buffer size for rendered payload
     private static final int DATA_BUFFER_INITIAL_SIZE = 10*1024; // 10KiB
@@ -107,5 +108,26 @@ public class PayloadPersistenceHelper {
      */
     public static com.ibm.fhir.model.type.Instant getCurrentInstant() {
         return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+    }
+
+    /**
+     * Obtain the versionId value from the Resource meta element, converting
+     * to an int for use by the persistence layer
+     * @param resource
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    public static int getMetaVersionId(Resource resource) throws FHIRPersistenceException {
+        // Programming error if this is being called before the meta element has been set
+        // properly on the resource
+        if (resource.getMeta() == null || resource.getMeta().getVersionId() == null) {
+            throw new FHIRPersistenceException("Resource missing meta versionId");
+        }
+        
+        String versionIdValue = resource.getMeta().getVersionId().getValue();
+        if (versionIdValue == null) {
+            throw new FHIRPersistenceException("Resource missing meta versionId value");
+        }
+        return Integer.parseInt(versionIdValue);
     }
 }

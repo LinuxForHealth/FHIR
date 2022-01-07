@@ -15,6 +15,7 @@ public class SchemaConstants {
     public static final int CHUNK_SIZE = 1024 * 1024;
 
     public static final String RESOURCE_PAYLOADS = "resource_payloads";
+    public static final String RESOURCE_VERSIONS = "resource_versions";
     public static final String PAYLOAD_CHUNKS = "payload_chunks";
     public static final String PAYLOAD_TRACKING = "payload_tracking";
     public static final String PAYLOAD_RECONCILIATION = "payload_reconciliation";
