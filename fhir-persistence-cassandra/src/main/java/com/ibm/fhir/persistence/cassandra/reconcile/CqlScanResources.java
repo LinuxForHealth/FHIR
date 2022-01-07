@@ -9,15 +9,20 @@ package com.ibm.fhir.persistence.cassandra.reconcile;
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.selectFrom;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
+import com.datastax.oss.driver.api.core.CqlIdentifier;
 import com.datastax.oss.driver.api.core.CqlSession;
-import com.datastax.oss.driver.api.core.cql.BoundStatement;
-import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
+import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
+import com.datastax.oss.driver.api.querybuilder.select.Selector;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -51,30 +56,46 @@ public class CqlScanResources {
      */
     public long run(CqlSession session) throws FHIRPersistenceException {
 
+        logger.fine(() -> "Fetching from start token=" + startToken);
+        List<CqlIdentifier> identifiers = new ArrayList<>();
+        List<Selector> tokenSelectors = new ArrayList<>();
+        for (String col: Arrays.asList("resource_type_id","logical_id","version")) {
+            identifiers.add(CqlIdentifier.fromCql(col));
+            tokenSelectors.add(Selector.column(col));
+        }
         // Scan resources from a previous known point
-        final String tokenColumn = "token(resource_type_id, logical_id, version)";
         final Select statement =
             selectFrom("resource_payloads")
-            .column(tokenColumn)
+            .function(CqlIdentifier.fromCql("\"token\""), tokenSelectors)
             .column("resource_type_id")
             .column("logical_id")
             .column("version")
             .column("resource_payload_key")
-            .whereColumn(tokenColumn).isGreaterThanOrEqualTo(literal(this.startToken))
+            .whereTokenFromIds(identifiers).isGreaterThanOrEqualTo(literal(this.startToken))
             .limit(1024)
             ;
-        PreparedStatement ps = session.prepare(statement.build());
-        final BoundStatement boundStatement = ps.bind();
-
+        
+        SimpleStatement simpleStatement = statement.build();
+        ResultSet lrResult = session.execute(simpleStatement);
+        
         long lastToken = startToken;
-        ResultSet lrResult = session.execute(boundStatement);
-        for (Row row = lrResult.one(); row != null; row = lrResult.one()) {
+        Iterator<Row> it = lrResult.iterator();
+        while (it.hasNext()) {
+            Row row = it.next();
+            lastToken = row.getLong(0);
             ResourceRecord rec = new ResourceRecord(
-                row.getInt(0), row.getString(1), row.getInt(2), row.getString(3));
+                row.getInt(1), row.getString(2), row.getInt(3), row.getString(4));
             if (!recordHandler.apply(rec)) {
                 logger.info("Handler requested we stop processing before the current fetch has completed");
+                lastToken = Long.MIN_VALUE; // flag end
                 break;
             }
+        }
+
+        // This works as long as limit > 1
+        if (lastToken == startToken) {
+            // no more data to be read, so we can flag it's the end
+            lastToken = Long.MIN_VALUE;
         }
 
         // Return the last token value we read so that the next read can start

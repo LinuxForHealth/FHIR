@@ -6,15 +6,22 @@
  
 package com.ibm.fhir.persistence.cassandra.reconcile;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
+import com.ibm.fhir.persistence.cassandra.payload.CqlDeletePayload;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Implements an algorithm to scan the offload persistence store and check
@@ -36,6 +43,12 @@ public class PayloadReconciliation {
 
     // Provides access to database connections and transaction handling
     private final DatabaseSupport dbSupport;
+
+    // Tracking how many resource versions we process
+    private long totalProcessed = 0;
+    
+    // Simple map cache of resource type id to name
+    final Map<Integer,String> resourceTypeMap = new HashMap<>();
     
     /**
      * Public constructor
@@ -50,28 +63,32 @@ public class PayloadReconciliation {
         this.dsId = dsId;
         this.dryRun = dryRun;
         this.dbSupport = new DatabaseSupport(dbProperties, dbType);
+        this.dbSupport.init();
     }
 
     /**
      * Run the reconciliation process
      */
     public void run() throws Exception {
-        // TODO obviously
-        run("SMdc");
-    }
-    
-    private void run(String partitionId) throws Exception {
         long start = System.nanoTime();
         // Set up the request context for the configured tenant and datastore
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
-        long totalProcessed = 0;
         
         // Keep processing until we make no more progress
         long firstToken = Long.MIN_VALUE;
         long lastToken;
         do {
-            lastToken = process(firstToken);
-            firstToken = lastToken + 1; // the next starting point
+            // To avoid hundreds of tiny transactions, we process one batch of fetches 
+            // inside a single RDBMS transaction
+            try (ITransaction tx = dbSupport.getTransaction()) {
+                try (Connection c = dbSupport.getConnection()) {
+                    lastToken = process(c, firstToken);
+                    firstToken = lastToken + 1; // the next starting point
+                } catch (SQLException x) {
+                    tx.setRollbackOnly();
+                    throw dbSupport.getTranslator().translate(x);
+                }
+            }
         } while (lastToken > Long.MIN_VALUE);
 
         long end = System.nanoTime();
@@ -85,23 +102,79 @@ public class PayloadReconciliation {
      * @param firstToken
      * @return the last token read, or Long.MIN_VALUE when there aren't any more rows to scan
      */
-    private long process(long firstToken) throws Exception {
+    private long process(Connection c, long firstToken) throws Exception {
         CqlSession session = DatasourceSessions.getSessionForTenantDatasource();
-        CqlScanResources scanner = new CqlScanResources(firstToken, r->processRecord(r));
+        CqlScanResources scanner = new CqlScanResources(firstToken, r->processRecord(session, c, r));
         return scanner.run(session);
     }
 
     /**
      * Function to process a record retrieved by the scanner
+     * @param session
+     * @param connecion
      * @param record
      * @return true to continue scanning, false to stop scanning immediately
      */
-    private Boolean processRecord(ResourceRecord record) {
+    private Boolean processRecord(CqlSession session, Connection connection, ResourceRecord record) {
+        boolean keepGoing = true;
+        this.totalProcessed++;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(String.format("Checking %d/%s/%d [%s]", 
-                record.getResourceTypeId(), record.getLogicalId(), 
-                record.getVersion(), record.getResourcePayloadKey()));
+            logger.fine(getLogRecord(record, "CHECK"));
         }
-        return true;
+
+        // Check that we have the resource in the RDBMS configured for
+        // this tenant
+        try {
+            ResourceExistsDAO dao = new ResourceExistsDAO(this.resourceTypeMap, 
+                record.getResourceTypeId(), record.getLogicalId(), record.getVersion(), 
+                record.getResourcePayloadKey());
+            if (dao.run(connection)) {
+                // Found the record, so log it
+                logger.info(getLogRecord(record, "OK"));
+            } else {
+                logger.info(getLogRecord(record, "ORPHAN"));
+                handleOrphanedRecord(session, record);
+            }
+        } catch (Exception x) {
+            // This probably means there's an issue talking to the database,
+            // or Cassandra, either of which is fatal so we just have to stop
+            logger.log(Level.SEVERE, getLogRecord(record, "FAILED"), x);
+            keepGoing = false;
+        }
+        return keepGoing;
+    }
+
+    /**
+     * Get a consistent log entry description for the given ResourceRecord
+     * and status string
+     * @param record
+     * @param status a status string of 6 characters or less
+     * @return
+     */
+    private String getLogRecord(ResourceRecord record, String status) {
+        return String.format("[%6s] %d/%s/%d [%s]", status,
+            record.getResourceTypeId(), record.getLogicalId(), 
+            record.getVersion(), record.getResourcePayloadKey());
+    }
+
+    /**
+     * Erase the record which exists in the offload payload store 
+     * but not the RDBMS
+     * @param session
+     * @param record
+     */
+    private void handleOrphanedRecord(CqlSession session, ResourceRecord record) throws FHIRPersistenceException {
+        final String action = this.dryRun ? "Would erase" : "Erasing";
+        logger.info(String.format("%s orphaned payload %d/%s/%d [%s]", 
+            action,
+            record.getResourceTypeId(), record.getLogicalId(), 
+            record.getVersion(), record.getResourcePayloadKey()));
+
+        if (!this.dryRun) {
+            CqlDeletePayload delete = new CqlDeletePayload(record.getResourceTypeId(), 
+                record.getLogicalId(), record.getVersion(), 
+                record.getResourcePayloadKey());
+           delete.run(session);
+        }
     }
 }

@@ -26,7 +26,12 @@ import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.reconcile.PayloadReconciliation;
 
 /**
- * Bootstrap all the Cassandra databases for the given tenant
+ * Admin operations for the IBM FHIR Server payload offload support
+ * in Cassandra.
+ * <pre>
+ *  1. Bootstrap the offload keyspace and tables in Cassandra 
+ *  2. Run the reconciliation process to look for orphaned payload records
+ * </pre>
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -64,7 +69,16 @@ public class Main {
                 final String dsId = pe.getName();
                 PropertyGroup datasourceEntry = pg.getPropertyGroup(dsId);
                 if (datasourceEntry != null) {
-                    bootstrapTenantDatasource(tenantId, dsId, replicationFactor);
+                    final String datasourceType = datasourceEntry.getStringProperty("type");
+                    if ("cassandra".equalsIgnoreCase(datasourceType)) {
+                        PropertyGroup connectionProperties = datasourceEntry.getPropertyGroup("connectionProperties");
+                        if (connectionProperties != null) {
+                            final String tenantKeyspace = connectionProperties.getStringProperty("tenantKeyspace", tenantId);
+                            bootstrapTenantDatasource(tenantKeyspace, dsId, replicationFactor);
+                        } else {
+                            throw new IllegalStateException("Missing connectionProperties in payload datasource: " + tenantId + "/" + dsId);
+                        }
+                    }
                 } else {
                     // configuration file is broken
                     throw new IllegalStateException("Datasource property is not a PropertyGroup: " + dsId);
@@ -81,9 +95,9 @@ public class Main {
      * @param dsId
      * @param replicationFactor
      */
-    private void bootstrapTenantDatasource(String tenantId, String dsId, int replicationFactor) {
+    private void bootstrapTenantDatasource(String tenantKeyspace, String dsId, int replicationFactor) {
         CqlSession session = DatasourceSessions.getSessionForBootstrap(tenantId, dsId);
-        CreateSchema createSchema = new CreateSchema(tenantId);
+        CreateSchema createSchema = new CreateSchema(tenantKeyspace);
         createSchema.createKeyspace(session, "SimpleStrategy", replicationFactor);
         createSchema.run(session);
     }
