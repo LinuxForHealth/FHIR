@@ -2199,7 +2199,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
         T result;
         if (resourceDTO != null) {
-            if (this.payloadPersistence != null) {
+            if (isOffloadingSupported()) {
                 // The payload needs to be read from the FHIRPayloadPersistence impl. If this is
                 // a form of whole-system query (search or history), then the resource type needs
                 // to come from the DTO itself
@@ -2410,6 +2410,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public boolean isReindexSupported() {
         return true;
+    }
+
+    @Override
+    public boolean isOffloadingSupported() {
+        return this.payloadPersistence != null;
     }
 
     @Override
@@ -2759,7 +2764,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
             
             // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
-            if (this.payloadPersistence != null) {
+            if (isOffloadingSupported()) {
                 erasePayloads(eraseDao, eraseResourceGroupId);
             } else {
                 // clean up the erased_resources records because they're no longer needed
@@ -2871,7 +2876,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
-        if (payloadPersistence != null) {
+        if (isOffloadingSupported()) {
             doCachePrefill(); // just in case we're called before any other database interaction (can happen)
             final String resourceTypeName = resource.getClass().getSimpleName();
             int resourceTypeId = getResourceTypeId(resourceTypeName);
