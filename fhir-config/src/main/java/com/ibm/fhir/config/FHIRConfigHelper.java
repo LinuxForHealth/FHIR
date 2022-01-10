@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -174,19 +174,19 @@ public class FHIRConfigHelper {
                     String name = rsrcsEntry.getName();
                     
                     // Ensure we skip over the special property "open" and process only the others
-                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name)) {
-                        
-                        // Skip the abstract types Resource and DomainResource
-                        if (!"Resource".equals(name) &&
-                                !"DomainResource".equals(name)) {
+                    // and skip the abstract types Resource and DomainResource
+                    // It would be nice to be able to verify if the resource names were valid, but
+                    // not possible at this layer of the code.  
+                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) &&
+                        !"Resource".equals(name) &&
+                        !"DomainResource".equals(name)) {
                             result.add(name);
-                        }
                     }
                 }
             }
         } catch (Exception e) {
-            log.throwing("FHIRConfigHelper", "getSupportedResourceTypes", e);
-            throw new FHIRException("Unexpected error retrieving supported resource types", e);
+            log.fine("FHIRConfigHelper.getSupportedResourceTypes is configured with no "
+                    + "resources in the server config file or is not configured properly");
         }
         
         return result;

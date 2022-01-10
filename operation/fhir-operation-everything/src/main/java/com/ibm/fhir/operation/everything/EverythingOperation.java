@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -336,18 +336,39 @@ public class EverythingOperation extends AbstractOperation {
         
         try {
             List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+            if (LOG.isLoggable(Level.FINE)) {
+                StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
+                resourceTypeBuilder.append("supportedResourceTypes are: ");
+                for (String resourceType: supportedResourceTypes) {
+                   resourceTypeBuilder.append(resourceType);
+                   resourceTypeBuilder.append(" ");
+                }
+                LOG.fine(resourceTypeBuilder.toString());
+            }
             // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
             // like a couple of good additional resources to include and they are even mentioned as examples of resources
             // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html
             // resourceTypes.add(Practitioner.class.getSimpleName());
             // resourceTypes.add(Organization.class.getSimpleName());
-            resourceTypes.retainAll(supportedResourceTypes);
+            // Need to have this if check to support server config files that do not specify resources
+            if (!supportedResourceTypes.isEmpty()) {
+                resourceTypes.retainAll(supportedResourceTypes);
+            }
         } catch (Exception e) {
             FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported resource types of the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
-            
+        
+        if (LOG.isLoggable(Level.FINE)) {
+            StringBuilder resourceTypeBuilder = new StringBuilder(resourceTypes.size());
+            resourceTypeBuilder.append("resourceTypes are: ");
+            for (String resourceType: resourceTypes) {
+                resourceTypeBuilder.append(resourceType);
+                resourceTypeBuilder.append(" ");
+            }
+            LOG.fine(resourceTypeBuilder.toString());
+        }
         return resourceTypes;
     }
 
