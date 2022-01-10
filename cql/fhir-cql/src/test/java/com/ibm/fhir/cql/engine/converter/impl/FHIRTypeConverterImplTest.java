@@ -15,7 +15,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
+import com.ibm.fhir.cql.translator.TestHelper;
+import com.ibm.fhir.model.resource.Condition;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Quantity;
 
 public class FHIRTypeConverterImplTest {
 
@@ -43,5 +48,31 @@ public class FHIRTypeConverterImplTest {
         org.opencds.cqf.cql.engine.runtime.DateTime cqlDateTime = typeConverter.toCqlDateTime(fhirDateTime);
         assertNotNull(cqlDateTime);
         assertEquals( cqlDateTime.getDateTime().toLocalDate(), expected );
+    }
+    
+    @Test
+    public void testToCqlConceptNullCodes() throws Exception {
+        // trying to find a path where no codes causes a null array
+        // when I did it with the builder without setting the codes, I got
+        // an empty array. Same here, but this seems more likely to find
+        // a whole in the logic.
+        Condition condition = (Condition) TestHelper.getTestResource("Condition.json");
+        
+        CodeableConcept noCodes = condition.getCode();
+        
+        org.opencds.cqf.cql.engine.runtime.Concept concept = typeConverter.toCqlConcept(noCodes);
+        assertNotNull(concept);
+        assertEquals("Something", concept.getDisplay());
+        assertNotNull(noCodes.getCoding());
+    }
+    
+    @Test
+    public void testToCqlQuantityNullValue() {
+        Quantity quantity = Quantity.builder().code(Code.of("123")).build();
+        
+        org.opencds.cqf.cql.engine.runtime.Quantity cqlQuantity = typeConverter.toCqlQuantity(quantity);
+        assertNotNull(cqlQuantity);
+        assertEquals(cqlQuantity.getValue().floatValue(), 0.0f);
+        assertEquals(cqlQuantity.getUnit(), "1");
     }
 }

@@ -3,12 +3,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-package com.ibm.fhir.cql.translator;
+package com.ibm.fhir.cql.helpers;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
-import static org.testng.Assert.assertNotNull;
 
 import java.io.InputStream;
 import java.util.List;
@@ -21,14 +19,14 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Library.Builder;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.UnsignedInt;
+import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 
 public class TestHelper {
@@ -47,46 +45,39 @@ public class TestHelper {
 
     public static Resource getTestResource(String path) throws Exception {
         try (InputStream is = ClassLoader.getSystemResourceAsStream(path)) {
-            assertNotNull(is, "Resource not found");
             return FHIRParser.parser(Format.JSON).parse(is);
         }
     }
     
-    public static <T> List<T> getBundleResources(Bundle bundle, Class<T> clazz) {
-        return bundle.getEntry().stream().map(e -> e.getResource()).filter(r -> clazz.isInstance(r)).map(r -> clazz.cast(r) ).collect(Collectors.toList());
+    public static <T> List<T> getBundleResources(String bundlePath, Class<T> clazz) throws Exception {
+        try (InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(bundlePath)) {
+            final Bundle bundle = (Bundle) FHIRParser.parser(Format.JSON).parse(is);
+
+            return getBundleResources( bundle, clazz );
+        }
     }
 
-    public static Attachment attachment(String mimeType, String libraryResource) throws Exception {
+    public static <T> List<T> getBundleResources(Bundle bundle, Class<T> clazz) {
+        return bundle.getEntry().stream().map(e -> e.getResource()).filter(r -> clazz.isInstance(r)).map(r -> clazz.cast(r) ).collect(Collectors.toList());
+    }    
+
+    public static Attachment attachment(String mimeType, String resource) throws Exception {
         byte[] buffer = null;
-        try (InputStream is = ClassLoader.getSystemResourceAsStream(libraryResource)) {
+        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource)) {
             buffer = IOUtils.toByteArray(is);
         }
 
-        return extracted(mimeType, buffer);
+        return attachment(mimeType, buffer);
     }
 
-    public static Attachment extracted(String mimeType, byte[] buffer) {
+    public static Attachment attachment(String mimeType, byte[] buffer) {
         return Attachment.builder().contentType(fhircode(mimeType)).data(Base64Binary.of(buffer)).build();
     }
     
-    public static Bundle bundle(Resource... resources) {
-        Bundle.Builder builder = Bundle.builder().type(BundleType.SEARCHSET);
-        builder.total(UnsignedInt.of(resources.length));
-        for( Resource resource : resources ) {
-            builder.entry(Bundle.Entry.builder().resource(resource).build());
-        }
-        return builder.build();
-    }
-    
-    public static Coding coding(String codesystem, String code) {
-        return Coding.builder().system(fhiruri(codesystem)).code(fhircode(code)).build();
-    }
-    
-    public static CodeableConcept concept(String codesystem, String code) {
-        return concept( coding( codesystem, code ) );
-    }
-    
-    public static CodeableConcept concept(Coding coding) {
-        return CodeableConcept.builder().coding(coding).build();
+    public static Patient.Builder john_doe() {
+        return Patient.builder().id("123")
+                .gender(AdministrativeGender.MALE)
+                .name(HumanName.builder().id("human-name").text(fhirstring("John Doe")).build())
+                .birthDate(Date.of("1969-02-15"));
     }
 }
