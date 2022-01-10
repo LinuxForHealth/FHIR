@@ -5,6 +5,9 @@ on:
     # 7am (UTC) each day
     # '*' is a special character in YAML so you have to quote this string
     - cron:  '0 7 * * *'
+  # allows the workflow to be manually executed any time
+  workflow_dispatch:
+
 jobs:
   image-refresh:
     runs-on: ubuntu-latest
