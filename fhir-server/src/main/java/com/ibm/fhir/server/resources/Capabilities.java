@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,7 +111,7 @@ public class Capabilities extends FHIRResource {
 
     // Constants
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
+    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2022";
     private static final String FHIR_PUBLISHER = "IBM Corporation";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
