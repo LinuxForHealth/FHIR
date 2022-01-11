@@ -42,5 +42,5 @@ public class FHIRMediaType extends MediaType {
     // https://www.hl7.org/fhir/http.html#version-parameter
     public static final String FHIR_VERSION_PARAMETER = "fhirVersion";
     public static final Set<String> SUPPORTED_FHIR_VERSIONS =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList("4.0","4.0.1")));
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList("4.0","4.0.1","4.3","4.3.0")));
 }

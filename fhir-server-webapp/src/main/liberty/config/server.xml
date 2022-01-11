@@ -46,7 +46,7 @@
         
         Example trace specifications: 
         <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
-        <logging traceSpecification="com.ibm.fhir.persistence.jdbc.dao.impl.*=fine:com.ibm.fhir.database.utils.query.*=FINE" traceFormat="BASIC"/>
+        <logging traceSpecification="com.ibm.fhir.persistence.jdbc.dao.impl.*=fine:com.ibm.fhir.database.utils.query.*=fine" traceFormat="BASIC"/>
         <logging traceSpecification="${TRACE_SPEC}" traceFileName="${TRACE_FILE}" traceFormat="${TRACE_FORMAT}" consoleLogLevel="${WLP_LOGGING_CONSOLE_LOGLEVEL}"/>
         
         To send the trace messages to standard out, set TRACE_FILE to "stdout".
