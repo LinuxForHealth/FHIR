@@ -30,10 +30,15 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
 
     /**
      * Public constructor
+     * 
      * @param tx
+     * @param syncReg
+     * @param cache
+     * @param transactionDataKey
+     * @param rolledBackHandler
      */
     public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache, String transactionDataKey,
-        Runnable rolledBackHandler) {
+            Runnable rolledBackHandler) {
         this.userTransaction = tx;
         this.syncRegistry = syncReg;
         this.cache = cache;

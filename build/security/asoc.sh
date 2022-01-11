@@ -16,6 +16,7 @@ mkdir -p ${WORKSPACE}/build/security/logs/output/
 find ${WORKSPACE} -iname 'fhir-*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -not -iname 'fhir-persistence-schema-*-cli.jar' -not -iname 'fhir-swagger-generator-*-cli.jar' \
   -not -iname 'fhir-examples-*.jar' -not -name 'fhir-bulkdata-webapp-*-client.jar' -not -iname 'fhir*-ig-*.jar' -not -iname 'fhir-bucket-*-cli.jar' -not -path '*/target/fhir-server-webapp-*' \
   -not -iname 'fhir-operation-cqf-*-shaded.jar' -not -iname 'fhir-operation-cpg-*-shaded.jar' -not -iname 'fhir-term-graph-loader-*-cli.jar' \
+  -not -path '*/target/fhir-persistence-cassandra-app*' \
   -not -path '*/target/fhir-bulkdata*' -exec cp -f {} ${WORKSPACE}/build/security/logs/tmp \;
 
 cd ${WORKSPACE}/build/security/logs/

@@ -8,6 +8,7 @@ package com.ibm.fhir.cql.translator;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,6 +47,7 @@ public class TestHelper {
 
     public static Resource getTestResource(String path) throws Exception {
         try (InputStream is = ClassLoader.getSystemResourceAsStream(path)) {
+            assertNotNull(is, "Resource not found");
             return FHIRParser.parser(Format.JSON).parse(is);
         }
     }

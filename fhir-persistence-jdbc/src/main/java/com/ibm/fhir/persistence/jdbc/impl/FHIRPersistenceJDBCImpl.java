@@ -476,11 +476,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
-     *
+     * 
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
      * @param updatedResource
+     * @param resourcePayloadKey
      * @return
      * @throws IOException
      * @throws FHIRGeneratorException
@@ -1243,7 +1244,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             final T resource = convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true) // TODO even if resource is null?
+                    .success(true)
                     .resource(resource)
                     .deleted(resourceIsDeleted)
                     .interactionStatus(InteractionStatus.READ)
@@ -2200,7 +2201,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
         T result;
         if (resourceDTO != null) {
-            if (this.payloadPersistence != null) {
+            if (isOffloadingSupported()) {
                 // The payload needs to be read from the FHIRPayloadPersistence impl. If this is
                 // a form of whole-system query (search or history), then the resource type needs
                 // to come from the DTO itself
@@ -2483,6 +2484,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public boolean isReindexSupported() {
         return true;
+    }
+
+    @Override
+    public boolean isOffloadingSupported() {
+        return this.payloadPersistence != null;
     }
 
     @Override
@@ -2832,7 +2838,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
             
             // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
-            if (this.payloadPersistence != null) {
+            if (isOffloadingSupported()) {
                 erasePayloads(eraseDao, eraseResourceGroupId);
             } else {
                 // clean up the erased_resources records because they're no longer needed
@@ -2944,7 +2950,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
-        if (payloadPersistence != null) {
+        if (isOffloadingSupported()) {
             doCachePrefill(); // just in case we're called before any other database interaction (can happen)
             final String resourceTypeName = resource.getClass().getSimpleName();
             int resourceTypeId = getResourceTypeId(resourceTypeName);

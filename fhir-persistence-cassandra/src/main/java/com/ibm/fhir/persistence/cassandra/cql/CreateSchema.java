@@ -7,9 +7,8 @@
 package com.ibm.fhir.persistence.cassandra.cql;
 
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
-import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_RECONCILIATION;
-import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_TRACKING;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_PAYLOADS;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_VERSIONS;
 
 import java.util.logging.Logger;
 
@@ -46,8 +45,7 @@ public class CreateSchema {
         useKeyspace(session);
         createLogicalResourcesTable(session);
         createPayloadChunksTable(session);
-        createPayloadTrackingTable(session);
-        createPayloadReconciliationTable(session);
+        createResourceVersionsTable(session);
         
        logger.info("Schema definition complete for keySpace '" + this.keySpace + "'");
     }
@@ -75,13 +73,11 @@ public class CreateSchema {
     }
 
     protected void createLogicalResourcesTable(CqlSession session) {
-        // partition by partition_id (application-defined, like patient logical id)
-        // cluster within each partition by resource_type_id, logical_id, version
+        // partition by resource_type_id, logical_id, version
         // The resource_payload_key is assigned by the server and is used to help
         // manage rollbacks in a concurrent scenario (so the rollback only removes
         // rows created within the transaction that was rolled back).
         final String cql = "CREATE TABLE IF NOT EXISTS " + RESOURCE_PAYLOADS + " ("
-                + "partition_id              text, "
                 + "resource_type_id           int, "
                 + "logical_id                text, "
                 + "version                    int, "
@@ -89,8 +85,29 @@ public class CreateSchema {
                 + "last_modified        timestamp, "
                 + "chunk                     blob, "
                 + "parameter_block           blob, "
-                + "PRIMARY KEY (partition_id, resource_type_id, logical_id, version, resource_payload_key)"
-                + ") WITH CLUSTERING ORDER BY (resource_type_id ASC, logical_id ASC, version DESC, resource_payload_key ASC)";
+                + "PRIMARY KEY ((resource_type_id, logical_id, version), resource_payload_key)"
+                + ") WITH CLUSTERING ORDER BY (resource_payload_key ASC)";
+
+        logger.info("Running: " + cql);
+        session.execute(cql);
+    }
+
+    /**
+     * Create a table to identify the versions associated with each logical resource.
+     * The partition id for this table is based on only {resource_type_id, logical_id}
+     * allowing the application to select the list of versions. The versions are also
+     * clustered with descending order, making it trivial to identify the latest version
+     * @param session
+     */
+    protected void createResourceVersionsTable(CqlSession session) {
+        // partition by resource_type_id, logical_id
+        final String cql = "CREATE TABLE IF NOT EXISTS " + RESOURCE_VERSIONS + " ("
+                + "resource_type_id           int, "
+                + "logical_id                text, "
+                + "version                    int, "
+                + "resource_payload_key      text, "
+                + "PRIMARY KEY ((resource_type_id, logical_id), version, resource_payload_key)"
+                + ") WITH CLUSTERING ORDER BY (version DESC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);
@@ -104,66 +121,15 @@ public class CreateSchema {
      * @param session
      */
     protected void createPayloadChunksTable(CqlSession session) {
-        // partition by partition_id (application-defined, like patient logical id)
-        // The resource_payload_key ties the chunks to the RESOURCE_PAYLOADS record
+        // The resource_payload_key is unique for each RESOURCE_PAYLOADS record
+        // so is used here a foreign key (parent) and also acts as the partition
+        // id for this table
         final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_CHUNKS + " ("
-                + "partition_id           text, "
                 + "resource_payload_key   text, "
                 + "ordinal                 int, "
                 + "chunk                  blob, "
-                + "PRIMARY KEY (partition_id, resource_payload_key, ordinal)"
-                + ") WITH CLUSTERING ORDER BY (resource_payload_key ASC, ordinal ASC)";
-
-        logger.info("Running: " + cql);
-        session.execute(cql);
-    }
-    
-    /**
-     * Create the table to track the insertion of payload records. This is used
-     * by the reconciliation process to make sure that payload records are attached
-     * to a logical resource in the RDBMS system of record. Records in this table
-     * can be removed once they have been reconciled, but this is not required.
-     * @param session
-     */
-    protected void createPayloadTrackingTable(CqlSession session) {
-        // partition by partition_id. This is application defined, and is used to distribute
-        // the data across a number of partitions, which all must be scanned to make sure
-        // every record gets processed
-        // cluster within each partition by tstamp
-        final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_TRACKING + " ("
-                + "partition_id         smallint, "
-                + "tstamp                 bigint, "
-                + "resource_type_id          int, "
-                + "logical_id               text, "
-                + "version                   int, "
-                + "resource_payload_key     text, "
-                + "payload_partition_id     text, "
-                + "PRIMARY KEY (partition_id, tstamp, resource_type_id, logical_id, version, resource_payload_key)"
-                + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
-
-        logger.info("Running: " + cql);
-        session.execute(cql);
-    }
-
-    /**
-     * Create the table to track the reconciliation of payload records. This tells
-     * the reconciliation service where to start scanning the payload_tracking table
-     * within each partition. The reconciliation scanner needs to be careful to
-     * avoid issues with clock drift in clusters so should stop attempting to
-     * reconcile records more recent than the ingestion transaction timeout value (e.g.
-     * 2 minutes by default). Some systems may be configured with even larger
-     * timeouts, so this must be taken into account. This is to ensure that
-     * reconciliation doesn't miss records which appear after but with timestamps before
-     * the latest tstamp in a given partition. Handling this doesn't generate any
-     * logical inconsistencies, but may require a small amount of work to be repeated.
-     * @param session
-     */
-    protected void createPayloadReconciliationTable(CqlSession session) {
-        final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_RECONCILIATION + " ("
-                + "partition_id   smallint, " // FK to payload_tracking table
-                + "tstamp           bigint, " // FK to payload_tracking table
-                + "PRIMARY KEY (partition_id, tstamp) "
-                + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
+                + "PRIMARY KEY (resource_payload_key, ordinal)"
+                + ") WITH CLUSTERING ORDER BY (ordinal ASC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);

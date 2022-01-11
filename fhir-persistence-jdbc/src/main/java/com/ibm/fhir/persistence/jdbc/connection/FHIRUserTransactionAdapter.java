@@ -56,9 +56,10 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
      * @param syncRegistry
      * @param cache
      * @param transactionDataKey
+     * @param rolledBackHandler
      */
     public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache,
-        String transactionDataKey, Runnable rolledBackHandler) {
+            String transactionDataKey, Runnable rolledBackHandler) {
         this.userTransaction = tx;
         this.syncRegistry = syncRegistry;
         this.cache = cache;

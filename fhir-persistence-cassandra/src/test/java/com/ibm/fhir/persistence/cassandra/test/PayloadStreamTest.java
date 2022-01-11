@@ -22,8 +22,8 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.cassandra.payload.CqlPayloadStream;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -44,12 +44,12 @@ public class PayloadStreamTest {
                     .build())
                 .build();
         
-        InputOutputByteStream iobs = PayloadPersistenceHelper.render(patient, true);
+        InputOutputByteStream iobs = FHIRPersistenceSupport.render(patient, true);
         
         // Get the data as a ByteBuffer to pretend that it was stored in Cassandra and read back
         ByteBuffer bb = iobs.wrap();
         InputOutputByteStream readStream = new InputOutputByteStream(bb);
-        Patient p = PayloadPersistenceHelper.parse(Patient.class, readStream.inputStream(), null, true);
+        Patient p = FHIRPersistenceSupport.parse(Patient.class, readStream.inputStream(), null, true);
         assertNotNull(p);
         assertEquals(p.getId(), patient.getId());
     }
@@ -67,13 +67,13 @@ public class PayloadStreamTest {
                     .build())
                 .build();
         
-        InputOutputByteStream iobs = PayloadPersistenceHelper.render(patient, false);
+        InputOutputByteStream iobs = FHIRPersistenceSupport.render(patient, false);
         
         // Get the data as a ByteBuffer to pretend that it was stored in Cassandra and read back
         ByteBuffer bb = iobs.wrap();
         InputOutputByteStream readStream = new InputOutputByteStream(bb);
         // See if we can read the resource from this stream
-        Patient p = PayloadPersistenceHelper.parse(Patient.class, readStream.inputStream(), null, false);
+        Patient p = FHIRPersistenceSupport.parse(Patient.class, readStream.inputStream(), null, false);
         assertNotNull(p);
         assertEquals(p.getId(), patient.getId());
     }

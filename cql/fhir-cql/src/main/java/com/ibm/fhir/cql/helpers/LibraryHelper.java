@@ -178,8 +178,10 @@ public class LibraryHelper {
         } else if (fhirLibrary.getType().getCoding() != null) {
             Coding needed = getLogicLibraryCoding();
             // can't use equals because we want to ignore display name for this purpose
-            result = fhirLibrary.getType().getCoding().stream().filter(c -> c.getSystem().equals(needed.getSystem())
-                    && c.getCode().equals(needed.getCode())).collect(Collectors.counting()) > 0;
+            result = fhirLibrary.getType().getCoding().stream().filter(c -> 
+                    c.getSystem()!= null && c.getSystem().equals(needed.getSystem()) && 
+                    c.getCode() != null && c.getCode().equals(needed.getCode())
+                ).collect(Collectors.counting()) > 0;
         }
         return result;
     }

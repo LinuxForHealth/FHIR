@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 
@@ -34,10 +35,11 @@ public class PayloadReaderImpl implements PayloadReader {
         this.uncompress = uncompress;
         this.elements = elements;
     }
+
     @Override
     public <T extends Resource> T read(Class<T> resourceType, InputStream inputStream) throws FHIRPersistenceException {
         try {
-            return PayloadPersistenceHelper.parse(resourceType, inputStream, elements, uncompress);
+            return FHIRPersistenceSupport.parse(resourceType, inputStream, elements, uncompress);
         } catch (IOException | FHIRParserException x) {
             throw new FHIRPersistenceException("Error reading resource", x);
         }

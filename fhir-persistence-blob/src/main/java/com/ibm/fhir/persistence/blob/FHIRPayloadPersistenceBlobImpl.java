@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult.Status;
@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.util.InputOutputByteStream;
 public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceBlobImpl.class.getName());
     private static final long NANOS = 1000000000L;
-    private static final String NULL_PARTITION_NAME = null;
+    public static final boolean PAYLOAD_COMPRESSED = true;
     
     /**
      * Public constructor
@@ -50,8 +50,9 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         throws FHIRPersistenceException {
         Future<PayloadPersistenceResult> result;
         try {
-            final BlobPropertyGroupAdapter config = getConfigAdapter();
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, config.isCompress());
+            // We leave compression to the storage platform, making it easier for other clients
+            // to read the resource data if they want
+            InputOutputByteStream ioStream = FHIRPersistenceSupport.render(resource, !PAYLOAD_COMPRESSED);
             BlobStorePayload spl = new BlobStorePayload(resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
             spl.run(getBlobContainerClient());
 
@@ -62,7 +63,7 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version + "'", x);
             result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.FAILED));
         }
-        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, NULL_PARTITION_NAME, result);
+        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, result);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
 
         logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
         final BlobPropertyGroupAdapter config = getConfigAdapter();
-        BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements, config.isCompress());
+        BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements, !PAYLOAD_COMPRESSED);
         return cmd.run(resourceType, getBlobContainerClient());
     }
 

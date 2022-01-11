@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,13 +18,12 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.cql.TenantDatasourceKey;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.FHIRPayloadPartitionStrategy;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult.Status;
@@ -44,24 +43,13 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
     // ** DO NOT CHANGE** The number of Base64 digits to use in the partition hash (4*6 = 24 bits)
     public static final int PARTITION_HASH_BASE64_DIGITS = 4;
     
-    // The strategy used to obtain the partition name for a given resource
-    private final FHIRPayloadPartitionStrategy partitionStrategy;
+    // For Cassandra we always compress the payload
+    public static final boolean PAYLOAD_COMPRESSED = true;
 
     /**
      * Public constructor
-     * @param ps the partition strategy
      */
-    public FHIRPayloadPersistenceCassandraImpl(FHIRPayloadPartitionStrategy ps) {
-        this.partitionStrategy = ps;
-    }
-
-    /**
-     * Gets a partition strategy which uses a constant partition name
-     * of "default"
-     * @return the partition strategy
-     */
-    public static FHIRPayloadPartitionStrategy defaultPartitionStrategy() {
-        return new FHIRPayloadHashPartitionStrategy(PARTITION_HASH_BASE64_DIGITS);
+    public FHIRPayloadPersistenceCassandraImpl() {
     }
 
     /**
@@ -77,11 +65,10 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         Future<PayloadPersistenceResult> result;
 
         final CassandraPropertyGroupAdapter config = getConfigAdapter();
-        final String partitionName = partitionStrategy.getPartitionName(resourceType, logicalId);
         try (CqlSession session = getCqlSession()) {
             // Get the IO stream for the rendered resource.
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, config.isCompress());
-            CqlStorePayload spl = new CqlStorePayload(partitionName, resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
+            InputOutputByteStream ioStream = FHIRPersistenceSupport.render(resource, PAYLOAD_COMPRESSED);
+            CqlStorePayload spl = new CqlStorePayload(resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
             spl.run(session);
 
             // TODO actual async behavior
@@ -91,7 +78,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version + "'", x);
             result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.FAILED));
         }
-        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, partitionName, result);
+        return new PayloadPersistenceResponse(resourcePayloadKey, resourceType, resourceTypeId, logicalId, version, result);
     }
 
     @Override
@@ -99,9 +86,8 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
             int version, String resourcePayloadKey, List<String> elements) throws FHIRPersistenceException {
 
         logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
-        final CassandraPropertyGroupAdapter config = getConfigAdapter();
         try (CqlSession session = getCqlSession()) {
-            CqlReadResource spl = new CqlReadResource(partitionStrategy.getPartitionName(rowResourceTypeName, logicalId), resourceTypeId, logicalId, version, resourcePayloadKey, elements, config.isCompress());
+            CqlReadResource spl = new CqlReadResource(resourceTypeId, logicalId, version, resourcePayloadKey, elements, PAYLOAD_COMPRESSED);
             return spl.run(resourceType, session);
         }
     }
@@ -111,8 +97,7 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         try (CqlSession session = getCqlSession()) {
             // Currently not supporting a real async implementation, so we 
             // process synchronously
-            CqlDeletePayload spl = new CqlDeletePayload(partitionStrategy.getPartitionName(resourceType, logicalId),
-                    resourceTypeId, logicalId, version, resourcePayloadKey);
+            CqlDeletePayload spl = new CqlDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey);
             spl.run(session);
         }
     }

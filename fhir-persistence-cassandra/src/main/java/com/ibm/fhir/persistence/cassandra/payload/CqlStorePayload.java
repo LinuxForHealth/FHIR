@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.CHUNK_SIZE;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_PAYLOADS;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_VERSIONS;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import com.datastax.oss.driver.api.core.cql.DefaultBatchType;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.insert.RegularInsert;
-import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
@@ -38,9 +38,7 @@ import com.ibm.fhir.persistence.util.InputOutputByteStream;
 public class CqlStorePayload {
     private static final Logger logger = Logger.getLogger(CqlStorePayload.class.getName());
 
-    // Possibly patient, or some other partitioning key
-    private final String partitionId;
-
+    // The RDBMS identifier for the resource type
     private final int resourceTypeId;
 
     // The logical identifier we have assigned to the resource
@@ -57,15 +55,13 @@ public class CqlStorePayload {
 
     /**
      * Public constructor
-     * @param partitionId
      * @param resourceTypeId
      * @param logicalId
      * @param version
+     * @param resourcePayloadKey
      * @param payloadStream
      */
-    public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, InputOutputByteStream payloadStream) {
-        CqlDataUtil.safeBase64(partitionId);
-        this.partitionId = partitionId;
+    public CqlStorePayload(int resourceTypeId, String logicalId, int version, String resourcePayloadKey, InputOutputByteStream payloadStream) {
         this.logicalId = logicalId;
         this.resourceTypeId = resourceTypeId;
         this.version = version;
@@ -86,6 +82,7 @@ public class CqlStorePayload {
         // it in the main resource table, avoiding the cost of a second
         // random read when we need to access it again.
         final boolean storeInline = payloadStream.size() <= CHUNK_SIZE;
+        storeResourceVersion(session);
         storeResource(session, storeInline);
 
         if (!storeInline) {
@@ -97,6 +94,36 @@ public class CqlStorePayload {
     }
 
     /**
+     * Store the resource version record
+     * @param session
+     */
+    private void storeResourceVersion(CqlSession session) throws FHIRPersistenceException {
+        RegularInsert insert =
+                insertInto(RESOURCE_VERSIONS)
+                .value("resource_type_id", literal(resourceTypeId))
+                .value("logical_id", bindMarker())
+                .value("version", bindMarker())
+                .value("resource_payload_key", bindMarker())
+            ;
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Storing resource version record for '"
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'; size=" + payloadStream.size());
+        }
+
+        PreparedStatement ps = session.prepare(insert.build());
+        final BoundStatementBuilder bsb = ps.boundStatementBuilder(logicalId, version, resourcePayloadKey);
+
+        try {
+            session.execute(bsb.build());
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, "insert into resource_payloads failed for '"
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+            throw new FHIRPersistenceDataAccessException("Failed inserting into " + RESOURCE_PAYLOADS);
+        }
+    }
+
+    /**
      * Store the resource record
      * @param session
      * @param storeInline when true, store the payload inline in resource_payloads
@@ -104,7 +131,6 @@ public class CqlStorePayload {
     private void storeResource(CqlSession session, boolean storeInline) throws FHIRPersistenceException {
         RegularInsert insert =
                 insertInto(RESOURCE_PAYLOADS)
-                .value("partition_id", literal(partitionId))
                 .value("resource_type_id", literal(resourceTypeId))
                 .value("logical_id", bindMarker())
                 .value("version", bindMarker())
@@ -113,7 +139,7 @@ public class CqlStorePayload {
 
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Storing payload for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'; size=" + payloadStream.size());
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'; size=" + payloadStream.size());
         }
 
         // If the payload is small enough to fit in a single chunk, we can store
@@ -137,7 +163,7 @@ public class CqlStorePayload {
             session.execute(bsb.build());
         } catch (Exception x) {
             logger.log(Level.SEVERE, "insert into resource_payloads failed for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed inserting into " + RESOURCE_PAYLOADS);
         }
     }
@@ -152,7 +178,6 @@ public class CqlStorePayload {
 
         SimpleStatement statement =
             insertInto(PAYLOAD_CHUNKS)
-            .value("partition_id", literal(partitionId))
             .value("resource_payload_key", bindMarker())
             .value("ordinal", bindMarker())
             .value("chunk", bindMarker())

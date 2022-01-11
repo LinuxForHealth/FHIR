@@ -72,7 +72,7 @@ public class ExamplesValidationTest {
         try (InputStream in = new FileInputStream(path.toFile())) {
             System.out.println("Path: " + path);
             Resource resource = FHIRParser.parser(Format.JSON).parse(in);
-            
+
             // Before we can validate, we need to update resources with a
             // timestamp so we don't violate:
             // spl-X.1.1.2: The effective time year is equal to the current year

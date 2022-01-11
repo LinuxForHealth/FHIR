@@ -888,7 +888,8 @@ public class FHIRClientImpl implements FHIRClient {
 
             setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
 
-            setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "60000")));
+            // Use a default that's longer than the default Liberty transaction timeout
+            setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "130000")));
 
             setTenantId(getProperty(PROPNAME_TENANT_ID, null));
         } catch (Throwable t) {

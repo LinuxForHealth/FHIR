@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.literal;
 import static com.datastax.oss.driver.api.querybuilder.QueryBuilder.selectFrom;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_PAYLOADS;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.RESOURCE_VERSIONS;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,6 @@ import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
 import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.select.Select;
-import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -33,9 +33,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public class CqlDeletePayload {
     private static final Logger logger = Logger.getLogger(CqlDeletePayload.class.getName());
-
-    // Possibly patient, or some other partitioning key
-    private final String partitionId;
 
     // The int id representing the resource type (much shorter than the string name)
     private final int resourceTypeId;
@@ -51,14 +48,11 @@ public class CqlDeletePayload {
     
     /**
      * Public constructor
-     * @param partitionId
      * @param resourceTypeId
      * @param logicalId
      * @param version
      */
-    public CqlDeletePayload(String partitionId, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) {
-        CqlDataUtil.safeBase64(partitionId);
-        this.partitionId = partitionId;
+    public CqlDeletePayload(int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) {
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
@@ -72,18 +66,17 @@ public class CqlDeletePayload {
     public void run(CqlSession session) throws FHIRPersistenceException {
 
         // We need to drive the deletion of both resource_payloads and
-        // payload_chunks using a select from payload_resources to obtain
+        // payload_chunks using a select from resource_versions to obtain
         // the resource_payload_key. Using this key ensures we can maintain
-        // (eventual) consistency between the two tables in a non-transactional
+        // (eventual) consistency between the tables in a non-transactional
         // system with concurrent activity
         final BoundStatement bs;
         if (version != null) {
             if (resourcePayloadKey != null) {
                 final Select statement =
-                        selectFrom("resource_payloads")
+                        selectFrom("resource_versions")
                         .column("version")
                         .column("resource_payload_key")
-                        .whereColumn("partition_id").isEqualTo(literal(partitionId))
                         .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                         .whereColumn("logical_id").isEqualTo(bindMarker())
                         .whereColumn("version").isEqualTo(bindMarker())
@@ -93,10 +86,9 @@ public class CqlDeletePayload {
                 bs = ps.bind(logicalId, version, resourcePayloadKey);
             } else {
                 final Select statement =
-                        selectFrom("resource_payloads")
+                        selectFrom("resource_versions")
                         .column("version")
                         .column("resource_payload_key")
-                        .whereColumn("partition_id").isEqualTo(literal(partitionId))
                         .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                         .whereColumn("logical_id").isEqualTo(bindMarker())
                         .whereColumn("version").isEqualTo(bindMarker())
@@ -105,11 +97,11 @@ public class CqlDeletePayload {
                 bs = ps.bind(logicalId, version);
             }
         } else {
+            // To find the versions, we need to use the resource_versions tables
             final Select statement =
-                    selectFrom("resource_payloads")
+                    selectFrom("resource_versions")
                     .column("version")
                     .column("resource_payload_key")
-                    .whereColumn("partition_id").isEqualTo(literal(partitionId))
                     .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                     .whereColumn("logical_id").isEqualTo(bindMarker())
                     ;
@@ -121,18 +113,25 @@ public class CqlDeletePayload {
             ResultSet rs = session.execute(bs);
             
             // Can't use forEach because we have to propagate checked exceptions
-            Row row;
-            while ((row = rs.one()) != null) {
+            for (Row row = rs.one(); row != null; row = rs.one()) {
                 // Remove any chunks we've stored using the resource_payload_key
-                deletePayloadChunks(session, row.getString(1));
+                final int version = row.getInt(0);
+                final String resourcePayloadKey = row.getString(1);
+                deletePayloadChunks(session, resourcePayloadKey);
                 
-                // // And the specific resource_payloads row we just selected
-                deleteResourcePayloads(session, row.getInt(0), row.getString(1));
+                // And the specific resource_payloads row we just selected
+                deleteResourcePayloads(session, version, resourcePayloadKey);
+                
+                // Because resource_versions is used to enumerate the versions,
+                // for safety reasons we do this delete last
+                deleteResourceVersion(session, version, resourcePayloadKey);
             }
         } catch (Exception x) {
-            logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
-            throw new FHIRPersistenceDataAccessException("Failed deleting from " + RESOURCE_PAYLOADS);
+            logger.log(Level.SEVERE, "delete failed for '"
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+            
+            // don't propagate potentially sensitive info
+            throw new FHIRPersistenceDataAccessException("Delete failed. See server log for details.");
         }
     }
 
@@ -152,7 +151,6 @@ public class CqlDeletePayload {
         final BoundStatementBuilder bsb;
         
         del = deleteFrom(RESOURCE_PAYLOADS)
-            .whereColumn("partition_id").isEqualTo(literal(partitionId))
             .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
             .whereColumn("logical_id").isEqualTo(bindMarker())
             .whereColumn("version").isEqualTo(bindMarker())
@@ -165,11 +163,44 @@ public class CqlDeletePayload {
             session.execute(bsb.build());
         } catch (Exception x) {
             logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
             throw new FHIRPersistenceDataAccessException("Failed deleting from " + RESOURCE_PAYLOADS);
         }
     }
     
+    /**
+     * Hard delete all the resource record entries from the RESOURCE_PAYLOADS table
+     * for the configured resourceTypeId/logicalId and given version and
+     * resourcePayloadKey
+     * @param session
+     * @param version
+     * @param resourcePayloadKey
+     * @throws FHIRPersistenceException
+     */
+    private void deleteResourceVersion(CqlSession session, int version, String resourcePayloadKey) throws FHIRPersistenceException {
+        
+        final SimpleStatement del;
+        final PreparedStatement ps;
+        final BoundStatementBuilder bsb;
+        
+        del = deleteFrom(RESOURCE_VERSIONS)
+            .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
+            .whereColumn("logical_id").isEqualTo(bindMarker())
+            .whereColumn("version").isEqualTo(bindMarker())
+            .whereColumn("resource_payload_key").isEqualTo(bindMarker())
+            .build();
+        ps = session.prepare(del);
+        bsb = ps.boundStatementBuilder(logicalId, version, resourcePayloadKey);
+        
+        try {
+            session.execute(bsb.build());
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, "delete from resource_payloads failed for '"
+                    + resourceTypeId + "/" + logicalId + "/" + version + "'", x);
+            throw new FHIRPersistenceDataAccessException("Failed deleting from " + RESOURCE_PAYLOADS);
+        }
+    }
+
     /**
      * Hard delete all the resource record entries from the PAYLOAD_CHUNKS table
      * for the given resourcePayloadKey
@@ -181,7 +212,6 @@ public class CqlDeletePayload {
         final SimpleStatement del;
         
         del = deleteFrom(PAYLOAD_CHUNKS)
-            .whereColumn("partition_id").isEqualTo(literal(partitionId))
             .whereColumn("resource_payload_key").isEqualTo(bindMarker())
             .build();
         final PreparedStatement ps = session.prepare(del);
@@ -191,7 +221,7 @@ public class CqlDeletePayload {
             session.execute(bsb.build());
         } catch (Exception x) {
             logger.log(Level.SEVERE, "delete from payload_chunks failed for '"
-                    + partitionId + "/" + resourceTypeId + "/" + logicalId + "'", x);
+                    + resourceTypeId + "/" + logicalId + "[resourcePayloadKey=" + resourcePayloadKey + "]'", x);
             throw new FHIRPersistenceDataAccessException("Failed deleting from " + PAYLOAD_CHUNKS);
         }
     }

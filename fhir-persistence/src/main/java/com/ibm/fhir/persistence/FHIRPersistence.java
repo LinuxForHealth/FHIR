@@ -219,6 +219,15 @@ public interface FHIRPersistence {
     }
 
     /**
+     * Returns true iff the persistence layer implementation supports offloading and this has been
+     * configured for the tenant/datasource
+     * @return
+     */
+    default boolean isOffloadingSupported() {
+        return false;
+    }
+
+    /**
      * Initiates reindexing for either a specified list of index IDs,
      * or a randomly chosen resource. The number of resources processed is returned.
      * This can be used by a controller to continue processing until everything is complete.

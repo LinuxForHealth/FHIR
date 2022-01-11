@@ -522,7 +522,13 @@ public class FHIRTypeConverterImpl implements FHIRTypeConverter {
     public org.opencds.cqf.cql.engine.runtime.Quantity toCqlQuantity(Quantity value) {
         org.opencds.cqf.cql.engine.runtime.Quantity result = null;
         if (value != null) {
-            result = new org.opencds.cqf.cql.engine.runtime.Quantity().withUnit(javastring(value.getUnit())).withValue(value.getValue().getValue());
+            result = new org.opencds.cqf.cql.engine.runtime.Quantity();
+            if( value.getUnit() != null ) {
+                result.withUnit(javastring(value.getUnit()));
+            }
+            if( value.getValue() != null ) {
+                result.withValue(value.getValue().getValue());
+            }
         }
         return result;
     }
@@ -549,7 +555,13 @@ public class FHIRTypeConverterImpl implements FHIRTypeConverter {
     public Concept toCqlConcept(CodeableConcept value) {
         org.opencds.cqf.cql.engine.runtime.Concept result = null;
         if (value != null) {
-            result = new org.opencds.cqf.cql.engine.runtime.Concept().withDisplay(javastring(value.getText())).withCodes(value.getCoding().stream().map(coding -> toCqlCode(coding)).collect(Collectors.toList()));
+            result = new org.opencds.cqf.cql.engine.runtime.Concept();
+            result.withDisplay(javastring(value.getText()));
+            if( value.getCoding() != null ) {
+                result.withCodes(value.getCoding().stream()
+                    .map(coding -> toCqlCode(coding))
+                    .collect(Collectors.toList()));
+            }
         }
         return result;
     }
@@ -575,5 +587,4 @@ public class FHIRTypeConverterImpl implements FHIRTypeConverter {
         String[] nameParts = typeName.split("\\.");
         return nameParts[nameParts.length - 1];
     }
-
 }
