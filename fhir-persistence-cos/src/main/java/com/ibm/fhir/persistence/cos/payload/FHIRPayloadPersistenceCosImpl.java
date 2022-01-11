@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,13 +12,21 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
+import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadKey;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResult.Status;
+import com.ibm.fhir.persistence.payload.PayloadReader;
+import com.ibm.fhir.persistence.payload.PayloadReaderImpl;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -29,66 +37,47 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceCosImpl.class.getName());
     
     @Override
-    public Future<PayloadKey> storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, Resource resource)
+    public PayloadPersistenceResponse storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, Resource resource)
         throws FHIRPersistenceException {
         long start = System.nanoTime();
 
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
+        Future<PayloadPersistenceResult> result;
+        final String objectName = makeObjectName(resourceTypeId, logicalId, version, resourcePayloadKey);
         try {
             // Render the object to a byte-stream but don't compress when storing in Cos
             // (although this could be made a configurable option if we want)
-            InputOutputByteStream ioStream = PayloadPersistenceHelper.render(resource, false);
-            final String objectName = makeObjectName(resourceTypeId, logicalId, version);
+            InputOutputByteStream ioStream = FHIRPersistenceSupport.render(resource, false);
             cpc.write(objectName, ioStream);
             
-            PayloadKey payloadKey = new PayloadKey(resourceTypeName, resourceTypeId, logicalId, version, null, objectName, PayloadKey.Status.OK);
-            return CompletableFuture.completedFuture(payloadKey);
+            result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.OK));
+        } catch (Exception x) {
+            result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.FAILED));
         } finally {
             if (logger.isLoggable(Level.FINE)) {
                 long elapsed = System.nanoTime() - start;
                 logger.fine(String.format("Wrote resource payload to COS: '%s/%s/%d' [took %5.3f s]", resourceTypeName, logicalId, version, elapsed/1e9));
             }
         }
+        PayloadPersistenceResponse response = new PayloadPersistenceResponse(resourcePayloadKey, resourceTypeName, resourceTypeId, logicalId, version, result);
+        return response;
     }
 
     @Override
-    public <T extends Resource> T readResource(Class<T> resourceType, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
+    public <T extends Resource> T readResource(Class<T> resourceType, String rowResourceTypeName, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements) throws FHIRPersistenceException {
         final long start = System.nanoTime();
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
-        final String objectName = makeObjectName(resourceTypeId, logicalId, version);
+        final CosPropertyGroupAdapter config = getConfigAdapter();
+        final String objectName = makeObjectName(resourceTypeId, logicalId, version, resourcePayloadKey);
         try {
-            return cpc.read(objectName, is -> PayloadPersistenceHelper.parse(resourceType, is, elements));
-
-        } catch (RuntimeException x) {
-            logger.severe("Failed to read payload for: '" + resourceType.getSimpleName() + "/" + logicalId + "/" + version + "', objectName = '" + objectName + "'");
-            throw new FHIRPersistenceException("Failed to parse resource", x);
+            PayloadReader payloadReader = new PayloadReaderImpl(config.isCompress(), elements);
+            return cpc.read(resourceType, objectName, payloadReader);
         } finally {
             if (logger.isLoggable(Level.FINE)) {
                 long elapsed = System.nanoTime() - start;
                 logger.fine(String.format("Read resource payload from COS: '%s/%s/%d' [took %5.3f s]", resourceType.getSimpleName(), logicalId, version, elapsed/1e9));
-            }
-        }
-    }
-
-    @Override
-    public <T extends Resource> Future<T> readResource(Class<T> resourceType, PayloadKey payloadKey) throws FHIRPersistenceException {
-        final long start = System.nanoTime();
-        COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
-
-        final String objectName = makeObjectName(payloadKey);
-        try {
-            // We're not supporting async behavior yet, so we complete right away
-            T resource = cpc.read(objectName, is -> PayloadPersistenceHelper.parse(resourceType, is, null));
-            return CompletableFuture.completedFuture(resource);
-        } catch (RuntimeException x) {
-            logger.severe("Failed to read payload for key: '" + payloadKey + "'");
-            throw new FHIRPersistenceException("Failed to parse resource", x);
-        } finally {
-            if (logger.isLoggable(Level.FINE)) {
-                long elapsed = System.nanoTime() - start;
-                logger.fine(String.format("Direct read of resource payload from COS: '%s/%s' [took %5.3f s]", resourceType.getSimpleName(), payloadKey.toString(), elapsed/1e9));
             }
         }
     }
@@ -98,37 +87,46 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
      * @param resourceTypeId
      * @param logicalId
      * @param version
+     * @param resourcePayloadKey
      * @return
      */
-    private static String makeObjectName(int resourceTypeId, String logicalId, int version) {
+    private static String makeObjectName(int resourceTypeId, String logicalId, int version, String resourcePayloadKey) {
         StringBuilder objectName = new StringBuilder();
         objectName.append(Integer.toString(resourceTypeId));
         objectName.append("/");
         objectName.append(logicalId);
         objectName.append("/");
         objectName.append(Integer.toString(version));
+        objectName.append("/");
+        objectName.append(resourcePayloadKey);
         return objectName.toString();
     }
 
-    /**
-     * Obtain the COS object name using the information encoded in the payloadKey
-     * @param payloadKey
-     * @return
-     */
-    private static String makeObjectName(PayloadKey payloadKey) {
-        return payloadKey.getPayloadId();
-    }
-    
     @Override
-    public void deletePayload(int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public void deletePayload(String resourceType, int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) throws FHIRPersistenceException {
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
-        final String objectName = makeObjectName(resourceTypeId, logicalId, version);
+        final String objectName = makeObjectName(resourceTypeId, logicalId, version, resourcePayloadKey);
         try {
             cpc.delete(objectName);
         } catch (FHIRPersistenceException x) {
             logger.severe("Failed to delete payload for: '" + resourceTypeId + "/" + logicalId + "/" + version + "'");
             throw x;
         }
+    }
+    
+    /**
+     * Get the tenant-specific configuration for COS
+     * @return
+     */
+    private CosPropertyGroupAdapter getConfigAdapter() {
+        // get the PropertyGroup for the current tenant/datasource
+        final String dsId = "default"; // only one payload datasource for COS
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        if (dsPG == null) {
+            throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
+        }
+        return new CosPropertyGroupAdapter(dsPG);
     }
 }

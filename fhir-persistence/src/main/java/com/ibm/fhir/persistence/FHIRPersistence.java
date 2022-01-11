@@ -16,7 +16,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -107,7 +107,13 @@ public interface FHIRPersistence {
 
     /**
      * Deletes the specified FHIR Resource from the datastore.
-     *
+     * 
+     * This implementation of delete is open to a race condition if an update and delete
+     * are issues at the same time. This API has been deprecated and replaced with 
+     *     {@link #deleteWithMeta(FHIRPersistenceContext, Resource)}
+     * following the new pattern where the resource is never modified by the persistence
+     * layer.
+     * 
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType The type of FHIR Resource to be deleted.
      * @param logicalId the logical id of the FHIR Resource to be deleted
@@ -115,7 +121,20 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
+    }
+
+    /**
+     * Deletes the FHIR resource from the datastore. The resource must be configured with the correct
+     * meta information because the persistence layer no longer makes any modifications to resources.
+     * @param <T>
+     * @param context
+     * @param resource
+     * @throws FHIRPersistenceException
+     */
+    default <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 
@@ -196,6 +215,15 @@ public interface FHIRPersistence {
      * @return
      */
     default boolean isReindexSupported() {
+        return false;
+    }
+
+    /**
+     * Returns true iff the persistence layer implementation supports offloading and this has been
+     * configured for the tenant/datasource
+     * @return
+     */
+    default boolean isOffloadingSupported() {
         return false;
     }
 
@@ -293,12 +321,14 @@ public interface FHIRPersistence {
      * {@link Future} can be used to obtain the status of the operation. If the result
      * is null, then the implementation does not support offloading and the payload must
      * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
-     * because the offloading storage operation may be asynchronous.
+     * because the offloading storage operation may be asynchronous. This Future must be
+     * resolved prior to the transaction commit.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
+     * @param resourcePayloadKey
      * @return
      * @throws FHIRPersistenceException
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException;
 }

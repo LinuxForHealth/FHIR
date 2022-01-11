@@ -16,6 +16,7 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
@@ -141,12 +142,14 @@ public interface FHIRRestInteractionVisitor {
      * @param ifNoneExist
      *            whether to create the resource if none exists
      * @param localIdentifier
+     * @param offloadResponse
+     *            the response from payload persistence when offloading
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
             Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
-            String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception;
+            String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -180,13 +183,16 @@ public interface FHIRRestInteractionVisitor {
      *            flag to indicate if the resource is currently deleted
      * @param ifNoneMatch
      *            conditional create-on-update
+     * @param offloadResponse
+     *            the response from payload persistence when offloading
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch,
+            PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -215,6 +221,8 @@ public interface FHIRRestInteractionVisitor {
      * @param skippableUpdate
      *            if true, and the result of the patch matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
+     * @param offloadResponse
+     *            response from payload persistencen when offloading
      * @param warnings
      * @param localIdentifier
      * @return a FHIRRestOperationResponse that contains the results of the operation
@@ -223,7 +231,7 @@ public interface FHIRRestInteractionVisitor {
     FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception;
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.

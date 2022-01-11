@@ -42,6 +42,8 @@ public enum FhirSchemaVersion {
     ,V0020(20, "issue-1834 Set PostgreSQL fillfactor", true)
     ,V0021(21, "issue-713 remove Resource_LOGICAL_RESOURCES, DomainResource_LOGICAL_RESOURCES tables", false)
     ,V0022(22, "issue-2979 stored procedure update for 2050 ifNoneMatch", false)
+    ,V0023(23, "issue-2900 erased_resources to support $erase when offloading payloads", false)
+    ,V0024(24, "issue-2900 for offloading add resource_payload_key to xx_resources", false)
     ;
 
     // The version number recorded in the VERSION_HISTORY

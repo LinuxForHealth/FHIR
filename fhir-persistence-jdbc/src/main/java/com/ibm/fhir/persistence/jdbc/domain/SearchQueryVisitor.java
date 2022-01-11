@@ -30,17 +30,19 @@ public interface SearchQueryVisitor<T> {
     /**
      * The root query (select statement) for the data query
      * @param rootResourceType
+     * @param resourceTypeId
      * @return
      */
-    T dataRoot(String rootResourceType);
+    T dataRoot(String rootResourceType, int resourceTypeId);
 
     /**
      * Finish the data query by wrapping the root and joining the resources
      * table
      * @param queryData
+     * @param includeResourceTypeId include the resource_type_id in the select column list
      * @return
      */
-    T joinResources(T queryData);
+    T joinResources(T queryData, boolean includeResourceTypeId);
 
     /**
      * Get the join to which we want to attach all the parameter tables.
@@ -85,9 +87,10 @@ public interface SearchQueryVisitor<T> {
     /**
      * The root of the FHIR whole-system data search query
      * @param rootResourceType
+     * @param rootResourceTypeId
      * @return
      */
-    T wholeSystemDataRoot(String rootResourceType);
+    T wholeSystemDataRoot(String rootResourceType, int rootResourceTypeId);
 
     /**
      * The wrapper for whole-system search

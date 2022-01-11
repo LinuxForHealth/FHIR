@@ -9,7 +9,6 @@ package com.ibm.fhir.server.spi.operation;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -25,7 +24,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -134,10 +133,11 @@ public interface FHIRResourceHelpers {
      * @param event
      * @param warnings
      * @param resource
+     * @param offloadResponse
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception;
+    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * 1st phase of update interaction.
@@ -168,11 +168,12 @@ public interface FHIRResourceHelpers {
      * @param warnings
      * @param isDeleted
      * @param ifNoneMatch
+     * @param offloadResponse
      * @return
      * @throws Exception
      */
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
-        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
@@ -540,9 +541,10 @@ public interface FHIRResourceHelpers {
      * @param resource the resource to store (with correct Meta fields)
      * @param logicalId the logical id of the resource
      * @param newVersionNumber the version number to use
-     * @return a Future response to the payload store operation, or null if it is not supported
+     * @param resourcePayloadKey the key used to tie the RDBMS record with the offload record
+     * @return a response to the payload store operation, or null if it is not supported
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception;
 
     /**
      * Validate a resource. First validate profile assertions for the resource if configured to do so,

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,20 +25,29 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
     private final FHIRPersistenceJDBCCache cache;
     
     private final String transactionDataKey;
+    
+    private final Runnable rolledBackHandler;
 
     /**
      * Public constructor
+     * 
      * @param tx
+     * @param syncReg
+     * @param cache
+     * @param transactionDataKey
+     * @param rolledBackHandler
      */
-    public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache, String transactionDataKey) {
+    public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache, String transactionDataKey,
+            Runnable rolledBackHandler) {
         this.userTransaction = tx;
         this.syncRegistry = syncReg;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
+        this.rolledBackHandler = rolledBackHandler;
     }
     
     @Override
     public FHIRPersistenceTransaction create() {
-        return new FHIRUserTransactionAdapter(userTransaction, syncRegistry, cache, transactionDataKey);
+        return new FHIRUserTransactionAdapter(userTransaction, syncRegistry, cache, transactionDataKey, rolledBackHandler);
     }
 }

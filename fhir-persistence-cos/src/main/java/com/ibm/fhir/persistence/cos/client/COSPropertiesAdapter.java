@@ -48,7 +48,8 @@ public class COSPropertiesAdapter implements COSConfigAdapter {
 
     @Override
     public boolean isCredentialIBM() {
-        return "Y".equalsIgnoreCase(properties.getProperty(COSPropertyConstants.COS_CREDENTIAL_IBM));
+        final String value = properties.getProperty(COSPropertyConstants.COS_CREDENTIAL_IBM);
+        return "Y".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
     }
 
     @Override
@@ -71,5 +72,11 @@ public class COSPropertiesAdapter implements COSConfigAdapter {
         } else {
             return defaultMaxKeys();
         }
+    }
+
+    @Override
+    public boolean isCompress() {
+        final String value = properties.getProperty(COSPropertyConstants.COS_COMPRESS);
+        return "Y".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
     }
 }

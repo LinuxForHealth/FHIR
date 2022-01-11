@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
@@ -165,4 +166,27 @@ public class FHIRResourceDAOFactory {
         return rrd;
     }
 
+    /**
+     * Get an implementation of {@link FhirSequenceDAO} suitable for the database type described
+     * by flavor.
+     * @param connection
+     * @param flavor
+     * @return
+     */
+    public static FhirSequenceDAO getSequenceDAO(Connection connection, FHIRDbFlavor flavor) {
+        FhirSequenceDAO result = null;
+        switch (flavor.getType()) {
+        case DB2:
+            // Derby syntax also works for Db2
+            result = new com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl(connection);
+            break;
+        case DERBY:
+            result = new com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl(connection);
+            break;
+        case POSTGRESQL:
+            result = new com.ibm.fhir.persistence.jdbc.postgres.FhirSequenceDAOImpl(connection);
+            break;
+        }
+        return result;
+    }
 }

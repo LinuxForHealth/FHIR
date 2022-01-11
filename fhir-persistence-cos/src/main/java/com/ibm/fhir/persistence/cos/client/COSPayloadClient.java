@@ -9,10 +9,8 @@ package com.ibm.fhir.persistence.cos.client;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
 
 import com.ibm.cloud.objectstorage.AmazonServiceException;
 import com.ibm.cloud.objectstorage.ClientConfiguration;
@@ -32,8 +30,10 @@ import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectResult;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.payload.PayloadReader;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
@@ -96,17 +96,14 @@ public class COSPayloadClient {
      * @param fn
      * @return
      */
-    public <T> T read(String objectName, Function<InputStream, T> fn) throws FHIRPersistenceException {
+    public <T extends Resource> T read(Class<T> resourceType, String objectName, PayloadReader payloadReader) throws FHIRPersistenceException {
         final String bucketName = getBucketName();
 
         S3Object item = client.getObject(new GetObjectRequest(bucketName, objectName));
         if (item != null) {
             try (S3ObjectInputStream s3InStream = item.getObjectContent()) {
-                // The resources we store are compressed, so provide the function with
-                // the decompressed stream. Important to close this to avoid leaks
-                try (InputStream dataStream = new GZIPInputStream(s3InStream)) {
-                    return fn.apply(dataStream);
-                }
+                // Delegate actual reading of the resource to the PayloadReader implementation
+                return payloadReader.read(resourceType, s3InStream);
             } catch (IOException x) {
                 logger.log(Level.SEVERE, "error closing stream for '" + bucketName + ":" + objectName + "'");
                 throw new IllegalStateException("error closing object stream", x);

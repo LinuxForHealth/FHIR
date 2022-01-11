@@ -33,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.schema.app.util.CommonUtil;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * EraseTestMain is a test driver for the EraseResourceDAO so it can be debugged during development.
@@ -87,7 +88,7 @@ public class EraseTestMain {
                 System.out.println("Got a Connection");
                 try {
                     FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, true);
-                    EraseResourceDAO dao = new EraseResourceDAO(c, translator, schemaName, flavor, new MockLocalCache(), null);
+                    EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache(), null);
 
                     ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
@@ -173,6 +174,11 @@ public class EraseTestMain {
         @Override
         public boolean needToPrefill() {
             return false;
+        }
+
+        @Override
+        public void clearNeedToPrefill() {
+            // TODO Auto-generated method stub
         }
 
         @Override

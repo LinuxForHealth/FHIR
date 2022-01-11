@@ -57,7 +57,7 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
     public void process(FHIRRestInteractionVisitor visitor) throws Exception {
         FHIRRestOperationResponse result = visitor.doPatch(getEntryIndex(), getEvent(), getValidationResponseEntry(),
                 getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, getNewResource(),
-                getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier);
+                getPrevResource(), patch, ifMatchValue, searchQueryString, skippableUpdate, getWarnings(), localIdentifier, getOffloadResponse());
 
         // If the response includes a resource, update our copy so that we can pass to the
         // next visitor.
@@ -68,6 +68,10 @@ public class FHIRRestInteractionPatch extends FHIRRestInteractionResource {
 
             if (result.getPrevResource() != null) {
                 setPrevResource(result.getPrevResource());
+            }
+
+            if (result.getStorePayloadResponse() != null) {
+                setOffloadResponse(result.getStorePayloadResponse());
             }
         }
     }

@@ -36,4 +36,7 @@ public class COSPropertyConstants {
     
     // The max keys to return per list objects request
     public static final String COS_MAX_KEYS = "max.keys";
+
+    // Compress resources when reading/writing to COS
+    public static final String COS_COMPRESS = "compress";
 }

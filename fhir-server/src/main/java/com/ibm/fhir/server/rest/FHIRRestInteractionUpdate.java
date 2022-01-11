@@ -64,7 +64,8 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
 
         FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(),
                 getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, getNewResource(),
-                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted, ifNoneMatch);
+                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted, ifNoneMatch,
+                getOffloadResponse());
 
         // update the resource so we can use it when called in the next processing phase
         if (result != null) {
@@ -75,7 +76,11 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
             if (result.getPrevResource() != null) {
                 setPrevResource(result.getPrevResource());
             }
-            
+
+            if (result.getStorePayloadResponse() != null) {
+                setOffloadResponse(result.getStorePayloadResponse());
+            }
+
             // Record the deletion status so we can return the correct response when undeleting
             this.deleted = result.isDeleted();
         }

@@ -20,15 +20,16 @@ public class CosPropertyGroupAdapter implements COSConfigAdapter {
     private static final Logger logger = Logger.getLogger(CosPropertyGroupAdapter.class.getName());
 
     // Property key constants
-    public static final String PROP_CREDENTIAL_IBM = "credentialIBM";
-    public static final String PROP_BUCKET_NAME = "bucketName";
-    public static final String PROP_API_KEY = "apiKey";
-    public static final String PROP_SRV_INST_ID = "srvInstId";
-    public static final String PROP_LOCATION = "location";
-    public static final String PROP_ENDPOINT_URL = "endpoint";
-    public static final String PROP_REQUEST_TIMEOUT = "requestTimeout";
-    public static final String PROP_SOCKET_TIMEOUT = "socketTimeout";
-    public static final String PROP_MAX_KEYS = "maxKeys";
+    public static final String PROP_CREDENTIAL_IBM = "connectionProperties/credentialIBM";
+    public static final String PROP_BUCKET_NAME = "connectionProperties/bucketName";
+    public static final String PROP_API_KEY = "connectionProperties/apiKey";
+    public static final String PROP_SRV_INST_ID = "connectionProperties/srvInstId";
+    public static final String PROP_LOCATION = "connectionProperties/location";
+    public static final String PROP_ENDPOINT_URL = "connectionProperties/endpoint";
+    public static final String PROP_REQUEST_TIMEOUT = "connectionProperties/requestTimeout";
+    public static final String PROP_SOCKET_TIMEOUT = "connectionProperties/socketTimeout";
+    public static final String PROP_MAX_KEYS = "connectionProperties/maxKeys";
+    public static final String PROP_COMPRESS = "compress";
 
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -69,6 +70,17 @@ public class CosPropertyGroupAdapter implements COSConfigAdapter {
     public boolean isCredentialIBM() {
         try {
             return propertyGroup.getBooleanProperty(PROP_CREDENTIAL_IBM);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_CREDENTIAL_IBM, x);
+            throw new IllegalArgumentException("property not configured: " + PROP_CREDENTIAL_IBM);
+        }
+
+    }
+
+    @Override
+    public boolean isCompress() {
+        try {
+            return propertyGroup.getBooleanProperty(PROP_COMPRESS, false);
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_CREDENTIAL_IBM, x);
             throw new IllegalArgumentException("property not configured: " + PROP_CREDENTIAL_IBM);

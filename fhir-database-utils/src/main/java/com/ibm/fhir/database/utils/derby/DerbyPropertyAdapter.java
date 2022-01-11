@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,5 +52,14 @@ public class DerbyPropertyAdapter extends JdbcPropertyAdapter {
      */
     public boolean isAutoCreate() {
         return "Y".equals(this.properties.getProperty(CREATE_KEY));
+    }
+
+    @Override
+    public String getDefaultSchema() {
+        String result = super.getDefaultSchema();
+        if (result == null) {
+            result = "APP";
+        }
+        return result;
     }
 }

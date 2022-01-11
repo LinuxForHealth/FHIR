@@ -27,8 +27,8 @@ public class FHIRPersistenceJDBCCacheUtil {
     public static FHIRPersistenceJDBCCache create(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(codeSystemCacheSize, tokenValueCacheSize, canonicalCacheSize);
         return new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        
     }
+
     /**
      * Prefill the cache with constants already committed in the database
      * @param connection

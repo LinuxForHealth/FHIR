@@ -29,6 +29,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -143,10 +144,10 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     @Override
     public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
             Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
-            String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+            String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
-            FHIRRestOperationResponse ior = helpers.doCreatePersist(event, warnings, resource);
+            FHIRRestOperationResponse ior = helpers.doCreatePersist(event, warnings, resource, offloadResponse);
 
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
@@ -164,11 +165,11 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
 
-            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted, ifNoneMatch);
+            FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, false, newResource, prevResource, warnings, isDeleted, ifNoneMatch, offloadResponse);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
@@ -183,14 +184,14 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
     public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         // For patch, if the original resource was deleted, we'd have already thrown an error.
         // Note that the patch will have already been applied to the resource...so this is
         // really just an update as far as the persistence layer is concerned
         doInteraction(entryIndex, requestDescription, accumulatedTime, () -> {
             FHIRRestOperationResponse ior = helpers.doPatchOrUpdatePersist(event, type, id, true, newResource, prevResource,
-                warnings, false, null);
+                warnings, false, null, offloadResponse);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);

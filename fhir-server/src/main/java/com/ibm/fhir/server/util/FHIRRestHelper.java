@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -89,6 +88,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
@@ -100,6 +100,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
@@ -107,8 +108,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
-import com.ibm.fhir.persistence.payload.PayloadPersistenceHelper;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
@@ -149,6 +149,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     private static final ZoneId UTC = ZoneId.of("UTC");
+    
+    // Convenience constants to make call parameters more readable
+    private static final boolean THROW_EXC_ON_NULL = true;
+    private static final boolean INCLUDE_DELETED = true;
+    private static final boolean CHECK_INTERACTION_ALLOWED = true;
 
     // default number of entries in system history if no _count is given
     private static final int DEFAULT_HISTORY_ENTRIES = 100;
@@ -207,18 +212,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // Persistence event processing may modify the resource, so make sure we have the latest value
                 resource = event.getFhirResource();
 
-                int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
-                Future<PayloadKey> offloadResponse = storePayload(resource, resource.getId(), newVersionNumber);
-
-                // Resolve the future so that we know the payload has been stored
-                // TODO tie this into the transaction data so that we can clean up
-                // more if there's a rollback for another reason.
-                PayloadKey payloadKey = offloadResponse != null ? offloadResponse.get() : null;
-                if (payloadKey == null || payloadKey.getStatus() == PayloadKey.Status.OK) {
-                    response = doCreatePersist(event, warnings, resource);
-                } else {
-                    throw new FHIRPersistenceException("Payload offload failure. Check server logs for details.");
-                }
+                final String resourcePayloadKey = UUID.randomUUID().toString();
+                int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resource);
+                PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
+                response = doCreatePersist(event, warnings, resource, offloadResponse);
             }
 
             // At this point, we can be sure the transaction must have been started, so always commit
@@ -336,7 +333,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doCreatePersist");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
@@ -353,7 +350,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(resource);
 
             // create the resource and return the location header.
-            final FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
+            final FHIRPersistenceContext persistenceContext = 
+                    FHIRPersistenceContextImpl.builder(event)
+                    .withOffloadResponse(offloadResponse)
+                    .build();
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
             // persistence layer.
@@ -450,10 +450,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 return metaResponse;
             }
 
+            // Store the payload if we're offloading
+            final String resourcePayloadKey = UUID.randomUUID().toString();
+            int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(metaResponse.getResource());
+            PayloadPersistenceResponse offloadResponse = storePayload(metaResponse.getResource(), metaResponse.getResource().getId(), newVersionNumber, resourcePayloadKey);
+
             // Persist the resource
             FHIRRestOperationResponse ior = doPatchOrUpdatePersist(event, type, id, patch != null,
                     metaResponse.getResource(), metaResponse.getPrevResource(), warnings, metaResponse.isDeleted(),
-                    ifNoneMatch);
+                    ifNoneMatch, offloadResponse);
 
             txn.commit();
             txn = null;
@@ -704,7 +709,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // again under a database lock during the persistence phase and the request will be rejected if there's
             // a mismatch (can happen when there are concurrent updates).
             final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-            final int newVersionNumber = updateCreate ? 1 : Integer.parseInt(ior.getPrevResource().getMeta().getVersionId().getValue()) + 1;
+            final int newVersionNumber = updateCreate ? 1 : FHIRPersistenceSupport.getMetaVersionId(ior.getPrevResource()) + 1;
             newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
 
             ior.setResource(newResource);
@@ -723,7 +728,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id,
             boolean isPatch, Resource newResource, Resource prevResource,
-            List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+            List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdatePersist");
 
         // We'll only start a new transaction here if we don't have one. We'll only
@@ -745,7 +750,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(newResource);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, ifNoneMatch);
+                    FHIRPersistenceContextImpl.builder(event)
+                    .withIfNoneMatch(ifNoneMatch)
+                    .withOffloadResponse(offloadResponse)
+                    .build();
+            
             boolean createOnUpdate = (prevResource == null);
             final SingleResourceResult<Resource> result;
             if (createOnUpdate) {
@@ -948,7 +957,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
                 try {
-                    resourceToDelete = doRead(type, id, false, false, null, null, false).getResource();
+                    resourceToDelete = doRead(type, id, !THROW_EXC_ON_NULL, !INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource();
                     if (resourceToDelete != null) {
                         responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
                                 .id(UUID.randomUUID().toString())
@@ -961,7 +970,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
-                    ior.setResource(doRead(type, id, false, true, null, null, false).getResource());
+                    ior.setResource(doRead(type, id, !THROW_EXC_ON_NULL, INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource());
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
                 }
@@ -977,22 +986,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
                     event.setFhirResource(resourceToDelete);
                     getInterceptorMgr().fireBeforeDeleteEvent(event);
+                    
+                    // For soft-delete we store a new version of the resource with the deleted
+                    // flag set. Update the resource meta so that it has the correct version id
+                    final String resourcePayloadKey = UUID.randomUUID().toString();
+                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+                    final int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete) + 1;
+                    final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
 
+                    // If we're offloading, the payload gets stored outside the RDBMS
+                    PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
                     FHIRPersistenceContext persistenceContext =
-                            FHIRPersistenceContextFactory.createPersistenceContext(event);
+                            FHIRPersistenceContextImpl.builder(event)
+                            .withOffloadResponse(offloadResponse)
+                            .build();
 
-                    SingleResourceResult<? extends Resource> result = persistence.delete(persistenceContext, resourceType, id);
-                    if (result.getOutcome() != null) {
-                        warnings.addAll(result.getOutcome().getIssue());
-                    }
-                    Resource resource = result.getResource();
-                    event.setFhirResource(resource);
+                    persistence.deleteWithMeta(persistenceContext, resource);
 
                     if (responseBundle.getEntry().size() == 1) {
                         ior.setResource(resource);
                     }
 
                     // Invoke the 'afterDelete' interceptor methods.
+                    event.setFhirResource(resource);
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 
@@ -3260,13 +3276,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return current time in UTC
      */
     protected com.ibm.fhir.model.type.Instant getCurrentInstant() {
-        return PayloadPersistenceHelper.getCurrentInstant();
+        return FHIRPersistenceSupport.getCurrentInstant();
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception {
 
         // Delegate to the persistence layer. Result will be null if offloading is not supported
-        return persistence.storePayload(resource, logicalId, newVersionNumber);
+        return persistence.storePayload(resource, logicalId, newVersionNumber, resourcePayloadKey);
     }
 }

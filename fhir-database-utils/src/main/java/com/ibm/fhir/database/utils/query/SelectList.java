@@ -35,6 +35,18 @@ public class SelectList {
         return column;
     }
 
+    /**
+     * Add a value column (used to add literals)
+     * @param columnValue
+     * @param alias
+     * @return
+     */
+    public SelectItemColumn addColumn(String columnValue, Alias alias) {
+        SelectItemColumn column = new SelectItemColumn(null, columnValue, alias);
+        items.add(column);
+        return column;
+    }
+
     public SelectItemSubQuery addSubQuery(Select subQuery, Alias alias) {
         SelectItemSubQuery column = new SelectItemSubQuery(subQuery, alias);
         items.add(column);

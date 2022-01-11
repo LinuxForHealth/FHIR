@@ -41,6 +41,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
@@ -110,7 +111,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     @Override
     public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
             Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
-            String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception {
+            String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
 
         // Skip CREATE if validation failed
@@ -161,7 +162,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate,
-            String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+            String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
 
         // Skip UPDATE if validation failed
@@ -202,7 +203,7 @@ public class FHIRRestInteractionVisitorMeta extends FHIRRestInteractionVisitorBa
     public FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
             String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, Resource newResource,
             Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception {
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
         logStart(entryIndex, requestDescription, requestURL);
         // Skip PATCH if validation failed
         // TODO the logic in the old buildLocalRefMap uses SC_OK_STRING

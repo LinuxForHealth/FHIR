@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -29,7 +28,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -188,7 +187,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) {
         return null;
     }
 
@@ -203,7 +202,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
         return null;
     }
 
@@ -215,7 +214,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
-        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
         return null;
     }
 

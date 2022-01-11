@@ -7,13 +7,12 @@
 package com.ibm.fhir.server.spi.operation;
 
 import java.net.URI;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
  * This class is used to represent a response returned by the FHIR resource helper methods.
@@ -30,7 +29,7 @@ public class FHIRRestOperationResponse {
     private boolean completed;
 
     // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
-    private Future<PayloadKey> storePayloadResponse;
+    private PayloadPersistenceResponse storePayloadResponse;
 
     // The id of the resource, which could be new in the case of create
     private String resourceId;
@@ -49,7 +48,7 @@ public class FHIRRestOperationResponse {
         setOperationOutcome(operationOutcome);
     }
 
-    public FHIRRestOperationResponse(Resource resource, String resourceId, Future<PayloadKey> storePayloadResponse) {
+    public FHIRRestOperationResponse(Resource resource, String resourceId, PayloadPersistenceResponse storePayloadResponse) {
         this.resource = resource;
         this.resourceId = resourceId;
         this.setStorePayloadResponse(storePayloadResponse);
@@ -129,14 +128,14 @@ public class FHIRRestOperationResponse {
     /**
      * @return the storePayloadResponse
      */
-    public Future<PayloadKey> getStorePayloadResponse() {
+    public PayloadPersistenceResponse getStorePayloadResponse() {
         return storePayloadResponse;
     }
 
     /**
      * @param storePayloadResponse the storePayloadResponse to set
      */
-    public void setStorePayloadResponse(Future<PayloadKey> storePayloadResponse) {
+    public void setStorePayloadResponse(PayloadPersistenceResponse storePayloadResponse) {
         this.storePayloadResponse = storePayloadResponse;
     }
 }
