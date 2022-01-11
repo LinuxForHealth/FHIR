@@ -96,3 +96,11 @@ password=change-password
 ```
 
 The current implementation does not support checkpointing so must be allowed to scan the entire dataset in one pass.
+
+## Running Cassandra in Docker
+
+Create a single node Cassandra container which can be used for development and testing of the payload persistence feature:
+
+```
+podman run --name fhircass1 -v ./data/fhircass1:/var/lib/cassandra:z -e CASSANDRA_CLUSTER_NAME=fhir -e CASSANDRA_DC=datacenter1 -e CASSANDRA_RACK=rack1 -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch -d -p 9042:9042 cassandra:latest
+```

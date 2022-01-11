@@ -24,6 +24,7 @@ public class ResourceExistsDAO {
 
     /**
      * Public constructor
+     * @param resourceTypeMap
      * @param resourceTypeId
      * @param logicalId
      * @param versionId
@@ -38,8 +39,8 @@ public class ResourceExistsDAO {
     }
  
     /**
-     * Run the query to see if the resource version currently exists
-     * Does not care about deletion status, just that the row is there
+     * Run the query to see if the resource version currently exists.
+     * Does not care about deletion status, just that the row is there.
      * @param c
      * @return
      * @throws SQLException
