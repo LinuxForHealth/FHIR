@@ -184,7 +184,7 @@ public class EverythingOperation extends AbstractOperation {
 
         List<String> defaultResourceTypes = new ArrayList<String>(0);
         try {
-            defaultResourceTypes = getDefaultIncludedResourceTypes();
+            defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper);
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
@@ -331,11 +331,22 @@ public class EverythingOperation extends AbstractOperation {
      * @return the list of patient subresources that will be included in the $everything operation
      * @throws FHIRSearchException
      */
-    private List<String> getDefaultIncludedResourceTypes() throws FHIRSearchException {
+    private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper) throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
         
         try {
             List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+            // Examine the resource types to see if they support SEARCH
+            for (String resourceType: supportedResourceTypes) {
+                try {
+                    resourceHelper.validateInteraction(FHIRResourceHelpers.Interaction.SEARCH, resourceType);
+                } catch (FHIROperationException e) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine("Removing resourceType " + resourceType + " because it does not support SEARCH");
+                    }
+                    supportedResourceTypes.remove(resourceType);
+                }
+            }
             if (LOG.isLoggable(Level.FINE)) {
                 StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
                 resourceTypeBuilder.append("supportedResourceTypes are: ");
