@@ -27,8 +27,6 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
-    private static final boolean DEBUG = false;
-
     @BeforeClass
     void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
@@ -46,22 +44,37 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities("full");
+        Response capabilities = c.capabilities("full", null);
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 4, 141, 9, 0, 0, 9, 0, 0);
+        assertRestDefinition(restDefinition, 4, 128, 9, 0, 0, 9, 0, 0);
     }
 
     @Test
-    void testBuildCapabilityStatement_resources_empty() throws Exception {
+    void testBuildCapabilityStatement_resources_empty_r4() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities("full");
+        Response capabilities = c.capabilities("full", "application/fhir+json;fhirVersion=4.0");
+        CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
+
+        assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
+        CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
+
+        assertRestDefinition(restDefinition, 0, 128, 0, 0, 0, 0, 0, 0);
+    }
+
+    @Test
+    void testBuildCapabilityStatement_resources_empty_r4b() throws Exception {
+        FHIRRequestContext.get().setTenantId("empty");
+        FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
+        CapabilitiesChild c = new CapabilitiesChild();
+
+        Response capabilities = c.capabilities("full", "application/fhir+json;fhirVersion=4.3");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -76,7 +89,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities("full");
+        Response capabilities = c.capabilities("full", "");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -88,9 +101,6 @@ public class CapabilitiesTest {
     private void assertRestDefinition(CapabilityStatement.Rest restDefinition, int systemInteractions, int numOfResources,
             int patientInteractions, int patientIncludes, int patientRevIncludes,
             int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
-        if (DEBUG) {
-            System.out.println(restDefinition);
-        }
         assertEquals(restDefinition.getResource().size(), numOfResources, "Number of supported resources");
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.RESOURCE));
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.DOMAIN_RESOURCE));
@@ -125,9 +135,9 @@ public class CapabilitiesTest {
         }
 
         @Override
-        public Response capabilities(String mode) {
+        public Response capabilities(String mode, String acceptHeaderValue) {
             httpServletRequest = new MockHttpServletRequest();
-            return super.capabilities(mode);
+            return super.capabilities(mode, acceptHeaderValue);
         }
     }
 }
