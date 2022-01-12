@@ -6,6 +6,7 @@
 package com.ibm.fhir.server.test.cqf;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.io.StringReader;
 
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.MeasureReport;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.Period;
 
 public class ServerEvaluateMeasureOperationTest extends BaseMeasureOperationTest {
@@ -55,5 +57,64 @@ public class ServerEvaluateMeasureOperationTest extends BaseMeasureOperationTest
         
         Period expectedPeriod = getPeriod(TEST_PERIOD_START, TEST_PERIOD_END);
         assertEquals( report.getPeriod(), expectedPeriod );
+    }
+    
+    @Test
+    public void testEvaluatePatientMeasureInstanceLibraryNotFound() throws Exception {
+        Response response =
+                getWebTarget().path("/Measure/{measureId}/$evaluate-measure")
+                    .resolveTemplate("measureId", "MissingLibrary")
+                    .queryParam("periodStart", TEST_PERIOD_START)
+                    .queryParam("periodEnd", TEST_PERIOD_END)
+                    .queryParam("subject", TEST_PATIENT_ID)
+                    .request().get();
+
+        String responseBody = response.readEntity(String.class);
+        //System.out.println(responseBody);
+        assertResponse(response, 500);
+
+        OperationOutcome outcome = (OperationOutcome) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
+        String details = outcome.getIssue().get(0).getDetails().getText().getValue();
+        assertTrue(details.contains("Failed to resolve Library"));
+        assertTrue(details.contains("NotExists"), details);
+    }
+    
+    @Test
+    public void testEvaluatePatientMeasureResourceTypeLibraryNotFound() throws Exception {
+        Response response =
+                getWebTarget().path("/Measure/$evaluate-measure")
+                    .queryParam("measure", "Measure/MissingLibrary")
+                    .queryParam("periodStart", TEST_PERIOD_START)
+                    .queryParam("periodEnd", TEST_PERIOD_END)
+                    .queryParam("subject", TEST_PATIENT_ID)
+                    .request().get();
+
+        String responseBody = response.readEntity(String.class);
+        //System.out.println(responseBody);
+        assertResponse(response, 500);
+
+        OperationOutcome outcome = (OperationOutcome) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
+        String details = outcome.getIssue().get(0).getDetails().getText().getValue();
+        assertTrue(details.contains("Failed to resolve Library"), details);
+        assertTrue(details.contains("NotExists"), details);        
+    }
+    
+    @Test
+    public void testEvaluatePatientMeasureResourceTypeNoLibrary() throws Exception {
+        Response response =
+                getWebTarget().path("/Measure/$evaluate-measure")
+                    .queryParam("measure", "Measure/NoLibrary")
+                    .queryParam("periodStart", TEST_PERIOD_START)
+                    .queryParam("periodEnd", TEST_PERIOD_END)
+                    .queryParam("subject", TEST_PATIENT_ID)
+                    .request().get();
+
+        String responseBody = response.readEntity(String.class);
+        //System.out.println(responseBody);
+        assertResponse(response, 500);
+
+        OperationOutcome outcome = (OperationOutcome) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
+        String details = outcome.getIssue().get(0).getDetails().getText().getValue();
+        assertTrue(details.contains("Measures utilizing CQL SHALL reference one and only one CQL library"), details);        
     }
 }

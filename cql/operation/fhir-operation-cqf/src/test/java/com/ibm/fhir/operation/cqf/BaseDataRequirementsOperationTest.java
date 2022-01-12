@@ -79,8 +79,12 @@ public abstract class BaseDataRequirementsOperationTest {
             return outParameters;
         }
     }
-
+    
     protected Library initializeLibraries(FHIRRegistry mockRegistry, FHIRResourceHelpers resourceHelper) throws Exception {
+        return initializeLibraries(mockRegistry, resourceHelper, true);
+    }
+
+    protected Library initializeLibraries(FHIRRegistry mockRegistry, FHIRResourceHelpers resourceHelper, boolean exists) throws Exception {
         String cql = CqlBuilder.builder()
                 .library("Test", "1.0.0")
                 .using("FHIR", Constants.FHIR_VERSION)
@@ -96,9 +100,11 @@ public abstract class BaseDataRequirementsOperationTest {
         Library primaryLibrary = getPrimaryLibrary(cql, modelInfo, fhirHelpers, sde);
         List<Library> fhirLibraries = Arrays.asList(primaryLibrary, getSupplementalDataElementsLibrary(), getFHIRHelpers(), getFHIRModelInfo());
     
-        when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
-        
-        fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
+        if( exists ) {
+            when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
+            
+            fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
+        }
         return primaryLibrary;
     }
 

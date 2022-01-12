@@ -12,8 +12,6 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.execution.Context;
@@ -33,10 +31,8 @@ import com.ibm.fhir.cql.helpers.DateHelper;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ModelHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
-import com.ibm.fhir.cql.translator.CqlTranslationProvider;
-import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
-import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
+import com.ibm.fhir.ecqm.r4.MeasureHelper;
 import com.ibm.fhir.ecqm.r4.R4MeasureEvaluation;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
@@ -45,9 +41,6 @@ import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -86,19 +79,16 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         return retrieveProvider;
     }
 
-    public MeasureReport.Builder doMeasureEvaluation(Measure measure, ZoneOffset zoneOffset, Interval measurementPeriod, String subjectOrPractitionerId,
+    public MeasureReport.Builder doMeasureEvaluation(FHIRResourceHelpers resourceHelpers, Measure measure, ZoneOffset zoneOffset, Interval measurementPeriod, String subjectOrPractitionerId,
         MeasureReportType reportType,
-        TerminologyProvider termProvider, Map<String, DataProvider> dataProviders) {
+        TerminologyProvider termProvider, Map<String, DataProvider> dataProviders) throws FHIROperationException {
+   
+        String primaryLibraryId = MeasureHelper.getPrimaryLibraryId(measure);
 
-        int numLibraries = (measure.getLibrary() != null) ? measure.getLibrary().size() : 0;
-        if (numLibraries != 1) {
-            throw new IllegalArgumentException(String.format("Unexpected number of libraries '%d' referenced by measure '%s'", numLibraries, measure.getId()));
-        }
-
-        Library primaryLibrary = FHIRRegistry.getInstance().getResource(measure.getLibrary().get(0).getValue(), Library.class);
+        Library primaryLibrary = OperationHelper.loadLibraryByReference(resourceHelpers, primaryLibraryId);
         List<Library> fhirLibraries = LibraryHelper.loadLibraries(primaryLibrary);
 
-        List<org.cqframework.cql.elm.execution.Library> cqlLibraries = loadCqlLibraries(fhirLibraries);
+        List<org.cqframework.cql.elm.execution.Library> cqlLibraries = OperationHelper.loadCqlLibraries(fhirLibraries);
         LibraryLoader ll = new InMemoryLibraryLoader(cqlLibraries);
 
         ZonedDateTime zdt = ZonedDateTime.now(zoneOffset);
@@ -181,63 +171,5 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         DateTime dtEnd = new DateTime(odtEnd);
 
         return new Interval(dtStart, true, dtEnd, true);
-    }
-
-    /**
-     * Create a library loader that will server up the CQL library content of the
-     * provided list of FHIR Library resources.
-     * 
-     * @param libraries
-     *            FHIR library resources
-     * @return LibraryLoader that will serve the CQL Libraries for the provided FHIR resources
-     */
-    protected LibraryLoader createLibraryLoader(List<Library> libraries) {
-        List<org.cqframework.cql.elm.execution.Library> result = loadCqlLibraries(libraries);
-        return new InMemoryLibraryLoader(result);
-    }
-
-    /**
-     * Load the CQL Library content for each of the provided FHIR Library resources with
-     * translation as needed for Libraries with CQL attachments and no corresponding
-     * ELM attachment.
-     * 
-     * @param libraries
-     *            FHIR Libraries
-     * @return CQL Libraries
-     */
-    protected List<org.cqframework.cql.elm.execution.Library> loadCqlLibraries(List<Library> libraries) {
-        FHIRLibraryLibrarySourceProvider sourceProvider = new FHIRLibraryLibrarySourceProvider(libraries);
-        CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
-
-        List<org.cqframework.cql.elm.execution.Library> result =
-                libraries.stream().flatMap(fl -> LibraryHelper.loadLibrary(translator, fl).stream()).filter(Objects::nonNull).collect(Collectors.toList());
-        return result;
-    }
-    
-    protected Measure loadMeasureByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        Measure measure;
-        if( reference.startsWith("Measure/") ) {
-            String resourceId = reference.substring("Measure/".length());
-            measure = loadMeasureById(resourceHelper, resourceId);
-        } else {
-            measure = FHIRRegistry.getInstance().getResource(reference, Measure.class);
-            if( measure == null ) {
-                // At this point an error will be thrown if not found
-                measure = loadMeasureById(resourceHelper, reference);
-            }
-        }
-        
-        return measure;
-    }
-
-    protected Measure loadMeasureById(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        Measure measure;
-        try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), reference, true, false, null);
-            measure = (Measure) readResult.getResource();
-        } catch (Exception ex) {
-            throw new FHIROperationException("Failed to resolve resource " + reference, ex);
-        }
-        return measure;
     }
 }

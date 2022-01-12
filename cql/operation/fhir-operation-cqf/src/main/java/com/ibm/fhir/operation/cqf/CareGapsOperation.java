@@ -98,16 +98,16 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         }
     }
 
-    protected Bundle processAllMeasures(FHIRBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
+    protected Bundle processAllMeasures(FHIRBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) throws FHIROperationException {
         Bundle.Builder reports = Bundle.builder().type(BundleType.COLLECTION); 
         
         AtomicInteger count = new AtomicInteger(0);
-        cursor.forEach(resource -> {
+        for(Object resource : cursor) {
             Measure measure = (Measure) resource;
-            MeasureReport report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
+            MeasureReport report = doMeasureEvaluation(resourceHelper, measure, zoneOffset, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
             reports.entry( Bundle.Entry.builder().resource(report).build() );
             count.incrementAndGet();
-        });
+        }
         
         reports.total(UnsignedInt.of(count.get()));
         return reports.build();

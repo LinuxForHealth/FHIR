@@ -67,6 +67,16 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
         entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = getWebTarget().request().post( entity );
         assertResponse( response, Response.Status.Family.SUCCESSFUL );
+        
+        jsonObject = TestUtil.readJsonObject("testdata/Measure-MissingLibrary.json");
+        entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = getWebTarget().path("/Measure/MissingLibrary").request().put( entity );
+        assertResponse( response, Response.Status.Family.SUCCESSFUL );
+        
+        jsonObject = TestUtil.readJsonObject("testdata/Measure-NoLibrary.json");
+        entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = getWebTarget().path("/Measure/NoLibrary").request().put( entity );
+        assertResponse( response, Response.Status.Family.SUCCESSFUL );
     }
     
     public Period getPeriod(String start, String end) {

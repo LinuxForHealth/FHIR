@@ -50,11 +50,11 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         Measure measure = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-            measure = loadMeasureById(resourceHelper, logicalId);
+            measure = OperationHelper.loadMeasureById(resourceHelper, logicalId);
         } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
             Parameter param = paramMap.getSingletonParameter(PARAM_IN_MEASURE);
             String reference = ((com.ibm.fhir.model.type.String) param.getValue()).getValue();
-            measure = loadMeasureByReference(resourceHelper, reference);
+            measure = OperationHelper.loadMeasureByReference(resourceHelper, reference);
         } else {
             assert false;
         }
@@ -81,7 +81,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
 
-        MeasureReport.Builder report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
+        MeasureReport.Builder report = doMeasureEvaluation(resourceHelper, measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
 
         return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, report.build());
     }

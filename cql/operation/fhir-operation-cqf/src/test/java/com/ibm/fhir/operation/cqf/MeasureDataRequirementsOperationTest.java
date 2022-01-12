@@ -20,6 +20,7 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.Parameters;
@@ -33,6 +34,7 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOperationTest {
 
     private Measure measure;
+    private boolean primaryLibraryExists;
 
     @Override
     public AbstractDataRequirementsOperation getOperation() {
@@ -59,6 +61,8 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
                                 .build()).build())
                     .build())
                 .build();
+        
+        primaryLibraryExists = true;
     }
 
     @Test
@@ -77,10 +81,24 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
         Library moduleDefinition = (Library) outParams.getParameter().get(0).getResource();
         assertEquals(moduleDefinition.getRelatedArtifact().stream().filter( ra -> ra.getResource().getValue().equals(measure.getLibrary().get(0).getValue()) ).count(), 1);
     }
+    
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = "Failed to resolve Library resource.*")
+    public void testInstanceExecutionMissingPrimaryLibrary() throws Exception {
+        primaryLibraryExists = false;
+        String measureId = measure.getId();
+
+        Parameters inParams = Parameters.builder()
+                .parameter(Parameters.Parameter.builder().name(fhirstring("periodStart")).value(Date.of("2000-01-01")).build())
+                .parameter(Parameters.Parameter.builder().name(fhirstring("periodEnd")).value(Date.of("2001-01-01")).build())
+                .build();
+ 
+        runTest(FHIROperationContext.createInstanceOperationContext("data-requirements"),
+            Measure.class, primaryLibrary -> measureId, primaryLibrary -> inParams);
+    }
 
     @Override
     protected Library initializeLibraries(FHIRRegistry mockRegistry, FHIRResourceHelpers resourceHelper) throws Exception {
-        Library primaryLibrary = super.initializeLibraries(mockRegistry, resourceHelper);
+        Library primaryLibrary = super.initializeLibraries(mockRegistry, resourceHelper, primaryLibraryExists);
 
         measure = measure.toBuilder().library( canonical(primaryLibrary) ).build();
 
