@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -121,6 +123,23 @@ public class Capabilities extends FHIRResource {
             .map(rt -> ResourceType.Value.from(rt.getSimpleName()))
             .collect(Collectors.toList());
 
+    private static final Set<ResourceType.Value> R4B_ONLY_RESOURCES = new HashSet<>();
+    {
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.ADMINISTRABLE_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.CITATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.CLINICAL_USE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_REPORT);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.INGREDIENT);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.MANUFACTURED_ITEM_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.MEDICINAL_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.NUTRITION_PRODUCT);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.PACKAGED_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.REGULATED_AUTHORIZATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_STATUS);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_TOPIC);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSTANCE_DEFINITION);
+    }
+
     // Error Messages
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
     private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
@@ -137,7 +156,7 @@ public class Capabilities extends FHIRResource {
 
     @GET
     @Path("metadata")
-    public Response capabilities(@QueryParam("mode") @DefaultValue("full") String mode) {
+    public Response capabilities(@QueryParam("mode") @DefaultValue("full") String mode, @HeaderParam("accept") String accept) {
         log.entering(this.getClass().getName(), "capabilities()");
         try {
             Date startTime = new Date();
@@ -147,13 +166,17 @@ public class Capabilities extends FHIRResource {
                 throw new IllegalArgumentException("Invalid mode parameter: must be one of [full, normative, terminology]");
             }
 
+            FHIRVersion fhirVersion = getFhirVersion(accept);
+
             // Defaults to 60 minutes (or what's in the fhirConfig)
             int cacheTimeout = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
             Configuration configuration = Configuration.of(Duration.of(cacheTimeout, ChronoUnit.MINUTES));
 
             Map<String, Resource> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
             CacheManager.reportCacheStats(log, CAPABILITY_STATEMENT_CACHE_NAME);
-            Resource capabilityStatement = cacheAsMap.computeIfAbsent(mode, k -> computeCapabilityStatement(mode));
+
+            String cacheKey = mode + "-" + fhirVersion.getValue();
+            Resource capabilityStatement = cacheAsMap.computeIfAbsent(cacheKey, k -> computeCapabilityStatement(mode, fhirVersion));
 
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
@@ -179,11 +202,30 @@ public class Capabilities extends FHIRResource {
         }
     }
 
+    /**
+     * Which FHIRVersion to use for the generated CapabilityStatement
+     * 
+     * @param acceptHeaderValue
+     * @return 4.3.0 if the client is asking for it, otherwise 4.0.1
+     */
+    private FHIRVersion getFhirVersion(String acceptHeaderValue) {
+        if (acceptHeaderValue != null && !acceptHeaderValue.isEmpty()) {
+            for (String headerValueElement : acceptHeaderValue.split(",")) {
+                String requestedVersion = MediaType.valueOf(headerValueElement).getParameters().get(FHIRMediaType.FHIR_VERSION_PARAMETER);
+                if ("4.3".equals(requestedVersion) || "4.3.0".equals(requestedVersion)) {
+                    // TODO: remove _CIBUILD after generating from the published 4.3.0 artifacts
+                    return FHIRVersion.VERSION_4_3_0_CIBUILD;
+                }
+            }
+        }
+        return FHIRVersion.VERSION_4_0_1;
+    }
+
     private boolean isValidMode(String mode) {
         return "full".equals(mode) || "normative".equals(mode) || "terminology".equals(mode);
     }
 
-    private Resource computeCapabilityStatement(String mode) {
+    private Resource computeCapabilityStatement(String mode, FHIRVersion fhirVersion) {
         try {
             switch (mode) {
             case "terminology":
@@ -191,7 +233,7 @@ public class Capabilities extends FHIRResource {
             case "full":
             case "normative":
             default:
-                return buildCapabilityStatement();
+                return buildCapabilityStatement(fhirVersion);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -289,7 +331,7 @@ public class Capabilities extends FHIRResource {
      *
      * @throws Exception
      */
-    private CapabilityStatement buildCapabilityStatement() throws Exception {
+    private CapabilityStatement buildCapabilityStatement(FHIRVersion fhirVersion) throws Exception {
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
 
@@ -343,13 +385,11 @@ public class Capabilities extends FHIRResource {
         }
 
         com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
-
-        FHIRVersion fhirVersion = FHIRVersion.VERSION_4_0_1;
         
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
-        List<ResourceType.Value> resourceTypes = getSupportedResourceTypes(rsrcsGroup);
+        List<ResourceType.Value> resourceTypes = getSupportedResourceTypes(rsrcsGroup, fhirVersion);
 
         for (ResourceType.Value resourceType : resourceTypes) {
             String resourceTypeName = resourceType.value();
@@ -633,18 +673,23 @@ public class Capabilities extends FHIRResource {
      * @return a list of resource types to support
      * @throws Exception
      */
-    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup) throws Exception {
+    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersion fhirVersion) throws Exception {
+        final List<ResourceType.Value> resourceTypes = new ArrayList<>();
+        
         if (rsrcsGroup == null) {
-            return ALL_RESOURCE_TYPES;
+            resourceTypes.addAll(ALL_RESOURCE_TYPES);
+        } else {
+            if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+                resourceTypes.addAll(ALL_RESOURCE_TYPES);
+            } else {
+                resourceTypes.addAll(FHIRConfigHelper.getSupportedResourceTypes().stream()
+                    .map(ResourceType.Value::from)
+                    .collect(Collectors.toList()));
+            }
         }
 
-        List<ResourceType.Value> resourceTypes = new ArrayList<>();
-        if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
-            resourceTypes = ALL_RESOURCE_TYPES;
-        } else {
-            resourceTypes = FHIRConfigHelper.getSupportedResourceTypes().stream()
-                .map(ResourceType.Value::from)
-                .collect(Collectors.toList());
+        if (fhirVersion.getValueAsEnum() == FHIRVersion.Value.VERSION_4_0_1) {
+            resourceTypes.removeAll(R4B_ONLY_RESOURCES);
         }
         return resourceTypes;
     }
