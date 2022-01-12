@@ -133,7 +133,7 @@ There are three possible traversal paths through the data which are requested us
 
 Option 1 is useful for users interested in finding the most recent changes that have been applied to the server. Option 2 is useful for system-to-system synchronization because it represents the change history of the server. Option 3 is also useful for system-to-system synchronization cases, but guarantees uniqueness across pages when following the `next` links (versus option 2 which may repeat entries at the time window boundary when multiple resources share the same modification timestamp).
 
-To return all changes that have occurred since a known point in time, use both `_since` and `_sort=_lastUpdated` query parameters:
+The `_since` and `_before` search parameters can be used to specify a time range filter. They are both defined as [instant](https://www.hl7.org/fhir/datatypes.html#instant) datatypes which must include a time specified to at least second accuracy and include a timezone.  To return all changes that have occurred since a known point in time, use both `_since` and `_sort=_lastUpdated` query parameters:
 
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z&_sort=_lastUpdated'
@@ -164,6 +164,8 @@ As mentioned above, to simplify client implementations in system-to-system synch
 ```
 
 In this case, the IBM FHIR Server uses `_changeIdMarker` as a custom paging attribute which references a single `Bundle.entry.id` value. This value can be used by clients to checkpoint where they are in the sequence of changes, and ask for only changes that come after the given id. The simplest way to do this is to follow the `next` link returned in the response Bundle. If the next link is not present in the response Bundle, the end has been reached for the current point in time. Note that `_lastUpdated` and `Bundle.entry.id` values are not perfectly correlated - clients should not mix ordering. The ids used for `Bundle.entry.id` are guaranteed to be unique within a single IBM FHIR Server database (tenant/datasource).
+
+The `_changeIdMarker` query parameter is intended to be used only as part of a `next` link defined within a search result. It is not intended for general use by an end user.
 
 ### Whole System History - Type Filters
 The query parameter `_type` can be used to limit which resource types are returned from a `_history` request. For example, the following request will return only Patient and Observation resources:
