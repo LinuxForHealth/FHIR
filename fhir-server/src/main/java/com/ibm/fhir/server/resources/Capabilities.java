@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -44,6 +45,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.CacheControl;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -89,6 +91,7 @@ import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
+import com.ibm.fhir.model.type.code.TypeRestfulInteraction.Value;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -123,6 +126,9 @@ public class Capabilities extends FHIRResource {
     private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
 
     private static final String CAPABILITY_STATEMENT_CACHE_NAME = "com.ibm.fhir.server.resources.Capabilities.statementCache";
+
+    @Context
+    protected HttpServletRequest httpServletRequest;
 
     // Constructor
     public Capabilities() throws Exception {
@@ -348,6 +354,8 @@ public class Capabilities extends FHIRResource {
 
         com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
 
+        FHIRVersion fhirVersion = FHIRVersion.VERSION_4_0_1;
+
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
@@ -431,9 +439,14 @@ public class Capabilities extends FHIRResource {
                     .searchParam(conformanceSearchParams)
                     .searchInclude(searchIncludes)
                     .searchRevInclude(searchRevIncludes);
+<<<<<<< HEAD
 
             // Set readHistory to true if vread is supported for this resource type; otherwise leave it null
             if (interactions.stream().anyMatch(i -> i.getCode().getValueAsEnum() == TypeRestfulInteraction.Value.VREAD)) {
+=======
+            // Set readHistory to true if vread is supported for this resource type; otherwise leave it null
+            if (interactions.stream().anyMatch(i -> i.getCode().getValueAsEnum() == Value.VREAD)) {
+>>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
                 crb.readHistory(true);
             }
             resources.add(crb.build());
@@ -538,7 +551,7 @@ public class Capabilities extends FHIRResource {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.now(ZoneOffset.UTC))
                 .kind(CapabilityStatementKind.INSTANCE)
-                .fhirVersion(FHIRVersion.VERSION_4_3_0_CIBUILD)
+                .fhirVersion(fhirVersion)
                 .format(format)
                 .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
                              Code.of(FHIRMediaType.APPLICATION_FHIR_JSON),
@@ -569,7 +582,11 @@ public class Capabilities extends FHIRResource {
 
     /**
      * @param interactionConfig a list of strings that represent the RESTful interactions to support at the system level
+<<<<<<< HEAD
      *                          (history and/or search)
+=======
+     *                          (create, read, vread, update, patch, delete, history, and/or search)
+>>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
      * @return a list of Rest.Resource.Interaction objects to include in the CapabilityStatement
      * @throws FHIRPersistenceException
      */
@@ -654,8 +671,13 @@ public class Capabilities extends FHIRResource {
             resourceTypes = ALL_RESOURCE_TYPES;
         } else {
             resourceTypes = FHIRConfigHelper.getSupportedResourceTypes().stream()
+<<<<<<< HEAD
                     .map(ResourceType.Value::from)
                     .collect(Collectors.toList());
+=======
+                .map(ResourceType.Value::from)
+                .collect(Collectors.toList());
+>>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
         }
         return resourceTypes;
     }
@@ -830,10 +852,20 @@ public class Capabilities extends FHIRResource {
     }
 
     private Rest.Resource.Interaction buildTypeInteractionStatement(TypeRestfulInteraction value) {
+<<<<<<< HEAD
         return Rest.Resource.Interaction.builder().code(value).build();
     }
 
     private Rest.Interaction buildSystemInteractionStatement(SystemRestfulInteraction value) {
         return Rest.Interaction.builder().code(value).build();
+=======
+        Rest.Resource.Interaction ci = Rest.Resource.Interaction.builder().code(value).build();
+        return ci;
+    }
+
+    private Rest.Interaction buildSystemInteractionStatement(SystemRestfulInteraction value) {
+        Rest.Interaction ci = Rest.Interaction.builder().code(value).build();
+        return ci;
+>>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
     }
 }

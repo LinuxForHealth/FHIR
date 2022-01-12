@@ -28,7 +28,7 @@ import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     SearchHelper searchHelper = new SearchHelper();
 
