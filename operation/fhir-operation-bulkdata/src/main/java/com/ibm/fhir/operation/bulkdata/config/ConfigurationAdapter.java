@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -538,6 +538,8 @@ public interface ConfigurationAdapter {
 
     /**
      * reports back to the client if the StorageProvider supports requestAccessTokens
+     *
+     * @implNote per the spec, presigned URLS do NOT require access tokens.
      *
      * @param provider
      * @return
