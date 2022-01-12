@@ -93,6 +93,7 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -3026,10 +3027,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         historyContext.getHistorySortOrder());
             }
             
-            if (historyContext.getReturnPreference() == HTTPReturnPreference.REPRESENTATION) {
+            if (historyContext.getReturnPreference() == HTTPReturnPreference.REPRESENTATION
+                    || historyContext.getReturnPreference() == HTTPReturnPreference.OPERATION_OUTCOME) {
                 // vread the resources so that we can include them in the response bundle
-                log.fine("Fetching resources for history response bundle, count=" + records.size());
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Fetching resources for history response bundle, count=" + records.size());
+                }
                 resources = persistence.readResourcesForRecords(records);
+                
+                if (resources.size() != records.size()) {
+                    // very unlikely...unless we overlap with a patient erase operation
+                    throw new FHIRPersistenceException("Could not read all required resource records");
+                }
             }
         } catch (FHIRPersistenceDataAccessException x) {
             log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
@@ -3050,7 +3059,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // output them in the same order.
         for (int i=0; i<records.size(); i++) {
             ResourceChangeLogRecord changeRecord = records.get(i);
-            Resource resource = resources != null ? resources.get(i) : null; // REPRESENTATION
+            Resource resource = resources != null ? resources.get(i) : null; // REPRESENTATION or OPERATION_OUTCOME
             if (historyContext.getHistorySortOrder() == HistorySortOrder.ASC_LAST_UPDATED) {
                 if (lastChangeTime == null || changeRecord.getChangeTstamp().isAfter(lastChangeTime)) {
                     // Keep track of the latest timestamp and the corresponding resource (change) id
@@ -3098,7 +3107,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
             entryBuilder.request(requestBuilder.build());
             entryBuilder.response(responseBuilder.build());
-            entryBuilder.resource(resource); // remember resource may be null if returnPreference=minimal
+
+            // history bundle entry should not include any resource for deleted entries,
+            // also resource may be null if returnPreference=minimal
+            if (changeRecord.getChangeType() != ChangeType.DELETE && resource != null) {
+                entryBuilder.resource(resource);
+            }
             bundleBuilder.entry(entryBuilder.build());
         }
 
@@ -3135,9 +3149,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             case ASC_LAST_UPDATED:
                 nextRequest.append("&_sort=" + HistorySortOrder.ASC_LAST_UPDATED.toString());
                 nextRequest.append("&_since=").append(lastChangeTime.atZone(UTC).format(DateTime.PARSER_FORMATTER));
-                if (before != null) {
+                if (historyContext.getBefore() != null && historyContext.getBefore().getValue() != null) {
                     // make sure we keep including the before filter specified in the original request
-                    nextRequest.append("&_before=").append(before.atZone(UTC).format(DateTime.PARSER_FORMATTER));
+                    nextRequest.append("&_before=").append(historyContext.getBefore().getValue().format(DateTime.PARSER_FORMATTER));
                 }
                 
                 if (changeIdMarker != null) {
@@ -3148,9 +3162,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             case DESC_LAST_UPDATED:
                 nextRequest.append("&_sort=" + HistorySortOrder.DESC_LAST_UPDATED.toString());
                 nextRequest.append("&_before=").append(lastChangeTime.atZone(UTC).format(DateTime.PARSER_FORMATTER));
-                if (since != null) {
+                if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
                     // make sure we keep including the since filter specified in the original request
-                    nextRequest.append("&_since=").append(since.atZone(UTC).format(DateTime.PARSER_FORMATTER));
+                    nextRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
                 }
                 if (changeIdMarker != null) {
                     // good way to exclude this resource on the next call
@@ -3160,6 +3174,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             case NONE:
                 nextRequest.append("&_sort=" + HistorySortOrder.NONE.toString());
                 nextRequest.append("&_changeIdMarker=").append(changeIdMarker);
+                // since/before range filters should not be common when using system-defined
+                // sort order (HistorySortOrder.NONE) but are supported. Note the before
+                // value will interact with _excludeTransactionTimeoutWindow
+                if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
+                    nextRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
+                }
+
+                if (historyContext.getBefore() != null && historyContext.getBefore().getValue() != null) {
+                    nextRequest.append("&_before=").append(historyContext.getBefore().getValue().format(DateTime.PARSER_FORMATTER));
+                }
                 break;
             }
 
@@ -3185,6 +3209,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         
         if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
             selfRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
+        }
+
+        if (historyContext.getBefore() != null && historyContext.getBefore().getValue() != null) {
+            selfRequest.append("&_before=").append(historyContext.getBefore().getValue().format(DateTime.PARSER_FORMATTER));
         }
 
         if (resourceType == null && historyContext.getResourceTypes().size() > 0) {

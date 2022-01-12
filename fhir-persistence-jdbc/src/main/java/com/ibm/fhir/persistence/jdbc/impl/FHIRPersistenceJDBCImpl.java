@@ -2907,7 +2907,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
         // TODO support async read from payloadPersistence after issue #2900 is merged.
 
-        // Make sure we read deleted resources
+        // Make sure we read deleted resources...this is important because the result list must
+        // line up row-for-row with the provided records list
         FHIRPersistenceContext readContext = FHIRPersistenceContextFactory.createPersistenceContext(null, true);
         List<Resource> result = new ArrayList<>(records.size());
         for (ResourceChangeLogRecord r: records) {
