@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -16,7 +17,9 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -80,7 +83,10 @@ public class BulkDataExportUtil {
         try {
             // Also Check to see if the Export is valid for the Compartment.
             List<String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
-            List<String> tmp = resourceTypes.stream().filter(item -> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
+            Set<String> supportedResourceTypes = getSupportedResourceTypes();
+            List<String> tmp = resourceTypes.stream()
+                                        .filter(item -> allCompartmentResourceTypes.contains(item) && supportedResourceTypes.contains(item))
+                                        .collect(Collectors.toList());
             valid = tmp != null && !tmp.isEmpty();
         } catch (Exception e) {
             // No Operation intentionally
@@ -88,6 +94,22 @@ public class BulkDataExportUtil {
         if (!valid) {
             throw buildOperationException("Resource Type outside of the Patient Compartment in Export", IssueType.INVALID);
         }
+    }
+
+    /**
+     * gets the supported resource types
+     * @return
+     */
+    private Set<String> getSupportedResourceTypes() {
+        try {
+            List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
+            if (!rts.isEmpty()) {
+                return new HashSet<>(rts);
+            }
+        } catch (FHIRException e) {
+            // NOP
+        }
+        return RESOURCE_TYPES;
     }
 
     public MediaType checkAndConvertToMediaType(Parameters parameters) throws FHIROperationException {
@@ -217,21 +239,36 @@ public class BulkDataExportUtil {
     }
 
     /**
-     * the default resource types
+     * the default resource types are the supported resource types.
      * @return
      */
     public List<String> defaultResourceTypes(){
-        return new ArrayList<>(RESOURCE_TYPES);
+        Set<String> supportedResourceTypes = getSupportedResourceTypes();
+        List<String> supportedDefaultResourceTypes = new ArrayList<>();
+        for (String resourceType : RESOURCE_TYPES) {
+            if (supportedResourceTypes.contains(resourceType)) {
+                supportedDefaultResourceTypes.add(resourceType);
+            }
+        }
+        return supportedDefaultResourceTypes;
     }
 
     /**
-     * gets the defaults for the patient compartment.
+     * gets the defaults for the patient compartment (filtered based on supported).
      * @return
      * @throws FHIROperationException
      */
     public List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
         try {
-            return CompartmentUtil.getCompartmentResourceTypes("Patient");
+            // Ensures only supported resources are added
+            Set<String> supportedResourceTypes = getSupportedResourceTypes();
+            List<String> supportedDefaultResourceTypes = new ArrayList<>();
+            for (String compartmentResourceType : CompartmentUtil.getCompartmentResourceTypes("Patient")) {
+                if (supportedResourceTypes.contains(compartmentResourceType)) {
+                    supportedDefaultResourceTypes.add(compartmentResourceType);
+                }
+            }
+            return supportedDefaultResourceTypes;
         } catch (FHIRSearchException e) {
             throw buildOperationException("unable to process the Patient compartment into types", IssueType.UNKNOWN);
         }
