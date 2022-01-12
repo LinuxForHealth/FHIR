@@ -27,6 +27,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
+    private static final boolean DEBUG = false;
 
     @BeforeClass
     void setup() {
@@ -51,7 +52,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 141, 8, 0, 0, 8, 0, 0);
+        assertRestDefinition(restDefinition, 4, 141, 9, 0, 0, 9, 0, 0);
     }
 
     @Test
@@ -66,7 +67,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 141, 0, 0, 0, 0, 0, 0);
+        assertRestDefinition(restDefinition, 0, 141, 0, 0, 0, 0, 0, 0);
     }
 
     @Test
@@ -81,12 +82,15 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 2, 2, 1, 0, 4, 0, 1);
+        assertRestDefinition(restDefinition, 0, 2, 2, 1, 0, 5, 0, 1);
     }
 
-    private void assertRestDefinition(CapabilityStatement.Rest restDefinition, int numOfResources,
-        int patientInteractions, int patientIncludes, int patientRevIncludes,
-        int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
+    private void assertRestDefinition(CapabilityStatement.Rest restDefinition, int systemInteractions, int numOfResources,
+            int patientInteractions, int patientIncludes, int patientRevIncludes,
+            int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
+        if (DEBUG) {
+            System.out.println(restDefinition);
+        }
         assertEquals(restDefinition.getResource().size(), numOfResources, "Number of supported resources");
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.RESOURCE));
         assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.DOMAIN_RESOURCE));
@@ -96,7 +100,7 @@ public class CapabilitiesTest {
     }
 
     private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType.Value resourceType, int numOfInteractions,
-        int numIncludes, int numRevIncludes) {
+            int numIncludes, int numRevIncludes) {
         Optional<CapabilityStatement.Rest.Resource> resource = restDefinition.getResource().stream()
                 .filter(r -> r.getType().getValueAsEnum() == resourceType)
                 .findFirst();
