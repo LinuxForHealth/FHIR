@@ -107,7 +107,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken, jwt);
         }
     }
 
@@ -156,7 +156,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken, jwt);
         }
     }
 
@@ -560,10 +560,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      *
      * @see #checkScopes(String, Permission, List)
      */
-    private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes) throws FHIRPersistenceInterceptorException {
+    private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         if (!isApprovedByScopes(resourceType, requiredPermission, systemScopes)) {
-            String msg = requiredPermission.value() + " permission for '" + resourceType +
-                    "' is not granted by any of the provided 'system/' scopes: " + systemScopes;
+            String msg = requiredPermission.value() + " permission for '" + resourceType
+                    + "' is not granted by any of the provided 'system/' scopes: " + systemScopes
+                    + " requested scopes: " + getScopesFromToken(jwt);
             if (log.isLoggable(Level.FINE)) {
                 log.fine(msg);
             }
