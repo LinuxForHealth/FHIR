@@ -100,7 +100,7 @@ public class BulkDataExportUtil {
      * gets the supported resource types
      * @return
      */
-    private Set<String> getSupportedResourceTypes() {
+    public Set<String> getSupportedResourceTypes() {
         try {
             List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
             if (!rts.isEmpty()) {
@@ -236,21 +236,6 @@ public class BulkDataExportUtil {
             }
         }
         return result;
-    }
-
-    /**
-     * the default resource types are the supported resource types.
-     * @return
-     */
-    public List<String> defaultResourceTypes(){
-        Set<String> supportedResourceTypes = getSupportedResourceTypes();
-        List<String> supportedDefaultResourceTypes = new ArrayList<>();
-        for (String resourceType : RESOURCE_TYPES) {
-            if (supportedResourceTypes.contains(resourceType)) {
-                supportedDefaultResourceTypes.add(resourceType);
-            }
-        }
-        return supportedDefaultResourceTypes;
     }
 
     /**

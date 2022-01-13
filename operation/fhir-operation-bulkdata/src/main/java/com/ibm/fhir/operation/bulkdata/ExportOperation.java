@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -82,7 +83,7 @@ public class ExportOperation extends AbstractOperation {
                 }
             } else if ((ExportType.SYSTEM.equals(exportType) )
                             && (types == null || types.isEmpty())) {
-                types = export.defaultResourceTypes();
+                types = new ArrayList<>(export.getSupportedResourceTypes());
             }
 
             // Early detection of potential issues.
