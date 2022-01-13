@@ -138,9 +138,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param identityCache
      * @param rowOffset
      * @param rowsPerPage
+     * @param includeResourceData
      */
     public SearchQueryRenderer(JDBCIdentityCache identityCache,
-        int rowOffset, int rowsPerPage, boolean includeResourceData) {
+            int rowOffset, int rowsPerPage, boolean includeResourceData) {
         this.identityCache = identityCache;
         this.rowOffset = rowOffset;
         this.rowsPerPage = rowsPerPage;

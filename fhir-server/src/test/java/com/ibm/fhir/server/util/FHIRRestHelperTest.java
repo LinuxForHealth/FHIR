@@ -1984,7 +1984,6 @@ public class FHIRRestHelperTest {
                     .build())
                 .build();
 
-        // TODO make this work with the new search result semantics
         List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         resourceResults.add(ResourceResult.builder().build());
         resourceResults.add(ResourceResult.builder().resource(patientNoId).build());

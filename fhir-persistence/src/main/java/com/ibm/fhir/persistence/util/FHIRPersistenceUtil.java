@@ -183,59 +183,6 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-
-    /**
-     * Create a minimal deleted resource marker from the given resource
-     *
-     * @param deletedResource
-     * @return deletedResourceMarker
-     */
-    @Deprecated
-    public static Resource createDeletedResourceMarker(Resource deletedResource) {
-        try {
-            // Build a fresh meta with only versionid/lastupdated defined
-            Meta meta = Meta.builder()
-                    .versionId(deletedResource.getMeta().getVersionId())
-                    .lastUpdated(deletedResource.getMeta().getLastUpdated())
-                    .build();
-
-            // TODO this will clone the entire resource, but we only want the minimal parameters
-            Resource deletedResourceMarker = deletedResource.toBuilder()
-                    .id(deletedResource.getId())
-                    .meta(meta)
-                    .build();
-
-            return deletedResourceMarker;
-        } catch (Exception e) {
-            throw new IllegalStateException("Error while creating deletion marker for resource of type "
-                    + deletedResource.getClass().getSimpleName());
-        }
-    }
-
-    public static Resource createDeletedResourceMarker(String resourceType, String logicalId, int version, java.time.Instant lastUpdated) {
-        // TODO do we even need this deletion marker now that we have ResourceResult?
-        try {
-            // Build a fresh meta with only versionid/lastupdated defined
-            Meta meta = Meta.builder()
-                    .versionId(Id.of(Integer.toString(version)))
-                    .lastUpdated(Instant.of(lastUpdated.atZone(ZoneOffset.UTC)))
-                    .build();
-
-            // Build a minimal instance of Resource
-            Class<? extends Resource> resourceClass = ModelSupport.getResourceType(resourceType);
-            Resource resource = resourceClass.getDeclaredConstructor().newInstance()
-                    .toBuilder()
-                    .id(logicalId)
-                    .meta(meta)
-                    .build();
-
-            return resource;
-        } catch (Exception e) {
-            throw new IllegalStateException("Error while creating deletion marker for resource of type "
-                    + resourceType);
-        }
-    }
-
     /**
      * Create a new {@link ResourceResult} instance to represent a deleted or partially
      * erased resource

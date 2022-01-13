@@ -189,7 +189,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      * @throws Exception
      */
     protected boolean searchReturnsResourceResult(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, String expectedLogicalId,
-        boolean includesData) throws Exception {
+            boolean includesData) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceTypeToSearch, queryParms);
         searchContext.setIncludeResourceData(includesData);
         List<ResourceResult<? extends Resource>> resourceResults = runQueryTest(
@@ -198,7 +198,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         
         assertNotNull(resourceResults);
         
-        // Find the logicalId in the output and check the the includesData matches
+        // Find the logicalId in the output and check that the includesData matches
         boolean result = false;
         for (ResourceResult<? extends Resource> rr: resourceResults) {
             if (rr.getLogicalId().equals(expectedLogicalId)) {

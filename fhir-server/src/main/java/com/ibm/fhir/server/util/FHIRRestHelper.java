@@ -2234,6 +2234,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Loop through the resources, looking for versioned references and references to multiple resource types for the same logical ID
             for (ResourceResult<? extends Resource> resourceResult : matchResources) {
                 Resource resource = resourceResult.getResource();
+                if (resource == null) {
+                    log.warning("Unexpected null resource: " + resourceResult.toString());
+                    throw new FHIRPersistenceException("Search reference check contained a null resource");
+                }
 
                 // A flag that indicates whether we need to take a closer look at the reference values or not
                 boolean needsEval = false;
@@ -2242,7 +2246,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // then we'll need to check that they aren't used for chaining
                 // TODO Should we pass the previously-gathered set of references into the method instead?
                 CollectingVisitor<Reference> refCollector = new CollectingVisitor<>(Reference.class);
-                resource.accept(refCollector); // TODO protect against null resource?
+                resource.accept(refCollector);
                 List<Reference> references = refCollector.getResult();
                 for (Reference ref : references) {
                     if (ref.getReference() != null && ref.getReference().getValue() != null

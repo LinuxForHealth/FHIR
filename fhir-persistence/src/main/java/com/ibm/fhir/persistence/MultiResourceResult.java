@@ -47,7 +47,7 @@ public class MultiResourceResult {
     /**
      * The resource results returned from the interaction
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceResource<T>}
+     *     An unmodifiable list containing immutable objects of type {@link ResourceResult<T>}
      */
     public List<ResourceResult<? extends Resource>> getResourceResults() {
         return this.resourceResults;

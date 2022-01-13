@@ -14,7 +14,7 @@ import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- * The base wrapper result wrapper used to represent a resource being returned from a
+ * The base result wrapper used to represent a resource being returned from a
  * persistence interaction.
  * Instances are immutable and can be constructed via {@code new ResourceResult.Builder<T>()}.
  */
@@ -40,9 +40,23 @@ public class ResourceResult<T extends Resource> {
         lastUpdated = builder.lastUpdated;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append(resourceTypeName);
+        result.append("/");
+        result.append(logicalId);
+        result.append("/_history/");
+        result.append(version);
+        
+        if (deleted) {
+            result.append(" [deleted]");
+        }
+        return result.toString();
+    }
+
     /**
      * Create a Builder for building instances of this class
-     * @param <T>
      * @return
      */
     public static <T extends Resource> ResourceResult.Builder<T> builder() {

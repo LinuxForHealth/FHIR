@@ -1536,10 +1536,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
+     * @param resourceDao
      * @param resourceDTOList
      * @param resourceType
      * @param elements
-     * @param allowNullResource
+     * @param includeResourceData
      * @return
      * @throws FHIRException
      * @throws IOException
