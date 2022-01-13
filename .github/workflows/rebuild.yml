@@ -1,0 +1,51 @@
+name: Rebuild
+
+on:
+  schedule:
+    # 7am (UTC) each day
+    # '*' is a special character in YAML so you have to quote this string
+    - cron:  '0 7 * * *'
+  # allows the workflow to be manually executed any time
+  workflow_dispatch:
+
+jobs:
+  image-refresh:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '11' ]
+        tag: [ '4.9.2', '4.10.2' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: refs/tags/${{ matrix.tag }}
+    - name: Setup java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+        cache: 'maven'
+    - name: Build and Release
+      env:
+        BASE: origin/${{ github['base_ref'] }}
+        GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+        GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+        OLD_JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
+      run: |
+        . build/release/global.sh
+        bash build/release/00_prep.sh
+        bash build/release/10_build.sh
+        bash build/release/20_test.sh
+        # go straight to the dockerhub release instead of calling 30_release.sh
+        # which uploads the build artifacts to Sonatype OSSRH in the tag release workflow
+        bash build/release/bin/30_release/1_dockerhub.sh
+        bash build/release/40_drop.sh
