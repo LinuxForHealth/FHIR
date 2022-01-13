@@ -86,8 +86,18 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, report.build());
     }
 
-
-
+    /**
+     * Retrieve the MeasureReportType to use based on operation inputs. The
+     * logic is defined as first use the provided code value, second use
+     * INDIVIDUAL if a subject is provided, and, last, use SUMMARY if
+     * neither a code or subject is available.
+     * 
+     * @param paramMap
+     *            operation input
+     * @param subject
+     *            subject value
+     * @return MeasureReportType
+     */
     public MeasureReportType getReportType(ParameterMap paramMap, String subject) {
         MeasureReportType reportType = null;
         
@@ -105,6 +115,13 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         return reportType;
     }
 
+    /**
+     * Retrieve the subject parameter from operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return subject parameter or null if not found.
+     */
     public String getSubject(ParameterMap paramMap) {
         String subject = null;
         Parameter pSubject = paramMap.getOptionalSingletonParameter(PARAM_IN_SUBJECT);
@@ -114,6 +131,13 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         return subject;
     }
 
+    /**
+     * Retrieve the practitioner parameter from operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return practitioner parameter or null if not found.
+     */
     public String getPractitioner(ParameterMap paramMap) {
         String practitioner = null;
         Parameter pPractitioner = paramMap.getOptionalSingletonParameter(PARAM_IN_PRACTITIONER);

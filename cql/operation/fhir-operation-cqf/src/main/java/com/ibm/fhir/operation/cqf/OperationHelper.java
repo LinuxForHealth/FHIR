@@ -57,24 +57,66 @@ public class OperationHelper {
         return result;
     }
     
+    /**
+     * Load a Measure resource by reference. 
+     * @see loadResourceByReference
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param reference Resource reference either in ResourceType/ID or canonical URL format
+     * @return loaded resource
+     * @throws FHIROperationException when resource is not found
+     */
     public static Measure loadMeasureByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
         return loadResourceByReference(resourceHelper, ResourceType.MEASURE, Measure.class, reference);
     }
-    
 
-    public static Measure loadMeasureById(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        return loadResourceById(resourceHelper, ResourceType.MEASURE, reference);
+    /**
+     * Load a Measure resource by ID.
+     * 
+     * @see loadResourceById
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param resourceId Resource ID
+     * @return loaded resource
+     * @throws FHIROperationException when resource is not found
+     */
+    public static Measure loadMeasureById(FHIRResourceHelpers resourceHelper, String resourceId) throws FHIROperationException {
+        return loadResourceById(resourceHelper, ResourceType.MEASURE, resourceId);
     }
     
+    /**
+     * Load a Library resource by reference. 
+     * @see loadResourceByReference
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param reference Resource reference either in ResourceType/ID or canonical URL format
+     * @return loaded resource
+     * @throws FHIROperationException when resource is not found
+     */
     public static Library loadLibraryByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
         return loadResourceByReference(resourceHelper, ResourceType.LIBRARY, Library.class, reference);
     }
     
-
-    public static Library loadLibraryById(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        return loadResourceById(resourceHelper, ResourceType.LIBRARY, reference);
+    /**
+     * Load a Library resource by ID.
+     * 
+     * @see loadResourceById
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param resourceId Resource ID
+     * @return loaded resource
+     * @throws FHIROperationException when resource is not found
+     */
+    public static Library loadLibraryById(FHIRResourceHelpers resourceHelper, String resourceId) throws FHIROperationException {
+        return loadResourceById(resourceHelper, ResourceType.LIBRARY, resourceId);
     }
     
+    /**
+     * Load a resource by reference. If the reference is of the format, ResourceType/ID or
+     * does not contain any forward slash characters, it will be loaded directly. Otherwise,
+     * the reference will be treated as a canonical URL and resolved from the FHIR registry. 
+     *
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param reference Resource reference either in ResourceType/ID or canonical URL format
+     * @return loaded resource
+     * @throws FHIROperationException when resource is not found
+     */
     @SuppressWarnings("unchecked")
     public static <T extends Resource> T loadResourceByReference(FHIRResourceHelpers resourceHelper, ResourceType resourceType, Class<T> resourceClass, String reference) throws FHIROperationException {
         T resource;
@@ -95,14 +137,25 @@ public class OperationHelper {
         return resource;
     }
 
+    /**
+     * Load a resource by ID. ID values are expected to already be separated
+     * from the ResourceType in a reference.
+     * 
+     * @param <T> Resource class to load
+     * @param resourceHelper FHIRResourceHelpers for resource reads
+     * @param resourceType ResourceType of the resource to load
+     * @param resourceId ID
+     * @return
+     * @throws FHIROperationException
+     */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String reference) throws FHIROperationException {
+    public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String resourceId) throws FHIROperationException {
         T resource;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), reference, true, false, null);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId, true, false, null);
             resource = (T) readResult.getResource();
         } catch (Exception ex) {
-            throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), reference), ex);
+            throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), resourceId), ex);
         }
         return resource;
     }

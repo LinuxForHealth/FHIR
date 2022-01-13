@@ -79,6 +79,33 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         return retrieveProvider;
     }
 
+    /**
+     * Given a FHIR Measure resource, evaluate the measure and return
+     * a report of the results. 
+     * 
+     * @param resourceHelpers
+     *            Resource helpers for data access operations
+     * @param measure
+     *            Measure resource to be evaluated
+     * @param zoneOffset
+     *            Zone offset of the timezone that will be used for Now
+     *            or when partial dates are specified in the CQL.
+     * @param measurementPeriod
+     *            Measurement period that will be provided as input
+     *            to the Measure calculation.
+     * @param subjectOrPractitionerId
+     *            Subject or Practitioner ID for which the measure will be calculated.
+     * @param reportType
+     *            The type of measure report: subject, subject-list, or population. If not specified, a default value of
+     *            subject will be used if the subject parameter is supplied, otherwise, population will be used
+     * @param termProvider
+     *            terminology provider
+     * @param dataProviders
+     *            data provider
+     * @return MeasureReport.Builder that contains the calculated report data
+     * @throws FHIROperationException
+     *             Measure evaluation fails
+     */
     public MeasureReport.Builder doMeasureEvaluation(FHIRResourceHelpers resourceHelpers, Measure measure, ZoneOffset zoneOffset, Interval measurementPeriod, String subjectOrPractitionerId,
         MeasureReportType reportType,
         TerminologyProvider termProvider, Map<String, DataProvider> dataProviders) throws FHIROperationException {

@@ -32,10 +32,30 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public abstract class AbstractDataRequirementsOperation extends AbstractOperation {
     public static final String PARAM_OUT_RETURN = "return";
 
+    /**
+     * Perform the data requirements operation for the provided list of Library
+     * resources.
+     * 
+     * @param fhirLibraries
+     *            List of library resources.
+     * @return Library data requirements
+     */
     protected Parameters doDataRequirements(List<Library> fhirLibraries) {
         return doDataRequirements(fhirLibraries, null);
     }
     
+    /**
+     * Perform the data requirements operation for the provided list of Library
+     * resources.
+     * 
+     * @param fhirLibraries
+     *            List of library resources.
+     * @param additionalRelated
+     *            Supplier of additional RelatedArtifacts that should be 
+     *            addeded to the generated data requirements.
+     *            
+     * @return Library data requirements
+     */
     protected Parameters doDataRequirements(List<Library> fhirLibraries, Supplier<List<RelatedArtifact>> additionalRelated) {
         Library.Builder result = Library.builder()
                 .status(PublicationStatus.UNKNOWN)

@@ -100,7 +100,7 @@ public abstract class BaseDataRequirementsOperationTest {
         Library primaryLibrary = getPrimaryLibrary(cql, modelInfo, fhirHelpers, sde);
         List<Library> fhirLibraries = Arrays.asList(primaryLibrary, getSupplementalDataElementsLibrary(), getFHIRHelpers(), getFHIRModelInfo());
     
-        if( exists ) {
+        if (exists) {
             when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
             
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
