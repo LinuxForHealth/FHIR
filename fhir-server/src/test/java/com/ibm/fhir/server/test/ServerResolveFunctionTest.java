@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,6 +51,7 @@ import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -357,21 +358,28 @@ public class ServerResolveFunctionTest {
 
         @SuppressWarnings("unchecked")
         @Override
-        public <T extends Resource> MultiResourceResult<T> history(
+        public MultiResourceResult history(
                 FHIRPersistenceContext context,
-                Class<T> resourceType,
+                Class<? extends Resource> resourceType,
                 String logicalId) throws FHIRPersistenceException {
-            List<T> versions = (List<T>) map.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(logicalId, Collections.emptyList());
+            
+            List<? extends Resource> versions = map.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(logicalId, Collections.emptyList());
+            
+            // Convert the resource list to a results list
+            List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(versions.size());
+            for (Resource resource: versions) {
+                resourceResults.add(ResourceResult.from(resource));
+            }
 
-            MultiResourceResult.Builder<T> resultBuilder = new MultiResourceResult.Builder<T>()
+            MultiResourceResult.Builder resultBuilder = MultiResourceResult.builder()
                     .success(!versions.isEmpty())
-                    .resource(versions);
+                    .addResourceResults(resourceResults);
 
             return resultBuilder.build();
         }
 
         @Override
-        public MultiResourceResult<Resource> search(
+        public MultiResourceResult search(
                 FHIRPersistenceContext context,
                 Class<? extends Resource> resourceType) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();

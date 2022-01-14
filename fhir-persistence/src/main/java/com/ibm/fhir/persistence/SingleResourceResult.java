@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,20 +19,18 @@ import com.ibm.fhir.model.util.ValidationSupport;
  */
 public class SingleResourceResult<T extends Resource> {
     @Required
-    final boolean success;
-    final T resource;
-    final OperationOutcome outcome;
-    final boolean deleted;
-    final InteractionStatus interactionStatus;
+    private final ResourceResult<T> resourceResult;
+    private final boolean success;
+    private final OperationOutcome outcome;
+    private final InteractionStatus interactionStatus;
     
     // The current version of the resource returned by the database if we hit IfNoneMatch
     final Integer ifNoneMatchVersion;
     
     private SingleResourceResult(Builder<T> builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
-        resource = builder.resource;
+        resourceResult = builder.resourceResultBuilder.build();
         outcome = builder.outcome;
-        deleted = builder.deleted;
         interactionStatus = builder.interactionStatus;
         ifNoneMatchVersion = builder.ifNoneMatchVersion;
         
@@ -64,7 +62,7 @@ public class SingleResourceResult<T extends Resource> {
      * @return whether the resource is deleted
      */
     public boolean isDeleted() {
-        return deleted;
+        return resourceResult.isDeleted();
     }
 
     /**
@@ -74,7 +72,7 @@ public class SingleResourceResult<T extends Resource> {
      *     An immutable object of type {@link Resource}.
      */
     public T getResource() {
-        return resource;
+        return resourceResult.getResource();
     }
 
     /**
@@ -103,14 +101,34 @@ public class SingleResourceResult<T extends Resource> {
         return outcome;
     }
 
+    /**
+     * @return the type name of the resource
+     */
+    public String getResourceTypeName() {
+        return resourceResult.getResourceTypeName();
+    }
+
+    /**
+     * @return the logicalId of the resource
+     */
+    public String getLogicalId() {
+        return resourceResult.getLogicalId();
+    }
+
+    /**
+     * @return the version of the resource
+     */
+    public int getVersion() {
+        return resourceResult.getVersion();
+    }
+
     // result builder
     public static class Builder<T extends Resource> {
         private boolean success;
-        private T resource;
         private OperationOutcome outcome;
-        private boolean deleted;
         private InteractionStatus interactionStatus;
         private Integer ifNoneMatchVersion;
+        private final ResourceResult.Builder<T> resourceResultBuilder = new ResourceResult.Builder<>();
 
         /**
          * Whether or not the interaction was successful
@@ -157,7 +175,7 @@ public class SingleResourceResult<T extends Resource> {
          * @return A reference to this Builder instance
          */
         public Builder<T> deleted(boolean flag) {
-            this.deleted = flag;
+            resourceResultBuilder.deleted(flag);
             return this;
         }
 
@@ -171,7 +189,7 @@ public class SingleResourceResult<T extends Resource> {
          *     A reference to this Builder instance
          */
         public Builder<T> resource(T resource) {
-            this.resource = resource;
+            resourceResultBuilder.resource(resource);
             return this;
         }
 
@@ -188,6 +206,48 @@ public class SingleResourceResult<T extends Resource> {
          */
         public Builder<T> outcome(OperationOutcome outcome) {
             this.outcome = outcome;
+            return this;
+        }
+
+        /**
+         * The type name of the resource which should be set when the resource
+         * value itself is null
+         * 
+         * @param resourceTypeName
+         *     The type name of the resource this result represents
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder<T> resourceTypeName(String resourceTypeName) {
+            resourceResultBuilder.resourceTypeName(resourceTypeName);
+            return this;
+        }
+
+        /**
+         * Sets the logicalId of the resource which should be set when the resource
+         * value itself is null
+         * 
+         * @param logicalId
+         *     The logicalId of this resource
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder<T> logicalId(String logicalId) {
+            resourceResultBuilder.logicalId(logicalId);
+            return this;
+        }
+
+        /**
+         * Sets the version of the resource which should be set when the resource
+         * value itself is null
+         * 
+         * @param version
+         *     The version of this resource
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder<T> version(int version) {
+            resourceResultBuilder.version(version);
             return this;
         }
 

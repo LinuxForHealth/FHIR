@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,9 +29,12 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompositionStatus;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * An abstract parent for the persistence layer search tests.
@@ -173,6 +176,37 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         List<? extends Resource> resources = runQueryTest(resourceTypeToSearch, queryParms, Integer.MAX_VALUE);
         assertNotNull(resources);
         return isResourceInResponse(expectedResource, resources);
+    }
+
+    /**
+     * Executes the query test and returns whether the expected resource logicalId was found in
+     * the result set
+     * @param resourceTypeToSearch the resource type class to use as the base of the search
+     * @param queryParms
+     * @param expectedLogicalId
+     * @param includesData
+     * @return
+     * @throws Exception
+     */
+    protected boolean searchReturnsResourceResult(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, String expectedLogicalId,
+            boolean includesData) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceTypeToSearch, queryParms);
+        searchContext.setIncludeResourceData(includesData);
+        List<ResourceResult<? extends Resource>> resourceResults = runQueryTest(
+                searchContext,
+                resourceTypeToSearch, queryParms, Integer.MAX_VALUE).getResourceResults();
+        
+        assertNotNull(resourceResults);
+        
+        // Find the logicalId in the output and check that the includesData matches
+        boolean result = false;
+        for (ResourceResult<? extends Resource> rr: resourceResults) {
+            if (rr.getLogicalId().equals(expectedLogicalId)) {
+                result = (rr.getResource() != null) == includesData;
+                break;
+            }
+        }
+        return result;
     }
 
     /**

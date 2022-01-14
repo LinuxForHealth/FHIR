@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import static org.testng.AssertJUnit.assertNull;
 
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -23,6 +23,7 @@ import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Device.UdiCarrier;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -117,19 +118,16 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     public void testHistoryDeletedDevice() throws Exception {
         FHIRHistoryContext historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         FHIRPersistenceContext context = this.getPersistenceContextForHistory(historyContext);
-        Map<String, List<Integer>> deletedResources;
-        List<Integer> deletedVersions;
 
-        List<Device> resources = persistence.history(context, Device.class, this.deviceId1).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.history(context, Device.class, this.deviceId1).getResourceResults();
         assertNotNull(resources);
         assertTrue(resources.size() == 2);
-        deletedResources = historyContext.getDeletedResources();
+        List<ResourceResult<? extends Resource>> deletedResources = resources.stream().filter(ResourceResult::isDeleted).collect(Collectors.toList());
+
         assertNotNull(deletedResources);
         assertTrue(deletedResources.size() == 1);
-        assertNotNull(deletedResources.get(this.deviceId1));
-        deletedVersions = deletedResources.get(this.deviceId1);
-        assertEquals(1,deletedVersions.size());
-        assertEquals(new Integer(2),deletedVersions.get(0));
+        assertEquals(deletedResources.get(0).getLogicalId(), this.deviceId1);
+        assertEquals(deletedResources.get(0).getVersion(), 2);
     }
 
     @Test(dependsOnMethods = { "testDeleteValidDevice" })
@@ -143,8 +141,6 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
 
         FHIRHistoryContext historyContext = FHIRPersistenceContextFactory.createHistoryContext();
         FHIRPersistenceContext context = this.getPersistenceContextForHistory(historyContext);
-        Map<String, List<Integer>> deletedResources;
-        List<Integer> deletedVersions;
         String updatedUdiValue = "updated-udi-value";
 
         // Read previously created device
@@ -163,19 +159,16 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         persistence.updateWithMeta(getDefaultPersistenceContext(), device);
 
         // Verify device history
-        List<Device> resources = persistence.history(context, Device.class, this.deviceId2).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.history(context, Device.class, this.deviceId2).getResourceResults();
         assertNotNull(resources);
         assertTrue(resources.size() == 3);
-        deletedResources = historyContext.getDeletedResources();
-        assertNotNull(deletedResources);
-        assertTrue(deletedResources.size() == 1);
-        assertNotNull(deletedResources.get(this.deviceId2));
-        deletedVersions = deletedResources.get(this.deviceId2);
-        assertEquals(1,deletedVersions.size());
-        assertEquals(new Integer(2),deletedVersions.get(0));
+        List<ResourceResult<? extends Resource>> deletedResources = resources.stream().filter(ResourceResult::isDeleted).collect(Collectors.toList());
+        assertEquals(deletedResources.size(), 1);
+        assertEquals(deletedResources.get(0).getLogicalId(), this.deviceId2);
+        assertEquals(deletedResources.get(0).getVersion(), 2);
 
         // Verify latest device
-        Device latestDeviceVersion = resources.get(0);
-        assertEquals(updatedUdiValue,latestDeviceVersion.getUdiCarrier().get(0).getDeviceIdentifier().getValue());
+        Device latestDeviceVersion = resources.get(0).getResource().as(Device.class);
+        assertEquals(latestDeviceVersion.getUdiCarrier().get(0).getDeviceIdentifier().getValue(), updatedUdiValue);
     }
 }

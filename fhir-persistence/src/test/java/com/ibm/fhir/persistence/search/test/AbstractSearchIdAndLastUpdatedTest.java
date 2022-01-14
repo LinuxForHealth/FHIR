@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -252,9 +252,9 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         FHIRSearchContext searchContext =
                 SearchUtil.parseCompartmentQueryParameters("Patient", savedPatient.getId(), Observation.class, queryParms);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        MultiResourceResult<Resource> result = persistence.search(persistenceContext, Observation.class);
-        assertNotNull(result.getResource());
-        assertTrue(result.getResource().size() > 0);
+        MultiResourceResult result = persistence.search(persistenceContext, Observation.class);
+        assertNotNull(result.getResourceResults());
+        assertTrue(result.getResourceResults().size() > 0);
     }
 
     /*

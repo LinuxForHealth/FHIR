@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,9 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 
-
+/**
+ * Implementation of {@link FHIRSearchContext}
+ */
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
     private List<String> searchResourceTypes = null;
     private List<QueryParameter> searchParameters = new ArrayList<>();
@@ -29,7 +31,13 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private SummaryValueSet summaryParameter = null;
     private TotalValueSet totalParameter = null;
     private List<Issue> outcomeIssues = null;
+    
+    // should the search result Bundle include the actual resource for each result entry
+    private boolean includeResourceData = true;
 
+    /**
+     * Public constructor
+     */
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
     }
@@ -179,5 +187,15 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         builder.append(outcomeIssues);
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public boolean isIncludeResourceData() {
+        return this.includeResourceData;
+    }
+
+    @Override
+    public void setIncludeResourceData(boolean flag) {
+        this.includeResourceData = flag;
     }
 }

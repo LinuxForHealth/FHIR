@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -131,17 +131,21 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     // Enable use of legacy whole-system search parameters for the search request
     private final boolean legacyWholeSystemSearchParamsEnabled;
 
+    // Include DATA in the data fetch queries
+    private final boolean includeResourceData;
     /**
      * Public constructor
      * @param identityCache
      * @param rowOffset
      * @param rowsPerPage
+     * @param includeResourceData
      */
     public SearchQueryRenderer(JDBCIdentityCache identityCache,
-        int rowOffset, int rowsPerPage) {
+            int rowOffset, int rowsPerPage, boolean includeResourceData) {
         this.identityCache = identityCache;
         this.rowOffset = rowOffset;
         this.rowsPerPage = rowsPerPage;
+        this.includeResourceData = includeResourceData;
         this.legacyWholeSystemSearchParamsEnabled =
                 FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
@@ -352,7 +356,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String xxResources = resourceResources(queryData.getResourceType());
         final String lrAliasName = "LR";
         SelectAdapter select = Select.select("R.RESOURCE_ID", "R.LOGICAL_RESOURCE_ID", "R.VERSION_ID", "R.LAST_UPDATED",
-                "R.IS_DELETED", "R.DATA", "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
+                "R.IS_DELETED", getDataCol(), "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
         
         // Resource type id is used for whole-system-search cases where the query
         // can return resources of different types (e.g. both Patient and Observation)
@@ -401,7 +405,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String rAlias = "R";
         final String rTable = query.getResourceType() + "_RESOURCES";
         SelectAdapter select = Select.select("LR.RESOURCE_ID", "LR.LOGICAL_RESOURCE_ID", "LR.VERSION_ID",
-                "LR.LAST_UPDATED", "LR.IS_DELETED", "R.DATA", "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
+                "LR.LAST_UPDATED", "LR.IS_DELETED", getDataCol(), "LR.LOGICAL_ID", "R.RESOURCE_PAYLOAD_KEY");
         select.from(query.getQuery().build(), alias(lrAlias))
             .innerJoin(rTable, alias(rAlias), on(lrAlias, "RESOURCE_ID").eq(rAlias, "RESOURCE_ID"));
         return new QueryData(select, lrAlias, null, query.getResourceType(), 0);
@@ -2726,5 +2730,15 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
      */
     private boolean isWholeSystemSearch(String resourceType) {
         return Resource.class.getSimpleName().equals(resourceType);
+    }
+
+    /**
+     * Get the select column entry for the resource data column. If
+     * the includeResourceData flag is false, the column is replaced
+     * with a literal NULL.
+     * @return
+     */
+    private String getDataCol() {
+        return this.includeResourceData ? "R.DATA" : "CAST(NULL AS BLOB) AS DATA";
     }
 }

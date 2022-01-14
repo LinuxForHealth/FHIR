@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1551,12 +1551,12 @@ public class MemberMatchTest {
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
             Resource contextResource) throws Exception {
             // TODO Auto-generated method stub
-            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false);
+            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false, true);
         }
 
         @Override
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkIfInteractionAllowed) throws Exception {
+            Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
             if (throwException) {
                 throw new Exception("Test");
             }

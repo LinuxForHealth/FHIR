@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -369,14 +369,15 @@ public class SearchUtil {
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters) throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, false);
+        return parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
-            Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
+        context.setIncludeResourceData(includeResource);
         List<QueryParameter> parameters = new ArrayList<>();
         HashSet<String> resourceTypes = new LinkedHashSet<>();
 
@@ -1189,13 +1190,13 @@ public class SearchUtil {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true);
     }
 
 
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
-        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true);
     }
 
     /**
@@ -1211,17 +1212,23 @@ public class SearchUtil {
     }
 
     /**
+     * @param compartmentName
+     * @param compartmentLogicalId
+     * @param resourceType
+     * @param queryParameters
      * @param lenient
      *                Whether to ignore unknown or unsupported parameter
+     * @param includeResource
+     *                Whether to include the resource from the result (return handling prefer != minimal)
      * @return
      * @throws Exception
      */
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
 
         // Add the inclusion criteria to the front of the search parameter list
         if (inclusionCriteria != null) {

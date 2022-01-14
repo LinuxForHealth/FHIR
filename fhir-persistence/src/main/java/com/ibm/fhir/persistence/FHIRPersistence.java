@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -148,7 +148,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException;
+    MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
 
     /**
      * Performs a search on the specified target resource type using the specified search parameters.
@@ -159,7 +159,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
+    MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
 
     /**
      * Returns true iff the persistence layer implementation supports transactions.

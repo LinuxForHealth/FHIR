@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -82,7 +82,7 @@ public class SparkParquetWriter implements AutoCloseable {
      * @throws FHIRGeneratorException
      * @implnote If a cos URI is passed, the file will be created if needed. For a file URI
      */
-    public void writeParquet(List<Resource> resources, String outDirName)
+    public void writeParquet(List<? extends Resource> resources, String outDirName)
             throws FHIRGeneratorException {
         List<String> jsonResources = new ArrayList<>();
 

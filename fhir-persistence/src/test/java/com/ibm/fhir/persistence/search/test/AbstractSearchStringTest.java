@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -186,5 +186,32 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Address", "NC");
         assertSearchReturnsSavedResource("Address", "27703");
         assertSearchReturnsSavedResource("Address", "USA");
+    }
+
+    @Test
+    public void testSearchNoData() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("string:exact", Collections.singletonList("testString"));
+
+        // Check that the search works when data is retrieved
+        assertTrue(searchReturnsResourceResult(savedResource.getClass(), queryParms, savedResource.getId(), true));
+
+        // And that the same search works when no data is requested
+        assertTrue(searchReturnsResourceResult(savedResource.getClass(), queryParms, savedResource.getId(), false));
+    }
+
+    @Test
+    public void testSearchSortNoData() throws Exception {
+        // Sort uses a second query to fetch the data, so we need to make sure
+        // it can also handle the no-data case
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("string:exact", Collections.singletonList("testString"));
+        queryParms.put("_sort", Collections.singletonList("_lastUpdated"));
+
+        // Check that the search works when data is retrieved
+        assertTrue(searchReturnsResourceResult(savedResource.getClass(), queryParms, savedResource.getId(), true));
+
+        // And that the same search works when no data is requested
+        assertTrue(searchReturnsResourceResult(savedResource.getClass(), queryParms, savedResource.getId(), false));
     }
 }

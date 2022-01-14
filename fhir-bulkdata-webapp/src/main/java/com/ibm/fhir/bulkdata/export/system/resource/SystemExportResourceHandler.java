@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ public class SystemExportResourceHandler {
         // No Operation
     }
 
-    public void fillChunkData(String exportFormat, ExportTransientUserData chunkData, List<Resource> resources) throws Exception {
+    public void fillChunkData(String exportFormat, ExportTransientUserData chunkData, List<? extends Resource> resources) throws Exception {
         int resSubTotal = 0;
         if (chunkData == null) {
             String msg = "fillChunkDataBuffer: chunkData is null, this should never happen!";

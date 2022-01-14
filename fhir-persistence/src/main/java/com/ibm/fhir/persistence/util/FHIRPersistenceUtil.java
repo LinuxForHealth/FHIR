@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.HistorySortOrder;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -182,32 +183,24 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-
     /**
-     * Create a minimal deleted resource marker from the given resource
-     *
-     * @param deletedResource
-     * @return deletedResourceMarker
+     * Create a new {@link ResourceResult} instance to represent a deleted or partially
+     * erased resource
+     * @param resourceType
+     * @param logicalId
+     * @param version
+     * @param lastUpdated
+     * @return
      */
-    public static Resource createDeletedResourceMarker(Resource deletedResource) {
-        try {
-            // Build a fresh meta with only versionid/lastupdated defined
-            Meta meta = Meta.builder()
-                    .versionId(deletedResource.getMeta().getVersionId())
-                    .lastUpdated(deletedResource.getMeta().getLastUpdated())
-                    .build();
+    public static ResourceResult<Resource> createDeletedResourceResultMarker(String resourceType, String logicalId, int version, java.time.Instant lastUpdated) {
 
-            // TODO this will clone the entire resource, but we only want the minimal parameters
-            Resource deletedResourceMarker = deletedResource.toBuilder()
-                    .id(deletedResource.getId())
-                    .meta(meta)
-                    .build();
-
-            return deletedResourceMarker;
-        } catch (Exception e) {
-            throw new IllegalStateException("Error while creating deletion marker for resource of type "
-                    + deletedResource.getClass().getSimpleName());
-        }
+        return ResourceResult.builder()
+                .deleted(true)
+                .resourceTypeName(resourceType)
+                .logicalId(logicalId)
+                .version(version)
+                .lastUpdated(lastUpdated)
+                .build();
     }
 
     /**

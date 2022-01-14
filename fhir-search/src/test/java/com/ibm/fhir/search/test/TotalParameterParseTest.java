@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,7 +56,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_total", Arrays.asList("invalid"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getTotalParameter());
     }
@@ -68,7 +68,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_total", Arrays.asList("invalid"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_total'.");
@@ -82,7 +82,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_total", Arrays.asList("none", "accurate"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertEquals(context.getTotalParameter(), TotalValueSet.NONE);
     }
@@ -94,7 +94,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_total", Arrays.asList("none", "accurate"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_total' is specified multiple times");

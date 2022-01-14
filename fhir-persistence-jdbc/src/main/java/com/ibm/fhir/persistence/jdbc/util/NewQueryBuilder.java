@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -219,7 +219,7 @@ public class NewQueryBuilder {
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext) throws FHIRPersistenceException {
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
-        SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage);
+        SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
     }

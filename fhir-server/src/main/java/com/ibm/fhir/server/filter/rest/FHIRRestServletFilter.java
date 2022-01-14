@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -275,6 +275,10 @@ public class FHIRRestServletFilter extends HttpFilter {
             try {
                 returnPref = HTTPReturnPreference.from(returnPrefString);
                 isDefault = false;
+                
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Requested return preference = " + returnPref);
+                }
             } catch (IllegalArgumentException e) {
                 String message = "Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'";
                 if (handlingPref == HTTPHandlingPreference.STRICT) {

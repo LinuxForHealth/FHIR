@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,11 +111,12 @@ public interface ResourceDAO extends FHIRDbDAO {
      * Searches for Resources that contain one of the passed ids.
      * @param resourceType - The type of the FHIR Resource
      * @param resourceIds - A List of resource ids.
+     * @param includeResourceData - fetch the resource DATA column
      * @return List<Resource> - A List of resources matching the the passed list of ids.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
-    List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+    List<Resource> searchByIds(String resourceType, List<Long> resourceIds, boolean includeResourceData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
      * Executes a count query based on the data contained in the passed {@link Select} statement, using its encapsulated search string and bind variables.
