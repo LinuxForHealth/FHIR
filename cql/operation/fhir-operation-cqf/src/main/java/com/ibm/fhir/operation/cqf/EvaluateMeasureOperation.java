@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,11 +50,11 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         Measure measure = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-            measure = loadMeasureById(resourceHelper, logicalId);
+            measure = OperationHelper.loadMeasureById(resourceHelper, logicalId);
         } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
             Parameter param = paramMap.getSingletonParameter(PARAM_IN_MEASURE);
             String reference = ((com.ibm.fhir.model.type.String) param.getValue()).getValue();
-            measure = loadMeasureByReference(resourceHelper, reference);
+            measure = OperationHelper.loadMeasureByReference(resourceHelper, reference);
         } else {
             assert false;
         }
@@ -81,13 +81,23 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
 
-        MeasureReport.Builder report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
+        MeasureReport.Builder report = doMeasureEvaluation(resourceHelper, measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
 
         return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, report.build());
     }
 
-
-
+    /**
+     * Retrieve the MeasureReportType to use based on operation inputs. The
+     * logic is defined as first use the provided code value, second use
+     * INDIVIDUAL if a subject is provided, and, last, use SUMMARY if
+     * neither a code or subject is available.
+     * 
+     * @param paramMap
+     *            operation input
+     * @param subject
+     *            subject value
+     * @return MeasureReportType
+     */
     public MeasureReportType getReportType(ParameterMap paramMap, String subject) {
         MeasureReportType reportType = null;
         
@@ -105,6 +115,13 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         return reportType;
     }
 
+    /**
+     * Retrieve the subject parameter from operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return subject parameter or null if not found.
+     */
     public String getSubject(ParameterMap paramMap) {
         String subject = null;
         Parameter pSubject = paramMap.getOptionalSingletonParameter(PARAM_IN_SUBJECT);
@@ -114,6 +131,13 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         return subject;
     }
 
+    /**
+     * Retrieve the practitioner parameter from operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return practitioner parameter or null if not found.
+     */
     public String getPractitioner(ParameterMap paramMap) {
         String practitioner = null;
         Parameter pPractitioner = paramMap.getOptionalSingletonParameter(PARAM_IN_PRACTITIONER);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,16 +98,30 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         }
     }
 
-    protected Bundle processAllMeasures(FHIRBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
+    /**
+     * Evaluate all of the measures matching the specified care gap topic.
+     * The measure reports are bundled together and returned as a result.
+     * 
+     * @param cursor Provides an iterator over the Measure resources that match the topic
+     * @param subject Subject for which the measures will be evaluated (e.g. Patient ID)
+     * @param zoneOffset Timezone offset to be used by the CQL engine for date operations
+     * @param measurementPeriod Measurement Period provided as input to all measures
+     * @param resourceHelper Provides data access operations
+     * @param termProvider Terminology Provider
+     * @param dataProviders Data Providers
+     * @return Bundle containing a MeasureReport resource for each evaluated measure.
+     * @throws FHIROperationException
+     */
+    protected Bundle processAllMeasures(FHIRBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) throws FHIROperationException {
         Bundle.Builder reports = Bundle.builder().type(BundleType.COLLECTION); 
         
         AtomicInteger count = new AtomicInteger(0);
-        cursor.forEach(resource -> {
+        for (Object resource : cursor) {
             Measure measure = (Measure) resource;
-            MeasureReport report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
+            MeasureReport report = doMeasureEvaluation(resourceHelper, measure, zoneOffset, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
             reports.entry( Bundle.Entry.builder().resource(report).build() );
             count.incrementAndGet();
-        });
+        }
         
         reports.total(UnsignedInt.of(count.get()));
         return reports.build();

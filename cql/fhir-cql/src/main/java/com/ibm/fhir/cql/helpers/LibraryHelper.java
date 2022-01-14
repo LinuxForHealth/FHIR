@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,6 +75,11 @@ public class LibraryHelper {
                     String canonicalURL = canonical.getValue();
                     if (!visited.contains(canonicalURL)) {
                         if (isLibraryReference(canonicalURL)) {
+                            // This won't resolve canonical URLs that happen to be ResourceType/ID references as
+                            // we've done for some of the values passed into the CQL-related operations. R4B 
+                            // updates the examples to all contain valid canonical URLs and the spec
+                            // is somewhat ambiguous on what you would do if they aren't found in the registry, so
+                            // we are accepting this as ok.
                             Library dependency = FHIRRegistry.getInstance().getResource(canonicalURL, Library.class);
                             if (dependency != null) {
                                 if (isLogicLibrary(dependency)) {

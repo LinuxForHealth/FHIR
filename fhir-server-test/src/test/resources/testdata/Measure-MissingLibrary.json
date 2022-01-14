@@ -1,0 +1,27 @@
+{
+	"resourceType": "Measure",
+	"id": "MissingLibrary",
+	"name": "MissingLibrary",
+	"version": "1.0.0",
+	"url": "http://localhost/fhir-server/api/v4/Measure/MissingLibrary",
+	"status": "active",
+	"library": ["Library/NotExists"],
+	"scoring": {
+		"coding": [{
+			"code": "cohort"
+		}]
+	},
+	"group": [{
+		"population": [{
+			"code": {
+				"coding": [{
+					"code": "initial-population"
+				}]
+			},
+			"criteria": {
+				"language": "text/cql",
+				"expression": "cohort"
+			}
+		}]
+	}]
+}

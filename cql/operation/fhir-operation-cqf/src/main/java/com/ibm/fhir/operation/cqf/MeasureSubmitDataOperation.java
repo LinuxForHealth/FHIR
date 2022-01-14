@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,6 +72,13 @@ public class MeasureSubmitDataOperation extends AbstractOperation {
         }
     }
     
+    /**
+     * Create a bundle entry for the provided resource
+     * 
+     * @param resource
+     *            FHIR resource
+     * @return Bundle entry
+     */
     protected Bundle.Entry createEntry( Resource resource ) {
         // the cqf-ruler implementation uses POST, but the operation definition says that 
         // this operation needs to be idempotent. In order to be idempotent, I believe this
