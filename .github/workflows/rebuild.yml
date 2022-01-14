@@ -41,6 +41,8 @@ jobs:
         OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         OLD_JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
+        # set GITHUB_REF so we can use the same logic we use for our tag-push release
+        export GITHUB_REF=refs/tags/${{ matrix.tag }}
         . build/release/global.sh
         bash build/release/00_prep.sh
         bash build/release/10_build.sh

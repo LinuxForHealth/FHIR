@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -x
+
 export BUILD_TYPE="release"
 
 if [ -z "${DOCKERHUB_USERNAME}" ]
