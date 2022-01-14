@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -171,9 +172,9 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         checkForIssuesWithValidation(responseBundle, true, false, false);
     }
 
-    public void grabProfilesFromServerOneTime() throws Exception {
+    public void grabProfilesFromServerOneTime(CapabilityStatement conf) throws Exception {
         if (listOfProfiles == null) {
-            CapabilityStatement conf = retrieveConformanceStatement();
+
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(conf);
             // All the possible required profiles
@@ -183,8 +184,17 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     }
 
     @BeforeClass
-    public void checkProfileExistsOnServer() throws Exception {
-        grabProfilesFromServerOneTime();
+    public void checkProfileExistsOnServer(ITestContext ctx) throws Exception {
+        Object objConformance = ctx.getAttribute("FHIR_CONFORMANCE");
+        CapabilityStatement conf;
+        if (objConformance == null) {
+            conf = retrieveConformanceStatement();
+            ctx.setAttribute("FHIR_CONFORMANCE", objConformance);
+        } else {
+            conf = (CapabilityStatement) objConformance;
+        }
+        grabProfilesFromServerOneTime(conf);
+
         List<String> requiredProfiles = getRequiredProfiles();
         Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> Integer.valueOf(0)));
         for (String requiredProfile : requiredProfiles) {
@@ -217,7 +227,9 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
 
         @BeforeClass
         public void runLoad() throws Exception {
-            loadResources();
+            if (!check) {
+                loadResources();
+            }
         }
 
         public abstract void loadResources() throws Exception;
