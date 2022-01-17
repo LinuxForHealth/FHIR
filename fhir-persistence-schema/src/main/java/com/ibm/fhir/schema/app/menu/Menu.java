@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,7 @@ public class Menu {
     public static final String CREATE_SCHEMA_FHIR = "--create-schema-fhir";
     public static final String CREATE_SCHEMA_BATCH = "--create-schema-batch";
     public static final String CREATE_SCHEMA_OAUTH = "--create-schema-oauth";
+    public static final String FORCE = "--force";
     public static final String HELP = "--help";
 
     public Menu() {

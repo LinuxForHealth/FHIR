@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,8 +8,6 @@ package com.ibm.fhir.database.utils.schema;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -90,15 +88,28 @@ public class SchemaVersionsManager {
      * table
      */
     public void updateSchemaVersion() {
-        updateSchemaVersionId(this.latestCodeVersion);
+        // The schema version should never regress, so make sure we don't change
+        // anything if this code is older than what's currently in the database
+        if (latestCodeVersion > getVersionForSchema()) {
+            updateSchemaVersionId(this.latestCodeVersion);
+        }
     }
 
     /**
-     * Returns true if the current schema version recorded in WHOLE_SCHEMA_VERSION is the
-     * latest FhirSchemaVersion
+     * Returns true if the current schema version recorded in WHOLE_SCHEMA_VERSION is older
+     * the last version in FhirSchemaVersion and therefore needs to be updated
      * @return
      */
-    public boolean isLatestSchema() {
+    public boolean isSchemaOld() {
+        return getVersionForSchema() < latestCodeVersion;
+    }
+
+    /**
+     * Returns true if the current schema version recorded in WHOLE_SCHEMA_VERSION 
+     * exactly matches the last version in FhirSchemaVersion
+     * @return
+     */
+    public boolean isSchemaVersionMatch() {
         return getVersionForSchema() == latestCodeVersion;
     }
 }
