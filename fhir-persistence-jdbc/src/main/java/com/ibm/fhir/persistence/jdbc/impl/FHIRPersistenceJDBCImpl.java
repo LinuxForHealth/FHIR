@@ -1,14 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
@@ -149,13 +146,10 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
-import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
-import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -258,13 +252,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             this.trxSynchRegistry = null;
         }
-
-        ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE,
-                                       Boolean.TRUE));
-        CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE,
-                                    Boolean.TRUE));
-        ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
-                                      Boolean.TRUE));
 
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
@@ -649,7 +636,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             return resultBuilder.build();
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -1126,7 +1112,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             return result;
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.INFO, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -1170,7 +1155,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.INFO, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -1576,31 +1560,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resourceResults;
-    }
-
-   /**
-     * Calls some cache analysis methods and aggregates the output into a single String.
-     * @return
-     */
-    @Deprecated
-    private String performCacheDiagnostics() {
-
-        StringBuffer diags = new StringBuffer();
-
-        // Must do this with its own connection (which will actually be the same
-        // underlying physical connection in use when the problem occurred).
-        try (Connection connection = openConnection()) {
-            ResourceDAO resourceDao = makeResourceDAO(connection);
-            ParameterDAO parameterDao = makeParameterDAO(connection);
-            diags.append(ParameterNamesCache.dumpCacheContents()).append(ParameterNamesCache.reportCacheDiscrepancies(parameterDao));
-            diags.append(CodeSystemsCache.dumpCacheContents()).append(CodeSystemsCache.reportCacheDiscrepancies(parameterDao));
-            diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(resourceDao));
-        } catch (Exception x) {
-            log.log(Level.SEVERE, "failed to produce cache diagnostics", x);
-            diags.append("No cache diagnostic info available");
-        }
-
-        return diags.toString();
     }
 
     /**

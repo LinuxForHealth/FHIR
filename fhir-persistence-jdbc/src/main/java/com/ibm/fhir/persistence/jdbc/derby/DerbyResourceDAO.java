@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to an Apache Derby database.
@@ -89,26 +88,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // check that the resource type is valid according to the database
+            getResourceTypeId(resource.getResourceType());
 
             lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();
@@ -229,7 +215,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         boolean v_duplicate = false;
         boolean v_currently_deleted = false;
         int v_current_version;
-        final InteractionStatus interactionStatus;
 
         // used to bypass param delete/insert if all param values are the same
         String currentParameterHash = null;
