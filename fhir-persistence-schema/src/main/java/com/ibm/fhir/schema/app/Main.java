@@ -545,6 +545,7 @@ public class Main {
                 }
             } else if (this.force) {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
             } else {
                 logger.info("Schema is up-to-date; skipping update for: '" + targetSchemaName + "'");
             }
@@ -590,6 +591,7 @@ public class Main {
                 }
             } else if (this.force) {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
             } else {
                 logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
@@ -635,6 +637,7 @@ public class Main {
                 }
             } else if (this.force) {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
             } else {
                 logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
