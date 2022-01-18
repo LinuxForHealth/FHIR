@@ -26,15 +26,67 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.resource.Account;
+import com.ibm.fhir.model.resource.AdverseEvent;
+import com.ibm.fhir.model.resource.AllergyIntolerance;
+import com.ibm.fhir.model.resource.Appointment;
+import com.ibm.fhir.model.resource.AppointmentResponse;
+import com.ibm.fhir.model.resource.AuditEvent;
+import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
+import com.ibm.fhir.model.resource.CarePlan;
+import com.ibm.fhir.model.resource.CareTeam;
+import com.ibm.fhir.model.resource.Claim;
+import com.ibm.fhir.model.resource.ClaimResponse;
+import com.ibm.fhir.model.resource.ClinicalImpression;
+import com.ibm.fhir.model.resource.Communication;
+import com.ibm.fhir.model.resource.CommunicationRequest;
+import com.ibm.fhir.model.resource.Composition;
+import com.ibm.fhir.model.resource.Condition;
+import com.ibm.fhir.model.resource.Consent;
+import com.ibm.fhir.model.resource.Coverage;
+import com.ibm.fhir.model.resource.CoverageEligibilityRequest;
+import com.ibm.fhir.model.resource.CoverageEligibilityResponse;
+import com.ibm.fhir.model.resource.DetectedIssue;
+import com.ibm.fhir.model.resource.DeviceRequest;
+import com.ibm.fhir.model.resource.DiagnosticReport;
+import com.ibm.fhir.model.resource.DocumentManifest;
+import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.EpisodeOfCare;
+import com.ibm.fhir.model.resource.Flag;
+import com.ibm.fhir.model.resource.Goal;
+import com.ibm.fhir.model.resource.Group;
+import com.ibm.fhir.model.resource.ImagingStudy;
+import com.ibm.fhir.model.resource.Immunization;
+import com.ibm.fhir.model.resource.Invoice;
+import com.ibm.fhir.model.resource.MeasureReport;
+import com.ibm.fhir.model.resource.Media;
+import com.ibm.fhir.model.resource.MedicationAdministration;
+import com.ibm.fhir.model.resource.MedicationDispense;
+import com.ibm.fhir.model.resource.MedicationRequest;
+import com.ibm.fhir.model.resource.MedicationStatement;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Person;
+import com.ibm.fhir.model.resource.Procedure;
+import com.ibm.fhir.model.resource.Provenance;
+import com.ibm.fhir.model.resource.QuestionnaireResponse;
+import com.ibm.fhir.model.resource.RequestGroup;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.RiskAssessment;
+import com.ibm.fhir.model.resource.Schedule;
+import com.ibm.fhir.model.resource.ServiceRequest;
+import com.ibm.fhir.model.resource.Specimen;
+import com.ibm.fhir.model.resource.SupplyDelivery;
+import com.ibm.fhir.model.resource.SupplyRequest;
+import com.ibm.fhir.model.resource.VisionPrescription;
 import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -199,6 +251,260 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
                 searchParameters = queryParametersWithoutDates;
             }
+
+            // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
+            // from search parameters
+            
+            // Remove any _includes we added last time around
+            searchParameters.remove("_include");
+            
+            // Add in _includes for all search parameters that are Location, Medication, Organization, or Practitioner
+            if (compartmentType.equals(AdverseEvent.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":recorder:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":substance:Medication"); 
+            } else if (compartmentType.equals(AllergyIntolerance.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":recorder:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":asserter:Practitioner");
+            } else if (compartmentType.equals(Appointment.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":practitioner:Practitioner");
+            } else if (compartmentType.equals(AppointmentResponse.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":actor:Location"); 
+                searchParameters.add("_include", compartmentType + ":actor:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":location:Location");
+                searchParameters.add("_include", compartmentType + ":practitioner:Practitioner");
+            } else if (compartmentType.equals(Account.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":owner:Organization"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+                searchParameters.add("_include", compartmentType + ":subject:Organization"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner");
+            } else if (compartmentType.equals(AuditEvent.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":agent:Organization"); 
+                searchParameters.add("_include", compartmentType + ":agent:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":source:Organization"); 
+                searchParameters.add("_include", compartmentType + ":source:Practitioner"); 
+            } else if (compartmentType.equals(Basic.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Organization"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+            } else if (compartmentType.equals(CarePlan.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+            } else if (compartmentType.equals(CareTeam.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":participant:Organization"); 
+                searchParameters.add("_include", compartmentType + ":participant:Practitioner"); 
+            } else if (compartmentType.equals("ChargeHistory")) {
+                searchParameters.add("_include", compartmentType + ":service:Observation"); 
+                searchParameters.add("_include", compartmentType + ":enterer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":performer-actor:Practitioner"); 
+            } else if (compartmentType.equals(Claim.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":care-team:Organization");
+                searchParameters.add("_include", compartmentType + ":care-team:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":enterer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":facility:Location"); 
+                searchParameters.add("_include", compartmentType + ":insurer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":payee:Organization"); 
+                searchParameters.add("_include", compartmentType + ":payee:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":provider:Organization"); 
+                searchParameters.add("_include", compartmentType + ":provider:Practitioner"); 
+            } else if (compartmentType.equals(ClaimResponse.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":insurer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requestor:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requestor:Practitioner"); 
+            } else if (compartmentType.equals(ClinicalImpression.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":assessor:Practitioner"); 
+            } else if (compartmentType.equals(Communication.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":recipient:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":sender:Practitioner"); 
+            } else if (compartmentType.equals(Composition.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":attester:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+            } else if (compartmentType.equals(Condition.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":asserter:Practitioner"); 
+            } else if (compartmentType.equals(CommunicationRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":recipient:Organization"); 
+                searchParameters.add("_include", compartmentType + ":recipient:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":requester:Organization");
+                searchParameters.add("_include", compartmentType + ":requester:Practitioner");
+                searchParameters.add("_include", compartmentType + ":sender:Organization");
+                searchParameters.add("_include", compartmentType + ":sender:Practitioner");
+            } else if (compartmentType.equals(Consent.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":actor:Organization"); 
+                searchParameters.add("_include", compartmentType + ":actor:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":consentor:Organization");
+                searchParameters.add("_include", compartmentType + ":consentor:Practitioner");
+                searchParameters.add("_include", compartmentType + ":organization:Organization");
+            } else if (compartmentType.equals(Coverage.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":payor:Organization"); 
+                searchParameters.add("_include", compartmentType + ":policy-holder:Organization"); 
+            } else if (compartmentType.equals(CoverageEligibilityRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":enterer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":facility:Location"); 
+                searchParameters.add("_include", compartmentType + ":provider:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":provider:Organization"); 
+            } else if (compartmentType.equals(CoverageEligibilityResponse.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":insurer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requestor:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requestor:Practitioner"); 
+            } else if (compartmentType.equals(DetectedIssue.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Practitioner");
+            } else if (compartmentType.equals(DeviceRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Organization");
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner");
+                searchParameters.add("_include", compartmentType + ":requester:Organization");
+                searchParameters.add("_include", compartmentType + ":requester:Practitioner");
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+            } else if (compartmentType.equals(DiagnosticReport.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner");
+                searchParameters.add("_include", compartmentType + ":result:Observation"); 
+                searchParameters.add("_include", compartmentType + ":results-interpreter:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+            } else if (compartmentType.equals(DocumentManifest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Organization"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":recipient:Organization"); 
+                searchParameters.add("_include", compartmentType + ":recipient:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+            } else if (compartmentType.equals(Encounter.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":service-provider:Organization"); 
+                searchParameters.add("_include", compartmentType + ":participant:Practitioner"); 
+            } else if (compartmentType.equals(EpisodeOfCare.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":care-manager:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":organization:Organization");  
+            } else if (compartmentType.equals(Flag.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Organization"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location");  
+                searchParameters.add("_include", compartmentType + ":subject:Medication"); 
+                searchParameters.add("_include", compartmentType + ":subject:Organization");  
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+            } else if (compartmentType.equals(Goal.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":subject:Organization");  
+            } else if (compartmentType.equals(Group.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":member:Medication"); 
+                searchParameters.add("_include", compartmentType + ":member:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":managing-entity:Organization"); 
+                searchParameters.add("_include", compartmentType + ":managing-entity:Practitioner"); 
+            } else if (compartmentType.equals(ImagingStudy.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":interpreter:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":referrer:Practitioner"); 
+            } else if (compartmentType.equals(Immunization.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":manufacturer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":performer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+            } else if (compartmentType.equals(Invoice.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":issuer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":participant:Organization"); 
+                searchParameters.add("_include", compartmentType + ":participant:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":recipient:Organization"); 
+            } else if (compartmentType.equals(List.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":source:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+            } else if (compartmentType.equals(MeasureReport.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":reporter:Location"); 
+                searchParameters.add("_include", compartmentType + ":reporter:Organization"); 
+                searchParameters.add("_include", compartmentType + ":reporter:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+            } else if (compartmentType.equals(Media.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":operator:Organization"); 
+                searchParameters.add("_include", compartmentType + ":operator:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+            } else if (compartmentType.equals(MedicationAdministration.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":medication:Medication"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+            } else if (compartmentType.equals(MedicationDispense.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":destination:Location"); 
+                searchParameters.add("_include", compartmentType + ":medication:Medication"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":receiver:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":responsibleparty:Practitioner"); 
+            } else if (compartmentType.equals(MedicationRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":intended-dispenser:Organization"); 
+                searchParameters.add("_include", compartmentType + ":intended-performer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":intended-performer:Practitioner");
+                searchParameters.add("_include", compartmentType + ":medication:Medication"); 
+                searchParameters.add("_include", compartmentType + ":requester:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requester:Practitioner"); 
+            } else if (compartmentType.equals(MedicationStatement.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":medication:Medication"); 
+                searchParameters.add("_include", compartmentType + ":source:Organization"); 
+                searchParameters.add("_include", compartmentType + ":source:Practitioner"); 
+            } else if (compartmentType.equals("NutritionHistory")) {
+                searchParameters.add("_include", compartmentType + ":provider:Practitioner");
+            } else if (compartmentType.equals(Observation.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Organization");
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner");
+                searchParameters.add("_include", compartmentType + ":subject:Location");
+            } else if (compartmentType.equals(QuestionnaireResponse.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Organization"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":source:Practitioner"); 
+            } else if (compartmentType.equals(Patient.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":general-practitioner:Organization"); 
+                searchParameters.add("_include", compartmentType + ":general-practitioner:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":organization:Organization"); 
+            } else if (compartmentType.equals(Person.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":organization:Organization"); 
+                searchParameters.add("_include", compartmentType + ":practitioner:Practitioner"); 
+            } else if (compartmentType.equals(Procedure.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":performer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+            } else if (compartmentType.equals(Provenance.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":location:Location"); 
+                searchParameters.add("_include", compartmentType + ":agent:Organization"); 
+                searchParameters.add("_include", compartmentType + ":agent:Practitioner"); 
+            } else if (compartmentType.equals(Reference.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":authenticator:Organization");
+                searchParameters.add("_include", compartmentType + ":authenticator:Practitioner");
+                searchParameters.add("_include", compartmentType + ":author:Organization"); 
+                searchParameters.add("_include", compartmentType + ":author:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":custodian:Organization"); 
+                searchParameters.add("_include", compartmentType + ":subject:Practitioner"); 
+            } else if (compartmentType.equals(RequestGroup.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":author:Practitioner");
+                searchParameters.add("_include", compartmentType + ":participant:Practitioner");
+            } else if (compartmentType.equals(RiskAssessment.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner");
+            } else if (compartmentType.equals(Schedule.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":actor:Location");
+                searchParameters.add("_include", compartmentType + ":actor:Practitioner");
+            } else if (compartmentType.equals(ServiceRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":performer:Organization"); 
+                searchParameters.add("_include", compartmentType + ":performer:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":requester:Organization"); 
+                searchParameters.add("_include", compartmentType + ":requester:Practitioner"); 
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+            } else if (compartmentType.equals(Specimen.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":collector:Practitioner");
+                searchParameters.add("_include", compartmentType + ":subject:Location"); 
+            } else if (compartmentType.equals(SupplyDelivery.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":receiver:Practitioner");
+                searchParameters.add("_include", compartmentType + ":supplier:Organization");
+                searchParameters.add("_include", compartmentType + ":supplier:Practitioner");
+            } else if (compartmentType.equals(SupplyRequest.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":requester:Organization");
+                searchParameters.add("_include", compartmentType + ":requester:Practitioner");
+                searchParameters.add("_include", compartmentType + ":subject:Location");
+                searchParameters.add("_include", compartmentType + ":subject:Organization");
+                searchParameters.add("_include", compartmentType + ":supplier:Organization");
+            } else if (compartmentType.equals(VisionPrescription.class.getSimpleName())) {
+                searchParameters.add("_include", compartmentType + ":prescriber:Practitioner");
+            } 
+            // BodyStructure, ResearchSubject, and RelatedPerson have no references to:
+            // Location, Medication, Organization, and Practitioner
+            
+            // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem, 
+            // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence, 
+            // and NutritionOrder have no search parameters that reference: 
+            // Location, Medication, Organization, and Practitioner
+            
             Bundle results = null;
             int currentResourceCount = 0;
             try {
@@ -356,11 +662,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 LOG.fine(resourceTypeBuilder.toString());
             }
-            // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
-            // like a couple of good additional resources to include and they are even mentioned as examples of resources
-            // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html
-            // resourceTypes.add(Practitioner.class.getSimpleName());
-            // resourceTypes.add(Organization.class.getSimpleName());
+            
             // Need to have this if check to support server config files that do not specify resources
             if (!supportedResourceTypes.isEmpty()) {
                 resourceTypes.retainAll(supportedResourceTypes);
