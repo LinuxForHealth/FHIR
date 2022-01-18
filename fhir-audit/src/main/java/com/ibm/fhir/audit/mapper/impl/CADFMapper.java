@@ -135,7 +135,7 @@ public class CADFMapper implements Mapper {
 
             /*
              * @implNote This applies to the next two methods: outcomeDesc, outcome
-             * Previously, it had pending as an option, however it should not it in all cases.
+             * Previously, it had pending as an option, however it should now be success/failure in all cases.
              */
             if (logEntry.getContext().getApiParameters().getStatus() < 400) {
                 cadfEventOutCome = Outcome.success;

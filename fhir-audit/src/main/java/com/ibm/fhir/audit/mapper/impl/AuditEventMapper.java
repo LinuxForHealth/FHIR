@@ -444,7 +444,7 @@ public class AuditEventMapper implements Mapper {
 
     /**
      * @implNote This applies to the next two methods: outcomeDesc, outcome
-     * Previously, it had pending as an option, however it should not it in all cases.
+     * Previously, it had pending as an option, however it should now be success/failure in all cases.
      */
     private com.ibm.fhir.model.type.String outcomeDesc(AuditLogEntry entry) {
         if (entry.getContext().getApiParameters().getStatus() < 400) {
