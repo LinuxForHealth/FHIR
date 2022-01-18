@@ -133,10 +133,11 @@ public class CADFMapper implements Mapper {
             fhirContext.setLocation(logEntry.getLocation());
             fhirContext.setDescription(logEntry.getDescription());
 
-            if (logEntry.getContext().getEndTime() == null ||
-                    logEntry.getContext().getStartTime().equalsIgnoreCase(logEntry.getContext().getEndTime())) {
-                cadfEventOutCome = Outcome.pending;
-            } else if (logEntry.getContext().getApiParameters().getStatus() < 400) {
+            /*
+             * @implNote This applies to the next two methods: outcomeDesc, outcome
+             * Previously, it had pending as an option, however it should not it in all cases.
+             */
+            if (logEntry.getContext().getApiParameters().getStatus() < 400) {
                 cadfEventOutCome = Outcome.success;
             } else {
                 cadfEventOutCome = Outcome.failure;
