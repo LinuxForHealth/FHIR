@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_BATCH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
 import static com.ibm.fhir.schema.app.menu.Menu.FREEZE_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.GRANT_TO;
@@ -257,6 +258,9 @@ public class Main {
 
     // Forces the removal of tables if data exists
     private boolean forceUnusedTableRemoval = false;
+
+    // Force schema update even if whole-schema-version is current
+    private boolean force = false;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -501,9 +505,7 @@ public class Main {
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildFhirDataSchemaModel(pdm);
@@ -541,6 +543,11 @@ public class Main {
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is up-to-date; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -568,9 +575,7 @@ public class Main {
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
@@ -584,6 +589,11 @@ public class Main {
                     // Mark the schema as up-to-date
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -611,9 +621,7 @@ public class Main {
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
@@ -627,6 +635,11 @@ public class Main {
                     // Mark the schema as up-to-date
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -2060,6 +2073,9 @@ public class Main {
                 break;
             case FORCE_UNUSED_TABLE_REMOVAL:
                 forceUnusedTableRemoval = true;
+                break;
+            case FORCE:
+                force = true;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,7 @@ public class Menu {
     public static final String CREATE_SCHEMA_FHIR = "--create-schema-fhir";
     public static final String CREATE_SCHEMA_BATCH = "--create-schema-batch";
     public static final String CREATE_SCHEMA_OAUTH = "--create-schema-oauth";
+    public static final String FORCE = "--force";
     public static final String HELP = "--help";
 
     public Menu() {
@@ -91,6 +92,7 @@ public class Menu {
         MI_VACUUM_TRESHOLD(VACUUM_TRESHOLD, "threshold", "The threshold value to alter to 'threshold'"),
         MI_VACUUM_COST_LIMIT(VACUUM_COST_LIMIT, "costLimit", "The Vacuum cost limit to set"),
         MI_SKIP_ALLOCATE_IF_TENANT_EXISTS(SKIP_ALLOCATE_IF_TENANT_EXISTS, "", "Skips allocating a tenant if it already exists"),
+        MI_FORCE(FORCE, "", "Do not skip schema update process when the whole-schema-version matches."),
         MI_FORCE_UNUSED_TABLE_REMOVAL(FORCE_UNUSED_TABLE_REMOVAL, "", "Forces the removal of unused tables - DomainResource, Resource"),
         MI_PROP(PROP, "name=value", "name=value that is passed in on the commandline"),
         MI_POOL_SIZE(POOL_SIZE, "poolSize", "poolsize used with the database actions"),

@@ -18,7 +18,7 @@ The schema tool generates the following object types that require management:
 For details on the schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
 ----------------------------------------------------------------
-# Database Support
+## Database Support
 
 
 | Database   | Version   | Support |
@@ -564,6 +564,7 @@ and grants permission to the username|
 |--vacuum-cost-limit|costLimit|The Vacuum cost limit to set|
 |--skip-allocate-if-tenant-exists||Skips allocating a tenant if it already exists|
 |--force-unused-table-removal||Forces the removal of unused tables - DomainResource, Resource|
+| --force || Do not skip schema update process when the whole-schema-version matches.|
 |--prop|name=value|name=value that is passed in on the commandline|
 |--pool-size|poolSize|poolsize used with the database actions|
 |--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|

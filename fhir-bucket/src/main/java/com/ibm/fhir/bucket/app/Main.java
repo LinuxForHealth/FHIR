@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -753,13 +753,13 @@ public class Main {
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, schemaName,
                 FhirBucketSchemaVersion.getLatestSchemaVersion().vid());
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + schemaName + "'");
-            } else {
+            if (svm.isSchemaOld()) {
                 buildSchema();
                 
                 // Update the whole schema version
                 svm.updateSchemaVersion();
+            } else {
+                logger.info("Already at latest version; skipping update for: '" + schemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
