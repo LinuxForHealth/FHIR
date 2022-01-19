@@ -60,6 +60,22 @@ public class ServerEvaluateMeasureOperationTest extends BaseMeasureOperationTest
     }
     
     @Test
+    public void testEvaluatePatientMeasureMissingPatient() throws Exception {
+        Response response =
+                getWebTarget().path("/Measure/{measureId}/$evaluate-measure")
+                    .resolveTemplate("measureId", TEST_MEASURE_ID)
+                    .queryParam("periodStart", TEST_PERIOD_START)
+                    .queryParam("periodEnd", TEST_PERIOD_END)
+                    .queryParam("subject", "Patient/not-exists")
+                    .request().get();
+        assertResponse(response, 500);
+
+        String responseBody = response.readEntity(String.class);
+        System.out.println(responseBody);
+        assertTrue(responseBody.contains("Resource 'Patient/not-exists' not found."), responseBody);
+    }
+    
+    @Test
     public void testEvaluatePatientMeasureInstanceLibraryNotFound() throws Exception {
         Response response =
                 getWebTarget().path("/Measure/{measureId}/$evaluate-measure")

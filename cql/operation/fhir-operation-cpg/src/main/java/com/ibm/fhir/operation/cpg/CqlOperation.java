@@ -123,9 +123,16 @@ public class CqlOperation extends AbstractCqlOperation {
             result = doEvaluation(resourceHelper, paramMap, primaryLibrary);
             
         } catch (IllegalArgumentException | CqlTranslationException iex) {
-            throw new FHIROperationException(iex.getMessage(), iex).withIssue(Issue.builder().severity(IssueSeverity.ERROR).code(IssueType.INVALID).details(CodeableConcept.builder().text(fhirstring(iex.getMessage())).build()).build());
+            throw new FHIROperationException(iex.getMessage(), iex)
+                .withIssue(Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.INVALID)
+                    .details(CodeableConcept.builder()
+                        .text(fhirstring(iex.getMessage()))
+                        .build())
+                    .build());
         } catch (Exception ex) {
-            throw new FHIROperationException("Evaluation failed", ex);
+            throwOperationException(ex);
         }
 
         return result;
