@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,7 +99,6 @@ public class ServerCqlOperationTest extends BaseCPGOperationTest {
         assertResponse(response, 500);
 
         String responseBody = response.readEntity(String.class);
-        //System.out.println(responseBody);
         assertTrue(responseBody.contains("Resource 'Patient/does-not-exist' not found."), responseBody);
     }
 }
