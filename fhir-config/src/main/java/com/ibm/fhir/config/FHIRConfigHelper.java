@@ -201,7 +201,7 @@ public class FHIRConfigHelper {
      * Retrieves the search property restrictions.
      *
      * @param resourceType the resource type
-     * @param propertyType the property type
+     * @param propertyType the property type, either _include or _revinclude
      * @return list of allowed values for the search property, or null if no restrictions
      * @throws Exception
      *             an exception
