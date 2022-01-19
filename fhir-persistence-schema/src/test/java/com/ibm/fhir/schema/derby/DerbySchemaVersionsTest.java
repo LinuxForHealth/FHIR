@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 package com.ibm.fhir.schema.derby;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
 import org.testng.annotations.Test;
 
@@ -54,7 +54,7 @@ public class DerbySchemaVersionsTest {
             svm.updateSchemaVersion();
             assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0024.vid());
 
-            assertTrue(svm.isLatestSchema());
+            assertFalse(svm.isSchemaOld());
        }
     }
 }
