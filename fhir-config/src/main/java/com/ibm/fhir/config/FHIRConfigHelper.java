@@ -23,6 +23,11 @@ import jakarta.json.JsonValue;
  */
 public class FHIRConfigHelper {
     private static final Logger log = Logger.getLogger(FHIRConfigHelper.class.getName());
+    
+    //Constants
+    public static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
+    public static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
+    public static final String RESOURCE_RESOURCE = "Resource";
 
     public static String getStringProperty(String propertyName, String defaultValue) {
         return getTypedProperty(String.class, propertyName, defaultValue);
@@ -190,5 +195,58 @@ public class FHIRConfigHelper {
         }
         
         return result;
+    }
+    
+    /**
+     * Retrieves the search property restrictions.
+     *
+     * @param resourceType the resource type
+     * @param propertyType the property type, either _include or _revinclude
+     * @return list of allowed values for the search property, or null if no restrictions
+     * @throws Exception
+     *             an exception
+     */
+    public static List<String> getSearchPropertyRestrictions(String resourceType, String propertyType) throws Exception {
+        String propertyField = null;
+        if (SEARCH_PROPERTY_TYPE_INCLUDE.equals(propertyType)) {
+            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES;
+        }
+        else if (SEARCH_PROPERTY_TYPE_REVINCLUDE.equals(propertyType)) {
+            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES;
+        }
+
+        // Retrieve the "resources" config property group.
+        if (propertyField != null) {
+            PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            if (rsrcsGroup != null) {
+                List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
+                if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
+
+                    // Try to find search property for matching resource type
+                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+                        if (resourceType.equals(rsrcsEntry.getName())) {
+                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                            if (resourceTypeGroup != null) {
+                                return resourceTypeGroup.getStringListProperty(propertyField);
+                            }
+                        }
+                    }
+
+                    // Otherwise, try to find search property for "Resource" resource type
+                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
+
+                        // Check if matching resource type
+                        if (RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
+                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
+                            if (resourceTypeGroup != null) {
+                                return resourceTypeGroup.getStringListProperty(propertyField);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }

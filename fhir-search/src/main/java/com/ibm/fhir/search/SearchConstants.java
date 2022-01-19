@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -170,7 +170,7 @@ public class SearchConstants {
 
     // Resource Constants to reflect a hierarchy:
     // RESOURCE -> DOMAIN_RESOURCE -> Instance (e.g. Claim);
-    public static final String RESOURCE_RESOURCE = "Resource";
+    //Moved to FHIRConfigHelper -- public static final String RESOURCE_RESOURCE = "Resource";
     public static final String DOMAIN_RESOURCE_RESOURCE = "DomainResource";
 
     // The resourceTypeModifierMap is set one time on startup and is a final value.

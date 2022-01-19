@@ -126,8 +126,6 @@ public class SearchUtil {
     // Other Constants
     private static final String SEARCH_PARAM_COMBINATION_ANY = "*";
     private static final String SEARCH_PARAM_COMBINATION_DELIMITER = "\\+";
-    private static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
-    private static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
     private static final String HAS_DELIMITER = SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR;
 
     // compartment parameter reference which can be ignore
@@ -185,7 +183,7 @@ public class SearchUtil {
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
-        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+        for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 SearchParameter searchParam = parametersMap.lookupByCode(code);
@@ -222,7 +220,7 @@ public class SearchUtil {
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
-        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+        for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 SearchParameter searchParam = parametersMap.lookupByCanonical(uri.getValue());
@@ -724,7 +722,7 @@ public class SearchUtil {
                     for (PropertyEntry rsrcsEntry : rsrcsEntries) {
 
                         // Check if matching resource type
-                        if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
+                        if (FHIRConfigHelper.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
                             PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
                             if (resourceTypeGroup != null) {
                                 combinations =
@@ -1149,13 +1147,13 @@ public class SearchUtil {
         String tenantId = FHIRRequestContext.get().getTenantId();
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
-        for (String type : new String[]{SearchConstants.RESOURCE_RESOURCE, resourceType}) {
+        for (String type : new String[]{FHIRConfigHelper.RESOURCE_RESOURCE, resourceType}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 for (Entry<String, SearchParameter> entry : parametersMap.codeEntries()) {
                     String code = entry.getKey();
                     if (log.isLoggable(Level.FINE) && result.containsKey(code)) {
-                        log.fine("Code '" + code + "' is defined for both " + SearchConstants.RESOURCE_RESOURCE
+                        log.fine("Code '" + code + "' is defined for both " + FHIRConfigHelper.RESOURCE_RESOURCE
                             + " and " + resourceType + "; using " + resourceType);
                     }
                     result.put(code, entry.getValue());
@@ -1880,8 +1878,8 @@ public class SearchUtil {
         String resourceTypeAndParameterName;
         String searchParameterTargetType;
 
-        List<String> allowedIncludes = getSearchPropertyRestrictions(resourceType.getSimpleName(), SEARCH_PROPERTY_TYPE_INCLUDE);
-        List<String> allowedRevIncludes = getSearchPropertyRestrictions(resourceType.getSimpleName(), SEARCH_PROPERTY_TYPE_REVINCLUDE);
+        List<String> allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(resourceType.getSimpleName(), FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
+        List<String> allowedRevIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(resourceType.getSimpleName(), FHIRConfigHelper.SEARCH_PROPERTY_TYPE_REVINCLUDE);
 
         // Parse inclusionKeyword into parameter name and modifier (if present).
         Modifier modifier = null;
@@ -2003,59 +2001,6 @@ public class SearchUtil {
                 }
             }
         }
-    }
-
-    /**
-     * Retrieves the search property restrictions.
-     *
-     * @param resourceType the resource type
-     * @param propertyType the property type
-     * @return list of allowed values for the search property, or null if no restrictions
-     * @throws Exception
-     *             an exception
-     */
-    private static List<String> getSearchPropertyRestrictions(String resourceType, String propertyType) throws Exception {
-        String propertyField = null;
-        if (SEARCH_PROPERTY_TYPE_INCLUDE.equals(propertyType)) {
-            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES;
-        }
-        else if (SEARCH_PROPERTY_TYPE_REVINCLUDE.equals(propertyType)) {
-            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES;
-        }
-
-        // Retrieve the "resources" config property group.
-        if (propertyField != null) {
-            PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            if (rsrcsGroup != null) {
-                List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
-                if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-
-                    // Try to find search property for matching resource type
-                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                        if (resourceType.equals(rsrcsEntry.getName())) {
-                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                            if (resourceTypeGroup != null) {
-                                return resourceTypeGroup.getStringListProperty(propertyField);
-                            }
-                        }
-                    }
-
-                    // Otherwise, try to find search property for "Resource" resource type
-                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-
-                        // Check if matching resource type
-                        if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
-                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                            if (resourceTypeGroup != null) {
-                                return resourceTypeGroup.getStringListProperty(propertyField);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
