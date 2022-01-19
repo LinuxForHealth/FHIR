@@ -743,7 +743,7 @@ public class EverythingOperation extends AbstractOperation {
         }
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + nameOfSearchParameter + ":" + subResourceType;
-        if (allowedIncludes != null && !allowedIncludes.contains(parameterName)) {
+        if (allowedIncludes == null || allowedIncludes.contains(parameterName)) {
             searchParameters.add("_include", parameterName);
         } else {
             LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
