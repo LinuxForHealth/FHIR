@@ -219,7 +219,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 15);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -245,7 +245,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 15);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
