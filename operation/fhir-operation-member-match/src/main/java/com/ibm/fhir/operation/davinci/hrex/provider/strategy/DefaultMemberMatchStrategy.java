@@ -164,7 +164,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                         .build();
             }
 
-            String patientReference = "Patient/" + patientBundle.getEntry().get(0).getId();
+            String patientReference = "Patient/" + patientBundle.getEntry().get(0).getResource().getId();
             type = "Coverage";
 
             // Compiles the Coverage Search Parameters

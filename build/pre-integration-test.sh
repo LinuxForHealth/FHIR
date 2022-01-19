@@ -78,6 +78,9 @@ cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.
 cp -pr ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}/
 find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
 
+# Add the member-match to the build
+find ${WORKSPACE}/operation/fhir-operation-member-match/target -iname 'fhir-operation*.jar' -not -iname 'fhir*-tests.jar' -exec cp -f {} ${USERLIB} \;
+
 # Start up the fhir server
 echo "
 >>> Current time: " $(date)
