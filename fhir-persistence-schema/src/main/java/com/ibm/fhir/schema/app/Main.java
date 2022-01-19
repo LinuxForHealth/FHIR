@@ -27,6 +27,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
 import static com.ibm.fhir.schema.app.menu.Menu.FREEZE_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.GRANT_TO;
+import static com.ibm.fhir.schema.app.menu.Menu.HELP;
 import static com.ibm.fhir.schema.app.menu.Menu.LIST_TENANTS;
 import static com.ibm.fhir.schema.app.menu.Menu.POOL_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.PROP;
@@ -176,6 +177,7 @@ public class Main {
     private static final int EXIT_CONCURRENT_UPDATE = 6; // Another schema update is running and the wait time expired
 
     private static final Menu menu = new Menu();
+    private static boolean help = Boolean.FALSE;
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
@@ -2077,6 +2079,9 @@ public class Main {
             case FORCE:
                 force = true;
                 break;
+            case HELP:
+                help = Boolean.TRUE;
+                throw new IllegalArgumentException("Help Menu Triggered");
             default:
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");
             }
@@ -2674,9 +2679,13 @@ public class Main {
             logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
             exitStatus = EXIT_NOT_READY;
         } catch (IllegalArgumentException x) {
-            logger.log(Level.SEVERE, "bad argument", x);
+            if (!help) {
+                logger.log(Level.SEVERE, "bad argument", x);
+                exitStatus = EXIT_BAD_ARGS;
+            } else {
+                exitStatus = EXIT_OK;
+            }
             menu.generateHelpMenu();
-            exitStatus = EXIT_BAD_ARGS;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);
             exitStatus = EXIT_RUNTIME_ERROR;
