@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@ package com.ibm.fhir.server.test.cpg;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Properties;
 
@@ -85,5 +86,19 @@ public class ServerCqlOperationTest extends BaseCPGOperationTest {
         Parameters parameters = response.readEntity(Parameters.class);
         assertNotNull(parameters.getParameter(), "Null parameters list");
         assertEquals(parameters.getParameter().size(), 2);
+    }
+    
+    @Test
+    public void testUsefulDetailIncludedInMissingPatientResponse() {
+        Response response = getWebTarget()
+                .path("$cql")
+                .queryParam("expression", "Patient.gender")
+                .queryParam("subject", "Patient/does-not-exist")
+                .request()
+                .get();
+        assertResponse(response, 500);
+
+        String responseBody = response.readEntity(String.class);
+        assertTrue(responseBody.contains("Resource 'Patient/does-not-exist' not found."), responseBody);
     }
 }

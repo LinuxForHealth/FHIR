@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -353,5 +353,22 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
             //debugMap.setIsCoverageEnabled(true);
         }
         return debugMap;
+    }
+    
+    /**
+     * Construct a FHIROperationExcepiton from the provided exception. This allows commonality
+     * of error handling between related operations.
+     * 
+     * @throws FHIROperationException 
+     */
+    protected void throwOperationException(Exception ex) throws FHIROperationException {
+        throw new FHIROperationException("Evaluation failed", ex)
+            .withIssue(Issue.builder()
+                .code(IssueType.EXCEPTION)
+                .severity(IssueSeverity.FATAL)
+                .details(CodeableConcept.builder()
+                    .text(ex.getMessage())
+                    .build())
+                .build());
     }
 }
