@@ -1,6 +1,6 @@
 # The IBM FHIR Server - Multi-Tenancy on Db2
 
-This document outlines the schema design and implementation for the IBM FHIR Server's Multi-tenancy feature on Db2.
+This document outlines the schema design and implementation specific to the IBM FHIR Server's Multi-tenancy feature on Db2.
 
 The Multi-tenancy feature has two main areas of focus: 
 - Tenant Provisioning  
@@ -229,17 +229,6 @@ The administrative schema's name is FHIR_ADMIN.  FHIR_ADMIN has
 The tables have supporting indicies and privileges. 
 
 
-**Table: VERSION_HISTORY**
-
-Before any table or schema object is created, the `VERSION_HISTORY` table is created using `CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);`  This table includes VERSION_HISTORY for resources created in the schema. If an object in the schema is updated, then the VERSION_HISTORY table must be updated to track the changes. 
-
-The `VERSION_HISTORY` table enables Tenant version isolation, so upgrades and patches are separately applied to the schema to which the tenant belongs. Specifically, if the tenant shares the table definitions with another client, the patching is applied to both tenants at the same time.  If the tenant has a specific schema, the table definitions may be updated independent of each other.
-
-The `CreateVersionHistory` class controls the creation the `VERSION_HISTORY` table. Importantly, the VERISON_HISTORY table does not support migrations and changes. The Primary Key has a corresponding index `PK_VERSION_HISTORY`, and the code does not support updating the index. 
-
-This table is an administrative table and should not require updating and migration. 
-
-
 **Table: TENANTS**
 
 The Tenants table maps a given tenant to the Multi-Tenant ID (MT_ID) for the given tenant.  The MT_ID is subsequently used to restrict row access based on the matching value. 
@@ -379,7 +368,7 @@ The isolated data supports tenant independent query plan caches, scaling and dis
 
 **Table: Resources**
 
-Each resource is contains a RESOURCE and LOGICAL RESOURCE table. `_LOGICAL_RESOURCES` has one record per logical resource.  `_RESOURCES` has one record for each version of each logical resource. 
+Each resource is contains a RESOURCE and LOGICAL RESOURCE table. `xx_LOGICAL_RESOURCES` has one record per logical resource.  `xx_RESOURCES` has one record for each version of each logical resource. 
 
 For example, VISIONPRESCRIPTION has: 
 
@@ -391,13 +380,15 @@ VISIONPRESCRIPTION_LOGICAL_RESOURCES
 These values are mapped to specific FHIR Search value types, supporting parameter searches: 
 
 ```
-VISIONPRESCRIPTION_COMPOSITES
 VISIONPRESCRIPTION_DATE_VALUES
 VISIONPRESCRIPTION_LATLNG_VALUES
 VISIONPRESCRIPTION_NUMBER_VALUES
 VISIONPRESCRIPTION_QUANTITY_VALUES
 VISIONPRESCRIPTION_STR_VALUES
-VISIONPRESCRIPTION_TOKEN_VALUES
+VISIONPRESCRIPTION_RESOURCE_TOKEN_REFS
+VISIONPRESCRIPTION_TAGS
+VISIONPRESCRIPTION_PROFILES
+VISIONPRESCRIPTION_SECURITY
 ```
 
 There are also additional tables to support search: `LOGICAL_RESOURCE`, `RESOURCE_TYPES` and `PARAMETER_NAMES` These tables are paritioned, and are specific for each tenant. 
@@ -437,7 +428,7 @@ Each row is secured using Db2 Row Permission. The Stored Procedure is the ONLY w
 
 Each tenant's data is encrypted.  For Db2 on Cloud, it uses Db2 native encryption. This means there is a single key that encrypts all the tenants. There is currently no way to encrypt each tenant's tablespace with a different key.
 
-Offboarding a tenant's data is accomplished using dettach/drop partition, and subsequently dropping the tablespace. 
+Offboarding a tenant's data is accomplished using detach partition, dropping the intermediate table, and subsequently dropping the tablespace. See the Db2 documentation for a detailed description on the detach partition process.
 
 **Stored Procedures: Adding Lookup References**
 
