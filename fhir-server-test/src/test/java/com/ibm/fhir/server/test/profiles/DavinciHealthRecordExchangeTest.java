@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -191,11 +191,15 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             }
 
             @Override
+            public String datastore() {
+                return "profile";
+            }
+
+            @Override
             public Parameters getInputParameters() {
                 try {
                     return HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     throw new AssertionError("Unexpected");
                 }
             }
