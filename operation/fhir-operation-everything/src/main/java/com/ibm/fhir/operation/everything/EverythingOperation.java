@@ -701,7 +701,9 @@ public class EverythingOperation extends AbstractOperation {
         List<String> allowedIncludes) {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
-        if (allowedIncludes == null || allowedIncludes.contains(parameterName)) {
+        String simplifiedParameterName = compartmentMemberType + ":" + code;
+        if (allowedIncludes == null || allowedIncludes.contains(parameterName)
+                || allowedIncludes.contains(simplifiedParameterName)) {
             searchParameters.add("_include", parameterName);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
