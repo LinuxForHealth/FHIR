@@ -29,7 +29,7 @@ jobs:
     - name: Patch release script
       run: |
         # only needed until we get past FHIR 4.10.2
-        sed -i '/^mvn -T2C test .* -f fhir-parent -P "${BUILD_PROFILES}"$/ s/$/ -Dtest=!com.ibm.fhir.ig.us.spl.ExamplesValidationTest/' build/release/bin/20_test/1_code_coverage.sh
+        sed -i '/^mvn -T2C test .* -f fhir-parent -P "${BUILD_PROFILES}"$/ s/$/ -DfailIfNoTests=false -Dtest=!com.ibm.fhir.ig.us.spl.ExamplesValidationTest/' build/release/bin/20_test/1_code_coverage.sh
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
