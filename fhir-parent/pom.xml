@@ -641,6 +641,7 @@
                 <artifactId>azure-core</artifactId>
                 <version>1.24.0</version>
             </dependency>
+            <!-- Used in OKHTTP as part of azure-core -->
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
