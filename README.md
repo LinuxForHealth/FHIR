@@ -89,7 +89,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-server|JAX-RS resources and related classes for implementing the FHIR REST API and extended operations|false|
 |fhir-server-webapp|A web application that packages the fhir-server with a set of built-in extended operations|false|
 |fhir-server-test|End-to-end integration tests for testing a running server|false|
-|fhir-smart|An interceptor to support the SMART-on-FHIR profile using JWT|false|
+|fhir-smart|An interceptor that provides SMART-on-FHIR authorization policy enforcement|false|
 
 #### Extended Operations
 |Module|Description|Java API-stable|
