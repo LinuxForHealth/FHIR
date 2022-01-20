@@ -202,7 +202,7 @@ public final class ParametersUtil {
                             if (sp != null) {
                                 paramMap.insert(code, sp);
                             } else {
-                                log.warning("Search parameter '" + code + "' does not exist.  Check the code used.");
+                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() + "' for resourceType '" + resourceType + "' could not be found.");
                             }
                         }
                     }
