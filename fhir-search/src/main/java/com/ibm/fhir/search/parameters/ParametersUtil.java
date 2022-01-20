@@ -201,6 +201,8 @@ public final class ParametersUtil {
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
                                 paramMap.insert(code, sp);
+                            } else {
+                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() + "' for resourceType '" + resourceType + "' could not be found.");
                             }
                         }
                     }
