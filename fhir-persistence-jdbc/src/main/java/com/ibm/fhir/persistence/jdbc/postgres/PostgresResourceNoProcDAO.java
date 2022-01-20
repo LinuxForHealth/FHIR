@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -88,7 +89,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
 
         try {
             // Make sure the resource type is valid according to the database
-            getResourceTypeId(resource.getResourceType());
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();

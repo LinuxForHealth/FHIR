@@ -15,6 +15,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,9 +83,9 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         double dbCallDuration;
 
         try {
-            // Just make sure his resource type is known to the database before we
+            // Just make sure this resource type is known to the database before we
             // hit the procedure
-            getResourceTypeId(resource.getResourceType());
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);

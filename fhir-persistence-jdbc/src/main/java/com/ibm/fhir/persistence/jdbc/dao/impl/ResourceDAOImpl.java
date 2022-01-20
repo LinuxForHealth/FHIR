@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -487,7 +488,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             // Do a lookup on the resource type, just so we know it's valid in the database
             // before we call the procedure
-            getResourceTypeId(resource.getResourceType());
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);
