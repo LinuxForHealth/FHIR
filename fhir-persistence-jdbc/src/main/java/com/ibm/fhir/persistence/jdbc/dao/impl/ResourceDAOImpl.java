@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,8 +50,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
@@ -143,7 +142,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     private Map<String, Integer> newResourceTypeIds = new HashMap<>();
     private boolean runningInTrx = false;
-    private ResourceTypesCacheUpdater rtCacheUpdater = null;
     private TransactionSynchronizationRegistry trxSynchRegistry;
     private final IResourceReferenceDAO resourceReferenceDAO;
 
@@ -427,59 +425,30 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     /**
-     * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
-     * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
-     *
-     * @param resourceType
-     *            A valid FHIR resource type.
-     * @param resourceTypeId
-     *            The corresponding id for the resource type.
-     * @throws FHIRPersistenceException
-     */
-    protected void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException {
-        final String METHODNAME = "addResourceTypeCacheCandidate";
-        log.entering(CLASSNAME, METHODNAME);
-
-        if (this.runningInTrx && ResourceTypesCache.isEnabled()) {
-            if (this.rtCacheUpdater == null) {
-                // Register a new ResourceTypeCacheUpdater for this thread/trx, if one hasn't been already registered.
-                this.rtCacheUpdater = new ResourceTypesCacheUpdater(ResourceTypesCache.getCacheNameForTenantDatastore(), this.newResourceTypeIds);
-                try {
-                    trxSynchRegistry.registerInterposedSynchronization(rtCacheUpdater);
-                    log.fine("Registered ResourceTypeCacheUpdater.");
-                } catch (Throwable e) {
-                    throw new FHIRPersistenceException("Failure registering ResourceTypesCacheUpdater", e);
-                }
-            }
-            this.newResourceTypeIds.put(resourceType, resourceTypeId);
-        }
-
-        log.exiting(CLASSNAME, METHODNAME);
-
-    }
-
-    /**
-     * Get the value of the database id for the given resourceType from the cache.
-     * Expects that the cache has already been primed with this resource type.
-     * The cache is made up of two maps: one shared, the other private to this
-     * transaction. Ids in the latter are promoted to the shared map when the
-     * current transaction is committed.
-     * @implNote the new cache implementation FHIRPersistenceJDBCCache is preferred. The
-     *     existing ResourceTypesCache should be wholly replaced with FHIRPersistenceJDBCCache
-     *     when time allows.
+     * Get the value of the database id for the given resourceType from the
+     * JDBCIdentityCache. If the id isn't found, then it is read from the
+     * database. Note that the resource type cache is prefilled and so we
+     * should never get a miss...but this is here as a just-in-case protection
+     * against reading the cache before the prefill is done.
      * @param resourceType
      * @return
      */
-    protected Integer getResourceTypeIdFromCaches(String resourceType) {
-        // Get resourceTypeId from ResourceTypesCache first.
-        Integer resourceTypeId = ResourceTypesCache.getResourceTypeId(resourceType);
-        // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in
-        // newResourceTypeIds
-        // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only
-        // when the
-        // current transaction is committed.
+    protected Integer getResourceTypeId(String resourceType) throws FHIRPersistenceException {
+        Integer resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
         if (resourceTypeId == null) {
-            resourceTypeId = this.newResourceTypeIds.get(resourceType);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Resource type not found in cache: " + resourceType);
+            }
+            // cache miss, so read from the database
+            resourceTypeId = this.readResourceTypeId(resourceType);
+            
+            if (resourceTypeId != null) {
+                cache.getResourceTypeCache().addEntry(resourceType, resourceTypeId);
+                cache.getResourceTypeNameCache().addEntry(resourceTypeId, resourceType);
+            } else {
+                log.severe("Resource type not found in database: " + resourceType);
+                throw new FHIRPersistenceException("Resource type not found in database. Check server log for details");
+            }
         }
         return resourceTypeId;
     }
@@ -513,24 +482,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         String stmtString = null;
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime = System.nanoTime();
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                    "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // Do a lookup on the resource type, just so we know it's valid in the database
+            // before we call the procedure
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -45,7 +46,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to a PostgreSQL database.
@@ -83,26 +83,13 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // Make sure the resource type is valid according to the database
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();

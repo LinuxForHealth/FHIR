@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
@@ -121,7 +122,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * @param erasedResourceGroupId
      * @throws SQLException
      */
-    public void runInDao(long erasedResourceGroupId) throws SQLException {
+    public void runInDao(long erasedResourceGroupId) throws FHIRPersistenceException {
         String resourceType = eraseDto.getResourceType();
         String logicalId = eraseDto.getLogicalId();
 
@@ -129,12 +130,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         int version = -1;
         Integer total = 0;
 
-        // Prep 1: Get the v_resource_type_id
-        Integer resourceTypeId = getResourceTypeIdFromCaches(resourceType);
-        if (resourceTypeId == null) {
-            // There are a couple of options... this one happens to be great for injection during mockups.
-            resourceTypeId = getCache().getResourceTypeCache().getId(resourceType);
-        }
+        // Prep 1: Get the v_resource_type_id. Cannot be null
+        Integer resourceTypeId = getResourceTypeId(resourceType);
 
         // Prep 2: Get the logical from the system-wide logical resource level
         final String GET_LOGICAL_RESOURCES_SYSTEM =
@@ -304,7 +301,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // Step 4: Delete from parameters tables
-        deleteFromAllParametersTables(resourceType, logicalResourceId);
+        try {
+            deleteFromAllParametersTables(resourceType, logicalResourceId);
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, "while deleting from parameter tables", x);
+            throw translator.translate(x);
+        }
 
         // Step 5: Delete from Logical Resources table
         final String DELETE_LOGICAL_RESOURCE =

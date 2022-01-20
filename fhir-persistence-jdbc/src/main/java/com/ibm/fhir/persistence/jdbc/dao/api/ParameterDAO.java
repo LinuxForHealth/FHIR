@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -80,12 +80,4 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     int acquireParameterNameId(String parameterName) throws FHIRPersistenceException;
-
-    /**
-     * Acquire and return the id associated with the passed code-system name.
-     * @param codeSystemName The name of a valid code-system.
-     * @return Integer A code-system id.
-     * @throws FHIRPersistenceException
-     */
-    int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
 }

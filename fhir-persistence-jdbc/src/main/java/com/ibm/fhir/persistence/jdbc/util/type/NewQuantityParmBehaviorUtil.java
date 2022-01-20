@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
-import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
@@ -108,14 +107,11 @@ public class NewQuantityParmBehaviorUtil {
          * <code>value <> ? AND system = ? AND code = ?</code>
          */
         if (isPresent(system)) {
-            Integer systemId = CodeSystemsCache.getCodeSystemId(system);
+            Integer systemId = this.identityCache.getCodeSystemId(system);
             if (systemId == null) {
-                systemId = this.identityCache.getCodeSystemId(system);
-                if (systemId == null) {
-                    // This is an invalid number in the sequence.
-                    // All of our sequences start with 1 and NO CYCLE.
-                    systemId = -1;
-                }
+                // This is an invalid number in the sequence.
+                // All of our sequences start with 1 and NO CYCLE.
+                systemId = -1;
             }
 
             whereClauseSegment.and(tableAlias, CODE_SYSTEM_ID).eq().bind(systemId);
