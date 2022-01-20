@@ -201,6 +201,8 @@ public final class ParametersUtil {
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
                                 paramMap.insert(code, sp);
+                            } else {
+                                log.warning("Search parameter '" + code + "' does not exist.  Check the code used.");
                             }
                         }
                     }
