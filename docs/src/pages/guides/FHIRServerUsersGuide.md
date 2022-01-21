@@ -2,8 +2,8 @@
 layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
-Copyright: years 2017, 2021
-lastupdated: "2021-12-03"
+Copyright: years 2017, 2022
+lastupdated: "2022-01-20"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1337,7 +1337,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1512,7 +1511,6 @@ Example of `path` based access:
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1554,7 +1552,6 @@ Example of `host` based access:
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1610,15 +1607,6 @@ This feature is useful for imports which follow a prefix pattern:
 
 ### 4.10.3 Integration Testing
 To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-db2.json` which specifies two storageProviders.
-
-### 4.10.4 Export to Parquet
-Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
-
-To enable export to parquet, an administrator must:
-1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp by dropping the necessary jar files under `fhir-server/userlib` directory; and
-2. set the `/fhirServer/bulkdata/storageProviders/(source)/enableParquet` config property to `true`
-
-An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
 
 ### 4.10.5 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
@@ -2232,7 +2220,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory. It is recommended this path is not the mount point of a volume. For instance, if a volume is mounted to /output/bulkdata, use /output/bulkdata/data to ensure a failed mount does not result in writing to the root file system.|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
@@ -2363,7 +2350,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
-|`fhirServer/bulkdata/enableParquet`|false|
 |`fhirServer/bulkdata/ignoreImportOutcomes`|false|
 |`fhirServer/bulkdata/enabled`|true |
 |`fhirServer/bulkdata/core/api/trustAll`|false|
@@ -2386,7 +2372,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
 |`fhirServer/bulkdata/core/enableSkippableUpdates`|true|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
@@ -2554,7 +2539,6 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|Y|Y|

@@ -386,7 +386,9 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
-    boolean isStorageProviderParquetEnabled(String provider);
+    default boolean isStorageProviderParquetEnabled(String provider) {
+        return Boolean.FALSE;
+    }
 
     /**
      *
