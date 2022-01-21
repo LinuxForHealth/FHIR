@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -469,8 +469,14 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     public void testSearchAllUsingType() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, "_type", "Basic,EvidenceVariable,ServiceRequest");
         assertNotNull(resources);
-        assertEquals(resources.size(), 1, "Number of resources returned");
-        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+        assertTrue(resources.size() > 0, "At least one resource returned");
+        assertTrue(resources.size() == resources.stream().distinct().count(), "No repeats");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource is in the response");
+        for (Resource resource : resources) {
+            if (!(resource instanceof Basic) && !(resource instanceof Basic) && !(resource instanceof Basic)) {
+                fail("query retrieved unexpected resource of type " + resource.getClass());
+            }
+        }
     }
 
     @Test
