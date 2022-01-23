@@ -33,6 +33,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
@@ -127,6 +128,10 @@ public class SearchHelper {
     private static final String COMPARTMENT_PARM_DEF = "{def}";
 
     private static final String IBM_COMPOSITE_PREFIX = "ibm_composite_";
+
+    private static final List<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+            .map(r -> ModelSupport.getTypeName(r))
+            .collect(Collectors.toList());
 
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
@@ -384,7 +389,6 @@ public class SearchHelper {
         context.setLenient(lenient);
         context.setIncludeResourceData(includeResource);
         List<QueryParameter> parameters = new ArrayList<>();
-        HashSet<String> resourceTypes = new LinkedHashSet<>();
 
         // Check for duplicate parameters that are supposed to be specified at most once
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
@@ -400,42 +404,47 @@ public class SearchHelper {
             throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _include or _revinclude.");
         }
 
-        // Check for unsupported uses of _type
-        if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
-            if (Resource.class.equals(resourceType)) {
+        // _type parameter is only supported for whole system searches
+        if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE) && !Resource.class.equals(resourceType)) {
+            manageException("_type parameter is only supported for whole-system search", IssueType.NOT_SUPPORTED, context, false);
+        }
+
+        boolean isSystemSearch = Resource.class.equals(resourceType);
+        Set<String> resourceTypes = new LinkedHashSet<>();
+        if (isSystemSearch) {
+            if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
+                // if the _type parameter was supplied
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
                 String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
-                List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
-                for (String resType : tmpResourceTypes) {
-                    try {
-                        if (ModelSupport.isConcreteResourceType(resType)) {
-                            resourceTypes.add(resType);
-                        } else {
-                            manageException("_type search parameter has invalid resource type: " + resType, IssueType.INVALID, context, true);
-                            continue;
-                        }
-                    } catch (FHIRSearchException se) {
-                        // If we're in lenient mode and there was an issue parsing the resource type then log and move on to the next one.
-                        if (lenient) {
-                            String msg = "Resource type '" + resType + "' for _type search parameter ignored";
-                            log.log(Level.FINE, msg, se);
-                            context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
-                        } else {
-                            throw se;
-                        }
+                for (String resType : resTypes.split("\\s*,\\s*")) {
+                    if (ModelSupport.isConcreteResourceType(resType) && isSearchEnabled(resType)) {
+                        resourceTypes.add(resType);
+                    } else {
+                        manageException("_type parameter has invalid resource type: " + resType, IssueType.INVALID, context, false);
                     }
                 }
             }
-            else {
-                manageException("_type search parameter is only supported with system search", IssueType.NOT_SUPPORTED, context, false);
+
+            if (resourceTypes.isEmpty()) {
+                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
+                if (implicitTypeScoping) {
+                    Boolean isOpen = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/"
+                            + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
+                    List<String> supportedResourceTypes = isOpen ? ALL_RESOURCE_TYPES : FHIRConfigHelper.getSupportedResourceTypes();
+                    for (String resType : supportedResourceTypes) {
+                        if (isSearchEnabled(resType)) {
+                            resourceTypes.add(resType);
+                        }
+                    }
+                }
             }
         }
 
         queryParameters.remove(SearchConstants.RESOURCE_TYPE);
 
-        Boolean isMultiResTypeSearch = Resource.class.equals(resourceType) && !resourceTypes.isEmpty();
+        boolean hasResourceTypeFilter = isSystemSearch && !resourceTypes.isEmpty();
 
-        if (isMultiResTypeSearch) {
+        if (hasResourceTypeFilter) {
             context.setSearchResourceTypes(new ArrayList<>(resourceTypes));
         }
 
@@ -449,7 +458,7 @@ public class SearchHelper {
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
                 } else if (isReverseChainedParameter(name)) {
-                    if (isMultiResTypeSearch) {
+                    if (hasResourceTypeFilter) {
                         // _has search requires specific resource type modifier in
                         // search parameter, so we don't currently support system search.
                         throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _has.");
@@ -461,7 +470,7 @@ public class SearchHelper {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
                         QueryParameter chainedParameter;
-                        if (isMultiResTypeSearch) {
+                        if (hasResourceTypeFilter) {
                             chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString, context);
                         } else {
                             chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString, context);
@@ -478,7 +487,7 @@ public class SearchHelper {
                     }
 
                     SearchParameter searchParameter = null;
-                    if (isMultiResTypeSearch) {
+                    if (hasResourceTypeFilter) {
                       // Find the SearchParameter that will apply to all the resource types.
                       for (String resType: resourceTypes) {
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
@@ -580,6 +589,53 @@ public class SearchHelper {
 
         context.setSearchParameters(parameters);
         return context;
+    }
+
+    private static boolean isSearchEnabled(String resourceType) throws FHIROperationException {
+        boolean resourceValid = true;
+        List<String> interactions = null;
+
+        // Retrieve the interaction configuration
+        try {
+            StringBuilder defaultInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
+                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+            StringBuilder resourceSpecificInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/")
+                    .append(resourceType).append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+
+            // Get the 'interactions' property
+            List<String> resourceSpecificInteractions = FHIRConfigHelper.getStringListProperty(resourceSpecificInteractionsConfigPath.toString());
+            if (resourceSpecificInteractions != null) {
+                interactions = resourceSpecificInteractions;
+            } else {
+                // Check the 'open' property, and if that's false, check if resource was specified
+                if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+                    PropertyGroup resourceGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES + "/" + resourceType);
+                    if (resourceGroup == null) {
+                        resourceValid = false;
+                    }
+                }
+                if (resourceValid) {
+                    // Get the 'Resource' interaction property
+                    List<String> defaultInteractions = FHIRConfigHelper.getStringListProperty(defaultInteractionsConfigPath.toString());
+                    if (defaultInteractions != null) {
+                        interactions = defaultInteractions;
+                    }
+                }
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Allowed interactions: " + interactions);
+            }
+        } catch (Exception e) {
+            String msg = "Error retrieving interactions configuration.";
+            throw new FHIROperationException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.EXCEPTION));
+        }
+
+        // Perform validation of specified interaction against specified resourceType
+        if (interactions != null && !interactions.contains("search")) {
+            return false;
+        }
+        return resourceValid;
     }
 
     /**
@@ -1363,7 +1419,7 @@ public class SearchHelper {
         return code.startsWith(SearchConstants.HAS);
     }
 
-    private QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString, FHIRSearchContext context)
+    private QueryParameter parseChainedParameter(Set<String> resourceTypes, String name, String valuesString, FHIRSearchContext context)
             throws Exception {
         QueryParameter rootParameter = null;
         Class<?> resourceType = null;
