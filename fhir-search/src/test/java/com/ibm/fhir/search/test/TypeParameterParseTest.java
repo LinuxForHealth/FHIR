@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -155,7 +156,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         queryParameters.put("_type", Collections.singletonList("Resource"));
         FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
         assertNotNull(context);
-        assertNull(context.getSearchResourceTypes());
+        assertEquals(context.getSearchResourceTypes().size(), ModelSupport.getResourceTypes(false).size());
     }
 
     @Test
