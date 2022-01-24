@@ -569,6 +569,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
             addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
             addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
             addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
             addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
             addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
