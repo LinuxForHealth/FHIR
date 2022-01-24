@@ -42,12 +42,16 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -193,7 +197,8 @@ public class EverythingOperation extends AbstractOperation {
         
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
-
+        List<String> resourceIds = new ArrayList<String>();
+        
         int totalResourceCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
@@ -211,6 +216,12 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 addIncludesSearchParameters(compartmentType, tempSearchParameters);
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
+                // Keep track of what we've found so far
+                for (Entry entry: results.getEntry()) {
+                    String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+                    resourceIds.add(externalIdentifier);
+                }
+                readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, searchParameters, resourceHelper);
                 currentResourceCount = results.getTotal().getValue();
                 totalResourceCount += currentResourceCount;
                 LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
@@ -709,6 +720,36 @@ public class EverythingOperation extends AbstractOperation {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
             }
+        }
+    }
+    
+    private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
+        List<Entry> allEntries, List<String> resourceIds, MultivaluedMap<String, String> searchParameters, 
+        FHIRResourceHelpers resourceHelper) throws Exception {
+        List<Resource> resourceList = new ArrayList<Resource>();
+        for (Entry entry: newEntries) {
+            // Look up entries by reference
+            List<Reference> references = ReferenceFinder.getReferences(entry.getResource());
+            for (Reference reference: references) {
+                ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(reference, compartmentMemberType);
+                if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_RELATIVE)) {
+                    String externalId = reference.getReference().as(com.ibm.fhir.model.type.String.class).getValue();
+                    String[] splitString = externalId.split("/");
+                    String type = splitString[0];
+                    if (!resourceIds.contains(externalId) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
+                            || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
+                        resourceList.add(resourceHelper.doRead(type, splitString[1], false, false, null, null).getResource());
+                        resourceIds.add(externalId);
+                    }
+                }
+            }
+        }
+
+        // Transform resources into Entries
+        for (Resource resource: resourceList) {
+            Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+            entryBuilder.resource(resource);
+            allEntries.add(entryBuilder.build());
         }
     }
 }
