@@ -13,14 +13,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.Interaction;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.HTTPReturnPreference;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.DateTime;
@@ -40,6 +47,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
+
+    private static final List<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+            .map(r -> ModelSupport.getTypeName(r))
+            .collect(Collectors.toList());
 
     private FHIRPersistenceUtil() {
         // No operation
@@ -131,6 +142,15 @@ public class FHIRPersistenceUtil {
                             } else {
                                 context.addResourceType(resourceType);
                             }
+                            // Note: if we decide to support invalid _type values in 'lenient' mode (like search), then the following
+                            // if/else will need to be in an else block for the preceding if
+                            if (!isHistoryEnabled(resourceType)) {
+                                String msg = "history interaction is not supported for _type parameter value: " + Encode.forHtml(resourceType);
+                                throw new FHIRPersistenceException(msg)
+                                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
+                            } else {
+                                context.addResourceType(resourceType);
+                            }
                         }
                     }
                 } else if ("_since".equals(name)) {
@@ -178,6 +198,21 @@ public class FHIRPersistenceUtil {
                     throw new FHIRPersistenceException(msg)
                             .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                 }
+            } // end foreach query parameter loop
+
+            // If no explicit resource types were passed via _type, conditionally add implicit scoping (based on config)
+            if (context.getResourceTypes().isEmpty()) {
+                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
+                if (implicitTypeScoping) {
+                    Boolean isOpen = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/"
+                            + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
+                    List<String> supportedResourceTypes = isOpen ? ALL_RESOURCE_TYPES : FHIRConfigHelper.getSupportedResourceTypes();
+                    for (String resType : supportedResourceTypes) {
+                        if (isHistoryEnabled(resType)) {
+                            context.addResourceType(resType);
+                        }
+                    }
+                }
             }
 
             // if no _type parameter was passed but the history interaction is only supported for some subset of types
@@ -209,6 +244,53 @@ public class FHIRPersistenceUtil {
             log.exiting(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         }
         return context;
+    }
+
+    private static boolean isHistoryEnabled(String resourceType) throws FHIROperationException {
+        boolean resourceValid = true;
+        List<String> interactions = null;
+
+        // Retrieve the interaction configuration
+        try {
+            StringBuilder defaultInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
+                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+            StringBuilder resourceSpecificInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/")
+                    .append(resourceType).append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+
+            // Get the 'interactions' property
+            List<String> resourceSpecificInteractions = FHIRConfigHelper.getStringListProperty(resourceSpecificInteractionsConfigPath.toString());
+            if (resourceSpecificInteractions != null) {
+                interactions = resourceSpecificInteractions;
+            } else {
+                // Check the 'open' property, and if that's false, check if resource was specified
+                if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+                    PropertyGroup resourceGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES + "/" + resourceType);
+                    if (resourceGroup == null) {
+                        resourceValid = false;
+                    }
+                }
+                if (resourceValid) {
+                    // Get the 'Resource' interaction property
+                    List<String> defaultInteractions = FHIRConfigHelper.getStringListProperty(defaultInteractionsConfigPath.toString());
+                    if (defaultInteractions != null) {
+                        interactions = defaultInteractions;
+                    }
+                }
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Allowed interactions: " + interactions);
+            }
+        } catch (Exception e) {
+            String msg = "Error retrieving interactions configuration.";
+            throw new FHIROperationException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.EXCEPTION));
+        }
+
+        // Perform validation of specified interaction against specified resourceType
+        if (interactions != null && !interactions.contains("history")) {
+            return false;
+        }
+        return resourceValid;
     }
 
     /**

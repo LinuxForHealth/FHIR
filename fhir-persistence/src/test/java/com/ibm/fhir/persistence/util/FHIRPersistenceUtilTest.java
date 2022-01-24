@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -36,6 +37,13 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * Unit tests for FHIRPersistenceUtil
  */
 public class FHIRPersistenceUtilTest {
+
+    @BeforeClass(alwaysRun = true)
+    public void setUp() throws Exception {
+        // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
+        // TODO: it would be better for our unit tests if we could load config files from the classpath
+        FHIRConfiguration.setConfigHome("target/test-classes");
+    }
 
     /**
      * Test the injection of id and meta when the source resource does not have an id
@@ -109,6 +117,27 @@ public class FHIRPersistenceUtilTest {
 
     /**
      * Test the parsing of system history parameters into a HistoryContext
+     * with an implicit _type filter.
+     */
+    @Test
+    public void testParseSystemHistoryParameters_implicitTypes() throws FHIRException {
+        String originalTenantId = FHIRRequestContext.get().getTenantId();
+        try {
+            // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = true`
+            FHIRRequestContext.get().setTenantId("default");
+
+            // no explicit _type param
+            Map<String, List<String>> params = new HashMap<>();
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+
+            assertEquals(historyContext.getResourceTypes().size(), 141, "implicitly scoped to all R4B resource types");
+        } finally {
+            FHIRRequestContext.get().setTenantId(originalTenantId);
+        }
+    }
+
+    /**
+     * Test the parsing of system history parameters into a HistoryContext
      * with an explicit _type filter.
      */
     @Test
@@ -151,6 +180,11 @@ public class FHIRPersistenceUtilTest {
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = true`
             FHIRRequestContext.get().setTenantId("default");
             FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
+            assertEquals(historyContext.getResourceTypes(), combinedExplicitTypes);
+
+            // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = false`
+            FHIRRequestContext.get().setTenantId("all");
+            historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
             assertEquals(historyContext.getResourceTypes(), combinedExplicitTypes);
         } finally {
             FHIRRequestContext.get().setTenantId(originalTenantId);
