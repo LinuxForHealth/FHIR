@@ -27,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -417,10 +419,16 @@ public class SearchHelper {
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
                 String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
                 for (String resType : resTypes.split("\\s*,\\s*")) {
-                    if (ModelSupport.isConcreteResourceType(resType) && isSearchEnabled(resType)) {
-                        resourceTypes.add(resType);
+                    if (!ModelSupport.isConcreteResourceType(resType)) {
+                        manageException("_type parameter has invalid resource type: " + Encode.forHtml(resType),
+                                IssueType.INVALID, context, false);
                     } else {
-                        manageException("_type parameter has invalid resource type: " + resType, IssueType.INVALID, context, false);
+                        if (!isSearchEnabled(resType)) {
+                            manageException("search interaction is not supported for _type parameter value: " + Encode.forHtml(resType),
+                                    IssueType.NOT_SUPPORTED, context, false);
+                        } else {
+                            resourceTypes.add(resType);
+                        }
                     }
                 }
             }
