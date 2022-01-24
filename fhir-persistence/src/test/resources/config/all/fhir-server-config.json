@@ -1,5 +1,8 @@
 {
     "fhirServer": {
+        "core": {
+            "useImplicitTypeScopingForWholeSystemInteractions": false
+        },
         "persistence": {
             "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "common": {
