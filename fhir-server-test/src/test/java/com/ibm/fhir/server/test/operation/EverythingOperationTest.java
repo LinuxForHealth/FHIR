@@ -205,7 +205,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // The number of companies was reduced as the scope was narrowed down to a decade
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 387);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 379);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })

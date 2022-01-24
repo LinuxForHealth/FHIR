@@ -753,6 +753,11 @@ public class EverythingOperation extends AbstractOperation {
         // Transform resources into Entries
         for (Resource resource: resourceList) {
             Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+           
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            String url = requestContext.getOriginalRequestUri();
+            url = url.substring(0, url.indexOf("/Patient/"));
+            entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
             entryBuilder.resource(resource);
             allEntries.add(entryBuilder.build());
         }
