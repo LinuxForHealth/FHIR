@@ -216,13 +216,18 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 addIncludesSearchParameters(compartmentType, tempSearchParameters);
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
-                // Keep track of what we've found so far
+                // Only add resources we don't already have and keep track of what we've found so far,
+                // otherwise, we were getting duplicate entries from the _includes
+                int countBeforeAddingNewResources = allEntries.size();
                 for (Entry entry: results.getEntry()) {
                     String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
-                    resourceIds.add(externalIdentifier);
+                    if (!resourceIds.contains(externalIdentifier)) {
+                        resourceIds.add(externalIdentifier);
+                        allEntries.add(entry);
+                    }
                 }
                 readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, searchParameters, resourceHelper);
-                currentResourceCount = results.getTotal().getValue();
+                currentResourceCount = allEntries.size() - countBeforeAddingNewResources;
                 totalResourceCount += currentResourceCount;
                 LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
             } catch (Exception e) {
@@ -239,7 +244,6 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
-            allEntries.addAll(results.getEntry());
 
             // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
             if (currentResourceCount > maxPageSize) {
