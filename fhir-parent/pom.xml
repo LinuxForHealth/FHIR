@@ -163,7 +163,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>21.0.0.12</version>
+                <version>22.0.0.1</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -769,7 +769,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-scm-plugin</artifactId>
-                    <version>1.9.5</version>
+                    <version>1.12.2</version>
                     <configuration></configuration>
                 </plugin>
                 <plugin>
