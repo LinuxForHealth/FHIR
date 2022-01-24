@@ -1287,6 +1287,54 @@
 			}
 		},
 		{
+            "fullUrl": "urn:uuid:0771c1f3-bce2-4f0d-9709-323caacca41d",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "0771c1f3-bce2-4f0d-9709-323caacca41d",
+                "identifier": [
+                    {
+                        "system": "https://github.com/synthetichealth/synthea",
+                        "value": "0771c1f3-bce2-4f0d-9709-323caacca41d"
+                    }
+                ],
+                "active": true,
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                                "code": "prov",
+                                "display": "Healthcare Provider"
+                            }
+                        ],
+                        "text": "Healthcare Provider"
+                    }
+                ],
+                "name": "TONY'S HOSPITAL",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "555555600"
+                    }
+                ],
+                "address": [
+                    {
+                        "line": [
+                            "795 GRAND BLVD"
+                        ],
+                        "city": "MALIBU",
+                        "state": "CA",
+                        "postalCode": "90263",
+                        "country": "US"
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "Organization"
+            }
+        },
+		{
 			"fullUrl": "urn:uuid:07cce90b-45bb-3dde-b4a9-b98d846d6033",
 			"resource": {
 				"resourceType": "Practitioner",
@@ -1410,7 +1458,13 @@
 				"serviceProvider": {
 					"reference": "urn:uuid:ecc51621-0af3-3b35-ac3e-8b1e34022e92",
 					"display": "SAINT ANNE'S HOSPITAL"
-				}
+				},
+				"hospitalization": {
+                    "origin": {
+                        "reference": "urn:uuid:0771c1f3-bce2-4f0d-9709-323caacca41d",
+                        "display": "TONY'S HOSPITAL"
+                    }
+                }
 			},
 			"request": {
 				"method": "POST",
