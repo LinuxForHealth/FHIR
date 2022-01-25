@@ -208,6 +208,9 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         do {
             // random offset in [0, offsetRange)
             int offset = random.nextInt(offsetRange);
+            if (logger.isLoggable(Level.FINER)) {
+                logger.finer("Executing the following reindex statement with offset " + offset + ":\n" + select);
+            }
             try (PreparedStatement stmt = connection.prepareStatement(select)) {
                 if (resourceTypeId != null && logicalId != null) {
                     stmt.setInt(1, resourceTypeId);
@@ -221,6 +224,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                     stmt.setTimestamp(1, Timestamp.from(reindexTstamp), CalendarHelper.getCalendarForUTC());
                     stmt.setInt(2, offset);
                 }
+
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
