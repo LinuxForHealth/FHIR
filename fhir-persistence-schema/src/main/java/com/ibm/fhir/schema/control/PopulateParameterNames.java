@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.schema.control;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public class PopulateParameterNames implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String nextRefVal = translator.nextValue(schemaName, "fhir_ref_sequence");
-        
+
         // For Db2 multi-tenancy, we need to set up the SV_TENANT_ID in order for the row-based-access-control
         // to work
         final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenantId);
@@ -64,21 +65,22 @@ public class PopulateParameterNames implements IDatabaseStatement {
                 throw translator.translate(x);
             }
         }
-        
+
         // Grab a set containing all the current parameter names so we can skip them
         Set<String> currentParameterNames = new HashSet<>();
         try (PreparedStatement ps = c.prepareStatement(PARAMETER_NAMES)) {
             ResultSet rset = ps.executeQuery();
             while (rset.next()) {
-                currentParameterNames.add(rset.getString(1));
+                currentParameterNames.add(rset.getString(2));
             }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-        
+
         // Now we can insert parameter names not found in the current set
         try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties"), StandardCharsets.UTF_8))) {
+            InputStream parm_names_in = PopulateParameterNames.class.getClassLoader().getResourceAsStream("parameter_names.properties");
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(parm_names_in, StandardCharsets.UTF_8))) {
                 final int batchSize = 100;
                 int processed = 0;
                 String line;
@@ -93,7 +95,7 @@ public class PopulateParameterNames implements IDatabaseStatement {
                         }
                     }
                 }
-                
+
                 // wrap up by sending the final batch
                 if (processed > 0) {
                     batch.executeBatch();
