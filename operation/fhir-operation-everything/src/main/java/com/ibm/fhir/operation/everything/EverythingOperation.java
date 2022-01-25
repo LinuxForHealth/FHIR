@@ -745,7 +745,7 @@ public class EverythingOperation extends AbstractOperation {
     }
     
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
-        List<Entry> allEntries, List<String> resourceIds, MultivaluedMap<String, String> searchParameters, 
+                List<Entry> allEntries, List<String> resourceIds, MultivaluedMap<String, String> searchParameters, 
         FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
