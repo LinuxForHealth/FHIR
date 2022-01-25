@@ -45,7 +45,8 @@ public class RetrieveIndexDAO {
      * @param afterIndexId only return index IDs after this index ID, or null
      * @param cache the cache
      */
-    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId, FHIRPersistenceJDBCCache cache) {
+    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, String resourceTypeName, int count,
+            Instant notModifiedAfter, Long afterIndexId, FHIRPersistenceJDBCCache cache) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceTypeName = resourceTypeName;
@@ -65,13 +66,13 @@ public class RetrieveIndexDAO {
         List<Long> logicalResourceIds = new ArrayList<>();
 
         // Attempt to get resource type ID from cache, but since it is possible it doesn't find it in the cache,
-        // since the cache is not loaded synchonously, fall back to using resource type name, if provided
+        // since the cache is not loaded synchronously, fall back to using resource type name, if provided
         Integer resourceTypeId = resourceTypeName != null ? cache.getResourceTypeCache().getId(resourceTypeName) : null;
 
         StringBuilder query = new StringBuilder();
         query.append(" SELECT lr.logical_resource_id");
         query.append(" FROM ");
-        if (resourceTypeId == null && resourceTypeName != null) {
+        if (resourceTypeId == null) {
             query.append(schemaName).append(".resource_types rt, ");
         }
         query.append(schemaName).append(".logical_resources lr ");
@@ -80,6 +81,10 @@ public class RetrieveIndexDAO {
             query.append(" AND lr.resource_type_id = ? ");
         } else if (resourceTypeName != null) {
             query.append(" AND rt.resource_type = ? ");
+            query.append(" AND rt.resource_type_id = lr.resource_type_id ");
+        } else {
+            // filter out retired resource types
+            query.append(" AND rt.retired = 'N' ");
             query.append(" AND rt.resource_type_id = lr.resource_type_id ");
         }
         if (notModifiedAfter != null) {
