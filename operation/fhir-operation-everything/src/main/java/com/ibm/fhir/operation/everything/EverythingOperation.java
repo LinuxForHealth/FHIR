@@ -198,7 +198,6 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
         List<String> resourceIds = new ArrayList<String>();
-        
         int totalResourceCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
