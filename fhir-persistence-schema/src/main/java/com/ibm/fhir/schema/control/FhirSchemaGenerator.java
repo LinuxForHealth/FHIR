@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,6 +58,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REF
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RETIRED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
@@ -94,6 +95,7 @@ import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
+import com.ibm.fhir.database.utils.model.CharColumn;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.FunctionDef;
@@ -1015,9 +1017,11 @@ public class FhirSchemaGenerator {
      */
     protected void addResourceTypes(PhysicalDataModel model) {
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
+                .setVersion(FhirSchemaVersion.V0025.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
+                .addCharColumn(            RETIRED,   1, false, "'N'")
                 .addUniqueIndex(IDX + "unq_resource_types_rt", RESOURCE_TYPE)
                 .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
@@ -1025,7 +1029,12 @@ public class FhirSchemaGenerator {
                 .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    // Intentionally a NOP
+
+                    if (priorVersion < FhirSchemaVersion.V0025.vid()) {
+                        CharColumn retired = new CharColumn(RETIRED, 1, false, "'N'");
+                        statements.add(new AddColumn(schemaName, RESOURCE_TYPES, retired));
+                    }
+
                     return statements;
                 })
                 .build(model);
@@ -1405,7 +1414,7 @@ public class FhirSchemaGenerator {
 
     /**
      * Private helper for reading the list of resource types from a properties file.
-     * Use this instead of ModelSupport.getResourceTypes because this will get us the historical 
+     * Use this instead of ModelSupport.getResourceTypes because this will get us the historical
      * resource types as well as those in our model; ensuring newly deployed schemas match migrated ones.
      */
     private static Set<String> getAllResourceTypes() {
@@ -1413,11 +1422,11 @@ public class FhirSchemaGenerator {
                 FhirSchemaGenerator.class.getResourceAsStream("/resource_types.properties")) {
             Properties props = new Properties();
             props.load(fis);
-            
+
             // Remove the abstract resource types
             props.remove("Resource");
             props.remove("DomainResource");
-            
+
             return props.keySet().stream()
                 .map(p -> ((String) p).toUpperCase())
                 .collect(Collectors.toSet());

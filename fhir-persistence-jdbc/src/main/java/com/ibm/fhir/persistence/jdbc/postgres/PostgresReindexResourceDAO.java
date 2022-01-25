@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -73,8 +73,11 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "    WHERE logical_resource_id = ( "
             + "       SELECT lr.logical_resource_id "
             + "         FROM logical_resources lr "
+            + "         JOIN resource_types rt "
+            + "           ON rt.resource_type_id = lr.resource_type_id"
             + "        WHERE lr.is_deleted = 'N' "
             + "          AND lr.reindex_tstamp < ? "
+            + "          AND rt.retired = 'N' "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid, parameter_hash "
