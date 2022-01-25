@@ -98,7 +98,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle patientBundle = TestUtil.readLocalResource("everything-operation/Antonia30_Acosta403.json");
         Entity<Bundle> entity = Entity.entity(patientBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response response = getWebTarget().request().post(entity, Response.class);
+        Response response = getWebTarget().request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").post(entity, Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
@@ -122,7 +122,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         }
         // Get the patient ID and invoke the $everything operation on it
         patientId = createdResources.get("Patient").get(0);
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         // Create a deep copy of the created resources so we can modify it
         // but keep the original so we can delete all created resources
@@ -174,7 +174,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -199,7 +199,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId
-                + "/$everything").queryParam("start", "1990-01-01").queryParam("end", "2010-01-01").request().get(Response.class);
+                + "/$everything").queryParam("start", "1990-01-01").queryParam("end", "2010-01-01").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -213,7 +213,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -239,7 +239,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             return;
         }
         Response response = getWebTarget().path("Patient/" + patientId
-                + "/$everything").queryParam("_type", "CareTeam,CarePlan").queryParam("_since", "2021-01-01T00:00:00Z").request().get(Response.class);
+                + "/$everything").queryParam("_type", "CareTeam,CarePlan").queryParam("_since", "2021-01-01T00:00:00Z").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -256,7 +256,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.now());
         LocalDateTime tomorrow = today.plusDays(1);
 
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_since", tomorrow + "Z").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_since", tomorrow + "Z").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
