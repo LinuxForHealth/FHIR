@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -119,10 +119,11 @@ public class FhirSchemaConstants {
     public static final String COMPOSITE_ID = "COMPOSITE_ID";
     public static final String RESOURCE_PAYLOAD_KEY = "RESOURCE_PAYLOAD_KEY";
     public static final int UUID_LEN = 36;
-    
+
     public static final String RESOURCE_TYPES = "RESOURCE_TYPES";
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";
     public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
+    public static final String RETIRED = "RETIRED";
 
     public static final String DATE_VALUE_DROPPED_COLUMN = "DATE_VALUE";
     public static final String DATE_START = "DATE_START";
