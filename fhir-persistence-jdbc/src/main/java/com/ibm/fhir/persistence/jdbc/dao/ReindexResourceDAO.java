@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,8 +78,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     private static final String PICK_ANY_RESOURCE = ""
             + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
+            + "    JOIN resource_types rt "
+            + "      ON rt.resource_type_id = lr.resource_type_id "
             + "   WHERE lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
+            + "     AND rt.retired = 'N' "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
             ;
 
