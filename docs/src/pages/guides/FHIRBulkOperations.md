@@ -2,7 +2,7 @@
 layout: post
 title: IBM FHIR Server Bulk Data Guide
 description: IBM FHIR Server Bulk Data Guide
-date:   2021-03-10
+date:   2022-01-20
 permalink: /FHIRBulkOperations/
 ---
 
@@ -23,7 +23,7 @@ The `$export` operation uses three OperationDefinition:
 - [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - Obtain a set of resources pertaining to all patients. Exports to an S3-compatible data store.
 - [Group](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-group-export.html) - Obtain a set of resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
 
-The export may be to the ndjson or parquet format.
+The export is in the ndjson format.
 
 ### **$export: Create a Bulk Data Request**
 To create an export request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.

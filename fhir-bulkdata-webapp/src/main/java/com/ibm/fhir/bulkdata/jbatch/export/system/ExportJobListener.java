@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,8 +20,6 @@ import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-
-import org.apache.spark.sql.SparkSession;
 
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
@@ -62,24 +60,6 @@ public class ExportJobListener implements JobListener {
             // Register the context to get the right configuration.
             ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
             adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
-
-            if (adapter.isStorageProviderParquetEnabled(ctx.getSource())) {
-                try {
-                    Class.forName("org.apache.spark.sql.SparkSession");
-
-                    // Create the global spark session
-                    SparkSession.builder().appName("parquetWriter")
-                        // local : Run Spark locally with one worker thread (i.e. no parallelism at all).
-                        // local[*] : Run Spark locally with as many worker threads as logical cores on your machine.
-                        .master("local[*]")
-                        // this undocumented feature allows us to avoid a bunch of unneccessary dependencies and avoid
-                        // launching the unnecessary SparkUI stuff, but there is some risk in using it as its
-                        // undocumented.
-                        .config("spark.ui.enabled", false).getOrCreate();
-                } catch (ClassNotFoundException e) {
-                    logger.warning("No SparkSession in classpath; skipping spark session initialization");
-                }
-            }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "ExportJobListener: beforeJob failed job[" + executionId + "]", e);
             throw e;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     // The default size (200MiB) at which to finish writing a given COS object (NDJSON-only).
     protected static final int DEFAULT_COS_OBJ_MAX_SIZE_MB = 200;
 
-    // The number of resources at which to finish writing a given COS object (NDJSON and Parquet).
+    // The number of resources at which to finish writing a given COS object (NDJSON).
     // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COS_OBJ_MAX_SIZE_MB.
     protected static final int DEFAULT_COS_OBJ_MAX_RESOURCE_COUNT = 200000;
 
@@ -60,7 +60,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     // The default size (200MiB) at which to finish writing a given file (NDJSON-only).
     protected static final int DEFAULT_FILE_MAX_SIZE_MB = 200;
 
-    // The number of resources at which to finish writing a given file (NDJSON and Parquet).
+    // The number of resources at which to finish writing a given file (NDJSON).
     // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COS_OBJ_MAX_SIZE_MB.
     protected static final int DEFAULT_FILE_MAX_RESOURCE_COUNT = 200000;
 
