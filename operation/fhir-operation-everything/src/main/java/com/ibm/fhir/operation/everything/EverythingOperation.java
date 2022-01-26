@@ -788,14 +788,19 @@ public class EverythingOperation extends AbstractOperation {
 
         // Transform resources into Entries
         for (Resource resource: resourceList) {
-            Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
-           
-            FHIRRequestContext requestContext = FHIRRequestContext.get();
-            String url = requestContext.getOriginalRequestUri();
-            url = url.substring(0, url.indexOf("/Patient/"));
-            entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
-            entryBuilder.resource(resource);
-            allEntries.add(entryBuilder.build());
+            // Hit a case where if a reference points to an object that doesn't exist, 
+            // i.e.- "asserter":{"reference":"Practitioner/DollarEverythingTest-DOESNOTEXIST"},
+            // the resource object is null
+            if (resource != null) {
+                Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+
+                FHIRRequestContext requestContext = FHIRRequestContext.get();
+                String url = requestContext.getOriginalRequestUri();
+                url = url.substring(0, url.indexOf("/Patient/"));
+                entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
+                entryBuilder.resource(resource);
+                allEntries.add(entryBuilder.build());
+            }
         }
     }
 }
