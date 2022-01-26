@@ -39,9 +39,9 @@ config() {
         echo "serverRegistryResourceProviderEnabled is true"
     else 
         echo "serverRegistryResourceProviderEnabled is false, forcing it to be set"
-        jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${DIST}/config/default/fhir-server-config.json > ${DIST}/config/default/fhir-server-config.json
+        cp ${DIST}/config/default/fhir-server-config.json ${DIST}/config/default/fhir-server-config-t.json
+        jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${DIST}/config/default/fhir-server-config-t.json > ${DIST}/config/default/fhir-server-config.json
     fi
-
 }
 
 # cleanup - cleanup existing docker
