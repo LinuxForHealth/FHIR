@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Properties;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -22,6 +21,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import jakarta.json.JsonObject;
 
 /**
  * These tests exercise the $lookup operation on a CodeSystem
@@ -48,8 +49,8 @@ public class LookupOperationTest extends FHIRServerTestBase {
 
     // URLs to call against the instance
     public static final String BASE_VALID_URL = "CodeSystem/$lookup";
-    private final String tenantName = "default";
-    private final String dataStoreId = "default";
+    private final String tenantName = "tenant1";
+    private final String dataStoreId = "profile";
 
     @BeforeClass
     public void setup() throws Exception {
@@ -60,7 +61,10 @@ public class LookupOperationTest extends FHIRServerTestBase {
         Entity<JsonObject> entity = Entity.entity(jsonObject,  FHIRMediaType.APPLICATION_FHIR_JSON);
 
         Response response = getWebTarget().path("/CodeSystem/1749c179cd5-bfbb6872-3f47-4f7d-97f6-fc4231e5cba5")
-                .request().put(entity,Response.class);
+                .request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .put(entity,Response.class);
         assertEquals( response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL );
     }
 

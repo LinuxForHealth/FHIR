@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ public abstract class TerminologyOperationTestBase extends FHIRServerTestBase {
 
     public static final String FORMAT = "application/json";
 
-    private final String tenantName = "default";
-    private final String dataStoreId = "default";
+    private final String tenantName = "tenant1";
+    private final String dataStoreId = "profile";
 
     @BeforeClass
     public void setup() throws Exception {
@@ -46,7 +46,11 @@ public abstract class TerminologyOperationTestBase extends FHIRServerTestBase {
         JsonObject jsonObject = TestUtil.readJsonObject(resourcePath);
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response response = getWebTarget().path(resourceType + "/" + id).request().put(entity, Response.class);
+        Response response = getWebTarget().path(resourceType + "/" + id)
+                .request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .put(entity, Response.class);
         String responseBody = response.readEntity(String.class);
         assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL, responseBody);
 
@@ -71,7 +75,10 @@ public abstract class TerminologyOperationTestBase extends FHIRServerTestBase {
             }
         }
 
-        return target.request(FORMAT).header("X-FHIR-TENANT-ID", tenantName).header("X-FHIR-DSID", dataStoreId).get(Response.class);
+        return target.request(FORMAT)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get(Response.class);
     }
 
     public Resource parseResource(String responseBody) throws FHIRParserException {
