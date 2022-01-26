@@ -66,9 +66,6 @@ DB_LOC="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby"
 rm -rf ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby
 mkdir -p ${DB_LOC}
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-    --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-    --update-schema
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
     --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES} \
     --update-schema
