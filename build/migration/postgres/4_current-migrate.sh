@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -65,9 +65,6 @@ echo ">>> Set up the derby databases for multidatastore scenarios"
 DB_LOC="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby"
 rm -rf ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby
 mkdir -p ${DB_LOC}
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-    --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-    --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
     --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Medication,Provenance,Consent \
