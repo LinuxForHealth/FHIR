@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -38,8 +38,8 @@ config() {
     then 
         echo "serverRegistryResourceProviderEnabled is true"
     else 
-        echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
-        exit 1;
+        echo "serverRegistryResourceProviderEnabled is false, forcing it to be set"
+        jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${DIST}/config/default/fhir-server-config.json > ${DIST}/config/default/fhir-server-config.json
     fi
 
 }

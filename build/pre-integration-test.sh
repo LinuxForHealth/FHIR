@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -65,6 +65,9 @@ echo "Copying configuration to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
 cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
+
+# Override for Integration Tests to Run.
+jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json > ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
 
 # Only copy over the Derby datasource definition for this instance
 rm -f ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-*.xml
