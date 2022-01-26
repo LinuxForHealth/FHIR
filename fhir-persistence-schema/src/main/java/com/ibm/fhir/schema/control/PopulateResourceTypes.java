@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -80,6 +81,15 @@ public class PopulateResourceTypes implements IDatabaseStatement {
         }
         final String stmtResourceTypeUpdate = String.format("UPDATE %s.resource_types SET retired = 'Y' WHERE resource_type = ?", schemaName);
 
+        // Only if it's multitenant is tenantId not null.
+        if (tenantId != null) {
+            try (Statement s = c.createStatement();) {
+                s.execute(stmtVariable);
+            } catch (SQLException e) {
+                throw translator.translate(e);
+            }
+        }
+
         Map<String, Integer> values = new HashMap<>();
         List<String> previouslyRetiredTypes = new ArrayList<>();
         try (PreparedStatement list = c.prepareStatement(RESOURCE_TYPES)) {
@@ -99,24 +109,27 @@ public class PopulateResourceTypes implements IDatabaseStatement {
             throw translator.translate(x);
         }
 
-        // Only if it's multitenant is tenantId not null.
-        if (tenantId != null) {
-            try (Statement s = c.createStatement();) {
-                s.execute(stmtVariable);
-            } catch (SQLException e) {
-                throw translator.translate(e);
-            }
-        }
-
         try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
             insertResourceTypes(values, batch);
         } catch (SQLException x) {
+            SQLException exception = x.getNextException();
+            for (int i = 0; exception != null; i++)
+            while (exception != null) {
+                LOGGER.log(Level.SEVERE, "Exception " + i, exception);
+                exception = exception.getNextException();
+            }
             throw translator.translate(x);
         }
 
         try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeUpdate)) {
             updateResourceTypes(previouslyRetiredTypes, batch);
         } catch (SQLException x) {
+            SQLException exception = x.getNextException();
+            for (int i = 0; exception != null; i++)
+            while (exception != null) {
+                LOGGER.log(Level.SEVERE, "Exception " + i, exception);
+                exception = exception.getNextException();
+            }
             throw translator.translate(x);
         }
     }
