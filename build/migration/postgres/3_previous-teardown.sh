@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -26,7 +26,7 @@ do
     cx=$((cx + 1))
     if [ ${cx} -ge 300 ]
     then
-        echo "Failed to start"
+        echo "Failed to stop"
         break
     fi
     sleep 10

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -152,16 +152,16 @@ bringup(){
     DB_LOC="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby"
     mkdir -p ${DB_LOC}
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-        --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-        --update-schema
-    java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
 
     # Startup FHIR
