@@ -138,6 +138,14 @@ public class Capabilities extends FHIRResource {
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_STATUS);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_TOPIC);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSTANCE_DEFINITION);
+        // The following resource types existed in R4, but have breaking changes in R4B.
+        // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.DEVICE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_VARIABLE);
+        // TODO: make final decision on whether to lump these in with the breaking resources
+        // R4B_ONLY_RESOURCES.add(ResourceType.Value.PLAN_DEFINITION);
+        // R4B_ONLY_RESOURCES.add(ResourceType.Value.ACTIVITY_DEFINITION);
     }
 
     // Error Messages
@@ -148,7 +156,7 @@ public class Capabilities extends FHIRResource {
 
     @Context
     protected HttpServletRequest httpServletRequest;
-    
+
     // Constructor
     public Capabilities() throws Exception {
         super();
@@ -204,7 +212,7 @@ public class Capabilities extends FHIRResource {
 
     /**
      * Which FHIRVersion to use for the generated CapabilityStatement
-     * 
+     *
      * @param acceptHeaderValue
      * @return 4.3.0 if the client is asking for it, otherwise 4.0.1
      */
@@ -385,7 +393,7 @@ public class Capabilities extends FHIRResource {
         }
 
         com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
-        
+
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
@@ -675,7 +683,7 @@ public class Capabilities extends FHIRResource {
      */
     private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersion fhirVersion) throws Exception {
         final List<ResourceType.Value> resourceTypes = new ArrayList<>();
-        
+
         if (rsrcsGroup == null) {
             resourceTypes.addAll(ALL_RESOURCE_TYPES);
         } else {

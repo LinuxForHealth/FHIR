@@ -53,7 +53,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 4, 128, 9, 0, 0, 9, 0, 0);
+        assertRestDefinition(restDefinition, 4, 125, 9, 0, 0, 9, 0, 0);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CapabilitiesTest {
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
         CapabilityStatement.Rest restDefinition = capabilityStatement.getRest().get(0);
 
-        assertRestDefinition(restDefinition, 0, 128, 0, 0, 0, 0, 0, 0);
+        assertRestDefinition(restDefinition, 0, 125, 0, 0, 0, 0, 0, 0);
     }
 
     @Test
