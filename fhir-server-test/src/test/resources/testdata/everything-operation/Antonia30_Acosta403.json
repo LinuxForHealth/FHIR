@@ -1287,54 +1287,6 @@
 			}
 		},
 		{
-            "fullUrl": "urn:uuid:0771c1f3-bce2-4f0d-9709-323caacca41d",
-            "resource": {
-                "resourceType": "Organization",
-                "id": "0771c1f3-bce2-4f0d-9709-323caacca41d",
-                "identifier": [
-                    {
-                        "system": "https://github.com/synthetichealth/synthea",
-                        "value": "0771c1f3-bce2-4f0d-9709-323caacca41d"
-                    }
-                ],
-                "active": true,
-                "type": [
-                    {
-                        "coding": [
-                            {
-                                "system": "http://terminology.hl7.org/CodeSystem/organization-type",
-                                "code": "prov",
-                                "display": "Healthcare Provider"
-                            }
-                        ],
-                        "text": "Healthcare Provider"
-                    }
-                ],
-                "name": "TONY'S HOSPITAL",
-                "telecom": [
-                    {
-                        "system": "phone",
-                        "value": "555555600"
-                    }
-                ],
-                "address": [
-                    {
-                        "line": [
-                            "795 GRAND BLVD"
-                        ],
-                        "city": "MALIBU",
-                        "state": "CA",
-                        "postalCode": "90263",
-                        "country": "US"
-                    }
-                ]
-            },
-            "request": {
-                "method": "POST",
-                "url": "Organization"
-            }
-        },
-		{
 			"fullUrl": "urn:uuid:07cce90b-45bb-3dde-b4a9-b98d846d6033",
 			"resource": {
 				"resourceType": "Practitioner",
@@ -1392,14 +1344,6 @@
 					"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
 					"code": "EMER"
 				},
-				"location": [
-				    {
-				        "location": {
-				            "reference": "urn:uuid:226b29c1-03c0-47be-b22b-04e784eb064d",
-				            "display": "SAINT ANNE'S HOSPITAL"				        
-				        }
-				    }
-				],
 				"type": [
 					{
 						"coding": [
@@ -1458,13 +1402,7 @@
 				"serviceProvider": {
 					"reference": "urn:uuid:ecc51621-0af3-3b35-ac3e-8b1e34022e92",
 					"display": "SAINT ANNE'S HOSPITAL"
-				},
-				"hospitalization": {
-                    "origin": {
-                        "reference": "urn:uuid:0771c1f3-bce2-4f0d-9709-323caacca41d",
-                        "display": "TONY'S HOSPITAL"
-                    }
-                }
+				}
 			},
 			"request": {
 				"method": "POST",
@@ -2479,7 +2417,7 @@
 						},
 						"payor": [
 							{
-								"reference": "Organization/DollarEverythingTest-DOESNOTEXIST"
+								"display": "Anthem"
 							}
 						]
 					}
@@ -75562,14 +75500,6 @@
 					"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
 					"code": "AMB"
 				},
-			    "location": [
-                    {
-                        "location": {
-                            "reference": "urn:uuid:639f221b-3e2e-47ea-bad0-cb4f97b14dfc",
-                            "display": "BOB'S HOSPITAL"                      
-                        }
-                    }
-                ],
 				"type": [
 					{
 						"coding": [
@@ -79427,92 +79357,6 @@
 			"request": {
 				"method": "POST",
 				"url": "ExplanationOfBenefit"
-			}
-		},
-		{
-			"fullUrl": "urn:uuid:226b29c1-03c0-47be-b22b-04e784eb064d",
-			"resource": {
-				"resourceType": "Location",
-				"id": "226b29c1-03c0-47be-b22b-04e784eb064d",
-				"name": "SAINT ANNE'S HOSPITAL",
-				"description": "Second floor of the Old South Wing, formerly in use by Psychiatry",
-				"mode": "instance",
-				"address": {
-					"line": [
-						"25 HIGHLAND AVENUE"
-					],
-					"city": "NEWBURYPORT",
-					"state": "MA",
-					"postalCode": "01950",
-					"country": "USA"
-				},
-				"physicalType": {
-					"coding": [
-						{
-							"system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-							"code": "bu",
-							"display": "Building"
-						}
-					],
-					"text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
-				},
-				"position": {
-					"longitude": -70.89088,
-					"latitude": 42.81373
-				}
-			},
-			"request": {
-				"method": "POST",
-				"url": "Location"
-			}
-		},
-		{
-			"fullUrl": "urn:uuid:639f221b-3e2e-47ea-bad0-cb4f97b14dfc",
-			"resource": {
-				"resourceType": "Location",
-				"id": "639f221b-3e2e-47ea-bad0-cb4f97b14dfc",
-				"name": "BOB'S HOSPITAL",
-				"description": "Old South Wing, Neuro Radiology Operation Room 1 on second floor",
-				"mode": "instance",
-				"type": [
-					{
-							"coding": [
-							{
-								"system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
-								"code": "RNEU",
-								"display": "Neuroradiology unit"
-							}
-						],
-						"text": "Neuroradiology unit"
-					}
-				],
-				"address": {
-					"line": [
-						"66 SOUTH WASHINGTON STREET"
-					],
-					"city": "NORTH ATTLEBORO",
-					"state": "MA",
-					"postalCode": "02760",
-					"country": "USA"
-				},
-				"physicalType": {
-					"coding": [
-						{
-							"system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
-							"code": "bu",
-							"display": "Building"
-						}
-					],
-					"text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
-				},
-				"position": {
-					"longitude": -71.33293,
-					"latitude": 41.97999
-				}
-			},
-			"request": {
-				"method": "POST",
-				"url": "Location"
 			}
 		}
 	]
