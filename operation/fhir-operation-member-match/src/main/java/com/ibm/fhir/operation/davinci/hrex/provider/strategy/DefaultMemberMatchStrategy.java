@@ -1,18 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.operation.davinci.hrex.provider.strategy;
 
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -148,7 +149,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // defined by the customer, it's all in the Compiler.
             String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
-            LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
+            }
             Bundle patientBundle = resourceHelper()
                     .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
@@ -172,7 +175,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             coverageToMatch.accept(coverageCompiler);
 
             // essentially a search on beneficiary
-            LOG.info("SPs for Coverage " + coverageCompiler.getSearchParameters());
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("SPs for Coverage " + coverageCompiler.getSearchParameters());
+            }
             Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
             if (coverageBundle.getEntry().isEmpty()) {
@@ -320,6 +325,8 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         private Set<String> addressPostalCode = new HashSet<>();
         private Set<String> addressCountry = new HashSet<>();
 
+        private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         /**
          * public constructor which automatically enables child element processing.
          */
@@ -456,8 +463,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // SearchParameter: birthdate
             if ("birthDate".equals(elementName) && date.getValue() != null) {
                 TemporalAccessor acc = date.getValue();
-                String searchVal = "eq" + acc.get(ChronoField.YEAR) + "-" + acc.get(ChronoField.MONTH_OF_YEAR) + "-" + acc.get(ChronoField.DAY_OF_MONTH);
-                searchParams.add("birthdate", searchVal);
+                searchParams.add("birthdate", "eq" + formatter.format(acc));
             }
             return false;
         }

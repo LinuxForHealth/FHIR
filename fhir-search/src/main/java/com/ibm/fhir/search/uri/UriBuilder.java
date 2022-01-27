@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,7 +100,10 @@ public class UriBuilder {
         URI selfUri = new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(),
                 queryString.toString(), null);
 
-        return selfUri.toString();
+        // ... originally the approach was to modify the Type.Date parameter value, however that's unreliable
+        // as a '+' is a control character which the URI code then tries to escape the escaped value.
+        String urlString = selfUri.toString();
+        return urlString.replace("+", "%2B");
     }
 
     /**
@@ -271,7 +274,6 @@ public class UriBuilder {
      * creates a normal parameter and string.
      *
      * @param param
-     *
      * @param returnString
      */
     private void appendNormalParameter(QueryParameter param, StringBuilder returnString) {
@@ -289,7 +291,10 @@ public class UriBuilder {
             }
             returnString.append(SearchConstants.EQUALS_CHAR);
             // If it's an intermediate value, specifically for references filter them out.
-            returnString.append(param.getValues().stream().filter(qpv -> !qpv.isHidden()).map(QueryParameterValue::toString)
+            returnString.append(
+                param.getValues().stream()
+                    .filter(qpv -> !qpv.isHidden())
+                    .map(QueryParameterValue::toString)
                     .collect(Collectors.joining(SearchConstants.JOIN_STR)));
         }
     }
