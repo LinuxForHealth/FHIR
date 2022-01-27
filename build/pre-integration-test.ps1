@@ -94,12 +94,6 @@ $DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\c
 $DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\'
 Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
-Invoke-WebRequest https://github.com/stedolan/jq/releases/download/jq-1.6/jq-win64.exe -OutFile jq-win64.exe
-$PROC='jq-win64.exe'
-& $PROC cp ${DIST}/config/default/fhir-server-config.json ${DIST}/config/default/fhir-server-config-t.json
-Copy-Item $DR_ITEM_DST\'fhir-server-config.json' -Destination $DR_ITEM_DST\'fhir-server-config.json-tmp'
-jq-win64.exe '.fhirServer.core.serverRegistryResourceProviderEnabled = true' $DR_ITEM_DST\'fhir-server-config.json-tmp' > $DR_ITEM_DST\'fhir-server-config.json
-
 $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*'
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
 

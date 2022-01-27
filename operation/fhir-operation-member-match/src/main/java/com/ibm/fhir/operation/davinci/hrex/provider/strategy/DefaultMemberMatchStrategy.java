@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021, 2022
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -149,9 +148,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // defined by the customer, it's all in the Compiler.
             String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
-            }
+            LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
             Bundle patientBundle = resourceHelper()
                     .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
@@ -175,9 +172,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             coverageToMatch.accept(coverageCompiler);
 
             // essentially a search on beneficiary
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("SPs for Coverage " + coverageCompiler.getSearchParameters());
-            }
+            LOG.info("SPs for Coverage " + coverageCompiler.getSearchParameters());
             Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
             if (coverageBundle.getEntry().isEmpty()) {

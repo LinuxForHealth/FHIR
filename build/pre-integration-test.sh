@@ -66,10 +66,6 @@ rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
 cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 
-# Override for Integration Tests to Run.
-cp ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config-t.json
-jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config-t.json > ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
-
 # Only copy over the Derby datasource definition for this instance
 rm -f ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-*.xml
 mkdir -p ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides

@@ -31,17 +31,6 @@ config() {
     USERLIB="${DIST}/userlib"
     mkdir -p "${USERLIB}"
     find "${WORKSPACE}/conformance" -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} "${USERLIB}" \;
-
-    # Move over the test configurations
-    echo "Checking dynamic resource provider"
-    if [ "$(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json)" = "true" ]
-    then 
-        echo "serverRegistryResourceProviderEnabled is true"
-    else 
-        echo "serverRegistryResourceProviderEnabled is false, forcing it to be set"
-        cp ${DIST}/config/default/fhir-server-config.json ${DIST}/config/default/fhir-server-config-t.json
-        jq '.fhirServer.core.serverRegistryResourceProviderEnabled = true' ${DIST}/config/default/fhir-server-config-t.json > ${DIST}/config/default/fhir-server-config.json
-    fi
 }
 
 # cleanup - cleanup existing docker
