@@ -138,6 +138,14 @@ public class Capabilities extends FHIRResource {
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_STATUS);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_TOPIC);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSTANCE_DEFINITION);
+        // The following resource types existed in R4, but have breaking changes in R4B.
+        // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.DEVICE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE);
+        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_VARIABLE);
+        // TODO: make final decision on whether to lump these in with the breaking resources
+        // R4B_ONLY_RESOURCES.add(ResourceType.Value.PLAN_DEFINITION);
+        // R4B_ONLY_RESOURCES.add(ResourceType.Value.ACTIVITY_DEFINITION);
     }
 
     // Error Messages
@@ -204,7 +212,7 @@ public class Capabilities extends FHIRResource {
 
     /**
      * Which FHIRVersion to use for the generated CapabilityStatement
-     * 
+     *
      * @param acceptHeaderValue
      * @return 4.3.0 if the client is asking for it, otherwise 4.0.1
      */
@@ -395,13 +403,9 @@ public class Capabilities extends FHIRResource {
         }
 
         com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
-<<<<<<< HEAD
 
         FHIRVersion fhirVersion = FHIRVersion.VERSION_4_0_1;
 
-=======
-        
->>>>>>> 2b4dfe67da (issue #3192 - fhirVersion-aware CapabilityStatement)
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
@@ -485,14 +489,9 @@ public class Capabilities extends FHIRResource {
                     .searchParam(conformanceSearchParams)
                     .searchInclude(searchIncludes)
                     .searchRevInclude(searchRevIncludes);
-<<<<<<< HEAD
 
             // Set readHistory to true if vread is supported for this resource type; otherwise leave it null
-            if (interactions.stream().anyMatch(i -> i.getCode().getValueAsEnum() == TypeRestfulInteraction.Value.VREAD)) {
-=======
-            // Set readHistory to true if vread is supported for this resource type; otherwise leave it null
             if (interactions.stream().anyMatch(i -> i.getCode().getValueAsEnum() == Value.VREAD)) {
->>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
                 crb.readHistory(true);
             }
             resources.add(crb.build());
@@ -628,11 +627,7 @@ public class Capabilities extends FHIRResource {
 
     /**
      * @param interactionConfig a list of strings that represent the RESTful interactions to support at the system level
-<<<<<<< HEAD
      *                          (history and/or search)
-=======
-     *                          (create, read, vread, update, patch, delete, history, and/or search)
->>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
      * @return a list of Rest.Resource.Interaction objects to include in the CapabilityStatement
      * @throws FHIRPersistenceException
      */
@@ -709,7 +704,7 @@ public class Capabilities extends FHIRResource {
      */
     private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersion fhirVersion) throws Exception {
         final List<ResourceType.Value> resourceTypes = new ArrayList<>();
-        
+
         if (rsrcsGroup == null) {
             resourceTypes.addAll(ALL_RESOURCE_TYPES);
         } else {
@@ -722,23 +717,8 @@ public class Capabilities extends FHIRResource {
             }
         }
 
-<<<<<<< HEAD
-        List<ResourceType.Value> resourceTypes = new ArrayList<>();
-        if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
-            resourceTypes = ALL_RESOURCE_TYPES;
-        } else {
-            resourceTypes = FHIRConfigHelper.getSupportedResourceTypes().stream()
-<<<<<<< HEAD
-                    .map(ResourceType.Value::from)
-                    .collect(Collectors.toList());
-=======
-                .map(ResourceType.Value::from)
-                .collect(Collectors.toList());
->>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
-=======
         if (fhirVersion.getValueAsEnum() == FHIRVersion.Value.VERSION_4_0_1) {
             resourceTypes.removeAll(R4B_ONLY_RESOURCES);
->>>>>>> 2b4dfe67da (issue #3192 - fhirVersion-aware CapabilityStatement)
         }
         return resourceTypes;
     }
@@ -913,20 +893,10 @@ public class Capabilities extends FHIRResource {
     }
 
     private Rest.Resource.Interaction buildTypeInteractionStatement(TypeRestfulInteraction value) {
-<<<<<<< HEAD
         return Rest.Resource.Interaction.builder().code(value).build();
     }
 
     private Rest.Interaction buildSystemInteractionStatement(SystemRestfulInteraction value) {
         return Rest.Interaction.builder().code(value).build();
-=======
-        Rest.Resource.Interaction ci = Rest.Resource.Interaction.builder().code(value).build();
-        return ci;
-    }
-
-    private Rest.Interaction buildSystemInteractionStatement(SystemRestfulInteraction value) {
-        Rest.Interaction ci = Rest.Interaction.builder().code(value).build();
-        return ci;
->>>>>>> c9cadcb75b (issues #3184 and #3186 - update Capabilities)
     }
 }
