@@ -36,10 +36,13 @@ import static com.ibm.fhir.schema.app.menu.Menu.REFRESH_TENANTS;
 import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_ALL_TENANT_KEYS;
 import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_TENANT_KEY;
 import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_NAME;
+import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE;
+import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE_DETAIL;
 import static com.ibm.fhir.schema.app.menu.Menu.SKIP_ALLOCATE_IF_TENANT_EXISTS;
 import static com.ibm.fhir.schema.app.menu.Menu.TARGET;
 import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY;
 import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY_FILE;
+import static com.ibm.fhir.schema.app.menu.Menu.TENANT_NAME;
 import static com.ibm.fhir.schema.app.menu.Menu.TEST_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_PROC;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA;
@@ -61,6 +64,8 @@ import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -155,6 +160,12 @@ import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.control.UnusedTableRemovalNeedsV0021Migration;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
+import com.ibm.fhir.schema.size.Db2SizeCollector;
+import com.ibm.fhir.schema.size.FHIRDbSizeModel;
+import com.ibm.fhir.schema.size.ISizeCollector;
+import com.ibm.fhir.schema.size.ISizeReport;
+import com.ibm.fhir.schema.size.PostgresSizeCollector;
+import com.ibm.fhir.schema.size.ReadableSizeReport;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -263,6 +274,12 @@ public class Main {
 
     // Force schema update even if whole-schema-version is current
     private boolean force = false;
+    
+    // Report on database size metrics
+    private boolean showDbSize;
+    
+    // Include detail output in the report (default is no)
+    private boolean showDbSizeDetail = false;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -1859,6 +1876,13 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case TENANT_NAME:
+                if (++i < args.length) {
+                    this.tenantName = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case TENANT_KEY:
                 if (++i < args.length) {
                     this.tenantKey = args[i];
@@ -2078,6 +2102,12 @@ public class Main {
                 break;
             case FORCE:
                 force = true;
+                break;
+            case SHOW_DB_SIZE:
+                showDbSize = true;
+                break;
+            case SHOW_DB_SIZE_DETAIL:
+                showDbSizeDetail = true;
                 break;
             case HELP:
                 help = Boolean.TRUE;
@@ -2512,6 +2542,59 @@ public class Main {
         }
         return result;
     }
+
+    /**
+     * Query the database to collect information on space usage by tables and indexes
+     * attributed to resources and their search parameters then render to a useful
+     * report
+     */
+    private void generateDbSizeReport() {
+        FHIRDbSizeModel model = new FHIRDbSizeModel(this.schema.getSchemaName());
+        final ISizeCollector collector;
+        switch (dbType) {
+        case POSTGRESQL:
+            collector = new PostgresSizeCollector(model);
+            break;
+        case DB2:
+            collector = new Db2SizeCollector(model, this.tenantName);
+            break;
+        case DERBY:
+            collector = null;
+            logger.severe("Size report not supported for Derby databases");
+            exitStatus = EXIT_BAD_ARGS;
+        default:
+            throw new IllegalArgumentException("Unsupported DbType: " + dbType);
+        }
+        
+        if (collector != null) {
+            collectDbSizeInfo(collector);
+            // render the report using UTF8 regardless of system config
+            OutputStreamWriter writer = new OutputStreamWriter(System.out, StandardCharsets.UTF_8);
+            ISizeReport report = new ReadableSizeReport(writer, this.showDbSizeDetail);
+            report.render(model);
+            try {
+                writer.flush();
+            } catch (IOException x) {
+                throw new RuntimeException(x);
+            }
+        }
+    }
+
+    /**
+     * Run the collector to populate the size model
+     * @param collector
+     */
+    private void collectDbSizeInfo(ISizeCollector collector) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection()) {
+                collector.run(this.schema.getSchemaName(), c, translator);
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw this.translator.translate(x);
+            }
+        }
+    }
+
     /**
      * Process the requested operation
      */
@@ -2543,7 +2626,9 @@ public class Main {
             }
         }
 
-        if (addKeyForTenant != null) {
+        if (showDbSize) {
+            generateDbSizeReport();
+        } else if (addKeyForTenant != null) {
             addTenantKey();
         } else if (updateVacuum) {
             updateVacuumSettings();
