@@ -497,9 +497,8 @@ The data definition has several reference tables to support FHIR Search for each
 |------------------------|--------------------|-------------|
 | [Number](https://www.hl7.org/fhir/r4/search.html#number) | **`<RESOURCE>`_NUMBER_VALUES** | Numerical Search |
 | [Date/DateTime](https://www.hl7.org/fhir/r4/search.html#date) | **`<RESOURCE>`_DATE_VALUES** | Date Search |
-| [String](https://www.hl7.org/fhir/r4/search.html#string)<br> [Uri](https://www.hl7.org/fhir/r4/search.html#uri)<br> [Reference](https://www.hl7.org/fhir/r4/search.html#reference)| **`<RESOURCE>`_STR_VALUES** | String, URI, and Reference Search |
-| [Token](https://www.hl7.org/fhir/r4/search.html#token) | **`<RESOURCE>`_TOKEN_VALUES** | Token Search |
-| [Composite](https://www.hl7.org/fhir/r4/search.html#composite) | **`<RESOURCE>`_COMPOSITES** | Composite Search |
+| [String](https://www.hl7.org/fhir/r4/search.html#string)<br> [Uri](https://www.hl7.org/fhir/r4/search.html#uri)<br> [Reference](https://www.hl7.org/fhir/r4/search.html#reference)| **`<RESOURCE>`_STR_VALUES** <br> **`<RESOURCE>`_PROFILES** | String, URI, and Reference Search |
+| [Token](https://www.hl7.org/fhir/r4/search.html#token) | **`<RESOURCE>`_RESOURCE_TOKEN_REFS** <br> **`<RESOURCE>`_TAGS** <br> **`<RESOURCE>`_SECURITY** | Token Search |
 | [Quantity](https://www.hl7.org/fhir/r4/search.html#quantity) | **`<RESOURCE>`_QUANTITY_VALUES** | Quantity Search |
 | [Positional](https://www.hl7.org/fhir/r4/location.html#positional) | **`<RESOURCE>`_LATLNG_VALUES** | Positional (near) Search |
 
@@ -509,11 +508,15 @@ For instance, for VISIONPRESCRIPTION there are:
 VISIONPRESCRIPTION_NUMBER_VALUES
 VISIONPRESCRIPTION_DATE_VALUES
 VISIONPRESCRIPTION_STR_VALUES
-VISIONPRESCRIPTION_TOKEN_VALUES
-VISIONPRESCRIPTION_COMPOSITES
+VISIONPRESCRIPTION_PROFILES
+VISIONPRESCRIPTION_RESOURCE_TOKEN_REFS
+VISIONPRESCRIPTION_TAGS
+VISIONPRESCRIPTION_SECURITY
 VISIONPRESCRIPTION_QUANTITY_VALUES
 VISIONPRESCRIPTION_LATLNG_VALUES
 ```
+
+The components of [composite](https://www.hl7.org/fhir/r4/search.html#composite) search parameters are stored in the above parameter tables but include a non-null `COMPOSITE_ID` column value to identify the values as belonging to the same composite.
 
 Because search parameters only apply to the most recent version of a resource, the search values tables are children of LOGICAL_RESOURCE.
 
