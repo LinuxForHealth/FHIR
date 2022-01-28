@@ -334,7 +334,7 @@ The `FHIR_ADMIN.SV_TENANT_ID` session variable is used in a row permission objec
 
 The variable privileges (grants) are updated one time, and applied to `FHIRSERVER` user. The `FHIRSERVER` gets only read access to this variable. To set the value of the variable, `FHIRSERVER` must call `FHIR_ADMIN.SET_TENANT` as described in the next section.
 
-`FHIR_ADMIN.SET_TENANT` is created in the FHIR_ADMIN schema. If updates are made to the `set_tenant.sql`, the `FhirSchemaGenerator.buildAdminSchema`'s, do not change the version number. All procedures are applied as CREATE OR REPLACE, and so the new procedure text will simply overwrite the current definition, or create it if it does not exist at the time. The schema utility tool has a special option which only updates the procedures, which is useful for development. See the [schema utility tool](https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema/README.md) guide for more information.
+`FHIR_ADMIN.SET_TENANT` is created in the FHIR_ADMIN schema. If updates are made to the `set_tenant.sql`, the `FhirSchemaGenerator.buildAdminSchema`'s, do not change the version number. All procedures are applied as CREATE OR REPLACE, and so the new procedure text will simply overwrite the current definition, or create it if it does not exist at the time. The schema utility tool has a special option which only updates the procedures, which is useful for development. See the [schema utility tool](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md) guide for more information.
 
 The SET_TENANT procedure is defined in the PhysicalDataModel as follows:
 
@@ -368,7 +368,7 @@ The isolated data supports tenant independent query plan caches, scaling and dis
 
 **Table: Resources**
 
-Each resource is contains a RESOURCE and LOGICAL RESOURCE table. `xx_LOGICAL_RESOURCES` has one record per logical resource.  `xx_RESOURCES` has one record for each version of each logical resource. 
+Each resource type has its own RESOURCE and LOGICAL RESOURCE tables. `xx_LOGICAL_RESOURCES` has one record per logical resource.  `xx_RESOURCES` has one record for each version of each logical resource.
 
 For example, VISIONPRESCRIPTION has: 
 

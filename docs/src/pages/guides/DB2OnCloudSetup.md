@@ -274,7 +274,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
 
 4. save the tenantKey from the `allocate-tenant` step above; this is needed to configure the IBM FHIR Server datasource in the next step
 
-For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/README.md.
+For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md.
 
 ### **Configuring an IBM FHIR Server datasource**
 

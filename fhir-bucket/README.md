@@ -392,7 +392,7 @@ Note that the --scan-local-dir [path-name] option must still be provided.
 |password | The user password for connecting to the database|
 |sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
-A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
+A sample properties file can be found at https://github.com/IBM/FHIR/blob/main/fhir-persistence-schema/db2.properties
 
 *COS Properties* 
 

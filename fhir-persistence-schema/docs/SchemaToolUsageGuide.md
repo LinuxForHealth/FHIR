@@ -15,7 +15,7 @@ The schema tool generates the following object types that require management:
 - TABLE
 - TABLE CONSTRAINT 
 
-For details on the schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema/docs/SchemaDesign.md) document.
+For details on the schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
 ----------------------------------------------------------------
 ## Database Support
@@ -23,9 +23,9 @@ For details on the schema design, refer to the [Schema Design](https://github.co
 
 | Database   | Version   | Support |
 |------------|-----------|-----------------------------------|
-| DB2        |      11.5 | Suitable for production. Supports multi-tenancy. |
-| PostgreSQL |        12 | Single tenant per database. |
-| Derby      | 10.14.2.0 | Development only. Single tenant per database |
+| DB2        |     11.5+ | Supports multi-tenancy. |
+| PostgreSQL |       12+ | Single tenant per database. |
+| Derby      | 10.14.2.0 | Development only. Single tenant per database. |
 
 ----------------------------------------------------------------
 ## Getting started
@@ -84,7 +84,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 |password | The user password for connecting to the database|
 |sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
-A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
+A sample properties file can be found at https://github.com/IBM/FHIR/blob/main/fhir-persistence-schema/db2.properties
 
 Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`). The flag can be repeated for setting multiple properties.
 
