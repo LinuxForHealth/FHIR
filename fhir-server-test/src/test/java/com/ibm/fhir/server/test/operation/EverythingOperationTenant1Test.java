@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021, 2022
+ * (C) Copyright IBM Corp. 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,9 +32,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.CapabilityStatement;
-import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -48,7 +43,7 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
 /**
  * Tests the Everything Operation
  */
-public class EverythingOperationTest extends FHIRServerTestBase {
+public class EverythingOperationTenant1Test extends FHIRServerTestBase {
 
     private static final String CLASSNAME = EverythingOperationTest.class.getName();
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
@@ -62,7 +57,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     private Map<String, List<String>> createdResources;
     private String patientId;
 
-    public EverythingOperationTest() {
+    public EverythingOperationTenant1Test() {
         createdResources = new HashMap<>();
     }
 
@@ -86,7 +81,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     }
 
     /**
-     * Create a Bundle of 895 resources of various kinds representing a patient's history and save the
+     * Create a Bundle of 5 resources of various kinds representing a patient's history and save the
      * resource types and IDs of the created resources to eventually ensure that all resources are included
      * in an $everything invocation.
      *
@@ -97,10 +92,10 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Bundle patientBundle = TestUtil.readLocalResource("everything-operation/Antonia30_Acosta403.json");
+        Bundle patientBundle = TestUtil.readLocalResource("everything-operation/Patient999.json");
         Entity<Bundle> entity = Entity.entity(patientBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response response = getWebTarget().request().post(entity, Response.class);
+        Response response = getWebTarget().request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").post(entity, Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
@@ -124,16 +119,16 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         }
         // Get the patient ID and invoke the $everything operation on it
         patientId = createdResources.get("Patient").get(0);
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         // Create a deep copy of the created resources so we can modify it
         // but keep the original so we can delete all created resources
         Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
 
-        // Ensure that the 895 resources are accounted for in the returning search set bundle
+        // Ensure that the 5 resources are accounted for in the returning search set bundle
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
@@ -162,9 +157,6 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 }
             }
         }
-        // Remove these two as these two resources are not part of the default server config
-        keysToRemove.add(Practitioner.class.getSimpleName());
-        keysToRemove.add(Organization.class.getSimpleName());
 
         // Remove all entries from the map that no longer have resources left to account for
         // we should have accounted for all resources of that type such that the map should be empty
@@ -179,13 +171,13 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // Count is ignored
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -193,24 +185,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request().get(Response.class);
+        Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-    }
-
-    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
-    public void testPatientEverythingWithStartAndStop() {
-        if (SKIP) {
-            return;
-        }
-        Response response = getWebTarget().path("Patient/" + patientId
-                + "/$everything").queryParam("start", "1990-01-01").queryParam("end", "2010-01-01").request().get(Response.class);
-
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle everythingBundle = response.readEntity(Bundle.class);
-
-        // The number of companies was reduced as the scope was narrowed down to a decade
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -218,13 +195,13 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        // We get five because there are 4 resources associated to the patient
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -233,41 +210,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             return;
         }
         Response response =
-                getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan,UnknownType").request().get(Response.class);
+                getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan,UnknownType").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-    }
-
-    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
-    public void testPatientEverythingWithSince() {
-        if (SKIP) {
-            return;
-        }
-        Response response = getWebTarget().path("Patient/" + patientId
-                + "/$everything").queryParam("_type", "CareTeam,CarePlan").queryParam("_since", "2021-01-01T00:00:00Z").request().get(Response.class);
-
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle everythingBundle = response.readEntity(Bundle.class);
-
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
-    }
-
-    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
-    public void testPatientEverythingWithFutureSince() {
-        if (SKIP) {
-            return;
-        }
-        LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.now());
-        LocalDateTime tomorrow = today.plusDays(1);
-
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_since", tomorrow + "Z").request().get(Response.class);
-
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle everythingBundle = response.readEntity(Bundle.class);
-
-        // Only the patient and 0 resources
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -275,7 +220,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request().get(Response.class);
+        Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -292,8 +237,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 Entity.entity(ptnt, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
                 target.path("Patient").request()
-                .header("X-FHIR-TENANT-ID", "default")
-                .header("X-FHIR-DSID", "default")
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -302,20 +247,20 @@ public class EverythingOperationTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", "default")
-                .header("X-FHIR-DSID", "default")
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(ptnt, responsePatient);
 
-        response = getWebTarget().path("Patient/" + id).request().delete();
+        response = getWebTarget().path("Patient/" + id).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
-        response = getWebTarget().path("Patient/" + id).request().get(Response.class);
+        response = getWebTarget().path("Patient/" + id).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
         assertResponse(response, Response.Status.GONE.getStatusCode());
 
-        response = getWebTarget().path("Patient/" + id + "/$everything").request().get(Response.class);
+        response = getWebTarget().path("Patient/" + id + "/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -329,7 +274,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             String resourceType = entry.getKey();
             List<String> resourceIds = entry.getValue();
             for (String resourceId : resourceIds) {
-                Response response = getWebTarget().path(resourceType + "/" + resourceId).request().delete();
+                Response response = getWebTarget().path(resourceType + "/" + resourceId).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").delete();
                 if (response.getStatus() != Response.Status.OK.getStatusCode()) {
                     println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
                 }

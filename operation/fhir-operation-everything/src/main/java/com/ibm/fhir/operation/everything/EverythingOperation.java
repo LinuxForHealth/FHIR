@@ -184,6 +184,20 @@ public class EverythingOperation extends AbstractOperation {
         int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
         allEntries.add(patientEntry);
+        List<String> resourceIds = new ArrayList<String>();
+        // Look up which extra resources should be returned
+        List<String> extraResources = FHIRConfigHelper.getStringListProperty("fhirServer/operations/everything");
+        // Patient is not part of its own compartment at this time.  If that behavior changes, remove these next lines
+        List<Entry> entryList = new ArrayList<Entry>(1);
+        entryList.add(patientEntry);
+        try {
+            readsOfAdditionalAssociatedResources(PATIENT, entryList, allEntries, resourceIds, resourceHelper, extraResources);
+        } catch (Exception e) {
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
+                    + "resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
+        }
 
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
         // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
@@ -202,7 +216,6 @@ public class EverythingOperation extends AbstractOperation {
         Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
-        List<String> resourceIds = new ArrayList<String>();
         int totalResourceCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
@@ -210,9 +223,6 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
                 searchParameters = queryParametersWithoutDates;
             }
-            
-            // Look up which extra resources should be returned
-            List<String> extraResources = FHIRConfigHelper.getStringListProperty("fhirServer/operations/everything");
             
             // Need to construct a new version of the map each time through the loop to edit
             MultivaluedMap<String, String> tempSearchParameters = 
@@ -239,7 +249,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 // Don't need to do additional reads if the config section isn't there or is empty
                 if (extraResources != null && !extraResources.isEmpty()) {
-                    readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, searchParameters, resourceHelper, extraResources);
+                    readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
                 }
                 currentResourceCount = allEntries.size() - countBeforeAddingNewResources;
                 totalResourceCount += currentResourceCount;
@@ -762,7 +772,7 @@ public class EverythingOperation extends AbstractOperation {
     }
     
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, List<String> resourceIds, MultivaluedMap<String, String> searchParameters, 
+                List<Entry> allEntries, List<String> resourceIds, 
         FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
         if (extraResources == null || extraResources.isEmpty()) {
             return;

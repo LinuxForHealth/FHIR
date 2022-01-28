@@ -1,0 +1,266 @@
+{
+    "resourceType": "Bundle",
+    "type": "batch",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "DollarEverythingTest-Patient999",                
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "system": "https://github.com/synthetichealth/synthea",
+                        "value": "68272835-3cf6-4484-a370-5cd49238c9d1"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                                    "code": "MR"
+                                }
+                            ],
+                            "text": "Medical Record Number"
+                        },
+                        "system": "http://hospital.smarthealthit.org",
+                        "value": "68272835-3cf6-4484-a370-5cd49238c9d1"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                                    "code": "MB",
+                                    "display": "Member Number"
+                                }
+                            ]
+                        },
+                        "system": "https://www.xxxhealthplan.com/fhir/memberidentifier",
+                        "value": "9217-519-3001-98157268248"
+                    }
+                ],
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Meyer",
+                        "given": [
+                            "Kelly"
+                        ]
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1970-06-30",
+                "managingOrganization": {
+                    "reference": "Organization/DollarEverythingTest-Organization097"
+                },
+                "generalPractitioner": [
+                    {
+                        "reference": "Organization/DollarEverythingTest-Organization098"
+                    },
+                    {
+                        "reference": "Practitioner/DollarEverythingTest-Practitioner099"
+                    }
+                ],
+                "contact": [
+                    {
+                        "organization": {
+                            "reference": "Organization/DollarEverythingTest-Organization099"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Patient/DollarEverythingTest-Patient999"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Organization097",
+                "resourceType": "Organization",
+                "language": "en-US",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "npi"
+                                }
+                            ]
+                        },
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "345678"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "payerid"
+                                }
+                            ]
+                        },
+                        "value": "901234"
+                    }
+                ],
+                "active": true,
+                "name": "Dollar Everything Org"
+            },
+             "request": {
+                "method": "PUT",
+                "url": "Organization/DollarEverythingTest-Organization097"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Organization098",
+                "resourceType": "Organization",
+                "language": "en-US",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "npi"
+                                }
+                            ]
+                        },
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "345678"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "payerid"
+                                }
+                            ]
+                        },
+                        "value": "901234"
+                    }
+                ],
+                "active": true,
+                "name": "Dollar Everything Org"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/DollarEverythingTest-Organization098"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Organization099",
+                "resourceType": "Organization",
+                "language": "en-US",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "npi"
+                                }
+                            ]
+                        },
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "345678"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "payerid"
+                                }
+                            ]
+                        },
+                        "value": "901234"
+                    }
+                ],
+                "active": true,
+                "name": "Dollar Everything Org"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/DollarEverythingTest-Organization099"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Practitioner099",
+                "resourceType": "Practitioner",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "npi"
+                                }
+                            ]
+                        },
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "270"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "family": "Dollar",
+                        "given": [
+                            "Michelle"
+                        ],
+                        "prefix": [
+                            "Dr."
+                        ]
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "email",
+                        "value": "Robert.Jenkins@example.com",
+                        "use": "work"
+                    }
+                ],
+                "address": [
+                    {
+                        "line": [
+                            "585 LEBANON STREET"
+                        ],
+                        "city": "Rochester",
+                        "state": "MN",
+                        "postalCode": "55901",
+                        "country": "US"
+                    }
+                ],
+                "gender": "female"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/DollarEverythingTest-Practitioner099"
+            }
+        }
+    ]
+}

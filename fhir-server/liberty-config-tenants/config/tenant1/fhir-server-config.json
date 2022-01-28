@@ -3,6 +3,44 @@
     "fhirServer": {
         "resources": {
             "open": true,
+            "CarePlan": {
+                "searchIncludes": [
+                    "CarePlan:date",
+                    "CarePlan:performer"
+                ],
+                "searchParameters": {
+                    "category": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-category",
+                    "date": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-date",
+                    "encounter": "http://hl7.org/fhir/SearchParameter/CarePlan-encounter",
+                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-patient",
+                    "performer": "http://hl7.org/fhir/SearchParameter/CarePlan-performer",
+                    "status": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careplan-status"
+                }
+            },
+            "CareTeam": {
+                "searchIncludes": [
+                    "CareTeam:date",
+                    "CareTeam:participant"
+                ],
+                "searchParameters": {
+                    "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+                    "encounter": "http://hl7.org/fhir/SearchParameter/CareTeam-encounter",
+                    "participant": "http://hl7.org/fhir/SearchParameter/CareTeam-participant",
+                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-patient",
+                    "status": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-status"
+                }
+            },            
+            "Location": {
+                "searchIncludes": [
+                ],
+                "searchParameters": {
+                    "address": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-address",
+                    "address-city": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-address-city",
+                    "address-postalcode": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-address-postalcode",
+                    "address-state": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-address-state",
+                    "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-name"
+                }
+            },
             "Observation": {
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
@@ -13,7 +51,20 @@
                     "component-value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
                 }
             },
+            "Organization": {
+                "searchIncludes": [
+                ],
+                "searchParameters": {
+                    "address": "http://hl7.org/fhir/us/core/SearchParameter/us-core-organization-address",
+                    "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-organization-name",
+                    "endpoint": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-endpoint"
+                }
+            },
             "Patient": {
+                "searchIncludes": [
+                    "Patient:general-practitioner",
+                    "Patient:organization"
+                ],
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
                     "family": "http://hl7.org/fhir/SearchParameter/individual-family",
@@ -27,6 +78,14 @@
                     "general-practitioner": "http://hl7.org/fhir/SearchParameter/Patient-general-practitioner",
                     "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
                     "organization": "http://hl7.org/fhir/SearchParameter/Patient-organization"
+                }
+            },
+            "Practitioner": {
+                "searchIncludes": [
+                ],
+                "searchParameters": {
+                    "identifier": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-identifier",
+                    "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-name"
                 }
             },
             "Resource": {
