@@ -64,7 +64,7 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
 
 ## Import Operation: $import
 
-The `$import` operation is a system-level operation invoked at `[base]/$import`. The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
+The `$import` operation is a system-level operation invoked at `[base]/$import`. The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 ### **$import: Create a Bulk Data Request**
 To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.

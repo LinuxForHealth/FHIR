@@ -472,7 +472,7 @@ System operations are invoked at `[base]/$[operation]`
 |---------|-----------------|-----|
 | [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
 | [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
-| [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
+| [$import](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
 | [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
 
 ### Type operations

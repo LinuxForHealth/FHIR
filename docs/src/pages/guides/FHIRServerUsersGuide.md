@@ -1257,7 +1257,7 @@ It is also possible to configure the persistence properties for a specific tenan
 database hostname or database schema name.
 
 ## 4.10 Bulk data operations
-The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
+The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 There are 2 modules involved:
 
