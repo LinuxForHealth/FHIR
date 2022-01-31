@@ -30,6 +30,20 @@
                     "status": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-status"
                 }
             },            
+            "Consent" : {
+                "searchIncludes": [
+                    "Consent:actor",
+                    "Consent:clinical-date",
+                    "Consent:consentor",
+                    "Consent:organization"
+                ],
+                "searchParameters": {
+                    "actor": "http://hl7.org/fhir/SearchParameter/Consent-actor",
+                    "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+                    "consentor": "http://hl7.org/fhir/SearchParameter/Consent-consentor",
+                    "organization": "http://hl7.org/fhir/SearchParameter/Consent-organization"
+                }
+            },
             "Location": {
                 "searchIncludes": [
                 ],
@@ -86,6 +100,18 @@
                 "searchParameters": {
                     "identifier": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-identifier",
                     "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-name"
+                }
+            },
+            "Provenance": {
+                "searchIncludes": [
+                    "Provenance:agent",
+                    "Provenance:location"
+                ],
+                "searchParameters": {
+                    "agent": "http://hl7.org/fhir/SearchParameter/Provenance-agent",
+                    "location": "http://hl7.org/fhir/SearchParameter/Provenance-location",
+                    "patient": "http://hl7.org/fhir/SearchParameter/Provenance-patient",
+                    "target": "http://hl7.org/fhir/SearchParameter/Provenance-target"
                 }
             },
             "Resource": {

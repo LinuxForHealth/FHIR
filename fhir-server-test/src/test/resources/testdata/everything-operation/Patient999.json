@@ -5,7 +5,7 @@
         {
             "resource": {
                 "resourceType": "Patient",
-                "id": "DollarEverythingTest-Patient999",                
+                "id": "DollarEverythingTest-Patient999",
                 "text": {
                     "status": "generated",
                     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
@@ -79,49 +79,7 @@
         },
         {
             "resource": {
-                "id": "DollarEverythingTest-Organization097",
-                "resourceType": "Organization",
-                "language": "en-US",
-                "text": {
-                    "status": "generated",
-                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
-                },
-                "identifier": [
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
-                                    "code": "npi"
-                                }
-                            ]
-                        },
-                        "system": "http://hl7.org/fhir/sid/us-npi",
-                        "value": "345678"
-                    },
-                    {
-                        "type": {
-                            "coding": [
-                                {
-                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
-                                    "code": "payerid"
-                                }
-                            ]
-                        },
-                        "value": "901234"
-                    }
-                ],
-                "active": true,
-                "name": "Dollar Everything Org"
-            },
-             "request": {
-                "method": "PUT",
-                "url": "Organization/DollarEverythingTest-Organization097"
-            }
-        },
-        {
-            "resource": {
-                "id": "DollarEverythingTest-Organization098",
+                "id": "DollarEverythingTest-Organization032",
                 "resourceType": "Organization",
                 "language": "en-US",
                 "text": {
@@ -158,12 +116,12 @@
             },
             "request": {
                 "method": "PUT",
-                "url": "Organization/DollarEverythingTest-Organization098"
+                "url": "Organization/DollarEverythingTest-Organization032"
             }
         },
         {
             "resource": {
-                "id": "DollarEverythingTest-Organization099",
+                "id": "DollarEverythingTest-Organization033",
                 "resourceType": "Organization",
                 "language": "en-US",
                 "text": {
@@ -200,13 +158,14 @@
             },
             "request": {
                 "method": "PUT",
-                "url": "Organization/DollarEverythingTest-Organization099"
+                "url": "Organization/DollarEverythingTest-Organization033"
             }
         },
         {
             "resource": {
-                "id": "DollarEverythingTest-Practitioner099",
-                "resourceType": "Practitioner",
+                "id": "DollarEverythingTest-Organization034",
+                "resourceType": "Organization",
+                "language": "en-US",
                 "text": {
                     "status": "generated",
                     "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
@@ -222,44 +181,242 @@
                             ]
                         },
                         "system": "http://hl7.org/fhir/sid/us-npi",
-                        "value": "270"
+                        "value": "345678"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "payerid"
+                                }
+                            ]
+                        },
+                        "value": "901234"
                     }
                 ],
                 "active": true,
-                "name": [
+                "name": "Dollar Everything Org"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/DollarEverythingTest-Organization034"
+            }
+        },
+                {
+            "resource": {
+                "id": "DollarEverythingTest-Organization035",
+                "resourceType": "Organization",
+                "language": "en-US",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
                     {
-                        "family": "Dollar",
-                        "given": [
-                            "Michelle"
-                        ],
-                        "prefix": [
-                            "Dr."
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "npi"
+                                }
+                            ]
+                        },
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "345678"
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/us/carin-bb/CodeSystem/C4BBIdentifierType",
+                                    "code": "payerid"
+                                }
+                            ]
+                        },
+                        "value": "901234"
+                    }
+                ],
+                "active": true,
+                "name": "Dollar Everything Org"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/DollarEverythingTest-Organization035"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Location091",
+                "resourceType": "Location",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "identifier": [
+                    {
+                        "system": "http://www.acme.org/location",
+                        "value": "29"
+                    }
+                ],
+                "status": "active",
+                "name": "Dollar Everything Location",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "(+1) 555-555-5555"
+                    }
+                ],
+                "address": {
+                    "line": [
+                        "111 11th St."
+                    ],
+                    "city": "Rochester",
+                    "state": "MN",
+                    "postalCode": "55901",
+                    "country": "USA"
+                },
+                "position": {
+                    "longitude": -72.519854,
+                    "latitude": 42.373222
+                },
+                "managingOrganization": {
+                    "display": "Dollar Everything Org"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Location/DollarEverythingTest-Location091"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Consent01",
+                "resourceType": "Consent",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Some text here</div>"
+                },
+                "status": "active",
+                "scope": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+                            "code": "patient-privacy"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                                "code": "IDSCL"
+                            }
                         ]
                     }
                 ],
-                "telecom": [
+                "patient": {
+                    "reference": "Patient/DollarEverythingTest-Patient999"
+                },
+                "sourceReference": {
+                    "reference": "http://example.org/DocumentReference/someconsent.pdf"
+                },
+                "policy": [
                     {
-                        "system": "email",
-                        "value": "Robert.Jenkins@example.com",
-                        "use": "work"
+                        "uri": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition-hrex-consent.html#regular"
                     }
                 ],
-                "address": [
+                "organization": [
                     {
-                        "line": [
-                            "585 LEBANON STREET"
-                        ],
-                        "city": "Rochester",
-                        "state": "MN",
-                        "postalCode": "55901",
-                        "country": "US"
+                        "reference": "Organization/DollarEverythingTest-Organization034"
                     }
                 ],
-                "gender": "female"
+                "performer": [
+                    {
+                        "reference": "Organization/DollarEverythingTest-Organization032"
+                    },
+                    {
+                        "reference": "Practitioner/DollarEverythingTest-Practitioner033"
+                    }
+                ],
+                "provision": {
+                    "type": "permit",
+                    "period": {
+                        "start": "2022-01-01",
+                        "end": "2022-01-31"
+                    },
+                    "actor": [
+                        {
+                            "role": {
+                                "coding": [
+                                    {
+                                        "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                                        "code": "IRCP"
+                                    }
+                                ]
+                            },
+                            "reference": {
+                                "reference": "Organization/DollarEverythingTest-Organization033"
+                            }
+                        }
+                    ],
+                    "action": [
+                        {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                                    "code": "disclose"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             "request": {
                 "method": "PUT",
-                "url": "Practitioner/DollarEverythingTest-Practitioner099"
+                "url": "Consent/DollarEverythingTest-Consent01"
+            }
+        },
+        {
+            "resource": {
+                "id": "DollarEverythingTest-Provenance001",
+                "resourceType": "Provenance",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Dollar everything test</div>"
+                },
+                "target": [
+                    {
+                        "reference": "DollarEverythingTest-MedicationDispenseXA-01"
+                    }
+                ],
+                "recorded": "2010-01-01T00:00:00.000+00:00",
+                "location": {
+                    "reference": "Location/DollarEverythingTest-Location091"
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Patient/DollarEverythingTest-Patient999"
+                        },
+                        "onBehalfOf": {
+                            "reference": "Organization/DollarEverythingTest-Organization035"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/DollarEverythingTest-Provenance001"
             }
         }
     ]
