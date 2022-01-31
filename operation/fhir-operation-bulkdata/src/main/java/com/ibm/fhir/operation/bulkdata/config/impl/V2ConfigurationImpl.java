@@ -136,11 +136,6 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public boolean isStorageProviderParquetEnabled(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/enableParquet", Boolean.FALSE);
-    }
-
-    @Override
     public boolean shouldStorageProviderValidateBaseUrl(String provider) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableBaseUrlValidation", Boolean.FALSE);
     }

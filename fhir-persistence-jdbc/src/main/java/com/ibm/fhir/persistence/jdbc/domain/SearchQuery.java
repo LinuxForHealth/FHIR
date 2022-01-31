@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,13 +71,18 @@ public abstract class SearchQuery {
      */
     public <T> T visit(SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
         logger.entering(CLASSNAME, "visit");
-        T query = getRoot(visitor);
 
-        // Pre-process any extensions before we process the parameters
+        // Get the root query and process extensions for it
+        T query = getRoot(visitor);
         visitExtensions(query, visitor);
 
+        // Add the parameters subquery and add the extensions there too
         T parameterBase = visitor.getParameterBaseQuery(query);
+        for (SearchExtension ext: this.extensions) {
+            ext.visit(parameterBase, visitor);
+        }
         visitSearchParams(parameterBase, visitor);
+
         logger.exiting(CLASSNAME, "visit");
         return query;
     }

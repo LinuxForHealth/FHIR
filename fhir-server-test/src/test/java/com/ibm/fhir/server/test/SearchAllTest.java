@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,11 @@ import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -573,6 +575,24 @@ public class SearchAllTest extends FHIRServerTestBase {
                         + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
+        }
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testSearchAllUsingOneTag" })
+    public void testSearchAllUsingOneTagForPrevNext() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_count", "1");
+        parameters.searchParam("_page", "2");
+        parameters.searchParam("_lastUpdated", "ge" + LocalDate.now().getYear() +"-10-04T00:00:00+00:00");
+        parameters.searchParam("_lastUpdated", "lt" + (LocalDate.now().getYear() + 1) + "-10-04T00:00:00+00:00");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        List<Bundle.Link> links = bundle.getLink();
+        assertFalse(links.isEmpty());
+        for (Bundle.Link link : links) {
+            assertFalse(link.getUrl().getValue().contains("+"));
         }
     }
 

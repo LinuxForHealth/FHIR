@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 
@@ -34,11 +33,9 @@ import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
-import com.ibm.fhir.bulkdata.export.writer.SparkParquetWriter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.client.HttpWrapper;
@@ -62,7 +59,6 @@ public class S3Provider implements Provider {
 
     private List<Resource> resources = new ArrayList<>();
     private AmazonS3 client = null;
-    private SparkParquetWriter parquetWriter = null;
 
     private String bucketName = null;
     private boolean pathStyle;
@@ -132,15 +128,6 @@ public class S3Provider implements Provider {
             logger.fine("Succeed to get BucketName!");
             // Naming convention has it as - The bucket name can be between 3 and 63 characters long, and can contain only lower-case characters, numbers, periods, and dashes.
             this.bucketName = bucketName.trim().toLowerCase();
-        }
-
-        if (adapter.isStorageProviderParquetEnabled(source)) {
-            try {
-                Class.forName("org.apache.spark.sql.SparkSession");
-                parquetWriter = new SparkParquetWriter(adapter.isStorageProviderAuthTypeIam(source), cosEndpointUrl, apiKey, resourceId);
-            } catch (ClassNotFoundException e) {
-                logger.info("No SparkSession in classpath; skipping SparkParquetWriter initialization");
-            }
         }
     }
 
@@ -350,34 +337,17 @@ public class S3Provider implements Provider {
         return client;
     }
 
-    public SparkParquetWriter getParquetWriter() {
-        return parquetWriter;
-    }
-
     @Override
     public void close() throws Exception {
         logger.fine("closing the S3Wrapper");
-        if (parquetWriter != null) {
-            parquetWriter.close();
-        }
     }
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
-        switch (mediaType) {
-        case FHIRMediaType.APPLICATION_PARQUET:
-            pushFhirParquetToCos(dtos.stream()
-                    .flatMap(dto -> dto.getResources().stream())
-                    .collect(Collectors.toList()));
-            break;
-        case FHIRMediaType.APPLICATION_NDJSON:
-        default:
-            // Only if we're greater than zero, otherwise there is nothing to upload.
-            if (chunkData.getBufferStream().size() > 0) {
-                // TODO try PipedOutputStream -> PipedInputStream instead?  Or maybe a ByteBuffer with a flip instead?
-                pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
-            }
-            break;
+        // Only if we're greater than zero, otherwise there is nothing to upload.
+        if (chunkData.getBufferStream().size() > 0) {
+            // TODO try PipedOutputStream -> PipedInputStream instead?  Or maybe a ByteBuffer with a flip instead?
+            pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
         }
         chunkData.setLastWrittenPageNum(chunkData.getPageNum());
     }
@@ -439,35 +409,6 @@ public class S3Provider implements Provider {
                 chunkData.getCosDataPacks().clear();
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
             }
-        }
-    }
-
-    private void pushFhirParquetToCos(List<? extends Resource> resources) throws Exception {
-        if (chunkData == null) {
-            logger.warning("pushFhirParquetToCos: chunkData is null, this should never happen!");
-            throw new Exception("pushFhirParquetToCos: chunkData is null, this should never happen!");
-        }
-
-        String itemName;
-        if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
-            itemName = "cos://" + bucketName + ".fhir/" + cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".parquet";
-        } else {
-            itemName = "cos://" + bucketName + ".fhir/job" + executionId + "/" + fhirResourceType + "_" + chunkData.getUploadCount()
-                    + ".parquet";
-        }
-
-        parquetWriter.writeParquet(resources, itemName);
-
-        // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-        BulkDataUtils.updateSummary(fhirResourceType, chunkData);
-
-        if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
-            chunkData.setPartNum(1);
-            chunkData.setUploadId(null);
-            chunkData.setCurrentUploadResourceNum(0);
-            chunkData.setCurrentUploadSize(0);
-            chunkData.setFinishCurrentUpload(false);
-            chunkData.setUploadCount(chunkData.getUploadCount() + 1);
         }
     }
 }
