@@ -119,7 +119,7 @@ public class FHIRSwaggerGenerator {
 
                     // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
                     // with a default ExecuteInvoke Assembly
-                    APIConnectAdapter.addApiConnectStuff(swagger);
+                    APIConnectAdapter.addApiConnectStuff(swagger); // TODO: add to "other" apis
 
                     JsonArrayBuilder tags = factory.createArrayBuilder();
                     JsonObjectBuilder paths = factory.createObjectBuilder();
@@ -190,6 +190,7 @@ public class FHIRSwaggerGenerator {
 
         generateMetadataSwagger();
         generateBatchTransactionSwagger();
+        generateWholeSystemHistorySwagger();
     }
 
     private static void generateCompartmentSwagger(Class<?> compartmentModelClass, Filter filter) throws Exception, ClassNotFoundException, Error {
@@ -349,6 +350,71 @@ public class FHIRSwaggerGenerator {
         }
     }
 
+    private static void generateWholeSystemHistorySwagger() throws Exception, ClassNotFoundException, Error {
+        JsonObjectBuilder swagger = factory.createObjectBuilder();
+        swagger.add("swagger", "2.0");
+
+        JsonObjectBuilder info = factory.createObjectBuilder();
+        info.add("title", "Whole System History");
+        info.add("description", "The whole system history interaction can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server.");
+        info.add("version", "4.0.0");
+        swagger.add("info", info);
+
+        swagger.add("basePath", "/fhir-server/api/v4");
+
+        JsonObjectBuilder paths = factory.createObjectBuilder();
+        JsonObjectBuilder definitions = factory.createObjectBuilder();
+
+        // FHIR _history interaction
+        JsonObjectBuilder path = factory.createObjectBuilder();
+        generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", true);
+        paths.add("/_history", path);
+        swagger.add("paths", paths);
+
+
+        generateDefinition(Bundle.class, definitions);
+        generateDefinition(Resource.class, definitions);
+//        generateDefinition(DomainResource.class, definitions);
+
+        // generate definition for all inner classes inside the top level resources.
+        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+            if (Bundle.class.equals(parentClass)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+
+        // generate definition for all the applicable data types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, Bundle.class)) {
+                generateDefinition(typeModelClass, definitions);
+            }
+        }
+
+        JsonObjectBuilder parameters = factory.createObjectBuilder();
+        generateWholeSystemHistoryParameters(parameters, true);
+        JsonObject parametersObject = parameters.build();
+        if (!parametersObject.isEmpty()) {
+            swagger.add("parameters", parametersObject);
+        }
+
+        swagger.add("definitions", definitions);
+
+
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory factory = Json.createWriterFactory(config);
+
+        File outFile = new File(OUTDIR + File.separator + "wholeSystemHistory-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
+            writer.writeObject(swagger.build());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
     private static void generateBatchTransactionSwagger() throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
         swagger.add("swagger", "2.0");
@@ -425,6 +491,9 @@ public class FHIRSwaggerGenerator {
             id.add("type", "string");
             parameters.add("idParam", id);
         }
+        if (filter.acceptOperation("history")) {
+            generateWholeSystemHistoryParameters(parameters, false);
+        }
         if (filter.acceptOperation("vread")) {
             JsonObjectBuilder vid = factory.createObjectBuilder();
             vid.add("name", "vid");
@@ -471,6 +540,71 @@ public class FHIRSwaggerGenerator {
                 parameter.add("type", "string");
                 parameters.add(name + "Param", parameter);
             }
+        }
+    }
+
+    private static void generateWholeSystemHistoryParameters(JsonObjectBuilder parameters, boolean includeType) throws Exception {
+        // Add the _sort parameter (_sort=[-_lastUpdated, _lastUpdated, none])
+        // curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z&_sort=_lastUpdated'
+
+        JsonObjectBuilder sort = factory.createObjectBuilder();
+        sort.add("name", "_sort");
+        sort.add("description", "Sort the returned data using one of three options: \r\n\r\n* -_lastUpdated: [Default] Decreasing time - most recent changes first\r\n* _lastUpdated: Increasing time - oldest changes first\r\n* none: Increasing id order - oldest changes first\r\n");
+        sort.add("in", "query");
+        sort.add("required", false);
+        
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        JsonArrayBuilder enums = factory.createArrayBuilder();
+        enums.add("-_lastUpdated");
+        enums.add("_lastUpdated");
+        enums.add("none");
+        schema.add("enum", enums);
+        sort.add("schema", schema);
+        
+        parameters.add("_sortParam", sort);
+        
+        // add _since=<timestamp>
+        JsonObjectBuilder since = factory.createObjectBuilder();
+        since.add("name", "_since");
+        since.add("description", "Return changes since a known timestamp");
+        since.add("in", "query");
+        since.add("required", false);
+        since.add("type", "string");
+        
+        parameters.add("_sinceParam", since);
+        
+        // add _before=<timestamp>
+        JsonObjectBuilder before = factory.createObjectBuilder();
+        before.add("name", "_before");
+        before.add("description", "Return changes before a known timestamp");
+        before.add("in", "query");
+        before.add("required", false);
+        before.add("type", "string");
+        
+        parameters.add("_beforeParam", before);
+        
+        // add _count
+        JsonObjectBuilder count = factory.createObjectBuilder();
+        count.add("name", "_count");
+        count.add("description", "Specifies a maximum number of results that are required");
+        count.add("in", "query");
+        count.add("required", false);
+        count.add("type", "integer");
+        count.add("default", 100);
+        
+        parameters.add("_countParam", count);
+        
+        // add _type
+        if (includeType) {
+            JsonObjectBuilder type = factory.createObjectBuilder();
+            type.add("name", "_before");
+            type.add("description", "Limit which resource types are returned");
+            type.add("in", "query");
+            type.add("required", false);
+            type.add("type", "string");
+
+            parameters.add("_typeParam", type);
         }
     }
 
@@ -537,6 +671,16 @@ public class FHIRSwaggerGenerator {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
 
+        // Add Whole system History for type
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "history")) {
+            generateWholeSystemHistoryPathItem(path, modelClass.getSimpleName(), "Get the whole system history for " + modelClass.getSimpleName() + " resources", false);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/_history", pathObject);
+        }
+        
         // TODO: add patch
     }
 
@@ -939,6 +1083,61 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder schema = factory.createObjectBuilder();
         schema.add("$ref", "#/definitions/CapabilityStatement");
+
+        response.add("schema", schema);
+        responses.add("200", response);
+        get.add("responses", responses);
+
+        path.add("get", get);
+    }
+
+    private static void generateWholeSystemHistoryPathItem(JsonObjectBuilder path, String tag, String summary, boolean includeType) {
+        JsonObjectBuilder get = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(tag);
+
+        get.add("tags", tags);
+        get.add("summary", summary);
+        get.add("operationId", "_history");
+
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
+        get.add("produces", produces);
+        
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        // Add parameters to api call
+        JsonObjectBuilder sortParameter = factory.createObjectBuilder();
+        sortParameter.add("$ref", "#/parameters/_sortParam");
+        parameters.add(sortParameter);
+        
+        JsonObjectBuilder sinceParameter = factory.createObjectBuilder();
+        sinceParameter.add("$ref", "#/parameters/_sinceParam");
+        parameters.add(sinceParameter);
+        
+        JsonObjectBuilder beforeParameter = factory.createObjectBuilder();
+        beforeParameter.add("$ref", "#/parameters/_beforeParam");
+        parameters.add(beforeParameter);
+        
+        JsonObjectBuilder countParameter = factory.createObjectBuilder();
+        countParameter.add("$ref", "#/parameters/_countParam");
+        parameters.add(countParameter);
+        
+        if (includeType) {
+            JsonObjectBuilder typeParameter = factory.createObjectBuilder();
+            typeParameter.add("$ref", "#/parameters/_typeParam");
+            parameters.add(typeParameter);
+        }
+        
+        get.add("parameters", parameters);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "whole system history operation successful");
+
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/Bundle");
 
         response.add("schema", schema);
         responses.add("200", response);
