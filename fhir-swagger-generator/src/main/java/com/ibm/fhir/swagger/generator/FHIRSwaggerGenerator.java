@@ -119,7 +119,7 @@ public class FHIRSwaggerGenerator {
 
                     // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
                     // with a default ExecuteInvoke Assembly
-                    APIConnectAdapter.addApiConnectStuff(swagger); // TODO: add to "other" apis
+                    APIConnectAdapter.addApiConnectStuff(swagger);
 
                     JsonArrayBuilder tags = factory.createArrayBuilder();
                     JsonObjectBuilder paths = factory.createObjectBuilder();
@@ -303,6 +303,10 @@ public class FHIRSwaggerGenerator {
         swagger.add("info", info);
 
         swagger.add("basePath", "/fhir-server/api/v4");
+        
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger); 
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -361,6 +365,10 @@ public class FHIRSwaggerGenerator {
         swagger.add("info", info);
 
         swagger.add("basePath", "/fhir-server/api/v4");
+
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger); 
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -426,6 +434,10 @@ public class FHIRSwaggerGenerator {
         swagger.add("info", info);
 
         swagger.add("basePath", "/fhir-server/api/v4");
+
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger); 
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
