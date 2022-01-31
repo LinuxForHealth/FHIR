@@ -290,19 +290,18 @@ public class EverythingOperation extends AbstractOperation {
                             allEntries.add(entry);
                         }
                     }
+                    // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
+                    if (allEntries.size() > MAX_OVERALL_RESOURCES) {
+                        FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
+                                + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
+                                + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
+                        LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                        throw exceptionWithIssue;
+                    }
                 }
             }
         }
-        
-        // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
-        if (allEntries.size() > MAX_OVERALL_RESOURCES) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
-                    + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
-                    + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;
-        }
-
+       
         Bundle.Builder bundleBuilder = Bundle.builder()
                 .type(BundleType.SEARCHSET)
                 .id(UUID.randomUUID().toString())
