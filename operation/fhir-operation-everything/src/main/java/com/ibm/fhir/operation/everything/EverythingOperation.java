@@ -220,7 +220,9 @@ public class EverythingOperation extends AbstractOperation {
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
             if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
-                LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
+                if (LOG.isLoggable(Level.FINEST)) {
+                    LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
+                }
                 searchParameters = queryParametersWithoutDates;
             }
             
@@ -253,7 +255,9 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 currentResourceCount = allEntries.size() - countBeforeAddingNewResources;
                 totalResourceCount += currentResourceCount;
-                LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
+                if (LOG.isLoggable(Level.FINEST)) {
+                    LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
+                }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
                         + "resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
@@ -274,7 +278,9 @@ public class EverythingOperation extends AbstractOperation {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
                 while ((currentResourceCount -= maxPageSize) > 0) {
-                    LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
+                    if (LOG.isLoggable(Level.FINEST)) {
+                        LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
+                    }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
                         results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
