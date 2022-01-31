@@ -216,7 +216,8 @@ public class EverythingOperation extends AbstractOperation {
         Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
-        int totalResourceCount = 0;
+        int totalResourceCount = 0; 
+        int totalSavedForBundlingCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
             if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
@@ -253,14 +254,25 @@ public class EverythingOperation extends AbstractOperation {
                 if (extraResources != null && !extraResources.isEmpty()) {
                     readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
                 }
+                
+                totalResourceCount += results.getTotal().getValue();
                 currentResourceCount = allEntries.size() - countBeforeAddingNewResources;
-                totalResourceCount += currentResourceCount;
+                totalSavedForBundlingCount += currentResourceCount;
                 if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
+                    LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalSavedForBundlingCount);
                 }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
                         + "resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                throw exceptionWithIssue;
+            }
+            // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
+            if (totalResourceCount > MAX_OVERALL_RESOURCES) {
+                // total does not account for _includes, but if we are already over with total, we don't need to keep going
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
+                        + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
+                        + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
