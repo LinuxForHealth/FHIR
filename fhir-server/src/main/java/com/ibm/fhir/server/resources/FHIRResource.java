@@ -135,11 +135,8 @@ public class FHIRResource {
      * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
     protected void checkType(String type) throws FHIROperationException {
-        if (!ModelSupport.isResourceType(type)) {
-            throw buildUnsupportedResourceTypeException(type);
-        }
         if (!ModelSupport.isConcreteResourceType(type)) {
-            log.warning("Use of abstract resource types like '" + type + "' in FHIR URLs is deprecated and will be removed in a future release");
+            throw buildUnsupportedResourceTypeException(type);
         }
     }
 
