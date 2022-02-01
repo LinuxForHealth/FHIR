@@ -769,8 +769,8 @@ public class EverythingOperation extends AbstractOperation {
     }
     
     private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code, 
-        ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters, 
-        List<String> allowedIncludes, List<String> extraResources, ParametersMap supportedSearchParametersMap) {
+            ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters, 
+            List<String> allowedIncludes, List<String> extraResources, ParametersMap supportedSearchParametersMap) {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
         String simplifiedParameterName = compartmentMemberType + ":" + code;
@@ -789,12 +789,23 @@ public class EverythingOperation extends AbstractOperation {
         }
     }
     
+    /**
+     * Read additional associated resources for the "extra" types (like location) 
+     * supported by this server configuration
+     *
+     * @param compartmentMemberType the type of resource currently drilling down on
+     * @param newEntries a list of entries of that compartment type that were found in a search
+     * @param allEntries a list of all entries that have been found so far (minus duplicates)
+     * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
+     * @param extraResources a list of "extra" resource types configured for this server 
+     */
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
                 List<Entry> allEntries, List<String> resourceIds, 
-        FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
+                FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
         }
+        String url = FHIRRequestContext.get().getOriginalRequestUri().substring(0, FHIRRequestContext.get().getOriginalRequestUri().indexOf("/Patient/"));
         List<Resource> resourceList = new ArrayList<Resource>();
         for (Entry entry: newEntries) {
             // Look up entries by reference
@@ -810,6 +821,18 @@ public class EverythingOperation extends AbstractOperation {
                         resourceList.add(resourceHelper.doRead(type, splitString[1], false, false, null, null).getResource());
                         resourceIds.add(externalId);
                     }
+                } else if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_ABSOLUTE)) {
+                    String externalUrl = reference.getReference().as(com.ibm.fhir.model.type.String.class).getValue();
+                    int lastIndexOf = externalUrl.lastIndexOf("/");
+                    String externalId = externalUrl.substring(lastIndexOf+1, externalUrl.length());
+                    String tempString = externalUrl.substring(0,lastIndexOf);
+                    lastIndexOf = tempString.lastIndexOf("/");
+                    String type = tempString.substring(lastIndexOf+1, tempString.length());
+                    if (!resourceIds.contains(externalId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
+                            || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
+                        resourceList.add(resourceHelper.doRead(type, externalId, false, false, null, null).getResource());
+                        resourceIds.add(type + "/" + externalId);
+                    }
                 }
             }
         }
@@ -821,10 +844,7 @@ public class EverythingOperation extends AbstractOperation {
             // the resource object is null
             if (resource != null) {
                 Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
-
-                FHIRRequestContext requestContext = FHIRRequestContext.get();
-                String url = requestContext.getOriginalRequestUri();
-                url = url.substring(0, url.indexOf("/Patient/"));
+                
                 entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                 entryBuilder.resource(resource);
                 allEntries.add(entryBuilder.build());
