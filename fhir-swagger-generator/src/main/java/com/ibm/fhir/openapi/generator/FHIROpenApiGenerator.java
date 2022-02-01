@@ -138,6 +138,7 @@ public class FHIROpenApiGenerator {
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
+    private static List<String> classNamesList = null;
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
@@ -221,8 +222,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder requestBodies = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
 
-        List<String> classNames = getClassNames();
-        for (String resourceClassName : classNames) {
+        for (String resourceClassName : getClassNames()) {
             Class<?> resourceModelClass = Class.forName(RESOURCEPACKAGENAME + "." + resourceClassName);
             if (DomainResource.class.isAssignableFrom(resourceModelClass)
                     && DomainResource.class != resourceModelClass) {
@@ -550,7 +550,7 @@ public class FHIROpenApiGenerator {
 
     private static void generateMetadataOpenApi() throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
-        swagger.add("swagger", "2.0");
+        swagger.add("openapi", "3.0.0");
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Capabilities");
@@ -569,6 +569,9 @@ public class FHIROpenApiGenerator {
         paths.add("/metadata", path);
         swagger.add("paths", paths);
 
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger);
 
         generateDefinition(CapabilityStatement.class, definitions);
         generateDefinition(Resource.class, definitions);
@@ -591,8 +594,11 @@ public class FHIROpenApiGenerator {
             }
         }
 
-        swagger.add("definitions", definitions);
+        JsonObjectBuilder components = factory.createObjectBuilder();
 
+        components.add("schemas", definitions);
+
+        swagger.add("components", components);
 
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
@@ -608,7 +614,7 @@ public class FHIROpenApiGenerator {
 
     private static void generateBatchTransactionOpenApi(Filter filter) throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
-        swagger.add("swagger", "2.0");
+        swagger.add("openapi", "3.0.0");
 
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Batch/Transaction");
@@ -628,6 +634,7 @@ public class FHIROpenApiGenerator {
         swagger.add("paths", paths);
 
         generateDefinition(Bundle.class, definitions);
+        generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : getAllResourceInnerClasses()) {
@@ -644,7 +651,11 @@ public class FHIROpenApiGenerator {
             generateDefinition(typeModelClass, definitions);
         }
 
-        swagger.add("definitions", definitions);
+        JsonObjectBuilder components = factory.createObjectBuilder();
+
+        components.add("schemas", definitions);
+
+        swagger.add("components", components);
 
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
@@ -1683,9 +1694,12 @@ public class FHIROpenApiGenerator {
     }
 
     public static List<String> getClassNames() {
-        return ModelSupport.getResourceTypes().stream()
-                .map(r -> ModelSupport.getTypeName(r))
-                .collect(Collectors.toList());
+        if (classNamesList == null) {
+            classNamesList = ModelSupport.getResourceTypes().stream().map(r -> ModelSupport.getTypeName(r)).collect(Collectors.toList());
+            classNamesList = Collections.unmodifiableList(classNamesList);
+        }
+        
+        return classNamesList;
     }
 
     private static List<String> getCompartmentClassNames(String compartment) {
