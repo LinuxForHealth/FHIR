@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import com.ibm.fhir.server.resources.Search;
 import com.ibm.fhir.server.resources.Update;
 import com.ibm.fhir.server.resources.VRead;
 import com.ibm.fhir.server.resources.WellKnown;
+import com.ibm.fhir.server.resources.filters.FHIRVersionRequestFilter;
 import com.ibm.fhir.server.resources.filters.OriginalRequestFilter;
 
 public class FHIRApplication extends Application {
@@ -64,6 +65,7 @@ public class FHIRApplication extends Application {
                 classes.add(Search.class);
                 classes.add(Update.class);
                 classes.add(VRead.class);
+                classes.add(FHIRVersionRequestFilter.class);
                 classes.add(OriginalRequestFilter.class);
                 if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_ENABLED, false)) {
                     classes.add(WellKnown.class);
