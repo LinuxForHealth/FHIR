@@ -610,7 +610,7 @@ public class FHIRSwaggerGenerator {
         // add _type
         if (includeType) {
             JsonObjectBuilder type = factory.createObjectBuilder();
-            type.add("name", "_before");
+            type.add("name", "_type");
             type.add("description", "Limit which resource types are returned");
             type.add("in", "query");
             type.add("required", false);
@@ -1103,6 +1103,14 @@ public class FHIRSwaggerGenerator {
         path.add("get", get);
     }
 
+    /**
+     * This method is used by both the resource specific whole system history path generation and the general whole system history path generation.  
+     * The only differences are whether to include the type, which the resource specific path doesn't need and small differences between the tag and summary.
+     * @param path
+     * @param tag
+     * @param summary
+     * @param includeType
+     */
     private static void generateWholeSystemHistoryPathItem(JsonObjectBuilder path, String tag, String summary, boolean includeType) {
         JsonObjectBuilder get = factory.createObjectBuilder();
 
