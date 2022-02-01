@@ -475,7 +475,7 @@ You can specify any connection property in the property file, such as `logger=TR
 Run the Update Schema with 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
---prop-file /Users/paulbastide/git/wffh/FHIR/fhir-persistence-schema/postgresql.properties  \
+--prop-file postgresql.properties  \
 --schema-name FHIRDATA \
 --update-schema \
 --db-type postgresql
@@ -522,14 +522,43 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
     - stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
 
 
+----------------------------------------------------------------
 # V0021 - Drops the DOMAINRESOURCE and RESOURCE tables
 
 If there is data in the DOMAINRESOURCE and RESOURCE table groups, which is unexpected, the administrator may run the tool with `--force-unused-table-removal` to force the removal of the unused tables.
 
+----------------------------------------------------------------
+# Database Size Report (Db2, PostgreSQL)
 
+Run this command to show a summary of the space used by IBM FHIR Server resources and their related schema objects:
 
+``` shell
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--prop-file fhiradmin.properties \
+--db-type postgresql \
+--schema-name FHIRDATA \
+--show-db-size
+```
+
+To include per-table and per-index in the output, add the `--show-db-size-detail` flag:
+
+``` shell
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--prop-file fhiradmin.properties \
+--db-type postgresql \
+--schema-name FHIRDATA \
+--show-db-size \
+--show-db-size-detail
+```
+
+The detail rows are tab-separated, making it easy to load the data into a spreadsheet for further analysis.
+
+**Notes:**
+1. The size report is only supported on Db2 and PostgreSQL databases.
+2. The size report is intended as a guide to understand the relative space distribution of objects in the IBM FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
+
+----------------------------------------------------------------
 # List of IBM FHIR Server Persistence Schema Tool Flags
-
 
 |Flag|Variable|Description|
 |----------------|----------------|----------------|
@@ -557,6 +586,8 @@ and grants permission to the username|
 |--refresh-tenants||(Db2 only) ensure that any new tables added by the update have the correct partitions. The refresh-tenants process will iterate over each tenant and allocate new partitions as needed.|
 |--allocate-tenant||allocates a tenant|
 |--confirm-drop||confirms the dropping of a schema|
+|--show-db-size||generate database size report|
+|--show-db-size-detail||include table and index detail in database size report|
 |--update-vacuum||Update the Vacuum settings for PostgreSQL|
 |--vacuum-table-name|tableName|Table Name to update vacuum settings|
 |--vacuum-scale-factor|scaleFactor|The scale factor to alter to 'scaleFactor'|

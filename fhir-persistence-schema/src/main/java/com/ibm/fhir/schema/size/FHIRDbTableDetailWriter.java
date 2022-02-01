@@ -37,9 +37,13 @@ public class FHIRDbTableDetailWriter implements FHIRDbSizeModelVisitor {
     @Override
     public void start() {
         final StringBuilder line = new StringBuilder();
+        line.append("table_detail");
+        line.append(TAB);
         line.append("resourceType");
         line.append(TAB);
         line.append("tableName");
+        line.append(TAB);
+        line.append("tableSuffix");
         line.append(TAB);
         line.append("isParameter");
         line.append(TAB);
@@ -56,10 +60,18 @@ public class FHIRDbTableDetailWriter implements FHIRDbSizeModelVisitor {
 
     @Override
     public void table(String resourceType, String tableName, boolean isParameter, long rowEstimate, long tableSize, long paramIndexSize) {
+        String tableSuffix = "none";
+        if (tableName.toLowerCase().startsWith(resourceType.toLowerCase())) {
+            tableSuffix = tableName.substring(resourceType.length() + 1);
+        }
         final StringBuilder line = new StringBuilder();
+        line.append("table_detail"); // make it easy to grep the table lines
+        line.append(TAB);
         line.append(resourceType);
         line.append(TAB);
         line.append(tableName);
+        line.append(TAB);
+        line.append(tableSuffix);
         line.append(TAB);
         line.append(isParameter ? "Y" : "N");
         line.append(TAB);

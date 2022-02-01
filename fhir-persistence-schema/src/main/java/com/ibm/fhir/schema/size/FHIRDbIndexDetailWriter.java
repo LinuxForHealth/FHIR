@@ -32,11 +32,17 @@ public class FHIRDbIndexDetailWriter implements FHIRDbSizeModelVisitor {
     @Override
     public void start() {
         final StringBuilder line = new StringBuilder();
+        line.append("index_detail");
+        line.append(TAB);
         line.append("resourceType");
         line.append(TAB);
         line.append("tableName");
         line.append(TAB);
+        line.append("tableSuffix");
+        line.append(TAB);
         line.append("indexName");
+        line.append(TAB);
+        line.append("indexSuffix");
         line.append(TAB);
         line.append("indexBytes");
         try {
@@ -59,12 +65,25 @@ public class FHIRDbIndexDetailWriter implements FHIRDbSizeModelVisitor {
 
     @Override
     public void index(String resourceType, String tableName, String indexName, long indexSize) {
+        String tableSuffix = "none";
+        if (tableName.toLowerCase().startsWith(resourceType.toLowerCase())) {
+            tableSuffix = tableName.substring(resourceType.length() + 1);
+        }
+        
+        final String indexSuffix = indexName.substring(indexName.lastIndexOf('_')+1);
+
         final StringBuilder line = new StringBuilder();
+        line.append("index_detail"); // make it easy to grep the index lines
+        line.append(TAB);
         line.append(resourceType);
         line.append(TAB);
         line.append(tableName);
         line.append(TAB);
+        line.append(tableSuffix);
+        line.append(TAB);
         line.append(indexName);
+        line.append(TAB);
+        line.append(indexSuffix);
         line.append(TAB);
         line.append(indexSize);
         try {

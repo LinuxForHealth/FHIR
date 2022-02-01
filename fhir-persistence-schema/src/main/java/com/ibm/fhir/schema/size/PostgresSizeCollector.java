@@ -98,7 +98,8 @@ public class PostgresSizeCollector implements ISizeCollector {
                 + " LEFT JOIN pg_class c ON t.tablename = c.relname "
                 + " LEFT JOIN pg_index i ON c.oid = i.indrelid "
                 + " LEFT JOIN pg_stat_all_indexes psai ON i.indexrelid = psai.indexrelid "
-                + "     WHERE t.schemaname = ?"
+                + "     WHERE t.schemaname = ? "
+                + "       AND psai.indexrelname IS NOT NULL "
                 ;
 
         logger.info("Collecting PostgreSQL index size info for schema: '" + schemaName.toLowerCase() + "'");
