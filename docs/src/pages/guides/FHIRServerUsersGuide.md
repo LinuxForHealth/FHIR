@@ -2079,6 +2079,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/ifNoneMatchReturnsNotModified`|boolean|When `If-None-Match: *` is specified for PUT requests, overrides the standard return status "412 Precondition Failed" to be "304 Not Modified". Useful in transaction bundles for clients not wanting the bundle to fail when a conflict is found.|
 |`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
 |`fhirServer/core/externalBaseUrl`|string|The base URL that is embedded in the Search bundle response, as of version 4.9.0. Note that the base URL must not include a path segment that matches any FHIR resource type name (case-sensitive). For example, "https://example.com" or "https://example.com/my/patient/api" are fine, but "https://example.com/my/Patient/api" is not.|
+|`fhirServer/core/defaultFhirVersion`|string|The implicit value to use for the MIME-type fhirVersion parameter on incoming Accept and Content-Type headers when the client has not passed an explicit value.|
 |`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|boolean|Whether to apply implicit resource type scoping for whole-system search and whole-system history interactions where no `_type` values were passed. Only set to false if you are certain that there are no instances of unsupported resource types in the database.|
 |`fhirServer/validation/failFast`|boolean|Indicates whether validation should fail fast on create and update interactions|
 |`fhirServer/term/capabilitiesUrl`|string|The URL that is embedded in the Terminology Capabilities statement using `mode=terminology`|
@@ -2264,6 +2265,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilitiesUrl`|null|
 |`fhirServer/core/externalBaseUrl`|null|
 |`fhirServer/core/ifNoneMatchReturnsNotModified`|false|
+|`fhirServer/core/defaultFhirVersion`|null|
 |`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|true|
 |`fhirServer/validation/failFast`|false|
 |`fhirServer/term/capabilitiesUrl`|null|
@@ -2418,6 +2420,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/maxPageIncludeCount`|Y|Y|
 |`fhirServer/core/capabilitiesUrl`|Y|Y|
 |`fhirServer/core/externalBaseUrl`|Y|Y|
+|`fhirServer/core/defaultFhirVersion`|Y|Y|
 |`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|Y|Y|
 |`fhirServer/validation/failFast`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
