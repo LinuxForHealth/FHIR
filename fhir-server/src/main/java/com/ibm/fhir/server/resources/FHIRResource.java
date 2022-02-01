@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,6 +42,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -52,6 +53,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -62,6 +64,7 @@ import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
+import com.ibm.fhir.server.resources.filters.FHIRVersionRequestFilter;
 
 import net.jcip.annotations.NotThreadSafe;
 
@@ -501,5 +504,19 @@ public class FHIRResource {
                 .details(CodeableConcept.builder().text(string(msg)).build())
                 .build();
         return new FHIROperationException(msg).withIssue(issue);
+    }
+
+    /**
+     * The FHIRVersion to use for the current request
+     *
+     * @return the corresponding FHIRVersion for the com.ibm.fhir.server.fhirVersion request context attribute
+     */
+    protected FHIRVersion getFhirVersion() {
+        String fhirVersionString = (String) httpServletRequest.getAttribute(FHIRVersionRequestFilter.FHIR_VERSION_PROP);
+        if (FHIRMediaType.VERSION_43.equals(fhirVersionString)) {
+            return FHIRVersion.VERSION_4_3_0_CIBUILD;
+        } else {
+            return FHIRVersion.VERSION_4_0_1;
+        }
     }
 }

@@ -43,6 +43,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_MAX_PAGE_SIZE = "fhirServer/core/maxPageSize";
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
     public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
+    public static final String PROPERTY_DEFAULT_FHIR_VERSION = "fhirServer/core/defaultFhirVersion";
     // Migration properties
     public static final String PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING = "fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions";
 
