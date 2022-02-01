@@ -9,7 +9,8 @@
             "conditionalDeleteMaxNumber": 10,
             "__comment": "The Server Registry Resource Provider is a server-wide setting. The default is false, and the CI changes to true in the build and test.",
             "serverRegistryResourceProviderEnabled": false,
-            "disabledOperations": ""
+            "disabledOperations": "",
+            "defaultFhirVersion": "4.0"
         },
         "security": {
             "cors": true,
@@ -139,24 +140,24 @@
                     "user": "fhiradmin",
                     "password": "change-password",
                     "truststore": "resources/security/fhirTrustStore.p12",
-                    "truststorePassword": "change-password", 
+                    "truststorePassword": "change-password",
                     "trustAll": true
                 },
-                "cos" : { 
+                "cos" : {
                     "partUploadTriggerSizeMB": 10,
                     "objectSizeThresholdMB": 200,
                     "objectResourceCountThreshold": 200000,
                     "useServerTruststore": true,
                     "presignedExpiry": 86400
                 },
-                "file" : { 
+                "file" : {
                     "writeTriggerSizeMB": 1,
                     "sizeThresholdMB": 200,
                     "resourceCountThreshold": 200000
                 },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",
-                "maxPartitions": 5, 
+                "maxPartitions": 5,
                 "maxInputs": 5,
                 "maxChunkReadTime": "90000",
                 "systemExportImpl": "fast",
@@ -186,8 +187,8 @@
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
                     "disableOperationOutcomes": true,
-                    "duplicationCheck": false, 
-                    "validateResources": false, 
+                    "duplicationCheck": false,
+                    "validateResources": false,
                     "create": false,
                     "presigned": true
                 }

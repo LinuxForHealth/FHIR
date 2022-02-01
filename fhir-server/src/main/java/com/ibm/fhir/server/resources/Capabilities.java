@@ -38,7 +38,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -47,7 +46,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -154,9 +152,6 @@ public class Capabilities extends FHIRResource {
 
     private static final String CAPABILITY_STATEMENT_CACHE_NAME = "com.ibm.fhir.server.resources.Capabilities.statementCache";
 
-    @Context
-    protected HttpServletRequest httpServletRequest;
-
     // Constructor
     public Capabilities() throws Exception {
         super();
@@ -174,8 +169,6 @@ public class Capabilities extends FHIRResource {
                 throw new IllegalArgumentException("Invalid mode parameter: must be one of [full, normative, terminology]");
             }
 
-            FHIRVersion fhirVersion = getFhirVersion(accept);
-
             // Defaults to 60 minutes (or what's in the fhirConfig)
             int cacheTimeout = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
             Configuration configuration = Configuration.of(Duration.of(cacheTimeout, ChronoUnit.MINUTES));
@@ -183,6 +176,7 @@ public class Capabilities extends FHIRResource {
             Map<String, Resource> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
             CacheManager.reportCacheStats(log, CAPABILITY_STATEMENT_CACHE_NAME);
 
+            FHIRVersion fhirVersion = getFhirVersion();
             String cacheKey = mode + "-" + fhirVersion.getValue();
             Resource capabilityStatement = cacheAsMap.computeIfAbsent(cacheKey, k -> computeCapabilityStatement(mode, fhirVersion));
 
@@ -208,25 +202,6 @@ public class Capabilities extends FHIRResource {
         } finally {
             log.exiting(this.getClass().getName(), "capabilities()");
         }
-    }
-
-    /**
-     * Which FHIRVersion to use for the generated CapabilityStatement
-     *
-     * @param acceptHeaderValue
-     * @return 4.3.0 if the client is asking for it, otherwise 4.0.1
-     */
-    private FHIRVersion getFhirVersion(String acceptHeaderValue) {
-        if (acceptHeaderValue != null && !acceptHeaderValue.isEmpty()) {
-            for (String headerValueElement : acceptHeaderValue.split(",")) {
-                String requestedVersion = MediaType.valueOf(headerValueElement).getParameters().get(FHIRMediaType.FHIR_VERSION_PARAMETER);
-                if ("4.3".equals(requestedVersion) || "4.3.0".equals(requestedVersion)) {
-                    // TODO: remove _CIBUILD after generating from the published 4.3.0 artifacts
-                    return FHIRVersion.VERSION_4_3_0_CIBUILD;
-                }
-            }
-        }
-        return FHIRVersion.VERSION_4_0_1;
     }
 
     private boolean isValidMode(String mode) {
