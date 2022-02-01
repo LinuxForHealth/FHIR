@@ -156,6 +156,6 @@ public class RetrieveIndexOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", "default")
                 .post(entity, Response.class);
 
-        assertEquals(r.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        assertEquals(r.getStatus(), Status.NOT_FOUND.getStatusCode());
     }
 }
