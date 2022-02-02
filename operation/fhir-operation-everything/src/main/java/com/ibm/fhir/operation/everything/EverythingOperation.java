@@ -278,10 +278,10 @@ public class EverythingOperation extends AbstractOperation {
             }
 
             // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
-            if (currentResourceCount > maxPageSize) {
+            if (totalResourceCount > maxPageSize) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
-                while ((currentResourceCount -= maxPageSize) > 0) {
+                while ((totalResourceCount -= maxPageSize) > 0) {
                     if (LOG.isLoggable(Level.FINEST)) {
                         LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
                     }
