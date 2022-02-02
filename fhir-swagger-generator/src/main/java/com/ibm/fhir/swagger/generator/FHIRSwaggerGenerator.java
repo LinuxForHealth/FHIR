@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -382,7 +382,6 @@ public class FHIRSwaggerGenerator {
 
         generateDefinition(Bundle.class, definitions);
         generateDefinition(Resource.class, definitions);
-//        generateDefinition(DomainResource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
