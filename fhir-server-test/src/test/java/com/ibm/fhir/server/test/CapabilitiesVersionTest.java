@@ -7,8 +7,8 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.core.FHIRMediaType.FHIR_VERSION_PARAMETER;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -28,6 +28,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource;
+import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -62,9 +63,9 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
      * Verify the 'metadata' API.
      */
     @Test(dataProvider = "dataMethod")
-    public void testWithTenantAndFHIRVersion(String tenant, String fhirVersion) throws FHIRPathException, FHIRValidationException {
+    public void testWithTenantAndFHIRVersion(String tenant, String requestFhirVersion, FHIRVersion expectedVersion) throws FHIRPathException, FHIRValidationException {
         WebTarget target = getWebTarget();
-        Map<String,String> fhirVersionParameterMap = (fhirVersion == null) ? null : Collections.singletonMap(FHIR_VERSION_PARAMETER, fhirVersion);
+        Map<String,String> fhirVersionParameterMap = (requestFhirVersion == null) ? null : Collections.singletonMap(FHIR_VERSION_PARAMETER, requestFhirVersion);
         MediaType mediaType = new MediaType("application", FHIRMediaType.SUBTYPE_FHIR_JSON, fhirVersionParameterMap);
 
         Response response = target.path("metadata")
@@ -75,10 +76,7 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
 
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
-        assertNotNull(conf.getFhirVersion());
-        if (fhirVersion != null) {
-            assertTrue(conf.getFhirVersion().getValue().startsWith(fhirVersion));
-        }
+        assertEquals(conf.getFhirVersion(), expectedVersion);
 
         switch (conf.getFhirVersion().getValueAsEnum()) {
         case VERSION_4_0_1:
@@ -99,26 +97,20 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
     }
 
     /**
-     * tenant, fhirVersion
+     * tenant, requestedVersion, expectedVersion
      */
     @DataProvider
     public static Object[][] dataMethod() {
-        String[] tenants = new String[] {
-                "default", // defaultFhirVersion=4.0
-                "tenant1", // defaultFhirVersion=4.3
-                "tenant2"  // no defaultFhirVersion configured
-            };
-        String[] versions = new String[] {null, "4.0", "4.3"};
-
-        // compute the cartesian product
-        Object[][] inputs = new Object[tenants.length * versions.length][2];
-        int i = 0;
-        for (String tenant : tenants) {
-            for (String version : versions) {
-                inputs[i++] = new Object[] {tenant, version};
-            }
-        }
-
-        return inputs;
+        return new Object[][] {
+            { "default", null, FHIRVersion.VERSION_4_0_1 },
+            { "default", "4.0", FHIRVersion.VERSION_4_0_1 },
+            { "default", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD },
+            { "tenant1", null, FHIRVersion.VERSION_4_3_0_CIBUILD },
+            { "tenant1", "4.0", FHIRVersion.VERSION_4_0_1 },
+            { "tenant1", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD },
+            { "tenant2", null, FHIRVersion.VERSION_4_0_1 },
+            { "tenant2", "4.0", FHIRVersion.VERSION_4_0_1 },
+            { "tenant2", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD }
+        };
     }
 }
