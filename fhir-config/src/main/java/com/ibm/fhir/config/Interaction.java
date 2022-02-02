@@ -5,6 +5,10 @@
  */
 package com.ibm.fhir.config;
 
+/**
+ * Interaction constants to the allowed values of the
+ * fhirServer/resources/[resourceType]/interactions config property
+ */
 public enum Interaction {
     CREATE("create"),
     DELETE("delete"),

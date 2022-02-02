@@ -15,6 +15,9 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.util.ResourceTypeHelper;
 
+/**
+ * Tests for the ResourceTypeHelper class
+ */
 public class ResourceTypeHelperTest {
     @Test
     public void testGetNewOrBreakingResourceTypeNames() {

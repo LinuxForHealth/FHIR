@@ -14,7 +14,12 @@ public enum FHIRVersionParam {
 
     private final String value;
 
-    FHIRVersionParam(String value) {
+    /**
+     * Private constructor
+     *
+     * @param value the fhirVersion value string
+     */
+    private FHIRVersionParam(String value) {
         this.value = value;
     }
 
