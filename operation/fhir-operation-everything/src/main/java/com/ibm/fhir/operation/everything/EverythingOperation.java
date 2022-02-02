@@ -216,8 +216,7 @@ public class EverythingOperation extends AbstractOperation {
         Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
-        int totalResourceCount = 0; 
-        int totalSavedForBundlingCount = 0;
+ 
         boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
@@ -241,26 +240,11 @@ public class EverythingOperation extends AbstractOperation {
                     addIncludesSearchParameters(compartmentType, tempSearchParameters, extraResources, supportedSearchParametersMap);
                 }
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
-                // Only add resources we don't already have and keep track of what we've found so far,
-                // otherwise, we were getting duplicate entries from the _includes
                 int countBeforeAddingNewResources = allEntries.size();
-                for (Entry entry: results.getEntry()) {
-                    String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
-                    if (!resourceIds.contains(externalIdentifier)) {
-                        resourceIds.add(externalIdentifier);
-                        allEntries.add(entry);
-                    }
-                }
-                // Don't need to do additional reads if the config section isn't there or is empty
-                if (retrieveAdditionalResources) {
-                    readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
-                }
-                
-                totalResourceCount += results.getTotal().getValue();
-                currentResourceCount = allEntries.size() - countBeforeAddingNewResources;
-                totalSavedForBundlingCount += currentResourceCount;
+                processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
+                currentResourceCount = results.getTotal().getValue();          
                 if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalSavedForBundlingCount);
+                    LOG.finest("Got " + compartmentType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
                 }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
@@ -269,8 +253,7 @@ public class EverythingOperation extends AbstractOperation {
                 throw exceptionWithIssue;
             }
             // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
-            if (totalResourceCount > MAX_OVERALL_RESOURCES) {
-                // total does not account for _includes, but if we are already over with total, we don't need to keep going
+            if (allEntries.size() > MAX_OVERALL_RESOURCES) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
                         + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
                         + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
@@ -279,27 +262,17 @@ public class EverythingOperation extends AbstractOperation {
             }
 
             // We are retrieving sub-resources maxPageSize items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
-            if (totalResourceCount > maxPageSize) {
+            if (currentResourceCount > maxPageSize) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
-                while ((totalResourceCount -= maxPageSize) > 0) {
+                while ((currentResourceCount -= maxPageSize) > 0) {
                     if (LOG.isLoggable(Level.FINEST)) {
                         LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
                     }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
                         results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);                  
-                        for (Entry entry: results.getEntry()) {
-                            String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
-                            if (!resourceIds.contains(externalIdentifier)) {
-                                resourceIds.add(externalIdentifier);
-                                allEntries.add(entry);
-                            }
-                        }    
-                        // Don't need to do additional reads if the config section isn't there or is empty
-                        if (retrieveAdditionalResources) {
-                            readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
-                        }
+                        processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
                                 + "$everything resources page '" + page + "' of type '" + compartmentType + "' "
@@ -318,7 +291,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
             }
         }
-       
+
         Bundle.Builder bundleBuilder = Bundle.builder()
                 .type(BundleType.SEARCHSET)
                 .id(UUID.randomUUID().toString())
@@ -854,6 +827,35 @@ public class EverythingOperation extends AbstractOperation {
                 entryBuilder.resource(resource);
                 allEntries.add(entryBuilder.build());
             }
+        }
+    }
+    
+    /**
+     * Process results retrieve to avoid duplicates and retrieve additional resources through references, if applicable
+     *
+     * @param results the resources returned from doSearch
+     * @param compartmentMemberType the type of resource currently drilling down on
+     * @param newEntries a list of entries of that compartment type that were found in a search
+     * @param allEntries a list of all entries that have been found so far (minus duplicates)
+     * @param resourceIds a list of all the resource ids already added to the results
+     * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
+     * @param extraResources a list of "extra" resource types configured for this server 
+     * @param retrieveAdditionalResources whether the server config has specified to retrieve additional resources
+     */
+    private void processResults(Bundle results, String compartmentMemberType, List<Entry> newEntries,
+                List<Entry> allEntries, List<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources, 
+                boolean retrieveAdditionalResources) throws Exception {
+        // Only add resources we don't already have and keep track of what we've found so far,
+        // otherwise, we were getting duplicate entries from the _includes
+        for (Entry entry: results.getEntry()) {
+            String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+            if (!resourceIds.contains(externalIdentifier)) {
+                resourceIds.add(externalIdentifier);
+                allEntries.add(entry);
+            }
+        }
+        if (retrieveAdditionalResources) {
+            readsOfAdditionalAssociatedResources(compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
         }
     }
 }
