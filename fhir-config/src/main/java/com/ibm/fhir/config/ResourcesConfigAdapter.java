@@ -20,7 +20,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.ResourceTypeName;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
+
 
 /**
  * An abstraction for the ibm-fhir-server fhirServer/resources property group
@@ -38,8 +41,8 @@ public class ResourcesConfigAdapter {
     private boolean isWholeSystemSearchSupported = true;
     private boolean isWholeSystemHistorySupported = true;
 
-    public ResourcesConfigAdapter(PropertyGroup resourcesConfig) {
-        supportedTypes = computeSupportedResourceTypes(resourcesConfig);
+    public ResourcesConfigAdapter(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
+        supportedTypes = computeSupportedResourceTypes(resourcesConfig, fhirVersion);
 
         if (resourcesConfig == null) {
             for (Interaction interaction : Interaction.values()) {
@@ -91,7 +94,7 @@ public class ResourcesConfigAdapter {
     }
 
     /**
-     * @return an immutable, non-null set of concrete supported resource types
+     * @return an immutable, non-null set of supported resource types for the given fhirVersion
      * @throws Exception
      */
     public Set<String> getSupportedResourceTypes() {
@@ -100,6 +103,7 @@ public class ResourcesConfigAdapter {
 
     /**
      * @return an immutable, non-null set of concrete resource types that are configured for the given interaction
+     *     and fhirVersion
      */
     public Set<String> getSupportedResourceTypes(Interaction interaction) {
         Set<String> result = typesByInteraction.get(interaction);
@@ -110,14 +114,17 @@ public class ResourcesConfigAdapter {
     }
 
     /**
-     * Construct the list of concrete supported resource types from the passed configuration
+     * Construct the list of supported resource types from the passed configuration and fhirVersion
      *
      * @param resourcesConfig
+     * @param fhirVersion
      * @return
      */
-    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig) {
+    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
+        Set<String> applicableTypes = ResourceTypeHelper.getResourceTypesFor(fhirVersion);
+
         if (resourcesConfig == null || resourcesConfig.getBooleanProperty("open", true)) {
-            return ALL_CONCRETE_TYPES;
+            return applicableTypes;
         }
 
         Set<String> result = new LinkedHashSet<String>();
@@ -132,10 +139,11 @@ public class ResourcesConfigAdapter {
                 continue;
             }
 
-            if (ALL_CONCRETE_TYPES.contains(name)) {
+            if (applicableTypes.contains(name)) {
                 result.add(name);
             } else if (log.isLoggable(Level.FINE)) {
-                log.fine("Configured resource type '" + name + "' is not valid.");
+                log.fine("Configured resource type '" + name + "' is not valid "
+                        + "or not applicable for fhirVersion " + fhirVersion.value());
             }
         }
 

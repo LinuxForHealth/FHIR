@@ -72,7 +72,7 @@ public class Update extends FHIRResource {
             checkType(type);
             Integer ifNoneMatch = encodeIfNoneMatch(ifNoneMatchHdr);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
 
             ResponseBuilder response = Response.ok()
@@ -144,7 +144,7 @@ public class Update extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
