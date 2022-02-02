@@ -218,6 +218,7 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
         int totalResourceCount = 0; 
         int totalSavedForBundlingCount = 0;
+        boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
             if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
@@ -235,7 +236,7 @@ public class EverythingOperation extends AbstractOperation {
             int currentResourceCount = 0;
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
-                if (extraResources != null && !extraResources.isEmpty()) {
+                if (retrieveAdditionalResources) {
                     ParametersMap supportedSearchParametersMap = supportedSearchParameters.get(compartmentType);
                     addIncludesSearchParameters(compartmentType, tempSearchParameters, extraResources, supportedSearchParametersMap);
                 }
@@ -251,7 +252,7 @@ public class EverythingOperation extends AbstractOperation {
                     }
                 }
                 // Don't need to do additional reads if the config section isn't there or is empty
-                if (extraResources != null && !extraResources.isEmpty()) {
+                if (retrieveAdditionalResources) {
                     readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
                 }
                 
@@ -277,7 +278,7 @@ public class EverythingOperation extends AbstractOperation {
                 throw exceptionWithIssue;
             }
 
-            // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
+            // We are retrieving sub-resources maxPageSize items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
             if (totalResourceCount > maxPageSize) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
@@ -287,20 +288,24 @@ public class EverythingOperation extends AbstractOperation {
                     }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
+                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);                  
+                        for (Entry entry: results.getEntry()) {
+                            String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+                            if (!resourceIds.contains(externalIdentifier)) {
+                                resourceIds.add(externalIdentifier);
+                                allEntries.add(entry);
+                            }
+                        }    
+                        // Don't need to do additional reads if the config section isn't there or is empty
+                        if (retrieveAdditionalResources) {
+                            readsOfAdditionalAssociatedResources(compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
+                        }
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
                                 + "$everything resources page '" + page + "' of type '" + compartmentType + "' "
                                 + "for patient " + logicalId, IssueType.EXCEPTION, e);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                         throw exceptionWithIssue;
-                    }
-                    for (Entry entry: results.getEntry()) {
-                        String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
-                        if (!resourceIds.contains(externalIdentifier)) {
-                            resourceIds.add(externalIdentifier);
-                            allEntries.add(entry);
-                        }
                     }
                     // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
                     if (allEntries.size() > MAX_OVERALL_RESOURCES) {
