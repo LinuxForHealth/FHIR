@@ -24,6 +24,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.model.resource.CommunicationRequest;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Device;
@@ -230,7 +231,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpectedExceptions query parameter 'fakeParameter'");
 
         try {
-            SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, false, true);
+            SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, false, true, FHIRVersionParam.VERSION_43);
             fail("expectedExceptions parseQueryParameters to throw due to strict mode but it didn't.");
         } catch (Exception e) {
             assertTrue(e instanceof FHIRSearchException);
