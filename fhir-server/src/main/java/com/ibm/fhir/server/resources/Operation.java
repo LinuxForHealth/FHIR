@@ -79,7 +79,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, null, null, null,
                     null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
@@ -122,7 +122,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, null, null, null,
                     resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
@@ -166,7 +166,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result =
                     helper.doInvoke(operationContext, null, null, null, null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
@@ -211,7 +211,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null,
                     null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
@@ -256,7 +256,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null,
                     resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
@@ -315,7 +315,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null,
                     null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
@@ -361,7 +361,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null,
                     resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
@@ -408,7 +408,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId,
                     null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
@@ -455,7 +455,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId,
                     resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);

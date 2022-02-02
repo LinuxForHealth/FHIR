@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
@@ -45,9 +46,9 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_omitted() throws Exception {
         FHIRRequestContext.get().setTenantId("omitted");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper, FHIRVersionParam.VERSION_40);
 
-        Response capabilities = c.capabilities("full", null);
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -60,9 +61,9 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_empty_r4() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper, FHIRVersionParam.VERSION_40);
 
-        Response capabilities = c.capabilities("full", "application/fhir+json;fhirVersion=4.0");
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -75,9 +76,9 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_empty_r4b() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild();
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper, FHIRVersionParam.VERSION_43);
 
-        Response capabilities = c.capabilities("full", "application/fhir+json;fhirVersion=4.3");
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -90,9 +91,9 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_filtered() throws Exception {
         FHIRRequestContext.get().setTenantId("smart-enabled");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper, FHIRVersionParam.VERSION_43);
 
-        Response capabilities = c.capabilities("full", "");
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -132,21 +133,16 @@ public class CapabilitiesTest {
      * that are normally injected by JAX-RS and so this is the only way to set them.
      */
     private static class CapabilitiesChild extends Capabilities {
-        public CapabilitiesChild(SearchHelper searchHelper) throws Exception {
+        /**
+         * @implNote Under "normal" operation, the FHIRVersionParam is set via the
+         *          FHIRVersionRequestFilter. To simulate that, use a different
+         *          CapabilitesChild for each request with a new fhirVersion value
+         */
+        public CapabilitiesChild(SearchHelper searchHelper, FHIRVersionParam fhirVersion) throws Exception {
             super();
             this.context = new MockServletContext();
             this.searchHelper = searchHelper;
-        }
-
-        @Override
-        public Response capabilities(String mode, String acceptHeaderValue) {
-            httpServletRequest = new MockHttpServletRequest();
-            return super.capabilities(mode, acceptHeaderValue);
-        }
-
-        @Override
-        protected SearchHelper getSearchHelper() {
-            return searchHelper;
+            this.httpServletRequest = new MockHttpServletRequest(fhirVersion);
         }
     }
 }

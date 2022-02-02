@@ -65,7 +65,7 @@ public class Read extends FHIRResource {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             Resource resource = helper.doRead(type, id, true, false, null, queryParameters).getResource();
             int version2Match = -1;
             // Support ETag value with or without " (and W/)

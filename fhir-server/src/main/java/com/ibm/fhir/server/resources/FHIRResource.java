@@ -44,7 +44,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -55,7 +55,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -524,12 +523,12 @@ public class FHIRResource {
      *
      * @return the corresponding FHIRVersion for the com.ibm.fhir.server.fhirVersion request context attribute
      */
-    protected FHIRVersion getFhirVersion() {
-        String fhirVersionString = (String) httpServletRequest.getAttribute(FHIRVersionRequestFilter.FHIR_VERSION_PROP);
-        if (FHIRMediaType.VERSION_43.equals(fhirVersionString)) {
-            return FHIRVersion.VERSION_4_3_0_CIBUILD;
-        } else {
-            return FHIRVersion.VERSION_4_0_1;
+    protected FHIRVersionParam getFhirVersion() {
+        FHIRVersionParam fhirVersion = (FHIRVersionParam) httpServletRequest.getAttribute(FHIRVersionRequestFilter.FHIR_VERSION_PROP);
+        if (fhirVersion == null) {
+            log.warning("Missing request context attribute " + FHIRVersionRequestFilter.FHIR_VERSION_PROP + "; using 4.0");
+            fhirVersion = FHIRVersionParam.VERSION_40;
         }
+        return fhirVersion;
     }
 }

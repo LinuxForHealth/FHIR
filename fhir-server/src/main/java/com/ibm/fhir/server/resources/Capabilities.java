@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -55,6 +54,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.CapabilityStatement;
@@ -159,7 +159,7 @@ public class Capabilities extends FHIRResource {
 
     @GET
     @Path("metadata")
-    public Response capabilities(@QueryParam("mode") @DefaultValue("full") String mode, @HeaderParam("accept") String accept) {
+    public Response capabilities(@QueryParam("mode") @DefaultValue("full") String mode) {
         log.entering(this.getClass().getName(), "capabilities()");
         try {
             Date startTime = new Date();
@@ -176,8 +176,8 @@ public class Capabilities extends FHIRResource {
             Map<String, Resource> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
             CacheManager.reportCacheStats(log, CAPABILITY_STATEMENT_CACHE_NAME);
 
-            FHIRVersion fhirVersion = getFhirVersion();
-            String cacheKey = mode + "-" + fhirVersion.getValue();
+            FHIRVersionParam fhirVersion = getFhirVersion();
+            String cacheKey = mode + "-" + fhirVersion.value();
             Resource capabilityStatement = cacheAsMap.computeIfAbsent(cacheKey, k -> computeCapabilityStatement(mode, fhirVersion));
 
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
@@ -208,7 +208,7 @@ public class Capabilities extends FHIRResource {
         return "full".equals(mode) || "normative".equals(mode) || "terminology".equals(mode);
     }
 
-    private Resource computeCapabilityStatement(String mode, FHIRVersion fhirVersion) {
+    private Resource computeCapabilityStatement(String mode, FHIRVersionParam fhirVersion) {
         try {
             switch (mode) {
             case "terminology":
@@ -314,7 +314,7 @@ public class Capabilities extends FHIRResource {
      *
      * @throws Exception
      */
-    private CapabilityStatement buildCapabilityStatement(FHIRVersion fhirVersion) throws Exception {
+    private CapabilityStatement buildCapabilityStatement(FHIRVersionParam fhirVersion) throws Exception {
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
 
@@ -550,7 +550,7 @@ public class Capabilities extends FHIRResource {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.now(ZoneOffset.UTC))
                 .kind(CapabilityStatementKind.INSTANCE)
-                .fhirVersion(fhirVersion)
+                .fhirVersion(fhirVersion == FHIRVersionParam.VERSION_43 ? FHIRVersion.VERSION_4_3_0_CIBUILD : FHIRVersion.VERSION_4_0_1)
                 .format(format)
                 .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
                              Code.of(FHIRMediaType.APPLICATION_FHIR_JSON),
@@ -652,11 +652,12 @@ public class Capabilities extends FHIRResource {
     }
 
     /**
+     * TODO: replace this with the new ResourcesConfigAdapter
      * @param rsrcsGroup the "resources" propertyGroup from the server configuration
      * @return a list of resource types to support
      * @throws Exception
      */
-    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersion fhirVersion) throws Exception {
+    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersionParam fhirVersion) throws Exception {
         final List<ResourceType.Value> resourceTypes = new ArrayList<>();
 
         if (rsrcsGroup == null) {
@@ -671,7 +672,7 @@ public class Capabilities extends FHIRResource {
             }
         }
 
-        if (fhirVersion.getValueAsEnum() == FHIRVersion.Value.VERSION_4_0_1) {
+        if (fhirVersion == FHIRVersionParam.VERSION_40) {
             resourceTypes.removeAll(R4B_ONLY_RESOURCES);
         }
         return resourceTypes;

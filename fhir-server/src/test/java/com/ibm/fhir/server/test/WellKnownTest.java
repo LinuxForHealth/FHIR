@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.AfterClass;
@@ -18,8 +17,11 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.server.resources.WellKnown;
+
+import jakarta.json.JsonObject;
 
 public class WellKnownTest {
 
@@ -89,7 +91,7 @@ public class WellKnownTest {
 
         @Override
         public Response smartConfig() throws ClassNotFoundException {
-            httpServletRequest = new MockHttpServletRequest();
+            httpServletRequest = new MockHttpServletRequest(FHIRVersionParam.VERSION_43);
             return super.smartConfig();
         }
     }
