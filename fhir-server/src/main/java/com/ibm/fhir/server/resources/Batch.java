@@ -85,7 +85,7 @@ public class Batch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             responseBundle = helper.doBundle(inputBundle, !forceUpdate);
             status = Status.OK;
             return Response.ok(responseBundle).build();

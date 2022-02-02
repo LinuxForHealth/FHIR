@@ -55,7 +55,7 @@ public class History extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -88,7 +88,7 @@ public class History extends FHIRResource {
         try {
             checkInitComplete();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -112,7 +112,7 @@ public class History extends FHIRResource {
 
     @GET
     @Path("{type}/_history")
-    public Response systemHistory(@PathParam("type") String type) {
+    public Response typeHistory(@PathParam("type") String type) {
         log.entering(this.getClass().getName(), "systemHistory(String)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -122,7 +122,7 @@ public class History extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
             bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri(), type);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
