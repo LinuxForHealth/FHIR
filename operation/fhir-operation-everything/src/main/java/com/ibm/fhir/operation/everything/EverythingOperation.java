@@ -28,6 +28,7 @@ import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -210,7 +211,8 @@ public class EverythingOperation extends AbstractOperation {
 
         List<String> defaultResourceTypes = new ArrayList<String>(0);
         try {
-            defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper);
+            FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
+            defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper, fhirVersion);
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
@@ -390,12 +392,12 @@ public class EverythingOperation extends AbstractOperation {
      * @return the list of patient subresources that will be included in the $everything operation
      * @throws FHIRSearchException
      */
-    private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper) throws FHIRSearchException {
+    private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper, FHIRVersionParam fhirVersion) throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(compartmentHelper.getCompartmentResourceTypes(PATIENT));
 
         try {
             PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup);
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup, fhirVersion);
             Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.SEARCH);
 
             if (LOG.isLoggable(Level.FINE)) {
@@ -411,7 +413,7 @@ public class EverythingOperation extends AbstractOperation {
             resourceTypes.retainAll(supportedResourceTypes);
         } catch (Exception e) {
             FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list "
-                    + "of supported resource types of the $everything operation.", e);
+                    + "of supported resource types for the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
