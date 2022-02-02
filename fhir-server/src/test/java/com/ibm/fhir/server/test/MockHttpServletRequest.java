@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,17 +29,30 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.server.resources.filters.FHIRVersionRequestFilter;
+
 public class MockHttpServletRequest implements HttpServletRequest {
+    FHIRVersionParam fhirVersion;
+
+    public MockHttpServletRequest(FHIRVersionParam fhirVersion) {
+        this.fhirVersion = fhirVersion;
+    }
 
     @Override
     public StringBuffer getRequestURL() {
         return new StringBuffer("http://example.com");
     }
 
-    // All below methods are auto-generated stubs
     @Override
-    public Object getAttribute(String name) { return null; }
+    public Object getAttribute(String name) {
+        if (FHIRVersionRequestFilter.FHIR_VERSION_PROP.equals(name)) {
+            return fhirVersion;
+        }
+        return null;
+    }
 
+    // All below methods are auto-generated stubs
     @Override
     public Enumeration<String> getAttributeNames() { return null; }
 

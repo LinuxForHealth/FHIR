@@ -34,9 +34,13 @@ import org.owasp.encoder.Encode;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -136,14 +140,8 @@ public class SearchUtil {
 
     private static final String IBM_COMPOSITE_PREFIX = "ibm_composite_";
 
-    private static final List<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-            .map(r -> ModelSupport.getTypeName(r))
-            .collect(Collectors.toList());
-
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
-
-
 
     private SearchUtil() {
         // No Operation
@@ -374,11 +372,27 @@ public class SearchUtil {
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters) throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, false, true);
+        return parseQueryParameters(resourceType, queryParameters, false, true, FHIRVersionParam.VERSION_43);
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
+        return parseQueryParameters(resourceType, queryParameters, lenient, includeResource, FHIRVersionParam.VERSION_43);
+    }
+
+    /**
+     * Parse the passed query parameters into a FHIRSeachContext according to the given options
+     *
+     * @param resourceType
+     * @param queryParameters
+     * @param lenient
+     * @param includeResource
+     * @param fhirVersion
+     * @return
+     * @throws Exception
+     */
+    public static FHIRSearchContext parseQueryParameters(Class<?> resourceType, Map<String, List<String>> queryParameters,
+            boolean lenient, boolean includeResource, FHIRVersionParam fhirVersion) throws Exception {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
@@ -419,6 +433,11 @@ public class SearchUtil {
                         if (!isSearchEnabled(resType)) {
                             manageException("search interaction is not supported for _type parameter value: " + Encode.forHtml(resType),
                                     IssueType.NOT_SUPPORTED, context, false);
+                        } else if (fhirVersion == FHIRVersionParam.VERSION_40 &&
+                                ResourceTypeHelper.getNewOrBreakingResourceTypeNames().contains(resType)) {
+                            String msg = "fhirVersion 4.0 interaction for _type parameter value: '" + resType +
+                                    "' is not supported";
+                            manageException(msg, IssueType.NOT_SUPPORTED, context, false);
                         } else {
                             resourceTypes.add(resType);
                         }
@@ -429,14 +448,9 @@ public class SearchUtil {
             if (resourceTypes.isEmpty()) {
                 Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
                 if (implicitTypeScoping) {
-                    Boolean isOpen = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/"
-                            + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true);
-                    List<String> supportedResourceTypes = isOpen ? ALL_RESOURCE_TYPES : FHIRConfigHelper.getSupportedResourceTypes();
-                    for (String resType : supportedResourceTypes) {
-                        if (isSearchEnabled(resType)) {
-                            resourceTypes.add(resType);
-                        }
-                    }
+                    PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                    ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
+                    resourceTypes.addAll(configAdapter.getSupportedResourceTypes(Interaction.SEARCH));
                 }
             }
         }
@@ -1234,11 +1248,12 @@ public class SearchUtil {
      * @param queryParameters the query parameters
      * @param interaction read or vread
      * @param lenient true if lenient, false if strict
+     * @param fhirVersion
      * @return the FHIR search context
      * @throws Exception an exception
      */
     public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
-            Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, String interaction, boolean lenient, FHIRVersionParam fhirVersion) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
 
         // Read and vRead only allow general search parameters
@@ -1252,25 +1267,18 @@ public class SearchUtil {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true, fhirVersion);
     }
 
 
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
-        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true);
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true, FHIRVersionParam.VERSION_43);
     }
 
-    /**
-     * Check the configuration to see if the flag enabling the compartment search
-     * optimization. Defaults to false so the behavior won't change unless it
-     * is explicitly enabled in fhir-server-config. This is important, because
-     * existing data must be reindexed (see $reindex custom operation) to
-     * generate values for the ibm-internal compartment relationship params.
-     * @return
-     */
-    public static boolean useStoredCompartmentParam() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, true);
+    public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
+            Class<?> resourceType, Map<String, List<String>> queryParameters, FHIRVersionParam fhirVersion) throws Exception {
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true, fhirVersion);
     }
 
     /**
@@ -1282,15 +1290,17 @@ public class SearchUtil {
      *                Whether to ignore unknown or unsupported parameter
      * @param includeResource
      *                Whether to include the resource from the result (return handling prefer != minimal)
+     * @param fhirVersion
      * @return
      * @throws Exception
      */
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource,
+            FHIRVersionParam fhirVersion) throws Exception {
 
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource, fhirVersion);
 
         // Add the inclusion criteria to the front of the search parameter list
         if (inclusionCriteria != null) {
@@ -1350,6 +1360,18 @@ public class SearchUtil {
             }
         }
         return rootParameter;
+    }
+
+    /**
+     * Check the configuration to see if the flag enabling the compartment search
+     * optimization. Defaults to false so the behavior won't change unless it
+     * is explicitly enabled in fhir-server-config. This is important, because
+     * existing data must be reindexed (see $reindex custom operation) to
+     * generate values for the ibm-internal compartment relationship params.
+     * @return
+     */
+    public static boolean useStoredCompartmentParam() {
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, true);
     }
 
     private static SearchConstants.Prefix getPrefix(String s) throws FHIRSearchException {

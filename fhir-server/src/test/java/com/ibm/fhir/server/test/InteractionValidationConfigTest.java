@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -71,7 +72,7 @@ public class InteractionValidationConfigTest {
         FHIRConfiguration.setConfigHome("src/test/resources");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence);
+        helper = new FHIRRestHelper(persistence, FHIRVersionParam.VERSION_43);
     }
 
     @AfterClass

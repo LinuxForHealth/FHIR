@@ -8,10 +8,12 @@ package com.ibm.fhir.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIRException;
 
 import jakarta.json.JsonValue;
@@ -23,7 +25,7 @@ import jakarta.json.JsonValue;
  */
 public class FHIRConfigHelper {
     private static final Logger log = Logger.getLogger(FHIRConfigHelper.class.getName());
-    
+
     //Constants
     public static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
     public static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
@@ -84,7 +86,7 @@ public class FHIRConfigHelper {
         if (result == null && !FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId)) {
             try {
                 if (propertyName.startsWith(FHIRConfiguration.PROPERTY_DATASOURCES)) {
-                    // Issue #639. Prevent datasource lookups from falling back to 
+                    // Issue #639. Prevent datasource lookups from falling back to
                     // the default datasource which breaks tenant isolation.
                     result = null;
                 } else {
@@ -160,43 +162,29 @@ public class FHIRConfigHelper {
         }
 
         return (result != null ? result : defaultValue);
-    }    
-    
+    }
+
     /**
-     * This method returns the list of supported resource types
-     * @return a list of resource types that isn't null
+     * @return a non-null list of supported resource types for fhirVersion 4.3
      */
     public static List<String> getSupportedResourceTypes() throws FHIRException {
-        List<String> result = new ArrayList<>();
-
-        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        List<PropertyEntry> rsrcsEntries;
-        try {
-            rsrcsEntries = rsrcsGroup.getProperties();
-
-            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                    String name = rsrcsEntry.getName();
-                    
-                    // Ensure we skip over the special property "open" and process only the others
-                    // and skip the abstract types Resource and DomainResource
-                    // It would be nice to be able to verify if the resource names were valid, but
-                    // not possible at this layer of the code.  
-                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) &&
-                        !"Resource".equals(name) &&
-                        !"DomainResource".equals(name)) {
-                            result.add(name);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.fine("FHIRConfigHelper.getSupportedResourceTypes is configured with no "
-                    + "resources in the server config file or is not configured properly");
-        }
-        
-        return result;
+        return new ArrayList<>(getSupportedResourceTypes(FHIRVersionParam.VERSION_43));
     }
-    
+
+    /**
+     * @return a non-null list of supported resource types for the given fhirVersion
+     */
+    public static Set<String> getSupportedResourceTypes(FHIRVersionParam fhirVersion) throws FHIRException {
+        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        try {
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
+            return configAdapter.getSupportedResourceTypes();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Unexpected exception while constructing a ResourcesConfigAdapter for fhirServer/resources", e);
+            throw new FHIRException(e);
+        }
+    }
+
     /**
      * Retrieves the search property restrictions.
      *
