@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.ResourcePayload;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  * Tests related to the high-speed export method in FHIRPersistence.
@@ -59,17 +60,17 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
         resource4Builder.extension(extension("http://example.org/integer", Integer.of(4)));
 
         // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1 = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
-        resource2 = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
-        resource3 = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
-        resource4 = persistence.create(getDefaultPersistenceContext(), resource4Builder.meta(tag("pagingTest")).build()).getResource();
+        resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
+        resource2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
+        resource3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
+        resource4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource4Builder.meta(tag("pagingTest")).build()).getResource();
 
         // update resource3 two times so we have 3 different versions
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
 
         // delete resource4
-        persistence.delete(getDefaultPersistenceContext(), resource4.getClass(), resource4.getId());
+        resource4 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource4);
     }
 
     @AfterClass
@@ -79,7 +80,7 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                persistence.delete(getDefaultPersistenceContext(), resource);
             }
             commitTrx();
         }

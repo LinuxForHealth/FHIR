@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020, 2021
+-- (C) Copyright IBM Corp. 2020, 2022
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -28,6 +28,7 @@
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
+--   SQLSTATE 99004: delete a currently deleted resource (data integrity)
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
@@ -142,6 +143,12 @@ BEGIN
     IF p_version != v_current_version + 1
     THEN
       RAISE 'Concurrent update - mismatch of version in JSON' USING ERRCODE = '99001';
+    END IF;
+
+    -- Prevent creating a new deletion marker if the resource is currently deleted
+    IF v_currently_deleted = 'Y' AND p_is_deleted = 'Y'
+    THEN
+      RAISE 'Unexpected attempt to delete a Resource which is currently deleted' USING ERRCODE = '99004';
     END IF;
 
     IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash

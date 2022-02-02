@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.ZoneOffset;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -356,22 +355,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
-        doCachePrefill();
-        // This method is provided for API stability. No longer used. Does not support offloading
-
-        // Generate a new logical resource id
-        final String logicalId = generateResourceId();
-
-        // Set the resource id and meta fields.
-        final int newVersionNumber = 1;
-        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-        T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        return createWithMeta(context, updatedResource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T updatedResource) throws FHIRPersistenceException  {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T updatedResource) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -574,18 +558,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource)
-            throws FHIRPersistenceException {
-
-        // legacy implementation (before issue 1869) provided for API compatibility. Used by bulk-import
-        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-        final int newVersionId = resource.getMeta() == null || resource.getMeta().getVersionId() == null ? 1 : Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
-        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
-        return updateWithMeta(context, resource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
         final String METHODNAME = "updateWithMeta";
         log.entering(CLASSNAME, METHODNAME);
@@ -1046,89 +1019,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        final String METHODNAME = "delete";
-        log.entering(CLASSNAME, METHODNAME);
-
-        // TODO this implementation needs to be updated so that it doesn't
-        // modify the resource - that now has to be done at the REST layer
-        // so that we can support payload persistence outside the RDBMS
-        com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
-        T existingResource = null;
-
-        try (Connection connection = openConnection()) {
-            doCachePrefill(connection);
-            ResourceDAO resourceDao = makeResourceDAO(connection);
-
-            existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
-
-            if (existingResourceDTO == null) {
-                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " +
-                        resourceType.getSimpleName() + "/" + logicalId);
-            }
-
-            existingResource = convertResourceDTO(existingResourceDTO, resourceType, null);
-            if (existingResourceDTO.isDeleted()) {
-
-                addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
-                        "' with id '" + logicalId + "' is already deleted.");
-
-                SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                        .success(true)
-                        .interactionStatus(InteractionStatus.READ)
-                        .resource(existingResource)
-                        .build();
-
-                return result;
-            }
-
-            int newVersionNumber = existingResourceDTO.getVersionId() + 1;
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-
-            // Update the soft-delete resource to reflect the new version and lastUpdated values.
-            T updatedResource = copyAndSetResourceMetaFields(existingResource, existingResource.getId(), newVersionNumber, lastUpdated);
-
-            // Create a new Resource DTO instance to represent the deleted version.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource,
-                        getResourcePayloadKeyFromContext(context));
-            resourceDTO.setDeleted(true);
-
-            // Persist the logically deleted Resource DTO.
-            resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, null, null, null, IF_NONE_MATCH_NULL);
-
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-                            + ", version=" + resourceDTO.getVersionId());
-            }
-
-            SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true)
-                    .interactionStatus(InteractionStatus.MODIFIED)
-                    .resource(updatedResource)
-                    .build();
-
-            return result;
-        }
-        catch(FHIRPersistenceFKVException e) {
-            throw e;
-        }
-        catch(FHIRPersistenceException e) {
-            throw e;
-        }
-        catch(Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a delete operation.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
-    @Override
-    public <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         final String METHODNAME = "deleteWithMeta";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -1138,6 +1029,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create a new Resource DTO instance to represent the deleted version.
             int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+            if (newVersionNumber < 2) {
+                // Can't delete a resource which doesn't yet exist
+                throw new FHIRPersistenceResourceNotFoundException("New version number for delete must be > 1");
+            }
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
@@ -2736,19 +2631,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-    }
-
-    @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
-        String resourceTypeName) throws FHIRPersistenceException {
-
-        // legacy API determined sort order based on presence of fromLastModified value
-        HistorySortOrder historySortOrder = fromLastModified != null ? HistorySortOrder.ASC_LAST_UPDATED : HistorySortOrder.NONE;
-        if (resourceTypeName != null) {
-            return changes(resourceCount, fromLastModified, null, afterResourceId, Collections.singletonList(resourceTypeName), false, historySortOrder);
-        } else {
-            return changes(resourceCount, fromLastModified, null, afterResourceId, null, false, historySortOrder);
         }
     }
 

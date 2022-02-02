@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  *  This class tests the persistence layer support for the FHIR canonical search parameters.
@@ -63,7 +64,7 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                                 .version(string("1.0"))
                                 .name(string(uuid + "library1"))
                                 .build();
-        savedLibrary1 = persistence.create(getDefaultPersistenceContext(), savedLibrary1).getResource();
+        savedLibrary1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedLibrary1).getResource();
 
         // a Library with a different version that is referenced by a Measure
         savedLibrary2 = library.toBuilder()
@@ -71,14 +72,14 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                                 .version(string("2.0"))
                                 .name(string(uuid + "library2"))
                                 .build();
-        savedLibrary2 = persistence.create(getDefaultPersistenceContext(), savedLibrary2).getResource();
+        savedLibrary2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedLibrary2).getResource();
 
         // a Library with no version that is referenced by a Measure
         savedLibrary3 = library.toBuilder()
                                 .url(Uri.of("http://example.com/Library/" + uuid))
                                 .name(string(uuid + "library3"))
                                 .build();
-        savedLibrary3 = persistence.create(getDefaultPersistenceContext(), savedLibrary3).getResource();
+        savedLibrary3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedLibrary3).getResource();
 
         // a Measure that references a Library and is referenced by a CarePlan
         savedMeasure1 = measure.toBuilder()
@@ -87,7 +88,7 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                 .library(Canonical.of("http://example.com/Library/" + uuid, "1.0"))
                 .name(string(uuid + "measure1"))
                 .build();
-        savedMeasure1 = persistence.create(getDefaultPersistenceContext(), savedMeasure1).getResource();
+        savedMeasure1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedMeasure1).getResource();
 
         // another Measure that references a Library
         savedMeasure2 = measure.toBuilder()
@@ -96,7 +97,7 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                 .library(Canonical.of("http://example.com/Library/" + uuid))
                 .name(string(uuid + "measure2"))
                 .build();
-        savedMeasure2 = persistence.create(getDefaultPersistenceContext(), savedMeasure2).getResource();
+        savedMeasure2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedMeasure2).getResource();
 
         // another Measure that references a Library and contains a reference fragment
         savedMeasure3 = measure.toBuilder()
@@ -104,28 +105,28 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                 .library(Canonical.of("http://example.com/Library/" + uuid + "|2.0#ignore"))
                 .name(string(uuid + "measure3"))
                 .build();
-        savedMeasure3 = persistence.create(getDefaultPersistenceContext(), savedMeasure3).getResource();
+        savedMeasure3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedMeasure3).getResource();
 
         // a Measure with depends-on missing
         savedMeasure4 = measure.toBuilder()
                 .url(Uri.of("http://example.com/Measure/" + uuid + "measure4"))
                 .name(string(uuid + "measure4"))
                 .build();
-        savedMeasure4 = persistence.create(getDefaultPersistenceContext(), savedMeasure4).getResource();
+        savedMeasure4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedMeasure4).getResource();
 
         // a CarePlan that references a Measure
         savedCarePlan1 = carePlan.toBuilder()
                 .instantiatesCanonical(Canonical.of("http://example.com/Measure/" + uuid + "measure1", "1.0"))
                 .instantiatesUri(Uri.of(uuid + "carePlan1"))
                 .build();
-        savedCarePlan1 = persistence.create(getDefaultPersistenceContext(), savedCarePlan1).getResource();
+        savedCarePlan1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedCarePlan1).getResource();
 
         // another CarePlan that references a Measure, but does not specify a version
         savedCarePlan2 = carePlan.toBuilder()
                 .instantiatesCanonical(Canonical.of("http://example.com/Measure/" + uuid + "measure1"))
                 .instantiatesUri(Uri.of(uuid + "carePlan2"))
                 .build();
-        savedCarePlan2 = persistence.create(getDefaultPersistenceContext(), savedCarePlan2).getResource();
+        savedCarePlan2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedCarePlan2).getResource();
 
         // a CarePlan that references a different Measure
         savedCarePlan3 = carePlan.toBuilder()
@@ -133,7 +134,7 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
                 .instantiatesUri(Uri.of(uuid + "carePlan3"))
                 .basedOn(Reference.builder().reference(string("CarePlan/" + savedCarePlan1.getId())).build())
                 .build();
-        savedCarePlan3 = persistence.create(getDefaultPersistenceContext(), savedCarePlan3).getResource();
+        savedCarePlan3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedCarePlan3).getResource();
     }
 
     @AfterClass
@@ -149,7 +150,7 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
 
             try {
                 for (Resource resource : resources) {
-                    persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
+                    FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
                 }
             } catch (Throwable t) {
                 if (persistence.isTransactional()) {

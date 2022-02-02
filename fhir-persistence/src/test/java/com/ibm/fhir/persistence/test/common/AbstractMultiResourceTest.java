@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,7 +47,7 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         // Inject meta data
         encounter = copyAndSetResourceMetaFields(encounter, commonId, versionId, lastUpdated);
         
-        encounter = persistence.updateWithMeta(getDefaultPersistenceContext(), encounter).getResource();
+        encounter = persistence.update(getDefaultPersistenceContext(), encounter).getResource();
         assertNotNull(encounter);
         assertNotNull(encounter.getId());
         assertNotNull(encounter.getMeta());
@@ -59,7 +59,7 @@ public abstract class AbstractMultiResourceTest extends AbstractPersistenceTest 
         // update the id on the resource
         observation = observation.toBuilder().id(commonId).build();
         observation = copyAndSetResourceMetaFields(observation, commonId, versionId, lastUpdated);
-        observation = persistence.updateWithMeta(getDefaultPersistenceContext(), observation).getResource();
+        observation = persistence.update(getDefaultPersistenceContext(), observation).getResource();
         assertNotNull(observation);
         assertNotNull(observation.getId());
         assertNotNull(observation.getMeta());

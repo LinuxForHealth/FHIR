@@ -40,12 +40,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
-        throw new IllegalStateException("API no longer used; provided for backward compatibility only");
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
-            throws FHIRPersistenceException {
         
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
@@ -92,13 +86,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-        // For this mock, the versionId doesn't matter
-        return updateWithMeta(context, resource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
@@ -166,31 +154,22 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
-        SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
-                .success(true)
-                .interactionStatus(InteractionStatus.MODIFIED)
-                .resource(updatedResource);
-        return resultBuilder.build();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         // NOP. No need to do anything in this very simple mock
+        
+        // TODO REMOVE
+//        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
+//        return updatedResource;
+//        SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
+//                .success(true)
+//                .interactionStatus(InteractionStatus.MODIFIED)
+//                .resource(updatedResource);
+//        return resultBuilder.build();
     }
 
     @Override
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
         java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
-        // NOP
-        return null;
-    }
-
-    @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-            throws FHIRPersistenceException {
         // NOP
         return null;
     }

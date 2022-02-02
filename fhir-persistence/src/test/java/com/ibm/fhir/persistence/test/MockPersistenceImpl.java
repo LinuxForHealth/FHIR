@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,12 +34,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
-    	return null;
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
-            throws FHIRPersistenceException {
         return null;
     }
 
@@ -53,11 +47,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
             throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
         return null;
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-    	return null;
     }
 
     @Override
@@ -104,12 +93,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-            throws FHIRPersistenceException {
-        return Collections.emptyList();
-    }
-
-    @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames, 
             boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) throws FHIRPersistenceException {
         return Collections.emptyList();
@@ -121,7 +104,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
         return null;
     }

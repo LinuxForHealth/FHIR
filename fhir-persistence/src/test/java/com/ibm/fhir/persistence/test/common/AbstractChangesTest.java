@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,8 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.AfterClass;
@@ -27,8 +29,10 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  * Tests related to the high-speed export method in FHIRPersistence.
@@ -57,17 +61,17 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         resource4Builder.extension(extension("http://example.org/integer", Integer.of(4)));
 
         // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1 = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
-        resource2 = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
-        resource3 = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
-        resource4 = persistence.create(getDefaultPersistenceContext(), resource4Builder.meta(tag("pagingTest")).build()).getResource();
+        resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
+        resource2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
+        resource3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
+        resource4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource4Builder.meta(tag("pagingTest")).build()).getResource();
 
         // update resource3 two times so we have 3 different versions
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
 
         // delete resource4
-        persistence.delete(getDefaultPersistenceContext(), resource4.getClass(), resource4.getId());
+        resource4 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource4);
     }
 
     @AfterClass
@@ -81,7 +85,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
             }
             commitTrx();
         }
@@ -93,12 +97,14 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
 
         // Without a start time filter, we don't know how many records we'll get back because
         // several tests will end up populating the change log table. But we need to make
-        // sure the query works withouth the fromLastModified filter.
-        Instant fromLastModified = null;
-        final Long afterResourceId = null;
-        final String resourceTypeName = null;
-
-        List<ResourceChangeLogRecord> result = persistence.changes(100, fromLastModified, afterResourceId, resourceTypeName);
+        // sure the query works without the since filter.
+        Instant sinceLastModified = null;
+        Instant beforeLastModified = null;
+        final Long changeIdMarker = null;
+        final List<String> resourceTypeNames = Collections.emptyList();
+        final boolean excludeTransactionTimeoutWindow = false;
+        final HistorySortOrder historySortOrder = HistorySortOrder.NONE;
+        List<ResourceChangeLogRecord> result = persistence.changes(100, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeNames, excludeTransactionTimeoutWindow, historySortOrder);
         assertNotNull(result);
         assertTrue(result.size() >= 7);
         assertTrue(result.size() <= 100);
@@ -109,11 +115,11 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
 
         // Make sure we start the clock at the right place otherwise our
         // selection span won't cover any data
-        Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
+        Instant sinceLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
         final Long afterResourceId = null;
         final String resourceTypeName = null;
 
-        List<ResourceChangeLogRecord> result = persistence.changes(7, fromLastModified, afterResourceId, resourceTypeName);
+        List<ResourceChangeLogRecord> result = persistence.changes(7, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
 
         // 4 CREATE
@@ -129,7 +135,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         assertEquals(result.get(6).getChangeType(), ChangeType.DELETE); // resource4
 
         assertEquals(result.get(0).getResourceTypeName(), resource1.getClass().getSimpleName());
-        assertEquals(result.get(0).getChangeTstamp(), fromLastModified);
+        assertEquals(result.get(0).getChangeTstamp(), sinceLastModified);
         assertEquals(result.get(0).getVersionId(), 1);
 
         assertEquals(result.get(4).getVersionId(), 2); // resource3
@@ -150,27 +156,27 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
 
         // Make sure we start the clock at the right place otherwise our
         // selection span won't cover any data
-        Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
+        Instant sinceLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
         Long afterResourceId = null;
         final String resourceTypeName = null;
 
-        List<ResourceChangeLogRecord> result = persistence.changes(4, fromLastModified, afterResourceId, resourceTypeName);
+        List<ResourceChangeLogRecord> result = persistence.changes(4, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
 
         // Limit was set to 4, so we should only get partial data
         assertEquals(result.size(), 4);
 
         // Make another call now to get the remaining 3 changes
-        fromLastModified = result.get(3).getChangeTstamp();
+        sinceLastModified = result.get(3).getChangeTstamp();
         afterResourceId = result.get(3).getChangeId();
-        result = persistence.changes(3, fromLastModified, afterResourceId, resourceTypeName);
+        result = persistence.changes(3, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 3);
 
         // And a final call to make sure we get nothing
-        fromLastModified = result.get(2).getChangeTstamp();
+        sinceLastModified = result.get(2).getChangeTstamp();
         afterResourceId = result.get(2).getChangeId();
-        result = persistence.changes(100, fromLastModified, afterResourceId, resourceTypeName);
+        result = persistence.changes(100, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 0);
     }
@@ -178,11 +184,12 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
     @Test
     public void testResourceTypeFilter() throws Exception {
         // just filter on the resource type name
-        Instant fromLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
+        Instant sinceLastModified = resource1.getMeta().getLastUpdated().getValue().toInstant();
         Long afterResourceId = null;
         final String resourceTypeName = resource1.getClass().getSimpleName();
 
-        List<ResourceChangeLogRecord> result = persistence.changes(10, fromLastModified, afterResourceId, resourceTypeName);
+        List<String> resourceTypeNames = Arrays.asList(resourceTypeName);
+        List<ResourceChangeLogRecord> result = persistence.changes(10, sinceLastModified, null, afterResourceId, resourceTypeNames, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 7);
     }

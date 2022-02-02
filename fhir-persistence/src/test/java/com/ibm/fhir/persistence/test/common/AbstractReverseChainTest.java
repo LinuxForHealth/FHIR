@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  *  This class tests the persistence layer support for the FHIR _has search parameter.
@@ -89,18 +90,18 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         startTrx();
         // Organizations that will be referenced by a Patient
         savedOrg1 = org.toBuilder().active(com.ibm.fhir.model.type.Boolean.of(true)).build();
-        savedOrg1 = persistence.create(getDefaultPersistenceContext(), savedOrg1).getResource();
+        savedOrg1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedOrg1).getResource();
         savedOrg2 = org.toBuilder().active(com.ibm.fhir.model.type.Boolean.of(true)).name(com.ibm.fhir.model.type.String.of("org2")).build();
-        savedOrg2 = persistence.create(getDefaultPersistenceContext(), savedOrg2).getResource();
-        savedOrg3 = persistence.create(getDefaultPersistenceContext(), org).getResource();
+        savedOrg2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedOrg2).getResource();
+        savedOrg3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), org).getResource();
         savedOrg3 = savedOrg3.toBuilder().name(com.ibm.fhir.model.type.String.of("org3")).build();
-        savedOrg3 = persistence.update(getDefaultPersistenceContext(), savedOrg3.getId(), savedOrg3).getResource();
+        savedOrg3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedOrg3.getId(), savedOrg3).getResource();
 
         // an Encounter that will be referenced by Observations
-        savedEncounter1 = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
+        savedEncounter1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), encounter).getResource();
 
         // an Observation that has no references to any other resource types
-        savedObservation1 = persistence.create(getDefaultPersistenceContext(), observation).getResource();
+        savedObservation1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation).getResource();
 
         // a Patient that will be referenced by Observations and references an Organization
         savedPatient1 = patient.toBuilder()
@@ -110,27 +111,27 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                     .profile(Canonical.of("http://ibm.com/fhir/profile/" + now.toString())).build())
                 .managingOrganization(reference("Organization/" + savedOrg2.getId()))
                 .build();
-        savedPatient1 = persistence.create(getDefaultPersistenceContext(), savedPatient1).getResource();
+        savedPatient1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient1).getResource();
 
         // an Observation with a reference to a Patient and a logical ID-only reference to another observation
         savedObservation2 = observation.toBuilder()
                                         .subject(reference("Patient/" + savedPatient1.getId()))
                                         .hasMember(reference(savedObservation1.getId()))
                                         .build();
-        savedObservation2 = persistence.create(getDefaultPersistenceContext(), savedObservation2).getResource();
+        savedObservation2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation2).getResource();
 
         // an Observation with a reference to a Patient and a reference to an Encounter
         savedObservation3 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient1.getId()))
                                        .encounter(reference("Encounter/" + savedEncounter1.getId()))
                                        .build();
-        savedObservation3 = persistence.create(getDefaultPersistenceContext(), savedObservation3).getResource();
+        savedObservation3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation3).getResource();
 
         // a Patient that will be referenced by an Observation and references an Organization
         savedPatient2 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg3.getId())).build();
-        savedPatient2 = persistence.create(getDefaultPersistenceContext(), savedPatient2).getResource();
+        savedPatient2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient2).getResource();
         savedPatient2 = savedPatient2.toBuilder().name(humanName("Vito", "Corleone")).build();
-        savedPatient2 = persistence.update(getDefaultPersistenceContext(), savedPatient2.getId(), savedPatient2).getResource();
+        savedPatient2 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedPatient2.getId(), savedPatient2).getResource();
 
         // an Observation with a reference to a Patient and a reference to an Encounter
         savedObservation4 = observation.toBuilder()
@@ -139,15 +140,15 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                                        .value(com.ibm.fhir.model.type.String.of("test"))
                                        .code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("code")).build()).build())
                                        .build();
-        savedObservation4 = persistence.create(getDefaultPersistenceContext(), savedObservation4).getResource();
+        savedObservation4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation4).getResource();
 
         // a Patient that references an Organization and is referenced by an Observation and a Device
         savedPatient3 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg1.getId())).build();
-        savedPatient3 = persistence.create(getDefaultPersistenceContext(), savedPatient3).getResource();
+        savedPatient3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient3).getResource();
 
         // a Library that is referenced by an Observation
         savedLibrary1 = library.toBuilder().url(Uri.of("http://ibm.com/fhir/Library/abc")).version(string("1.0")).build();
-        savedLibrary1 = persistence.create(getDefaultPersistenceContext(), savedLibrary1).getResource();
+        savedLibrary1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedLibrary1).getResource();
 
         // an Observation with a reference to a Patient and a Library
         savedObservation5 = observation.toBuilder()
@@ -155,24 +156,24 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                                        .status(ObservationStatus.FINAL)
                                        .focus(reference("Library/" + savedLibrary1.getId()))
                                        .build();
-        savedObservation5 = persistence.create(getDefaultPersistenceContext(), savedObservation5).getResource();
+        savedObservation5 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation5).getResource();
 
         // a Device with a reference to a Patient and a versioned reference to an Organization
         savedDevice1 = device.toBuilder().patient(reference("Patient/" + savedPatient3.getId())).build();
-        savedDevice1 = persistence.create(getDefaultPersistenceContext(), savedDevice1).getResource();
+        savedDevice1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedDevice1).getResource();
         savedDevice1 = savedDevice1.toBuilder()
                                    .manufacturer(string("Updated Manufacturer"))
                                    .owner(reference("Organization/" + savedOrg3.getId() + "/_history/2"))
                                    .build();
-        savedDevice1 = persistence.update(getDefaultPersistenceContext(), savedDevice1.getId(), savedDevice1).getResource();
+        savedDevice1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedDevice1.getId(), savedDevice1).getResource();
 
         // a Device with a versioned reference to an Organization
-        savedDevice2 = persistence.create(getDefaultPersistenceContext(), device).getResource();
+        savedDevice2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), device).getResource();
         savedDevice2 = savedDevice2.toBuilder().owner(reference("Organization/" + savedOrg3.getId() + "/_history/1")).build();
-        savedDevice2 = persistence.update(getDefaultPersistenceContext(), savedDevice2.getId(), savedDevice2).getResource();
+        savedDevice2 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedDevice2.getId(), savedDevice2).getResource();
 
         // a Patient that will have no other resources referencing it
-        savedPatient4 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+        savedPatient4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
 
         // An Observation with versioned references to a Device
         savedObservation6 = observation.toBuilder()
@@ -180,7 +181,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                 .focus(reference("Device/" + savedDevice1.getId() + "/_history/2"))
                 .device(reference("Device/" + savedDevice2.getId() + "/_history/2"))
                 .build();
-        savedObservation6 = persistence.create(getDefaultPersistenceContext(), savedObservation6).getResource();
+        savedObservation6 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation6).getResource();
         commitTrx();
     }
 
@@ -198,7 +199,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
 
             try {
                 for (Resource resource : resources) {
-                    persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
+                    FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
                 }
             } catch (Throwable t) {
                 if (persistence.isTransactional()) {
