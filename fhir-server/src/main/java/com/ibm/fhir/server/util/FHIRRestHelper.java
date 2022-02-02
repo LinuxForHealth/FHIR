@@ -2616,6 +2616,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI, getRequestBaseUri(resourceTypeName));
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, requestParameters);
         operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+        operationContext.setProperty(FHIROperationContext.PROPNAME_FHIR_VERSION, fhirVersion);
     }
 
     @Override
@@ -2984,6 +2985,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         List<String> interactions = null;
         boolean resourceValid = true;
 
+        // TODO: replace with ResourcesConfigAdapter
         // Retrieve the interaction configuration
         try {
             StringBuilder defaultInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
