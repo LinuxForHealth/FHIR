@@ -175,9 +175,9 @@ public class FHIRConfigHelper {
      * @return a non-null list of supported resource types for the given fhirVersion
      */
     public static Set<String> getSupportedResourceTypes(FHIRVersionParam fhirVersion) throws FHIRException {
-        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
         try {
-            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup, fhirVersion);
             return configAdapter.getSupportedResourceTypes();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Unexpected exception while constructing a ResourcesConfigAdapter for fhirServer/resources", e);
