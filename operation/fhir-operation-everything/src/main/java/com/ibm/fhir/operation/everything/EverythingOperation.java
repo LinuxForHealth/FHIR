@@ -25,8 +25,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -223,7 +226,8 @@ public class EverythingOperation extends AbstractOperation {
 
         List<String> defaultResourceTypes = new ArrayList<String>(0);
         try {
-            defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper);
+            FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
+            defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper, fhirVersion);
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
@@ -395,22 +399,14 @@ public class EverythingOperation extends AbstractOperation {
      * @return the list of patient subresources that will be included in the $everything operation
      * @throws FHIRSearchException
      */
-    private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper) throws FHIRSearchException {
+    private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper, FHIRVersionParam fhirVersion) throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
 
         try {
-            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
-            // Examine the resource types to see if they support SEARCH
-            for (String resourceType: supportedResourceTypes) {
-                try {
-                    resourceHelper.validateInteraction(FHIRResourceHelpers.Interaction.SEARCH, resourceType);
-                } catch (FHIROperationException e) {
-                    if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Removing resourceType " + resourceType + " because it does not support SEARCH");
-                    }
-                    supportedResourceTypes.remove(resourceType);
-                }
-            }
+            PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup, fhirVersion);
+            Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.SEARCH);
+
             if (LOG.isLoggable(Level.FINE)) {
                 StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
                 resourceTypeBuilder.append("supportedResourceTypes are: ");
@@ -421,12 +417,10 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.fine(resourceTypeBuilder.toString());
             }
 
-            // Need to have this if check to support server config files that do not specify resources
-            if (!supportedResourceTypes.isEmpty()) {
-                resourceTypes.retainAll(supportedResourceTypes);
-            }
+            resourceTypes.retainAll(supportedResourceTypes);
         } catch (Exception e) {
-            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported resource types of the $everything operation.", e);
+            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list "
+                    + "of supported resource types for the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
@@ -477,9 +471,8 @@ public class EverythingOperation extends AbstractOperation {
                 .build();
     }
 
-    private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters, List<String> extraResources,
-        ParametersMap supportedSearchParametersMap)
-    throws Exception {
+    private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters,
+            List<String> extraResources, ParametersMap supportedSearchParametersMap) throws Exception {
         // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
         // from search parameters only if the request does not have a _type parameter or it does have a
         // _type parameter that includes these
