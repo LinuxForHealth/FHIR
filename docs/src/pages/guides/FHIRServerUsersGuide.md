@@ -2265,7 +2265,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilitiesUrl`|null|
 |`fhirServer/core/externalBaseUrl`|null|
 |`fhirServer/core/ifNoneMatchReturnsNotModified`|false|
-|`fhirServer/core/defaultFhirVersion`|null|
+|`fhirServer/core/defaultFhirVersion`|4.0|
 |`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|true|
 |`fhirServer/validation/failFast`|false|
 |`fhirServer/term/capabilitiesUrl`|null|
