@@ -21,7 +21,6 @@ import com.ibm.fhir.core.ResourceTypeName;
 public class ResourceTypeHelper {
     private static final Set<ResourceTypeName> REMOVED_RESOURCE_TYPES = collectRemovedResourceTypes();
     private static final Set<ResourceTypeName> R4B_ONLY_RESOURCE_TYPES = collectR4bOnlyResourceTypes();
-
     private static final Set<ResourceTypeName> ABSTRACT_TYPES = Collections.unmodifiableSet(new HashSet<>(
             Arrays.asList(
                 ResourceTypeName.RESOURCE,
@@ -48,6 +47,11 @@ public class ResourceTypeHelper {
                 .map(ResourceTypeName::value)
                 .collect(Collectors.toList())));
 
+    private static final Set<String> ABSTRACT_RESOURCES = Collections.unmodifiableSet(
+            ABSTRACT_TYPES.stream()
+                .map(ResourceTypeName::value)
+                .collect(Collectors.toSet()));
+
     /**
      * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
      *          (e.g. "4.3" not "4.3.0")
@@ -69,6 +73,14 @@ public class ResourceTypeHelper {
      */
     public static Set<String> getNewOrBreakingResourceTypeNames() {
         return R4B_ONLY_RESOURCES;
+    }
+
+    /**
+     * @return the set of resource type names that were either introduced in 4.3.0 (e.g. Ingredient) or changed
+     *          in backwards-incompatible ways in the 4.3.0 release (e.g. Evidence and EvidenceVariable)
+     */
+    public static Set<String> getAbstractResourceTypeNames() {
+        return ABSTRACT_RESOURCES;
     }
 
     private static Set<ResourceTypeName> collectRemovedResourceTypes() {

@@ -181,8 +181,8 @@ public class FHIRConfigHelper {
      * @throws IllegalStateException if there is an unexpected issue while processing the config
      */
     public static Set<String> getSupportedResourceTypes(FHIRVersionParam fhirVersion) {
-        PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
+        PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup, fhirVersion);
         return configAdapter.getSupportedResourceTypes();
     }
 
