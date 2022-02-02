@@ -664,7 +664,7 @@ public class BundleValidationTest {
                         .build())
                     .build())
                 .build();
-        
+
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);

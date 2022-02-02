@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,7 +78,7 @@ public class Patch extends FHIRResource {
 
             FHIRPatch patch = createPatch(array);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getFhirVersion());
             ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             status = ior.getStatus();
@@ -136,7 +136,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(e.getMessage(), IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getFhirVersion());
             ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
@@ -199,7 +199,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getFhirVersion());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
@@ -267,7 +267,7 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getFhirVersion());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             status = ior.getStatus();
