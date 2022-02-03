@@ -320,7 +320,7 @@ public class FHIROpenApiGenerator {
 
         // FHIR Whole System History operation
         path = factory.createObjectBuilder();
-        generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", true);
+        generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", false);
         paths.add("/_history", path);
         
         components.add("requestBodies", requestBodies);
@@ -642,7 +642,7 @@ public class FHIROpenApiGenerator {
 
         // FHIR _history interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
-        generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", true);
+        generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", false);
         paths.add("/_history", path);
         swagger.add("paths", paths);
 
@@ -964,7 +964,7 @@ public class FHIROpenApiGenerator {
         // Add Whole system History for type
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "history")) {
-            generateWholeSystemHistoryPathItem(path, modelClass.getSimpleName(), "Get the whole system history for " + modelClass.getSimpleName() + " resources", false);
+            generateWholeSystemHistoryPathItem(path, modelClass.getSimpleName(), "Get the whole system history for " + modelClass.getSimpleName() + " resources", true);
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
@@ -1444,13 +1444,13 @@ public class FHIROpenApiGenerator {
 
     /**
      * This method is used by both the resource specific whole system history path generation and the general whole system history path generation.  
-     * The only differences are whether to include the type, which the resource specific path doesn't need and small differences between the tag and summary.
+     * If it is resource specific, the type parameter will not be generated and the resource type will be included in the operationId.
      * @param path
      * @param tag
      * @param summary
-     * @param includeType
+     * @param resourceSpecific
      */
-    private static void generateWholeSystemHistoryPathItem(JsonObjectBuilder path, String tag, String summary, boolean includeType) {
+    private static void generateWholeSystemHistoryPathItem(JsonObjectBuilder path, String tag, String summary, boolean resourceSpecific) {
         JsonObjectBuilder get = factory.createObjectBuilder();
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
@@ -1458,7 +1458,12 @@ public class FHIROpenApiGenerator {
 
         get.add("tags", tags);
         get.add("summary", summary);
-        get.add("operationId", "_history");
+        
+        String operationId = "wholeSystemHistory";
+        if (resourceSpecific) {
+            operationId = operationId + tag;
+        }
+        get.add("operationId", operationId);
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
         produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -1482,7 +1487,8 @@ public class FHIROpenApiGenerator {
         countParameter.add("$ref", "#/components/parameters/_countParam");
         parameters.add(countParameter);
         
-        if (includeType) {
+        // Add the type parameter if non resource specific
+        if (!resourceSpecific) {
             JsonObjectBuilder typeParameter = factory.createObjectBuilder();
             typeParameter.add("$ref", "#/components/parameters/_typeParam");
             parameters.add(typeParameter);
