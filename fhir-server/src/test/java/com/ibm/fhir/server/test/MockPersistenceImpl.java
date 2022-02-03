@@ -156,15 +156,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         // NOP. No need to do anything in this very simple mock
-        
-        // TODO REMOVE
-//        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
-//        return updatedResource;
-//        SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
-//                .success(true)
-//                .interactionStatus(InteractionStatus.MODIFIED)
-//                .resource(updatedResource);
-//        return resultBuilder.build();
     }
 
     @Override

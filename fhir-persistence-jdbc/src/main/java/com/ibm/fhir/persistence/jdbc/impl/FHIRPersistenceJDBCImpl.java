@@ -560,7 +560,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
-        final String METHODNAME = "updateWithMeta";
+        final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
@@ -1020,7 +1020,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        final String METHODNAME = "deleteWithMeta";
+        final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
