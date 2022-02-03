@@ -30,9 +30,8 @@ public class FHIRSearchContextFactory {
      * Returns a new instance of the FHIRSearchContext interface.
      */
     public static FHIRSearchContext createSearchContext() {
-        System.out.println("\n\n\n\n\n!!!!!! In createSearchContext !!!!!!\n\n\n\n\n");
-        System.out.println("tenant: " + FHIRRequestContext.get().getTenantId());
-        System.out.println("datastore: " + FHIRRequestContext.get().getDataStoreId());
+        System.out.println("entering createSearchContext " + Thread.currentThread().getName());
+        System.out.println("tenant/datastore: " + FHIRRequestContext.get().getTenantId() + "/" + FHIRRequestContext.get().getDataStoreId());
         int maxPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
         int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
         if (pageSize > maxPageSize) {
@@ -46,6 +45,7 @@ public class FHIRSearchContextFactory {
         ctx.setPageSize(pageSize);
         ctx.setMaxPageSize(maxPageSize);
         ctx.setMaxPageIncludeCount(maxPageIncludeCount);
+        System.out.println("exiting createSearchContext " + Thread.currentThread().getName());
         return ctx;
     }
 }

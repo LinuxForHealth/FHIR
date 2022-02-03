@@ -23,12 +23,14 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
+    - name: Print env
+      run: env
     - name: Build tools
       run: mvn -B install --file fhir-tools -Dmaven.wagon.http.retryHandler.count=3
     - name: Build samples with condensed json
       run: mvn -B install --file fhir-examples -P condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent with condensed json
-      run: mvn -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
+      run: MAVEN_OPTS=-XshowSettings:all mvn -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build sample generator
       run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3
     - name: Build benchmark
@@ -59,6 +61,7 @@ jobs:
     - name: Build parent with tests
       env:
         BASE: origin/${{ github['base_ref'] }}
+        MAVEN_OPTS: -XshowSettings:all 
       run: |
         mvn -version
         model_paths=(
