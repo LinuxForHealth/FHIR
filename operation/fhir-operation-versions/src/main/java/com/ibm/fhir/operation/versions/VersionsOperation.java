@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.operation.versions;
 
-import static com.ibm.fhir.model.type.String.string;
-
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
@@ -43,11 +41,13 @@ public class VersionsOperation extends AbstractOperation {
 
             Parameters.Builder builder = Parameters.builder();
             builder.parameter(Parameter.builder()
-                .name(string(PARAM_VERSION))
-                .value(Code.of("4.0")).build());
+                .name(PARAM_VERSION)
+                .value(Code.of("4.0"))
+                .build());
             builder.parameter(Parameter.builder()
-                .name(string(PARAM_DEFAULT))
-                .value(Code.of("4.0")).build());
+                .name(PARAM_DEFAULT)
+                .value(Code.of("4.0"))
+                .build());
             return builder.build();
 
         } catch (Throwable t) {
