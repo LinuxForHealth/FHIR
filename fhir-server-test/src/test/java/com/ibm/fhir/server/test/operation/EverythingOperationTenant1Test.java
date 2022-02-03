@@ -48,7 +48,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
     private static final String CLASSNAME = EverythingOperationTest.class.getName();
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
-    public static final String EXPRESSION_OPERATION = "rest.resource.operation.name";
+    public static final String EXPRESSION_OPERATION = "rest.resource.where(type='Patient').operation.name";
 
     private static Boolean SKIP = null;
 
@@ -95,7 +95,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         Bundle patientBundle = TestUtil.readLocalResource("everything-operation/Patient999.json");
         Entity<Bundle> entity = Entity.entity(patientBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response response = getWebTarget().request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").post(entity, Response.class);
+        Response response = getWebTarget().request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .post(entity, Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.readEntity(Bundle.class);
@@ -119,7 +122,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         }
         // Get the patient ID and invoke the $everything operation on it
         patientId = createdResources.get("Patient").get(0);
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
 
         // Create a deep copy of the created resources so we can modify it
         // but keep the original so we can delete all created resources
@@ -171,7 +177,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_count", 1).request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -185,7 +194,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -195,7 +207,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
@@ -210,7 +225,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
             return;
         }
         Response response =
-                getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan,UnknownType").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+                getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan,UnknownType").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
@@ -220,7 +238,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -254,13 +275,22 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(ptnt, responsePatient);
 
-        response = getWebTarget().path("Patient/" + id).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").delete();
+        response = getWebTarget().path("Patient/" + id).request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
-        response = getWebTarget().path("Patient/" + id).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        response = getWebTarget().path("Patient/" + id).request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
         assertResponse(response, Response.Status.GONE.getStatusCode());
 
-        response = getWebTarget().path("Patient/" + id + "/$everything").request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").get(Response.class);
+        response = getWebTarget().path("Patient/" + id + "/$everything").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
@@ -274,7 +304,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
             String resourceType = entry.getKey();
             List<String> resourceIds = entry.getValue();
             for (String resourceId : resourceIds) {
-                Response response = getWebTarget().path(resourceType + "/" + resourceId).request().header("X-FHIR-TENANT-ID", "tenant1").header("X-FHIR-DSID", "profile").delete();
+                Response response = getWebTarget().path(resourceType + "/" + resourceId).request()
+                        .header("X-FHIR-TENANT-ID", "tenant1")
+                        .header("X-FHIR-DSID", "profile")
+                        .delete();
                 if (response.getStatus() != Response.Status.OK.getStatusCode()) {
                     println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
                 }
