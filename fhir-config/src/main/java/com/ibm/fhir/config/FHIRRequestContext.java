@@ -9,6 +9,7 @@ package com.ibm.fhir.config;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -169,6 +170,7 @@ public class FHIRRequestContext {
      * This method is called when the FHIR Server starts processing a request.
      */
     public static void set(FHIRRequestContext context) {
+        Objects.requireNonNull(context);
         contexts.set(context);
         if (log.isLoggable(Level.FINEST)) {
             log.finest("FHIRRequestContext.set: " + context.toString());
