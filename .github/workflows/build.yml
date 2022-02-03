@@ -30,7 +30,7 @@ jobs:
     - name: Build samples with condensed json
       run: mvn -B install --file fhir-examples -P condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent with condensed json
-      run: MAVEN_OPTS=-XshowSettings:all mvn -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
+      run: MAVEN_OPTS=-XshowSettings:all mvn -e -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build sample generator
       run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3
     - name: Build benchmark
@@ -119,7 +119,7 @@ jobs:
         echo "Using profiles ${PROFILES}"
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B -e package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
   e2e-tests:
     runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
