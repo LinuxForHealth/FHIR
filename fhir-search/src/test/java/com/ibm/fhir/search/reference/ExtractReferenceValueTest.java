@@ -34,7 +34,7 @@ public class ExtractReferenceValueTest {
     public void tidy() {
         // clear out the request context so we don't confuse other tests which
         // have forgotten to set this
-        FHIRRequestContext.get().remove();
+        FHIRRequestContext.remove();
     }
 
     @Test
