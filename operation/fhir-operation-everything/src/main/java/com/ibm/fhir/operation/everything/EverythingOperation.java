@@ -212,11 +212,11 @@ public class EverythingOperation extends AbstractOperation {
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
-        
+
         Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
- 
+
         boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
@@ -226,11 +226,11 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 searchParameters = queryParametersWithoutDates;
             }
-            
+
             // Need to construct a new version of the map each time through the loop to edit
-            MultivaluedMap<String, String> tempSearchParameters = 
+            MultivaluedMap<String, String> tempSearchParameters =
                     new MultivaluedHashMap<String, String>(searchParameters);
-            
+
             Bundle results = null;
             int currentResourceCount = 0;
             try {
@@ -242,7 +242,7 @@ public class EverythingOperation extends AbstractOperation {
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
                 int countBeforeAddingNewResources = allEntries.size();
                 processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
-                currentResourceCount = results.getTotal().getValue();          
+                currentResourceCount = results.getTotal().getValue();
                 if (LOG.isLoggable(Level.FINEST)) {
                     LOG.finest("Got " + compartmentType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
                 }
@@ -271,7 +271,7 @@ public class EverythingOperation extends AbstractOperation {
                     }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);                  
+                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
                         processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
@@ -382,7 +382,7 @@ public class EverythingOperation extends AbstractOperation {
      */
     private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper) throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
-        
+
         try {
             List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
             // Examine the resource types to see if they support SEARCH
@@ -405,7 +405,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 LOG.fine(resourceTypeBuilder.toString());
             }
-            
+
             // Need to have this if check to support server config files that do not specify resources
             if (!supportedResourceTypes.isEmpty()) {
                 resourceTypes.retainAll(supportedResourceTypes);
@@ -415,7 +415,7 @@ public class EverythingOperation extends AbstractOperation {
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
-        
+
         if (LOG.isLoggable(Level.FINE)) {
             StringBuilder resourceTypeBuilder = new StringBuilder(resourceTypes.size());
             resourceTypeBuilder.append("resourceTypes are: ");
@@ -461,24 +461,24 @@ public class EverythingOperation extends AbstractOperation {
                 .value(requestBaseURI + "/" + uriPath)
                 .build();
     }
-    
+
     private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters, List<String> extraResources,
         ParametersMap supportedSearchParametersMap)
     throws Exception {
         // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
-        // from search parameters only if the request does not have a _type parameter or it does have a 
+        // from search parameters only if the request does not have a _type parameter or it does have a
         // _type parameter that includes these
-        
+
         List<String> allowedIncludes = new ArrayList<String>(10);
-        
+
         try {
             allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(compartmentMemberType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
         } catch (Exception e) {
             FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported search parameters for the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;      
+            throw exceptionWithIssue;
         }
-        
+
         // Add in _includes for all search parameters that are Location, Medication, Organization, or Practitioner
         if (compartmentMemberType.equals(ResourceType.Value.ADVERSE_EVENT.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -511,7 +511,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CARE_PLAN.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CARE_TEAM.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.ORGANIZATION,searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -558,7 +558,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COVERAGE.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "payor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "policy-holder", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "policy-holder", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COVERAGE_ELIGIBILITY_REQUEST.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -601,7 +601,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.EPISODE_OF_CARE.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "care-manager", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.EXPLANATION_OF_BENEFIT.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -620,7 +620,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.GOAL.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.GROUP.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -719,7 +719,7 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SPECIMEN.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "collector", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
             addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
@@ -735,19 +735,19 @@ public class EverythingOperation extends AbstractOperation {
             addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.VISION_PRESCRIPTION.value())) {
             addSearchParameterIfNotExcluded(compartmentMemberType, "prescriber", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
-        } 
-            
+        }
+
         // BodyStructure, ResearchSubject, and RelatedPerson have no references to:
         // Location, Medication, Organization, and Practitioner
-        
-        // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem, 
-        // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence, 
-        // and NutritionOrder have no search parameters that reference: 
+
+        // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem,
+        // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence,
+        // and NutritionOrder have no search parameters that reference:
         // Location, Medication, Organization, and Practitioner
     }
-    
-    private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code, 
-            ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters, 
+
+    private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code,
+            ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters,
             List<String> allowedIncludes, List<String> extraResources, ParametersMap supportedSearchParametersMap) {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
@@ -757,7 +757,7 @@ public class EverythingOperation extends AbstractOperation {
         SearchParameter searchParam = supportedSearchParametersMap.lookupByCode(code);
         if ((extraResources != null && extraResources.contains(subResourceType.value())) &&
                 (allowedIncludes == null || allowedIncludes.contains(parameterName)
-                || allowedIncludes.contains(simplifiedParameterName)) && 
+                || allowedIncludes.contains(simplifiedParameterName)) &&
                 searchParam != null) {
             searchParameters.add("_include", parameterName);
         } else {
@@ -766,19 +766,19 @@ public class EverythingOperation extends AbstractOperation {
             }
         }
     }
-    
+
     /**
-     * Read additional associated resources for the "extra" types (like location) 
+     * Read additional associated resources for the "extra" types (like location)
      * supported by this server configuration
      *
      * @param compartmentMemberType the type of resource currently drilling down on
      * @param newEntries a list of entries of that compartment type that were found in a search
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
-     * @param extraResources a list of "extra" resource types configured for this server 
+     * @param extraResources a list of "extra" resource types configured for this server
      */
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, List<String> resourceIds, 
+                List<Entry> allEntries, List<String> resourceIds,
                 FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
@@ -817,19 +817,19 @@ public class EverythingOperation extends AbstractOperation {
 
         // Transform resources into Entries
         for (Resource resource: resourceList) {
-            // Hit a case where if a reference points to an object that doesn't exist, 
+            // Hit a case where if a reference points to an object that doesn't exist,
             // i.e.- "asserter":{"reference":"Practitioner/DollarEverythingTest-DOESNOTEXIST"},
             // the resource object is null
             if (resource != null) {
                 Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
-                
+
                 entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                 entryBuilder.resource(resource);
                 allEntries.add(entryBuilder.build());
             }
         }
     }
-    
+
     /**
      * Process results retrieve to avoid duplicates and retrieve additional resources through references, if applicable
      *
@@ -839,11 +839,11 @@ public class EverythingOperation extends AbstractOperation {
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
      * @param resourceIds a list of all the resource ids already added to the results
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
-     * @param extraResources a list of "extra" resource types configured for this server 
+     * @param extraResources a list of "extra" resource types configured for this server
      * @param retrieveAdditionalResources whether the server config has specified to retrieve additional resources
      */
     private void processResults(Bundle results, String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, List<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources, 
+                List<Entry> allEntries, List<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources,
                 boolean retrieveAdditionalResources) throws Exception {
         // Only add resources we don't already have and keep track of what we've found so far,
         // otherwise, we were getting duplicate entries from the _includes
