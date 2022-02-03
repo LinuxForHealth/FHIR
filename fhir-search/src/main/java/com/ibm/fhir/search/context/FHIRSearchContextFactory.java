@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 
@@ -29,6 +30,9 @@ public class FHIRSearchContextFactory {
      * Returns a new instance of the FHIRSearchContext interface.
      */
     public static FHIRSearchContext createSearchContext() {
+        System.out.println("\n\n\n\n\n!!!!!! In createSearchContext !!!!!!\n\n\n\n\n"
+        System.out.println("tenant: " + FHIRRequestContext.get().getTenantId());
+        System.out.println("datastore: " + FHIRRequestContext.get().getDataStoreId());
         int maxPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
         int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
         if (pageSize > maxPageSize) {
