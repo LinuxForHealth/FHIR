@@ -30,7 +30,7 @@ jobs:
     - name: Build samples with condensed json
       run: mvn -B install --file fhir-examples -P condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent with condensed json
-      run: MAVEN_OPTS=-XshowSettings:all mvn -e -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
+      run: MAVEN_OPTS=-XshowSettings:all mvn -X -B install --file fhir-parent -P integration,condense-json -Dmaven.wagon.http.retryHandler.count=3
     - name: Build sample generator
       run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3
     - name: Build benchmark

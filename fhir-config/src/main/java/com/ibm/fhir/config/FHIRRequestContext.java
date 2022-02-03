@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,7 +50,7 @@ public class FHIRRequestContext {
 
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
-    
+
     // True if the returnPreference was not passed and is using the default value
     private boolean returnPreferenceDefault;
 
@@ -85,6 +85,7 @@ public class FHIRRequestContext {
     }
 
     public String getTenantId() {
+        if (tenantId == null) return FHIRConfiguration.DEFAULT_TENANT_ID;
         return tenantId;
     }
 
@@ -131,6 +132,7 @@ public class FHIRRequestContext {
     }
 
     public String getDataStoreId() {
+        if (dataStoreId == null) return FHIRConfiguration.DEFAULT_DATASTORE_ID;
         return dataStoreId;
     }
 
