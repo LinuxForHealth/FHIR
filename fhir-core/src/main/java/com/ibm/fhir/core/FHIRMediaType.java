@@ -28,6 +28,8 @@ public class FHIRMediaType extends MediaType {
     // Supported values for the MIME-type parameter fhirVersion.
     // https://www.hl7.org/fhir/http.html#version-parameter
     public static final String FHIR_VERSION_PARAMETER = "fhirVersion";
+    public static final Set<String> ADVERTISED_FHIR_VERSIONS =
+            Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(VERSION_40, VERSION_43)));
     public static final Set<String> SUPPORTED_FHIR_VERSIONS =
             Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(VERSION_40, VERSION_401, VERSION_43, VERSION_430)));
 
