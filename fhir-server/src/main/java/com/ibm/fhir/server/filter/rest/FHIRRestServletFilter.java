@@ -343,7 +343,7 @@ public class FHIRRestServletFilter extends HttpFilter {
                             if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
                                 throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
                                     + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
-                                        + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
+                                        + FHIRMediaType.ADVERTISED_FHIR_VERSIONS, headerStatusMap.get(headerName));
                             }
                             // If Content-Type header, check for multiple different FHIR versions
                             if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
