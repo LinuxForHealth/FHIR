@@ -28,14 +28,13 @@ public class ExtractReferenceValueTest {
         // reference params
         FHIRRequestContext context = new FHIRRequestContext();
         context.setOriginalRequestUri(BASE);
-        FHIRRequestContext.set(context);
     }
 
     @AfterClass
     public void tidy() {
         // clear out the request context so we don't confuse other tests which
         // have forgotten to set this
-        contexts.remove();
+        FHIRRequestContext.get().remove();
     }
 
     @Test
