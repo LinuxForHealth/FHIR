@@ -152,12 +152,14 @@
             "membermatch": {
                 "enabled": false
             },
-            "everything": [
-                "Location",
-                "Medication",
-                "Organization",
-                "Practitioner"
-            ]
+            "everything": {
+                "includeTypes": [
+                    "Location",
+                    "Medication",
+                    "Organization",
+                    "Practitioner"
+                ]
+            }
         }
     }
 }
