@@ -3003,12 +3003,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     IssueType.NOT_FOUND, IssueSeverity.ERROR);
         }
 
-        if (fhirVersion == FHIRVersionParam.VERSION_40) {
-            // ensure that the version of this resource type in 4.0.1 is compatible with the fhirVersion of the server
-            if (ResourceTypeHelper.getNewOrBreakingResourceTypeNames().contains(resourceType)) {
-                throw buildRestException("The requested resource type '" + resourceType + "' is not supported for fhirVersion 4.0",
-                        IssueType.NOT_SUPPORTED, IssueSeverity.ERROR);
-            }
+        // ensure that the resource type and fhirVersion for the interaction is compatible with the fhirVersion of the server
+        if (ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+            throw buildRestException("The requested resource type '" + resourceType + "' is not supported for fhirVersion 4.0",
+                    IssueType.NOT_SUPPORTED, IssueSeverity.ERROR);
         }
     }
 

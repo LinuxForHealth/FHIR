@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,60 +21,153 @@ import com.ibm.fhir.core.ResourceTypeName;
  * Helper methods for working with FHIR Resource Type Strings
  */
 public class ResourceTypeHelper {
-    private static final Set<ResourceTypeName> REMOVED_RESOURCE_TYPES = collectRemovedResourceTypes();
-    private static final Set<ResourceTypeName> R4B_ONLY_RESOURCE_TYPES = collectR4bOnlyResourceTypes();
-    private static final Set<ResourceTypeName> ABSTRACT_TYPES = Collections.unmodifiableSet(new HashSet<>(
+    private static final Set<ResourceTypeName> R4_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_40);
+    private static final Set<ResourceTypeName> R4B_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_43);
+    private static final Set<ResourceTypeName> R4B_ONLY_RESOURCE_ENUMS = collectR4bOnlyResourceTypes();
+    private static final Set<ResourceTypeName> ABSTRACT_TYPE_ENUMS = Collections.unmodifiableSet(new HashSet<>(
             Arrays.asList(
                 ResourceTypeName.RESOURCE,
                 ResourceTypeName.DOMAIN_RESOURCE
             )));
+    /**
+     * valid instances from 4.0 may not be valid in 4.3
+     */
+    private static final Set<ResourceTypeName> BACKWARD_BREAKING_R4B_ENUMS = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList(
+                ResourceTypeName.DEVICE_DEFINITION,
+                ResourceTypeName.EVIDENCE,
+                ResourceTypeName.EVIDENCE_VARIABLE
+            )));
+    /**
+     * valid instances from 4.3 may not be valid in 4.0
+     */
+    private static final Set<ResourceTypeName> FORWARD_BREAKING_R4B_ENUMS = Collections.unmodifiableSet(new HashSet<>(
+            Arrays.asList(
+                ResourceTypeName.DEVICE_DEFINITION,
+                ResourceTypeName.EVIDENCE,
+                ResourceTypeName.EVIDENCE_VARIABLE,
+                ResourceTypeName.ACTIVITY_DEFINITION,
+                ResourceTypeName.PLAN_DEFINITION
+            )));
 
-    private static final Set<String> R4_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
-            Arrays.stream(ResourceTypeName.values())
-                .filter(rtn -> !REMOVED_RESOURCE_TYPES.contains(rtn))
-                .filter(rtn -> !R4B_ONLY_RESOURCE_TYPES.contains(rtn))
-                .filter(rtn -> !ABSTRACT_TYPES.contains(rtn))
+    private static final Set<String> R4_COMPATABLE_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
+            R4_ENUMS.stream()
+                .filter(rtn -> !ABSTRACT_TYPE_ENUMS.contains(rtn))
                 .map(ResourceTypeName::value)
                 .collect(Collectors.toList())));
 
-    private static final Set<String> R4B_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
-            Arrays.stream(ResourceTypeName.values())
-                .filter(rtn -> !REMOVED_RESOURCE_TYPES.contains(rtn))
-                .filter(rtn -> !ABSTRACT_TYPES.contains(rtn))
+    private static final Set<String> R4B_COMPATABLE_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
+            R4B_ENUMS.stream()
+                .filter(rtn -> !ABSTRACT_TYPE_ENUMS.contains(rtn))
                 .map(ResourceTypeName::value)
                 .collect(Collectors.toList())));
 
-    private static final Set<String> R4B_ONLY_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
-            R4B_ONLY_RESOURCE_TYPES.stream()
+    private static final Set<String> R4_AND_R4B_COMPATABLE_RESOURCES = Collections.unmodifiableSet(new LinkedHashSet<>(
+            R4B_ENUMS.stream()
+                .filter(rtn -> !R4B_ONLY_RESOURCE_ENUMS.contains(rtn))
+                .filter(rtn -> !BACKWARD_BREAKING_R4B_ENUMS.contains(rtn))
+                .filter(rtn -> !ABSTRACT_TYPE_ENUMS.contains(rtn))
                 .map(ResourceTypeName::value)
                 .collect(Collectors.toList())));
 
     private static final Set<String> ABSTRACT_RESOURCES = Collections.unmodifiableSet(
-            ABSTRACT_TYPES.stream()
+            ABSTRACT_TYPE_ENUMS.stream()
+                .map(ResourceTypeName::value)
+                .collect(Collectors.toSet()));
+
+    private static final Set<String> BACKWARD_BREAKING_R4B_RESOURCES = Collections.unmodifiableSet(
+            BACKWARD_BREAKING_R4B_ENUMS.stream()
+                .map(ResourceTypeName::value)
+                .collect(Collectors.toSet()));
+
+    private static final Set<String> FORWARD_BREAKING_R4B_RESOURCES = Collections.unmodifiableSet(
+            FORWARD_BREAKING_R4B_ENUMS.stream()
                 .map(ResourceTypeName::value)
                 .collect(Collectors.toSet()));
 
     /**
      * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
-     *          (e.g. "4.3" not "4.3.0")
      * @return a set of resource type names that corresponds to the requested fhirVersion
      */
     public static Set<String> getResourceTypesFor(FHIRVersionParam fhirVersion) {
         switch (fhirVersion) {
-        case VERSION_43:
-            return R4B_RESOURCES;
         case VERSION_40:
+            return R4_COMPATABLE_RESOURCES;
+        case VERSION_43:
+            return R4B_COMPATABLE_RESOURCES;
         default:
-            return R4_RESOURCES;
+            throw new IllegalArgumentException("unexpected fhirVersion " + fhirVersion.value());
         }
     }
 
     /**
-     * @return the set of resource type names that were either introduced in 4.3.0 (e.g. Ingredient) or changed
-     *          in backwards-incompatible ways in the 4.3.0 release (e.g. Evidence and EvidenceVariable)
+     * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
+     * @return a set of resource type names that corresponds to the requested fhirVersion
      */
-    public static Set<String> getNewOrBreakingResourceTypeNames() {
-        return R4B_ONLY_RESOURCES;
+    public static Set<String> getR4bResourceTypesFor(FHIRVersionParam fhirVersion) {
+        switch (fhirVersion) {
+        case VERSION_43:
+            return R4B_COMPATABLE_RESOURCES;
+        case VERSION_40:
+            return R4_AND_R4B_COMPATABLE_RESOURCES;
+        default:
+            throw new IllegalArgumentException("unexpected fhirVersion " + fhirVersion.value());
+        }
+    }
+
+    /**
+     * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
+     * @return a set of resource type names that corresponds to the requested fhirVersion
+     */
+    public static Set<String> getCompatibleResourceTypes(FHIRVersionParam sourceFhirVersion, FHIRVersionParam targetFhirVersion) {
+        if (sourceFhirVersion == FHIRVersionParam.VERSION_40) {
+            switch(targetFhirVersion) {
+            case VERSION_40:
+                return R4_COMPATABLE_RESOURCES;
+            case VERSION_43:
+                return R4_AND_R4B_COMPATABLE_RESOURCES;
+            }
+        }
+
+        // sourceFhirVersion is 4.3
+        if (targetFhirVersion == FHIRVersionParam.VERSION_40) {
+            return new LinkedHashSet<>(R4B_ENUMS.stream()
+                    .filter(rtn -> !R4B_ONLY_RESOURCE_ENUMS.contains(rtn))
+                    .filter(rtn -> !FORWARD_BREAKING_R4B_ENUMS.contains(rtn))
+                    .filter(rtn -> !ABSTRACT_TYPE_ENUMS.contains(rtn))
+                    .map(ResourceTypeName::value)
+                    .collect(Collectors.toList()));
+        }
+        return R4B_COMPATABLE_RESOURCES;
+    }
+
+    /**
+     * @param fhirVersions A set of fhirVersions;
+     *     if no fhirVerions are passed, the implementation will assume fhirVersion 4.3.0
+     * @return a set of resource type names for resource types that are compatable across all of the passed fhirVerions
+     */
+    public static Set<String> getCompatibleResourceTypes(FHIRVersionParam... fhirVersions) {
+        List<FHIRVersionParam> fhirVersionList = Arrays.stream(fhirVersions)
+            .filter(Objects::nonNull)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
+
+        if (fhirVersionList.isEmpty()) {
+            return R4B_COMPATABLE_RESOURCES;
+        }
+
+        // currently there's only 2 possible values for FHIRVersionParam, so that makes it easy
+        if (fhirVersionList.size() == 2) {
+            return R4_AND_R4B_COMPATABLE_RESOURCES;
+        }
+        switch(fhirVersionList.get(0)) {
+        case VERSION_40:
+            return R4_COMPATABLE_RESOURCES;
+        case VERSION_43:
+        default:
+            return R4B_COMPATABLE_RESOURCES;
+        }
     }
 
     /**
@@ -83,26 +178,39 @@ public class ResourceTypeHelper {
         return ABSTRACT_RESOURCES;
     }
 
-    private static Set<ResourceTypeName> collectRemovedResourceTypes() {
-        Set<ResourceTypeName> set = new HashSet<>();
-        set.add(ResourceTypeName.EFFECT_EVIDENCE_SYNTHESIS);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_AUTHORIZATION);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_CONTRAINDICATION);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_INDICATION);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_INGREDIENT);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_INTERACTION);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_MANUFACTURED);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_PACKAGED);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_PHARMACEUTICAL);
-        set.add(ResourceTypeName.MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT);
-        set.add(ResourceTypeName.RISK_EVIDENCE_SYNTHESIS);
-        set.add(ResourceTypeName.SUBSTANCE_NUCLEIC_ACID);
-        set.add(ResourceTypeName.SUBSTANCE_POLYMER);
-        set.add(ResourceTypeName.SUBSTANCE_PROTEIN);
-        set.add(ResourceTypeName.SUBSTANCE_REFERENCE_INFORMATION);
-        set.add(ResourceTypeName.SUBSTANCE_SOURCE_MATERIAL);
-        set.add(ResourceTypeName.SUBSTANCE_SPECIFICATION);
+    /**
+     * @param resourceType a valid resource type string
+     * @param resourceVersion the source version for the compatibility check
+     * @param fhirVersion the target version for the compatibility check
+     * @return whether the resourceType is supported in this server for interactions with the passed fhirVersion
+     */
+    public static boolean isCompatible(String resourceType, FHIRVersionParam resourceVersion, FHIRVersionParam fhirVersion) {
+        if (!getResourceTypesFor(fhirVersion).contains(resourceType)) {
+            return false;
+        }
+
+        if (resourceVersion == fhirVersion) {
+            return true;
+        }
+
+        switch (resourceVersion) {
+        case VERSION_40:
+            return !BACKWARD_BREAKING_R4B_RESOURCES.contains(resourceType);
+        case VERSION_43:
+        default:
+            return !FORWARD_BREAKING_R4B_RESOURCES.contains(resourceType);
+        }
+    }
+
+    private static Set<ResourceTypeName> collectResourceTypesFor(FHIRVersionParam fhirVersion) {
+        Set<ResourceTypeName> set = new LinkedHashSet<>();
+        for(ResourceTypeName r : ResourceTypeName.values()) {
+            if (r.getIntroduced().compareTo(fhirVersion) <= 0) {
+                if (r.getRetired() == null || fhirVersion.compareTo(r.getRetired()) < 0) {
+                    set.add(r);
+                }
+            }
+        }
         return set;
     }
 
@@ -121,11 +229,6 @@ public class ResourceTypeHelper {
         set.add(ResourceTypeName.SUBSCRIPTION_STATUS);
         set.add(ResourceTypeName.SUBSCRIPTION_TOPIC);
         set.add(ResourceTypeName.SUBSTANCE_DEFINITION);
-        // The following resource types existed in R4, but have breaking changes in R4B.
-        // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
-        set.add(ResourceTypeName.DEVICE_DEFINITION);
-        set.add(ResourceTypeName.EVIDENCE);
-        set.add(ResourceTypeName.EVIDENCE_VARIABLE);
         return set;
     }
 }
