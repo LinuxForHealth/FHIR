@@ -126,9 +126,6 @@ public class ResourceTypeHelper {
         set.add(ResourceTypeName.DEVICE_DEFINITION);
         set.add(ResourceTypeName.EVIDENCE);
         set.add(ResourceTypeName.EVIDENCE_VARIABLE);
-        // TODO: make final decision on whether to lump these in with the breaking resources
-        // R4B_ONLY_RESOURCES.add(ResourceTypeName.PLAN_DEFINITION);
-        // R4B_ONLY_RESOURCES.add(ResourceTypeName.ACTIVITY_DEFINITION);
         return set;
     }
 }
