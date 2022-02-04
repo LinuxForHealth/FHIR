@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -108,6 +108,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_NATS_TRUSTSTORE_PW = "fhirServer/notifications/nats/truststorePassword";
     public static final String PROPERTY_NATS_KEYSTORE = "fhirServer/notifications/nats/keystoreLocation";
     public static final String PROPERTY_NATS_KEYSTORE_PW = "fhirServer/notifications/nats/keystorePassword";
+
+    // Operations config properties
+    public static final String PROPERTY_OPERATIONS_EVERYTHING = "fhirServer/operations/everything";
+    public static final String PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES = "includeTypes";
 
     // Persistence layer properties
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";

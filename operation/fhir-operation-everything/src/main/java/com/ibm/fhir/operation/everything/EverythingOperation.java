@@ -23,7 +23,9 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -41,6 +43,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
@@ -186,7 +189,17 @@ public class EverythingOperation extends AbstractOperation {
         allEntries.add(patientEntry);
         List<String> resourceIds = new ArrayList<String>();
         // Look up which extra resources should be returned
-        List<String> extraResources = FHIRConfigHelper.getStringListProperty("fhirServer/operations/everything");
+        List<String> extraResources = new ArrayList<String>();
+        try {
+            PropertyGroup parentResourcePropGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING);
+            extraResources = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES);
+        } catch (Exception e) {
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
+                IssueType.EXCEPTION, e);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
+        }
+
         // Patient is not part of its own compartment at this time.  If that behavior changes, remove these next lines
         List<Entry> entryList = new ArrayList<Entry>(1);
         entryList.add(patientEntry);
@@ -194,7 +207,7 @@ public class EverythingOperation extends AbstractOperation {
             readsOfAdditionalAssociatedResources(PATIENT, entryList, allEntries, resourceIds, resourceHelper, extraResources);
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                    + "resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                    + "related resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
@@ -218,11 +231,11 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
 
         boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
-        for (String compartmentType : resourceTypes) {
+        for (String compartmentMemberType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
-            if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
+            if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentMemberType)) {
                 if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
+                    LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentMemberType + "', so will be ignored.");
                 }
                 searchParameters = queryParametersWithoutDates;
             }
@@ -236,19 +249,19 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
                 if (retrieveAdditionalResources) {
-                    ParametersMap supportedSearchParametersMap = supportedSearchParameters.get(compartmentType);
-                    addIncludesSearchParameters(compartmentType, tempSearchParameters, extraResources, supportedSearchParametersMap);
+                    ParametersMap supportedSearchParametersMap = supportedSearchParameters.get(compartmentMemberType);
+                    addIncludesSearchParameters(compartmentMemberType, tempSearchParameters, extraResources, supportedSearchParametersMap);
                 }
-                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
+                results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
                 int countBeforeAddingNewResources = allEntries.size();
-                processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
+                processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                 currentResourceCount = results.getTotal().getValue();
                 if (LOG.isLoggable(Level.FINEST)) {
-                    LOG.finest("Got " + compartmentType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
+                    LOG.finest("Got " + compartmentMemberType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
                 }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                        + "resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                        + "resources of type '" + compartmentMemberType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
@@ -267,15 +280,15 @@ public class EverythingOperation extends AbstractOperation {
                 int page = 2;
                 while ((currentResourceCount -= maxPageSize) > 0) {
                     if (LOG.isLoggable(Level.FINEST)) {
-                        LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
+                        LOG.finest("Retrieving page " + page + " of the " + compartmentMemberType + " resources for patient " + logicalId);
                     }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
-                        processResults(results, compartmentType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
+                        results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
+                        processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
-                                + "$everything resources page '" + page + "' of type '" + compartmentType + "' "
+                                + "$everything resources page '" + page + "' of type '" + compartmentMemberType + "' "
                                 + "for patient " + logicalId, IssueType.EXCEPTION, e);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                         throw exceptionWithIssue;
@@ -769,10 +782,12 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * Read additional associated resources for the "extra" types (like location)
-     * supported by this server configuration
+     * supported by this server configuration.  Only LITERAL_RELATIVE references are
+     * resolved as LITERAL_ABSOLUTE references that match the server's hostname are
+     * normalized prior to this method.
      *
      * @param compartmentMemberType the type of resource currently drilling down on
-     * @param newEntries a list of entries of that compartment type that were found in a search
+     * @param newEntries a list of Bundle response entries that include compartmentMemberType instances found via search
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
      * @param extraResources a list of "extra" resource types configured for this server
@@ -783,55 +798,39 @@ public class EverythingOperation extends AbstractOperation {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
         }
-        String url = FHIRRequestContext.get().getOriginalRequestUri().substring(0, FHIRRequestContext.get().getOriginalRequestUri().indexOf("/Patient/"));
-        List<Resource> resourceList = new ArrayList<Resource>();
+        Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         for (Entry entry: newEntries) {
             // Look up entries by reference
             List<Reference> references = ReferenceFinder.getReferences(entry.getResource());
             for (Reference reference: references) {
                 ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(reference, compartmentMemberType);
                 if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_RELATIVE)) {
-                    String externalId = reference.getReference().as(com.ibm.fhir.model.type.String.class).getValue();
-                    String[] splitString = externalId.split("/");
-                    String type = splitString[0];
-                    if (!resourceIds.contains(externalId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
+                    String type = referenceValue.getTargetResourceType();
+                    String value = referenceValue.getValue();
+                    String resourceId = type + "/" + value;
+                    if (!resourceIds.contains(resourceId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
                             || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
-                        resourceList.add(resourceHelper.doRead(type, splitString[1], false, false, null, null).getResource());
-                        resourceIds.add(externalId);
-                    }
-                } else if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_ABSOLUTE)) {
-                    String externalUrl = reference.getReference().as(com.ibm.fhir.model.type.String.class).getValue();
-                    int lastIndexOf = externalUrl.lastIndexOf("/");
-                    String externalId = externalUrl.substring(lastIndexOf+1, externalUrl.length());
-                    String tempString = externalUrl.substring(0,lastIndexOf);
-                    lastIndexOf = tempString.lastIndexOf("/");
-                    String type = tempString.substring(lastIndexOf+1, tempString.length());
-                    if (!resourceIds.contains(externalId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
-                            || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
-                        resourceList.add(resourceHelper.doRead(type, externalId, false, false, null, null).getResource());
-                        resourceIds.add(type + "/" + externalId);
+                        // Bundle up the requests so we can send them as a batch
+                        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, resourceId, null);
                     }
                 }
             }
         }
 
-        // Transform resources into Entries
-        for (Resource resource: resourceList) {
-            // Hit a case where if a reference points to an object that doesn't exist,
-            // i.e.- "asserter":{"reference":"Practitioner/DollarEverythingTest-DOESNOTEXIST"},
-            // the resource object is null
-            if (resource != null) {
-                Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+        // If we have resources to get, get them
+        if (requestBundle.getEntry().size() > 0) {
+            Bundle responseBundle = resourceHelper.doBundle(requestBundle, false);
 
-                entryBuilder.fullUrl(Uri.of(url + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
-                entryBuilder.resource(resource);
-                allEntries.add(entryBuilder.build());
+            // Process the additional resources received
+            for (Entry entry: responseBundle.getEntry()) {
+                resourceIds.add(ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId());
+                allEntries.add(entry);
             }
         }
     }
 
     /**
-     * Process results retrieve to avoid duplicates and retrieve additional resources through references, if applicable
+     * Process the retrieved results to avoid duplicates and retrieve additional resources through references, if applicable
      *
      * @param results the resources returned from doSearch
      * @param compartmentMemberType the type of resource currently drilling down on
@@ -857,5 +856,18 @@ public class EverythingOperation extends AbstractOperation {
         if (retrieveAdditionalResources) {
             readsOfAdditionalAssociatedResources(compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
         }
+    }
+
+    //Copied from FHIRClientTest
+    private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
+
+        Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();
+        Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
+
+        if (resource != null) {
+            entryBuilder.resource(resource);
+        }
+
+        return bundle.toBuilder().entry(entryBuilder.build()).build();
     }
 }
