@@ -54,9 +54,6 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
         R4B_ONLY_RESOURCES.add(ResourceType.Value.DEVICE_DEFINITION);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE);
         R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_VARIABLE);
-        // TODO: make final decision on whether to lump these in with the breaking resources
-        // R4B_ONLY_RESOURCES.add(ResourceType.Value.PLAN_DEFINITION);
-        // R4B_ONLY_RESOURCES.add(ResourceType.Value.ACTIVITY_DEFINITION);
     }
 
     /**
