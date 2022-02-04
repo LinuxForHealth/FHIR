@@ -7,6 +7,9 @@ package com.ibm.fhir.core;
 
 /**
  * Enum constants for the allowed values of the fhirVersion MIME-type parameter
+ *
+ * @implSpec The enum versions are comparable; we use the default {@link Enum#compareTo(Enum)} implementation
+ *     and so the versions MUST be declared in the natural order desired for comparison.
  */
 public enum FHIRVersionParam {
     VERSION_40("4.0"),
