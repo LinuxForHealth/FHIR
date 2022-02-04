@@ -129,7 +129,7 @@ public class ResourcesConfigAdapter {
      * @return
      */
     private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
-        Set<String> applicableTypes = ResourceTypeHelper.getResourceTypesFor(fhirVersion);
+        Set<String> applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
 
         Set<String> result;
         if (resourcesConfig == null || resourcesConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
