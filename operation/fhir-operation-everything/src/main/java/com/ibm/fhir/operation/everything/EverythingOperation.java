@@ -192,7 +192,9 @@ public class EverythingOperation extends AbstractOperation {
         List<String> extraResources = new ArrayList<String>();
         try {
             PropertyGroup parentResourcePropGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING);
-            extraResources = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES);
+            if (parentResourcePropGroup != null) {
+                extraResources = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES);
+            }
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
                 IssueType.EXCEPTION, e);
