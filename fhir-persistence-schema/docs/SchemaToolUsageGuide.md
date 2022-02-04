@@ -551,6 +551,17 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --show-db-size-detail
 ```
 
+**Note:** For Db2, you must also include the desired tenant name, for example:
+
+``` shell
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--prop-file fhiradmin.properties \
+--db-type db2 \
+--schema-name FHIRDATA \
+--tenant-name MY_TENANT_NAME \
+--show-db-size
+```
+
 The detail rows are tab-separated, making it easy to load the data into a spreadsheet for further analysis.
 
 **Notes:**

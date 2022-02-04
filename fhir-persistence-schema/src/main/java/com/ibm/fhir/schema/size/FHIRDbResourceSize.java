@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Schema objects related to this resource
+ * Schema objects related to this resource type
  */
 public class FHIRDbResourceSize {
 

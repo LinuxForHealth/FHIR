@@ -85,6 +85,7 @@ public class PostgresSizeCollector implements ISizeCollector {
             throw translator.translate(x);
         }
     }
+
     private void collectIndexInfo(String schemaName, Connection connection, IDatabaseTranslator translator) {
         final String SQL = ""
                 + "    SELECT t.tablename,"

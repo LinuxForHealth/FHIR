@@ -13,7 +13,7 @@ public interface ISizeReport {
 
     /**
      * Render a report using the data from the given model
-     * @param os
+     * @param model
      */
     public void render(FHIRDbSizeModel model);
     
