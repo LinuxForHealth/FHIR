@@ -433,9 +433,8 @@ public class SearchUtil {
                         if (!isSearchEnabled(resType)) {
                             manageException("search interaction is not supported for _type parameter value: " + Encode.forHtml(resType),
                                     IssueType.NOT_SUPPORTED, context, false);
-                        } else if (fhirVersion == FHIRVersionParam.VERSION_40 &&
-                                ResourceTypeHelper.getNewOrBreakingResourceTypeNames().contains(resType)) {
-                            String msg = "fhirVersion 4.0 interaction for _type parameter value: '" + resType +
+                        } else if (!ResourceTypeHelper.isCompatible(resType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+                            String msg = "fhirVersion " + fhirVersion.value() + " interaction for _type parameter value: '" + resType +
                                     "' is not supported";
                             manageException(msg, IssueType.NOT_SUPPORTED, context, false);
                         } else {

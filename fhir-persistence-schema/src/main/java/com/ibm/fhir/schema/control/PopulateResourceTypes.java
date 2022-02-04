@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +22,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
@@ -39,27 +40,6 @@ public class PopulateResourceTypes implements IDatabaseStatement {
     private final Integer tenantId;
 
     private static final String Y = "Y";
-
-    private static final List<String> REMOVED_RESOURCE_TYPES = Arrays.asList(
-        "EffectEvidenceSynthesis",
-        "MedicinalProduct",
-        "MedicinalProductAuthorization",
-        "MedicinalProductContraindication",
-        "MedicinalProductIndication",
-        "MedicinalProductIngredient",
-        "MedicinalProductInteraction",
-        "MedicinalProductManufactured",
-        "MedicinalProductPackaged",
-        "MedicinalProductPharmaceutical",
-        "MedicinalProductUndesirableEffect",
-        "RiskEvidenceSynthesis",
-        "SubstanceNucleicAcid",
-        "SubstancePolymer",
-        "SubstanceProtein",
-        "SubstanceReferenceInformation",
-        "SubstanceSourceMaterial",
-        "SubstanceSpecification"
-    );
 
     public PopulateResourceTypes(String adminSchemaName, String schemaName, Integer tenantId) {
         this.adminSchemaName = adminSchemaName;
@@ -177,7 +157,7 @@ public class PopulateResourceTypes implements IDatabaseStatement {
 
     private void updateResourceTypes(List<String> alreadyRetiredTypes, PreparedStatement batch) throws SQLException {
         int numToProcess = 0;
-        for (String removedType : REMOVED_RESOURCE_TYPES) {
+        for (String removedType : ResourceTypeHelper.getRemovedResourceTypes(FHIRVersionParam.VERSION_43)) {
             if (!alreadyRetiredTypes.contains(removedType)) {
                 batch.setString(1, removedType);
                 batch.addBatch();
