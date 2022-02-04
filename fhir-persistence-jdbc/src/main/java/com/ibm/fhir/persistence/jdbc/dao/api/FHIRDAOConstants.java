@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,4 +24,8 @@ public class FHIRDAOConstants {
     // Thrown if the stored procedure finds an existing record
     // when If-None-Match is specified
     public static final String SQLSTATE_MATCHES = "99003";
+
+    // Thrown if the procedure sees that the current record
+    // is deleted and the request deletion flag is set
+    public static final String SQLSTATE_CURRENTLY_DELETED = "99004";
 }

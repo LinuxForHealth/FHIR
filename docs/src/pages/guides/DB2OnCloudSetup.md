@@ -336,7 +336,7 @@ Create a file as the following:
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s" isolationLevel="TRANSACTION_READ_COMMITTED">
         <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
-            erverName="${DB_HOSTNAME}"
+            serverName="${DB_HOSTNAME}"
             currentSchema="${DB_SCHEMA}"
             databaseName="${DB_NAME}"
             driverType="4"
