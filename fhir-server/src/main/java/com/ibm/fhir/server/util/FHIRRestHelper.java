@@ -81,7 +81,7 @@ import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -3005,7 +3005,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         // ensure that the resource type and fhirVersion for the interaction is compatible with the fhirVersion of the server
-        if (!ResourceType.RESOURCE.getValue().equals(resourceType) && !ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+        if (!ResourceTypeCode.RESOURCE.getValue().equals(resourceType) && !ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not supported for fhirVersion " + fhirVersion.value(),
                     IssueType.NOT_SUPPORTED, IssueSeverity.ERROR);
         }

@@ -27,7 +27,7 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.code.BundleType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 
 /**
  * This is an implementation of a terminology provider for the CQL Engine that uses
@@ -47,7 +47,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
 
         try {
             WebTarget target =
-                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.getValue()).path(valueSet.getId()).path("$validate-code").queryParam("code", FHIRClientUtil.urlencode(code.getCode()));
+                    fhirClient.getWebTarget().path(ResourceTypeCode.VALUE_SET.getValue()).path(valueSet.getId()).path("$validate-code").queryParam("code", FHIRClientUtil.urlencode(code.getCode()));
 
             if (code.getSystem() != null) {
                 target = target.queryParam("system", FHIRClientUtil.urlencode(code.getSystem()));
@@ -73,7 +73,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
 
         try {
             Response response =
-                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.getValue()).path(valueSet.getId()).path("$expand").request(MediaType.APPLICATION_JSON_TYPE).get();
+                    fhirClient.getWebTarget().path(ResourceTypeCode.VALUE_SET.getValue()).path(valueSet.getId()).path("$expand").request(MediaType.APPLICATION_JSON_TYPE).get();
             FHIRClientUtil.handleErrorResponse(response);
 
             ValueSet expanded = response.readEntity(ValueSet.class);
@@ -97,7 +97,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
     public Code lookup(Code code, CodeSystemInfo codeSystem) {
         try {
             Response response =
-                    fhirClient.getWebTarget().path(ResourceType.CODE_SYSTEM.getValue()).path("$lookup").queryParam("code", FHIRClientUtil.urlencode(code.getCode())).queryParam("system", FHIRClientUtil.urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
+                    fhirClient.getWebTarget().path(ResourceTypeCode.CODE_SYSTEM.getValue()).path("$lookup").queryParam("code", FHIRClientUtil.urlencode(code.getCode())).queryParam("system", FHIRClientUtil.urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
             FHIRClientUtil.handleErrorResponse(response);
 
             Parameters respParam = response.readEntity(Parameters.class);
@@ -144,13 +144,13 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
             // https://github.com/DBCG/cql_engine/pull/462 - Use a search path of URL, identifier, and then resource id
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("url", encodedId);
-            response = fhirClient.search(ResourceType.VALUE_SET.getValue(), parameters);
+            response = fhirClient.search(ResourceTypeCode.VALUE_SET.getValue(), parameters);
             FHIRClientUtil.handleErrorResponse(response);
             searchResults = response.getResource(Bundle.class);
             if (!searchResults.hasChildren() || searchResults.getEntry().isEmpty()) {
                 parameters = new FHIRParameters();
                 parameters.searchParam("identifier", encodedId);
-                searchResults = fhirClient.search(ResourceType.VALUE_SET.getValue(), parameters).getResource(Bundle.class);
+                searchResults = fhirClient.search(ResourceTypeCode.VALUE_SET.getValue(), parameters).getResource(Bundle.class);
                 if (!searchResults.hasChildren() || searchResults.getEntry().isEmpty()) {
                     String id = valueSet.getId();
                     if (id.startsWith(Constants.URN_OID)) {
@@ -164,7 +164,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
                     // be a FHIR resource ID, we will try to read it.
                     // See https://www.hl7.org/fhir/datatypes.html#id
                     if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
-                        response = fhirClient.read(ResourceType.VALUE_SET.getValue(), id);
+                        response = fhirClient.read(ResourceTypeCode.VALUE_SET.getValue(), id);
                         if (response.getStatus() == 200) {
                             ValueSet vs = response.getResource(ValueSet.class);
                             searchResults =

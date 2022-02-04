@@ -24,7 +24,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.registry.util.Index;
 import com.ibm.fhir.registry.util.Index.Entry;
 
@@ -70,7 +70,7 @@ public class IndexGenerator {
                             (id.equals("clinical-patient") || id.equals("Provenance-patient"))) {
                         // Workaround for https://jira.hl7.org/browse/FHIR-13601
                         resource = ((SearchParameter) resource).toBuilder()
-                                .target(Collections.singleton(ResourceType.PATIENT))
+                                .target(Collections.singleton(ResourceTypeCode.PATIENT))
                                 .build();
                     }
 

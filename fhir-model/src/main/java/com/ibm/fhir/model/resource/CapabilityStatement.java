@@ -47,7 +47,7 @@ import com.ibm.fhir.model.type.code.EventCapabilityMode;
 import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ReferenceHandlingPolicy;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -3541,7 +3541,7 @@ public class CapabilityStatement extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
             )
             @Required
-            private final ResourceType type;
+            private final ResourceTypeCode type;
             @Summary
             private final Canonical profile;
             @Summary
@@ -3611,9 +3611,9 @@ public class CapabilityStatement extends DomainResource {
              * A type of resource exposed via the restful interface.
              * 
              * @return
-             *     An immutable object of type {@link ResourceType} that is non-null.
+             *     An immutable object of type {@link ResourceTypeCode} that is non-null.
              */
-            public ResourceType getType() {
+            public ResourceTypeCode getType() {
                 return type;
             }
 
@@ -3917,7 +3917,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private ResourceType type;
+                private ResourceTypeCode type;
                 private Canonical profile;
                 private List<Canonical> supportedProfile = new ArrayList<>();
                 private Markdown documentation;
@@ -4061,7 +4061,7 @@ public class CapabilityStatement extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder type(ResourceType type) {
+                public Builder type(ResourceTypeCode type) {
                     this.type = type;
                     return this;
                 }

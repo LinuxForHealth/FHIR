@@ -14,7 +14,6 @@ import static org.testng.Assert.assertTrue;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -53,6 +51,8 @@ import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
@@ -64,7 +64,6 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Tests the FHIR bucket schema
@@ -173,9 +172,7 @@ public class FhirBucketSchemaTest {
                 assertNotEquals(id6.getResourceBundleId(), id5.getResourceBundleId());
 
                 // Populate the resource types table
-                Set<String> resourceTypes = Arrays.stream(FHIRResourceType.Value.values())
-                        .map(FHIRResourceType.Value::value)
-                        .collect(Collectors.toSet());
+                Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
                 MergeResourceTypes c6 = new MergeResourceTypes(DATA_SCHEMA_NAME, resourceTypes);
                 adapter.runStatement(c6);
 
@@ -197,9 +194,7 @@ public class FhirBucketSchemaTest {
                 List<ResourceTypeRec> resourceTypes = adapter.runStatement(c1);
 
                 // Check against our reference set of resources
-                Set<String> reference = Arrays.stream(FHIRResourceType.Value.values())
-                        .map(FHIRResourceType.Value::value)
-                        .collect(Collectors.toSet());
+                Set<String> reference = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
 
                 assertTrue(reference.size() > 0);
                 assertEquals(resourceTypes.size(), reference.size());

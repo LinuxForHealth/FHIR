@@ -56,7 +56,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -1514,8 +1514,8 @@ public class SearchUtil {
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                     }
 
-                    List<ResourceType> targets = searchParameter.getTarget();
-                    if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                    List<ResourceTypeCode> targets = searchParameter.getTarget();
+                    if (modifierResourceTypeName != null && !targets.contains(ResourceTypeCode.of(modifierResourceTypeName))) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                 parameterName, resTypeName));
@@ -1639,9 +1639,9 @@ public class SearchUtil {
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type.value()));
                 }
 
-                List<ResourceType> targets = searchParameter.getTarget();
+                List<ResourceTypeCode> targets = searchParameter.getTarget();
                 // Check if the modifier resource type is invalid.
-                if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
+                if (modifierResourceTypeName != null && !targets.contains(ResourceTypeCode.of(modifierResourceTypeName))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                     parameterName, resourceType.getSimpleName()));
@@ -1772,7 +1772,7 @@ public class SearchUtil {
                 }
 
                 // Validate resource type is one of the reference search parameter target resource types
-                if (!referenceSearchParameter.getTarget().contains(ResourceType.of(resourceType.getSimpleName()))) {
+                if (!referenceSearchParameter.getTarget().contains(ResourceTypeCode.of(resourceType.getSimpleName()))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                         String.format(TARGET_TYPE_OF_REFERENCE_PARAMETER_NOT_VALID_FOR_REVERSE_CHAIN_SEARCH,
                             referenceSearchParameterName, resourceType.getSimpleName()));

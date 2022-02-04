@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
@@ -84,7 +85,6 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.SchemaGeneratorUtil;
@@ -178,8 +178,8 @@ public class FhirSchemaGenerator455 {
      * @param schemaName
      */
     public FhirSchemaGenerator455(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.Value.values())
-                .map(FHIRResourceType.Value::value)
+        this(adminSchemaName, schemaName, multitenant, Arrays.stream(ResourceType.values())
+                .map(ResourceType::value)
                 .collect(Collectors.toSet()));
     }
 

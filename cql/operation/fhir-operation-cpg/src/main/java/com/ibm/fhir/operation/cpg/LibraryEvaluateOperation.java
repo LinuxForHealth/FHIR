@@ -28,7 +28,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -61,7 +61,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, false, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceTypeCode.LIBRARY.getValue(), logicalId, true, false, null);
                 primaryLibrary = (Library) readResult.getResource();
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
                 Parameter param = paramMap.getSingletonParameter("library");

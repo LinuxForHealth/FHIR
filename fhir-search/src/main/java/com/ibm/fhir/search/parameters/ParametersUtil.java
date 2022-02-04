@@ -24,7 +24,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -220,7 +220,7 @@ public final class ParametersUtil {
 
         for (SearchParameter sp : getAllSearchParameters()) {
             // For each resource type this search parameter applies to
-            for (ResourceType resourceType : sp.getBase()) {
+            for (ResourceTypeCode resourceType : sp.getBase()) {
 
                 // If this resource type includes a wildcard entry (i.e. includes codes that weren't explicitly configured)
                 if (resourceTypesWithWildcardParams.contains(resourceType.getValue()) && sp.getCode().hasValue()) {
@@ -351,13 +351,13 @@ public final class ParametersUtil {
      */
     public static void printSearchParameter(SearchParameter parameter, PrintStream out) {
         String code = parameter.getCode().getValue();
-        List<ResourceType> types = parameter.getBase();
+        List<ResourceTypeCode> types = parameter.getBase();
 
         StringBuilder builder = new StringBuilder();
         builder.append(code);
         builder.append(EQUALS);
         builder.append(LEFT);
-        for (ResourceType type : types) {
+        for (ResourceTypeCode type : types) {
             builder.append(type.getValue());
             builder.append(COMMA);
         }

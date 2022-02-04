@@ -22,7 +22,7 @@ import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.type.code.XPathUsageType;
 
@@ -97,18 +97,18 @@ public class ExtensionSearchTool {
 
     private static SearchParameter commonWithBase(String id, String uri, String name, String codeStr, SearchParamType type, String descriptionStr,
         String expression, String xpath) {
-        List<ResourceType> baseResourceTypes = new ArrayList<>();
-        baseResourceTypes.add(ResourceType.BASIC);
+        List<ResourceTypeCode> baseResourceTypes = new ArrayList<>();
+        baseResourceTypes.add(ResourceTypeCode.BASIC);
         return common(id, uri, name, codeStr, baseResourceTypes, type, descriptionStr, expression, xpath);
     }
 
-    private static SearchParameter common(String id, String uri, String name, String codeStr, List<ResourceType> baseStrings, SearchParamType type,
+    private static SearchParameter common(String id, String uri, String name, String codeStr, List<ResourceTypeCode> baseStrings, SearchParamType type,
         String descriptionStr, String expression, String xpath) {
         Uri url = Uri.of(uri);
         PublicationStatus status = PublicationStatus.ACTIVE;
         Markdown description = Markdown.of(descriptionStr);
         Code code = Code.of(codeStr);
-        Collection<ResourceType> base = baseStrings;
+        Collection<ResourceTypeCode> base = baseStrings;
 
         SearchParameter param = SearchParameter.builder()
                 .url(url)

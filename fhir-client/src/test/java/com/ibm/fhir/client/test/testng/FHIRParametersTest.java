@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRParameters.Modifier;
 import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 
 /**
  * Tests related to the FHIRParameters class.
@@ -60,7 +60,7 @@ public class FHIRParametersTest {
         FHIRParameters p = new FHIRParameters();
         p.searchParam("patient", Modifier.IDENTIFIER, "http://acme.org/fhir/identifier/mrn|123456")
             .searchParam("identifier", Modifier.OF_TYPE, "http://terminology.hl7.org/CodeSystem/v2-0203|MR|446053")
-            .searchParam("subject", ResourceType.PATIENT, "Patient/23");
+            .searchParam("subject", ResourceTypeCode.PATIENT, "Patient/23");
         String queryString = p.queryString();
         assertNotNull(queryString);
         assertTrue(queryString.contains("patient:identifier=http://acme.org/fhir/identifier/mrn|123456"));

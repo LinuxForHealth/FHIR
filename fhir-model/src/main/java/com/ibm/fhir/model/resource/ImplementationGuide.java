@@ -44,7 +44,7 @@ import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.GuidePageGeneration;
 import com.ibm.fhir.model.type.code.GuideParameterCode;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SPDXLicense;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -1759,7 +1759,7 @@ public class ImplementationGuide extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         )
         @Required
-        private final ResourceType type;
+        private final ResourceTypeCode type;
         @Summary
         @Required
         private final Canonical profile;
@@ -1774,9 +1774,9 @@ public class ImplementationGuide extends DomainResource {
          * The type of resource that all instances must conform to.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType} that is non-null.
+         *     An immutable object of type {@link ResourceTypeCode} that is non-null.
          */
-        public ResourceType getType() {
+        public ResourceTypeCode getType() {
             return type;
         }
 
@@ -1857,7 +1857,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private ResourceType type;
+            private ResourceTypeCode type;
             private Canonical profile;
 
             private Builder() {
@@ -1986,7 +1986,7 @@ public class ImplementationGuide extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder type(ResourceType type) {
+            public Builder type(ResourceTypeCode type) {
                 this.type = type;
                 return this;
             }

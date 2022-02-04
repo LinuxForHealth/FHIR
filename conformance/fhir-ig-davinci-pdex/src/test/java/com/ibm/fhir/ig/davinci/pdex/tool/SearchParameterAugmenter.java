@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -27,7 +28,7 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRDefinedType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
@@ -48,8 +49,8 @@ public class SearchParameterAugmenter {
                 continue; // skip the parameters defined in the base spec
             }
 
-            List<ResourceType> base = searchParameter.getBase();
-            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.Value.RESOURCE) {
+            List<ResourceTypeCode> base = searchParameter.getBase();
+            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.RESOURCE) {
                 continue; // too complicated to handle this case right now
             }
 

@@ -20,7 +20,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -66,7 +66,7 @@ public class OperationHelper {
      * @throws FHIROperationException when resource is not found
      */
     public static Measure loadMeasureByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        return loadResourceByReference(resourceHelper, ResourceType.MEASURE, Measure.class, reference);
+        return loadResourceByReference(resourceHelper, ResourceTypeCode.MEASURE, Measure.class, reference);
     }
 
     /**
@@ -79,7 +79,7 @@ public class OperationHelper {
      * @throws FHIROperationException when resource is not found
      */
     public static Measure loadMeasureById(FHIRResourceHelpers resourceHelper, String resourceId) throws FHIROperationException {
-        return loadResourceById(resourceHelper, ResourceType.MEASURE, resourceId);
+        return loadResourceById(resourceHelper, ResourceTypeCode.MEASURE, resourceId);
     }
     
     /**
@@ -91,7 +91,7 @@ public class OperationHelper {
      * @throws FHIROperationException when resource is not found
      */
     public static Library loadLibraryByReference(FHIRResourceHelpers resourceHelper, String reference) throws FHIROperationException {
-        return loadResourceByReference(resourceHelper, ResourceType.LIBRARY, Library.class, reference);
+        return loadResourceByReference(resourceHelper, ResourceTypeCode.LIBRARY, Library.class, reference);
     }
     
     /**
@@ -104,7 +104,7 @@ public class OperationHelper {
      * @throws FHIROperationException when resource is not found
      */
     public static Library loadLibraryById(FHIRResourceHelpers resourceHelper, String resourceId) throws FHIROperationException {
-        return loadResourceById(resourceHelper, ResourceType.LIBRARY, resourceId);
+        return loadResourceById(resourceHelper, ResourceTypeCode.LIBRARY, resourceId);
     }
     
     /**
@@ -118,7 +118,7 @@ public class OperationHelper {
      * @throws FHIROperationException when resource is not found
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T loadResourceByReference(FHIRResourceHelpers resourceHelper, ResourceType resourceType, Class<T> resourceClass, String reference) throws FHIROperationException {
+    public static <T extends Resource> T loadResourceByReference(FHIRResourceHelpers resourceHelper, ResourceTypeCode resourceType, Class<T> resourceClass, String reference) throws FHIROperationException {
         T resource;
         int pos = reference.indexOf('/');
         if( pos == -1 || reference.startsWith(resourceType.getValue() + "/") ) {
@@ -149,7 +149,7 @@ public class OperationHelper {
      * @throws FHIROperationException
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String resourceId) throws FHIROperationException {
+    public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceTypeCode resourceType, String resourceId) throws FHIROperationException {
         T resource;
         try {
             SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId, true, false, null);

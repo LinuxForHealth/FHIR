@@ -29,7 +29,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
@@ -83,7 +83,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
 
             SearchParameter.Builder builder =
-                    SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
+                    SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceTypeCode.ACCOUNT)).type(SearchParamType.NUMBER);
             builder.expression(string("test"));
             ParametersUtil.printSearchParameter(builder.build(), out);
             assertNotNull(outBA.toByteArray());

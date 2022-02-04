@@ -20,7 +20,7 @@ import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -120,7 +120,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
             // See https://www.hl7.org/fhir/datatypes.html#id
             if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
                 try {
-                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.getValue(), id, /*throwExOnMissing=*/false, /*includeDeleted=*/false, /*contextResource=*/null);
+                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceTypeCode.VALUE_SET.getValue(), id, /*throwExOnMissing=*/false, /*includeDeleted=*/false, /*contextResource=*/null);
                     if( result.isSuccess() ) {
                         valueSet = (ValueSet) result.getResource();
                     }

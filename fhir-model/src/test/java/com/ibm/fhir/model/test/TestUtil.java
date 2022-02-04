@@ -34,7 +34,6 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -294,7 +293,7 @@ public class TestUtil {
      * @return the resource
      * @throws Exception
      * @implNote this function stores the created resources in a map and re-uses them. if an entry doesn't exist yet,
-     *            it creates the resource via {@link #getMinimalResource(ResourceType, Format)} using the JSON format
+     *            it creates the resource via {@link #getMinimalResource(Class<T>, Format)} using the JSON format
      */
     public static <T extends Resource> T getMinimalResource(Class<T> type) throws Exception {
         Resource minimalResource = minimalExampleMap.get(type);

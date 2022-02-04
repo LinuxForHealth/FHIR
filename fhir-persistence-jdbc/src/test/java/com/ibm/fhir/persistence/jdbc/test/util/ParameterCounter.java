@@ -15,14 +15,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -31,7 +31,6 @@ import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.schema.app.util.CommonUtil;
 
 /**
@@ -135,9 +134,7 @@ public class ParameterCounter {
     }
 
     protected void process(IDatabaseAdapter adapter) {
-        Set<String> resourceTypes = new HashSet<>(Arrays.stream(FHIRResourceType.Value.values())
-                .map(FHIRResourceType.Value::value)
-                .collect(Collectors.toSet()));
+        Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
 
         final List<String> paramTables = Arrays.asList("STR_VALUES", "NUMBER_VALUES", "DATE_VALUES", "RESOURCE_TOKEN_REFS", "QUANTITY_VALUES", "LATLNG_VALUES");
 

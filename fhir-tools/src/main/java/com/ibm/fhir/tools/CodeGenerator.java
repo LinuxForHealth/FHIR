@@ -46,6 +46,8 @@ import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
 
 public class CodeGenerator {
+    private static final String VALUE_SET_RESOURCE_TYPES = "http://hl7.org/fhir/ValueSet/resource-types";
+
     private final Map<String, JsonObject> structureDefinitionMap;
     private final Map<String, JsonObject> codeSystemMap;
     private final Map<String, JsonObject> valueSetMap;
@@ -2750,6 +2752,9 @@ public class CodeGenerator {
         cb._import("javax.xml.stream.XMLStreamReader");
         cb.newLine();
 
+        cb._import("com.ibm.fhir.core.ResourceType");
+        cb.newLine();
+
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
@@ -2900,7 +2905,7 @@ public class CodeGenerator {
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
             ._try()
-                .invoke("ResourceType.Value", "from", args("resourceType"))
+                .invoke("ResourceType", "from", args("resourceType"))
             ._catch("IllegalArgumentException e")
                 ._throw("new IllegalArgumentException(\"Invalid resource type: '\" + resourceType + \"'\")")
             ._end()
@@ -3669,6 +3674,10 @@ public class CodeGenerator {
                 String[] tokens = valueSet.split("\\|");
                 valueSet = tokens[0];
 
+                // Override the bindingName for elements with a required binding to the resource-types value set
+                if (VALUE_SET_RESOURCE_TYPES.equals(valueSet)) {
+                    bindingName = "ResourceTypeCode";
+                }
                 generateCodeSubtypeClass(bindingName, valueSet, basePath);
             }
         }
@@ -3679,6 +3688,12 @@ public class CodeGenerator {
         String packageName = "com.ibm.fhir.model.type.code";
         cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
+
+        // The ResourceType valueset has some special logic because we keep those values separately in fhir-core
+        boolean isResourceType = VALUE_SET_RESOURCE_TYPES.equals(valueSet);
+        if (isResourceType) {
+            cb._import("com.ibm.fhir.core.ResourceType");
+        }
 
         cb._import("com.ibm.fhir.model.annotation.System");
         cb._import("com.ibm.fhir.model.type.Code");
@@ -3695,13 +3710,16 @@ public class CodeGenerator {
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), bindingName, "Code");
 
+        String subtypeEnum = isResourceType ? "ResourceType" : "Value";
+
         Set<JsonObject> concepts = getConcepts(valueSet);
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
             String enumConstantName = getEnumConstantName(bindingName, value);
 
             generateConceptJavadoc(concept, cb);
-            cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(Value." + enumConstantName + ").build()")
+            cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value("
+                    + subtypeEnum + "." + enumConstantName + ").build()")
                 .newLine();
         }
 
@@ -3714,14 +3732,14 @@ public class CodeGenerator {
         cb.javadocStart()
             .javadoc("Get the value of this " + bindingName + " as an enum constant.")
             .javadocEnd();
-        cb.method(mods("public"), "Value", "getValueAsEnum")
-            ._return("(value != null) ? Value.from(value) : null")
+        cb.method(mods("public"), subtypeEnum, "getValueAsEnum")
+            ._return("(value != null) ? " + subtypeEnum + ".from(value) : null")
         .end().newLine();
 
         cb.javadocStart()
             .javadoc("Factory method for creating " + bindingName + " objects from a passed enum value.")
             .javadocEnd();
-        cb.method(mods("public", "static"), bindingName, "of", args("Value value"))
+        cb.method(mods("public", "static"), bindingName, "of", args(subtypeEnum + " value"))
             ._switch("value");
             for (JsonObject concept : concepts) {
                 String value = concept.getString("code");
@@ -3741,7 +3759,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
-            ._return("of(Value.from(value))")
+            ._return("of(" + subtypeEnum + ".from(value))")
         .end().newLine();
 
         cb.javadocStart()
@@ -3751,7 +3769,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
-            ._return("of(Value.from(value))")
+            ._return("of(" + subtypeEnum + ".from(value))")
         .end().newLine();
 
         cb.javadocStart()
@@ -3761,7 +3779,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
-            ._return("of(Value.from(value))")
+            ._return("of(" + subtypeEnum + ".from(value))")
         .end().newLine();
 
         cb.override();
@@ -3820,7 +3838,7 @@ public class CodeGenerator {
 
         cb.override();
         cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-            ._return("(value != null) ? (Builder) super.value(Value.from(value).value()) : this")
+            ._return("(value != null) ? (Builder) super.value(" + subtypeEnum + ".from(value).value()) : this")
         .end().newLine();
 
         cb.javadocStart()
@@ -3830,7 +3848,7 @@ public class CodeGenerator {
             .javadoc("")
             .javadocReturn("A reference to this Builder instance")
             .javadocEnd();
-        cb.method(mods("public"), "Builder", "value", args("Value value"))
+        cb.method(mods("public"), "Builder", "value", args(subtypeEnum + " value"))
             ._return("(value != null) ? (Builder) super.value(value.value()) : this")
         .end().newLine();
 
@@ -3864,7 +3882,9 @@ public class CodeGenerator {
 
         cb._end().newLine();
 
-        generateCodeSubtypeEnum(bindingName, valueSet, cb, concepts);
+        if (!isResourceType) {
+            generateCodeSubtypeEnum(bindingName, valueSet, cb, concepts);
+        }
 
         cb._end();
 
@@ -3896,7 +3916,7 @@ public class CodeGenerator {
         }
         cb._enum(mods("public"), enumName);
 
-        if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet) ||
+        if (VALUE_SET_RESOURCE_TYPES.equals(valueSet) ||
                 "http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
             for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
                 String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
@@ -3956,7 +3976,7 @@ public class CodeGenerator {
                 ._return("null")
             ._end()
             ._switch("value");
-            if ("http://hl7.org/fhir/ValueSet/resource-types".equals(valueSet) ||
+            if (VALUE_SET_RESOURCE_TYPES.equals(valueSet) ||
                     "http://hl7.org/fhir/ValueSet/all-types".equals(valueSet)) {
                 for (String retiredResourceType : REMOVED_RESOURCE_TYPES) {
                     String enumConstantName = getEnumConstantName(retiredResourceType, retiredResourceType);
@@ -4506,6 +4526,8 @@ public class CodeGenerator {
                     // This is easier than package-qualifying it all over because the parser uses
                     // wildcard imports on both packages and uses the field name in method names.
                     fieldType = "SubscriptionStatusCode";
+                } else if ("ResourceType".equals(fieldType) || "FHIRResourceType".equals(fieldType)) {
+                    fieldType = "ResourceTypeCode";
                 }
                 fieldType = titleCase(fieldType);
             } else if ("Code".equals(fieldType) && containsBackboneElement(structureDefinition, "code")) {

@@ -39,7 +39,7 @@ import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -160,7 +160,7 @@ public class OperationDefinition extends DomainResource {
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
     )
-    private final List<ResourceType> resource;
+    private final List<ResourceTypeCode> resource;
     @Summary
     @Required
     private final Boolean system;
@@ -403,9 +403,9 @@ public class OperationDefinition extends DomainResource {
      * The types on which this operation can be executed.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceTypeCode} that may be empty.
      */
-    public List<ResourceType> getResource() {
+    public List<ResourceTypeCode> getResource() {
         return resource;
     }
 
@@ -547,7 +547,7 @@ public class OperationDefinition extends DomainResource {
                 accept(code, "code", visitor);
                 accept(comment, "comment", visitor);
                 accept(base, "base", visitor);
-                accept(resource, "resource", visitor, ResourceType.class);
+                accept(resource, "resource", visitor, ResourceTypeCode.class);
                 accept(system, "system", visitor);
                 accept(type, "type", visitor);
                 accept(instance, "instance", visitor);
@@ -680,7 +680,7 @@ public class OperationDefinition extends DomainResource {
         private Code code;
         private Markdown comment;
         private Canonical base;
-        private List<ResourceType> resource = new ArrayList<>();
+        private List<ResourceTypeCode> resource = new ArrayList<>();
         private Boolean system;
         private Boolean type;
         private Boolean instance;
@@ -1365,8 +1365,8 @@ public class OperationDefinition extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder resource(ResourceType... resource) {
-            for (ResourceType value : resource) {
+        public Builder resource(ResourceTypeCode... resource) {
+            for (ResourceTypeCode value : resource) {
                 this.resource.add(value);
             }
             return this;
@@ -1387,7 +1387,7 @@ public class OperationDefinition extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder resource(Collection<ResourceType> resource) {
+        public Builder resource(Collection<ResourceTypeCode> resource) {
             this.resource = new ArrayList<>(resource);
             return this;
         }
@@ -1643,7 +1643,7 @@ public class OperationDefinition extends DomainResource {
             ValidationSupport.checkList(operationDefinition.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(operationDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
             ValidationSupport.requireNonNull(operationDefinition.code, "code");
-            ValidationSupport.checkList(operationDefinition.resource, "resource", ResourceType.class);
+            ValidationSupport.checkList(operationDefinition.resource, "resource", ResourceTypeCode.class);
             ValidationSupport.requireNonNull(operationDefinition.system, "system");
             ValidationSupport.requireNonNull(operationDefinition.type, "type");
             ValidationSupport.requireNonNull(operationDefinition.instance, "instance");

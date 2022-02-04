@@ -19,7 +19,7 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 
 /**
@@ -39,8 +39,8 @@ public class SearchParameterHelper {
     }
 
     public static SearchParameter makeTestParameter(String name) {
-        List<ResourceType> base = new ArrayList<>();
-        base.add(ResourceType.PATIENT);
+        List<ResourceTypeCode> base = new ArrayList<>();
+        base.add(ResourceTypeCode.PATIENT);
 
         return SearchParameter.builder()
                               .url(Uri.of(dummyUri)).name(string(name))

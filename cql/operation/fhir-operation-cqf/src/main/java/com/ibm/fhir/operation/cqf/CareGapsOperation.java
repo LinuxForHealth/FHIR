@@ -31,7 +31,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.code.BundleType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -72,13 +72,13 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         searchParameters.putSingle("_total", "none");
         
         try {
-            Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+            Bundle bundle = resourceHelper.doSearch(ResourceTypeCode.MEASURE.getValue(), null, null, searchParameters, null, null);
 
             AtomicInteger pageNumber = new AtomicInteger(1);
             FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                 try {
                     searchParameters.putSingle(SearchConstants.PAGE, String.valueOf(pageNumber.incrementAndGet()));
-                    return resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+                    return resourceHelper.doSearch(ResourceTypeCode.MEASURE.getValue(), null, null, searchParameters, null, null);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

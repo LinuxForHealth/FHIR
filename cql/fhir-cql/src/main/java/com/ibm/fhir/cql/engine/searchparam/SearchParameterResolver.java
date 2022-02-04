@@ -15,7 +15,7 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -69,7 +69,7 @@ public class SearchParameterResolver {
             if (SearchParamType.TOKEN.equals(searchParam.getType())) {
                 result = Pair.of(name, new TokenParameter(value).setName(name));
             } else if (SearchParamType.REFERENCE.equals(searchParam.getType())) {
-                result = Pair.of(name, new ReferenceParameter(ResourceType.of(context), value).setName(name));
+                result = Pair.of(name, new ReferenceParameter(ResourceTypeCode.of(context), value).setName(name));
             } else if (SearchParamType.QUANTITY.equals(searchParam.getType())) {
                 result = Pair.of(name, new QuantityParameter(new BigDecimal(value)).setName(name));
             } else if (SearchParamType.STRING.equals(searchParam.getType())) {

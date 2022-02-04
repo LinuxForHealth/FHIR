@@ -18,7 +18,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.util.FHIRRegistryResourceProviderAdapter;
@@ -34,7 +34,7 @@ public class SampleRegistryResourceProvider extends FHIRRegistryResourceProvider
             .description(Markdown.of("sample search param for ParametersSearchUtilTest.testVersionedSearchParameterFilter"))
             .name("a")
             .code(Code.of("a"))
-            .base(ResourceType.DEVICE, ResourceType.PATIENT)
+            .base(ResourceTypeCode.DEVICE, ResourceTypeCode.PATIENT)
             .type(SearchParamType.STRING)
             .expression("Device.id")
             .build();
@@ -50,7 +50,7 @@ public class SampleRegistryResourceProvider extends FHIRRegistryResourceProvider
             .description(Markdown.of("sample search param for ParametersSearchUtilTest.testVersionedSearchParameterFilter"))
             .name("b")
             .code(Code.of("b"))
-            .base(ResourceType.PATIENT, ResourceType.DEVICE)
+            .base(ResourceTypeCode.PATIENT, ResourceTypeCode.DEVICE)
             .type(SearchParamType.STRING)
             .expression("Device.id")
             .build();

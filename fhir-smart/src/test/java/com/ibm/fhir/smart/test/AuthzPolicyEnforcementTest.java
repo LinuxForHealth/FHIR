@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.smart.test;
 
+import static com.ibm.fhir.core.ResourceType.CONDITION;
+import static com.ibm.fhir.core.ResourceType.OBSERVATION;
+import static com.ibm.fhir.core.ResourceType.PATIENT;
+import static com.ibm.fhir.core.ResourceType.PROVENANCE;
+import static com.ibm.fhir.core.ResourceType.RESOURCE;
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.CONDITION;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.OBSERVATION;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.PATIENT;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.PROVENANCE;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.RESOURCE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -36,6 +36,7 @@ import org.testng.annotations.Test;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
@@ -49,7 +50,6 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
@@ -126,7 +126,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testCreate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testCreate(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -158,7 +158,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -199,7 +199,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testDelete(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testDelete(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -529,7 +529,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testRead(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -579,7 +579,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testVRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> typesPermittedByScopes, Permission permission) {
+    public void testVRead(String scopeString, List<String> contextIds, Set<ResourceType> typesPermittedByScopes, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -611,7 +611,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -655,7 +655,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testSearch(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -942,9 +942,9 @@ public class AuthzPolicyEnforcementTest {
     /**
      * @return true if the interaction should succeed, otherwise false
      */
-    private boolean shouldSucceed(Set<ResourceType.Value> resourceTypesPermittedByScope, ResourceType.Value requiredResourceType,
+    private boolean shouldSucceed(Set<ResourceType> resourceTypesPermittedByScope, ResourceType requiredResourceType,
             List<Permission> permissionsPermittedByScope, Permission requiredPermission) {
-        if (resourceTypesPermittedByScope.contains(ResourceType.Value.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
+        if (resourceTypesPermittedByScope.contains(ResourceType.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
             return true;
         }
         if (resourceTypesPermittedByScope.contains(requiredResourceType) && permissionsPermittedByScope.contains(requiredPermission)) {
@@ -955,10 +955,10 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringProvider")
     public static Object[][] scopeStrings() {
-        final Set<ResourceType.Value> all_resources = Collections.singleton(RESOURCE);
-        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
-        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
-        final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
+        final Set<ResourceType> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType> provenance = Collections.singleton(PROVENANCE);
 
         final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
 

@@ -25,35 +25,35 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource;
 import com.ibm.fhir.model.type.code.FHIRVersion;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class CapabilitiesVersionTest extends FHIRServerTestBase {
-    private static final Set<ResourceType.Value> R4B_ONLY_RESOURCES = new HashSet<>();
+    private static final Set<ResourceType> R4B_ONLY_RESOURCES = new HashSet<>();
     {
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.ADMINISTRABLE_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.CITATION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.CLINICAL_USE_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_REPORT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.INGREDIENT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.MANUFACTURED_ITEM_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.MEDICINAL_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.NUTRITION_PRODUCT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.PACKAGED_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.REGULATED_AUTHORIZATION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_STATUS);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_TOPIC);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSTANCE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.ADMINISTRABLE_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.CITATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.CLINICAL_USE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE_REPORT);
+        R4B_ONLY_RESOURCES.add(ResourceType.INGREDIENT);
+        R4B_ONLY_RESOURCES.add(ResourceType.MANUFACTURED_ITEM_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.MEDICINAL_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.NUTRITION_PRODUCT);
+        R4B_ONLY_RESOURCES.add(ResourceType.PACKAGED_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.REGULATED_AUTHORIZATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSCRIPTION_STATUS);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSCRIPTION_TOPIC);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSTANCE_DEFINITION);
         // The following resource types existed in R4, but have breaking changes in R4B.
         // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.DEVICE_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_VARIABLE);
+        R4B_ONLY_RESOURCES.add(ResourceType.DEVICE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE_VARIABLE);
     }
 
     /**

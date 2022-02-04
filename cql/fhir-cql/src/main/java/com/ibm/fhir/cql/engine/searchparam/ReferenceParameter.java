@@ -5,12 +5,12 @@
  */
 package com.ibm.fhir.cql.engine.searchparam;
 
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 
 public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
 
-    private ResourceType resourceTypeModifier;
+    private ResourceTypeCode resourceTypeModifier;
     private String chainedProperty;
     private String value;
 
@@ -22,12 +22,12 @@ public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
         this.value = value;
     }
 
-    public ReferenceParameter(ResourceType resourceTypeModifier, String value) {
+    public ReferenceParameter(ResourceTypeCode resourceTypeModifier, String value) {
         setResourceTypeModifier(resourceTypeModifier);
         setValue(value);
     }
 
-    public ReferenceParameter(ResourceType resourceTypeModifier, String chainedProperty, String value) {
+    public ReferenceParameter(ResourceTypeCode resourceTypeModifier, String chainedProperty, String value) {
         setResourceTypeModifier(resourceTypeModifier);
         setValue(value);
     }
@@ -37,11 +37,11 @@ public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
         setValue(value);
     }
 
-    public ResourceType getResourceTypeModifier() {
+    public ResourceTypeCode getResourceTypeModifier() {
         return resourceTypeModifier;
     }
 
-    public ReferenceParameter setResourceTypeModifier(ResourceType resourceTypeModifier) {
+    public ReferenceParameter setResourceTypeModifier(ResourceTypeCode resourceTypeModifier) {
         this.resourceTypeModifier = resourceTypeModifier;
         return this;
     }

@@ -50,7 +50,7 @@ import com.ibm.fhir.model.type.code.EnableWhenBehavior;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -217,7 +217,7 @@ public class Questionnaire extends DomainResource {
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
     )
-    private final List<ResourceType> subjectType;
+    private final List<ResourceTypeCode> subjectType;
     @Summary
     private final DateTime date;
     @Summary
@@ -370,9 +370,9 @@ public class Questionnaire extends DomainResource {
      * The types of subjects that can be the subject of responses created for the questionnaire.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceTypeCode} that may be empty.
      */
-    public List<ResourceType> getSubjectType() {
+    public List<ResourceTypeCode> getSubjectType() {
         return subjectType;
     }
 
@@ -562,7 +562,7 @@ public class Questionnaire extends DomainResource {
                 accept(derivedFrom, "derivedFrom", visitor, Canonical.class);
                 accept(status, "status", visitor);
                 accept(experimental, "experimental", visitor);
-                accept(subjectType, "subjectType", visitor, ResourceType.class);
+                accept(subjectType, "subjectType", visitor, ResourceTypeCode.class);
                 accept(date, "date", visitor);
                 accept(publisher, "publisher", visitor);
                 accept(contact, "contact", visitor, ContactDetail.class);
@@ -683,7 +683,7 @@ public class Questionnaire extends DomainResource {
         private List<Canonical> derivedFrom = new ArrayList<>();
         private PublicationStatus status;
         private Boolean experimental;
-        private List<ResourceType> subjectType = new ArrayList<>();
+        private List<ResourceTypeCode> subjectType = new ArrayList<>();
         private DateTime date;
         private String publisher;
         private List<ContactDetail> contact = new ArrayList<>();
@@ -1163,8 +1163,8 @@ public class Questionnaire extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder subjectType(ResourceType... subjectType) {
-            for (ResourceType value : subjectType) {
+        public Builder subjectType(ResourceTypeCode... subjectType) {
+            for (ResourceTypeCode value : subjectType) {
                 this.subjectType.add(value);
             }
             return this;
@@ -1185,7 +1185,7 @@ public class Questionnaire extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder subjectType(Collection<ResourceType> subjectType) {
+        public Builder subjectType(Collection<ResourceTypeCode> subjectType) {
             this.subjectType = new ArrayList<>(subjectType);
             return this;
         }
@@ -1581,7 +1581,7 @@ public class Questionnaire extends DomainResource {
             ValidationSupport.checkList(questionnaire.identifier, "identifier", Identifier.class);
             ValidationSupport.checkList(questionnaire.derivedFrom, "derivedFrom", Canonical.class);
             ValidationSupport.requireNonNull(questionnaire.status, "status");
-            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceType.class);
+            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceTypeCode.class);
             ValidationSupport.checkList(questionnaire.contact, "contact", ContactDetail.class);
             ValidationSupport.checkList(questionnaire.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(questionnaire.jurisdiction, "jurisdiction", CodeableConcept.class);

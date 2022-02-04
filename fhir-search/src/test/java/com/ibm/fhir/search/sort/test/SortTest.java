@@ -26,7 +26,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
@@ -125,7 +125,7 @@ public class SortTest extends BaseSearchTest {
         SearchParameter sortParmProxy =
                 SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT)
                         .description(Markdown.of("test")).code(Code.of("test"))
-                        .base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER)
+                        .base(Arrays.asList(ResourceTypeCode.ACCOUNT)).type(SearchParamType.NUMBER)
                         .expression(string("test")).build();
 
         context.setLenient(true);

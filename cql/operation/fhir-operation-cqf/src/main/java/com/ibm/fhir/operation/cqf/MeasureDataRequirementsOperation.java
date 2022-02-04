@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -37,7 +37,7 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
         
         Measure measure = null;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId, true, false, null);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceTypeCode.MEASURE.getValue(), logicalId, true, false, null);
             measure = (Measure) readResult.getResource();
         } catch (Exception ex) {
             throw new FHIROperationException("Failed to read resource", ex);

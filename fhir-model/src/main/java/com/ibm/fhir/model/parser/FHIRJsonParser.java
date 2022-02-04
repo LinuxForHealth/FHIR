@@ -2407,7 +2407,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray supportedProfileArray = getJsonArray(jsonObject, "supportedProfile", true);
         if (supportedProfileArray != null) {
@@ -6285,7 +6285,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.code((ResourceType) parseString(ResourceType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray paramArray = getJsonArray(jsonObject, "param", true);
         if (paramArray != null) {
             JsonArray _paramArray = jsonObject.getJsonArray("_param");
@@ -11914,7 +11914,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.resourceId(parseString("resourceId", getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1));
-        builder.resourceType((FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", getJsonValue(jsonObject, "resourceType", JsonString.class), jsonObject.get("_resourceType"), -1));
+        builder.resourceType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resourceType", getJsonValue(jsonObject, "resourceType", JsonString.class), jsonObject.get("_resourceType"), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray versionArray = getJsonArray(jsonObject, "version");
@@ -13380,7 +13380,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             }
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
-        builder.start((ResourceType) parseString(ResourceType.builder(), "start", getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
+        builder.start((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "start", getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
@@ -13435,7 +13435,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.params(parseString("params", getJsonValue(jsonObject, "params", JsonString.class), jsonObject.get("_params"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray compartmentArray = getJsonArray(jsonObject, "compartment");
@@ -14786,7 +14786,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         stackPop();
         return builder.build();
@@ -18320,7 +18320,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
         builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
-        builder.code((ResourceType) parseString(ResourceType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         builder.min((UnsignedInt) parseInteger(UnsignedInt.builder(), "min", getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
         builder.max(parseString("max", getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
@@ -19689,7 +19689,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (resourceArray != null) {
             JsonArray _resourceArray = jsonObject.getJsonArray("_resource");
             for (int i = 0; i < resourceArray.size(); i++) {
-                builder.resource((ResourceType) parseString(ResourceType.builder(), "resource", resourceArray.get(i), getJsonValue(_resourceArray, i), i));
+                builder.resource((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resource", resourceArray.get(i), getJsonValue(_resourceArray, i), i));
             }
         }
         builder.system(parseBoolean("system", getJsonValue(jsonObject, "system", JsonValue.class), jsonObject.get("_system"), -1));
@@ -21934,7 +21934,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (subjectTypeArray != null) {
             JsonArray _subjectTypeArray = jsonObject.getJsonArray("_subjectType");
             for (int i = 0; i < subjectTypeArray.size(); i++) {
-                builder.subjectType((ResourceType) parseString(ResourceType.builder(), "subjectType", subjectTypeArray.get(i), getJsonValue(_subjectTypeArray, i), i));
+                builder.subjectType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "subjectType", subjectTypeArray.get(i), getJsonValue(_subjectTypeArray, i), i));
             }
         }
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -23523,7 +23523,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (baseArray != null) {
             JsonArray _baseArray = jsonObject.getJsonArray("_base");
             for (int i = 0; i < baseArray.size(); i++) {
-                builder.base((ResourceType) parseString(ResourceType.builder(), "base", baseArray.get(i), getJsonValue(_baseArray, i), i));
+                builder.base((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "base", baseArray.get(i), getJsonValue(_baseArray, i), i));
             }
         }
         builder.type((SearchParamType) parseString(SearchParamType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -23534,7 +23534,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (targetArray != null) {
             JsonArray _targetArray = jsonObject.getJsonArray("_target");
             for (int i = 0; i < targetArray.size(); i++) {
-                builder.target((ResourceType) parseString(ResourceType.builder(), "target", targetArray.get(i), getJsonValue(_targetArray, i), i));
+                builder.target((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "target", targetArray.get(i), getJsonValue(_targetArray, i), i));
             }
         }
         builder.multipleOr(parseBoolean("multipleOr", getJsonValue(jsonObject, "multipleOr", JsonValue.class), jsonObject.get("_multipleOr"), -1));

@@ -1152,7 +1152,6 @@ public final class ModelSupport {
         codeSubtypeMap.put("FHIRAllTypes", com.ibm.fhir.model.type.code.FHIRAllTypes.class);
         codeSubtypeMap.put("FHIRDefinedType", com.ibm.fhir.model.type.code.FHIRDefinedType.class);
         codeSubtypeMap.put("FHIRDeviceStatus", com.ibm.fhir.model.type.code.FHIRDeviceStatus.class);
-        codeSubtypeMap.put("FHIRResourceType", com.ibm.fhir.model.type.code.FHIRResourceType.class);
         codeSubtypeMap.put("FHIRSubstanceStatus", com.ibm.fhir.model.type.code.FHIRSubstanceStatus.class);
         codeSubtypeMap.put("FHIRVersion", com.ibm.fhir.model.type.code.FHIRVersion.class);
         codeSubtypeMap.put("FilterOperator", com.ibm.fhir.model.type.code.FilterOperator.class);
@@ -1238,7 +1237,7 @@ public final class ModelSupport {
         codeSubtypeMap.put("ResearchElementType", com.ibm.fhir.model.type.code.ResearchElementType.class);
         codeSubtypeMap.put("ResearchStudyStatus", com.ibm.fhir.model.type.code.ResearchStudyStatus.class);
         codeSubtypeMap.put("ResearchSubjectStatus", com.ibm.fhir.model.type.code.ResearchSubjectStatus.class);
-        codeSubtypeMap.put("ResourceType", com.ibm.fhir.model.type.code.ResourceType.class);
+        codeSubtypeMap.put("ResourceTypeCode", com.ibm.fhir.model.type.code.ResourceTypeCode.class);
         codeSubtypeMap.put("ResourceVersionPolicy", com.ibm.fhir.model.type.code.ResourceVersionPolicy.class);
         codeSubtypeMap.put("ResponseType", com.ibm.fhir.model.type.code.ResponseType.class);
         codeSubtypeMap.put("RestfulCapabilityMode", com.ibm.fhir.model.type.code.RestfulCapabilityMode.class);

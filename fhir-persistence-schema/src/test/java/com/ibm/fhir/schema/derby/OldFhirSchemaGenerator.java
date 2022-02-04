@@ -54,6 +54,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -67,7 +68,6 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.Replacer;
@@ -175,8 +175,8 @@ public class OldFhirSchemaGenerator {
      * @param schemaName
      */
     public OldFhirSchemaGenerator(String adminSchemaName, String schemaName) {
-        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.Value.values())
-                .map(FHIRResourceType.Value::value)
+        this(adminSchemaName, schemaName, Arrays.stream(ResourceType.values())
+                .map(ResourceType::value)
                 .collect(Collectors.toSet()));
     }
 

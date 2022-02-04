@@ -39,7 +39,7 @@ import com.ibm.fhir.model.type.code.CompartmentCode;
 import com.ibm.fhir.model.type.code.GraphCompartmentRule;
 import com.ibm.fhir.model.type.code.GraphCompartmentUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -117,7 +117,7 @@ public class GraphDefinition extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
     )
     @Required
-    private final ResourceType start;
+    private final ResourceTypeCode start;
     private final Canonical profile;
     private final List<Link> link;
 
@@ -276,9 +276,9 @@ public class GraphDefinition extends DomainResource {
      * The type of FHIR resource at which instances of this graph start.
      * 
      * @return
-     *     An immutable object of type {@link ResourceType} that is non-null.
+     *     An immutable object of type {@link ResourceTypeCode} that is non-null.
      */
-    public ResourceType getStart() {
+    public ResourceTypeCode getStart() {
         return start;
     }
 
@@ -448,7 +448,7 @@ public class GraphDefinition extends DomainResource {
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown purpose;
-        private ResourceType start;
+        private ResourceTypeCode start;
         private Canonical profile;
         private List<Link> link = new ArrayList<>();
 
@@ -1005,7 +1005,7 @@ public class GraphDefinition extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder start(ResourceType start) {
+        public Builder start(ResourceTypeCode start) {
             this.start = start;
             return this;
         }
@@ -1640,7 +1640,7 @@ public class GraphDefinition extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
             )
             @Required
-            private final ResourceType type;
+            private final ResourceTypeCode type;
             private final String params;
             private final Canonical profile;
             private final List<Compartment> compartment;
@@ -1659,9 +1659,9 @@ public class GraphDefinition extends DomainResource {
              * Type of resource this link refers to.
              * 
              * @return
-             *     An immutable object of type {@link ResourceType} that is non-null.
+             *     An immutable object of type {@link ResourceTypeCode} that is non-null.
              */
-            public ResourceType getType() {
+            public ResourceTypeCode getType() {
                 return type;
             }
 
@@ -1784,7 +1784,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private ResourceType type;
+                private ResourceTypeCode type;
                 private String params;
                 private Canonical profile;
                 private List<Compartment> compartment = new ArrayList<>();
@@ -1916,7 +1916,7 @@ public class GraphDefinition extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder type(ResourceType type) {
+                public Builder type(ResourceTypeCode type) {
                     this.type = type;
                     return this;
                 }

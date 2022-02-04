@@ -23,6 +23,8 @@ import javax.annotation.Generated;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import com.ibm.fhir.core.ResourceType;
+
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
@@ -4421,7 +4423,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -11613,7 +11615,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "code":
                     position = checkElementOrder("code", 2, position, false);
-                    builder.code((ResourceType) parseString(ResourceType.builder(), "code", reader, -1));
+                    builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", reader, -1));
                     break;
                 case "param":
                     position = checkElementOrder("param", 3, position, true);
@@ -23005,7 +23007,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "resourceType":
                     position = checkElementOrder("resourceType", 3, position, false);
-                    builder.resourceType((FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", reader, -1));
+                    builder.resourceType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resourceType", reader, -1));
                     break;
                 case "name":
                     position = checkElementOrder("name", 4, position, false);
@@ -26133,7 +26135,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "start":
                     position = checkElementOrder("start", 20, position, false);
-                    builder.start((ResourceType) parseString(ResourceType.builder(), "start", reader, -1));
+                    builder.start((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "start", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 21, position, false);
@@ -26257,7 +26259,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "params":
                     position = checkElementOrder("params", 3, position, false);
@@ -28897,7 +28899,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -35692,7 +35694,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "code":
                     position = checkElementOrder("code", 2, position, false);
-                    builder.code((ResourceType) parseString(ResourceType.builder(), "code", reader, -1));
+                    builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -38656,7 +38658,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "resource":
                     position = checkElementOrder("resource", 26, position, true);
-                    builder.resource((ResourceType) parseString(ResourceType.builder(), "resource", reader, resourceElementIndex++));
+                    builder.resource((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resource", reader, resourceElementIndex++));
                     break;
                 case "system":
                     position = checkElementOrder("system", 27, position, false);
@@ -43007,7 +43009,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "subjectType":
                     position = checkElementOrder("subjectType", 16, position, true);
-                    builder.subjectType((ResourceType) parseString(ResourceType.builder(), "subjectType", reader, subjectTypeElementIndex++));
+                    builder.subjectType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "subjectType", reader, subjectTypeElementIndex++));
                     break;
                 case "date":
                     position = checkElementOrder("date", 17, position, false);
@@ -46099,7 +46101,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "base":
                     position = checkElementOrder("base", 22, position, true);
-                    builder.base((ResourceType) parseString(ResourceType.builder(), "base", reader, baseElementIndex++));
+                    builder.base((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "base", reader, baseElementIndex++));
                     break;
                 case "type":
                     position = checkElementOrder("type", 23, position, false);
@@ -46119,7 +46121,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "target":
                     position = checkElementOrder("target", 27, position, true);
-                    builder.target((ResourceType) parseString(ResourceType.builder(), "target", reader, targetElementIndex++));
+                    builder.target((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "target", reader, targetElementIndex++));
                     break;
                 case "multipleOr":
                     position = checkElementOrder("multipleOr", 28, position, false);
@@ -55629,7 +55631,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {
         java.lang.String resourceType = reader.getLocalName();
         try {
-            ResourceType.Value.from(resourceType);
+            ResourceType.from(resourceType);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid resource type: '" + resourceType + "'");
         }

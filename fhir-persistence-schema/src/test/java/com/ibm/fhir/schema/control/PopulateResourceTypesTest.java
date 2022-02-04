@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.core.ResourceType;
 
 /**
  * Test to verify the resource_types.properties
@@ -39,7 +39,7 @@ public class PopulateResourceTypesTest {
             props.load(fis);
 
             Set<String> resources = new HashSet<>();
-            for (FHIRResourceType.Value rt : FHIRResourceType.Value.values()) {
+            for (ResourceType rt : ResourceType.values()) {
                 resources.add(rt.value());
             }
 

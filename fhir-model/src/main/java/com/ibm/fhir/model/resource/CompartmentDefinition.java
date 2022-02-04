@@ -34,7 +34,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -1083,7 +1083,7 @@ public class CompartmentDefinition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-CIBUILD"
         )
         @Required
-        private final ResourceType code;
+        private final ResourceTypeCode code;
         @Summary
         private final List<String> param;
         private final String documentation;
@@ -1099,9 +1099,9 @@ public class CompartmentDefinition extends DomainResource {
          * The name of a resource supported by the server.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType} that is non-null.
+         *     An immutable object of type {@link ResourceTypeCode} that is non-null.
          */
-        public ResourceType getCode() {
+        public ResourceTypeCode getCode() {
             return code;
         }
 
@@ -1197,7 +1197,7 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private ResourceType code;
+            private ResourceTypeCode code;
             private List<String> param = new ArrayList<>();
             private String documentation;
 
@@ -1327,7 +1327,7 @@ public class CompartmentDefinition extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder code(ResourceType code) {
+            public Builder code(ResourceTypeCode code) {
                 this.code = code;
                 return this;
             }

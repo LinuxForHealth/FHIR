@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
@@ -36,7 +37,6 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -621,7 +621,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         for (Scope scope : approvedScopes) {
             // "Resource" is used for "*" which applies to all resource types
-            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
+            if (scope.getResourceType() == ResourceType.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
                 if (hasPermission(scope.getPermission(), requiredPermission)) {
                     return true;
                 }
@@ -669,7 +669,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceType = resource.getClass().getSimpleName();
         Map<ContextType, List<Scope>> approvedScopeMap = approvedScopes.stream()
                 // First filter the list to only scopes which grant the required permissions on the passed resourceType
-                .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE ||
+                .filter(s -> s.getResourceType() == ResourceType.RESOURCE ||
                         s.getResourceType().value().equals(resourceType))
                 .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                 // Then group the scopes by their context type

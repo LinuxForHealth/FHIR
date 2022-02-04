@@ -27,7 +27,7 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 
 /**
  * A base search test with utilities for other search tests
@@ -94,8 +94,8 @@ public abstract class BaseSearchTest {
                 String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
                 String canonical = (version == null) ? url : url + "|" + version;
 
-                List<ResourceType> resources = sp.getBase();
-                for (ResourceType resource : resources) {
+                List<ResourceTypeCode> resources = sp.getBase();
+                for (ResourceTypeCode resource : resources) {
                     System.out.println("\t" + resource.getValue() + ":" + code + ":" + canonical);
                 }
             }

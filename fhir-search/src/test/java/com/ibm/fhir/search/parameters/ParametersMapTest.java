@@ -16,7 +16,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 
 public class ParametersMapTest {
@@ -25,7 +25,7 @@ public class ParametersMapTest {
           .status(PublicationStatus.ACTIVE)
           .name(string("a"))
           .description(Markdown.of("First param with code 'a'"))
-          .base(ResourceType.RESOURCE)
+          .base(ResourceTypeCode.RESOURCE)
           .type(SearchParamType.STRING)
           .code(Code.of("a"))
           .expression(string("extension.value as String"))
@@ -35,7 +35,7 @@ public class ParametersMapTest {
           .status(PublicationStatus.ACTIVE)
           .name(string("a"))
           .description(Markdown.of("Second param with code 'a'"))
-          .base(ResourceType.RESOURCE)
+          .base(ResourceTypeCode.RESOURCE)
           .type(SearchParamType.STRING)
           .code(Code.of("a"))
           .expression(string("extension.value as String"))
@@ -44,7 +44,7 @@ public class ParametersMapTest {
           .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
           .status(PublicationStatus.ACTIVE)
           .name(string("b"))
-          .base(ResourceType.RESOURCE)
+          .base(ResourceTypeCode.RESOURCE)
           .type(SearchParamType.STRING)
           .description(Markdown.of("Param with code 'b'"))
           .code(Code.of("b"))
@@ -55,7 +55,7 @@ public class ParametersMapTest {
           .version("1")
           .status(PublicationStatus.ACTIVE)
           .name(string("b"))
-          .base(ResourceType.RESOURCE)
+          .base(ResourceTypeCode.RESOURCE)
           .type(SearchParamType.STRING)
           .description(Markdown.of("Param with code 'b'"))
           .code(Code.of("b"))
@@ -66,7 +66,7 @@ public class ParametersMapTest {
           .version("2")
           .status(PublicationStatus.ACTIVE)
           .name(string("b"))
-          .base(ResourceType.RESOURCE)
+          .base(ResourceTypeCode.RESOURCE)
           .type(SearchParamType.STRING)
           .description(Markdown.of("Param with code 'b'"))
           .code(Code.of("b"))
