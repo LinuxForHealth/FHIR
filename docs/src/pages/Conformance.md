@@ -474,7 +474,7 @@ System operations are invoked at `[base]/$[operation]`
 | [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
 | [$import](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
 | [$healthcheck](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
-| [$versions](https://hl7.org/fhir/capabilitystatement-operation-versions.html) | Returns the list of supported FHIR versions | Returning output in non-FHIR formats is not supported |
+| [$versions](https://hl7.org/fhir/capabilitystatement-operation-versions.html) | Returns the list of supported FHIR versions | |
 
 ### Type operations
 Type operations are invoked at `[base]/[resourceType]/$[operation]`
