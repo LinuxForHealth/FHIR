@@ -53,8 +53,10 @@ import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.ResourceTypeName;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.CapabilityStatement;
@@ -117,9 +119,6 @@ public class Capabilities extends FHIRResource {
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
-    private static final List<ResourceType.Value> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-            .map(rt -> ResourceType.Value.from(rt.getSimpleName()))
-            .collect(Collectors.toList());
 
     private static final Set<ResourceType.Value> R4B_ONLY_RESOURCES = new HashSet<>();
     {
@@ -352,7 +351,7 @@ public class Capabilities extends FHIRResource {
 
         // Build the lists of operations that are supported
         Set<OperationDefinition> systemOps = new LinkedHashSet<>();
-        Map<ResourceType.Value, Set<OperationDefinition>> typeOps = new HashMap<>();
+        Map<String, Set<OperationDefinition>> typeOps = new HashMap<>();
 
         FHIROperationRegistry opRegistry = FHIROperationRegistry.getInstance();
         List<String> operationNames = opRegistry.getOperationNames();
@@ -363,13 +362,13 @@ public class Capabilities extends FHIRResource {
                 systemOps.add(opDef);
             }
             for (ResourceType resourceType : opDef.getResource()) {
-                ResourceType.Value typeValue = resourceType.getValueAsEnum();
-                if (typeOps.containsKey(typeValue)) {
-                    typeOps.get(typeValue).add(opDef);
+                String resourceTypeName = resourceType.getValue();
+                if (typeOps.containsKey(resourceTypeName)) {
+                    typeOps.get(resourceTypeName).add(opDef);
                 } else {
                     Set<OperationDefinition> typeOpList = new LinkedHashSet<>();
                     typeOpList.add(opDef);
-                    typeOps.put(typeValue, typeOpList);
+                    typeOps.put(resourceTypeName, typeOpList);
                 }
             }
         }
@@ -381,11 +380,10 @@ public class Capabilities extends FHIRResource {
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
-        List<ResourceType.Value> resourceTypes = getSupportedResourceTypes(rsrcsGroup, fhirVersion);
+        ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
+        Set<String> resourceTypeNames = configAdapter.getSupportedResourceTypes();
 
-        for (ResourceType.Value resourceType : resourceTypes) {
-            String resourceTypeName = resourceType.value();
-
+        for (String resourceTypeName : resourceTypeNames) {
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
             Map<String, SearchParameter> searchParameters = getSearchHelper().getSearchParameters(resourceTypeName);
@@ -406,12 +404,12 @@ public class Capabilities extends FHIRResource {
                 conformanceSearchParams.add(conformanceSearchParam);
             }
 
-            List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceType));
+            List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceTypeName));
             // If the type is an abstract resource ("Resource" or "DomainResource")
             // then the operation can be invoked on any concrete specialization.
-            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.Value.RESOURCE)));
+            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceTypeName.RESOURCE.value())));
             if (DomainResource.class.isAssignableFrom(ModelSupport.getResourceType(resourceTypeName))) {
-                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.Value.DOMAIN_RESOURCE)));
+                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceTypeName.DOMAIN_RESOURCE.value())));
             }
 
             // Build the list of interactions, searchIncludes, and searchRevIncludes supported for the resource type.
@@ -448,7 +446,7 @@ public class Capabilities extends FHIRResource {
 
             // Build the ConformanceResource for this resource type.
             Rest.Resource.Builder crb = Rest.Resource.builder()
-                    .type(ResourceType.of(resourceType))
+                    .type(ResourceType.of(resourceTypeName))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)
@@ -667,33 +665,6 @@ public class Capabilities extends FHIRResource {
             return stringList.stream().map(k -> com.ibm.fhir.model.type.String.of(k)).collect(Collectors.toList());
         }
         return null;
-    }
-
-    /**
-     * TODO: replace this with the new ResourcesConfigAdapter
-     * @param rsrcsGroup the "resources" propertyGroup from the server configuration
-     * @return a list of resource types to support
-     * @throws Exception
-     */
-    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup, FHIRVersionParam fhirVersion) throws Exception {
-        final List<ResourceType.Value> resourceTypes = new ArrayList<>();
-
-        if (rsrcsGroup == null) {
-            resourceTypes.addAll(ALL_RESOURCE_TYPES);
-        } else {
-            if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
-                resourceTypes.addAll(ALL_RESOURCE_TYPES);
-            } else {
-                resourceTypes.addAll(FHIRConfigHelper.getSupportedResourceTypes().stream()
-                    .map(ResourceType.Value::from)
-                    .collect(Collectors.toList()));
-            }
-        }
-
-        if (fhirVersion == FHIRVersionParam.VERSION_40) {
-            resourceTypes.removeAll(R4B_ONLY_RESOURCES);
-        }
-        return resourceTypes;
     }
 
     /**
