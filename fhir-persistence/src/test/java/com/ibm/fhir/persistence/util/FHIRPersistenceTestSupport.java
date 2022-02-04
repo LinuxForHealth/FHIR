@@ -100,7 +100,7 @@ public class FHIRPersistenceTestSupport {
 
     /**
      * Convenience method for unit tests to make sure a synthesized resource has valid
-     * id and meta.versionId values
+     * id, meta.versionId and meta.lastUpdated values
      * @param <T>
      * @param persistence the FHIRPersistence implementation
      * @param resource the resource to be copied and modified
