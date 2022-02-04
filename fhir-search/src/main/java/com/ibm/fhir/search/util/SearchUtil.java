@@ -1363,11 +1363,8 @@ public class SearchUtil {
     }
 
     /**
-     * Check the configuration to see if the flag enabling the compartment search
-     * optimization. Defaults to false so the behavior won't change unless it
-     * is explicitly enabled in fhir-server-config. This is important, because
-     * existing data must be reindexed (see $reindex custom operation) to
-     * generate values for the ibm-internal compartment relationship params.
+     * Check the configuration to see if the compartment search optimization is enabled.
+     * The config property defaults to true and may be removed in a near-future release.
      * @return
      */
     public static boolean useStoredCompartmentParam() {
