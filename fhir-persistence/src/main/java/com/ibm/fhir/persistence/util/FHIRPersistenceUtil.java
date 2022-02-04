@@ -146,10 +146,9 @@ public class FHIRPersistenceUtil {
                                 String msg = "history interaction is not supported for _type parameter value: " + Encode.forHtml(resourceType);
                                 throw new FHIRPersistenceException(msg)
                                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
-                            } else if (fhirVersion == FHIRVersionParam.VERSION_40 &&
-                                    ResourceTypeHelper.getNewOrBreakingResourceTypeNames().contains(resourceType)) {
-                                String msg = "fhirVersion 4.0 interaction for _type parameter value: '" + resourceType +
-                                        "' is not supported";
+                            } else if (!ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+                                String msg = "fhirVersion " + fhirVersion.value() + " interaction for _type parameter value: '" +
+                                        resourceType + "' is not supported";
                                 throw new FHIRPersistenceException(msg)
                                     .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
                             } else {

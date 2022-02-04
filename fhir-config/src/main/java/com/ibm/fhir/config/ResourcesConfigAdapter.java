@@ -64,7 +64,7 @@ public class ResourcesConfigAdapter {
      * @throws Exception
      */
     private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) throws Exception {
-        Set<String> applicableTypes = ResourceTypeHelper.getResourceTypesFor(fhirVersion);
+        Set<String> applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
 
         Set<String> result;
         if (resourcesConfig == null || resourcesConfig.getBooleanProperty("open", true)) {
