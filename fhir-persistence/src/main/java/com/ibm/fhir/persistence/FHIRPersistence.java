@@ -26,22 +26,8 @@ import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 public interface FHIRPersistence {
 
     /**
-     * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
-     * This method has been deprecated. Instead, generate the logical id first and use the
-     * createWithMeta(context, resource) call instead.
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param resource the FHIR Resource instance to be created in the datastore
-     * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
-
-    /**
      * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
-     * must therefore already include correct Meta fields. Should be used instead of
-     * method {@link #create(FHIRPersistenceContext, Resource)}.
+     * must therefore already include correct Meta fields.
      *
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
@@ -49,7 +35,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -80,20 +66,6 @@ public interface FHIRPersistence {
 
     /**
      * Updates an existing FHIR Resource by storing a new version in the datastore.
-     *
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param logicalId the logical id of the FHIR Resource to be updated
-     * @param resource the new contents of the FHIR Resource to be stored
-     * @return a SingleResourceResult with a copy of resource with fields updated by the persistence layer and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException;
-
-    /**
-     * Updates an existing FHIR Resource by storing a new version in the datastore. This implementation
-     * is added to replace the deprecated {@link #update(FHIRPersistenceContext, String, Resource)} method
      * This new method expects the resource being passed in to already be modified with correct
      * meta and id information. It no longer updates the meta itself.
      *
@@ -103,28 +75,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
-
-    /**
-     * Deletes the specified FHIR Resource from the datastore.
-     * 
-     * This implementation of delete is open to a race condition if an update and delete
-     * are issues at the same time. This API has been deprecated and replaced with 
-     *     {@link #deleteWithMeta(FHIRPersistenceContext, Resource)}
-     * following the new pattern where the resource is never modified by the persistence
-     * layer.
-     * 
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param resourceType The type of FHIR Resource to be deleted.
-     * @param logicalId the logical id of the FHIR Resource to be deleted
-     * @return a SingleResourceResult with the FHIR Resource that was deleted or null if the specified resource doesn't exist and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
-    }
+    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Deletes the FHIR resource from the datastore. The resource must be configured with the correct
@@ -134,7 +85,7 @@ public interface FHIRPersistence {
      * @param resource
      * @throws FHIRPersistenceException
      */
-    default <T extends Resource> void deleteWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    default <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 
@@ -269,17 +220,6 @@ public interface FHIRPersistence {
         return false;
     }
 
-    /**
-     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
-     * @param resourceCount the max number of resource change records to fetch
-     * @param fromLastModified filter records with record.lastUpdate >= fromLastModified. Optional.
-     * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
-     * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
-     * @return a list containing up to resourceCount elements describing resources which have changed
-     */
-    @Deprecated
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
-    
     /**
      * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
      * @param resourceCount the max number of resource change records to fetch

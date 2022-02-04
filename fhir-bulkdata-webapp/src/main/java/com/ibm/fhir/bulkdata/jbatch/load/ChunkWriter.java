@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -72,6 +74,7 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class ChunkWriter extends AbstractItemWriter {
 
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
+    private static final int FIRST_VERSION = 1;
 
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
@@ -201,12 +204,17 @@ public class ChunkWriter extends AbstractItemWriter {
                             }
                             OperationOutcome operationOutcome;
                             if (id == null) {
-                                // Because there's no id provided, this has to be a create
+                                // Because there's no id provided, this has to be a create. The persistence layer no
+                                // longer modifies the resource, so injection of meta elements must be done here
+                                final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+                                final String logicalId = fhirPersistence.generateResourceId();
+                                Resource updatedResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(fhirResource, logicalId, FIRST_VERSION, lastUpdated);
                                 long startTime = System.currentTimeMillis();
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
                                 operationOutcome =
-                                        fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
+                                        fhirPersistence.create(persistenceContext, updatedResource).getOutcome();
                                 if (auditLogger.shouldLog()) {
+                                    // audit log entry based on the original resource, not the one we modified with meta elements
                                     long endTime = System.currentTimeMillis();
                                     String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
                                     auditLogger.logCreateOnImport(fhirResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
@@ -315,7 +323,7 @@ public class ChunkWriter extends AbstractItemWriter {
         boolean skipped = false;
         OperationOutcome oo;
         if (!skip || oldResourceResult.isDeleted() || oldResource == null) {
-            SingleResourceResult<? extends Resource> result = persistence.updateWithMeta(context, resource);
+            SingleResourceResult<? extends Resource> result = persistence.update(context, resource);
 
             if (result.getStatus() == InteractionStatus.MODIFIED) {
                 status = Response.Status.CREATED;
@@ -354,7 +362,7 @@ public class ChunkWriter extends AbstractItemWriter {
                 // We need to update the db and update the local cache
                 // Old Resource is set so we avoid an extra read
                 context.getPersistenceEvent().setPrevFhirResource(oldResource);
-                SingleResourceResult<? extends Resource> result = persistence.updateWithMeta(context, resource);
+                SingleResourceResult<? extends Resource> result = persistence.update(context, resource);
                 oo = result.getOutcome();
             }
         }

@@ -110,7 +110,7 @@ public class JDBCSearchNearTest {
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 
         SingleResourceResult<Location> result =
-                persistence.createWithMeta(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
+                persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
         assertTrue(result.isSuccess());
         assertNotNull(result.getResource());
         savedResource = result.getResource();
@@ -127,7 +127,7 @@ public class JDBCSearchNearTest {
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
-            persistence.delete(persistenceContext, Location.class, savedResource.getId());
+            persistence.delete(persistenceContext, savedResource);
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
             }

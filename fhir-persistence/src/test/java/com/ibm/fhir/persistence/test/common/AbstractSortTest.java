@@ -39,6 +39,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -96,12 +97,12 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         resource3Builder.extension(extension("http://example.org/code", Code.of("value3")));
         
         // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1a = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
-        resource1b = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
-        resource2a = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
-        resource2b = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
-        resource3a = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
-        resource3b = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
+        resource1a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
+        resource1b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
+        resource2a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
+        resource2b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
+        resource3a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
+        resource3b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
     }
     
     @AfterClass
@@ -112,7 +113,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
                 persistence.getTransaction().begin();
             }
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
             }
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();

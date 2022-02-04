@@ -1,15 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
+import java.time.ZoneOffset;
+
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 
 /**
  * Create the resource using the persistence
@@ -44,8 +48,11 @@ public class CreateOperation extends BaseOperation {
         final Resource resource = tc.getResource();
 
         // This needs to be a new resource. If it's not, then the
-        // create will fail with a version id mismatch error
-        Resource newResource = tc.getPersistence().create(context, resource).getResource();
+        // create will fail with a version id mismatch error.
+        final String logicalId = tc.getPersistence().generateResourceId();
+        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+        Resource newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, 1, lastUpdated);
+        newResource = tc.getPersistence().create(context, newResource).getResource();
         check(tc, resource, newResource, this.getClass().getSimpleName());
         
         // Update the context with the modified resource

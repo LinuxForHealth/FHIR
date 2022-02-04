@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  * Tests related to the erase method in FHIRPersistence.
@@ -103,7 +104,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
             startTrx();
             for (Resource resource : resources) {
                 try {
-                    persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                    FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
                 } catch (Exception e) {
                     // Swallow any exception.
                 }
@@ -117,10 +118,10 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
     public void testEraseResourceWithHistory() throws Exception {
         // Resource 1 - C - U - U (with multiple values)
         // Erases all resources
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
 
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
@@ -135,7 +136,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
 
     @Test
     public void testEraseSingleResource() throws Exception {
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
@@ -151,9 +152,9 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
     @Test
     public void testEraseLastIsDeleted() throws Exception {
         // Resource where the last is deleted (C - D)
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        persistence.delete(getDefaultPersistenceContext(), resource1.getClass(), resource1.getId());
+        resource1 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource1);
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
@@ -179,10 +180,10 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
     public void testEraseSpecificVersionGreater() throws Exception {
         // Resource_1 C-U-U - Latest is 3
         // This test sets 4, since it exceeds the value.
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
 
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
@@ -199,10 +200,10 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
     @Test
     public void testEraseSpecificVersion() throws Exception {
         // The payload is erased (so the last check is for null on the resource)
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
 
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
@@ -222,10 +223,10 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
     public void testEraseLatestSpecificVersion() throws Exception {
         // Resource_1 C-U-U - Latest is 3
         // This test sets 3, since it is the value.
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
-        resource1 = persistence.update(getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
+        resource1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource1.getId(), resource1).getResource();
 
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
@@ -241,7 +242,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
 
     @Test
     public void testEraseSingleResourceWithVersion1() throws Exception {
-        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());

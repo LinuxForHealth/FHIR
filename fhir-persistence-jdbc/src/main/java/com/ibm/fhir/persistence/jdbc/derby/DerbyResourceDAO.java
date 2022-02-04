@@ -29,6 +29,7 @@ import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
@@ -64,6 +65,7 @@ import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 public class DerbyResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
     private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
+    private static final int INTERACTION_STATUS_IF_NONE_MATCH = 1;
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
@@ -126,7 +128,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
-            if (outInteractionStatus.get() == 1) {
+            if (outInteractionStatus.get() == INTERACTION_STATUS_IF_NONE_MATCH) {
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
                 resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
             } else {
@@ -144,8 +146,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             throw severe(logger, fx, e);
         } catch(SQLException e) {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
-                // this is just a concurrency update, so there's no need to log the SQLException here
+                // this is just a concurrent update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if (FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED.equals((e.getSQLState()))) {
+                // the resource is already deleted, which should be handled before the persistence layer is called
+                throw new FHIRPersistenceResourceDeletedException("Unexpected attempt to delete a Resource which is currently deleted.");
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);
@@ -409,7 +414,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
                 // Conditional create-on-update If-None-Match matches the current resource, so skip the update
                 logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
-                outInteractionStatus.set(1);
+                outInteractionStatus.set(INTERACTION_STATUS_IF_NONE_MATCH);
                 outIfNoneMatchVersion.set(v_current_version);
                 return -1L;
             } else if (p_version != v_current_version + 1) {
@@ -419,6 +424,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 // mimic the exception we'd see from one of our stored procedures
                 logger.warning("Concurrent update of resource: " + v_resource_type + "/" + p_logical_id + " [" + p_version + " != " + (v_current_version+1) + "]");
                 throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
+            } else if (v_currently_deleted && p_is_deleted) {
+                // Cannot delete a resource which is currently deleted. This is an extra
+                // safety check and primarily used to handle unit tests which may attempt
+                // to double-delete a resource. Should not be relevant to the REST layer,
+                // unless someone breaks it.
+                logger.warning("Cannot delete a resource which is currently deleted: " + v_resource_type + "/" + p_logical_id + " [" + p_version + "]");
+                throw new SQLException("Cannot delete a resource which is currently deleted", FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED);
             }
 
             // existing resource, so need to delete all its parameters unless they share
