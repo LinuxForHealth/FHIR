@@ -799,11 +799,13 @@ public class EverythingOperation extends AbstractOperation {
             return;
         }
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
+        String url = ReferenceUtil.getServiceBaseUrl();
+
         for (Entry entry: newEntries) {
             // Look up entries by reference
             List<Reference> references = ReferenceFinder.getReferences(entry.getResource());
             for (Reference reference: references) {
-                ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(reference, compartmentMemberType);
+                ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(reference, url);
                 if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_RELATIVE)) {
                     String type = referenceValue.getTargetResourceType();
                     String value = referenceValue.getValue();
@@ -823,8 +825,12 @@ public class EverythingOperation extends AbstractOperation {
 
             // Process the additional resources received
             for (Entry entry: responseBundle.getEntry()) {
-                resourceIds.add(ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId());
-                allEntries.add(entry);
+                String resourceId = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+                resourceIds.add(resourceId);
+                // remove this next line if fullUrls start getting set on batch reads
+                Bundle.Entry.Builder entryBuilder = entry.toBuilder()
+                        .fullUrl(Uri.of(url + resourceId));
+                allEntries.add(entryBuilder.build());
             }
         }
     }
