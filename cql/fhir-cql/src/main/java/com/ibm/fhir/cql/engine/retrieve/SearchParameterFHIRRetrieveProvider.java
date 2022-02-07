@@ -302,7 +302,7 @@ public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwa
             ReferenceParameter rp = (ReferenceParameter) param;
             if (rp.getResourceTypeModifier() != null) {
                 paramName.append(":");
-                paramName.append(rp.getResourceTypeModifier().getValue());
+                paramName.append(rp.getResourceTypeModifier().value());
             }
 
             if (rp.getChainedProperty() != null) {

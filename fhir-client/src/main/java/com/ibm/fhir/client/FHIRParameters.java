@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.model.type.code.ResourceTypeCode;
+import com.ibm.fhir.core.ResourceType;
 
 /**
  * This class is used as a container for request parameters associated with a FHIR Client API request.
@@ -185,8 +185,8 @@ public class FHIRParameters {
      *            one or more values associated with the search parameter
      * @return a handle to the FHIRParameters object
      */
-    public FHIRParameters searchParam(String name, ResourceTypeCode resourceType, String... values) {
-        String parameterName = name + ":" + resourceType.getValue();
+    public FHIRParameters searchParam(String name, ResourceType resourceType, String... values) {
+        String parameterName = name + ":" + resourceType.value();
         String value = getValueString(values);
         addMultivaluedParameter(parameterName, value);
         return this;

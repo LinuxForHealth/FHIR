@@ -20,6 +20,7 @@ import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.engine.util.FHIRClientUtil;
 import com.ibm.fhir.model.resource.Bundle;
@@ -47,7 +48,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
 
         try {
             WebTarget target =
-                    fhirClient.getWebTarget().path(ResourceTypeCode.VALUE_SET.getValue()).path(valueSet.getId()).path("$validate-code").queryParam("code", FHIRClientUtil.urlencode(code.getCode()));
+                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.value()).path(valueSet.getId()).path("$validate-code").queryParam("code", FHIRClientUtil.urlencode(code.getCode()));
 
             if (code.getSystem() != null) {
                 target = target.queryParam("system", FHIRClientUtil.urlencode(code.getSystem()));
@@ -73,7 +74,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
 
         try {
             Response response =
-                    fhirClient.getWebTarget().path(ResourceTypeCode.VALUE_SET.getValue()).path(valueSet.getId()).path("$expand").request(MediaType.APPLICATION_JSON_TYPE).get();
+                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.value()).path(valueSet.getId()).path("$expand").request(MediaType.APPLICATION_JSON_TYPE).get();
             FHIRClientUtil.handleErrorResponse(response);
 
             ValueSet expanded = response.readEntity(ValueSet.class);
@@ -97,7 +98,7 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
     public Code lookup(Code code, CodeSystemInfo codeSystem) {
         try {
             Response response =
-                    fhirClient.getWebTarget().path(ResourceTypeCode.CODE_SYSTEM.getValue()).path("$lookup").queryParam("code", FHIRClientUtil.urlencode(code.getCode())).queryParam("system", FHIRClientUtil.urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
+                    fhirClient.getWebTarget().path(ResourceType.CODE_SYSTEM.value()).path("$lookup").queryParam("code", FHIRClientUtil.urlencode(code.getCode())).queryParam("system", FHIRClientUtil.urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
             FHIRClientUtil.handleErrorResponse(response);
 
             Parameters respParam = response.readEntity(Parameters.class);
@@ -116,15 +117,15 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
     }
 
     /**
-     * Lookup a ValueSet that corresponds to the provided CQL ValueSetInfo. Only the 
+     * Lookup a ValueSet that corresponds to the provided CQL ValueSetInfo. Only the
      * ValueSetInfo.id property is supported at this time. Use of the ValueSetInfo.version
      * or ValueSetInfo.codesystems properties will cause an UnsupportedOperationException.
      * This method uses a search strategy that first treats the ValueSetInfo.id as a URL,
      * then attempts urn:oid or urn:uuid resolution, then finally attempts plain ID-based
      * resolution if nothing has been found and the value appears to be a FHIR ID.
-     *  
+     *
      * @param valueSet CQL ValueSetInfo with ID property populated
-     * @throws UnsupportedOperationException if the ValueSetInfo.codesystem property 
+     * @throws UnsupportedOperationException if the ValueSetInfo.codesystem property
      * is specified.
      * @throws IllegalArgumentException if zero or more than one ValueSet were resolved
      * for the specified ValueSetInfo.id property.
@@ -144,13 +145,13 @@ public class RestFHIRTerminologyProvider implements TerminologyProvider {
             // https://github.com/DBCG/cql_engine/pull/462 - Use a search path of URL, identifier, and then resource id
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("url", encodedId);
-            response = fhirClient.search(ResourceTypeCode.VALUE_SET.getValue(), parameters);
+            response = fhirClient.search(ResourceType.VALUE_SET.value(), parameters);
             FHIRClientUtil.handleErrorResponse(response);
             searchResults = response.getResource(Bundle.class);
             if (!searchResults.hasChildren() || searchResults.getEntry().isEmpty()) {
                 parameters = new FHIRParameters();
                 parameters.searchParam("identifier", encodedId);
-                searchResults = fhirClient.search(ResourceTypeCode.VALUE_SET.getValue(), parameters).getResource(Bundle.class);
+                searchResults = fhirClient.search(ResourceType.VALUE_SET.value(), parameters).getResource(Bundle.class);
                 if (!searchResults.hasChildren() || searchResults.getEntry().isEmpty()) {
                     String id = valueSet.getId();
                     if (id.startsWith(Constants.URN_OID)) {

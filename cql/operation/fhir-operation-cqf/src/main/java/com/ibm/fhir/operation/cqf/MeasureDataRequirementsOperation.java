@@ -8,6 +8,7 @@ package com.ibm.fhir.operation.cqf;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.ecqm.r4.MeasureHelper;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -18,7 +19,6 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
-import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -34,15 +34,15 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
     @Override
     public Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        
+
         Measure measure = null;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceTypeCode.MEASURE.getValue(), logicalId, true, false, null);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.value(), logicalId, true, false, null);
             measure = (Measure) readResult.getResource();
         } catch (Exception ex) {
             throw new FHIROperationException("Failed to read resource", ex);
         }
-        
+
         int numLibraries = (measure.getLibrary() != null) ? measure.getLibrary().size() : 0;
         if (numLibraries != 1) {
             throw new IllegalArgumentException(String.format("Unexpected number of libraries '%d' referenced by measure '%s'", numLibraries, measure.getId()));

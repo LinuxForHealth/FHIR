@@ -16,11 +16,11 @@ import org.opencds.cqf.cql.engine.terminology.CodeSystemInfo;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -33,7 +33,7 @@ import com.ibm.fhir.term.util.ValueSetSupport;
  * the IBM FHIR Server FHIRTermService API to access the terminology data.
  */
 public class ServerFHIRTerminologyProvider implements TerminologyProvider {
-    
+
     private FHIRResourceHelpers resourceHelper;
 
     public ServerFHIRTerminologyProvider(FHIRResourceHelpers resourceHelper) {
@@ -55,7 +55,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
     public Iterable<Code> expand(ValueSetInfo valueSetInfo) {
         List<Code> codes;
 
-        ValueSet valueSet = resolveByUrl(valueSetInfo); 
+        ValueSet valueSet = resolveByUrl(valueSetInfo);
         ValueSet expanded = FHIRTermService.getInstance().expand(valueSet);
 
         codes = new ArrayList<>();
@@ -81,13 +81,13 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
     }
 
     /**
-     * Lookup a ValueSet that corresponds to the provided CQL ValueSetInfo. Only the 
+     * Lookup a ValueSet that corresponds to the provided CQL ValueSetInfo. Only the
      * ValueSetInfo.id property is supported at this time. Use of the ValueSetInfo.version
      * or ValueSetInfo.codesystems properties will cause an UnsupportedOperationException.
      * This method uses a search strategy that first treats the ValueSetInfo.id as a URL,
      * then attempts urn:oid or urn:uuid resolution, then finally attempts plain ID-based
      * resolution if nothing has been found and the value appears to be a FHIR ID.
-     *  
+     *
      * @param valueSet CQL ValueSetInfo with ID property populated
      * @return resolved ValueSet resource
      * @throws IllegalArgumentException if the ValueSetInfo.id could not be resolved
@@ -120,7 +120,7 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
             // See https://www.hl7.org/fhir/datatypes.html#id
             if (id.matches("[A-Za-z0-9\\-\\.]{1,64}")) {
                 try {
-                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceTypeCode.VALUE_SET.getValue(), id, /*throwExOnMissing=*/false, /*includeDeleted=*/false, /*contextResource=*/null);
+                    SingleResourceResult<? extends Resource> result = resourceHelper.doRead(ResourceType.VALUE_SET.value(), id, /*throwExOnMissing=*/false, /*includeDeleted=*/false, /*contextResource=*/null);
                     if( result.isSuccess() ) {
                         valueSet = (ValueSet) result.getResource();
                     }
@@ -129,11 +129,11 @@ public class ServerFHIRTerminologyProvider implements TerminologyProvider {
                 }
             }
         }
-        
+
         if( valueSet == null ) {
             throw new IllegalArgumentException(String.format("Could not resolve value set %s.", valueSetInfo.getId()));
         }
-        
+
         return valueSet;
     }
 }
