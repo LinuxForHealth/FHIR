@@ -56,7 +56,7 @@ java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-sche
     --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-    --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
+    --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent \
     --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \

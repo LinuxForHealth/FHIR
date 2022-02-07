@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -22,7 +23,9 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -34,20 +37,28 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
+import com.ibm.fhir.search.parameters.ParametersMap;
+import com.ibm.fhir.search.parameters.ParametersUtil;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -176,6 +187,32 @@ public class EverythingOperation extends AbstractOperation {
         int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
         allEntries.add(patientEntry);
+        List<String> resourceIds = new ArrayList<String>();
+        // Look up which extra resources should be returned
+        List<String> extraResources = new ArrayList<String>();
+        try {
+            PropertyGroup parentResourcePropGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING);
+            if (parentResourcePropGroup != null) {
+                extraResources = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES);
+            }
+        } catch (Exception e) {
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
+                IssueType.EXCEPTION, e);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
+        }
+
+        // Patient is not part of its own compartment at this time.  If that behavior changes, remove these next lines
+        List<Entry> entryList = new ArrayList<Entry>(1);
+        entryList.add(patientEntry);
+        try {
+            readsOfAdditionalAssociatedResources(PATIENT, entryList, allEntries, resourceIds, resourceHelper, extraResources);
+        } catch (Exception e) {
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
+                    + "related resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+            throw exceptionWithIssue;
+        }
 
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
         // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
@@ -190,63 +227,82 @@ public class EverythingOperation extends AbstractOperation {
         } catch (FHIRSearchException e) {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
-        
+
+        Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
 
-        int totalResourceCount = 0;
-        for (String compartmentType : resourceTypes) {
+        boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
+        for (String compartmentMemberType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
-            if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
-                LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
+            if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentMemberType)) {
+                if (LOG.isLoggable(Level.FINEST)) {
+                    LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentMemberType + "', so will be ignored.");
+                }
                 searchParameters = queryParametersWithoutDates;
             }
 
             // Need to construct a new version of the map each time through the loop to edit
-            MultivaluedMap<String, String> tempSearchParameters = 
+            MultivaluedMap<String, String> tempSearchParameters =
                     new MultivaluedHashMap<String, String>(searchParameters);
-            
+
             Bundle results = null;
             int currentResourceCount = 0;
             try {
-                addIncludesSearchParameters(compartmentType, tempSearchParameters);
-                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
+                // Don't need to add more search parameters if the config section isn't there or is empty
+                if (retrieveAdditionalResources) {
+                    ParametersMap supportedSearchParametersMap = supportedSearchParameters.get(compartmentMemberType);
+                    addIncludesSearchParameters(compartmentMemberType, tempSearchParameters, extraResources, supportedSearchParametersMap);
+                }
+                results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
+                int countBeforeAddingNewResources = allEntries.size();
+                processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                 currentResourceCount = results.getTotal().getValue();
-                totalResourceCount += currentResourceCount;
-                LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
+                if (LOG.isLoggable(Level.FINEST)) {
+                    LOG.finest("Got " + compartmentMemberType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
+                }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                        + "resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                        + "related resources of type '" + compartmentMemberType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
             // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
-            if (totalResourceCount > MAX_OVERALL_RESOURCES) {
+            if (allEntries.size() > MAX_OVERALL_RESOURCES) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
                         + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
                         + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
-            allEntries.addAll(results.getEntry());
 
-            // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
+            // We are retrieving sub-resources maxPageSize items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
             if (currentResourceCount > maxPageSize) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
                 while ((currentResourceCount -= maxPageSize) > 0) {
-                    LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
+                    if (LOG.isLoggable(Level.FINEST)) {
+                        LOG.finest("Retrieving page " + page + " of the " + compartmentMemberType + " resources for patient " + logicalId);
+                    }
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, tempSearchParameters, null, null);
+                        results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
+                        processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
-                                + "$everything resources page '" + page + "' of type '" + compartmentType + "' "
+                                + "$everything resources page '" + page + "' of type '" + compartmentMemberType + "' "
                                 + "for patient " + logicalId, IssueType.EXCEPTION, e);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                         throw exceptionWithIssue;
                     }
-                    allEntries.addAll(results.getEntry());
+                    // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
+                    if (allEntries.size() > MAX_OVERALL_RESOURCES) {
+                        FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources "
+                                + "allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded "
+                                + "for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
+                        LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                        throw exceptionWithIssue;
+                    }
                 }
             }
         }
@@ -341,7 +397,7 @@ public class EverythingOperation extends AbstractOperation {
      */
     private List<String> getDefaultIncludedResourceTypes(FHIRResourceHelpers resourceHelper) throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
-        
+
         try {
             List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
             // Examine the resource types to see if they support SEARCH
@@ -364,7 +420,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
                 LOG.fine(resourceTypeBuilder.toString());
             }
-            
+
             // Need to have this if check to support server config files that do not specify resources
             if (!supportedResourceTypes.isEmpty()) {
                 resourceTypes.retainAll(supportedResourceTypes);
@@ -374,7 +430,7 @@ public class EverythingOperation extends AbstractOperation {
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
-        
+
         if (LOG.isLoggable(Level.FINE)) {
             StringBuilder resourceTypeBuilder = new StringBuilder(resourceTypes.size());
             resourceTypeBuilder.append("resourceTypes are: ");
@@ -420,295 +476,407 @@ public class EverythingOperation extends AbstractOperation {
                 .value(requestBaseURI + "/" + uriPath)
                 .build();
     }
-    
-    private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters)
+
+    private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters, List<String> extraResources,
+        ParametersMap supportedSearchParametersMap)
     throws Exception {
         // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
-        // from search parameters only if the request does not have a _type parameter or it does have a 
+        // from search parameters only if the request does not have a _type parameter or it does have a
         // _type parameter that includes these
-        
+
         List<String> allowedIncludes = new ArrayList<String>(10);
-        
+
         try {
             allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(compartmentMemberType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
         } catch (Exception e) {
             FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported search parameters for the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;      
+            throw exceptionWithIssue;
         }
-        
+
         // Add in _includes for all search parameters that are Location, Medication, Organization, or Practitioner
         if (compartmentMemberType.equals(ResourceType.Value.ADVERSE_EVENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recorder", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "substance", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recorder", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "substance", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.ALLERGY_INTOLERANCE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recorder", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "asserter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recorder", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "asserter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.APPOINTMENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.APPOINTMENT_RESPONSE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.ACCOUNT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "owner", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "owner", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.AUDIT_EVENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.BASIC.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CARE_PLAN.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CARE_TEAM.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.ORGANIZATION,searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.ORGANIZATION,searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals("ChargeHistory")) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "service", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer-actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "service", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer-actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CLAIM.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CLAIM_RESPONSE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CLINICAL_IMPRESSION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "assessor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "assessor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COMMUNICATION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COMPOSITION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "attester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "attester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CONDITION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "asserter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "asserter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COMMUNICATION_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "sender", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.CONSENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "consentor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "consentor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "consentor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "consentor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COVERAGE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "payor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "policy-holder", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "payor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "policy-holder", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COVERAGE_ELIGIBILITY_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.COVERAGE_ELIGIBILITY_RESPONSE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer",ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer",ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requestor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.DETECTED_ISSUE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.DEVICE_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.DIAGNOSTIC_REPORT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "results-interpreter", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "results-interpreter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "results-interpreter", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "results-interpreter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.DOCUMENT_MANIFEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+        } else if (compartmentMemberType.equals(ResourceType.Value.DOCUMENT_REFERENCE.value())) {
+            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "custodian", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.ENCOUNTER.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "service-provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "service-provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.EPISODE_OF_CARE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "care-manager", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "care-manager", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.EXPLANATION_OF_BENEFIT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "care-team", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "enterer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "facility", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "insurer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "payee", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.FLAG.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.GOAL.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.GROUP.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "managing-entity", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "managing-entity", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "member", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "managing-entity", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "managing-entity", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.IMAGING_STUDY.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "interpreter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "referrer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "interpreter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "referrer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.IMMUNIZATION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "manufacturer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "manufacturer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.INVOICE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "issuer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "issuer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "recipient", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.LIST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEASURE_REPORT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "reporter", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEDIA.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "operator", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "operator", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "operator", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "operator", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEDICATION_ADMINISTRATION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEDICATION_DISPENSE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "destination", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "receiver", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "responsibleparty", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "destination", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "receiver", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "responsibleparty", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEDICATION_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-dispenser", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-dispenser", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "intended-performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.MEDICATION_STATEMENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "medication", ResourceType.Value.MEDICATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals("NutritionHistory")) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "provider", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.OBSERVATION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.QUESTIONNAIRE_RESPONSE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "source", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.PATIENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "general-practitioner", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "general-practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "general-practitioner", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "general-practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.PERSON.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "organization", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "practitioner", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.PROCEDURE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.PROVENANCE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "location", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "agent", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(Reference.class.getSimpleName())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "custodian", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "authenticator", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "custodian", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.REQUEST_GROUP.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "author", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "participant", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.RISK_ASSESSMENT.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SCHEDULE.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "actor", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SERVICE_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes); 
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "performer", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SPECIMEN.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "collector", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "collector", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SUPPLY_DELIVERY.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "receiver", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "receiver", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.SUPPLY_REQUEST.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
-            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "requester", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.LOCATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "subject", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+            addSearchParameterIfNotExcluded(compartmentMemberType, "supplier", ResourceType.Value.ORGANIZATION, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
         } else if (compartmentMemberType.equals(ResourceType.Value.VISION_PRESCRIPTION.value())) {
-            addSearchParameterIfNotExcluded(compartmentMemberType, "prescriber", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes);
-        } 
-            
+            addSearchParameterIfNotExcluded(compartmentMemberType, "prescriber", ResourceType.Value.PRACTITIONER, searchParameters, allowedIncludes, extraResources, supportedSearchParametersMap);
+        }
+
         // BodyStructure, ResearchSubject, and RelatedPerson have no references to:
         // Location, Medication, Organization, and Practitioner
-        
-        // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem, 
-        // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence, 
-        // and NutritionOrder have no search parameters that reference: 
+
+        // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem,
+        // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence,
+        // and NutritionOrder have no search parameters that reference:
         // Location, Medication, Organization, and Practitioner
     }
-    
-    private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code, 
-        ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters, 
-        List<String> allowedIncludes) {
+
+    private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code,
+            ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters,
+            List<String> allowedIncludes, List<String> extraResources, ParametersMap supportedSearchParametersMap) {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
         String simplifiedParameterName = compartmentMemberType + ":" + code;
-        if (allowedIncludes == null || allowedIncludes.contains(parameterName)
-                || allowedIncludes.contains(simplifiedParameterName)) {
+        // Also search if parameter name is supported by looking at the list of search
+        // parameters
+        SearchParameter searchParam = supportedSearchParametersMap.lookupByCode(code);
+        if ((extraResources != null && extraResources.contains(subResourceType.value())) &&
+                (allowedIncludes == null || allowedIncludes.contains(parameterName)
+                || allowedIncludes.contains(simplifiedParameterName)) &&
+                searchParam != null) {
             searchParameters.add("_include", parameterName);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
             }
         }
+    }
+
+    /**
+     * Read additional associated resources for the "extra" types (like location)
+     * supported by this server configuration.  Only references of type LITERAL_RELATIVE
+     * (including absolute references that match the server's hostname) are resolved by the
+     * implementation.
+     *
+     * @param compartmentMemberType the type of resource currently drilling down on
+     * @param newEntries a list of Bundle response entries that include compartmentMemberType instances found via search
+     * @param allEntries a list of all entries that have been found so far (minus duplicates)
+     * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
+     * @param extraResources a list of "extra" resource types configured for this server
+     */
+    private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
+                List<Entry> allEntries, List<String> resourceIds,
+                FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
+        if (extraResources == null || extraResources.isEmpty()) {
+            return;
+        }
+        Bundle.Builder requestBundleBuilder = Bundle.builder().type(BundleType.BATCH);
+        String url = ReferenceUtil.getServiceBaseUrl();
+
+        for (Entry entry: newEntries) {
+            // Look up entries by reference
+            List<Reference> references = ReferenceFinder.getReferences(entry.getResource());
+            for (Reference reference: references) {
+                ReferenceValue referenceValue = ReferenceUtil.createReferenceValueFrom(reference, url);
+                if (referenceValue.getType().equals(ReferenceValue.ReferenceType.LITERAL_RELATIVE)) {
+                    String type = referenceValue.getTargetResourceType();
+                    String value = referenceValue.getValue();
+                    String resourceId = type + "/" + value;
+                    if (!resourceIds.contains(resourceId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
+                            || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
+                        // Bundle up the requests so we can send them as a batch
+                        addRequestToBundle(requestBundleBuilder, HTTPVerb.GET, resourceId, null);
+                    }
+                }
+            }
+        }
+
+        Bundle requestBundle = requestBundleBuilder.build();
+        // If we have resources to get, get them
+        if (requestBundle.getEntry().size() > 0) {
+            Bundle responseBundle = resourceHelper.doBundle(requestBundle, false);
+
+            // Process the additional resources received
+            for (Entry entry: responseBundle.getEntry()) {
+                String resourceId = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+                resourceIds.add(resourceId);
+                // remove this next line if fullUrls start getting set on batch reads
+                Bundle.Entry.Builder entryBuilder = entry.toBuilder()
+                        .fullUrl(Uri.of(url + resourceId));
+                allEntries.add(entryBuilder.build());
+            }
+        }
+    }
+
+    /**
+     * Process the retrieved results to avoid duplicates and retrieve additional resources through references, if applicable
+     *
+     * @param results the resources returned from doSearch
+     * @param compartmentMemberType the type of resource currently drilling down on
+     * @param newEntries a list of entries of that compartment type that were found in a search
+     * @param allEntries a list of all entries that have been found so far (minus duplicates)
+     * @param resourceIds a list of all the resource ids already added to the results
+     * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
+     * @param extraResources a list of "extra" resource types configured for this server
+     * @param retrieveAdditionalResources whether the server config has specified to retrieve additional resources
+     */
+    private void processResults(Bundle results, String compartmentMemberType, List<Entry> newEntries,
+                List<Entry> allEntries, List<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources,
+                boolean retrieveAdditionalResources) throws Exception {
+        // Only add resources we don't already have and keep track of what we've found so far,
+        // otherwise, we were getting duplicate entries from the _includes
+        for (Entry entry: results.getEntry()) {
+            String externalIdentifier = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
+            if (!resourceIds.contains(externalIdentifier)) {
+                resourceIds.add(externalIdentifier);
+                allEntries.add(entry);
+            }
+        }
+        if (retrieveAdditionalResources) {
+            readsOfAdditionalAssociatedResources(compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
+        }
+    }
+
+    //Copied from FHIRClientTest
+    private void addRequestToBundle(Bundle.Builder bundleBuilder, HTTPVerb method, String url, Resource resource) throws Exception {
+
+        Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();
+        Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
+
+        if (resource != null) {
+            entryBuilder.resource(resource);
+        }
+
+        bundleBuilder.entry(entryBuilder.build());
     }
 }

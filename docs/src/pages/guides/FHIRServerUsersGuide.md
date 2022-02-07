@@ -2241,6 +2241,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/enabled`|boolean|Enables or disables the $member-match|
 |`fhirServer/operations/membermatch/strategy`|string|The key identifying the Member Match strategy|
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
+|`fhirServer/operations/everything/includeTypes`|list|The list of related resources to retrieve, allowed entries are `Location`, `Medication`, `Organization`, and `Practitioner`|
 
 
 ### 5.1.2 Default property values
@@ -2384,6 +2385,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/enabled`|true|
 |`fhirServer/operations/membermatch/strategy`|default|
 |`fhirServer/operations/membermatch/extendedProps`|empty|
+|`fhirServer/operations/everything/includeTypes`|null|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2560,6 +2562,7 @@ must restart the server for that change to take effect.
 |`fhirServer/operations/membermatch/enabled`|Y|Y|
 |`fhirServer/operations/membermatch/strategy`|Y|Y|
 |`fhirServer/operations/membermatch/extendedProps`|Y|Y|
+|`fhirServer/operations/everything/includeTypes`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 
