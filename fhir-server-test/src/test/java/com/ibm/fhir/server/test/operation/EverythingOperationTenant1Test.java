@@ -134,7 +134,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         // Ensure that the 5 resources are accounted for in the returning search set bundle
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 8);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
