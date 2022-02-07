@@ -205,7 +205,7 @@ public class AuthzPolicyEnforcementTest {
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-            event.setPrevFhirResource(patient);
+            event.setFhirResource(patient);
             interceptor.beforeDelete(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
@@ -214,7 +214,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-            event.setPrevFhirResource(observation);
+            event.setFhirResource(observation);
             interceptor.beforeDelete(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
@@ -223,7 +223,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent();
-            event.setPrevFhirResource(condition);
+            event.setFhirResource(condition);
             interceptor.beforeDelete(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
