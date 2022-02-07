@@ -564,14 +564,12 @@ public class FHIRSwaggerGenerator {
         sort.add("in", "query");
         sort.add("required", false);
         
-        JsonObjectBuilder schema = factory.createObjectBuilder();
-        schema.add("type", "string");
+        sort.add("type", "string");
         JsonArrayBuilder enums = factory.createArrayBuilder();
         enums.add("-_lastUpdated");
         enums.add("_lastUpdated");
         enums.add("none");
-        schema.add("enum", enums);
-        sort.add("schema", schema);
+        sort.add("enum", enums);
         
         parameters.add("_sortParam", sort);
         
