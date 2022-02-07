@@ -202,6 +202,8 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                         .responseType(ResponseType.NO_MATCH)
                         .build();
             }
+        } catch (FHIROperationException foe){
+            throw foe;
         } catch (Exception e) {
             LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
             throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION);
