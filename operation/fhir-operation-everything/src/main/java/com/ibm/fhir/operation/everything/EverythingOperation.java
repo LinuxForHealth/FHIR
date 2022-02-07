@@ -263,7 +263,7 @@ public class EverythingOperation extends AbstractOperation {
                 }
             } catch (Exception e) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                        + "resources of type '" + compartmentMemberType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                        + "related resources of type '" + compartmentMemberType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }
@@ -784,9 +784,9 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * Read additional associated resources for the "extra" types (like location)
-     * supported by this server configuration.  Only LITERAL_RELATIVE references are
-     * resolved as LITERAL_ABSOLUTE references that match the server's hostname are
-     * normalized prior to this method.
+     * supported by this server configuration.  Only references of type LITERAL_RELATIVE
+     * (including absolute references that match the server's hostname) are resolved by the
+     * implementation.
      *
      * @param compartmentMemberType the type of resource currently drilling down on
      * @param newEntries a list of Bundle response entries that include compartmentMemberType instances found via search
@@ -800,7 +800,7 @@ public class EverythingOperation extends AbstractOperation {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
         }
-        Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
+        Bundle.Builder requestBundleBuilder = Bundle.builder().type(BundleType.BATCH);
         String url = ReferenceUtil.getServiceBaseUrl();
 
         for (Entry entry: newEntries) {
@@ -815,12 +815,13 @@ public class EverythingOperation extends AbstractOperation {
                     if (!resourceIds.contains(resourceId) && extraResources.contains(type) && (type.equals(ResourceType.Value.LOCATION.value()) || type.equals(ResourceType.Value.MEDICATION.value())
                             || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
                         // Bundle up the requests so we can send them as a batch
-                        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, resourceId, null);
+                        addRequestToBundle(requestBundleBuilder, HTTPVerb.GET, resourceId, null);
                     }
                 }
             }
         }
 
+        Bundle requestBundle = requestBundleBuilder.build();
         // If we have resources to get, get them
         if (requestBundle.getEntry().size() > 0) {
             Bundle responseBundle = resourceHelper.doBundle(requestBundle, false);
@@ -867,7 +868,7 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     //Copied from FHIRClientTest
-    private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
+    private void addRequestToBundle(Bundle.Builder bundleBuilder, HTTPVerb method, String url, Resource resource) throws Exception {
 
         Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();
         Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
@@ -876,6 +877,6 @@ public class EverythingOperation extends AbstractOperation {
             entryBuilder.resource(resource);
         }
 
-        return bundle.toBuilder().entry(entryBuilder.build()).build();
+        bundleBuilder.entry(entryBuilder.build());
     }
 }
