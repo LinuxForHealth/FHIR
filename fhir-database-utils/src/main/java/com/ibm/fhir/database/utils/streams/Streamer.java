@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 /**
  * Simple implementation taking a JDBC ResultSet and rendering it using
- * the Java 8 Streams API.
+ * the Java 11 Streams API.
  * <br>
  * The JDBC API is really starting to show its age here
  */

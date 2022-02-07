@@ -1,6 +1,6 @@
 @echo off
 @REM ----------------------------------------------------------------------------
-@REM (C) Copyright IBM Corp. 2017, 2021
+@REM (C) Copyright IBM Corp. 2017, 2022
 @REM
 @REM SPDX-License-Identifier: Apache-2.0
 @REM ----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ echo Executing %0 to deploy the fhir-server web application...
 
 @REM Make sure that JAVA_HOME is set
 if "-%JAVA_HOME%-"=="--" (
-    echo "Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM (or above) and then re-try."
+    echo "Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 11 JVM (or above) and then re-try."
     set rc=1
     goto :exit
 ) else (
@@ -99,8 +99,8 @@ echo 2. Modify the server.xml and fhir-server-config.json files located at %WLP_
 echo    to properly configure the server according to your requirements.
 echo    This includes the definition of the server listener ports, as well as the selection
 echo    of the datastore and other associated configuration.
-echo 3. The fhir-server application requires Java 8.
-echo    Be sure to set the JAVA_HOME environment variable to point to your Java 8 installation
+echo 3. The fhir-server application requires Java 11.
+echo    Be sure to set the JAVA_HOME environment variable to point to your Java 11 installation
 echo    before starting the server.
 echo 4. You can start and stop the server with these commands:
 echo    %WLP_ROOT%\bin\server start fhir-server
