@@ -360,7 +360,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
             // persistence layer.
-            SingleResourceResult<Resource> result = persistence.createWithMeta(persistenceContext, resource);
+            SingleResourceResult<Resource> result = persistence.create(persistenceContext, resource);
             if (result.isSuccess() && result.getOutcome() != null) {
                 warnings.addAll(result.getOutcome().getIssue());
             }
@@ -762,10 +762,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             final SingleResourceResult<Resource> result;
             if (createOnUpdate) {
                 // resource shouldn't exist, so we assume it's a create
-                result = persistence.createWithMeta(persistenceContext, newResource);
+                result = persistence.create(persistenceContext, newResource);
             } else {
                 // resource already exists, so we know it's an update
-                result = persistence.updateWithMeta(persistenceContext, newResource);
+                result = persistence.update(persistenceContext, newResource);
             }
 
             if (result.isSuccess() && result.getOutcome() != null) {
@@ -1004,7 +1004,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             .withOffloadResponse(offloadResponse)
                             .build();
 
-                    persistence.deleteWithMeta(persistenceContext, resource);
+                    persistence.delete(persistenceContext, resource);
 
                     if (responseBundle.getEntry().size() == 1) {
                         ior.setResource(resource);

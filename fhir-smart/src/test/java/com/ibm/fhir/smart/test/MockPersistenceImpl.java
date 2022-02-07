@@ -66,11 +66,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        return null;
-    }
-
-    @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
 
@@ -135,12 +130,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-    	return null;
-    }
-    
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         return null;
     }
 
@@ -183,12 +173,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, Instant fromLastModified, Instant toLastModified,
             Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
-        return null;
-    }
-
-    @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-        throws FHIRPersistenceException {
         return null;
     }
 

@@ -39,6 +39,7 @@ import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -67,13 +68,13 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         resource3Builder.extension(extension("http://example.org/integer", Integer.of(3)));
 
         // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1 = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
-        resource2 = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
-        resource3 = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
+        resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("pagingTest")).build()).getResource();
+        resource2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("pagingTest")).build()).getResource();
+        resource3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("pagingTest")).build()).getResource();
 
         // update resource3 two times so we have 3 different versions
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
-        resource3 = persistence.update(getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
     }
 
     @AfterClass
@@ -83,7 +84,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
             }
             commitTrx();
         }

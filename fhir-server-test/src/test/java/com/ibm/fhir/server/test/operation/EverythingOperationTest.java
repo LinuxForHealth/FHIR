@@ -35,7 +35,9 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.CapabilityStatement;
+import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -128,10 +130,10 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         // but keep the original so we can delete all created resources
         Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
 
-        // Ensure that the 916 resources are accounted for in the returning search set bundle
+        // Ensure that the 895 resources are accounted for in the returning search set bundle
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 916);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
@@ -160,6 +162,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 }
             }
         }
+        // Remove these two as these two resources are not part of the default server config
+        keysToRemove.add(Practitioner.class.getSimpleName());
+        keysToRemove.add(Organization.class.getSimpleName());
 
         // Remove all entries from the map that no longer have resources left to account for
         // we should have accounted for all resources of that type such that the map should be empty
@@ -180,7 +185,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // Count is ignored
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 916);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -205,7 +210,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // The number of companies was reduced as the scope was narrowed down to a decade
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 387);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -219,7 +224,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 15);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -245,7 +250,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 15);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })

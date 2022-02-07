@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.LinkType;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 
 /**
  *  This class tests the persistence layer support for the FHIR _include and _revinclude search result parameters.
@@ -76,68 +77,68 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         DeviceRequest deviceRequest = TestUtil.getMinimalResource(DeviceRequest.class);
 
         // an Organization that will be referenced by a Patient
-        savedOrg1 = persistence.create(getDefaultPersistenceContext(), org).getResource();
+        savedOrg1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), org).getResource();
 
         // an Encounter that will be used as a reference within an Observation
-        savedEncounter1 = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
+        savedEncounter1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), encounter).getResource();
 
         // an Observation that has no references to any other resource types
-        savedObservation1 = persistence.create(getDefaultPersistenceContext(), observation).getResource();
+        savedObservation1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation).getResource();
 
         // a Patient that will be used as a reference within an Observation
-        savedPatient1 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+        savedPatient1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
 
         // an Observation with a reference to a patient and a logical ID-only reference to another observation
         savedObservation2 = observation.toBuilder()
                                         .subject(reference("Patient/" + savedPatient1.getId()))
                                         .hasMember(reference(savedObservation1.getId()))
                                         .build();
-        savedObservation2 = persistence.create(getDefaultPersistenceContext(), savedObservation2).getResource();
+        savedObservation2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation2).getResource();
 
         // an Observation with a reference to a patient and a reference to an Encounter
         savedObservation3 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient1.getId()))
                                        .encounter(reference("Encounter/" + savedEncounter1.getId()))
                                        .build();
-        savedObservation3 = persistence.create(getDefaultPersistenceContext(), savedObservation3).getResource();
+        savedObservation3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation3).getResource();
 
         // a Patient that will be used as a reference within an Observation, and which references itself
-        savedPatient2 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+        savedPatient2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
         // update the patient
         savedPatient2 = savedPatient2.toBuilder()
                                         .name(humanName("Vito", "Corleone"))
                                         .link(Link.builder().type(LinkType.REFER).other(reference("Patient/" + savedPatient2.getId())).build())
                                         .build();
-        savedPatient2 = persistence.update(getDefaultPersistenceContext(), savedPatient2.getId(), savedPatient2).getResource();
+        savedPatient2 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedPatient2.getId(), savedPatient2).getResource();
 
         // an Observation with a reference to a patient and a reference to an Encounter
         savedObservation4 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient2.getId()))
                                        .encounter(reference("Encounter/" + savedEncounter1.getId()))
                                        .build();
-        savedObservation4 = persistence.create(getDefaultPersistenceContext(), savedObservation4).getResource();
+        savedObservation4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation4).getResource();
 
         // a Patient that will be used as a reference within an Observation and a Device
         // also, it will contain a reference to a managing organization
         savedPatient3 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg1.getId())).build();
-        savedPatient3 = persistence.create(getDefaultPersistenceContext(), savedPatient3).getResource();
+        savedPatient3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient3).getResource();
 
         // an Observation with a reference to a patient
         savedObservation5 = observation.toBuilder().subject(reference("Patient/" + savedPatient3.getId())).build();
-        savedObservation5 = persistence.create(getDefaultPersistenceContext(), savedObservation5).getResource();
+        savedObservation5 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation5).getResource();
 
         // a Device with a reference to a patient and an organization
         savedDevice1 = device.toBuilder()
                                     .patient(reference("Patient/" + savedPatient3.getId()))
                                     .owner(reference("Organization/" + savedOrg1.getId()))
                                     .build();
-        savedDevice1 = persistence.create(getDefaultPersistenceContext(), savedDevice1).getResource();
+        savedDevice1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedDevice1).getResource();
         // update the device
         savedDevice1 = savedDevice1.toBuilder().manufacturer(string("Updated Manufacturer")).build();
-        savedDevice1 = persistence.update(getDefaultPersistenceContext(), savedDevice1.getId(), savedDevice1).getResource();
+        savedDevice1 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), savedDevice1.getId(), savedDevice1).getResource();
 
         // a Patient that will have no other resources referencing it
-        savedPatient4 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+        savedPatient4 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
 
         // An Observation with versioned references to a device
         savedObservation6 = observation.toBuilder()
@@ -146,7 +147,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 .device(reference("Device/" + savedDevice1.getId() + "/_history/3"))
                 .specimen(reference("Specimen/1"))
                 .build();
-        savedObservation6 = persistence.create(getDefaultPersistenceContext(), savedObservation6).getResource();
+        savedObservation6 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedObservation6).getResource();
 
         // A DeviceRequest with non-versioned references to a device
         savedDeviceRequest1 = deviceRequest.toBuilder()
@@ -154,19 +155,19 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 .performer(reference("Device/" + savedDevice1.getId()))
                 .code(reference("Device/" + savedDevice1.getId()))
                 .build();
-        savedDeviceRequest1 = persistence.create(getDefaultPersistenceContext(), savedDeviceRequest1).getResource();
+        savedDeviceRequest1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedDeviceRequest1).getResource();
 
         // an Encounter with a reference to another encounter
         savedEncounter2 = encounter.toBuilder()
                                         .partOf(reference("Encounter/" + savedEncounter1.getId()))
                                         .build();
-        savedEncounter2 = persistence.create(getDefaultPersistenceContext(), savedEncounter2).getResource();
+        savedEncounter2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedEncounter2).getResource();
 
         // an Encounter with a reference to another encounter
         savedEncounter3 = encounter.toBuilder()
                                         .partOf(reference("Encounter/" + savedEncounter2.getId()))
                                         .build();
-        savedEncounter3 = persistence.create(getDefaultPersistenceContext(), savedEncounter3).getResource();
+        savedEncounter3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedEncounter3).getResource();
     }
 
     @AfterClass
@@ -183,7 +184,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
 
             try {
                 for (Resource resource : resources) {
-                    persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
+                    FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
                 }
             } catch (Throwable t) {
                 if (persistence.isTransactional()) {

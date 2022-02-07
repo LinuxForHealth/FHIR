@@ -9,6 +9,7 @@ package com.ibm.fhir.config;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +51,7 @@ public class FHIRRequestContext {
 
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
-    
+
     // True if the returnPreference was not passed and is using the default value
     private boolean returnPreferenceDefault;
 
@@ -167,6 +168,7 @@ public class FHIRRequestContext {
      * This method is called when the FHIR Server starts processing a request.
      */
     public static void set(FHIRRequestContext context) {
+        Objects.requireNonNull(context);
         contexts.set(context);
         if (log.isLoggable(Level.FINEST)) {
             log.finest("FHIRRequestContext.set: " + context.toString());

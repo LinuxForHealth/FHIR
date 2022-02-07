@@ -274,7 +274,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
 
 4. save the tenantKey from the `allocate-tenant` step above; this is needed to configure the IBM FHIR Server datasource in the next step
 
-For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/README.md.
+For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md.
 
 ### **Configuring an IBM FHIR Server datasource**
 
@@ -336,7 +336,7 @@ Create a file as the following:
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s" isolationLevel="TRANSACTION_READ_COMMITTED">
         <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
-            erverName="${DB_HOSTNAME}"
+            serverName="${DB_HOSTNAME}"
             currentSchema="${DB_SCHEMA}"
             databaseName="${DB_NAME}"
             driverType="4"

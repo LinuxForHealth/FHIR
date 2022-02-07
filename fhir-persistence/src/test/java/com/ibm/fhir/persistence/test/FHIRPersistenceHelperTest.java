@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,7 +66,7 @@ public class FHIRPersistenceHelperTest {
         assertNotNull(persistence);
         
         assertFalse(persistence.isDeleteSupported());
-        persistence.delete(null, null, null);
+        persistence.delete(null, null);
     }
     
     @Test(expectedExceptions = {FHIRPersistenceException.class})

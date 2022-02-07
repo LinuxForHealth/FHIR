@@ -11,7 +11,6 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.InputStream;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +36,7 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -270,9 +270,8 @@ public abstract class AbstractPersistenceTest {
      * @param resource
      * @return
      */
-    protected <T extends Resource> T updateVersionMeta(T resource) {
-        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+    protected <T extends Resource> T updateVersionMeta(T resource) throws FHIRPersistenceException {
         final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
-        return copyAndSetResourceMetaFields(resource, resource.getId(), newVersionId, lastUpdated);
+        return FHIRPersistenceTestSupport.setIdAndMeta(persistence, resource, resource.getId(), newVersionId);
     }
 }

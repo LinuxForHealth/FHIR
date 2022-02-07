@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,7 +33,7 @@ public class UpdateOperation extends BaseOperation {
         final int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
         resource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
 
-        Resource newResource = tc.getPersistence().updateWithMeta(context, resource).getResource();
+        Resource newResource = tc.getPersistence().update(context, resource).getResource();
         check(tc, tc.getResource(), newResource, this.getClass().getSimpleName());
         
         // Update the context with the modified resource

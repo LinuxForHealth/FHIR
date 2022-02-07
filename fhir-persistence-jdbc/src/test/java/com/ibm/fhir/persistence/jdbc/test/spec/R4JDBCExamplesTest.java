@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,8 +70,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         operations.add(new ReadOperation());
         operations.add(new VReadOperation());
         operations.add(new HistoryOperation(3));
-        operations.add(new DeleteOperation());
-        operations.add(new DeleteOperation());
+        operations.add(new DeleteOperation()); // only one delete operation because a second would now generate an exception
         operations.add(new HistoryOperation(4));
         R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
                 operations,

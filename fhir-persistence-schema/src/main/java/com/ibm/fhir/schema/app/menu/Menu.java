@@ -23,6 +23,7 @@ public class Menu {
     public static final String CHECK_COMPATIBILITY = "--check-compatibility";
     public static final String DROP_ADMIN = "--drop-admin";
     public static final String TEST_TENANT = "--test-tenant";
+    public static final String TENANT_NAME = "--tenant-name";
     public static final String TENANT_KEY = "--tenant-key";
     public static final String TENANT_KEY_FILE = "--tenant-key-file";
     public static final String LIST_TENANTS = "--list-tenants";
@@ -57,6 +58,8 @@ public class Menu {
     public static final String CREATE_SCHEMA_OAUTH = "--create-schema-oauth";
     public static final String FORCE = "--force";
     public static final String HELP = "--help";
+    public static final String SHOW_DB_SIZE = "--show-db-size";
+    public static final String SHOW_DB_SIZE_DETAIL = "--show-db-size-detail";
 
     public Menu() {
         // NOP
@@ -75,6 +78,7 @@ public class Menu {
         MI_CHECK_COMPATIBILITY(CHECK_COMPATIBILITY, "", "checks feature compatibility"),
         MI_DROP_ADMIN(DROP_ADMIN, "", "drops the admin schema"),
         MI_TEST_TENANT(TEST_TENANT, "tenantName", " used to test with tenantName"),
+        MI_TENANT_NAME(TENANT_NAME, "tenantName", " specify the tenantName"),
         MI_TENANT_KEY(TENANT_KEY, "tenantKey", "the tenant-key in the queries"),
         MI_TENANT_KEY_FILE(TENANT_KEY_FILE, "tenant-key-file-location", "sets the tenant key file location"),
         MI_LIST_TENANTS(LIST_TENANTS, "", "fetches list of tenants and current status"),
@@ -108,7 +112,9 @@ public class Menu {
         MI_CREATE_SCHEMAS(CREATE_SCHEMAS, "", "create the database schemas for batch, oauth, and the fhir schema set by '--schema-name'"),
         MI_CREATE_SCHEMA_FHIR(CREATE_SCHEMA_FHIR, "schemaName", "Create the FHIR Data Schema"),
         MI_CREATE_SCHEMA_BATCH(CREATE_SCHEMA_BATCH, "schemaName", "Create the Batch Schema"),
-        MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "schemaName", "Create the OAuth Schema");
+        MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "schemaName", "Create the OAuth Schema"),
+        MI_SHOW_DB_SIZE(SHOW_DB_SIZE, "", "Generate report with a breakdown of database size"),
+        MI_SHOW_DB_SIZE_DETAIL(SHOW_DB_SIZE_DETAIL, "", "Include detailed table and index info in size report");
 
         // Variables for Enum:
         private final String flag;
