@@ -65,6 +65,29 @@ public class VersionsOperationTest extends FHIRServerTestBase {
     }
 
     @Test
+    public void testVersions_with_parameters() {
+        WebTarget target = getWebTarget();
+        target = target.path("/$versions");
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON + ";test=1")
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        Parameters parameters = r.readEntity(Parameters.class);
+        assertNotNull(parameters);
+
+        List<String> versions = getParameterValues(parameters, PARAM_VERSION);
+        assertEquals(versions.size(), 1);
+        assertTrue(versions.contains("4.0"));
+
+        List<String> defaults = getParameterValues(parameters, PARAM_DEFAULT);
+        assertEquals(defaults.size(), 1);
+        assertTrue(defaults.contains("4.0"));
+    }
+
+    @Test
     public void testVersions_JSON() {
         WebTarget target = getWebTarget();
         target = target.path("/$versions");
@@ -87,11 +110,58 @@ public class VersionsOperationTest extends FHIRServerTestBase {
     }
 
     @Test
+    public void testVersions_JSON_with_parameters() {
+        WebTarget target = getWebTarget();
+        target = target.path("/$versions");
+
+        Response r = target.request(MediaType.APPLICATION_JSON + ";test=1")
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        JsonObject jsonObject = r.readEntity(JsonObject.class);
+        assertNotNull(jsonObject);
+
+        List<String> versions = getJsonArrayStringValues(jsonObject.getJsonArray(PARAM_VERSIONS));
+        assertEquals(versions.size(), 1);
+        assertTrue(versions.contains("4.0"));
+
+        String defaultVersion = jsonObject.getString(PARAM_DEFAULT);
+        assertEquals(defaultVersion, "4.0");
+    }
+
+    @Test
     public void testVersions_XML() {
         WebTarget target = getWebTarget();
         target = target.path("/$versions");
 
         Response r = target.request(MediaType.APPLICATION_XML)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        Document doc = r.readEntity(Document.class);
+        assertNotNull(doc);
+        List<Node> versionsNodes = getChildNodesByName(doc, PARAM_VERSIONS);
+        assertEquals(versionsNodes.size(), 1);
+
+        List<String> versions = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_VERSION));
+        assertEquals(versions.size(), 1);
+        assertTrue(versions.contains("4.0"));
+
+        List<String> defaults = getNodeStringValues(getChildNodesByName(versionsNodes.get(0), PARAM_DEFAULT));
+        assertEquals(defaults.size(), 1);
+        assertTrue(defaults.contains("4.0"));
+    }
+
+    @Test
+    public void testVersions_XML_with_parameters() {
+        WebTarget target = getWebTarget();
+        target = target.path("/$versions");
+
+        Response r = target.request(MediaType.APPLICATION_XML + ";test=1")
                 .header("X-FHIR-TENANT-ID", "default")
                 .header("X-FHIR-DSID", "default")
                 .get(Response.class);

@@ -167,10 +167,11 @@ public class VersionsOperation extends AbstractOperation {
         String headerString = operationContext.getHeaderString(ACCEPT_HEADER);
         if (headerString != null) {
             for (String headerStringElement : headerString.split(",")) {
-                if (MediaType.APPLICATION_JSON.equals(headerStringElement)) {
+                String mediaType = headerStringElement.split(";", 2)[0].trim();
+                if (MediaType.APPLICATION_JSON.equals(mediaType)) {
                     return MediaType.APPLICATION_JSON;
                 }
-                if (MediaType.APPLICATION_XML.equals(headerStringElement)) {
+                if (MediaType.APPLICATION_XML.equals(mediaType)) {
                     return MediaType.APPLICATION_XML;
                 }
             }
