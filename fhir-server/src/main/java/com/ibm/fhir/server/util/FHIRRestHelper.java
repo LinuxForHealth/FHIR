@@ -1014,7 +1014,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
 
                     // Invoke the 'afterDelete' interceptor methods.
-                    event.setFhirResource(resource);
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 
