@@ -55,10 +55,14 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * 2. HealthPlan (Match) checks the incoming Parameters validates against the profile.
  * 3. HealthPlan (Match) executes a local Search to find the Coverage
  * 4. HealhPlan (Match) (optionally) augments the Coverage details on the local system with a LINK.
+ * 
+ * @implNote the following search parameters are needed.
+ * Patient = identifier (USUAL, OFFICIAL), telecom, name, address, address-city, address-state, address-postalcode, address-country, gender, birthdate (uses eq), language
+ * Coverage = patient, subscriber, payor, subscriber-id, identifier, beneficiary
  */
 public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
-    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getSimpleName());
+    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getCanonicalName());
 
     private Patient memberPatient;
     private Coverage coverageToMatch;
@@ -140,6 +144,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
     @Override
     public MemberMatchResult executeMemberMatch() throws FHIROperationException {
+        LOG.entering(this.getClass().getName(), "executeMemberMatch");
         MemberMatchPatientSearchCompiler patientCompiler = new MemberMatchPatientSearchCompiler();
         memberPatient.accept(patientCompiler);
 
@@ -147,13 +152,12 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         try {
             // Compartment / CompartmentId is OK to be null in this case as we are not doing any includes
             // defined by the customer, it's all in the Compiler.
-            String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
+                LOG.fine("Search Parameters used to find the member in 'Patient' " + patientCompiler.getSearchParameters());
             }
             Bundle patientBundle = resourceHelper()
-                    .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
+                    .doSearch("Patient", null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
             if (size == 0) {
                 returnNoMatchException();
@@ -168,7 +172,6 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             }
 
             String patientReference = "Patient/" + patientBundle.getEntry().get(0).getResource().getId();
-            type = "Coverage";
 
             // Compiles the Coverage Search Parameters
             MemberMatchCovergeSearchCompiler coverageCompiler = new MemberMatchCovergeSearchCompiler(patientReference);
@@ -176,9 +179,9 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
             // essentially a search on beneficiary
             if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("SPs for Coverage " + coverageCompiler.getSearchParameters());
+                LOG.fine("Search Parameters used to find the member's Coverage " + coverageCompiler.getSearchParameters());
             }
-            Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
+            Bundle coverageBundle = resourceHelper().doSearch("Coverage", null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
             if (coverageBundle.getEntry().isEmpty()) {
                 // This may warrant a separate exception in custom implementations.
@@ -204,13 +207,14 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             }
         } catch (FHIROperationException foe){
             throw foe;
-        } catch (Exception e) {
-            LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
-            throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION);
+        } catch (Exception ex) {
+            LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", ex);
+            throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION, ex);
         }
 
         updateLinkedCoverageResource();
 
+        LOG.exiting(this.getClass().getName(), "executeMemberMatch");
         return MemberMatchResult.builder()
                     .responseType(ResponseType.SINGLE)
                     .type("http://terminology.hl7.org/CodeSystem/v2-0203", "MB")
@@ -254,7 +258,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                             addIdValue(identifier);
                         break;
                         default:
-                            LOG.fine("Identifier contains an unexected use " + identifier.getUse().getValueAsEnum());
+                            LOG.fine("Identifier contains an unexpected use [" + identifier.getUse().getValueAsEnum() + "]");
                     }
                 } else {
                     addIdValue(identifier);
