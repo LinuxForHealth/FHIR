@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -60,6 +60,16 @@ COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 RUN mkdir -p /config/configDropins/overrides && \
     chmod -R 775 /config/configDropins/overrides && \
     chmod -R 775 /opt/ol/wlp/usr/servers/defaultServer/configDropins/defaults
+
+# This block ensures the latest software is picked up.
+
+USER root
+
+RUN yum update -y && \
+    yum clean all && \
+    rm -rf /var/cache/yum
+
+USER 1001
 
 # Set the working directory to the liberty defaultServer
 WORKDIR ${FHIR_CONFIG_HOME}
