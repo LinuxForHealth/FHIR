@@ -2000,6 +2000,53 @@ public class FHIRRestHelperTest {
     }
 
     /**
+     * Ensure delete event contains the required resources.
+     */
+    @Test
+    public void testResourcesInDeleteEvent() throws Exception {
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+            @Override
+            public void beforeDelete(FHIRPersistenceEvent event) {
+                assertNotNull(event.getPrevFhirResource());
+                assertNotNull(event.getFhirResource());
+            }
+
+            @Override
+            public void afterDelete(FHIRPersistenceEvent event) {
+                assertNotNull(event.getPrevFhirResource());
+                assertNotNull(event.getFhirResource());
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id("123")
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        // Call doDelete, the interceptor will check if the events are set
+        helper.doDelete("Patient", "123", null);
+    }
+
+
+    /**
      * Test an interceptor that modifies the resource
      */
     @Test

@@ -984,20 +984,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 for (Entry entry: responseBundle.getEntry()) {
                     id = entry.getResource().getId();
                     resourceToDelete = entry.getResource();
-                    // First, invoke the 'beforeDelete' interceptor methods.
-                    FHIRPersistenceEvent event =
-                            new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
-                    event.setFhirResource(resourceToDelete);
-                    getInterceptorMgr().fireBeforeDeleteEvent(event);
                     
                     // For soft-delete we store a new version of the resource with the deleted
                     // flag set. Update the resource meta so that it has the correct version id
-                    final String resourcePayloadKey = UUID.randomUUID().toString();
                     final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
                     final int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete) + 1;
                     final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
 
+                    FHIRPersistenceEvent event =
+                        new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
+                    event.setPrevFhirResource(resourceToDelete);
+                    event.setFhirResource(resource);
+
+                    // First, invoke the 'beforeDelete' interceptor methods.
+                    getInterceptorMgr().fireBeforeDeleteEvent(event);
+
                     // If we're offloading, the payload gets stored outside the RDBMS
+                    final String resourcePayloadKey = UUID.randomUUID().toString();
                     PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
                     FHIRPersistenceContext persistenceContext =
                             FHIRPersistenceContextImpl.builder(event)
