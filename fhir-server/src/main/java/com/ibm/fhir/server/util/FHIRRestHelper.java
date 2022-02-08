@@ -128,6 +128,7 @@ import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorMeta;
+import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorOffload;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorPersist;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorReferenceMapping;
 import com.ibm.fhir.server.spi.operation.FHIROperation;
@@ -1978,13 +1979,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Phase 2: Now we have id values for each resource we can update any local references. At this point,
-            // the localRefMap should be fixed, so let's enforce that here
+            // the localRefMap should be fixed, so let's enforce that here. Once reference mapping is done, the
+            // resource is finalized - if the persistence layer supports payload offloading, we can do that now
             localRefMap = Collections.unmodifiableMap(localRefMap);
             FHIRRestInteractionVisitorReferenceMapping refMapper = new FHIRRestInteractionVisitorReferenceMapping(transaction, this, localRefMap, responseEntries);
+            FHIRRestInteractionVisitorOffload offloadVisitor = new FHIRRestInteractionVisitorOffload(transaction, this, localRefMap, responseEntries);
             for (FHIRRestInteraction interaction: bundleInteractions) {
                 // Only process stuff we don't yet have a response for
                 if (responseEntries[interaction.getEntryIndex()] == null) {
                     interaction.accept(refMapper);
+                }
+
+                // Now that the resource will no longer be changed, we can
+                // initiate payload offload (when supported)
+                if (responseEntries[interaction.getEntryIndex()] == null) {
+                    interaction.accept(offloadVisitor);
                 }
             }
 
