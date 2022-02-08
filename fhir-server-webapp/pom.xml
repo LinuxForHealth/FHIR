@@ -107,11 +107,6 @@
                         <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
                     </copyDependencies>
                     <copyDependencies>
-                        <dependency>
-                            <groupId>com.ibm.fhir</groupId>
-                            <artifactId>fhir-operation-member-match</artifactId>
-                        </dependency>
-                        <location>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/userlib/</location>
                         <!-- Used to Test Profiles and Operations -->
                         <dependencyGroup>
                             <dependency>
