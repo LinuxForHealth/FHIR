@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
@@ -124,6 +125,9 @@ public class NewQueryBuilder {
     private static final Logger log = java.util.logging.Logger.getLogger(NewQueryBuilder.class.getName());
     private static final String CLASSNAME = NewQueryBuilder.class.getName();
 
+    // Database translator to handle SQL syntax variations among databases
+    private final IDatabaseTranslator translator;
+    
     // For id lookups
     private final JDBCIdentityCache identityCache;
 
@@ -135,10 +139,12 @@ public class NewQueryBuilder {
 
     /**
      * Public constructor
+     * @param translator
      * @param queryHints
      * @param identityCache
      */
-    public NewQueryBuilder(QueryHints queryHints, JDBCIdentityCache identityCache) {
+    public NewQueryBuilder(IDatabaseTranslator translator, QueryHints queryHints, JDBCIdentityCache identityCache) {
+        this.translator = translator;
         this.queryHints = queryHints;
         this.identityCache = identityCache;
         this.legacyWholeSystemSearchParamsEnabled =
@@ -219,7 +225,7 @@ public class NewQueryBuilder {
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext) throws FHIRPersistenceException {
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
-        SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());
+        SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
     }
