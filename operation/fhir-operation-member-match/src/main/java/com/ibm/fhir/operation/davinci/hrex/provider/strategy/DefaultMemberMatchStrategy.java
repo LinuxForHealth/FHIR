@@ -62,7 +62,7 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  */
 public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
-    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getCanonicalName());
+    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getName());
 
     private Patient memberPatient;
     private Coverage coverageToMatch;
