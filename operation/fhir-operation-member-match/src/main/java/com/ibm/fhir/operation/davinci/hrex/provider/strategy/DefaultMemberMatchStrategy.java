@@ -41,6 +41,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult.ResponseType;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -557,6 +558,15 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             }
             return false;
         }
+
+        @Override
+        public boolean visit(java.lang.String elementName, int elementIndex, Resource resource) {
+            // contained resources shouldn't be processed.
+            if ("contained".equals(elementName)){
+                return false;
+            }
+            return visit(elementName, elementIndex, (Visitable) resource);
+        }
     }
 
     /**
@@ -663,6 +673,15 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                 searchParams.put("subscriber-id", Arrays.asList(string.getValue()));
             }
             return false;
+        }
+
+        @Override
+        public boolean visit(java.lang.String elementName, int elementIndex, Resource resource) {
+            // contained resources shouldn't be processed.
+            if ("contained".equals(elementName)){
+                return false;
+            }
+            return visit(elementName, elementIndex, (Visitable) resource);
         }
     }
 }
