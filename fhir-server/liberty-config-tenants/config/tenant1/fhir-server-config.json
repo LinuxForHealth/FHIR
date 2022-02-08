@@ -102,22 +102,6 @@
                     "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-name"
                 }
             },
-            "Procedure": {
-                "searchIncludes": [
-                    "Procedure:date",
-                    "Procedure:location",
-                    "Procedure:performer"
-                ],
-                "searchParameters": {
-                    "code": "http://hl7.org/fhir/us/core/SearchParameter/us-core-procedure-code",
-                    "date": "http://hl7.org/fhir/us/core/SearchParameter/us-core-procedure-date",
-                    "encounter": "http://hl7.org/fhir/SearchParameter/clinical-encounter",
-                    "location": "http://hl7.org/fhir/SearchParameter/Procedure-location",
-                    "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-procedure-patient",
-                    "performer": "http://hl7.org/fhir/SearchParameter/Procedure-performer",
-                    "status": "http://hl7.org/fhir/us/core/SearchParameter/us-core-procedure-status"
-                }
-            },
             "Provenance": {
                 "searchIncludes": [
                     "Provenance:agent",
