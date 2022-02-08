@@ -509,6 +509,12 @@
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
                 <version>0.6.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.boundary</groupId>
+                        <artifactId>high-scale-lib</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
