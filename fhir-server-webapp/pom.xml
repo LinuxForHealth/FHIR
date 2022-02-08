@@ -106,6 +106,27 @@
                         </dependency>
                         <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
                     </copyDependencies>
+                    <copyDependencies>
+                        <!-- Used to Test Profiles and Operations -->
+                        <dependencyGroup>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-operation-member-match</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-ig-us-core</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-ig-davinci-hrex</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <location>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/userlib/</location>
+                        </dependencyGroup>
+                    </copyDependencies>
                 </configuration>
             </plugin>
         </plugins>
