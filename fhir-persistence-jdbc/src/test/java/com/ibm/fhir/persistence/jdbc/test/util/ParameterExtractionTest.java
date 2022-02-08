@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -173,7 +173,7 @@ public class ParameterExtractionTest {
         assertEquals(((StringParmVal) components.get(1)).getName(),
             SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
         assertEquals(((StringParmVal) components.get(1)).getValueString(), SAMPLE_REF_VERSION);
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         canonical = Canonical.of(SAMPLE_URI);
         canonical.accept(parameterBuilder);

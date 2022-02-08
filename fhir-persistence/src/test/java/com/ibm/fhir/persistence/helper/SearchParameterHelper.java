@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,9 +24,6 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 
 /**
  * Helper class to create {@link SearchParameter} model objects
- * 
-
- *
  */
 public class SearchParameterHelper {
 
@@ -50,7 +47,6 @@ public class SearchParameterHelper {
                               .base(base)
                               .type(SearchParamType.STRING)
                               .build();
-
     }
 
     /**
@@ -68,7 +64,7 @@ public class SearchParameterHelper {
 
     /**
      * Create a range with a high limit but no low limit
-     * 
+     *
      * @param code
      * @param unit
      * @param system

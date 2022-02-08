@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,9 +27,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.type.code.XPathUsageType;
 
 /**
- * 
- * @author pbastide
- *
+ * A Java program for generating extension-search-parameters.json config files
  */
 public class ExtensionSearchTool {
 
@@ -128,7 +126,7 @@ public class ExtensionSearchTool {
 
     /**
      * simple output method.
-     * 
+     *
      * @param params
      * @param out
      * @throws FHIRGeneratorException

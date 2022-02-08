@@ -1,10 +1,9 @@
-package com.ibm.fhir.search.tool;
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+package com.ibm.fhir.search.tool;
 
 import java.io.BufferedWriter;
 import java.nio.charset.Charset;
