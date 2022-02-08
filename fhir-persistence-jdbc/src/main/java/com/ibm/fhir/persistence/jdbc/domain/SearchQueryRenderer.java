@@ -58,6 +58,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
@@ -116,6 +117,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     private final static String STR_VALUE_LCASE = "STR_VALUE_LCASE";
     private final static String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
 
+    // Database translator to handle SQL syntax variations among databases
+    private final IDatabaseTranslator translator;
+
     // A cache providing access to various database reference ids
     private final JDBCIdentityCache identityCache;
 
@@ -135,13 +139,15 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     private final boolean includeResourceData;
     /**
      * Public constructor
+     * @param translator
      * @param identityCache
      * @param rowOffset
      * @param rowsPerPage
      * @param includeResourceData
      */
-    public SearchQueryRenderer(JDBCIdentityCache identityCache,
+    public SearchQueryRenderer(IDatabaseTranslator translator, JDBCIdentityCache identityCache,
             int rowOffset, int rowsPerPage, boolean includeResourceData) {
+        this.translator = translator;
         this.identityCache = identityCache;
         this.rowOffset = rowOffset;
         this.rowsPerPage = rowsPerPage;
@@ -2735,10 +2741,22 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     /**
      * Get the select column entry for the resource data column. If
      * the includeResourceData flag is false, the column is replaced
-     * with a literal NULL.
+     * with a literal NULL, cast to the appropriate type for the database.
      * @return
      */
     private String getDataCol() {
-        return this.includeResourceData ? "R.DATA" : "CAST(NULL AS BLOB) AS DATA";
+        if (this.includeResourceData) {
+            return "R.DATA";
+        } else {
+            switch (translator.getType()) {
+            case DB2:
+            case DERBY:
+                return "CAST(NULL AS BLOB) AS DATA";
+            case POSTGRESQL:
+                return "NULL::TEXT AS DATA";
+            default:
+                throw new IllegalStateException("Database type not supported: " + translator.getType().name());
+            }
+        }
     }
 }
