@@ -6,16 +6,26 @@
 		"lastUpdated": "2019-06-20T04:25:13.000-04:00"
 	},
 	"text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-    },
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex",
 	"version": "0.2.0",
 	"name": "DaVinciHealthRecordExchangeHRex",
 	"title": "Da Vinci Health Record Exchange (HRex)",
 	"status": "active",
 	"experimental": false,
-	"date": "2021-10-05T18:17:41+00:00",
+	"date": "2022-02-08T21:08:21+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -48,7 +58,7 @@
 			"id": "uscore",
 			"uri": "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
 			"packageId": "hl7.fhir.us.core",
-			"version": "3.1.0"
+			"version": "4.0.0"
 		},
 		{
 			"id": "udap",
@@ -334,20 +344,6 @@
 			}
 		],
 		"resource": [
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "Consent"
-					}
-				],
-				"reference": {
-					"reference": "Consent/consent"
-				},
-				"name": "HRex Consent example",
-				"description": "An example showing a 'regular' consent for a member",
-				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-consent"
-			},
 			{
 				"extension": [
 					{
@@ -678,7 +674,7 @@
 				"reference": {
 					"reference": "SearchParameter/hrex-coverage-payor"
 				},
-				"name": "Coverage payor Search Parameter",
+				"name": "Coverage payer Search Parameter",
 				"description": "The identity of the insurer or party paying for services\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
 			},
 			{
@@ -728,75 +724,10 @@
 					}
 				],
 				"reference": {
-					"reference": "StructureDefinition/hrex-consent"
+					"reference": "StructureDefinition/hrex-provenance"
 				},
-				"name": "HRex Consent Profile",
-				"description": "The HRex Consent Profile defines the constraints for representing a member's to the sharing of their healthcare information to other organizations."
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
-					"reference": "StructureDefinition/hrex-practitionerrole"
-				},
-				"name": "HRex PractitionerRole Profile",
-				"description": "Constraints on the US Core PractitionerRole requiring the use of Da Vinci Organization and Practitioner"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
-					"reference": "StructureDefinition/hrex-organization"
-				},
-				"name": "HRex Organization Profile",
-				"description": "Additional Da Vinci constraints on organization - to represent either provider organizations or payers"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "ValueSet"
-					}
-				],
-				"reference": {
-					"reference": "ValueSet/hrex-consent-policy"
-				},
-				"name": "HRex Consent Policy ValueSet",
-				"description": "The set of policy URIs for use in HRex data disclosureconsent assertions"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
-					"reference": "StructureDefinition/hrex-patient-demographics"
-				},
-				"name": "HRex Patient Demographics",
-				"description": "Defines constraints on the patient resource for the minimal set of data to query and retrieve patient demographic information."
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "ValueSet"
-					}
-				],
-				"reference": {
-					"reference": "ValueSet/hrex-task-status"
-				},
-				"name": "HRex Task Status ValueSet",
-				"description": "The set of task codes allowed for use in HRex data request tasks"
+				"name": "HRex Provenance Profile",
+				"description": "Additional constraints on US Core Provenance to ensure it meets payer needs, including indicating when the event occurred and retaining signatures if present"
 			},
 			{
 				"extension": [
@@ -819,75 +750,49 @@
 					}
 				],
 				"reference": {
-					"reference": "StructureDefinition/hrex-provenance"
-				},
-				"name": "HRex Provenance Profile",
-				"description": "Additional constraints on US Core Provenance to ensure it meets payer needs, including indicating when the event occurred and retaining signatures if present"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
-					"reference": "StructureDefinition/hrex-task-data-request"
-				},
-				"name": "HRex Task Data Request Profile",
-				"description": "This Task profile is used to solicit information from a system when direct query is not possible and human intervention might be required"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
-					"reference": "StructureDefinition/hrex-patient-member"
-				},
-				"name": "HRex Patient Member Profile",
-				"description": "Additional Da Vinci constraints on patient with a mandatory payer identifier"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "OperationDefinition"
-					}
-				],
-				"reference": {
-					"reference": "OperationDefinition/member-match"
-				},
-				"name": "HRex Member Match Operation",
-				"description": "The **$member-match** operation allows one health plan to retrieve a unique identifier for a member from another health plan using a member's demographic and coverage information.  This identifier can then be used to perform subsequent queries and operations. Members implementing a deterministic match will require a match on member id or subscriber id at a minimum.  (I.e. A pure demographic match will not be supported by such implementations.)"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "CodeSystem"
-					}
-				],
-				"reference": {
-					"reference": "CodeSystem/hrex-temp"
-				},
-				"name": "HRex Temporary Code System",
-				"description": "Codes temporarily defined as part of the HRex implementation guide.  These will eventually migrate into an officially maintained terminology (likely HL7's UTG code systems)."
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
 					"reference": "StructureDefinition/hrex-practitioner"
 				},
 				"name": "HRex Practitioner Profile",
 				"description": "Constraints on the US Core Practitioner profiles requiring support for qualification and requiring support for an additional identifier type"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/hrex-task-status"
+				},
+				"name": "HRex Task Status ValueSet",
+				"description": "The set of task codes allowed for use in HRex data request tasks"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-practitionerrole"
+				},
+				"name": "HRex PractitionerRole Profile",
+				"description": "Constraints on the US Core PractitionerRole requiring the use of Da Vinci Organization and Practitioner"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/hrex-consent-policy"
+				},
+				"name": "HRex Consent Policy ValueSet",
+				"description": "The set of policy URIs for use in HRex data disclosureconsent assertions"
 			},
 			{
 				"extension": [
@@ -910,18 +815,186 @@
 					}
 				],
 				"reference": {
+					"reference": "StructureDefinition/hrex-claimresponse"
+				},
+				"name": "HRex Prior authorization",
+				"description": "This profile specifies constraints on ClaimResponse resource to reflect the contents of a pro-active prior authorization returned via a card"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "OperationDefinition"
+					}
+				],
+				"reference": {
+					"reference": "OperationDefinition/member-match"
+				},
+				"name": "HRex Member Match Operation",
+				"description": "The **$member-match** operation allows one health plan to retrieve a unique identifier for a member from another health plan using a member's demographic and coverage information.  This identifier can then be used to perform subsequent queries and operations. Members implementing a deterministic match will require a match on member id or subscriber id at a minimum.  (I.e. A pure demographic match will not be supported by such implementations.)"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemTraceNumber"
+				},
+				"name": "Item Trace Number",
+				"description": "Uniquely identifies this claim item. (2000F-TRN)"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-organization"
+				},
+				"name": "HRex Organization Profile",
+				"description": "Additional Da Vinci constraints on organization - to represent either provider organizations or payers"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-consent"
+				},
+				"name": "HRex Consent Profile",
+				"description": "The HRex Consent Profile defines the constraints for representing a member's to the sharing of their healthcare information to other organizations."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
 					"reference": "StructureDefinition/hrex-parameters-member-match-in"
 				},
 				"name": "HRex Parameters - Member Match Request Profile",
 				"description": "The Parameters profile for Da Vinci Find Member using Patient and Coverage Resources Request. The resource must contain: \n * MemberPatient - US Core Patient containing member demographics \n  * CoverageToMatch - details of prior health plan coverage provided by the member, typically from their health plan coverage card \n  * CoverageToLink - details of new or prospective health plan coverage, provided by the health plan based upon the member's enrolment"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CodeSystem"
+					}
+				],
+				"reference": {
+					"reference": "CodeSystem/hrex-temp"
+				},
+				"name": "HRex Temporary Code System",
+				"description": "Codes temporarily defined as part of the HRex implementation guide.  These will eventually migrate into an officially maintained terminology (likely HL7's UTG code systems)."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemAuthorizedDate"
+				},
+				"name": "Authorized Date",
+				"description": "The date/period by which the item that is pre-authorized must be completed."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemPreAuthIssueDate"
+				},
+				"name": "Pre Authorized Issue Date",
+				"description": "The date when this item's preauthorization was issued."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemAuthorizedProvider"
+				},
+				"name": "Authorized Provider",
+				"description": "The specific provider who has been authorized to provide this item."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-patient-demographics"
+				},
+				"name": "HRex Patient Demographics",
+				"description": "Defines constraints on the patient resource for the minimal set of data to query and retrieve patient demographic information."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-patient-member"
+				},
+				"name": "HRex Patient Member Profile",
+				"description": "Additional Da Vinci constraints on patient with a mandatory payer identifier"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-task-data-request"
+				},
+				"name": "HRex Task Data Request Profile",
+				"description": "This Task profile is used to solicit information from a system when direct query is not possible and human intervention might be required"
 			}
 		],
 		"page": {
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+					"valueCode": "informative"
+				}
+			],
 			"nameUrl": "index.html",
 			"title": "Home",
 			"generation": "markdown",
 			"page": [
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "fhir.html",
 					"title": "FHIR Introduction",
 					"generation": "markdown"
@@ -989,11 +1062,6 @@
 					"generation": "markdown"
 				},
 				{
-					"nameUrl": "consent-oauth.html",
-					"title": "Authorization with Consent",
-					"generation": "markdown"
-				},
-				{
 					"nameUrl": "smart-app-reg.html",
 					"title": "Dynamic Registration for SMART Apps",
 					"generation": "markdown"
@@ -1014,11 +1082,23 @@
 					"generation": "html"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "downloads.html",
 					"title": "Downloads",
 					"generation": "markdown"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "tools.html",
 					"title": "Tooling and Support",
 					"generation": "markdown"

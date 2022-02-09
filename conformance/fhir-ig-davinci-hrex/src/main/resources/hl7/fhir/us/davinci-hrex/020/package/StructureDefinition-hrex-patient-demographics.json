@@ -2,16 +2,26 @@
 	"resourceType": "StructureDefinition",
 	"id": "hrex-patient-demographics",
 	"text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-    },
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "draft"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 0
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-demographics",
 	"version": "0.2.0",
 	"name": "HRexPatientDemographics",
 	"title": "HRex Patient Demographics",
 	"status": "active",
 	"experimental": false,
-	"date": "2021-10-05T18:17:41+00:00",
+	"date": "2022-02-08T21:08:21+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -134,6 +144,13 @@
 						"expression": "text.`div`.exists()",
 						"xpath": "exists(f:text/h:div)",
 						"source": "http://hl7.org/fhir/StructureDefinition/DomainResource"
+					},
+					{
+						"key": "hrex-pat-1",
+						"severity": "error",
+						"human": "Patient.gender or Patient.birthSex SHALL be present",
+						"expression": "gender.exists() or birthSex.exists()",
+						"xpath": "f:gender or f:birthSex"
 					}
 				],
 				"mustSupport": false,
@@ -371,13 +388,18 @@
 			{
 				"id": "Patient.extension",
 				"path": "Patient.extension",
-				"short": "Additional content defined by implementations",
-				"definition": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
-				"comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
-				"alias": [
-					"extensions",
-					"user content"
-				],
+				"slicing": {
+					"discriminator": [
+						{
+							"type": "value",
+							"path": "url"
+						}
+					],
+					"ordered": false,
+					"rules": "open"
+				},
+				"short": "Extension",
+				"definition": "An Extension",
 				"min": 0,
 				"max": "*",
 				"base": {
@@ -409,11 +431,61 @@
 					}
 				],
 				"isModifier": false,
-				"isSummary": false,
+				"isSummary": false
+			},
+			{
+				"id": "Patient.extension:birthSex",
+				"path": "Patient.extension",
+				"sliceName": "birthSex",
+				"short": "Extension",
+				"definition": "A code classifying the person's sex assigned at birth  as specified by the [Office of the National Coordinator for Health IT (ONC)](https://www.healthit.gov/newsroom/about-onc).",
+				"comment": "The codes required are intended to present birth sex (i.e., the sex recorded on the patient’s birth certificate) and not gender identity or reassigned sex.",
+				"min": 0,
+				"max": "1",
+				"base": {
+					"path": "DomainResource.extension",
+					"min": 0,
+					"max": "*"
+				},
+				"type": [
+					{
+						"code": "Extension",
+						"profile": [
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex"
+						]
+					}
+				],
+				"condition": [
+					"ele-1"
+				],
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					},
+					{
+						"key": "ext-1",
+						"severity": "error",
+						"human": "Must have either extensions or value[x], not both",
+						"expression": "extension.exists() != value.exists()",
+						"xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
+						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
+					}
+				],
+				"mustSupport": true,
+				"isModifier": false,
 				"mapping": [
 					{
 						"identity": "rim",
-						"map": "N/A"
+						"map": "player[classCode=PSN|ANM and determinerCode=INSTANCE]/administrativeGender"
+					},
+					{
+						"identity": "iso11179",
+						"map": ".patient.administrativeGenderCode"
 					}
 				]
 			},
@@ -471,6 +543,15 @@
 			{
 				"id": "Patient.identifier",
 				"path": "Patient.identifier",
+				"slicing": {
+					"discriminator": [
+						{
+							"type": "pattern",
+							"path": "$this"
+						}
+					],
+					"rules": "open"
+				},
 				"short": "An identifier for this patient",
 				"definition": "An identifier for this patient.",
 				"requirements": "Patients are almost always assigned specific numerical identifiers.",
@@ -496,6 +577,68 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
+				"isModifier": false,
+				"isSummary": true,
+				"mapping": [
+					{
+						"identity": "w5",
+						"map": "FiveWs.identifier"
+					},
+					{
+						"identity": "v2",
+						"map": "PID-3"
+					},
+					{
+						"identity": "rim",
+						"map": "id"
+					},
+					{
+						"identity": "cda",
+						"map": ".id"
+					}
+				]
+			},
+			{
+				"id": "Patient.identifier:umb",
+				"path": "Patient.identifier",
+				"sliceName": "umb",
+				"short": "Unique Member Identifier. This is required to be present for the 'new' coverage and be absent for the 'old' coverage.",
+				"definition": "An identifier for this patient.",
+				"comment": "This is the unique member identifier of the server on which a 'match' is sought",
+				"requirements": "Patients are almost always assigned specific numerical identifiers.",
+				"min": 0,
+				"max": "1",
+				"base": {
+					"path": "Patient.identifier",
+					"min": 0,
+					"max": "*"
+				},
+				"type": [
+					{
+						"code": "Identifier"
+					}
+				],
+				"patternIdentifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+								"code": "UMB"
+							}
+						]
+					}
+				},
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					}
+				],
+				"mustSupport": true,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -1090,7 +1233,7 @@
 				"definition": "Administrative Gender - the gender that the patient is considered to have for administration and record keeping purposes.",
 				"comment": "The gender might not match the biological sex as determined by genetics or the individual's preferred identification. Note that for both humans and particularly animals, there are other legitimate possibilities than male and female, though the vast majority of systems and contexts only support male and female.  Systems providing decision support or enforcing business rules should ideally do this on the basis of Observations dealing with the specific sex or gender aspect of interest (anatomical, chromosomal, social, etc.)  However, because these observations are infrequently recorded, defaulting to the administrative gender is common practice.  Where such defaulting occurs, rule enforcement should allow for the variation between administrative and biological, chromosomal and other gender aspects.  For example, an alert about a hysterectomy on a male should be handled as a warning or overridable error, not a \"hard\" error.  See the Patient Gender and Sex section for additional information about communicating patient gender and sex.",
 				"requirements": "Needed for identification of the individual, in combination with (at least) name and birth date.",
-				"min": 1,
+				"min": 0,
 				"max": "1",
 				"base": {
 					"path": "Patient.gender",
@@ -3302,7 +3445,69 @@
 				"id": "Patient",
 				"path": "Patient",
 				"definition": "HRex Patient Demographics Profile",
+				"constraint": [
+					{
+						"key": "hrex-pat-1",
+						"severity": "error",
+						"human": "Patient.gender or Patient.birthSex SHALL be present",
+						"expression": "gender.exists() or birthSex.exists()",
+						"xpath": "f:gender or f:birthSex"
+					}
+				],
 				"mustSupport": false
+			},
+			{
+				"id": "Patient.extension:birthSex",
+				"path": "Patient.extension",
+				"sliceName": "birthSex",
+				"min": 0,
+				"max": "1",
+				"type": [
+					{
+						"code": "Extension",
+						"profile": [
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex"
+						]
+					}
+				],
+				"mustSupport": true,
+				"binding": {
+					"strength": "required",
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/birthsex"
+				}
+			},
+			{
+				"id": "Patient.identifier",
+				"path": "Patient.identifier",
+				"slicing": {
+					"discriminator": [
+						{
+							"type": "pattern",
+							"path": "$this"
+						}
+					],
+					"rules": "open"
+				}
+			},
+			{
+				"id": "Patient.identifier:umb",
+				"path": "Patient.identifier",
+				"sliceName": "umb",
+				"short": "Unique Member Identifier. This is required to be present for the 'new' coverage and be absent for the 'old' coverage.",
+				"comment": "This is the unique member identifier of the server on which a 'match' is sought",
+				"min": 0,
+				"max": "1",
+				"patternIdentifier": {
+					"type": {
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+								"code": "UMB"
+							}
+						]
+					}
+				},
+				"mustSupport": true
 			},
 			{
 				"id": "Patient.name",
@@ -3343,7 +3548,7 @@
 			{
 				"id": "Patient.gender",
 				"path": "Patient.gender",
-				"min": 1,
+				"min": 0,
 				"max": "1",
 				"type": [
 					{

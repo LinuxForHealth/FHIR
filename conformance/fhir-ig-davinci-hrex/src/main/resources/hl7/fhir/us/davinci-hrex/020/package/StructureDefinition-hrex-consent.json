@@ -2,16 +2,26 @@
 	"resourceType": "StructureDefinition",
 	"id": "hrex-consent",
 	"text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-    },
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "draft"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 0
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-consent",
 	"version": "0.2.0",
 	"name": "HRexConsent",
 	"title": "HRex Consent Profile",
 	"status": "active",
 	"experimental": false,
-	"date": "2021-10-05T18:17:41+00:00",
+	"date": "2022-02-08T21:08:21+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -827,7 +837,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-member"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
 						]
 					}
 				],
@@ -3401,7 +3411,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-member"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
 						]
 					}
 				],
