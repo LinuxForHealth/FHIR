@@ -56,7 +56,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRVersionParam;
-import com.ibm.fhir.core.ResourceTypeName;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.CapabilityStatement;
@@ -88,7 +88,7 @@ import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
@@ -121,26 +121,26 @@ public class Capabilities extends FHIRResource {
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
 
-    private static final Set<ResourceType.Value> R4B_ONLY_RESOURCES = new HashSet<>();
+    private static final Set<ResourceType> R4B_ONLY_RESOURCES = new HashSet<>();
     {
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.ADMINISTRABLE_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.CITATION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.CLINICAL_USE_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_REPORT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.INGREDIENT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.MANUFACTURED_ITEM_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.MEDICINAL_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.NUTRITION_PRODUCT);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.PACKAGED_PRODUCT_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.REGULATED_AUTHORIZATION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_STATUS);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSCRIPTION_TOPIC);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.SUBSTANCE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.ADMINISTRABLE_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.CITATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.CLINICAL_USE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE_REPORT);
+        R4B_ONLY_RESOURCES.add(ResourceType.INGREDIENT);
+        R4B_ONLY_RESOURCES.add(ResourceType.MANUFACTURED_ITEM_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.MEDICINAL_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.NUTRITION_PRODUCT);
+        R4B_ONLY_RESOURCES.add(ResourceType.PACKAGED_PRODUCT_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.REGULATED_AUTHORIZATION);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSCRIPTION_STATUS);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSCRIPTION_TOPIC);
+        R4B_ONLY_RESOURCES.add(ResourceType.SUBSTANCE_DEFINITION);
         // The following resource types existed in R4, but have breaking changes in R4B.
         // Because we only support the R4B version, we don't want to advertise these in our 4.0.1 statement.
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.DEVICE_DEFINITION);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE);
-        R4B_ONLY_RESOURCES.add(ResourceType.Value.EVIDENCE_VARIABLE);
+        R4B_ONLY_RESOURCES.add(ResourceType.DEVICE_DEFINITION);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE);
+        R4B_ONLY_RESOURCES.add(ResourceType.EVIDENCE_VARIABLE);
     }
 
     // Error Messages
@@ -321,7 +321,7 @@ public class Capabilities extends FHIRResource {
         List<com.ibm.fhir.model.type.String> defaultSearchIncludes = Collections.emptyList();
         List<com.ibm.fhir.model.type.String> defaultSearchRevIncludes = Collections.emptyList();
         if (rsrcsGroup != null) {
-            PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.Value.RESOURCE.value());
+            PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.RESOURCE.value());
             if (parentResourcePropGroup != null) {
                 List<String> interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
                 if (interactionConfig != null) {
@@ -352,7 +352,7 @@ public class Capabilities extends FHIRResource {
             if (Boolean.TRUE.equals(opDef.getSystem().getValue())) {
                 systemOps.add(opDef);
             }
-            for (ResourceType resourceType : opDef.getResource()) {
+            for (ResourceTypeCode resourceType : opDef.getResource()) {
                 String resourceTypeName = resourceType.getValue();
                 if (typeOps.containsKey(resourceTypeName)) {
                     typeOps.get(resourceTypeName).add(opDef);
@@ -396,9 +396,9 @@ public class Capabilities extends FHIRResource {
             List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceTypeName));
             // If the type is an abstract resource ("Resource" or "DomainResource")
             // then the operation can be invoked on any concrete specialization.
-            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceTypeName.RESOURCE.value())));
+            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.RESOURCE.value())));
             if (DomainResource.class.isAssignableFrom(ModelSupport.getResourceType(resourceTypeName))) {
-                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceTypeName.DOMAIN_RESOURCE.value())));
+                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.DOMAIN_RESOURCE.value())));
             }
 
             // Build the list of interactions, searchIncludes, and searchRevIncludes supported for the resource type.
@@ -427,7 +427,7 @@ public class Capabilities extends FHIRResource {
 
             // Build the ConformanceResource for this resource type.
             Rest.Resource.Builder crb = Rest.Resource.builder()
-                    .type(ResourceType.of(resourceTypeName))
+                    .type(ResourceTypeCode.of(resourceTypeName))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)

@@ -9,9 +9,9 @@ import static com.ibm.fhir.core.FHIRVersionParam.VERSION_40;
 import static com.ibm.fhir.core.FHIRVersionParam.VERSION_43;
 
 /**
- * Enum constants for all resource type names across all versions of HL7 FHIR
+ * Enum constants for all resource types across all versions of HL7 FHIR
  */
-public enum ResourceTypeName {
+public enum ResourceType {
     /**
      * Resource
      *
@@ -1311,7 +1311,7 @@ public enum ResourceTypeName {
      *         1. the published version of HL7 FHIR that introduced this resource type; and
      *         2. version 4.0 (because this is the first version supported by this project)
      */
-    private ResourceTypeName(String value, FHIRVersionParam introduced) {
+    private ResourceType(String value, FHIRVersionParam introduced) {
         this(value, introduced, null);
     }
 
@@ -1326,7 +1326,7 @@ public enum ResourceTypeName {
      *
      * @implNote if HL7 ever *re-introduce* a retired resource type, we'll need to revisit this structure
      */
-    private ResourceTypeName(String value, FHIRVersionParam introduced, FHIRVersionParam retired) {
+    private ResourceType(String value, FHIRVersionParam introduced, FHIRVersionParam retired) {
         this.value = value;
         this.introduced = introduced;
         this.retired = retired;
@@ -1356,5 +1356,347 @@ public enum ResourceTypeName {
      */
     public FHIRVersionParam getRetired() {
         return retired;
+    }
+
+    /**
+     * Factory method for retrieving the ResourceType constant for the passed string value.
+     *
+     * @param value
+     *     A string value that matches one of the ResourceType names
+     * @return
+     *     The corresponding ResourceType or null if a null value was passed
+     * @throws IllegalArgumentException
+     *     If the passed string is not null and not a valid ResourceType name
+     */
+    public static ResourceType from(String value) {
+        if (value == null) {
+            return null;
+        }
+        switch (value) {
+        case "EffectEvidenceSynthesis":
+            return EFFECT_EVIDENCE_SYNTHESIS;
+        case "MedicinalProduct":
+            return MEDICINAL_PRODUCT;
+        case "MedicinalProductAuthorization":
+            return MEDICINAL_PRODUCT_AUTHORIZATION;
+        case "MedicinalProductContraindication":
+            return MEDICINAL_PRODUCT_CONTRAINDICATION;
+        case "MedicinalProductIndication":
+            return MEDICINAL_PRODUCT_INDICATION;
+        case "MedicinalProductIngredient":
+            return MEDICINAL_PRODUCT_INGREDIENT;
+        case "MedicinalProductInteraction":
+            return MEDICINAL_PRODUCT_INTERACTION;
+        case "MedicinalProductManufactured":
+            return MEDICINAL_PRODUCT_MANUFACTURED;
+        case "MedicinalProductPackaged":
+            return MEDICINAL_PRODUCT_PACKAGED;
+        case "MedicinalProductPharmaceutical":
+            return MEDICINAL_PRODUCT_PHARMACEUTICAL;
+        case "MedicinalProductUndesirableEffect":
+            return MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT;
+        case "RiskEvidenceSynthesis":
+            return RISK_EVIDENCE_SYNTHESIS;
+        case "SubstanceNucleicAcid":
+            return SUBSTANCE_NUCLEIC_ACID;
+        case "SubstancePolymer":
+            return SUBSTANCE_POLYMER;
+        case "SubstanceProtein":
+            return SUBSTANCE_PROTEIN;
+        case "SubstanceReferenceInformation":
+            return SUBSTANCE_REFERENCE_INFORMATION;
+        case "SubstanceSourceMaterial":
+            return SUBSTANCE_SOURCE_MATERIAL;
+        case "SubstanceSpecification":
+            return SUBSTANCE_SPECIFICATION;
+        case "Resource":
+            return RESOURCE;
+        case "Binary":
+            return BINARY;
+        case "Bundle":
+            return BUNDLE;
+        case "DomainResource":
+            return DOMAIN_RESOURCE;
+        case "Account":
+            return ACCOUNT;
+        case "ActivityDefinition":
+            return ACTIVITY_DEFINITION;
+        case "AdministrableProductDefinition":
+            return ADMINISTRABLE_PRODUCT_DEFINITION;
+        case "AdverseEvent":
+            return ADVERSE_EVENT;
+        case "AllergyIntolerance":
+            return ALLERGY_INTOLERANCE;
+        case "Appointment":
+            return APPOINTMENT;
+        case "AppointmentResponse":
+            return APPOINTMENT_RESPONSE;
+        case "AuditEvent":
+            return AUDIT_EVENT;
+        case "Basic":
+            return BASIC;
+        case "BiologicallyDerivedProduct":
+            return BIOLOGICALLY_DERIVED_PRODUCT;
+        case "BodyStructure":
+            return BODY_STRUCTURE;
+        case "CapabilityStatement":
+            return CAPABILITY_STATEMENT;
+        case "CarePlan":
+            return CARE_PLAN;
+        case "CareTeam":
+            return CARE_TEAM;
+        case "CatalogEntry":
+            return CATALOG_ENTRY;
+        case "ChargeItem":
+            return CHARGE_ITEM;
+        case "ChargeItemDefinition":
+            return CHARGE_ITEM_DEFINITION;
+        case "Citation":
+            return CITATION;
+        case "Claim":
+            return CLAIM;
+        case "ClaimResponse":
+            return CLAIM_RESPONSE;
+        case "ClinicalImpression":
+            return CLINICAL_IMPRESSION;
+        case "ClinicalUseDefinition":
+            return CLINICAL_USE_DEFINITION;
+        case "CodeSystem":
+            return CODE_SYSTEM;
+        case "Communication":
+            return COMMUNICATION;
+        case "CommunicationRequest":
+            return COMMUNICATION_REQUEST;
+        case "CompartmentDefinition":
+            return COMPARTMENT_DEFINITION;
+        case "Composition":
+            return COMPOSITION;
+        case "ConceptMap":
+            return CONCEPT_MAP;
+        case "Condition":
+            return CONDITION;
+        case "Consent":
+            return CONSENT;
+        case "Contract":
+            return CONTRACT;
+        case "Coverage":
+            return COVERAGE;
+        case "CoverageEligibilityRequest":
+            return COVERAGE_ELIGIBILITY_REQUEST;
+        case "CoverageEligibilityResponse":
+            return COVERAGE_ELIGIBILITY_RESPONSE;
+        case "DetectedIssue":
+            return DETECTED_ISSUE;
+        case "Device":
+            return DEVICE;
+        case "DeviceDefinition":
+            return DEVICE_DEFINITION;
+        case "DeviceMetric":
+            return DEVICE_METRIC;
+        case "DeviceRequest":
+            return DEVICE_REQUEST;
+        case "DeviceUseStatement":
+            return DEVICE_USE_STATEMENT;
+        case "DiagnosticReport":
+            return DIAGNOSTIC_REPORT;
+        case "DocumentManifest":
+            return DOCUMENT_MANIFEST;
+        case "DocumentReference":
+            return DOCUMENT_REFERENCE;
+        case "Encounter":
+            return ENCOUNTER;
+        case "Endpoint":
+            return ENDPOINT;
+        case "EnrollmentRequest":
+            return ENROLLMENT_REQUEST;
+        case "EnrollmentResponse":
+            return ENROLLMENT_RESPONSE;
+        case "EpisodeOfCare":
+            return EPISODE_OF_CARE;
+        case "EventDefinition":
+            return EVENT_DEFINITION;
+        case "Evidence":
+            return EVIDENCE;
+        case "EvidenceReport":
+            return EVIDENCE_REPORT;
+        case "EvidenceVariable":
+            return EVIDENCE_VARIABLE;
+        case "ExampleScenario":
+            return EXAMPLE_SCENARIO;
+        case "ExplanationOfBenefit":
+            return EXPLANATION_OF_BENEFIT;
+        case "FamilyMemberHistory":
+            return FAMILY_MEMBER_HISTORY;
+        case "Flag":
+            return FLAG;
+        case "Goal":
+            return GOAL;
+        case "GraphDefinition":
+            return GRAPH_DEFINITION;
+        case "Group":
+            return GROUP;
+        case "GuidanceResponse":
+            return GUIDANCE_RESPONSE;
+        case "HealthcareService":
+            return HEALTHCARE_SERVICE;
+        case "ImagingStudy":
+            return IMAGING_STUDY;
+        case "Immunization":
+            return IMMUNIZATION;
+        case "ImmunizationEvaluation":
+            return IMMUNIZATION_EVALUATION;
+        case "ImmunizationRecommendation":
+            return IMMUNIZATION_RECOMMENDATION;
+        case "ImplementationGuide":
+            return IMPLEMENTATION_GUIDE;
+        case "Ingredient":
+            return INGREDIENT;
+        case "InsurancePlan":
+            return INSURANCE_PLAN;
+        case "Invoice":
+            return INVOICE;
+        case "Library":
+            return LIBRARY;
+        case "Linkage":
+            return LINKAGE;
+        case "List":
+            return LIST;
+        case "Location":
+            return LOCATION;
+        case "ManufacturedItemDefinition":
+            return MANUFACTURED_ITEM_DEFINITION;
+        case "Measure":
+            return MEASURE;
+        case "MeasureReport":
+            return MEASURE_REPORT;
+        case "Media":
+            return MEDIA;
+        case "Medication":
+            return MEDICATION;
+        case "MedicationAdministration":
+            return MEDICATION_ADMINISTRATION;
+        case "MedicationDispense":
+            return MEDICATION_DISPENSE;
+        case "MedicationKnowledge":
+            return MEDICATION_KNOWLEDGE;
+        case "MedicationRequest":
+            return MEDICATION_REQUEST;
+        case "MedicationStatement":
+            return MEDICATION_STATEMENT;
+        case "MedicinalProductDefinition":
+            return MEDICINAL_PRODUCT_DEFINITION;
+        case "MessageDefinition":
+            return MESSAGE_DEFINITION;
+        case "MessageHeader":
+            return MESSAGE_HEADER;
+        case "MolecularSequence":
+            return MOLECULAR_SEQUENCE;
+        case "NamingSystem":
+            return NAMING_SYSTEM;
+        case "NutritionOrder":
+            return NUTRITION_ORDER;
+        case "NutritionProduct":
+            return NUTRITION_PRODUCT;
+        case "Observation":
+            return OBSERVATION;
+        case "ObservationDefinition":
+            return OBSERVATION_DEFINITION;
+        case "OperationDefinition":
+            return OPERATION_DEFINITION;
+        case "OperationOutcome":
+            return OPERATION_OUTCOME;
+        case "Organization":
+            return ORGANIZATION;
+        case "OrganizationAffiliation":
+            return ORGANIZATION_AFFILIATION;
+        case "PackagedProductDefinition":
+            return PACKAGED_PRODUCT_DEFINITION;
+        case "Patient":
+            return PATIENT;
+        case "PaymentNotice":
+            return PAYMENT_NOTICE;
+        case "PaymentReconciliation":
+            return PAYMENT_RECONCILIATION;
+        case "Person":
+            return PERSON;
+        case "PlanDefinition":
+            return PLAN_DEFINITION;
+        case "Practitioner":
+            return PRACTITIONER;
+        case "PractitionerRole":
+            return PRACTITIONER_ROLE;
+        case "Procedure":
+            return PROCEDURE;
+        case "Provenance":
+            return PROVENANCE;
+        case "Questionnaire":
+            return QUESTIONNAIRE;
+        case "QuestionnaireResponse":
+            return QUESTIONNAIRE_RESPONSE;
+        case "RegulatedAuthorization":
+            return REGULATED_AUTHORIZATION;
+        case "RelatedPerson":
+            return RELATED_PERSON;
+        case "RequestGroup":
+            return REQUEST_GROUP;
+        case "ResearchDefinition":
+            return RESEARCH_DEFINITION;
+        case "ResearchElementDefinition":
+            return RESEARCH_ELEMENT_DEFINITION;
+        case "ResearchStudy":
+            return RESEARCH_STUDY;
+        case "ResearchSubject":
+            return RESEARCH_SUBJECT;
+        case "RiskAssessment":
+            return RISK_ASSESSMENT;
+        case "Schedule":
+            return SCHEDULE;
+        case "SearchParameter":
+            return SEARCH_PARAMETER;
+        case "ServiceRequest":
+            return SERVICE_REQUEST;
+        case "Slot":
+            return SLOT;
+        case "Specimen":
+            return SPECIMEN;
+        case "SpecimenDefinition":
+            return SPECIMEN_DEFINITION;
+        case "StructureDefinition":
+            return STRUCTURE_DEFINITION;
+        case "StructureMap":
+            return STRUCTURE_MAP;
+        case "Subscription":
+            return SUBSCRIPTION;
+        case "SubscriptionStatus":
+            return SUBSCRIPTION_STATUS;
+        case "SubscriptionTopic":
+            return SUBSCRIPTION_TOPIC;
+        case "Substance":
+            return SUBSTANCE;
+        case "SubstanceDefinition":
+            return SUBSTANCE_DEFINITION;
+        case "SupplyDelivery":
+            return SUPPLY_DELIVERY;
+        case "SupplyRequest":
+            return SUPPLY_REQUEST;
+        case "Task":
+            return TASK;
+        case "TerminologyCapabilities":
+            return TERMINOLOGY_CAPABILITIES;
+        case "TestReport":
+            return TEST_REPORT;
+        case "TestScript":
+            return TEST_SCRIPT;
+        case "ValueSet":
+            return VALUE_SET;
+        case "VerificationResult":
+            return VERIFICATION_RESULT;
+        case "VisionPrescription":
+            return VISION_PRESCRIPTION;
+        case "Parameters":
+            return PARAMETERS;
+        default:
+            throw new IllegalArgumentException(value);
+        }
     }
 }

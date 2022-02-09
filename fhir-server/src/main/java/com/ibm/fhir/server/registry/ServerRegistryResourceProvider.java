@@ -11,7 +11,6 @@ import static com.ibm.fhir.cache.CacheKey.key;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,10 +25,11 @@ import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.cache.CacheManager;
 import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -47,6 +47,8 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
 
     public static final String REGISTRY_RESOURCE_CACHE_NAME = "com.ibm.fhir.server.registry.ServerRegistryResourceProvider.registryResourceCache";
     public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
+
+    public static final String ALL_RESOURCE_TYPES = String.join(",", ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43));
 
     private final PersistenceHelper persistenceHelper;
 
@@ -88,8 +90,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
     @Override
     public Collection<FHIRRegistryResource> getProfileResources() {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String types = Arrays.asList(ResourceType.Value.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
-        queryParameters.put("type", Collections.singletonList(types));
+        queryParameters.put("type", Collections.singletonList(ALL_RESOURCE_TYPES));
         queryParameters.put("kind", Collections.singletonList("resource"));
         queryParameters.put("derivation", Collections.singletonList("constraint"));
         return getRegistryResources(StructureDefinition.class, queryParameters);
