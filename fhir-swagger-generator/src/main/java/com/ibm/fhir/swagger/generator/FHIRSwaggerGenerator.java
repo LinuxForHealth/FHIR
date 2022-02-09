@@ -30,6 +30,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -191,6 +192,7 @@ public class FHIRSwaggerGenerator {
         generateMetadataSwagger();
         generateBatchTransactionSwagger();
         generateWholeSystemHistorySwagger();
+        generateExportSwagger();
     }
 
     private static void generateCompartmentSwagger(Class<?> compartmentModelClass, Filter filter) throws Exception, ClassNotFoundException, Error {
@@ -480,6 +482,78 @@ public class FHIRSwaggerGenerator {
         }
     }
 
+    private static void generateExportSwagger() throws Exception, ClassNotFoundException, Error {
+        JsonObjectBuilder swagger = factory.createObjectBuilder();
+        swagger.add("swagger", "2.0");
+
+        JsonObjectBuilder info = factory.createObjectBuilder();
+        info.add("title", "Bulk Data Export");
+        info.add("description", "Export Data from the FHIR server.");
+        info.add("version", "4.0.0");
+        swagger.add("info", info);
+
+        swagger.add("basePath", "/fhir-server/api/v4");
+
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger); 
+
+        JsonObjectBuilder paths = factory.createObjectBuilder();
+        JsonObjectBuilder definitions = factory.createObjectBuilder();
+
+        // FHIR _history interaction
+        JsonObjectBuilder path = factory.createObjectBuilder();
+        
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get");
+        // add post call
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post");
+        paths.add("/$export", path);
+       
+        swagger.add("paths", paths);
+
+
+        generateDefinition(Parameters.class, definitions);
+        generateDefinition(Resource.class, definitions);
+
+        // generate definition for all inner classes inside the top level resources.
+        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+            if (Parameters.class.equals(parentClass)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+
+        // generate definition for all the applicable data types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, Parameters.class)) {
+                generateDefinition(typeModelClass, definitions);
+            }
+        }
+
+        JsonObjectBuilder parameters = factory.createObjectBuilder();
+        generateExportParametersDefinition(parameters);
+        JsonObject parametersObject = parameters.build();
+        if (!parametersObject.isEmpty()) {
+            swagger.add("parameters", parametersObject);
+        }
+
+        swagger.add("definitions", definitions);
+
+
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory factory = Json.createWriterFactory(config);
+
+        File outFile = new File(OUTDIR + File.separator + "export-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
+            writer.writeObject(swagger.build());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
     private static Map<Class<?>, StructureDefinition> buildStructureDefinitionMap() {
         Map<Class<?>, StructureDefinition> structureDefinitionMap = new HashMap<Class<?>, StructureDefinition>();
         try {
@@ -615,6 +689,36 @@ public class FHIRSwaggerGenerator {
 
             parameters.add("_typeParam", type);
         }
+    }
+
+    private static void generateExportParametersDefinition(JsonObjectBuilder parameters) throws Exception {
+        JsonObjectBuilder outputFormat = factory.createObjectBuilder();
+        outputFormat.add("name", "_outputFormat");
+        outputFormat.add("description", "The format for the requested bulk data files to be generated");
+        outputFormat.add("in", "query");
+        outputFormat.add("required", false);
+        outputFormat.add("type", "string");     
+        
+        parameters.add("_outputFormatParam", outputFormat);
+        
+        // add _since=<timestamp>
+        JsonObjectBuilder since = factory.createObjectBuilder();
+        since.add("name", "_since");
+        since.add("description", "Resources updated after this period will be included in the response.");
+        since.add("in", "query");
+        since.add("required", false);
+        since.add("type", "string");
+        
+        parameters.add("_sinceParam", since);
+        
+        JsonObjectBuilder type = factory.createObjectBuilder();
+        type.add("name", "_type");
+        type.add("description", "Limit which resource types are returned");
+        type.add("in", "query");
+        type.add("required", false);
+        type.add("type", "string");
+
+        parameters.add("_typeParam", type);
     }
 
     private static void generatePaths(Class<?> modelClass, JsonObjectBuilder paths, Filter filter) throws Exception {
@@ -1213,6 +1317,91 @@ public class FHIRSwaggerGenerator {
         post.add("responses", responses);
 
         path.add("post", post);
+    }
+
+    /**
+     * Common method used for both the general export function and the Patient or Group specific function.
+     * Expected tag parameter is set to "other" for non resource specific generation.  Tags "Patient" or "Group" for resource specific generation.
+     * HttpMethod parameter is "get" or "post".
+     *  
+     * @param path
+     * @param tag
+     * @param summary
+     * @param resourceSpecific
+     * @param httpMethod
+     */
+    private static void generateExportPathItem(JsonObjectBuilder path, String tag, String summary, boolean resourceSpecific, String httpMethod) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(tag);
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", summary);
+        
+        String operationId = httpMethod + "Export";
+        if (resourceSpecific) {
+            operationId = operationId + tag;
+        }
+        httpMethodBuilder.add("operationId", operationId);
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        
+        if ("post".equalsIgnoreCase(httpMethod)) {
+            JsonArrayBuilder consumes = factory.createArrayBuilder();
+            consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
+            httpMethodBuilder.add("consumes", consumes);
+            
+            // Generate POST Parameters
+            JsonObjectBuilder body = factory.createObjectBuilder();
+            body.add("name", "body");
+            body.add("description", "The Parameters for the bulk data export request.");
+            body.add("in", "body");
+            body.add("required", false);
+            JsonObjectBuilder schema = factory.createObjectBuilder();
+            schema.add("$ref", "#/definitions/Parameters");     
+            body.add("schema", schema);
+            
+            parameters.add(body);
+        } else {
+            // Generate GET parameters
+            JsonObjectBuilder outputFormatParameter = factory.createObjectBuilder();
+            outputFormatParameter.add("$ref", "#/parameters/_outputFormatParam");
+            parameters.add(outputFormatParameter);
+            
+            JsonObjectBuilder sinceParameter = factory.createObjectBuilder();
+            sinceParameter.add("$ref", "#/parameters/_sinceParam");
+            parameters.add(sinceParameter);
+            
+            JsonObjectBuilder typeParameter = factory.createObjectBuilder();
+            typeParameter.add("$ref", "#/parameters/_typeParam");
+            parameters.add(typeParameter);
+        }
+        
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add(FHIRMediaType.APPLICATION_NDJSON);
+        httpMethodBuilder.add("produces", produces);
+        
+        httpMethodBuilder.add("parameters", parameters);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Export job is initiated");
+        
+        // Add Response headers
+        JsonObjectBuilder headers = factory.createObjectBuilder();
+        JsonObjectBuilder contentLocation = factory.createObjectBuilder();
+        contentLocation.add("description", "The polling location");
+        contentLocation.add("type", "string");
+        
+        headers.add("Content-Location", contentLocation);
+        response.add("headers", headers);
+
+        responses.add("202", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add(httpMethod, httpMethodBuilder);
     }
 
     private static void generateDefinition(Class<?> modelClass, JsonObjectBuilder definitions) throws Exception {
