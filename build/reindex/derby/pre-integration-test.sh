@@ -34,6 +34,7 @@ config() {
 
     # Move over the test configurations
     echo "Checking dynamic resource provider"
+    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config.json
     if [ "$(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json)" = "true" ]
     then 
         echo "serverRegistryResourceProviderEnabled is true"
