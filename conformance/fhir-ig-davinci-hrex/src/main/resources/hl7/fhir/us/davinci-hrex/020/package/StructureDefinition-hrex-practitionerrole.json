@@ -59,7 +59,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "PractitionerRole",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [
@@ -132,7 +132,7 @@
 						"human": "SHALL have contact information or a reference to an Endpoint",
 						"expression": "telecom or endpoint",
 						"xpath": "exists(f:telecom) or exists(f:endpoint)",
-						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1"
 					},
 					{
 						"key": "us-core-13",
@@ -140,7 +140,7 @@
 						"human": "SHALL have a practitioner, an organization, a healthcare service, or a location.",
 						"expression": "practitioner or organization or healthcareService or location",
 						"xpath": "exists(f:practitioner) or exists(f:organization) or exists(f:healthcareService) or exists(f:location)",
-						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1"
 					}
 				],
 				"mustSupport": false,

@@ -59,7 +59,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "Practitioner",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|3.1.1",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [

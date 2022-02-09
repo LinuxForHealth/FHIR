@@ -74,7 +74,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "Patient",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [
