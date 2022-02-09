@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.opencds.cqf.cql.engine.execution.InMemoryLibraryLoader;
 import org.opencds.cqf.cql.engine.execution.LibraryLoader;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
 import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
@@ -20,7 +21,6 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -121,7 +121,7 @@ public class OperationHelper {
     public static <T extends Resource> T loadResourceByReference(FHIRResourceHelpers resourceHelper, ResourceType resourceType, Class<T> resourceClass, String reference) throws FHIROperationException {
         T resource;
         int pos = reference.indexOf('/');
-        if( pos == -1 || reference.startsWith(resourceType.getValue() + "/") ) {
+        if( pos == -1 || reference.startsWith(resourceType.value() + "/") ) {
             String resourceId = reference;
             if( pos > -1 ) {
                 resourceId = reference.substring(pos + 1);
@@ -130,7 +130,7 @@ public class OperationHelper {
         } else {
             resource = FHIRRegistry.getInstance().getResource(reference, resourceClass);
             if( resource == null ) {
-                throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), reference));
+                throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.value(), reference));
             }
         }
 
@@ -152,15 +152,15 @@ public class OperationHelper {
     public static <T extends Resource> T loadResourceById(FHIRResourceHelpers resourceHelper, ResourceType resourceType, String resourceId) throws FHIROperationException {
         T resource;
         try {
-            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.getValue(), resourceId);
+            SingleResourceResult<?> readResult = resourceHelper.doRead(resourceType.value(), resourceId);
             resource = (T) readResult.getResource();
             if (resource == null) {
-                throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.getValue(), resourceId));
+                throw new FHIROperationException(String.format("Failed to resolve %s resource \"%s\"", resourceType.value(), resourceId));
             }
         } catch (FHIROperationException fex) {
             throw fex;
         } catch (Exception ex) {
-            throw new FHIROperationException("Unexpected error while reading " + resourceType.getValue() + "/" + resourceId, ex);
+            throw new FHIROperationException("Unexpected error while reading " + resourceType.value() + "/" + resourceId, ex);
         }
         return resource;
     }

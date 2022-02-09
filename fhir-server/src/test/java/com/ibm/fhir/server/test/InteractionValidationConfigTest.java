@@ -21,7 +21,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -76,7 +75,6 @@ public class InteractionValidationConfigTest {
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         searchHelper = new SearchHelper();
-        helper = new FHIRRestHelper(persistence, searchHelper, FHIRVersionParam.VERSION_43);
     }
 
     @AfterClass

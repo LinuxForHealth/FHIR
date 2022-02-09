@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.model.visitor.Visitable;
@@ -104,7 +105,13 @@ public class FHIRModelResolver implements ModelResolver {
 
         // add all code subtypes
         for (Class<?> codeSubtype : ModelSupport.getCodeSubtypes()) {
+            if (codeSubtype == ResourceTypeCode.class) {
+                // special case handling for ResourceTypeCode
+                typeMap.put("ResourceType", codeSubtype);
+                typeMap.put("FHIRResourceType", codeSubtype);
+            }
             typeMap.put(codeSubtype.getSimpleName(), codeSubtype);
+
         }
 
         return Collections.unmodifiableMap(typeMap);

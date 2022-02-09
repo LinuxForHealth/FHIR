@@ -29,6 +29,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.search.util.SearchHelper;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 
 /**
  * A base search test with utilities for other search tests

@@ -5,24 +5,19 @@
  */
 package com.ibm.fhir.config;
 
-import static com.ibm.fhir.core.ResourceTypeName.DOMAIN_RESOURCE;
-import static com.ibm.fhir.core.ResourceTypeName.RESOURCE;
+import static com.ibm.fhir.core.ResourceType.RESOURCE;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRVersionParam;
-import com.ibm.fhir.core.ResourceTypeName;
 import com.ibm.fhir.core.util.ResourceTypeHelper;
 
 
@@ -32,11 +27,9 @@ import com.ibm.fhir.core.util.ResourceTypeHelper;
 public class ResourcesConfigAdapter {
     public static final Logger log = Logger.getLogger(ResourcesConfigAdapter.class.getName());
 
-    public static final Set<String> ALL_CONCRETE_TYPES = Arrays.stream(ResourceTypeName.values())
-        .filter(v -> v != ResourceTypeName.RESOURCE && v != ResourceTypeName.DOMAIN_RESOURCE)
-        .map(v -> v.value())
-        .collect(Collectors.toSet());
-
+    // all resource types applicable for the fhirVersion
+    private final Set<String> applicableTypes;
+    // all resource types supported by the passed config
     private final Set<String> supportedTypes;
     private final Map<Interaction, Set<String>> typesByInteraction = new HashMap<>();
     private boolean isWholeSystemSearchSupported = true;
@@ -50,7 +43,8 @@ public class ResourcesConfigAdapter {
      * @throws Exception
      */
     public ResourcesConfigAdapter(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
-        supportedTypes = computeSupportedResourceTypes(resourcesConfig, fhirVersion);
+        applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
+        supportedTypes = computeSupportedResourceTypes(applicableTypes, resourcesConfig, fhirVersion);
 
         if (resourcesConfig == null) {
             for (Interaction interaction : Interaction.values()) {
@@ -90,7 +84,7 @@ public class ResourcesConfigAdapter {
      */
     public boolean isSearchRestricted() {
         Set<String> searchableResourceTypes = typesByInteraction.get(Interaction.SEARCH);
-        return searchableResourceTypes == null || searchableResourceTypes.size() < ALL_CONCRETE_TYPES.size();
+        return searchableResourceTypes == null || searchableResourceTypes.size() < applicableTypes.size();
     }
 
     /**
@@ -98,7 +92,7 @@ public class ResourcesConfigAdapter {
      */
     public boolean isHistoryRestricted() {
         Set<String> resourceTypesSupportingHistory = typesByInteraction.get(Interaction.HISTORY);
-        return resourceTypesSupportingHistory == null || resourceTypesSupportingHistory.size() < ALL_CONCRETE_TYPES.size();
+        return resourceTypesSupportingHistory == null || resourceTypesSupportingHistory.size() < applicableTypes.size();
     }
 
     /**
@@ -128,9 +122,7 @@ public class ResourcesConfigAdapter {
      * @param fhirVersion
      * @return
      */
-    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
-        Set<String> applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
-
+    private Set<String> computeSupportedResourceTypes(Set<String> applicableTypes, PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
         Set<String> result;
         if (resourcesConfig == null || resourcesConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
             result = applicableTypes;
@@ -164,39 +156,5 @@ public class ResourcesConfigAdapter {
 
     public boolean isWholeSystemHistorySupported() {
         return isWholeSystemHistorySupported;
-
-    // note that this private method depends on the member supportedTypes having already been computed
-    private Map<Interaction, Set<String>> computeTypesByInteraction(PropertyGroup resourcesConfig) throws Exception {
-        Map<Interaction, Set<String>> typeMap = new HashMap<>();
-        if (resourcesConfig == null) {
-            for (Interaction interaction : Interaction.values()) {
-                typeMap.put(interaction, supportedTypes);
-            }
-        } else {
-            for (String resourceType : supportedTypes) {
-                List<String> interactions = resourcesConfig.getStringListProperty(resourceType + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-                if (interactions == null) {
-                    interactions = resourcesConfig.getStringListProperty("Resource/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-                }
-
-                if (interactions == null) {
-                    for (Interaction interaction : Interaction.values()) {
-                        typeMap.computeIfAbsent(interaction, k -> new LinkedHashSet<>()).add(resourceType);
-                    }
-                    continue;
-                }
-
-                for (String interactionString : interactions) {
-                    Interaction interaction = Interaction.from(interactionString);
-                    typeMap.computeIfAbsent(interaction, k -> new LinkedHashSet<>()).add(resourceType);
-                }
-            }
-        }
-
-        Map<Interaction, Set<String>> finalMap = new HashMap<>();
-        for (Entry<Interaction, Set<String>> entry : typeMap.entrySet()) {
-            finalMap.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
-        }
-        return Collections.unmodifiableMap(finalMap);
     }
 }
