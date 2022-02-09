@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -36,7 +37,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -741,7 +741,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         for (Scope scope : grantedScopes) {
             // "Resource" is used for "*" which applies to all resource types
-            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
+            if (scope.getResourceType() == ResourceType.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
                 if (hasPermission(scope.getPermission(), requiredPermission)) {
                     if (log.isLoggable(Level.FINE)) {
                         log.fine(requiredPermission.value() + " permission for '" + resourceType +
@@ -832,7 +832,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // look for any scope that approves the current interaction
             Optional<Scope> approvingScope = grantedScopes.get(context).stream()
-                    .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE || s.getResourceType().value().equals(resourceType))
+                    .filter(s -> s.getResourceType() == ResourceType.RESOURCE || s.getResourceType().value().equals(resourceType))
                     .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                     .findAny();
             if (approvingScope.isPresent()) {
@@ -855,7 +855,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // look for any scope that approves the current interaction
             Optional<Scope> approvingScope = grantedScopes.get(ContextType.PATIENT).stream()
-                    .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE || s.getResourceType().value().equals(resourceType))
+                    .filter(s -> s.getResourceType() == ResourceType.RESOURCE || s.getResourceType().value().equals(resourceType))
                     .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                     .findAny();
 

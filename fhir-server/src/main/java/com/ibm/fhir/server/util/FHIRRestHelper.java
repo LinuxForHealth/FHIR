@@ -51,6 +51,7 @@ import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.LockException;
@@ -83,7 +84,6 @@ import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -212,7 +212,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         this.persistence = persistence;
         this.searchHelper = searchHelper;
         PropertyGroup resourcesPropertyGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        this.resourcesConfig = new ResourcesConfigAdapter(resourcesPropertyGroup);
+        this.resourcesConfig = new ResourcesConfigAdapter(resourcesPropertyGroup, fhirVersion);
         this.fhirVersion = fhirVersion;
     }
 
@@ -2997,7 +2997,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         // ensure that the resource type and fhirVersion for the interaction is compatible with the fhirVersion of the server
-        if (!ResourceType.RESOURCE.getValue().equals(resourceType) && !ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+        if (!ResourceType.RESOURCE.value().equals(resourceType) && !ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not supported for fhirVersion " + fhirVersion.value(),
                     IssueType.NOT_SUPPORTED, IssueSeverity.ERROR);
         }
@@ -3023,7 +3023,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             requestContext.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         }
         FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters,
-                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()), resourcesConfig, fhirVersion);
+                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()), resourcesConfig);
 
         // If HTTPReturnPreference is REPRESENTATION, we fetch the resources and include them
         // in the response bundle. To make it simple, we make the records and resources the same

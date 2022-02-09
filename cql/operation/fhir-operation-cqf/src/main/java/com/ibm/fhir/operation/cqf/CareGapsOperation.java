@@ -17,6 +17,7 @@ import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.FHIRBundleCursor;
 import com.ibm.fhir.cql.helpers.ParameterMap;
@@ -31,7 +32,6 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.code.BundleType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -73,13 +73,13 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         searchParameters.putSingle("_total", "none");
 
         try {
-            Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+            Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.value(), null, null, searchParameters, null, null);
 
             AtomicInteger pageNumber = new AtomicInteger(1);
             FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                 try {
                     searchParameters.putSingle(SearchConstants.PAGE, String.valueOf(pageNumber.incrementAndGet()));
-                    return resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
+                    return resourceHelper.doSearch(ResourceType.MEASURE.value(), null, null, searchParameters, null, null);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -28,7 +29,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -62,7 +62,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, false, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.value(), logicalId, true, false, null);
                 primaryLibrary = (Library) readResult.getResource();
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
                 Parameter param = paramMap.getSingletonParameter("library");

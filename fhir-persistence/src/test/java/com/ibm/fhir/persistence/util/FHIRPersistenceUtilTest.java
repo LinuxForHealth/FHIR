@@ -177,7 +177,7 @@ public class FHIRPersistenceUtilTest {
 
             // no explicit _type param
             Map<String, List<String>> params = new HashMap<>();
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(), FHIRVersionParam.VERSION_40);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(FHIRVersionParam.VERSION_40));
 
             assertTrue(historyContext.getResourceTypes().isEmpty(), historyContext.getResourceTypes().toString());
         } finally {
@@ -198,7 +198,7 @@ public class FHIRPersistenceUtilTest {
 
             // no explicit _type param
             Map<String, List<String>> params = new HashMap<>();
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(), FHIRVersionParam.VERSION_40);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(FHIRVersionParam.VERSION_40));
 
             assertEquals(historyContext.getResourceTypes().size(), 125, "implicitly scoped to all R4 resource types");
         } finally {
@@ -222,12 +222,12 @@ public class FHIRPersistenceUtilTest {
         try {
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = true`
             FHIRRequestContext.get().setTenantId("default");
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(), FHIRVersionParam.VERSION_40);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(FHIRVersionParam.VERSION_40));
             assertEquals(historyContext.getResourceTypes(), explicitTypes);
 
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = false`
             FHIRRequestContext.get().setTenantId("all");
-            historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(), FHIRVersionParam.VERSION_40);
+            historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter(FHIRVersionParam.VERSION_40));
             assertEquals(historyContext.getResourceTypes(), explicitTypes);
         } finally {
             FHIRRequestContext.get().setTenantId(originalTenantId);
@@ -286,7 +286,11 @@ public class FHIRPersistenceUtilTest {
     }
 
     private ResourcesConfigAdapter newResourcesConfigAdapter() {
+        return newResourcesConfigAdapter(FHIRVersionParam.VERSION_43);
+    }
+
+    private ResourcesConfigAdapter newResourcesConfigAdapter(FHIRVersionParam fhirVersion) {
         PropertyGroup resourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        return new ResourcesConfigAdapter(resourcesPG, FHIRVersionParam.VERSION_43);
+        return new ResourcesConfigAdapter(resourcesPG, fhirVersion);
     }
 }

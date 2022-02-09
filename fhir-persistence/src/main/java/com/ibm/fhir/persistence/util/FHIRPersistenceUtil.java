@@ -21,18 +21,14 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.Interaction;
-import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
-import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPReturnPreference;
-import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -92,29 +88,17 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-
     /**
-     * Parse history parameters into a FHIRHistoryContext with a fhirVersion of 4.3.0
-     *
-     * @see #parseSystemHistoryParameters(Map, boolean, FHIRVersion)
-     */
-    public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient,
-            ResourcesConfigAdapter resourcesConfig) throws FHIRPersistenceException {
-        return parseSystemHistoryParameters(queryParameters, lenient, resourcesConfig, FHIRVersionParam.VERSION_43);
-    }
-
-    /**
-     * Parse history parameters into a FHIRHistoryContext for a given fhirVersion
+     * Parse history parameters into a FHIRHistoryContext using the passed ResourcesConfigAdapter
      *
      * @param queryParameters
      * @param lenient
      * @param resourcesConfig
-     * @param fhirVersion
      * @return
      * @throws FHIRPersistenceException
      */
     public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient,
-            ResourcesConfigAdapter resourcesConfig, FHIRVersionParam fhirVersion) throws FHIRPersistenceException {
+            ResourcesConfigAdapter resourcesConfig) throws FHIRPersistenceException {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
         context.setLenient(lenient);
@@ -143,11 +127,6 @@ public class FHIRPersistenceUtil {
                                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                             } else if (!typesSupportingHistory.contains(resourceType)) {
                                 String msg = "history interaction is not supported for _type parameter value: " + Encode.forHtml(resourceType);
-                                throw new FHIRPersistenceException(msg)
-                                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
-                            } else if (!ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
-                                String msg = "fhirVersion " + fhirVersion.value() + " interaction for _type parameter value: '" +
-                                        Encode.forHtml(resourceType) + "' is not supported";
                                 throw new FHIRPersistenceException(msg)
                                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
                             } else {
@@ -202,23 +181,13 @@ public class FHIRPersistenceUtil {
                 }
             } // end foreach query parameter loop
 
-            // If no explicit resource types were passed via _type, conditionally add implicit scoping (based on config)
-            if (context.getResourceTypes().isEmpty()) {
-                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
-                if (implicitTypeScoping) {
-                    PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-                    ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup, fhirVersion);
-                    Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.HISTORY);
-                    for (String resType : supportedResourceTypes) {
-                        context.addResourceType(resType);
-                    }
-                }
-            }
-
             // if no _type parameter was passed but the history interaction is only supported for some subset of types
             // then we need to set the supported resource types in the context
-            if (context.getResourceTypes().isEmpty() && resourcesConfig.isHistoryRestricted()) {
-                typesSupportingHistory.stream().forEach(context::addResourceType);
+            if (context.getResourceTypes().isEmpty()) {
+                Boolean implicitTypeScoping = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_WHOLE_SYSTEM_TYPE_SCOPING, true);
+                if (implicitTypeScoping || resourcesConfig.isHistoryRestricted()) {
+                    typesSupportingHistory.stream().forEach(context::addResourceType);
+                }
             }
 
             // Grab the return preference from the request context. We add it to the history
