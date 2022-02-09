@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -105,7 +105,7 @@ public class ParameterExtractionTest {
             .status(PublicationStatus.DRAFT)
             .description(Markdown.of("#Test Parameter"))
             .code(Code.of(SEARCH_PARAM_CODE_VALUE))
-            .base(ResourceType.BASIC);
+            .base(ResourceTypeCode.BASIC);
     private static final SearchParameter numberSearchParam = searchParamBuilder.type(SearchParamType.NUMBER).build();
     private static final SearchParameter dateSearchParam = searchParamBuilder.type(SearchParamType.DATE).build();
     private static final SearchParameter referenceSearchParam = searchParamBuilder.type(SearchParamType.REFERENCE).build();
@@ -173,7 +173,7 @@ public class ParameterExtractionTest {
         assertEquals(((StringParmVal) components.get(1)).getName(),
             SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
         assertEquals(((StringParmVal) components.get(1)).getValueString(), SAMPLE_REF_VERSION);
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         canonical = Canonical.of(SAMPLE_URI);
         canonical.accept(parameterBuilder);

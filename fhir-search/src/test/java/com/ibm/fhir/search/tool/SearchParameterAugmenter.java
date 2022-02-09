@@ -1,10 +1,9 @@
-package com.ibm.fhir.search.tool;
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+package com.ibm.fhir.search.tool;
 
 import java.io.BufferedWriter;
 import java.nio.charset.Charset;
@@ -14,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Resource;
@@ -23,7 +23,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
@@ -41,8 +41,8 @@ public class SearchParameterAugmenter {
         Collection<SearchParameter> tokenParams = FHIRRegistry.getInstance().getSearchParameters("token");
 
         for (SearchParameter searchParameter : tokenParams) {
-            List<ResourceType> base = searchParameter.getBase();
-            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.Value.RESOURCE) {
+            List<ResourceTypeCode> base = searchParameter.getBase();
+            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.RESOURCE) {
                 continue; // too complicated to handle this case right now
             }
 

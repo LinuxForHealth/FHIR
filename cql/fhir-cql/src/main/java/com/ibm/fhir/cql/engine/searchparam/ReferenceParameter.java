@@ -1,11 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.cql.engine.searchparam;
 
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 
 public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
@@ -73,8 +73,8 @@ public class ReferenceParameter extends BaseQueryParameter<ReferenceParameter> {
     @Override
     public String toString() {
         String rtm = null;
-        if (resourceTypeModifier != null && resourceTypeModifier.getValue() != null) {
-            rtm = resourceTypeModifier.getValue();
+        if (resourceTypeModifier != null) {
+            rtm = resourceTypeModifier.value();
         }
         return "ReferenceParameter [resourceTypeModifier=" + rtm + ", chainedProperty=" + chainedProperty + ", value=" + value + "]";
     }

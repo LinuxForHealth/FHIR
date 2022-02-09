@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.core.ResourceType;
 
 /**
  * This class is used as a container for request parameters associated with a FHIR Client API request.
@@ -186,7 +186,7 @@ public class FHIRParameters {
      * @return a handle to the FHIRParameters object
      */
     public FHIRParameters searchParam(String name, ResourceType resourceType, String... values) {
-        String parameterName = name + ":" + resourceType.getValue();
+        String parameterName = name + ":" + resourceType.value();
         String value = getValueString(values);
         addMultivaluedParameter(parameterName, value);
         return this;

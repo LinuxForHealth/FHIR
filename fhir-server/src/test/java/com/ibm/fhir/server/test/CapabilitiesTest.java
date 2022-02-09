@@ -21,10 +21,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
@@ -103,14 +103,14 @@ public class CapabilitiesTest {
             int patientInteractions, int patientIncludes, int patientRevIncludes,
             int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
         assertEquals(restDefinition.getResource().size(), numOfResources, "Number of supported resources");
-        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.RESOURCE));
-        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.DOMAIN_RESOURCE));
+        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.RESOURCE));
+        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.DOMAIN_RESOURCE));
 
-        assertResourceDefinition(restDefinition, ResourceType.Value.PATIENT, patientInteractions, patientIncludes, patientRevIncludes);
-        assertResourceDefinition(restDefinition, ResourceType.Value.PRACTITIONER, practitionerInteractions, practitionerIncludes, practitionerRevIncludes);
+        assertResourceDefinition(restDefinition, ResourceType.PATIENT, patientInteractions, patientIncludes, patientRevIncludes);
+        assertResourceDefinition(restDefinition, ResourceType.PRACTITIONER, practitionerInteractions, practitionerIncludes, practitionerRevIncludes);
     }
 
-    private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType.Value resourceType, int numOfInteractions,
+    private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType resourceType, int numOfInteractions,
             int numIncludes, int numRevIncludes) {
         Optional<CapabilityStatement.Rest.Resource> resource = restDefinition.getResource().stream()
                 .filter(r -> r.getType().getValueAsEnum() == resourceType)
