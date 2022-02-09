@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,9 @@ import com.ibm.fhir.term.graph.registry.SnomedRegistryResourceProvider;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
+/**
+ * Test the Registry
+ */
 public class SnomedRegistryResourceProviderTest {
     @BeforeClass
     public void beforeClass() {
