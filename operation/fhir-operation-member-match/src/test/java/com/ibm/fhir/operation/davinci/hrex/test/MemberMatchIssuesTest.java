@@ -6,16 +6,19 @@
 
 package com.ibm.fhir.operation.davinci.hrex.test;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.model.resource.Coverage;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy.MemberMatchCovergeSearchCompiler;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy.MemberMatchPatientSearchCompiler;
+
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  * A set of tests used in debugging issues
@@ -36,5 +39,14 @@ public class MemberMatchIssuesTest {
         MemberMatchPatientSearchCompiler compiler = new MemberMatchPatientSearchCompiler();
         patient.accept(compiler);
         assertTrue(compiler.getSearchParameters().get("birthdate").contains("eq1970-02-02"));
+    }
+
+    @Test
+    public void testCompilerCoverageForContainedResources() throws Exception {
+        Coverage coverage = TestUtil.readLocalResource("JSON/coverage.json");
+        MemberMatchCovergeSearchCompiler compiler = new MemberMatchCovergeSearchCompiler("test");
+        coverage.accept(compiler);
+        System.out.println(compiler.getSearchParameters());
+        assertFalse(compiler.getSearchParameters().get("identifier").contains("http://hl7.org/fhir/sid/us-npi|12345BRANDNEW3"));
     }
 }
