@@ -23,6 +23,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.datastax.oss</groupId>
+            <artifactId>java-driver-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datastax.oss</groupId>
+            <artifactId>java-driver-query-builder</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-core</artifactId>
             <exclusions>
@@ -51,6 +59,7 @@
         <dependency>
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-berkeleyje</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- change to compile scope or manually package in userlib separately to enable cassandra as a backend graph store option -->
         <dependency>
@@ -134,6 +143,18 @@
                     <groupId>io.dropwizard.metrics</groupId>
                     <artifactId>metrics-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.datastax.cassandra</groupId>
+                    <artifactId>cassandra-all</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.datastax.cassandra</groupId>
+                    <artifactId>cassandra-driver-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.cassandra</groupId>
+                    <artifactId>cassandra-all</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -142,19 +163,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.lucene</groupId>
-                    <artifactId>lucene-spatial</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.lucene</groupId>
                     <artifactId>lucene-sandbox</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.lucene</groupId>
-                    <artifactId>lucene-backward-codecs</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.lucene</groupId>
-                    <artifactId>lucene-spatial-extras</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

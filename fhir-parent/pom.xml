@@ -485,7 +485,7 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-query-builder</artifactId>
-                <version>4.10.0</version>
+                <version>4.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
@@ -515,17 +515,23 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.boundary</groupId>
+                        <artifactId>high-scale-lib</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-berkeleyje</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>it.unimi.dsi</groupId>
@@ -544,17 +550,17 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-lucene</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-es</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tinkerpop</groupId>
                 <artifactId>gremlin-driver</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.netty</groupId>
@@ -694,7 +700,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.9.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -761,8 +767,20 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M2</version>
+                    <version>3.0.0</version>
                     <configuration>
                         <rules>
                             <dependencyConvergence />
@@ -776,10 +794,6 @@
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.0.0-M5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -802,37 +816,6 @@
                     <configuration></configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>com/ibm/fhir/model/*.class</exclude>
-                            <exclude>**/*Exception.*</exclude>
-                            <exclude>**/FHIRPersistenceInterceptor.*</exclude>
-                            <exclude>**/exception/*</exclude>
-                            <exclude>com/ibm/fhir/audit/logging/beans/*</exclude>
-                            <exclude>com/ibm/fhir/audit/whc/**/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailApplication.*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailBuildIdentifier.*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/filter/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/listener/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/provider/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/resource/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/util/*</exclude>
-                            <exclude>**/DerbyBootstrapper.*</exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>3.5.1</version>
@@ -851,6 +834,13 @@
                         <headerLocation>java.header</headerLocation>
                         <consoleOutput>true</consoleOutput>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>9.2.1</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <phase>validate</phase>
@@ -938,7 +928,7 @@
                             <additionalOption>--no-module-directories</additionalOption>
                         </additionalOptions>
                         <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                        <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                        <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                         <author>false</author>
                         <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                         <!-- skips the three entries -->
@@ -964,6 +954,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <testSource>${java.version}</testSource>
+                    <testTarget>${java.version}</testTarget>
+                    <debug>true</debug>
+                    <debuglevel>source,lines,vars</debuglevel>
+                    <parameters>true</parameters>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -973,10 +972,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -989,6 +984,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <!-- Without the following three versions specified, the build does not use them.-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
@@ -1236,7 +1247,7 @@
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
                             <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
@@ -1329,7 +1340,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.1</version>
+                        <version>3.9.0</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -1493,7 +1504,7 @@
                         <additionalOption>--no-module-directories</additionalOption>
                     </additionalOptions>
                     <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                    <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                    <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                     <author>false</author>
                     <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                     <!-- skips the three entries -->
