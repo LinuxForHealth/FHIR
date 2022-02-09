@@ -7,6 +7,7 @@ package com.ibm.fhir.operation.cqf;
 
 import java.util.List;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -15,7 +16,6 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -38,7 +38,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
         Library library = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
             try {
-                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, false, null);
+                SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.value(), logicalId, true, false, null);
                 library = (Library) readResult.getResource();
             } catch (Exception ex) {
                 throw new FHIROperationException("Failed to read resource", ex);
@@ -59,7 +59,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
             String [] parts = target.split("/");
 
             logicalId = target;
-            String targetType = ResourceType.LIBRARY.getValue();
+            String targetType = ResourceType.LIBRARY.value();
             if( parts.length > 1 ) {
                 targetType = parts[ parts.length - 2 ];
                 logicalId = parts[ parts.length - 1 ];
