@@ -24,6 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.AdverseEvent;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
@@ -85,7 +86,9 @@ import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.TriggerType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 
 import uk.co.jemos.podam.api.PodamFactory;
@@ -516,11 +519,30 @@ public class CompleteMockDataCreator extends DataCreatorBase {
 
     protected void handleCode(Code.Builder code) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         Class<?> elementClass = code.getClass().getEnclosingClass();
+        if (ModelSupport.isCodeSubtype(elementClass)) {
 
-        Class<?>[] classes = elementClass.getClasses();
-        // If the element has a ValueSet, set one of the values randomly
-        for (Class<?> clazz : classes) {
-            if ("Value".equals(clazz.getSimpleName())) {
+            Class<?>[] classes;
+            if (code instanceof ResourceTypeCode.Builder) {
+                // ResourceTypeCode is the one case where we break from our normal pattern of having a Value enum subclass
+                classes = new Class<?>[] {ResourceType.class};
+            } else {
+                classes = elementClass.getClasses();
+            }
+
+            // If the element has a nest Value subclass, set one of the values randomly
+            for (Class<?> clazz : classes) {
+                if (Element.Builder.class.isAssignableFrom(clazz)) {
+                    continue;
+                }
+
+                Method stringValueGetter = null;
+                try {
+                    stringValueGetter = clazz.getMethod("value");
+                } catch (NoSuchMethodException e) {
+                    System.err.println("Unexpected " + code.getClass().getName() + " inner class " + clazz.getName() + " has no 'value' setter");
+                    continue;
+                }
+
                 Object[] enumConstants = clazz.getEnumConstants();
                 Object enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
 
@@ -562,8 +584,8 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     }
                 }
 
-                String enumValue = (String) clazz.getMethod("value").invoke(enumConstant);
-                code.value(enumValue);
+                String enumValueString = (String) stringValueGetter.invoke(enumConstant);
+                code.value(enumValueString);
                 return;
             }
         }
