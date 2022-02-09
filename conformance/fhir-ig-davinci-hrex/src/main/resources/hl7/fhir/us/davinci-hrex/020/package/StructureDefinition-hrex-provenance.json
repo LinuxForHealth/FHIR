@@ -64,7 +64,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "Provenance",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance|3.1.1",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [
@@ -1452,7 +1452,7 @@
 				"isSummary": true,
 				"binding": {
 					"strength": "extensible",
-					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type"
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type|3.1.1"
 				},
 				"mapping": [
 					{
@@ -1542,8 +1542,8 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|3.1.1",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|3.1.1",
 							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
 							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1",
 							"http://hl7.org/fhir/StructureDefinition/RelatedPerson",
@@ -1631,7 +1631,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|3.1.1"
 						]
 					}
 				],
@@ -1874,7 +1874,7 @@
 				"patternCodeableConcept": {
 					"coding": [
 						{
-							"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+							"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type|3.1.1",
 							"code": "author"
 						}
 					]
