@@ -2,7 +2,7 @@ version: "3"
 
 services:
   cassandra:
-    image: cassandra:3.11.0
+    image: cassandra:4.0.1
     container_name: fhir-cassandra
     ports:
       - "9042:9042"
@@ -11,7 +11,7 @@ services:
       - fhir-network
 
   elasticsearch:
-    image: elasticsearch:7.6.2
+    image: elasticsearch:7.16.3
     container_name: fhir-elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"

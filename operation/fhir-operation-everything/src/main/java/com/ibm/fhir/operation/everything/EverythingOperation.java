@@ -816,6 +816,7 @@ public class EverythingOperation extends AbstractOperation {
                             || type.equals(ResourceType.Value.ORGANIZATION.value()) || type.equals(ResourceType.Value.PRACTITIONER.value()))) {
                         // Bundle up the requests so we can send them as a batch
                         addRequestToBundle(requestBundleBuilder, HTTPVerb.GET, resourceId, null);
+                        resourceIds.add(resourceId);
                     }
                 }
             }
@@ -828,12 +829,14 @@ public class EverythingOperation extends AbstractOperation {
 
             // Process the additional resources received
             for (Entry entry: responseBundle.getEntry()) {
-                String resourceId = ModelSupport.getTypeName(entry.getResource().getClass()) + "/" + entry.getResource().getId();
-                resourceIds.add(resourceId);
-                // remove this next line if fullUrls start getting set on batch reads
-                Bundle.Entry.Builder entryBuilder = entry.toBuilder()
-                        .fullUrl(Uri.of(url + resourceId));
-                allEntries.add(entryBuilder.build());
+                String type = ModelSupport.getTypeName(entry.getResource().getClass());
+                // OperationOutcomes come back if the resource isn't found, so take them out
+                if (!type.equals("OperationOutcome")) {
+                    // remove this next line if fullUrls start getting set on batch reads
+                    Bundle.Entry.Builder entryBuilder = entry.toBuilder()
+                            .fullUrl(Uri.of(url + type + "/" + entry.getResource().getId()));
+                    allEntries.add(entryBuilder.build());
+                }
             }
         }
     }

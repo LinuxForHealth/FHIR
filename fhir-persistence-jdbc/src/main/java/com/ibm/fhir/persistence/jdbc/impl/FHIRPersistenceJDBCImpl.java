@@ -656,7 +656,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             List<ResourceResult<? extends Resource>> resourceResults = null;
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
-            queryBuilder = new NewQueryBuilder(connectionStrategy.getQueryHints(), identityCache);
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            queryBuilder = new NewQueryBuilder(translator, connectionStrategy.getQueryHints(), identityCache);
 
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
