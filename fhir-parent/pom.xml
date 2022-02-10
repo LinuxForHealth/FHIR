@@ -47,7 +47,7 @@
         <fhir-search.index>MINIMAL_JSON</fhir-search.index>
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <fhir-examples.version>4.11.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.11.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -180,22 +180,22 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-client</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-features-logging</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -232,25 +232,29 @@
                 <version>2.8.9</version>
             </dependency>
             <dependency>
-                 <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
                 <groupId>org.apache.derby</groupId>
-                <artifactId>derbyclient</artifactId>
-                <version>10.14.2.0</version>
+                <artifactId>derby</artifactId>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <version>10.14.2.0</version>
+                <artifactId>derbyclient</artifactId>
+                <version>10.15.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbyshared</artifactId>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbytools</artifactId>
-                <version>10.14.2.0</version>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbynet</artifactId>
-                <version>10.14.2.0</version>
+                <version>10.15.2.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -596,8 +600,7 @@
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
-                <!-- upgrade to 3.x after we discontinue Java 8 support -->
-                <version>2.9.0</version>
+                <version>3.0.5</version>
             </dependency>
             <dependency>
                 <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
@@ -904,8 +907,8 @@
                         <!-- speed up the build -->
                         <isOffline>true</isOffline>
                         <!-- no matter the JDK running the javadoc, it's
-                            important this be at the minimum level we support, which is 8. -->
-                        <source>8</source>
+                            important this be at the minimum level we support, which is 11. -->
+                        <source>11</source>
                         <!-- we don't need package -->
                         <show>package</show>
                         <!-- verbose if you are debugging -->
@@ -1182,7 +1185,7 @@
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <inherited>false</inherited>
                         <configuration>
-                            <source>8</source>
+                            <source>11</source>
                             <verbose>true</verbose>
                             <doclint>none</doclint>
                             <minmemory>2g</minmemory>
@@ -1478,8 +1481,8 @@
                     <!-- speed up the build -->
                     <isOffline>true</isOffline>
                     <!-- no matter the JDK running the javadoc, it's important
-                        this be at the minimum level we support, which is 8. -->
-                    <source>8</source>
+                        this be at the minimum level we support, which is 11. -->
+                    <source>11</source>
                     <!-- we don't need package -->
                     <show>package</show>
                     <!-- verbose if you are debugging -->

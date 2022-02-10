@@ -17,7 +17,7 @@
         <jmh.version>1.32</jmh.version>
     
         <!-- Java source/target to use for compilation. -->
-        <javac.target>1.8</javac.target>
+        <javac.target>11</javac.target>
     
         <!-- Name of the benchmark Uber-JAR to generate. -->
         <uberjar.name>benchmarks</uberjar.name>
