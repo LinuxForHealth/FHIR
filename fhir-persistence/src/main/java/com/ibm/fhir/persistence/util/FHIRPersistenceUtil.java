@@ -145,8 +145,15 @@ public class FHIRPersistenceUtil {
                     // safely ignore
                     continue;
                 } else if ("_sort".equals(name)) {
-                    HistorySortOrder hso = HistorySortOrder.of(first);
-                    context.setHistorySortOrder(hso);
+                    try {
+                        HistorySortOrder hso = HistorySortOrder.of(first);
+                        context.setHistorySortOrder(hso);
+                    } catch (IllegalArgumentException ex) {
+                        // IllegalArgumentException needs to be converted to INVALID which is then a Client Error.
+                        final String msg = "The '_sort' parameter must be a '_lastUpdated' or '-_lastUpdated'";
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
                 } else if ("_excludeTransactionTimeoutWindow".equals(name)) {
                     if ("true".equalsIgnoreCase(first)) {
                         context.setExcludeTransactionTimeoutWindow(true);
