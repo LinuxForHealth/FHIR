@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -758,40 +759,29 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         List<CommonTokenValue> sortedTokenValues = new ArrayList<>(tokenValueSet);
         sortedTokenValues.sort(CommonTokenValue::compareTo);
 
+        // Process the data in a window.
+        int idx = 0;
+        int max = sortedTokenValues.size();
+
+        // The maximum number of query parameters that are available for a particular persistence layer.
+        // There are two '?' parameters declared for each CommonTokenValue.
         Optional<Integer> maxQuery = translator.maximumQueryParameters();
+        int maxSub;
+        if (maxQuery.isPresent() && (max / 2) > maxQuery.get()) {
+            maxSub = maxQuery.get() / 2;
+        } else {
+            maxSub = max;
+        }
 
-        // Process segments up to maximum query parameter size.
-        for (int low = 0; low < sortedTokenValues.size();/*at end  of loop*/) {
-            int high = sortedTokenValues.size();
-
-            if (maxQuery.isPresent() && high > maxQuery.get()/2) {
-                // 2 as there a pair inserted.
-                high = low + maxQuery.get()/2;
-            }
-
-            // Make sure we don't overflow.
-            if (high > sortedTokenValues.size()) {
-                high = sortedTokenValues.size();
-            }
-
-            // The sublist as we have a maxQuery
-            List<CommonTokenValue> sortedTokenValuesSub;
-            if (maxQuery.isPresent()) {
-                sortedTokenValuesSub = sortedTokenValues.subList(low, high);
-            } else {
-                sortedTokenValuesSub = sortedTokenValues;
-            }
-
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Common Token Value Sizes: " + low + " " + (high - 1) + " " + sortedTokenValues.size() + " " + sortedTokenValuesSub.size());
-            }
-
+        while (idx < max) {
+            List<CommonTokenValue> sortedTokenValuesSub = new ArrayList<>();
+        
             // Build a string of parameter values we use in the query to drive the insert statement.
             // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
             // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
             StringBuilder inList = new StringBuilder(); // for the select query later
             StringBuilder paramList = new StringBuilder();
-            for (int i=0; i<sortedTokenValuesSub.size(); i++) {
+            for (; idx < maxSub; idx++) {
                 if (paramList.length() > 0) {
                     paramList.append(", ");
                 }
@@ -803,6 +793,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     inList.append(",");
                 }
                 inList.append("(?,?)");
+
+                sortedTokenValuesSub.add(sortedTokenValues.get(idx));
             }
 
             final String paramListStr = paramList.toString();
@@ -854,7 +846,6 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     }
                 }
             }
-            low = high + 1;
         }
     }
 
