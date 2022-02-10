@@ -113,6 +113,11 @@ $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-op
 $USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
 $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
 
+$CONFIG_JSON=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\default\fhir-server-config.json'
+$json_blob = Get-Content $CONFIG_JSON -raw | ConvertFrom-Json
+$json_blob.update | % {if($_.name -eq 'serverRegistryResourceProviderEnabled'){$_.serverRegistryResourceProviderEnabled=true}}
+$json_blob | ConvertTo-Json -depth 32| set-content $CONFIG_JSON
+
 If (!(Test-Path -Path $USERLIB_DIR) ) {
     New-Item -Path $USERLIB_DIR -Name 'userlib' -ItemType 'directory'
 }
