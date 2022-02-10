@@ -180,22 +180,22 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-client</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-features-logging</artifactId>
-                <version>3.4.5</version>
+                <version>3.5.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -232,25 +232,29 @@
                 <version>2.8.9</version>
             </dependency>
             <dependency>
-                 <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
                 <groupId>org.apache.derby</groupId>
-                <artifactId>derbyclient</artifactId>
-                <version>10.14.2.0</version>
+                <artifactId>derby</artifactId>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
-                <artifactId>derby</artifactId>
-                <version>10.14.2.0</version>
+                <artifactId>derbyclient</artifactId>
+                <version>10.15.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derbyshared</artifactId>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbytools</artifactId>
-                <version>10.14.2.0</version>
+                <version>10.15.2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbynet</artifactId>
-                <version>10.14.2.0</version>
+                <version>10.15.2.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
