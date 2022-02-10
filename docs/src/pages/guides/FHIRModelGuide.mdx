@@ -6,7 +6,7 @@ date:  "2019-10-25 12:00:00 -0400"
 
 ## Overview
 
-The FHIR model component provides Java APIs for parsing, building, generating and validating FHIR resources. Java model classes that represent FHIR resources and data types are generated directly from the structure definitions distributed with the spec. All model objects are thread-safe and immutable. Each model class implements the Java builder pattern (Effective Java, Joshua Bloch) and the visitor pattern (GoF). The classes also implement Java equals, hashCode and toString methods. All date/time processing is done using the Java 11 time library.
+The FHIR model component provides Java APIs for parsing, building, generating and validating FHIR resources. Java model classes that represent FHIR resources and data types are generated directly from the structure definitions distributed with the spec. All model objects are thread-safe and immutable. Each model class implements the Java builder pattern (Effective Java, Joshua Bloch) and the visitor pattern (GoF). The classes also implement Java equals, hashCode and toString methods. All date/time processing is done using the Java time library.
 
 Many of the data type classes include additional factory methods to facilitate object construction for common use cases. The model includes generated Javadoc comments complete with excerpts taken directly from the specification. Model classes also include Java annotations for constraints (`@Constraint`), required elements (`@Required`), choice element types (`@Choice`) and value set bindings (`@Binding`). Value set bindings are implemented using Code subclasses with constant fields and nested enumerations. Backbone elements are implemented as Java nested classes to keep them organized.
 
