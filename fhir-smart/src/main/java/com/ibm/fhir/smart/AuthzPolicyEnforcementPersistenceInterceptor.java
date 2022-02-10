@@ -587,7 +587,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private void checkScopes(String resourceType, Permission requiredPermission, List<Scope> approvedScopes) throws FHIRPersistenceInterceptorException {
         if (!isApprovedByScopes(resourceType, requiredPermission, approvedScopes)) {
             String msg = requiredPermission.value() + " permission for '" + resourceType +
-                    "' is not granted by any of the provided scopes: " + approvedScopes;
+                    "' not granted by any of the provided scopes that begin with 'system/':" + approvedScopes;
             if (log.isLoggable(Level.FINE)) {
                 log.fine(msg);
             }
