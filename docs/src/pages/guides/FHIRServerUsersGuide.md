@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2022
-lastupdated: "2022-01-20"
+lastupdated: "2022-02-09"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -123,6 +123,14 @@ The IBM FHIR Server is configured using Environment variables using:
 | Environment Variable | Description |
 |----------------------|-------------|
 |`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+
+*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+
+```
+docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
+  -v $(pwd)/jvm-dev.options:/config/configDropins/default/jvm.options \
+  ibmcom/ibm-fhir-server
+```
 
 # 3 Configuration
 This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
