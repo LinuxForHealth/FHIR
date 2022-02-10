@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -172,25 +172,29 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         checkForIssuesWithValidation(responseBundle, true, false, false);
     }
 
-    @SuppressWarnings("unchecked")
-    public void grabProfilesFromServerOneTime(ITestContext context) throws Exception {
-        Object obj = context.getAttribute("list-of-profiles");
-        if (obj == null) {
-            CapabilityStatement conf = retrieveConformanceStatement();
+    public void grabProfilesFromServerOneTime(CapabilityStatement conf) throws Exception {
+        if (listOfProfiles == null) {
+
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(conf);
             // All the possible required profiles
             Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_PROFILES);
             listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
-            context.setAttribute("list-of-profiles", listOfProfiles);
-        } else {
-            listOfProfiles = (List<String>) obj;
         }
     }
 
     @BeforeClass
-    public void checkProfileExistsOnServer(ITestContext context) throws Exception {
-        grabProfilesFromServerOneTime(context);
+    public void checkProfileExistsOnServer(ITestContext ctx) throws Exception {
+        Object objConformance = ctx.getAttribute("FHIR_CONFORMANCE");
+        CapabilityStatement conf;
+        if (objConformance == null) {
+            conf = retrieveConformanceStatement();
+            ctx.setAttribute("FHIR_CONFORMANCE", objConformance);
+        } else {
+            conf = (CapabilityStatement) objConformance;
+        }
+        grabProfilesFromServerOneTime(conf);
+
         List<String> requiredProfiles = getRequiredProfiles();
         Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> Integer.valueOf(0)));
         for (String requiredProfile : requiredProfiles) {
@@ -223,10 +227,9 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
 
         @BeforeClass
         public void runLoad() throws Exception {
-            if (super.skip) {
-                throw new SkipException("Skipping these tests");
+            if (!check) {
+                loadResources();
             }
-            loadResources();
         }
 
         public abstract void loadResources() throws Exception;
