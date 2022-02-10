@@ -39,9 +39,6 @@ public class ServerCqlOperationTest extends BaseCPGOperationTest {
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = getWebTarget().path("/" + TEST_PATIENT_ID).request().put( entity );
         assertResponse( response, Response.Status.Family.SUCCESSFUL );
-
-        // Add to a registry so the AfterClass method deletes it.
-        this.addToResourceRegistry("Patient", "sally-fields");
     }
     
     @Test
