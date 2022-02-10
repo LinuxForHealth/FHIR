@@ -51,7 +51,7 @@
 				"id": "c94fb961-310c-41f1-a54f-fc5f2dba49ee",
 				"text": {
 					"status": "generated",
-					"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: <span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-request}\">data request task</span></p><p><b>for</b>: <a href=\"http://example.org/ehr/fhir/Patient/pat1\">http://example.org/ehr/fhir/Patient/pat1</a></p><p><b>authoredOn</b>: Jul 31, 2020, 2:07:15 AM</p><p><b>requester</b>: <a href=\"Organization-full.html\">Generated Summary: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645; active; name: New Health Plan; Phone: 1-800-123-4567, Phone: 1-234-567-8901, info@newhealthplan.org</a></p><p><b>owner</b>: <a href=\"http://example.org/ehr/fhir/Organization/ehr\">http://example.org/ehr/fhir/Organization/ehr</a></p><p><b>reasonCode</b>: <span title=\"Codes: \">Support prior authorization decision-making</span></p><p><b>reasonReference</b>: <a href=\"http://example.org/new-payer/fhir/Claim/123\">http://example.org/new-payer/fhir/Claim/123</a></p><h3>Inputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-code}\">data code input</span></td><td><span title=\"Codes: {http://loinc.org 34108-1}\">Outpatient Note</span></td></tr></table><h3>Outputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp data-value}\">data values output</span></td><td><a href=\"http://example.org/ehr/fhir/DocumentReference/287Q73J237\">http://example.org/ehr/fhir/DocumentReference/287Q73J237</a></td></tr></table></div>"
+					"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"c94fb961-310c-41f1-a54f-fc5f2dba49ee\" </p></div><p><b>status</b>: completed</p><p><b>intent</b>: order</p><p><b>code</b>: data request task <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-hrex-temp.html\">HRex Temporary Code System</a>#data-request)</span></p><p><b>for</b>: <a href=\"http://example.org/ehr/fhir/Patient/pat1\">http://example.org/ehr/fhir/Patient/pat1</a></p><p><b>authoredOn</b>: 2020-07-30T20:07:15-06:00</p><p><b>requester</b>: <a href=\"http://example.org/new-payer/fhir/Organization/hl7pay\">http://example.org/new-payer/fhir/Organization/hl7pay</a></p><p><b>owner</b>: <a href=\"http://example.org/provider/fhir/Organization/hl7prov\">http://example.org/provider/fhir/Organization/hl7prov</a></p><p><b>reasonCode</b>: Support prior authorization decision-making <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ()</span></p><p><b>reasonReference</b>: <a href=\"http://example.org/new-payer/fhir/Claim/123\">http://example.org/new-payer/fhir/Claim/123</a></p><h3>Inputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td>data code input <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-hrex-temp.html\">HRex Temporary Code System</a>#data-code)</span></td><td>Outpatient Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#34108-1)</span></td></tr></table><h3>Outputs</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Value[x]</b></td></tr><tr><td>*</td><td>data values output <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-hrex-temp.html\">HRex Temporary Code System</a>#data-value)</span></td><td><a href=\"http://example.org/ehr/fhir/DocumentReference/287Q73J237\">http://example.org/ehr/fhir/DocumentReference/287Q73J237</a></td></tr></table></div>"
 				},
 				"status": "completed",
 				"intent": "order",
@@ -68,10 +68,10 @@
 				},
 				"authoredOn": "2020-07-30T20:07:15-06:00",
 				"requester": {
-					"reference": "Organization/full"
+					"reference": "http://example.org/new-payer/fhir/Organization/hl7pay"
 				},
 				"owner": {
-					"reference": "http://example.org/ehr/fhir/Organization/ehr"
+					"reference": "http://example.org/provider/fhir/Organization/hl7prov"
 				},
 				"reasonCode": {
 					"text": "Support prior authorization decision-making"
@@ -135,9 +135,9 @@
 				"type": {
 					"coding": [
 						{
-							"system": "http://ihe.net/connectathon/classCodes",
-							"code": "History and Physical",
-							"display": "History and Physical"
+							"system": "http://loinc.org",
+							"code": "34117-2",
+							"display": "History and physical note"
 						}
 					]
 				},
@@ -147,7 +147,7 @@
 							{
 								"system": "http://loinc.org",
 								"code": "47039-3",
-								"display": "Inpatient Admission history and physical note"
+								"display": "Hospital Admission history and physical note"
 							}
 						]
 					}
@@ -158,7 +158,7 @@
 				"date": "2013-07-01T23:11:33+10:00",
 				"author": [
 					{
-						"reference": "Practitioner/a4"
+						"reference": "http://example.org/ehr/fhir/Practitioner/pract1"
 					}
 				],
 				"description": "Physical",
