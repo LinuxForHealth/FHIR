@@ -29,7 +29,7 @@ public abstract class SearchQuery {
     private final List<SearchParam> searchParams = new ArrayList<>();
 
     // A list of non-parameter related extensions (e.g. location processing)
-    private final List<SearchExtension> extensions = new ArrayList<>();
+    protected final List<SearchExtension> extensions = new ArrayList<>();
 
     /**
      * Public constructor
@@ -76,11 +76,8 @@ public abstract class SearchQuery {
         T query = getRoot(visitor);
         visitExtensions(query, visitor);
 
-        // Add the parameters subquery and add the extensions there too
+        // Add the parameters subquery
         T parameterBase = visitor.getParameterBaseQuery(query);
-        for (SearchExtension ext: this.extensions) {
-            ext.visit(parameterBase, visitor);
-        }
         visitSearchParams(parameterBase, visitor);
 
         logger.exiting(CLASSNAME, "visit");
