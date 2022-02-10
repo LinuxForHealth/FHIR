@@ -201,6 +201,8 @@ public final class ParametersUtil {
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
                                 paramMap.insert(code, sp);
+                            } else {
+                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() + "' for resourceType '" + resourceType + "' could not be found.");
                             }
                         }
                     }
@@ -234,7 +236,7 @@ public final class ParametersUtil {
                         if (log.isLoggable(Level.FINE)) {
                             String canonical = getCanonicalUrl(sp);
                             log.fine("Skipping search parameter '" + canonical + "' because code '" +
-                                    sp.getCode() + "' is already configured.");
+                                    sp.getCode().getValue() + "' is already configured.");
                         }
                     } else {
                         paramMap.insert(sp.getCode().getValue(), sp);

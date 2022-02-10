@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -123,13 +123,14 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
             searchContext.setPageSize(1000);
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            MultiResourceResult<Resource> result = persistence.search(context, resourceType);
+            MultiResourceResult result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {
                 transactionHelper.commit();
                 transactionHelper = null;
 
-                return result.getResource().stream()
+                return result.getResourceResults().stream()
+                        .map(rr -> rr.getResource())
                         .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .sorted()
@@ -161,11 +162,12 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
             searchContext.setPageSize(1000);
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            MultiResourceResult<Resource> result = persistence.search(context, resourceType);
+            MultiResourceResult result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {
-                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount() != null ? searchContext.getTotalCount() : result.getResource().size());
-                registryResources.addAll(result.getResource().stream()
+                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount() != null ? searchContext.getTotalCount() : result.getResourceResults().size());
+                registryResources.addAll(result.getResourceResults().stream()
+                        .map(rr -> rr.getResource())
                         .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()));
@@ -175,7 +177,8 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
                 while (pageNumber < lastPageNumber) {
                     searchContext.setPageNumber(++pageNumber);
                     result = persistence.search(context, resourceType);
-                    registryResources.addAll(result.getResource().stream()
+                    registryResources.addAll(result.getResourceResults().stream()
+                            .map(rr -> rr.getResource())
                             .map(FHIRRegistryResource::from)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toList()));

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,10 +39,13 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -51,6 +56,7 @@ import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
 import com.ibm.fhir.smart.Scope.Permission;
 
@@ -736,6 +742,164 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission)
                 && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        }
+    }
+
+    @Test
+    public void testBeforeInvoke() throws FHIRPersistenceInterceptorException {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+
+        // Resource Type (Null Type)
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value((Element)null).build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Null Check failed", e);
+        }
+
+        // Instance Type (Null Type)
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value((Element)null).build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Null Check failed", e);
+        }
+
+        // Instance Type (Null Type)
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value((Element)null).build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Null Check failed", e);
+        }
+
+        // Resource Type ("Observation")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("Observation").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Actual Check failed", e);
+        }
+
+        // Instance Type ("Observation")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("Observation").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Actual Check failed", e);
+        }
+
+        // Instance Type ("Observation")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("Observation").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Actual Check failed", e);
+        }
+
+        // Instance Type ("Bundle")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("Bundle").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Requested Resource outside Compartment Check failed", e);
+        } catch (java.lang.IllegalStateException ise) {
+            assertEquals(ise.getMessage(), "Requested resource is outside of the Patient Compartment");
+        }
+
+        // Instance Type ("DoesntExist")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("DoesntExist").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createInstanceOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Requested Resource outside Compartment Check failed", e);
+        } catch (java.lang.IllegalStateException ise) {
+            assertEquals(ise.getMessage(), "Requested resource is not configured");
+        }
+
+        // Instance Type ("DoesntExist")
+        try {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder().name(string("_type")).value("DoesntExist").build());
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("export");
+            ctx.setProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS, ps);
+            interceptor.beforeInvoke(ctx);
+
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Requested Resource outside Compartment Check failed", e);
+        } catch (java.lang.IllegalStateException ise) {
+            assertEquals(ise.getMessage(), "Requested resource is not configured");
         }
     }
 

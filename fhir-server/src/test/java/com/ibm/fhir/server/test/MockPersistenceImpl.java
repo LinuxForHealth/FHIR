@@ -1,13 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.server.test;
 
-import java.util.ArrayList;
+import java.time.ZoneOffset;
 import java.util.List;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -19,15 +18,17 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.server.util.FHIRRestHelperTest;
 
 /**
@@ -38,12 +39,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
-            throws FHIRPersistenceException {
-        throw new IllegalStateException("API no longer used; provided for backward compatibility only");
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) 
             throws FHIRPersistenceException {
         
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
@@ -91,13 +86,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-        // For this mock, the versionId doesn't matter
-        return updateWithMeta(context, resource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
         OperationOutcome operationOutcome = null;
         if (resource.getLanguage() != null && resource.getLanguage().getValue().equals("en-US")) {
@@ -113,18 +102,28 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
-        return new MultiResourceResult.Builder<T>()
+    public MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+
+        
+        Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+        Patient updatedResource = Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(lastUpdated).build()).build();
+        ResourceResult<Resource> resourceResult = ResourceResult.builder()
+                .resource(updatedResource)
+                .logicalId(logicalId)
+                .version(1)
+                .resourceTypeName(updatedResource.getClass().getSimpleName())
+                .lastUpdated(lastUpdated.getValue().toInstant())
+                .build();
+        return MultiResourceResult.builder()
                 .success(true)
-                .resource(updatedResource).build();
+                .resourceResult(resourceResult).build();
     }
 
     @Override
-    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException {
-        return new MultiResourceResult.Builder<>()
+    public MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException {
+        return MultiResourceResult.builder()
                 .success(true)
-                .resource(new ArrayList<>()).build();
+                .build();
     }
 
     @Override
@@ -155,13 +154,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
-        T updatedResource = (T) Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
-        SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
-                .success(true)
-                .interactionStatus(InteractionStatus.MODIFIED)
-                .resource(updatedResource);
-        return resultBuilder.build();
+    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        // NOP. No need to do anything in this very simple mock
     }
 
     @Override
@@ -172,7 +166,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
+            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
             throws FHIRPersistenceException {
         // NOP
         return null;
@@ -185,7 +180,14 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
+        // NOP
+        return null;
+    }
+
+    @Override
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+        // NOP
         return null;
     }
 }

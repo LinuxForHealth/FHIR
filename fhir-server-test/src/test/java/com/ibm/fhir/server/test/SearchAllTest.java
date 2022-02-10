@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,11 @@ import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -31,6 +33,7 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Link;
@@ -52,7 +55,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     private String patientId, patientId2, observationId;
     private Instant lastUpdated;
-    private Patient patient4DuplicationTest = null;
+    private Patient patientForDuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
     // By default, the tests runs on the default data store of the default tenant, can be changed to test
     // other data store or other tenant.
@@ -104,10 +107,10 @@ public class SearchAllTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", dataStoreId)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-        patient4DuplicationTest = response.readEntity(Patient.class);
-        TestUtil.assertResourceEquals(patient, patient4DuplicationTest);
+        patientForDuplicationTest = response.readEntity(Patient.class);
+        TestUtil.assertResourceEquals(patient, patientForDuplicationTest);
 
-        lastUpdated = patient4DuplicationTest.getMeta().getLastUpdated();
+        lastUpdated = patientForDuplicationTest.getMeta().getLastUpdated();
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
@@ -439,7 +442,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -482,7 +485,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -522,7 +525,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -562,7 +565,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 lstRes.add(entry.getResource());
             }
-            assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
+            assertTrue(isResourceInResponse(patientForDuplicationTest, lstRes));
         } else {
             // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
@@ -572,6 +575,24 @@ public class SearchAllTest extends FHIRServerTestBase {
                         + ":" + entry.getResource().getId());
             }
             assertTrue(bundle.getEntry().size() == resourceIdSet.size());
+        }
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testSearchAllUsingOneTag" })
+    public void testSearchAllUsingOneTagForPrevNext() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_count", "1");
+        parameters.searchParam("_page", "2");
+        parameters.searchParam("_lastUpdated", "ge" + LocalDate.now().getYear() +"-10-04T00:00:00+00:00");
+        parameters.searchParam("_lastUpdated", "lt" + (LocalDate.now().getYear() + 1) + "-10-04T00:00:00+00:00");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        List<Bundle.Link> links = bundle.getLink();
+        assertFalse(links.isEmpty());
+        for (Bundle.Link link : links) {
+            assertFalse(link.getUrl().getValue().contains("+"));
         }
     }
 
@@ -635,7 +656,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag() throws Exception {
+    public void testSearchAll_UsingUniqueTag() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
@@ -646,7 +667,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_OneType() throws Exception {
+    public void testSearchAll_UsingUniqueTag_OneType() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient");
@@ -658,7 +679,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -671,7 +692,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2_TwoTypes_ChainedParameter() throws Exception {
+    public void testSearchAll_TwoTypes_ChainedParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Patient._tag", strUniqueTag);
         parameters.searchParam("_type", "Observation,Condition");
@@ -690,7 +711,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2_TwoTypes_InvalidChainedParameter() throws Exception {
+    public void testSearchAll_TwoTypes_InvalidChainedParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Practitioner.name", "John");
         parameters.searchParam("_type", "Account,Observation");
@@ -701,7 +722,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_Summary() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_Summary() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -715,7 +736,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_elements() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_elements() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -729,7 +750,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_profile() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_profile() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -742,7 +763,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_security() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_security() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -755,7 +776,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_source() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_source() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -768,7 +789,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2UsingUniqueTag_TwoTypes_profile_security_source() throws Exception {
+    public void testSearchAll_UsingUniqueTag_TwoTypes_profile_security_source() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
@@ -783,7 +804,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
-    public void testSearchAll2_TwoTypes_InvalidInclude() throws Exception {
+    public void testSearchAll_TwoTypes_InvalidInclude() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Practitioner.name", "John");
         parameters.searchParam("_type", "Account,Observation");
@@ -795,14 +816,33 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" })
-    public void testSearchAllUrlReflexsivityUsingLastUpdated() throws Exception {
+    public void testSearchAll_UrlReflexsivityUsingLastUpdated() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         String lastUpdated = "ge2000";
         parameters.searchParam("_lastUpdated", lastUpdated);
+        parameters.searchParam("_count", "5");
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
+        bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
+
+        // Check to see that we have at least a page (_count=5)
+        if (bundle.getTotal().getValue() <= 5) {
+            // Load 5 Resources so we go over the page size
+            for (int i = 0; i < 5; i++) {
+                Basic basic = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
+                String id = this.createResourceAndReturnTheLogicalId("Basic", basic);
+                this.addToResourceRegistry("Basic", id);
+            }
+
+            // Reload
+            response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+            bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+        }
+
         assertTrue(bundle.getEntry().size() >= 1);
         List<Link> links = bundle.getLink();
 

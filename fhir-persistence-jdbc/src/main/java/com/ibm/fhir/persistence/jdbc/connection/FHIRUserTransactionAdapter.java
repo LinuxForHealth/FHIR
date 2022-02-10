@@ -47,17 +47,25 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     // support nesting by tracking the number of begin/end requests
     private int startCount;
 
+    // A handler to be called after a transaction has been rolled back
+    private final Runnable rolledBackHandler;
+
     /**
      * Public constructor
      * @param tx
+     * @param syncRegistry
+     * @param cache
+     * @param transactionDataKey
+     * @param rolledBackHandler
      */
     public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache,
-        String transactionDataKey) {
+            String transactionDataKey, Runnable rolledBackHandler) {
         this.userTransaction = tx;
         this.syncRegistry = syncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
         startedByThis = false;
+        this.rolledBackHandler = rolledBackHandler;
     }
 
     /**
@@ -83,7 +91,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
                 // On starting a new transaction, we need to register a callback so that
                 // the cache is informed when the transaction commits it can promote thread-local
                 // ids to the shared caches.
-                syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey));
+                syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.rolledBackHandler));
 
             } catch (Exception x) {
                 log.log(Level.SEVERE, "failed to start transaction", x);
@@ -97,7 +105,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             // On starting a bulk transaction, we need to register a callback so that
             // the cache is informed when the transaction commits it can promote thread-local
             // ids to the shared caches.
-            syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey));
+            syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.rolledBackHandler));
 
             // transaction is already active, so this is a nested request
             this.startCount++;

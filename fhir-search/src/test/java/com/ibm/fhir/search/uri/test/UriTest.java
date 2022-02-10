@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,9 +26,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Test class for the URI Builder
- *
- * @author pbastide
- *
  */
 public class UriTest {
 
@@ -157,4 +154,44 @@ public class UriTest {
         assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
+    @Test
+    public void testUriWithDateTimeWithTimeZone() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&date=gt1940-10-04T00:00:00%2B00:00&_page=1";
+        String requestUriString = "https://test?date=gt1940-10-04T00:00:00+00:00";
+        String val = "gt1940-10-04T00:00:00+00:00";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        QueryParameterValue paramVal = new QueryParameterValue();
+        paramVal.setValueDate(val);
+
+        QueryParameter queryParameter = new QueryParameter(Type.DATE, "date", null, null, Collections.singletonList(paramVal));
+        ctx.setSearchParameters(Collections.singletonList(queryParameter));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
+    @Test
+    public void testUriWithMultipleDateTimeWithTimeZone() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&date1=gt1940-10-04T00:00:00%2B00:00&date2=lt1949-10-04T00:00:00%2B00:00&_page=1";
+        String requestUriString = "https://test?date1=gt1940-10-04T00:00:00+00:00&date2=lt1949-10-04T00:00:00+00:00";
+        String val1 = "gt1940-10-04T00:00:00+00:00";
+        String val2 = "lt1949-10-04T00:00:00+00:00";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        QueryParameterValue paramVal1 = new QueryParameterValue();
+        paramVal1.setValueDate(val1);
+
+        QueryParameterValue paramVal2 = new QueryParameterValue();
+        paramVal2.setValueDate(val2);
+
+        QueryParameter queryParameter1 = new QueryParameter(Type.DATE, "date1", null, null, Arrays.asList(paramVal1));
+        QueryParameter queryParameter2 = new QueryParameter(Type.DATE, "date2", null, null, Arrays.asList(paramVal2));
+        ctx.setSearchParameters(Arrays.asList(queryParameter1, queryParameter2));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
 }

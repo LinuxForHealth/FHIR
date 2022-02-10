@@ -23,6 +23,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataImportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -34,7 +35,7 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class ImportOperation extends AbstractOperation {
     private static final String FILE = "import.json";
 
-    private static final CommonUtil common = new CommonUtil();
+    private static final CommonUtil COMMON = new CommonUtil(Type.IMPORT);
 
     public ImportOperation() {
         super();
@@ -53,8 +54,8 @@ public class ImportOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        common.checkEnabled();
-        common.checkAllowed(operationContext, true);
+        COMMON.checkEnabled();
+        COMMON.checkAllowed(operationContext, true);
 
         // Checks the Import Type
         checkImportType(operationContext.getType());

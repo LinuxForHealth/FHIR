@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ package com.ibm.fhir.server.test.kafka;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -77,7 +79,7 @@ public class KafkaNotificationTest extends FHIRServerTestBase {
             System.out.println("Subscribed to topic " + getKafkaTopicName());
             while (keepRunning) {
 
-                ConsumerRecords<String, String> records = consumer.poll(100);
+                ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
                 System.out.println("polling msges : " + records.count());
                 for (ConsumerRecord<String, String> record : records) {
 

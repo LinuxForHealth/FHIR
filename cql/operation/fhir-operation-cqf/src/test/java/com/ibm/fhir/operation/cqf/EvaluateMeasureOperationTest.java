@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -146,23 +148,8 @@ public class EvaluateMeasureOperationTest {
     }
     
     @Test
-    public void testDoEvaluationInvalidReference() throws Exception {
+    public void testDoEvaluationInvalidIDReferenceNoPrefix() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
-
-        String codesystem = "http://snomed.ct/info";
-        String encounterCode = "office-visit";
-        Coding reason = coding(codesystem, encounterCode);
-        Encounter encounter = Encounter.builder()
-                .reasonCode(concept(reason))
-                .status(EncounterStatus.FINISHED)
-                .clazz(reason)
-                .period(Period.builder().start(DateTime.now()).end(DateTime.now()).build())
-                .build();
-
-        String procedureCode = "fluoride-application";
-        Coding type = coding(codesystem, procedureCode);
-        Procedure procedure = Procedure.builder().subject(Reference.builder().reference(fhirstring("Patient/"
-                + patient.getId())).build()).code(concept(type)).status(ProcedureStatus.COMPLETED).performed(DateTime.of("2019-03-14")).build();
 
         List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
         assertEquals( measures.size(), 1 );
@@ -188,8 +175,48 @@ public class EvaluateMeasureOperationTest {
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(encounter) );
-        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(procedure) );
+        try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
+            FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
+            staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
+
+            when(mockRegistry.getResource(measureURL, Measure.class)).thenReturn( measure );
+            fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
+
+            operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
+                Measure.class, null, null, parameters, resourceHelper);
+            fail("Operation was expected to fail");
+        } catch( FHIROperationException fex ) {
+            assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT VALID\"");
+        }
+    }
+    
+    @Test
+    public void testDoEvaluationInvalidIDReferenceWithPrefix() throws Exception {
+        Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
+
+        List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
+        assertEquals( measures.size(), 1 );
+        Measure measure = measures.get(0);
+        String measureURL = canonical(measure.getUrl(), measure.getVersion()).getValue();
+
+        List<Library> fhirLibraries = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Library.class);
+
+        List<String> names = fhirLibraries.stream().map( l -> l.getName().getValue()).collect(Collectors.toList());
+        System.out.println(names);
+
+        LocalDate periodStart = LocalDate.of(2000, 1, 1);
+        LocalDate periodEnd = periodStart.plus(1, ChronoUnit.YEARS);
+
+        Parameters.Parameter pPeriodStart = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_START)).value(Date.of(periodStart)).build();
+        Parameters.Parameter pPeriodEnd = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_END)).value(Date.of(periodEnd)).build();
+        Parameters.Parameter pReportType = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_REPORT_TYPE)).value(MeasureReportType.INDIVIDUAL).build();
+        Parameters.Parameter pMeasure = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_MEASURE)).value(fhirstring("Measure/NOT_VALID")).build();
+        Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
+
+        Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
+
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -202,7 +229,91 @@ public class EvaluateMeasureOperationTest {
                 Measure.class, null, null, parameters, resourceHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
-            assertEquals(fex.getMessage(), "Failed to resolve resource NOT VALID");
+            assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT_VALID\"");
+        }
+    }
+    
+    @Test
+    public void testDoEvaluationInvalidURLReference() throws Exception {
+        Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
+
+        List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
+        assertEquals( measures.size(), 1 );
+        Measure measure = measures.get(0);
+        String measureURL = canonical(measure.getUrl(), measure.getVersion()).getValue();
+
+        List<Library> fhirLibraries = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Library.class);
+
+        List<String> names = fhirLibraries.stream().map( l -> l.getName().getValue()).collect(Collectors.toList());
+        System.out.println(names);
+
+        LocalDate periodStart = LocalDate.of(2000, 1, 1);
+        LocalDate periodEnd = periodStart.plus(1, ChronoUnit.YEARS);
+
+        Parameters.Parameter pPeriodStart = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_START)).value(Date.of(periodStart)).build();
+        Parameters.Parameter pPeriodEnd = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_END)).value(Date.of(periodEnd)).build();
+        Parameters.Parameter pReportType = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_REPORT_TYPE)).value(MeasureReportType.INDIVIDUAL).build();
+        Parameters.Parameter pMeasure = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_MEASURE)).value(fhirstring("https://iamnothere.com/Measure/NOT_VALID|1.0")).build();
+        Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
+
+        Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
+
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+
+        try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
+            FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
+            staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
+
+            when(mockRegistry.getResource(measureURL, Measure.class)).thenReturn( measure );
+            fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
+
+            operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
+                Measure.class, null, null, parameters, resourceHelper);
+            fail("Operation was expected to fail");
+        } catch( FHIROperationException fex ) {
+            assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"https://iamnothere.com/Measure/NOT_VALID|1.0\"");
+        }
+    }
+    
+    /**
+     * Evaluate a Measure that does not define a library reference
+     */
+    @Test
+    public void testDoEvaluationMeasureNoLibraries() throws Exception {
+        Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
+
+        List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
+        assertEquals( measures.size(), 1 );
+        Measure measure = measures.get(0);
+        measure = measure.toBuilder().library(Collections.emptyList()).build();
+        String measureURL = canonical(measure.getUrl(), measure.getVersion()).getValue();
+
+        LocalDate periodStart = LocalDate.of(2000, 1, 1);
+        LocalDate periodEnd = periodStart.plus(1, ChronoUnit.YEARS);
+
+        Parameters.Parameter pPeriodStart = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_START)).value(Date.of(periodStart)).build();
+        Parameters.Parameter pPeriodEnd = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_PERIOD_END)).value(Date.of(periodEnd)).build();
+        Parameters.Parameter pReportType = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_REPORT_TYPE)).value(MeasureReportType.INDIVIDUAL).build();
+        Parameters.Parameter pMeasure = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_MEASURE)).value(measureURL).build();
+        Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring(EvaluateMeasureOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
+
+        Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
+
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+
+        try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
+            FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
+            staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
+
+            when(mockRegistry.getResource(measureURL, Measure.class)).thenReturn( measure );
+
+            operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
+                Measure.class, null, null, parameters, resourceHelper);
+            fail("Operation was expected to fail");
+        } catch( FHIROperationException fex ) {
+            assertTrue(fex.getMessage().startsWith("Measures utilizing CQL SHALL reference one and only one CQL library"), fex.getMessage());
         }
     }
 }

@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2016, 2021
+-- (C) Copyright IBM Corp. 2016, 2022
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -31,6 +31,7 @@
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
+--   SQLSTATE 99004: called delete on a currently deleted resource
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR( 36 OCTETS),
       IN p_logical_id                   VARCHAR(255 OCTETS), 
@@ -38,11 +39,12 @@
       IN p_last_updated               TIMESTAMP,
       IN p_is_deleted                      CHAR(  1),
       IN p_version                          INT,
-      IN p_parameter_hash_b64           VARCHAR(44 OCTETS),
+      IN p_parameter_hash_b64           VARCHAR( 44 OCTETS),
       IN p_if_none_match                    INT,
+      IN p_resource_payload_key         VARCHAR( 36 OCTETS),
       OUT o_logical_resource_id          BIGINT,
       OUT o_resource_row_id              BIGINT,
-      OUT o_current_parameter_hash      VARCHAR(44 OCTETS),
+      OUT o_current_parameter_hash      VARCHAR( 44 OCTETS),
       OUT o_interaction_status              INT,
       OUT o_if_none_match_version           INT
     )
@@ -156,6 +158,12 @@ BEGIN
     THEN
         SIGNAL SQLSTATE '99001' SET MESSAGE_TEXT = 'Concurrent update - mismatch of version in JSON';
     END IF;
+
+    -- Prevent creating a new deletion marker if the resource is currently deleted
+    IF v_currently_deleted = 'Y' AND p_is_deleted = 'Y'
+    THEN
+        SIGNAL SQLSTATE '99004' SET MESSAGE_TEXT = 'Unexpected attempt to delete a Resource which is currently deleted';
+    END IF;
     
     -- check the current vs new parameter hash to see if we can bypass the delete/insert
     IF o_current_parameter_hash IS NULL OR o_current_parameter_hash != p_parameter_hash_b64
@@ -168,9 +176,9 @@ BEGIN
   END IF; -- end if existing resource
 
   PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
-      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
-  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
+      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)';
+  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
 
   IF v_new_resource = 0 THEN
     -- As this is an existing logical resource, we need to update the xx_logical_resource values to match

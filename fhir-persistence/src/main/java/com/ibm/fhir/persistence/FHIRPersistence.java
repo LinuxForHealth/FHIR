@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
  * This interface defines the contract between the FHIR Server's REST API layer and the underlying
@@ -26,22 +26,8 @@ import com.ibm.fhir.persistence.payload.PayloadKey;
 public interface FHIRPersistence {
 
     /**
-     * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
-     * This method has been deprecated. Instead, generate the logical id first and use the
-     * createWithMeta(context, resource) call instead.
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param resource the FHIR Resource instance to be created in the datastore
-     * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
-
-    /**
      * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
-     * must therefore already include correct Meta fields. Should be used instead of
-     * method {@link #create(FHIRPersistenceContext, Resource)}.
+     * must therefore already include correct Meta fields.
      *
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
@@ -49,7 +35,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -80,20 +66,6 @@ public interface FHIRPersistence {
 
     /**
      * Updates an existing FHIR Resource by storing a new version in the datastore.
-     *
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param logicalId the logical id of the FHIR Resource to be updated
-     * @param resource the new contents of the FHIR Resource to be stored
-     * @return a SingleResourceResult with a copy of resource with fields updated by the persistence layer and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException;
-
-    /**
-     * Updates an existing FHIR Resource by storing a new version in the datastore. This implementation
-     * is added to replace the deprecated {@link #update(FHIRPersistenceContext, String, Resource)} method
      * This new method expects the resource being passed in to already be modified with correct
      * meta and id information. It no longer updates the meta itself.
      *
@@ -103,19 +75,17 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
-     * Deletes the specified FHIR Resource from the datastore.
-     *
-     * @param context the FHIRPersistenceContext instance associated with the current request
-     * @param resourceType The type of FHIR Resource to be deleted.
-     * @param logicalId the logical id of the FHIR Resource to be deleted
-     * @return a SingleResourceResult with the FHIR Resource that was deleted or null if the specified resource doesn't exist and/or
-     *         an OperationOutcome with hints, warnings, or errors related to the interaction
+     * Deletes the FHIR resource from the datastore. The resource must be configured with the correct
+     * meta information because the persistence layer no longer makes any modifications to resources.
+     * @param <T>
+     * @param context
+     * @param resource
      * @throws FHIRPersistenceException
      */
-    default <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+    default <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 
@@ -129,7 +99,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException;
+    MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException;
 
     /**
      * Performs a search on the specified target resource type using the specified search parameters.
@@ -140,7 +110,7 @@ public interface FHIRPersistence {
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
-    MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
+    MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
 
     /**
      * Returns true iff the persistence layer implementation supports transactions.
@@ -153,6 +123,14 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     OperationOutcome getHealth() throws FHIRPersistenceException;
+
+    /**
+     * Read the resources for each of the change log records in the list, aligning
+     * the entries in the returned list to match the entries in the records list.
+     * @param records
+     * @return a list of Resources with the same number of entries as the given records list
+     */
+    List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException;
 
     /**
      * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
@@ -188,6 +166,15 @@ public interface FHIRPersistence {
      * @return
      */
     default boolean isReindexSupported() {
+        return false;
+    }
+
+    /**
+     * Returns true iff the persistence layer implementation supports offloading and this has been
+     * configured for the tenant/datasource
+     * @return
+     */
+    default boolean isOffloadingSupported() {
         return false;
     }
 
@@ -236,12 +223,17 @@ public interface FHIRPersistence {
     /**
      * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
      * @param resourceCount the max number of resource change records to fetch
-     * @param fromLastModified filter records with record.lastUpdate >= fromLastModified. Optional.
+     * @param sinceLastModified filter records with record.lastUpdate >= sinceLastModified. Optional.
+     * @param beforeLastModified filter records with record.lastUpdate <= beforeLastModified. Optional.
      * @param afterResourceId filter records with record.resourceId > afterResourceId. Optional.
-     * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
+     * @param resourceTypeNames filter records matching any resource type name in the list
+     * @param excludeTransactionTimeoutWindow flag to exclude resources falling inside server's tx timeout window
+     * @param historySortOrder the type of sorting to apply
      * @return a list containing up to resourceCount elements describing resources which have changed
+     * @throws FHIRPersistenceException
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, 
+            HistorySortOrder historySortOrder) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer
@@ -269,12 +261,14 @@ public interface FHIRPersistence {
      * {@link Future} can be used to obtain the status of the operation. If the result
      * is null, then the implementation does not support offloading and the payload must
      * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
-     * because the offloading storage operation may be asynchronous.
+     * because the offloading storage operation may be asynchronous. This Future must be
+     * resolved prior to the transaction commit.
      * @param resource
      * @param logicalId
      * @param newVersionNumber
+     * @param resourcePayloadKey
      * @return
      * @throws FHIRPersistenceException
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException;
 }

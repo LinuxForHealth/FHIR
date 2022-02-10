@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,7 +37,9 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -95,12 +97,12 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         resource3Builder.extension(extension("http://example.org/code", Code.of("value3")));
         
         // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1a = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
-        resource1b = persistence.create(getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
-        resource2a = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
-        resource2b = persistence.create(getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
-        resource3a = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
-        resource3b = persistence.create(getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
+        resource1a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
+        resource1b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
+        resource2a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
+        resource2b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
+        resource3a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
+        resource3b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
     }
     
     @AfterClass
@@ -111,7 +113,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
                 persistence.getTransaction().begin();
             }
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
+                FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource);
             }
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
@@ -294,10 +296,10 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
         
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         searchContext.setPageSize(100);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertTrue(resources.size() > 0);
     }
@@ -314,7 +316,7 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         queryParameters.put("_lastUpdated", Collections.singletonList("ge2018-03-27"));
         queryParameters.put("_sort", Arrays.asList(new String[] {"bogus"}));
                 
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
     /**
      * Tests a system-level search with a sort parameter that is defined for the FHIR Resource type, 
@@ -355,18 +357,18 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         String previousId = null;
         String currentId = null;
         // Verify that resources are sorted in ascending order of logical id.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousId == null) {
                 previousId = resource.getId();
-            }
-            else {
+            } else {
                 currentId = resource.getId();
                 assertTrue(previousId.compareTo(resource.getId()) <=0);
                 previousId = currentId;
@@ -392,14 +394,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         Instant previousLastUpdated = null;
         Instant currentLastUpdated = null;
         // Verify that resources are sorted in ascending order of last updated.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousLastUpdated == null) {
                 previousLastUpdated = resource.getMeta().getLastUpdated();
             }
@@ -429,14 +432,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         String previousId = null;
         String currentId = null;
         // Verify that resources are sorted in descending order of logical id.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousId == null) {
                 previousId = resource.getId();
             }
@@ -466,14 +470,15 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(1000);
         persistenceContext = getPersistenceContextForSearch(searchContext);
-        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        List<ResourceResult<? extends Resource>> resources = persistence.search(persistenceContext, resourceType).getResourceResults();
         assertNotNull(resources);
         assertFalse(resources.isEmpty());
         
         Instant previousLastUpdated = null;
         Instant currentLastUpdated = null;
         // Verify that resources are sorted in descending order of last updated.
-        for (Resource resource : resources) {
+        for (ResourceResult<? extends Resource> resourceResult : resources) {
+            Resource resource = resourceResult.getResource();
             if (previousLastUpdated == null) {
                 previousLastUpdated = resource.getMeta().getLastUpdated();
             }

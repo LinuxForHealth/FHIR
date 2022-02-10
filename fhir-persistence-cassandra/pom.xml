@@ -28,12 +28,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-persistence-schema</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-config</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -108,5 +102,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

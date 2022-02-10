@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.Encounter;
@@ -22,6 +21,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
@@ -31,7 +31,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
@@ -62,11 +62,6 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        return null;
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         return null;
     }
 
@@ -135,22 +130,17 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
-    	return null;
-    }
-    
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         return null;
     }
 
     @Override
-    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+    public MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
         return null;
     }
 
     @Override
-    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException {
+    public MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException {
         return null;
     }
 
@@ -187,8 +177,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName)
-        throws FHIRPersistenceException {
+    public List<ResourceChangeLogRecord> changes(int resourceCount, Instant sinceLastModified, Instant beforeLastModified, Long afterResourceId, List<String> resourceTypeNames,
+            boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) throws FHIRPersistenceException {
         return null;
     }
 
@@ -198,8 +188,14 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber)
-        throws FHIRPersistenceException {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey)
+            throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+        // NOP
         return null;
     }
 }

@@ -6,11 +6,13 @@
 
 package com.ibm.fhir.server.test.examples;
 
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
@@ -21,6 +23,9 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  * Basic sniff test of the FHIR Server.
  */
 public class R4ExampleServerTest extends FHIRServerTestBase {
+    
+    // the tenant id to use for the FHIR server requests
+    private String tenantId;
 
     /**
      * Process all the examples in the fhir-r4-spec example library
@@ -34,14 +39,21 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         // Setup a Pool
         ExecutorService es = Executors.newFixedThreadPool(5);
         driver.setPool(es, 5);
+        
 
         DriverMetrics dm = new DriverMetrics();
         driver.setMetrics(dm);
         driver.setValidator(new ValidationProcessor());
-        driver.setProcessor(new ExampleRequestProcessor(this, "default", dm, 1));
+        driver.setProcessor(new ExampleRequestProcessor(this, tenantId, dm, 1));
 
         String index = System.getProperty(this.getClass().getName()
             + ".index", Index.MINIMAL_JSON.name());
         driver.processIndex(Index.valueOf(index));
+    }
+
+    @Override
+    public void setUp(Properties properties) throws Exception {
+        super.setUp(properties);
+        this.tenantId = properties.getProperty(FHIRClient.PROPNAME_TENANT_ID, "default");
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,14 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     public static final String PARAM_IN_CONTENT_ENDPOINT = "contentEndpoint";
     public static final String PARAM_IN_TERMINOLOGY_ENDPOINT = "terminologyEndpoint";
     
-    
+    /**
+     * Check if the user provided any currently unsupported operation parameters.
+     * 
+     * @param paramMap
+     *            Operation input parameters
+     * @throws FHIROperationException
+     *             when one or more unsupported parameters are found
+     */
     protected void checkUnsupportedParameters(ParameterMap paramMap) throws FHIROperationException {
         List<Issue> issues = new ArrayList<>();
         
@@ -92,7 +99,16 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         }
     }
     
-    protected Issue checkUnsupportedParameter(ParameterMap paramMap, String paramName) throws FHIROperationException {
+    /**
+     * Check for a single unsupported parameter by name
+     * 
+     * @param paramMap
+     *            Operation input parameters
+     * @param paramName
+     *            Name of unsupported parameter
+     * @return FHIR Issue data describing the error or null if no such parameter is found.
+     */
+    protected Issue checkUnsupportedParameter(ParameterMap paramMap, String paramName) {
         Issue issue = null;
         if( paramMap.containsKey(paramName) ) {
             String msg = "Parameter '" + paramName + "' is not currently supported";
@@ -109,12 +125,36 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         }
         return issue;
     }
-    
+
+    /**
+     * Evaluate the requested CQL from the provided Library resource.
+     * 
+     * @param resourceHelper
+     *            Resource operation provider for loading related Library resources
+     * @param paramMap
+     *            Parameters object that describes the operation to perform
+     * @param primaryLibrary
+     *            Library resource that is the entry point for the evaluation
+     * @return Parameters describing the evaluation result
+     */
     protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, Library primaryLibrary) {
         List<Library> libraries = LibraryHelper.loadLibraries(primaryLibrary);
         return doEvaluation(resourceHelper, paramMap, libraries);
     }
     
+    /**
+     * Evaluate the requested CQL from the provided Library resource.
+     * 
+     * @param resourceHelper
+     *            Resource operation provider for loading related Library resources
+     * @param paramMap
+     *            Parameters object that describes the operation to perform
+     * @param primaryLibrary
+     *            Library resource that is the entry point for the evaluation
+     * @param libraries
+     *            List of all necessary library resources. The first entry in the list is the primary library.
+     * @return Parameters describing the evaluation result
+     */
     protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, List<Library> libraries) {
         Library primaryLibrary = libraries.get(0);
         LibraryLoader ll = createLibraryLoader(libraries);
@@ -165,7 +205,6 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return output.build();
     }
 
-    @SuppressWarnings("unused")
     private Parameter convertDebugResultToParameter(EvaluationResult evaluationResult) {
         Parameter.Builder debugResultBuilder = Parameter.builder().name(fhirstring(PARAM_OUT_DEBUG_RESULT));
         
@@ -189,18 +228,32 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return debugResultParameter;
     }
 
-
-
+    /**
+     * Retrieve subject parameter from the operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return Pair of context name and value
+     */
     protected Pair<String, Object> getCqlContext(ParameterMap paramMap) {
         Pair<String, Object> context = null;
         Parameter subjectParam = paramMap.getSingletonParameter(PARAM_IN_SUBJECT);
         if (subjectParam != null) {
-            context = getCqlContext(context, subjectParam);
+            context = getCqlContext(subjectParam);
         }
         return context;
     }
 
-    protected Pair<String, Object> getCqlContext(Pair<String, Object> context, Parameter subjectParam) {
+    /**
+     * Retrieve subject parameter from the operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return Pair of context name and value
+     */
+    protected Pair<String, Object> getCqlContext(Parameter subjectParam) {
+        Pair<String, Object> context = null;
+        
         String ref = javastring(((com.ibm.fhir.model.type.String) subjectParam.getValue()));
         String[] parts = ref.split("/");
         if (parts.length >= 2) {
@@ -211,6 +264,18 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return context;
     }
 
+    /**
+     * Retrieve CQL parameters data from the operation input. FHIR data types are
+     * automatically converted to CQL System data types.
+     * 
+     * @param converter
+     *            Converter logic for transforming FHIR data types to CQL
+     *            input parameters.
+     * @param paramMap
+     *            operation input
+     * @return Map of parameter name to parameter value where value objects are
+     *         types in the CQL typesystem.
+     */
     protected Map<String, Object> getCqlParameters(ParameterConverter converter, ParameterMap paramMap) {
         Map<String, Object> engineParameters = null;
         Parameter parametersParam = paramMap.getOptionalSingletonParameter(PARAM_IN_PARAMETERS);
@@ -220,6 +285,18 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return engineParameters;
     }
 
+    /**
+     * Retrieve CQL parameters data from the operation input. FHIR data types are
+     * automatically converted to CQL System data types.
+     * 
+     * @param converter
+     *            Converter logic for transforming FHIR data types to CQL
+     *            input parameters.
+     * @param parametersParam
+     *            operation input
+     * @return Map of parameter name to parameter value where value objects are
+     *         types in the CQL typesystem.
+     */
     protected Map<String, Object> getCqlEngineParameters(ParameterConverter converter, Parameter parametersParam) {
         Map<String, Object> engineParameters;
         engineParameters = new HashMap<>();
@@ -232,8 +309,22 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return engineParameters;
     }
 
+    /**
+     * Get the expression names to evaluate in the primary library
+     * 
+     * @param paramMap
+     *            operation input
+     * @return expression names to evaluate
+     */
     protected abstract Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap);
 
+    /**
+     * Create a CQL Library loader for the content of the provided FHIR Library resources
+     * 
+     * @param libraries
+     *            FHIR Library resources containing CQL and/or ELM content
+     * @return CQL Engine LibraryLoader
+     */
     protected LibraryLoader createLibraryLoader(List<Library> libraries) {  
         FHIRLibraryLibrarySourceProvider sourceProvider = new FHIRLibraryLibrarySourceProvider(libraries);
         CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
@@ -245,7 +336,14 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
                     () -> new TreeSet<>( CqlLibraryComparator.INSTANCE ) ));
         return new InMemoryLibraryLoader(result);
     }
-    
+
+    /**
+     * Create a CQL DebugMap object based on the configuation in the operation input
+     * 
+     * @param paramMap
+     *            operation input
+     * @return DebugMap
+     */
     protected DebugMap getDebugMap(ParameterMap paramMap) {
         DebugMap debugMap = null;
         Parameter pDebug = paramMap.getOptionalSingletonParameter(PARAM_IN_DEBUG);
@@ -255,5 +353,22 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
             //debugMap.setIsCoverageEnabled(true);
         }
         return debugMap;
+    }
+    
+    /**
+     * Construct a FHIROperationExcepiton from the provided exception. This allows commonality
+     * of error handling between related operations.
+     * 
+     * @throws FHIROperationException 
+     */
+    protected void throwOperationException(Exception ex) throws FHIROperationException {
+        throw new FHIROperationException("Evaluation failed", ex)
+            .withIssue(Issue.builder()
+                .code(IssueType.EXCEPTION)
+                .severity(IssueSeverity.FATAL)
+                .details(CodeableConcept.builder()
+                    .text(ex.getMessage())
+                    .build())
+                .build());
     }
 }

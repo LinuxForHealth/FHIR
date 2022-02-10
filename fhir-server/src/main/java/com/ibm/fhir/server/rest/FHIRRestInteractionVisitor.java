@@ -16,6 +16,7 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
@@ -31,7 +32,7 @@ public interface FHIRRestInteractionVisitor {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the resource type associated with the search
      * @param compartment
@@ -50,7 +51,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String compartment, String compartmentId,
+            long accumulatedTime, String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
             Resource contextResource, boolean checkInteractionAllowed) throws Exception;
 
@@ -60,7 +61,7 @@ public interface FHIRRestInteractionVisitor {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
@@ -72,7 +73,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+            long accumulatedTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
             throws Exception;
 
     /**
@@ -81,7 +82,7 @@ public interface FHIRRestInteractionVisitor {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
@@ -98,7 +99,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception;
 
@@ -108,7 +109,7 @@ public interface FHIRRestInteractionVisitor {
      * @param entryIndex
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
@@ -120,7 +121,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
+            long accumulatedTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
             throws Exception;
 
     /**
@@ -133,7 +134,7 @@ public interface FHIRRestInteractionVisitor {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the resource type specified as part of the request URL
      * @param resource
@@ -141,12 +142,14 @@ public interface FHIRRestInteractionVisitor {
      * @param ifNoneExist
      *            whether to create the resource if none exists
      * @param localIdentifier
+     * @param offloadResponse
+     *            the response from payload persistence when offloading
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings,
-            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime,
-            String type, Resource resource, String ifNoneExist, String localIdentifier) throws Exception;
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
+            String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -157,7 +160,7 @@ public interface FHIRRestInteractionVisitor {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      * @param id
      *            the id of the Resource being updated
@@ -180,13 +183,16 @@ public interface FHIRRestInteractionVisitor {
      *            flag to indicate if the resource is currently deleted
      * @param ifNoneMatch
      *            conditional create-on-update
+     * @param offloadResponse
+     *            the response from payload persistence when offloading
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
-            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
+            String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch,
+            PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -197,7 +203,7 @@ public interface FHIRRestInteractionVisitor {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
+     * @param accumulatedTime
      * @param type
      *            the type of the resource to be updated
      * @param id
@@ -215,15 +221,17 @@ public interface FHIRRestInteractionVisitor {
      * @param skippableUpdate
      *            if true, and the result of the patch matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
+     * @param offloadResponse
+     *            response from payload persistencen when offloading
      * @param warnings
      * @param localIdentifier
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
     FHIRRestOperationResponse doPatch(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
-            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
+            String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id,
             Resource newResource, Resource prevResource, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-            boolean skippableUpdate, List<Issue> warnings, String localIdentifier) throws Exception;
+            boolean skippableUpdate, List<Issue> warnings, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.
@@ -233,7 +241,7 @@ public interface FHIRRestInteractionVisitor {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestUrl
-     * @param initialTime
+     * @param accumulatedTime
      * @param operationContext
      *            the FHIROperationContext associated with the request
      * @param resourceTypeName
@@ -251,7 +259,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry,
-            String requestDescription, FHIRUrlParser requestURL, long initialTime,
+            String requestDescription, FHIRUrlParser requestURL, long accumulatedTime,
             FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId,
             Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
@@ -266,7 +274,7 @@ public interface FHIRRestInteractionVisitor {
      * @throws Exception
      */
     FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL,
-            long initialTime, String type, String id, String searchQueryString) throws Exception;
+            long accumulatedTime, String type, String id, String searchQueryString) throws Exception;
 
     /**
      * Add the given validationResponseEntry to the result bundle
@@ -274,24 +282,24 @@ public interface FHIRRestInteractionVisitor {
      * @param entryIndex
      * @param validationResponseEntry
      * @param requestDescription
-     * @param initialTime
+     * @param accumulatedTime
      * @return
      * @throws Exception
      */
     FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry,
-            String requestDescription, long initialTime) throws Exception;
+            String requestDescription, long accumulatedTime) throws Exception;
 
     /**
      * Add the issue to the result bundle
      *
      * @param entryIndex
      * @param requestDescription
-     * @param initialTime
+     * @param accumulatedTime
      * @param status
      * @param responseEntry
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status,
+    FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long accumulatedTime, Status status,
             Entry responseEntry) throws Exception;
 }

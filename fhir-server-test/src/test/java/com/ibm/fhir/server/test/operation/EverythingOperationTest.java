@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -162,7 +162,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
                 }
             }
         }
-        // TODO: Add support for retrieving these two that aren't currently part of the compartment resources
+        // Remove these two as these two resources are not part of the default server config
         keysToRemove.add(Practitioner.class.getSimpleName());
         keysToRemove.add(Organization.class.getSimpleName());
 

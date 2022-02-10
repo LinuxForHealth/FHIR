@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.context.impl;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -22,12 +23,119 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRSearchContext searchContext;
     private boolean includeDeleted = false;
     private Integer ifNoneMatch;
+    
+    // The response from the payload persistence (offloading) call, if any
+    private PayloadPersistenceResponse offloadResponse;
 
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
+    /**
+     * Factory function to create a FHIRPersistenceContext builder
+     * @param event
+     * @return
+     */
+    public static Builder builder(FHIRPersistenceEvent event) {
+        return new Builder(event);
+    }
+
+    /**
+     * Builder to create new instances of FHIRPersistenceContextImpl
+     */
+    public static class Builder {
+        private FHIRPersistenceEvent persistenceEvent;
+        private FHIRHistoryContext historyContext;
+        private FHIRSearchContext searchContext;
+        private boolean includeDeleted;
+        private Integer ifNoneMatch;
+        private PayloadPersistenceResponse offloadResponse;
+        
+        /**
+         * Protected constructor
+         * @param event
+         */
+        protected Builder(FHIRPersistenceEvent event) {
+            this.persistenceEvent = event;
+        }
+        
+        /**
+         * Build the FHIRPersistenceContext implementation
+         * @return
+         */
+        public FHIRPersistenceContext build() {
+            FHIRPersistenceContextImpl impl;
+            
+            if (historyContext != null) {
+                impl = new FHIRPersistenceContextImpl(persistenceEvent, historyContext);
+            } else if (searchContext != null) {
+                impl = new FHIRPersistenceContextImpl(persistenceEvent, searchContext);
+            } else {
+                impl = new FHIRPersistenceContextImpl(persistenceEvent);
+            }
+            impl.setIfNoneMatch(ifNoneMatch);
+            impl.setIncludeDeleted(includeDeleted);
+            impl.setOffloadResponse(offloadResponse);
+            
+            return impl;
+        }
+        
+        /**
+         * Build with the given searchContext
+         * @param searchContext
+         * @return
+         */
+        public Builder withSearchContext(FHIRSearchContext searchContext) {
+            this.searchContext = searchContext;
+            return this;
+        }
+
+        /**
+         * Build with the given historyContext
+         * @param historyContext
+         * @return
+         */
+        public Builder withHistoryContext(FHIRHistoryContext historyContext) {
+            this.historyContext = historyContext;
+            return this;
+        }
+
+        /**
+         * Build with the ifNoneMatch value
+         * @param ifNoneMatch
+         * @return
+         */
+        public Builder withIfNoneMatch(Integer ifNoneMatch) {
+            this.ifNoneMatch = ifNoneMatch;
+            return this;
+        }
+
+        /**
+         * Build with the includeDeleted value
+         * @param includeDeleted
+         * @return
+         */
+        public Builder withIncludeDeleted(boolean includeDeleted) {
+            this.includeDeleted = includeDeleted;
+            return this;
+        }
+
+        /**
+         * Build with the given offloadResponse
+         * @param offloadResponse
+         * @return
+         */
+        public Builder withOffloadResponse(PayloadPersistenceResponse offloadResponse) {
+            this.offloadResponse = offloadResponse;
+            return this;
+        }
+    }
+
+    /**
+     * Private constructor
+     * @param pe
+     */
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
         this.persistenceEvent = pe;
     }
 
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted) {
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted) {
         this.persistenceEvent = pe;
         setIncludeDeleted(includeDeleted);
     }
@@ -37,21 +145,21 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
      * @param pe
      * @param ifNoneMatch
      */
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, Integer ifNoneMatch) {
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, Integer ifNoneMatch) {
         this.persistenceEvent = pe;
         setIfNoneMatch(ifNoneMatch);
     }
     
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
     }
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRSearchContext sc) {
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRSearchContext sc) {
         this.persistenceEvent = pe;
         this.searchContext = sc;
     }
 
-    public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted, FHIRSearchContext sc) {
+    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted, FHIRSearchContext sc) {
         this.persistenceEvent = pe;
         setIncludeDeleted(includeDeleted);
         this.searchContext = sc;
@@ -96,5 +204,17 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     @Override
     public Integer getIfNoneMatch() {
         return this.ifNoneMatch;
+    }
+
+    @Override
+    public PayloadPersistenceResponse getOffloadResponse() {
+        return this.offloadResponse;
+    }
+
+    /**
+     * @param offloadResponse the offloadResponse to set
+     */
+    public void setOffloadResponse(PayloadPersistenceResponse offloadResponse) {
+        this.offloadResponse = offloadResponse;
     }
 }

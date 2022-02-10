@@ -18,6 +18,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -31,7 +32,7 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class StatusOperation extends AbstractOperation {
     private static final String FILE = "status.json";
 
-    private static final CommonUtil common = new CommonUtil();
+    private static final CommonUtil COMMON = new CommonUtil(Type.STATUS);
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     public StatusOperation() {
@@ -51,7 +52,7 @@ public class StatusOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        common.checkEnabled();
+        COMMON.checkEnabled();
         if (logicalId == null && versionId == null && resourceType == null) {
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {

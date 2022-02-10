@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,9 +29,13 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompositionStatus;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * An abstract parent for the persistence layer search tests.
@@ -82,7 +86,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
-            persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId());
+            FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), savedResource);
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
             }
@@ -95,7 +99,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      * Modifies the resource in-place and saves it to {@code savedResource}.
      */
     protected void saveBasicResource(Basic resource) throws FHIRPersistenceException, Exception {
-        SingleResourceResult<Basic> result = persistence.create(getDefaultPersistenceContext(), resource);
+        SingleResourceResult<Basic> result = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource);
         assertTrue(result.isSuccess());
         resource = result.getResource();
         assertNotNull(resource);
@@ -105,7 +109,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertEquals("1", resource.getMeta().getVersionId().getValue());
 
         // update the resource to verify that historical versions won't be returned in search results
-        result = persistence.update(getDefaultPersistenceContext(), resource.getId(), resource);
+        result = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource.getId(), resource);
         assertTrue(result.isSuccess());
         resource = result.getResource();
         assertNotNull(resource);
@@ -176,6 +180,37 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     }
 
     /**
+     * Executes the query test and returns whether the expected resource logicalId was found in
+     * the result set
+     * @param resourceTypeToSearch the resource type class to use as the base of the search
+     * @param queryParms
+     * @param expectedLogicalId
+     * @param includesData
+     * @return
+     * @throws Exception
+     */
+    protected boolean searchReturnsResourceResult(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, String expectedLogicalId,
+            boolean includesData) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceTypeToSearch, queryParms);
+        searchContext.setIncludeResourceData(includesData);
+        List<ResourceResult<? extends Resource>> resourceResults = runQueryTest(
+                searchContext,
+                resourceTypeToSearch, queryParms, Integer.MAX_VALUE).getResourceResults();
+        
+        assertNotNull(resourceResults);
+        
+        // Find the logicalId in the output and check that the includesData matches
+        boolean result = false;
+        for (ResourceResult<? extends Resource> rr: resourceResults) {
+            if (rr.getLogicalId().equals(expectedLogicalId)) {
+                result = (rr.getResource() != null) == includesData;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
      * Create a Composition with a reference to savedResource for chained search tests.
      * @throws Exception
      */
@@ -196,7 +231,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
                 .title(string("TEST"))
                 .build();
 
-        SingleResourceResult<Composition> result = persistence.create(getDefaultPersistenceContext(), composition);
+        SingleResourceResult<Composition> result = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), composition);
         assertTrue(result.isSuccess());
         composition = result.getResource();
         assertNotNull(composition);
@@ -206,7 +241,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertEquals("1", composition.getMeta().getVersionId().getValue());
 
         // update the resource to verify that historical versions won't be returned in search results
-        result = persistence.update(getDefaultPersistenceContext(), composition.getId(), composition);
+        result = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), composition.getId(), composition);
         assertTrue(result.isSuccess());
         composition = result.getResource();
         assertNotNull(composition);

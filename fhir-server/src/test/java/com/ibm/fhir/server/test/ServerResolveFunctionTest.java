@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 
 import org.testng.annotations.BeforeClass;
@@ -47,16 +46,19 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.server.resolve.ServerResolveFunction;
 
 public class ServerResolveFunctionTest {
@@ -71,6 +73,52 @@ public class ServerResolveFunctionTest {
                 return "https://localhost:9443/fhir-server/api/v4/".equals(baseUrl);
             }
         });
+    }
+
+    /**
+     * Helper function to replace the previously deprecated persistence layer method which has
+     * now been removed. Injects the meta elements into the resource before calling the
+     * persistence create method.
+     * 
+     * @param <T>
+     * @param persistence
+     * @param context
+     * @param resource
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private <T extends Resource> SingleResourceResult<T> create(FHIRPersistence persistence, FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
+
+        // Generate a new logical resource id
+        final String logicalId = persistence.generateResourceId();
+
+        // Set the resource id and meta fields.
+        final int newVersionNumber = 1;
+        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+        T updatedResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
+        return persistence.create(context, updatedResource);
+    }
+
+    /**
+     * Helper function to replace the previously deprecated persistence layer method which has
+     * now been removed. Injects the meta elements into the resource before calling the
+     * persistence update method.
+     * 
+     * @param <T>
+     * @param persistence
+     * @param context
+     * @param logicalId
+     * @param resource
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private <T extends Resource> SingleResourceResult<T> update(FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, T resource)
+            throws FHIRPersistenceException {
+
+        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+        final int newVersionId = resource.getMeta() == null || resource.getMeta().getVersionId() == null ? 1 : Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
+        resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
+        return persistence.update(context, resource);
     }
 
     @Test
@@ -90,7 +138,7 @@ public class ServerResolveFunctionTest {
         FHIRPersistence persistence = persistenceHelper.getFHIRPersistenceImplementation();
         FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
 
-        SingleResourceResult<? extends Resource> result = persistence.update(context, "12345", patient);
+        SingleResourceResult<? extends Resource> result = update(persistence, context, "12345", patient);
         assertNotNull(result);
         assertNotNull(result.getResource());
         assertTrue(result.isSuccess());
@@ -116,7 +164,7 @@ public class ServerResolveFunctionTest {
 
         FHIRPersistence persistence = persistenceHelper.getFHIRPersistenceImplementation();
         FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-        SingleResourceResult<? extends Resource> result = persistence.update(context, "54321", observation);
+        SingleResourceResult<? extends Resource> result = update(persistence, context, "54321", observation);
         assertNotNull(result);
         assertNotNull(result.getResource());
         assertTrue(result.isSuccess());
@@ -136,7 +184,7 @@ public class ServerResolveFunctionTest {
 
         FHIRPersistence persistence = persistenceHelper.getFHIRPersistenceImplementation();
         FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-        SingleResourceResult<? extends Resource> result = persistence.update(context, "67890", organization);
+        SingleResourceResult<? extends Resource> result = update(persistence, context, "67890", organization);
         assertNotNull(result);
         assertNotNull(result.getResource());
         assertTrue(result.isSuccess());
@@ -277,16 +325,9 @@ public class ServerResolveFunctionTest {
     public static class PersistenceImpl implements FHIRPersistence {
         private final Map<Class<? extends Resource>, Map<String, List<Resource>>> map = new HashMap<>();
 
-        @Override
-        public <T extends Resource> SingleResourceResult<T> create(
-                FHIRPersistenceContext context,
-                T resource) throws FHIRPersistenceException {
-            return createOrUpdate(resource);
-        }
-
         @SuppressWarnings("unchecked")
         @Override
-        public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
             Class<? extends Resource> resourceType = resource.getClass();
 
             // We no longer need to update the resource meta, so all that's required is
@@ -343,35 +384,34 @@ public class ServerResolveFunctionTest {
         @Override
         public <T extends Resource> SingleResourceResult<T> update(
                 FHIRPersistenceContext context,
-                String logicalId,
-                T resource) throws FHIRPersistenceException {
-            return createOrUpdate(resource);
-        }
-        
-        @Override
-        public <T extends Resource> SingleResourceResult<T> updateWithMeta(
-                FHIRPersistenceContext context,
                 T resource) throws FHIRPersistenceException {
             return createOrUpdate(resource);
         }
 
         @SuppressWarnings("unchecked")
         @Override
-        public <T extends Resource> MultiResourceResult<T> history(
+        public MultiResourceResult history(
                 FHIRPersistenceContext context,
-                Class<T> resourceType,
+                Class<? extends Resource> resourceType,
                 String logicalId) throws FHIRPersistenceException {
-            List<T> versions = (List<T>) map.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(logicalId, Collections.emptyList());
+            
+            List<? extends Resource> versions = map.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(logicalId, Collections.emptyList());
+            
+            // Convert the resource list to a results list
+            List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(versions.size());
+            for (Resource resource: versions) {
+                resourceResults.add(ResourceResult.from(resource));
+            }
 
-            MultiResourceResult.Builder<T> resultBuilder = new MultiResourceResult.Builder<T>()
+            MultiResourceResult.Builder resultBuilder = MultiResourceResult.builder()
                     .success(!versions.isEmpty())
-                    .resource(versions);
+                    .addResourceResults(resourceResults);
 
             return resultBuilder.build();
         }
 
         @Override
-        public MultiResourceResult<Resource> search(
+        public MultiResourceResult search(
                 FHIRPersistenceContext context,
                 Class<? extends Resource> resourceType) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
@@ -419,9 +459,12 @@ public class ServerResolveFunctionTest {
         @Override
         public List<ResourceChangeLogRecord> changes(
                 int resourceCount,
-                java.time.Instant fromLastModified,
+                java.time.Instant sinceLastModified,
+                java.time.Instant beforeLastModified,
                 Long afterResourceId,
-                String resourceTypeName) throws FHIRPersistenceException {
+                List<String> resourceTypeNames,
+                boolean excludeTransactionTimeoutWindow,
+                HistorySortOrder historySortOrder) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
 
@@ -461,8 +504,13 @@ public class ServerResolveFunctionTest {
         }
 
         @Override
-        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
+        public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
             // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
             return null;
         }
     }

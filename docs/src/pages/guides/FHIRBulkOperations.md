@@ -2,7 +2,7 @@
 layout: post
 title: IBM FHIR Server Bulk Data Guide
 description: IBM FHIR Server Bulk Data Guide
-date:   2021-03-10
+date:   2022-01-20
 permalink: /FHIRBulkOperations/
 ---
 
@@ -23,7 +23,7 @@ The `$export` operation uses three OperationDefinition:
 - [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - Obtain a set of resources pertaining to all patients. Exports to an S3-compatible data store.
 - [Group](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-group-export.html) - Obtain a set of resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
 
-The export may be to the ndjson or parquet format.
+The export is in the ndjson format.
 
 ### **$export: Create a Bulk Data Request**
 To create an export request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
@@ -64,7 +64,7 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
 
 ## Import Operation: $import
 
-The `$import` operation is a system-level operation invoked at `[base]/$import`. The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
+The `$import` operation is a system-level operation invoked at `[base]/$import`. The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 ### **$import: Create a Bulk Data Request**
 To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.

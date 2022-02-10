@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +42,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to an postgresql database using
@@ -54,7 +54,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     
     // 13 args (9 in, 4 out)
-    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -78,31 +78,26 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         String stmtString = null;
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = this.readResourceTypeId(resource.getResourceType());
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-            if (logger.isLoggable(Level.FINER)) {
-                logger.finer("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // Just make sure this resource type is known to the database before we
+            // hit the procedure
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
-            stmt.setBinaryStream(3, resource.getDataStream().inputStream());
+            
+            if (resource.getDataStream() != null) {
+                stmt.setBinaryStream(3, resource.getDataStream().inputStream());
+            } else {
+                // payload was offloaded to another data store
+                stmt.setNull(3, Types.BINARY);
+            }
 
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, CalendarHelper.getCalendarForUTC());
@@ -111,21 +106,22 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.setInt(7, resource.getVersionId());
             stmt.setString(8, parameterHashB64);
             setInt(stmt, 9, ifNoneMatch);
-            stmt.registerOutParameter(10, Types.BIGINT);
-            stmt.registerOutParameter(11, Types.VARCHAR); // The old parameter_hash
-            stmt.registerOutParameter(12, Types.INTEGER); // o_interaction_status
-            stmt.registerOutParameter(13, Types.INTEGER); // o_if_none_match_version
+            setString(stmt, 10, resource.getResourcePayloadKey());
+            stmt.registerOutParameter(11, Types.BIGINT);
+            stmt.registerOutParameter(12, Types.VARCHAR); // The old parameter_hash
+            stmt.registerOutParameter(13, Types.INTEGER); // o_interaction_status
+            stmt.registerOutParameter(14, Types.INTEGER); // o_if_none_match_version
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(10));
+            resource.setId(stmt.getLong(11));
             
-            if (stmt.getInt(12) == 1) {
+            if (stmt.getInt(13) == 1) { // interaction status
                 // no change, so skip parameter updates
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
-                resource.setIfNoneMatchVersion(stmt.getInt(13)); // current version
+                resource.setIfNoneMatchVersion(stmt.getInt(14)); // current version
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
     
@@ -133,7 +129,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 // To keep things simple for the postgresql use-case, we just use a visitor to
                 // handle inserts of parameters directly in the resource parameter tables.
                 // Note we don't get any parameters for the resource soft-delete operation
-                final String currentParameterHash = stmt.getString(11);
+                final String currentParameterHash = stmt.getString(12);
                 if (parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
                         || !parameterHashB64.equals(currentParameterHash))) {
                     // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:

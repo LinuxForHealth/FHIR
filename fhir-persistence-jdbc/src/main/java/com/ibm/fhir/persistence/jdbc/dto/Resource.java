@@ -44,6 +44,11 @@ public class Resource {
     private String resourceType;
     
     /**
+     * The resource type id set when reading resources from the database
+     */
+    private int resourceTypeId = -1;
+
+    /**
      *  This is the <resourceType>_RESOURCES.LAST_UPDATED column
      */
     private Timestamp lastUpdated;
@@ -67,6 +72,11 @@ public class Resource {
      * The version of the resource found if we hit IfNoneMatch
      */
     private Integer ifNoneMatchVersion;
+    
+    /**
+     * A unique key (UUID value) used to tie the RDBMS record with the offloaded payload
+     */
+    private String resourcePayloadKey;
 
     public Resource() {
         super();
@@ -177,6 +187,34 @@ public class Resource {
      */
     public void setInteractionStatus(InteractionStatus interactionStatus) {
         this.interactionStatus = interactionStatus;
+    }
+
+    /**
+     * @return the resourceTypeId
+     */
+    public int getResourceTypeId() {
+        return resourceTypeId;
+    }
+
+    /**
+     * @param resourceTypeId the resourceTypeId to set
+     */
+    public void setResourceTypeId(int resourceTypeId) {
+        this.resourceTypeId = resourceTypeId;
+    }
+
+    /**
+     * @return the resourcePayloadKey
+     */
+    public String getResourcePayloadKey() {
+        return resourcePayloadKey;
+    }
+
+    /**
+     * @param resourcePayloadKey the resourcePayloadKey to set
+     */
+    public void setResourcePayloadKey(String resourcePayloadKey) {
+        this.resourcePayloadKey = resourcePayloadKey;
     }
 }
 

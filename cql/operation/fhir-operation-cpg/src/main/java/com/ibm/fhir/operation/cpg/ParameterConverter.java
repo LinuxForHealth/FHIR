@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,13 +20,34 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.code.BundleType;
 
+/**
+ * Provide conversion logic for FHIR Parameter objects both to and from the CQL System
+ * types. This relies on data type conversion logic from the <code>FHIRTypeConverter</code>
+ * and then is further responsible for encoding those conversions in the needed
+ * Parameter format.
+ */
 public class ParameterConverter {
     private FHIRTypeConverter typeConverter;
 
+    /**
+     * Initialize with the given data type conversion logic.
+     * 
+     * @param typeConverter
+     *            FHIR data type conversion logic
+     */
     public ParameterConverter(FHIRTypeConverter typeConverter) {
         this.typeConverter = typeConverter;
     }
     
+    /**
+     * Convert CQL parameters into a FHIR Parameter resource
+     * 
+     * @param paramName
+     *            Name of the FHIR parameter to generate
+     * @param expressionResults
+     *            CQL types to convert
+     * @return FHIR Parameter resource
+     */
     public Parameter toParameter(String paramName, Map<String, Object> expressionResults) {
         Parameter.Builder returnParameter = Parameter.builder().name(fhirstring(paramName));
         for (Map.Entry<String, Object> entry : expressionResults.entrySet()) {
@@ -49,12 +70,30 @@ public class ParameterConverter {
         return returnParameter.build();
     }
 
+    /**
+     * Convert CQL value to partial FHIR parameter
+     * 
+     * @param value
+     *            CQL value
+     * @return partial FHIR parameter
+     */
     public Parameter.Builder toParameter(Object value) {
         Parameter.Builder builder = Parameter.builder();
         toParameter(builder, value);
         return builder;
     }
 
+    /**
+     * Add a CQL value to a FHIR parameter that is being built. FHIR BackboneElement
+     * types are not supported as target values and will fail. Iterable results that
+     * are lists of resources are automatically converted into FHIR bundle resources in
+     * the generated parameter. Lists of primitive values as results are not currently
+     * supported.
+     * 
+     * @param value
+     *            CQL value
+     * @return partial FHIR parameter with added value
+     */
     @SuppressWarnings("unchecked")
     public Parameter.Builder toParameter(Parameter.Builder p, Object value) {
         if (value != null) {
@@ -98,6 +137,13 @@ public class ParameterConverter {
         return p;
     }
 
+    /**
+     * Convert FHIR parameter contents to a CQL value
+     * 
+     * @param value
+     *            FHIR parameter
+     * @return CQL value
+     */
     public Object toCql(Parameter p) {
         Object result = null;
         if (p.getValue() != null) {
@@ -109,7 +155,7 @@ public class ParameterConverter {
         } else if (p.getPart() != null) {
             result = p.getPart().stream().map(np -> toCql(np)).collect(Collectors.toList());
         } else {
-            throw new IllegalArgumentException(String.format("Unexpected object of type %s specified as input parameter"));
+            throw new IllegalArgumentException(String.format("Parameter %s contained no non-null data elements", p.getName().getValue()));
         }
         return result;
     }

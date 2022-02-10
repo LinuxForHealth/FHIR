@@ -22,6 +22,9 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCE_GROUP_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
@@ -392,6 +395,7 @@ public class FhirSchemaGenerator {
         addLogicalResourceProfiles(model); // V0014
         addLogicalResourceTags(model);     // V0014
         addLogicalResourceSecurity(model); // V0016
+        addErasedResources(model);  // V0023
 
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
@@ -545,7 +549,7 @@ public class FhirSchemaGenerator {
                 .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
                 .addTimestampColumn(LAST_UPDATED, true)                         // new column for V0014
                 .addCharColumn(IS_DELETED, 1, false, "'X'")
-                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)           // new column for V0015
+                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)   // new column for V0015
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
@@ -1277,6 +1281,55 @@ public class FhirSchemaGenerator {
         pdm.addObject(tbl);
 
         return tbl;
+    }
+
+    /**
+     * The erased_resources table is used to track which logical resources and corresponding
+     * resource versions have been erased using the $erase operation. This table should
+     * typically be empty and only used temporarily by the erase DAO/procedures to indicate
+     * which rows have been erased. The entries in this table are then used to delete
+     * any offloaded payload entries.
+     * @param pdm
+     */
+    public void addErasedResources(PhysicalDataModel pdm) {
+        final String tableName = ERASED_RESOURCES;
+        final String mtId = this.multitenant ? MT_ID : null;
+
+        // Each erase operation is allocated an ERASED_RESOURCE_GROUP_ID
+        // value which can be used to retrieve the resource and/or
+        // resource-versions erased in a particular call. The rows
+        // can then be deleted once the erasure of any offloaded
+        // payload is confirmed. Note that we don't use logical_resource_id
+        // or resource_id values here, because those records may have
+        // already been deleted by $erase.
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0023.vid())
+                .setTenantColumnName(mtId)
+                .addBigIntColumn(ERASED_RESOURCE_ID, false)
+                .setIdentityColumn(ERASED_RESOURCE_ID, Generated.ALWAYS)
+                .addBigIntColumn(ERASED_RESOURCE_GROUP_ID, false)
+                .addIntColumn(RESOURCE_TYPE_ID, false)
+                .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addIntColumn(VERSION_ID, true)
+                .addPrimaryKey(tableName + "_PK", ERASED_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_GID", ERASED_RESOURCE_GROUP_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // add table tuning
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Nothing yet
+                    return statements;
+                })
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
     }
 
     /**

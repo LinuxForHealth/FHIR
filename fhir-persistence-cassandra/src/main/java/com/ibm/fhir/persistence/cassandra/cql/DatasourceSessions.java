@@ -23,13 +23,18 @@ import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.ContactPoint;
 
 /**
- * Singleton to manage Cassandra CqlSession connections for each FHIR tenant/datasource
+ * Singleton to manage Cassandra CqlSession connections for each FHIR tenant/datasource.
+ * CqlSession holds the state of the cluster and is thread-safe. There should be a single
+ * value of CqlSession for a given tenant/datasource and this shouldn't be closed by the
+ * application until shutdown (handled by the EventCallback server lifecycle events).
  */
 public class DatasourceSessions implements EventCallback {
     private static final Logger logger = Logger.getLogger(DatasourceSessions.class.getName());
 
+    // Map holding one CqlSession instance per tenant/datasource
     private final ConcurrentHashMap<TenantDatasourceKey, CqlSession> sessionMap = new ConcurrentHashMap<>();
     
+    // so we can reject future requests when shut down
     private volatile boolean running = true;
     
     /**
@@ -66,8 +71,10 @@ public class DatasourceSessions implements EventCallback {
 
     /**
      * Get or create the CqlSession connection to Cassandra for the current
-     * tenant/datasource
-     * @return
+     * tenant/datasource. The wrapped instance intercepts calls to {@link AutoCloseable#close()}.
+     * Users do not need to close the object, but may do so (for instance in
+     * a try-with-resource pattern).
+     * @return a wrapped instance of the CqlSession for which {@link AutoCloseable#close()} is a NOP
      */
     private CqlSession getOrCreateSession() {
         if (!running) {
@@ -81,19 +88,34 @@ public class DatasourceSessions implements EventCallback {
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
 
         // Get the session for this tenant/datasource, or create a new one if needed
-        return sessionMap.computeIfAbsent(key, DatasourceSessions::newSession);
+        CqlSession cs = sessionMap.computeIfAbsent(key, DatasourceSessions::newSession);
+        
+        // Wrap the session so we can intercept calls to #close
+        return new CqlSessionWrapper(cs);
     }
 
     /**
-     * Build a new CqlSession object for the tenant/datasource.
+     * Build a new CqlSession object for the tenant/datasource tuple described by key.
      * @param key
      * @return
      */
     private static CqlSession newSession(TenantDatasourceKey key) {
-        
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + key.getDatasourceId();
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return getDatabaseSession(key, adapter, true);
+    }
+ 
+    /**
+     * Check if payload persistence is configured for the current tenant/datasource
+     * @return
+     */
+    public static boolean isPayloadPersistenceConfigured() {
+        final String tenantId = FHIRRequestContext.get().getTenantId();
+        final String dsId = FHIRRequestContext.get().getDataStoreId();
+        TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        return dsPG != null;
     }
 
     /**
@@ -151,8 +173,12 @@ public class DatasourceSessions implements EventCallback {
         builder.withLocalDatacenter(adapter.getLocalDatacenter());
 
         if (setKeyspace) {
-            // Use the tenant id value directly as for the keyspace
-            builder.withKeyspace(key.getTenantId());
+            String tenantKeyspace = adapter.getTenantKeyspace();
+            if (tenantKeyspace == null || tenantKeyspace.isEmpty()) {
+                // Use the tenant id value directly as for the keyspace
+                tenantKeyspace = key.getTenantId();
+            }
+            builder.withKeyspace(tenantKeyspace);
         }
         
         return builder.build();
@@ -167,7 +193,7 @@ public class DatasourceSessions implements EventCallback {
      */    
     public static CqlSession getSessionForBootstrap(String tenantId, String dsId) {
 
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + dsId;
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
         CassandraPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return getDatabaseSession(key, adapter, false);

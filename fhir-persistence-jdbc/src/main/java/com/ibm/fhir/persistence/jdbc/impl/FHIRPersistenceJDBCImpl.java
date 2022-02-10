@@ -1,14 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
@@ -19,7 +16,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.ZoneOffset;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +26,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +56,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.database.utils.schema.GetSchemaVersion;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -81,6 +78,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathSystemValue;
@@ -88,14 +86,17 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -134,6 +135,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
@@ -143,23 +145,18 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
-import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
-import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
-import com.ibm.fhir.schema.app.SchemaVersionsManager;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
-import com.ibm.fhir.schema.control.GetSchemaVersion;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
@@ -226,6 +223,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // Enable use of legacy whole-system search parameters for the search request
     private final boolean legacyWholeSystemSearchParamsEnabled;
+    
+    // A list of payload persistence responses in case we have a rollback to clean up
+    private final List<PayloadPersistenceResponse> payloadPersistenceResponses = new ArrayList<>();
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -252,13 +252,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             this.trxSynchRegistry = null;
         }
 
-        ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE,
-                                       Boolean.TRUE));
-        CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE,
-                                    Boolean.TRUE));
-        ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
-                                      Boolean.TRUE));
-
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
         this.configProvider = new DefaultFHIRConfigProvider(); // before buildActionChain()
@@ -268,7 +261,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
         this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, () -> handleRollback());
 
         // Use of legacy whole-system search parameters disabled by default
         this.legacyWholeSystemSearchParamsEnabled =
@@ -362,25 +355,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
-        // This method is provided for API stability. No longer used.
-
-        // Generate a new logical resource id
-        final String logicalId = generateResourceId();
-
-        // Set the resource id and meta fields.
-        final int newVersionNumber = 1;
-        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-        T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        return createWithMeta(context, updatedResource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> createWithMeta(FHIRPersistenceContext context, T updatedResource) throws FHIRPersistenceException  {
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T updatedResource) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
 
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
@@ -397,7 +377,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource, 
+                        getResourcePayloadKeyFromContext(context));
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
@@ -447,18 +428,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
+     * Prefill the cache if required
+     * @throws FHIRPersistenceException
+     */
+    private void doCachePrefill() throws FHIRPersistenceException {
+        if (cache.needToPrefill()) {
+            try (Connection connection = openConnection()) {
+                doCachePrefill(connection);
+            } catch(FHIRPersistenceException e) {
+                throw e;
+            } catch(Throwable e) {
+                FHIRPersistenceException fx = new FHIRPersistenceException("Cache prefill - unexpected error");
+                log.log(Level.SEVERE, fx.getMessage(), e);
+                throw fx;
+            }
+        }
+    }
+
+    /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
-     *
+     * 
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
      * @param updatedResource
+     * @param resourcePayloadKey
      * @return
      * @throws IOException
      * @throws FHIRGeneratorException
      */
     private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
-            Instant lastUpdated, Resource updatedResource) throws IOException, FHIRGeneratorException {
+            Instant lastUpdated, Resource updatedResource, String resourcePayloadKey) throws IOException, FHIRGeneratorException {
 
         Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 
@@ -467,6 +467,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         resourceDTO.setVersionId(newVersionNumber);
         resourceDTO.setLastUpdated(timestamp);
         resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
+        resourceDTO.setResourcePayloadKey(resourcePayloadKey);
 
         // Are storing the payload in our RDBMS, or offloading to another store?
         if (this.payloadPersistence == null) {
@@ -511,10 +512,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private ResourceDAO makeResourceDAO(Connection connection)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
-
-        // The resourceDAO is made before any database interaction, so this is a great spot
-        // to prefill the caches if needed
-        doCachePrefill(connection);
 
         if (this.trxSynchRegistry != null) {
             String datastoreId = FHIRRequestContext.get().getDataStoreId();
@@ -561,23 +558,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource)
+    public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
-
-        // legacy implementation (before issue 1869) provided for API compatibility. Used by bulk-import
-        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-        final int newVersionId = resource.getMeta() == null || resource.getMeta().getVersionId() == null ? 1 : Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
-        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionId, lastUpdated);
-        return updateWithMeta(context, resource);
-    }
-
-    @Override
-    public <T extends Resource> SingleResourceResult<T> updateWithMeta(FHIRPersistenceContext context, T resource)
-            throws FHIRPersistenceException {
-        final String METHODNAME = "updateWithMeta";
+        final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
@@ -586,7 +573,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource);
+                    createResourceDTO(resource.getId(), newVersionNumber, 
+                        resource.getMeta().getLastUpdated(), resource, 
+                        getResourcePayloadKeyFromContext(context));
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
@@ -620,7 +609,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             return resultBuilder.build();
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -645,13 +633,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      */
     @Override
-    public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
+    public MultiResourceResult search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
         final String METHODNAME = "search";
         log.entering(CLASSNAME, METHODNAME);
 
-        List<Resource> resources = Collections.emptyList();
-        MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
+        MultiResourceResult.Builder resultBuilder = MultiResourceResult.builder();
         FHIRSearchContext searchContext = context.getSearchContext();
         NewQueryBuilder queryBuilder;
         Integer searchResultCount = null;
@@ -659,15 +646,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         Select query;
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             // For PostgreSQL search queries we need to set some options to ensure better plans
             connectionStrategy.applySearchOptimizerOptions(connection, SearchUtil.isCompartmentSearch(searchContext));
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             ResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao, rrd);
+            List<ResourceResult<? extends Resource>> resourceResults = null;
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
-            queryBuilder = new NewQueryBuilder(connectionStrategy.getQueryHints(), identityCache);
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            queryBuilder = new NewQueryBuilder(translator, connectionStrategy.getQueryHints(), identityCache);
 
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
@@ -742,28 +732,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         resourceDTOList = resourceDao.search(wholeSystemDataQuery);
                     }
                 } else if (searchContext.hasSortParameters()) {
-                    resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
+                    resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query), searchContext.isIncludeResourceData());
                 } else {
                     resourceDTOList = resourceDao.search(query);
                 }
 
-                resources = this.convertResourceDTOList(resourceDao, resourceDTOList, resourceType, elements);
-                searchContext.setMatchCount(resources.size());
+                resourceResults = this.convertResourceDTOList(resourceDao, resourceDTOList, resourceType, elements, searchContext.isIncludeResourceData());
+                searchContext.setMatchCount(resourceResults.size());
 
                 // Check if _include or _revinclude search. If so, generate queries for each _include or
                 // _revinclude parameter and add the returned 'include' resources to the 'match' resource
                 // list. All duplicates in the 'include' resources (duplicates of both 'match' and 'include'
                 // resources) will be removed and _elements processing will not be done for 'include' resources.
-                if (resources.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
+                if (resourceResults.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
                             newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
-                    resources.addAll(this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null));
+                    List<ResourceResult<? extends Resource>> includeResult = this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null, searchContext.isIncludeResourceData());
+                    resourceResults.addAll(includeResult);
                 }
             }
 
             return resultBuilder
                     .success(true)
-                    .resource(resources)
+                    .addResourceResults(resourceResults)
                     .build();
         } catch (FHIRPersistenceException e) {
             throw e;
@@ -974,9 +965,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             Set<String> lrIds = includeDTOs.stream()
                     .map(r -> Long.toString(r.getLogicalResourceId())).collect(Collectors.toSet());
             Map<String, Set<String>> resultMap = queryResultMap.computeIfAbsent(iterationLevel, k -> new HashMap<>());
-            Set<String> resultLogicalResourceIds = resultMap.computeIfAbsent(SearchConstants.INCLUDE.equals(includeType) ?
-                    inclusionParm.getSearchParameterTargetType() : inclusionParm.getJoinResourceType(), k -> new HashSet<>());
+            
+            final String targetResourceType = SearchConstants.INCLUDE.equals(includeType) ?
+                    inclusionParm.getSearchParameterTargetType() : inclusionParm.getJoinResourceType();
+            Set<String> resultLogicalResourceIds = resultMap.computeIfAbsent(targetResourceType, k -> new HashSet<>());
             resultLogicalResourceIds.addAll(lrIds);
+            
+            // Because the resultLogicalResourceIds may contain resources of different types, we need
+            // to make sure the resourceTypeId is properly marked on each DTO. We could've selected
+            // that from the database, but we have the info here, so it's easy to inject it and avoid
+            // pulling another column from the database we don't actually need.
+            int targetResourceTypeId = getResourceTypeId(targetResourceType);
+            includeDTOs.forEach(dto -> dto.setResourceTypeId(targetResourceTypeId));
         }
 
         return includeDTOs;
@@ -1020,48 +1020,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
 
-
-        com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
-        T existingResource = null;
-
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
-            existingResourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
-
-            if (existingResourceDTO == null) {
-                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " +
-                        resourceType.getSimpleName() + "/" + logicalId);
-            }
-
-            existingResource = readResource(resourceType, existingResourceDTO, null);
-            if (existingResourceDTO.isDeleted()) {
-
-                addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
-                        "' with id '" + logicalId + "' is already deleted.");
-
-                SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                        .success(true)
-                        .interactionStatus(InteractionStatus.READ)
-                        .resource(existingResource)
-                        .build();
-
-                return result;
-            }
-
-            int newVersionNumber = existingResourceDTO.getVersionId() + 1;
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-
-            // Update the soft-delete resource to reflect the new version and lastUpdated values.
-            T updatedResource = copyAndSetResourceMetaFields(existingResource, existingResource.getId(), newVersionNumber, lastUpdated);
-
             // Create a new Resource DTO instance to represent the deleted version.
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+            if (newVersionNumber < 2) {
+                // Can't delete a resource which doesn't yet exist
+                throw new FHIRPersistenceResourceNotFoundException("New version number for delete must be > 1");
+            }
+
+            // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
+                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource,
+                        getResourcePayloadKeyFromContext(context));
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -1069,20 +1046,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDao.insert(resourceDTO, null, null, null, IF_NONE_MATCH_NULL);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                log.fine("Deleted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
             }
-
-            SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true)
-                    .interactionStatus(InteractionStatus.MODIFIED)
-                    .resource(updatedResource)
-                    .build();
-
-            return result;
         }
         catch(FHIRPersistenceFKVException e) {
-            log.log(Level.INFO, this.performCacheDiagnostics());
             throw e;
         }
         catch(FHIRPersistenceException e) {
@@ -1096,31 +1064,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-    }
-
-    /**
-     * Convert the payload to a resource class from the IBM FHIR Server model. If payloadPersistence has been
-     * configured, the payload is read from another service. If payloadPersistence is null, then it is expected
-     * that the payload has been stored in the RDBMS. This function hides that difference.
-     * @param <T> the type of Resource being returned
-     * @param resourceType the class type of the resource being read
-     * @param resourceDTO The data transfer object representing information read from the RDBMS.
-     * @param elements an optional element filter for the resource
-     * @return
-     * @throws FHIRException
-     * @throws IOException
-     */
-    private <T extends Resource> T readResource(Class<T> resourceType, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO, List<String> elements) throws FHIRException, IOException {
-        T result;
-        if (this.payloadPersistence != null) {
-            // The payload needs to be read from the FHIRPayloadPersistence impl
-            final int resourceTypeId = cache.getResourceTypeCache().getId(resourceType.getSimpleName());
-            result = payloadPersistence.readResource(resourceType, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), elements);
-        } else {
-            // original impl - the resource was read from the RDBMS
-            result = convertResourceDTO(resourceDTO, resourceType, elements);
-        }
-        return result;
     }
 
     /**
@@ -1167,6 +1110,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
@@ -1177,7 +1121,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // Fetch the resource payload if needed and convert to a model object
-            final T resource = readResource(resourceType, resourceDTO, elements);
+            final T resource = convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -1199,15 +1143,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType,
+    public MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType,
             String logicalId) throws FHIRPersistenceException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
 
-        List<T> resources = new ArrayList<>();
-        MultiResourceResult.Builder<T> resultBuilder = new MultiResourceResult.Builder<>();
+        MultiResourceResult.Builder resultBuilder = MultiResourceResult.builder();
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
-        Map<String,List<Integer>> deletedResourceVersions = new HashMap<>();
         FHIRHistoryContext historyContext;
         int resourceCount;
         Instant since;
@@ -1215,10 +1158,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         int offset;
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             historyContext = context.getHistoryContext();
-            historyContext.setDeletedResources(deletedResourceVersions);
             since = historyContext.getSince();
             if (since != null) {
                 fromDateTime = FHIRUtilities.convertToTimestamp(since.getValue());
@@ -1241,19 +1184,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (resourceCount > 0) {
                 offset = (historyContext.getPageNumber() - 1) * historyContext.getPageSize();
                 resourceDTOList = resourceDao.history(resourceType.getSimpleName(), logicalId, fromDateTime, offset, historyContext.getPageSize());
-                for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-                    if (resourceDTO.isDeleted()) {
-                        deletedResourceVersions.putIfAbsent(logicalId, new ArrayList<Integer>());
-                        deletedResourceVersions.get(logicalId).add(resourceDTO.getVersionId());
-                    }
-                }
-                log.log(Level.FINE, "deletedResourceVersions=" + deletedResourceVersions);
-                resources = this.convertResourceDTOList(resourceDTOList, resourceType);
+                resourceResults = this.convertResourceDTOList(resourceDao, resourceDTOList, resourceType, null, true);
             }
 
             return resultBuilder
                     .success(true)
-                    .resource(resources)
+                    .addResourceResults(resourceResults)
                     .build();
         }
         catch(FHIRPersistenceException e) {
@@ -1377,6 +1313,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             version = Integer.parseInt(versionId);
@@ -1417,12 +1354,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceDao - The resource DAO.
      * @param resourceType - The type of Resource that each id in the passed list represents.
      * @param sortedIdList - A list of Resource ids representing the proper sort order for the list of Resources to be returned.
+     * @param includeResourceData include the resource DATA value
      * @return List<com.ibm.fhir.persistence.jdbc.dto.Resource> - A list of ResourcesDTOs of the passed resourceType,
      * sorted according the order of ids in the passed sortedIdList.
      * @throws FHIRPersistenceException
      * @throws IOException
      */
-    protected List<com.ibm.fhir.persistence.jdbc.dto.Resource> buildSortedResourceDTOList(ResourceDAO resourceDao, Class<? extends Resource> resourceType, List<Long> sortedIdList)
+    protected List<com.ibm.fhir.persistence.jdbc.dto.Resource> buildSortedResourceDTOList(ResourceDAO resourceDao, Class<? extends Resource> resourceType, List<Long> sortedIdList,
+            boolean includeResourceData)
             throws FHIRException, FHIRPersistenceException, IOException {
         final String METHOD_NAME = "buildSortedResourceDTOList";
         log.entering(this.getClass().getName(), METHOD_NAME);
@@ -1440,7 +1379,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             idPositionMap.put(resourceId, i);
         }
 
-        resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);
+        resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList, includeResourceData);
 
         // Store each ResourceDTO in its proper position in the returned sorted list.
         for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
@@ -1463,72 +1402,60 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param resourceDao - The resource DAO.
      * @param resourceType The type of resource being queried.
      * @param sortedIdList A sorted list of Resource IDs.
+     * @param includeResourceData Include the resource DATA value
      * @return List - A list of ResourceDTOs
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(ResourceDAO resourceDao,
-            Class<? extends Resource> resourceType, List<Long> sortedIdList) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+            Class<? extends Resource> resourceType, List<Long> sortedIdList, boolean includeResourceData) 
+                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 
-        return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList);
+        return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList, includeResourceData);
     }
 
     /**
      * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
+     * @param resourceDao
      * @param resourceDTOList
      * @param resourceType
+     * @param elements
+     * @param includeResourceData
      * @return
      * @throws FHIRException
      * @throws IOException
      */
-    protected List<Resource> convertResourceDTOList(ResourceDAO resourceDao, List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
-            Class<? extends Resource> resourceType, List<String> elements) throws FHIRException, IOException {
+    protected List<ResourceResult<? extends Resource>> convertResourceDTOList(ResourceDAO resourceDao, List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
+            Class<? extends Resource> resourceType, List<String> elements, boolean includeResourceData) throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO List";
         log.entering(CLASSNAME, METHODNAME);
 
-        List<Resource> resources = new ArrayList<>();
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(resourceDTOList.size());
         try {
             for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
                 // TODO Linear fetch of a large number of resources will extend response times. Need
                 // to look into batch or parallel fetch requests
-                Resource existingResource = readResource(resourceType, resourceDTO, elements);
-                if (resourceDTO.isDeleted()) {
-                    Resource deletedResourceMarker = FHIRPersistenceUtil.createDeletedResourceMarker(existingResource);
-                    resources.add(deletedResourceMarker);
-                } else {
-                    resources.add(existingResource);
+                ResourceResult<? extends Resource> resourceResult = convertResourceDTOToResourceResult(resourceDTO, resourceType, elements, includeResourceData);
+                
+                // Check to make sure we got a Resource if we asked for it
+                if (resourceResult.getResource() == null && includeResourceData) {
+                    String resourceTypeName = getResourceTypeInfo(resourceDTO);
+                    if (resourceTypeName == null) {
+                        resourceTypeName = resourceType.getSimpleName();
+                    }
+                    throw new FHIRPersistenceException("convertResourceDTO returned no resource for '" 
+                            + resourceTypeName + "/" + resourceDTO.getLogicalId() + "'");
                 }
+
+                // Note that if the resource has been erased or was not fetched on purpose, 
+                // ResourceResult.resource will be null and the caller will need to take this
+                // into account
+                resourceResults.add(resourceResult);
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-        return resources;
-    }
-
-   /**
-     * Calls some cache analysis methods and aggregates the output into a single String.
-     * @return
-     */
-    @Deprecated
-    private String performCacheDiagnostics() {
-
-        StringBuffer diags = new StringBuffer();
-
-        // Must do this with its own connection (which will actually be the same
-        // underlying physical connection in use when the problem occurred).
-        try (Connection connection = openConnection()) {
-            ResourceDAO resourceDao = makeResourceDAO(connection);
-            ParameterDAO parameterDao = makeParameterDAO(connection);
-            diags.append(ParameterNamesCache.dumpCacheContents()).append(ParameterNamesCache.reportCacheDiscrepancies(parameterDao));
-            diags.append(CodeSystemsCache.dumpCacheContents()).append(CodeSystemsCache.reportCacheDiscrepancies(parameterDao));
-            diags.append(ResourceTypesCache.dumpCacheContents()).append(ResourceTypesCache.reportCacheDiscrepancies(resourceDao));
-        } catch (Exception x) {
-            log.log(Level.SEVERE, "failed to produce cache diagnostics", x);
-            diags.append("No cache diagnostic info available");
-        }
-
-        return diags.toString();
+        return resourceResults;
     }
 
     /**
@@ -2048,7 +1975,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // compare what's in the database with the latest FhirSchemaVersion. For now,
         // we allow the database schema to be equal to or ahead of the latest schema known
         // to this instance. This helps with rolling deploys.
-        FhirSchemaVersion latest = SchemaVersionsManager.getLatestFhirSchemaVersion();
+        FhirSchemaVersion latest = FhirSchemaVersion.getLatestFhirSchemaVersion();
         final boolean result;
         if (versionId < 0) {
             // the new server code is running against a database which hasn't been
@@ -2096,11 +2023,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRException
      * @throws IOException
      */
-    // This variant uses generics and is used in history.
-    // TODO: this method needs to either get merged or better differentiated with the old one used for search
     protected <T extends Resource> List<T> convertResourceDTOList(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
             Class<T> resourceType) throws FHIRException, IOException {
-        final String METHODNAME = "convertResourceDTO List";
+        final String METHODNAME = "convertResourceDTOList";
         log.entering(CLASSNAME, METHODNAME);
 
         List<T> resources = new ArrayList<>();
@@ -2108,80 +2033,203 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
                 resources.add(this.convertResourceDTO(resourceDTO, resourceType, null));
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return resources;
     }
 
     /**
-     * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
-     * @param resourceDTOList
-     * @param resourceType
-     * @return
-     * @throws FHIRException
-     * @throws IOException
-     */
-    // This variant doesn't use generics and is used in search.
-    // TODO: this method needs to either get merged or better differentiated with the new one that supports history operation via generics.
-    // Start by better understanding what happens for `_include` and `_revinclude` search results that contain multiple different types
-    protected List<Resource> convertResourceDTOListOld(List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
-            Class<? extends Resource> resourceType) throws FHIRException, IOException {
-        final String METHODNAME = "convertResourceDTO List";
-        log.entering(CLASSNAME, METHODNAME);
-
-        List<Resource> resources = new ArrayList<>();
-        try {
-            for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-                resources.add(this.convertResourceDTO(resourceDTO, resourceType, null));
-            }
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-        return resources;
-    }
-
-    /**
-     * Converts the passed Resource Data Transfer Object to a FHIR Resource object.
-     * @param resourceDTO - A valid Resource DTO
+     * Converts the passed Resource Data Transfer Object to a FHIR Resource object. The result
+     * will be null if the resourceDTO passed in is null.
+     * 
+     * @param resourceDTO - The resource read from the database, or null if the resource doesn't exist
      * @param resourceType - The FHIR type of resource to be converted.
      * @param elements - An optional filter for including only specified elements inside a Resource.
      * @return Resource - A FHIR Resource object representation of the data portion of the passed Resource DTO.
      * @throws FHIRException
      * @throws IOException
      */
+    @Deprecated
     private <T extends Resource> T convertResourceDTO(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO,
             Class<T> resourceType, List<String> elements) throws FHIRException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
-        T resource = null;
-        InputStream in = null;
-        try {
-            if (resourceDTO != null && resourceDTO.getDataStream() != null) {
-                FHIRParser parser = FHIRParser.parser(Format.JSON);
-                parser.setValidating(false);
-                in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
-                if (elements != null) {
-                    // parse/filter the resource using elements
-                    resource = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
-                    if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
-                        // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
-                        resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
+        T result;
+        if (resourceDTO != null) {
+            if (isOffloadingSupported()) {
+                // The payload needs to be read from the FHIRPayloadPersistence impl. If this is
+                // a form of whole-system query (search or history), then the resource type needs
+                // to come from the DTO itself
+                String rowResourceTypeName = getResourceTypeInfo(resourceDTO);
+                int resourceTypeId;
+                if (rowResourceTypeName != null) {
+                    resourceTypeId = getResourceTypeId(rowResourceTypeName);
+                } else {
+                    rowResourceTypeName = resourceType.getSimpleName();
+                    resourceTypeId = getResourceTypeId(resourceType);
+                }
+                
+                // If a specific version of a resource has been deleted using $erase, it
+                // is possible for the result here to be null.
+                result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+            } else {
+                // original impl - the resource, if any, was read from the RDBMS
+                if (resourceDTO.getDataStream() != null) {
+                    try (InputStream in = new GZIPInputStream(resourceDTO.getDataStream().inputStream())) {
+                        FHIRParser parser = FHIRParser.parser(Format.JSON);
+                        parser.setValidating(false);
+                        if (elements != null) {
+                            // parse/filter the resource using elements
+                            result = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                            if (resourceType.equals(result.getClass()) && !FHIRUtil.hasTag(result, SearchConstants.SUBSETTED_TAG)) {
+                                // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
+                                result = FHIRUtil.addTag(result, SearchConstants.SUBSETTED_TAG);
+                            }
+                        } else {
+                            result = parser.parse(in);
+                        }
                     }
                 } else {
-                    resource = parser.parse(in);
+                    // Null DATA column means that this resource version was probably removed
+                    // by $erase
+                    result = null;
                 }
             }
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-
-            log.exiting(CLASSNAME, METHODNAME);
+        } else {
+            // resource doesn't exist
+            result = null;
         }
-        return resource;
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        return result;
+    }
+
+    private <T extends Resource> ResourceResult<T> convertResourceDTOToResourceResult(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO,
+        Class<T> resourceType, List<String> elements, boolean includeData) throws FHIRException, IOException {
+        final String METHODNAME = "convertResourceDTO";
+        log.entering(CLASSNAME, METHODNAME);
+        Objects.requireNonNull(resourceDTO, "resourceDTO must be not null");
+        T resource;
+        
+        if (includeData) {
+            if (this.payloadPersistence != null) {
+                // The payload needs to be read from the FHIRPayloadPersistence impl. If this is
+                // a form of whole-system query (search or history), then the resource type needs
+                // to come from the DTO itself
+                String rowResourceTypeName = getResourceTypeInfo(resourceDTO);
+                int resourceTypeId;
+                if (rowResourceTypeName != null) {
+                    resourceTypeId = getResourceTypeId(rowResourceTypeName);
+                } else {
+                    rowResourceTypeName = resourceType.getSimpleName();
+                    resourceTypeId = getResourceTypeId(resourceType);
+                }
+                
+                // If a specific version of a resource has been deleted using $erase, it
+                // is possible for the result here to be null.
+                resource = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+            } else {
+                // original impl - the resource, if any, was read from the RDBMS
+                if (resourceDTO.getDataStream() != null) {
+                    try (InputStream in = new GZIPInputStream(resourceDTO.getDataStream().inputStream())) {
+                        FHIRParser parser = FHIRParser.parser(Format.JSON);
+                        parser.setValidating(false);
+                        if (elements != null) {
+                            // parse/filter the resource using elements
+                            resource = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                            if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
+                                // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
+                                resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
+                            }
+                        } else {
+                            resource = parser.parse(in);
+                        }
+                    }
+                } else {
+                    // Queries may return a NULL for the DATA column if the resource has been erased
+                    // or the query was asked not to fetch DATA in the first place
+                    resource = null;
+                }
+            }
+        } else {
+            resource = null;
+        }
+    
+        // Note that resource may be null. We return a ResourceResult so we can
+        // communicate back the type/id/version information even if we didn't get
+        // an actual resource object
+        String resourceTypeName = getResourceTypeInfo(resourceDTO);
+        if (resourceTypeName == null) {
+            // By default we simply use the requested type name. This makes the ResourceResult
+            // easier to consume by the caller
+            resourceTypeName = resourceType.getSimpleName();
+        }
+        ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+        builder.logicalId(resourceDTO.getLogicalId());
+        builder.resourceTypeName(resourceTypeName);
+        builder.deleted(resourceDTO.isDeleted());
+        builder.resource(resource); // can be null
+        builder.version(resourceDTO.getVersionId());
+        builder.lastUpdated(resourceDTO.getLastUpdated().toInstant());
+        
+        log.exiting(CLASSNAME, METHODNAME);
+        return builder.build();
+    }
+
+    /**
+     * Get the resource type name of the resource represented by the from the
+     * given resourceDTO. This is only done if the resourceTypeId field in the
+     * resourceDTO has been set. If not, returns null.
+     * @param resourceDTO
+     * @throws FHIRPersistenceException if the resourceTypeId is set
+     *      but the value cannot be found in the cache
+     * @return
+     */
+    private String getResourceTypeInfo(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+                throws FHIRPersistenceException {
+        final String result;
+        // resource type name needs to be derived from the resourceTypeId returned by the DB select query
+        log.fine(() -> "getResourceTypeInfo(" + resourceDTO.getResourceTypeId() + ")");
+        int resourceTypeId = resourceDTO.getResourceTypeId();
+        if (resourceTypeId >= 0) {
+            result = cache.getResourceTypeNameCache().getName(resourceTypeId);
+            if (result == null) {
+                // the cache is preloaded, so this should never happen
+                log.severe("No entry found in cache for resourceTypeId = " + resourceTypeId);
+                throw new FHIRPersistenceException("Resource type not found in cache");
+            }
+        } else {
+            result = null;
+        }
+
+        return result;
+    }
+
+    /**
+     * Get the database resourceTypeId from the cache.
+     * @param resourceType
+     * @return
+     * @throws FHIRPersistenceException if the resource type is not found in the cache.
+     */
+    private int getResourceTypeId(Class<? extends Resource> resourceType) throws FHIRPersistenceException {
+        return getResourceTypeId(resourceType.getSimpleName());
+    }
+
+    /**
+     * Get the database resourceTypeId from the cache.
+     * @param resourceTypeName
+     * @return
+     * @throws FHIRPersistenceException if the resource type is not found in the cache.
+     */
+    private int getResourceTypeId(String resourceTypeName) throws FHIRPersistenceException {
+        final Integer resourceTypeId = cache.getResourceTypeCache().getId(resourceTypeName);
+        if (resourceTypeId == null) {
+            // the cache is preloaded, so this should never happen
+            log.severe("Resource type missing from resource type cache: '" + resourceTypeName + "'");
+            throw new FHIRPersistenceException("Resource type id not found in resource type cache");
+        }
+        return resourceTypeId;
     }
 
     @Override
@@ -2278,19 +2326,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public void doCachePrefill(Connection connection) throws FHIRPersistenceException {
         // Perform the cache prefill just once (for a given tenant). This isn't synchronous, so
         // there's a chance for other threads to slip in before the prefill completes. Those threads
-        // just end up having cache-misses for the names they need.
+        // just end up repeating the prefill - a little extra work one time to avoid unnecessary locking
         // Note - this is done as the first thing in a transaction so there's no concern about reading
         // uncommitted values.
         if (cache.needToPrefill()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             FHIRPersistenceJDBCCacheUtil.prefill(resourceDao, parameterDao, cache);
+            cache.clearNeedToPrefill();
         }
     }
 
     @Override
     public boolean isReindexSupported() {
         return true;
+    }
+
+    @Override
+    public boolean isOffloadingSupported() {
+        return this.payloadPersistence != null;
     }
 
     @Override
@@ -2317,6 +2371,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             ReindexResourceDAO reindexDAO = FHIRResourceDAOFactory.getReindexResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry, this.cache, parameterDao);
@@ -2364,7 +2419,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
                     if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
                         rir.setDeleted(false); // just to be clear
-                        Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
+                        Class<? extends Resource> resourceTypeClass = getResourceType(rir.getResourceType());
                         reindexDAO.setPersistenceContext(context);
                         updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
 
@@ -2491,6 +2546,34 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return result;
     }
+    
+    /**
+     * Callback from TransactionData when a transaction has been rolled back
+     * @param payloadPersistenceResponses an immutable list of {@link PayloadPersistenceResponse}
+     */
+    private void handleRollback() {
+        if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
+            throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
+        }
+        // try to delete each of the payload objects we've stored
+        // because the transaction has been rolled back
+        log.fine("starting rollback handling for PayloadPersistenceResponse data");
+        for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
+            try {
+                log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
+                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(), 
+                        ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
+            } catch (Exception x) {
+                // Nothing more we can do other than log the issue. Any rows we can't process
+                // here (e.g. network outage) will be orphaned. These orphaned rows
+                // will be removed by the reconciliation process which scans the payload
+                // persistence repository and looks for missing RDBMS records.
+                log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+            }
+        }
+        
+        payloadPersistenceResponses.clear();
+    }
 
     /**
      * Factory function to create a new instance of the TransactionData implementation
@@ -2532,6 +2615,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
         java.time.Instant toLastModified, Function<ResourcePayload, Boolean> processor) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             // translator is required to handle some simple SQL syntax differences. This is easier
             // than creating separate DAO implementations for each database type
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
@@ -2552,13 +2636,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId,
-        String resourceTypeName) throws FHIRPersistenceException {
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
+            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
+            throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             // translator is required to handle some simple SQL syntax differences. This is easier
             // than creating separate DAO implementations for each database type
+            final List<Integer> resourceTypeIds;
+            if (resourceTypeNames != null && resourceTypeNames.size() > 0) {
+                // convert the list of type names to the corresponding list of resourceTypeId values
+                // the REST layer already has checked these names are valid, so no need to worry about failures
+                resourceTypeIds = resourceTypeNames.stream().map(n -> cache.getResourceTypeCache().getId(n)).collect(Collectors.toList());
+            } else {
+                resourceTypeIds = null; // no filter on resource type
+            }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceCount, resourceTypeName, fromLastModified, afterResourceId);
+            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), 
+                    resourceCount, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeIds, excludeTransactionTimeoutWindow,
+                    historySortOrder);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;
@@ -2576,10 +2672,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, translator, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache, rrd);
-            eraseDao.erase(eraseRecord, eraseDto);
+            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, translator, 
+                    schemaNameSupplier.getSchemaForRequestContext(connection), 
+                    connectionStrategy.getFlavor(), this.cache, rrd);
+            long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
+            
+            // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
+            if (isOffloadingSupported()) {
+                erasePayloads(eraseDao, eraseResourceGroupId);
+            } else {
+                // clean up the erased_resources records because they're no longer needed
+                eraseDao.clearErasedResourcesInGroup(eraseResourceGroupId);
+            }
+            
         } catch(FHIRPersistenceResourceNotFoundException e) {
             throw e;
         } catch(FHIRPersistenceException e) {
@@ -2610,6 +2718,42 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         return eraseRecord;
+    }
+
+    /**
+     * Delete all the offloaded payload entries which have been identified for deletion
+     * @param dao
+     * @param erasedResourceGroupId
+     */
+    private void erasePayloads(EraseResourceDAO dao, long erasedResourceGroupId) throws FHIRPersistenceException {
+        List<ErasedResourceRec> recs = dao.getErasedResourceRecords(erasedResourceGroupId);
+        for (ErasedResourceRec rec: recs) {
+            erasePayload(rec);
+        }
+        
+        // If the above loop completed without throwing an exception, we can safely
+        // remove all the records in the group. If an exception was thrown (because
+        // the offload persistence layer was not accessible), don't delete right now
+        // just in case we want the tx to commit anyway, allowing for async cleanup
+        // by the reconciliation process
+        dao.clearErasedResourcesInGroup(erasedResourceGroupId);
+    }
+
+    /**
+     * Erase the payload for the resource described by rec
+     * @param rec
+     */
+    private void erasePayload(ErasedResourceRec rec) throws FHIRPersistenceException {
+        String resourceType = cache.getResourceTypeNameCache().getName(rec.getResourceTypeId());
+        if (resourceType == null) {
+            throw new FHIRPersistenceException("Resource type not found in cache for resourceTypeId=" + rec.getResourceTypeId());
+        }
+        
+        // Note that if versionId is null, it means delete all known versions
+        // The resourcePayloadKey is always null here, because the intention
+        // for erase is to delete all instances of the record (in the rare case
+        // there may be orphaned records from failed transactions)
+        payloadPersistence.deletePayload(resourceType, rec.getResourceTypeId(), rec.getLogicalId(), rec.getVersionId(), null);
     }
 
     private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
@@ -2648,16 +2792,64 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws FHIRPersistenceException {
-        if (payloadPersistence != null) {
+    public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException {
+        if (isOffloadingSupported()) {
+            doCachePrefill(); // just in case we're called before any other database interaction (can happen)
             final String resourceTypeName = resource.getClass().getSimpleName();
-            int resourceTypeId = cache.getResourceTypeCache().getId(resourceTypeName);
+            int resourceTypeId = getResourceTypeId(resourceTypeName);
 
             // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
-            return payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resource);
+            PayloadPersistenceResponse response = payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
+
+            // register the response object so that we can clean up in case of a rollback later
+            this.payloadPersistenceResponses.add(response);
+            return response;
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null
             return null;
         }
+    }
+
+    /**
+     * Get the resource payload key value from the given context if offloading
+     * is supported and configured. Returns null otherwise.
+     * @param context
+     * @return
+     */
+    private String getResourcePayloadKeyFromContext(FHIRPersistenceContext context) {
+        return context.getOffloadResponse() == null ? null : context.getOffloadResponse().getResourcePayloadKey();
+    }
+
+    @Override
+    public List<Resource> readResourcesForRecords(List<ResourceChangeLogRecord> records) throws FHIRPersistenceException {
+        // TODO support async read from payloadPersistence after issue #2900 is merged.
+
+        // Make sure we read deleted resources...this is important because the result list must
+        // line up row-for-row with the provided records list
+        FHIRPersistenceContext readContext = FHIRPersistenceContextFactory.createPersistenceContext(null, true);
+        List<Resource> result = new ArrayList<>(records.size());
+        for (ResourceChangeLogRecord r: records) {
+            Class<? extends Resource> resourceType = ModelSupport.getResourceType(r.getResourceTypeName());
+            Resource resource = readResourceForRecord(readContext, r, resourceType);
+            
+            // We add the resource even if it's null because we want to keep the 
+            // list in alignment with the records list. A null might be returned
+            // if the resource has been erased (hard delete).
+            result.add(resource);
+        }
+        return result;
+    }
+ 
+    /**
+     * Read the resource version for the given ResourceChangeLogRecord
+     * @param <T>
+     * @param record
+     * @param resourceType
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private <T extends Resource> T readResourceForRecord(FHIRPersistenceContext context, ResourceChangeLogRecord record, Class<T> resourceType) throws FHIRPersistenceException {
+        SingleResourceResult<T> result = vread(context, resourceType, record.getLogicalId(), Integer.toString(record.getVersionId()));
+        return result.getResource();
     }
 }

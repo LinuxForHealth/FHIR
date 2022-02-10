@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,9 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.Response;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -107,7 +108,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken, jwt);
         }
     }
 
@@ -156,7 +157,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
 
         for (String resourceType : resourceTypes) {
-            checkSystemScopes(resourceType, neededPermission, scopesFromToken);
+            checkSystemScopes(resourceType, neededPermission, scopesFromToken, jwt);
         }
     }
 
@@ -173,27 +174,67 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         return new ArrayList<>(types);
     }
 
+    /**
+     * gets the supported resource types
+     * @return
+     */
+    private List<String> getSupportedResourceTypes() {
+        try {
+            List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
+            if (!rts.isEmpty()) {
+                return rts;
+            }
+        } catch (FHIRException e) {
+            log.throwing(this.getClass().getName(), "getSupportedResourceTypes", e);
+        }
+        return ModelSupport.getResourceTypes(false)
+                .stream()
+                .map(clz -> clz.getSimpleName())
+                .collect(Collectors.toList());
+    }
+
     private List<String> computeExportResourceTypes(FHIROperationContext context) {
+        List<String> supportedResourceTypes = getSupportedResourceTypes();
         List<String> resourceTypes = new ArrayList<>();
+        Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
+        Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_type".equals(p.getName().getValue())).findFirst();
         switch (context.getType()) {
         case INSTANCE:      // Group/:id/$export
         case RESOURCE_TYPE: // Patient/$export
             // Either way, the set resourceTypes to export are those from the Patient compartment
             try {
-                resourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+                List<String> compartmentResourceMembers = CompartmentUtil.getCompartmentResourceTypes(PATIENT);
+                if (typesParam.isPresent() && typesParam.get().getValue() != null) {
+                    String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
+                    for (String requestedType : Arrays.asList(typesString.split(","))) {
+                        if (!supportedResourceTypes.contains(requestedType)) {
+                            throw new IllegalStateException("Requested resource is not configured");
+                        }
+
+                        if (!compartmentResourceMembers.contains(requestedType)) {
+                            throw new IllegalStateException("Requested resource is outside of the Patient Compartment");
+                        }
+                        resourceTypes.add(requestedType);
+                    }
+                } else {
+                    resourceTypes = compartmentResourceMembers;
+                }
             } catch (FHIRSearchException e) {
                 throw new IllegalStateException("Unexpected error while computing the resource types for the export", e);
             }
             break;
         case SYSTEM:
-            Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
-            Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_type".equals(p.getName().getValue())).findFirst();
-            if (typesParam.isPresent()) {
+            if (typesParam.isPresent() && typesParam.get().getValue() != null) {
                 String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
                 resourceTypes = Arrays.asList(typesString.split(","));
+                for (String resourceType : resourceTypes) {
+                    if (!supportedResourceTypes.contains(resourceType)) {
+                        throw new IllegalStateException("Requested resource is not configured");
+                    }
+                }
             } else {
                 // "Resource" is used as a placeholder for the set of all resource types; equivalent to "*" in SMART
-                resourceTypes = Collections.singletonList("Resource");
+                resourceTypes = supportedResourceTypes;
             }
             break;
         default:
@@ -560,10 +601,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      *
      * @see #checkScopes(String, Permission, List)
      */
-    private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes) throws FHIRPersistenceInterceptorException {
+    private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         if (!isApprovedByScopes(resourceType, requiredPermission, systemScopes)) {
-            String msg = requiredPermission.value() + " permission for '" + resourceType +
-                    "' is not granted by any of the provided 'system/' scopes: " + systemScopes;
+            String msg = requiredPermission.value() + " permission for '" + resourceType
+                    + "' is not granted by any of the provided 'system/' scopes: " + systemScopes
+                    + " requested scopes: " + getScopesFromToken(jwt);
             if (log.isLoggable(Level.FINE)) {
                 log.fine(msg);
             }

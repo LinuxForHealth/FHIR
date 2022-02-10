@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,14 +20,10 @@ import com.datastax.oss.driver.api.querybuilder.select.Select;
 import com.ibm.fhir.persistence.cassandra.cql.CqlDataUtil;
 
 /**
- * Reads the current version number of a resource. This is used
- * during ingestion so that we can track version history.
+ * Reads the current version number of a resource.
  */
 public class CqlGetCurrentVersion {
     private static final Logger logger = Logger.getLogger(CqlGetCurrentVersion.class.getName());
-
-    // The partition_id key value
-    private final String partitionId;
 
     // The resource_type_id key value
     private final int resourceTypeId;
@@ -37,14 +33,11 @@ public class CqlGetCurrentVersion {
 
     /**
      * Public constructor
-     * @param partitionId
      * @param resourceTypeId
      * @param logicalId
      */
-    public CqlGetCurrentVersion(String partitionId, int resourceTypeId, String logicalId) {
-        CqlDataUtil.safeId(partitionId);
+    public CqlGetCurrentVersion(int resourceTypeId, String logicalId) {
         CqlDataUtil.safeId(logicalId);
-        this.partitionId = partitionId;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
     }
@@ -57,14 +50,11 @@ public class CqlGetCurrentVersion {
     public int run(CqlSession session) {
         int result;
 
-        // Firstly, look up the payload_id for the latest version of the resource. The table
-        // is already ordered by version DESC so we don't need to do any explicit order by to
-        // get the most recent version. Simply picking the first row which matches the given
-        // resourceType/logicalId is sufficient.
+        // The resource_versions table is already ordered by version DESC so we don't need 
+        // to do any explicit order by to get the most recent version.
         Select statement =
-                selectFrom("logical_resources")
+                selectFrom("resource_versions")
                 .column("version")
-                .whereColumn("partition_id").isEqualTo(literal(partitionId))
                 .whereColumn("resource_type_id").isEqualTo(literal(resourceTypeId))
                 .whereColumn("logical_id").isEqualTo(bindMarker())
                 .limit(1)

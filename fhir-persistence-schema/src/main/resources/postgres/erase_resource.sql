@@ -13,6 +13,7 @@
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR(  36),
       IN p_logical_id                   VARCHAR( 255),
+      IN p_erased_resource_group_id     BIGINT,
       OUT o_deleted                     BIGINT)
     RETURNS BIGINT
     LANGUAGE plpgsql
@@ -52,6 +53,13 @@ BEGIN
     || '    FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES'
     || '    WHERE LOGICAL_RESOURCE_ID = $1)'
     USING v_logical_resource_id;
+    
+    -- Step 1.1: Record the versions we need to delete if we are doing payload offload
+    EXECUTE 'INSERT INTO {{SCHEMA_NAME}}.erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) ' 
+        || '      SELECT $1, $2, $3, version_id '
+        || '        FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES '
+        || '       WHERE LOGICAL_RESOURCE_ID = $4 '
+    USING p_erased_resource_group_id, v_resource_type_id, p_logical_id, v_logical_resource_id;
 
     -- Step 2: Delete All Versions from Resources Table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'

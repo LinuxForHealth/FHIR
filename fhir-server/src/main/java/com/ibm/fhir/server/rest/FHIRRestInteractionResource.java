@@ -9,6 +9,7 @@ package com.ibm.fhir.server.rest;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
@@ -26,6 +27,9 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
 
     // The previous resource (e.g. if read from the database
     private Resource prevResource;
+    
+    // The response from payload persistence when offloading
+    private PayloadPersistenceResponse offloadResponse;
 
     /**
      * Protected constructor
@@ -36,11 +40,10 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      */
     protected FHIRRestInteractionResource(int entryIndex, FHIRPersistenceEvent event, Resource newResource,
-            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
-        super(entryIndex, requestDescription, requestURL, initialTime);
+            Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL) {
+        super(entryIndex, requestDescription, requestURL);
         this.event = event;
         this.newResource = newResource;
         this.validationResponseEntry = validationResponseEntry;
@@ -90,5 +93,19 @@ public abstract class FHIRRestInteractionResource extends FHIRRestInteractionBas
      */
     public FHIRPersistenceEvent getEvent() {
         return event;
+    }
+
+    /**
+     * @return the offloadResponse
+     */
+    public PayloadPersistenceResponse getOffloadResponse() {
+        return offloadResponse;
+    }
+
+    /**
+     * @param offloadResponse the offloadResponse to set
+     */
+    public void setOffloadResponse(PayloadPersistenceResponse offloadResponse) {
+        this.offloadResponse = offloadResponse;
     }
 }

@@ -2,8 +2,8 @@
 layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
-Copyright: years 2017, 2021
-lastupdated: "2021-12-03"
+Copyright: years 2017, 2022
+lastupdated: "2022-02-09"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -123,6 +123,14 @@ The IBM FHIR Server is configured using Environment variables using:
 | Environment Variable | Description |
 |----------------------|-------------|
 |`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+
+*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+
+```
+docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
+  -v $(pwd)/jvm-dev.options:/config/configDropins/default/jvm.options \
+  ibmcom/ibm-fhir-server
+```
 
 # 3 Configuration
 This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
@@ -1257,7 +1265,7 @@ It is also possible to configure the persistence properties for a specific tenan
 database hostname or database schema name.
 
 ## 4.10 Bulk data operations
-The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
+The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 There are 2 modules involved:
 
@@ -1337,7 +1345,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1512,7 +1519,6 @@ Example of `path` based access:
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1554,7 +1560,6 @@ Example of `host` based access:
                 "accessKeyId": "example",
                 "secretAccessKey": "example-password"
             },
-            "enableParquet": false,
             "disableBaseUrlValidation": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -1610,15 +1615,6 @@ This feature is useful for imports which follow a prefix pattern:
 
 ### 4.10.3 Integration Testing
 To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-db2.json` which specifies two storageProviders.
-
-### 4.10.4 Export to Parquet
-Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
-
-To enable export to parquet, an administrator must:
-1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp by dropping the necessary jar files under `fhir-server/userlib` directory; and
-2. set the `/fhirServer/bulkdata/storageProviders/(source)/enableParquet` config property to `true`
-
-An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
 
 ### 4.10.5 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
@@ -2232,7 +2228,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory. It is recommended this path is not the mount point of a volume. For instance, if a volume is mounted to /output/bulkdata, use /output/bulkdata/data to ensure a failed mount does not result in writing to the root file system.|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
@@ -2248,12 +2243,13 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/auth/connection`|string|For Azure Blob Service, the connection string is used|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|string| The s3 access type, `host` or `path` (s3 only) [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)|
-|`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|boolean|controls the `$bulkdata-status` response to indicate Bulk Data storageprovider requires an accessToken using `requiresAccessToken`.|
+|`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|boolean|controls the `$bulkdata-status` response to indicate Bulk Data storageprovider requires an accessToken using `requiresAccessToken`. When presigned URLs are enabled, this setting is overridden and shows as false in the $export response.|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 |`fhirServer/operations/membermatch/enabled`|boolean|Enables or disables the $member-match|
 |`fhirServer/operations/membermatch/strategy`|string|The key identifying the Member Match strategy|
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
+|`fhirServer/operations/everything/includeTypes`|list|The list of related resources to retrieve, allowed entries are `Location`, `Medication`, `Organization`, and `Practitioner`|
 
 
 ### 5.1.2 Default property values
@@ -2363,7 +2359,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
-|`fhirServer/bulkdata/enableParquet`|false|
 |`fhirServer/bulkdata/ignoreImportOutcomes`|false|
 |`fhirServer/bulkdata/enabled`|true |
 |`fhirServer/bulkdata/core/api/trustAll`|false|
@@ -2386,7 +2381,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
 |`fhirServer/bulkdata/core/enableSkippableUpdates`|true|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
@@ -2399,6 +2393,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/enabled`|true|
 |`fhirServer/operations/membermatch/strategy`|default|
 |`fhirServer/operations/membermatch/extendedProps`|empty|
+|`fhirServer/operations/everything/includeTypes`|null|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2554,7 +2549,6 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|Y|Y|
@@ -2576,6 +2570,7 @@ must restart the server for that change to take effect.
 |`fhirServer/operations/membermatch/enabled`|Y|Y|
 |`fhirServer/operations/membermatch/strategy`|Y|Y|
 |`fhirServer/operations/membermatch/extendedProps`|Y|Y|
+|`fhirServer/operations/everything/includeTypes`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 

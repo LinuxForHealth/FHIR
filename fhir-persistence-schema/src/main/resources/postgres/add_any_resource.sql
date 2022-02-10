@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020, 2021
+-- (C) Copyright IBM Corp. 2020, 2022
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -28,6 +28,7 @@
 -- Exceptions:
 --   SQLSTATE 99001: on version conflict (concurrency)
 --   SQLSTATE 99002: missing expected row (data integrity)
+--   SQLSTATE 99004: delete a currently deleted resource (data integrity)
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
@@ -38,6 +39,7 @@
       IN p_version                           INT,
       IN p_parameter_hash_b64            VARCHAR( 44),
       IN p_if_none_match                     INT,
+      IN p_resource_payload_key          VARCHAR( 36),
       OUT o_logical_resource_id           BIGINT,
       OUT o_current_parameter_hash       VARCHAR( 44),
       OUT o_interaction_status               INT,
@@ -143,6 +145,12 @@ BEGIN
       RAISE 'Concurrent update - mismatch of version in JSON' USING ERRCODE = '99001';
     END IF;
 
+    -- Prevent creating a new deletion marker if the resource is currently deleted
+    IF v_currently_deleted = 'Y' AND p_is_deleted = 'Y'
+    THEN
+      RAISE 'Unexpected attempt to delete a Resource which is currently deleted' USING ERRCODE = '99004';
+    END IF;
+
     IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash
     THEN
 	    -- existing resource, so need to delete all its parameters (select because it's a function, not a procedure)
@@ -153,9 +161,9 @@ BEGIN
   END IF; -- end if existing resource
 
   EXECUTE
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
-      || ' VALUES ($1, $2, $3, $4, $5, $6)'
-    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
+      || ' VALUES ($1, $2, $3, $4, $5, $6, $7)'
+    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
 
   
   IF v_new_resource = 0 THEN

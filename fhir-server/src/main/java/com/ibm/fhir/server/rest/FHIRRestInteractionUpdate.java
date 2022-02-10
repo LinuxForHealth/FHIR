@@ -36,7 +36,6 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
      * @param validationResponseEntry
      * @param requestDescription
      * @param requestURL
-     * @param initialTime
      * @param type
      * @param id
      * @param newResource
@@ -47,10 +46,10 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
      * @param ifNoneMatch
      */
     public FHIRRestInteractionUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry,
-            String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id,
+            String requestDescription, FHIRUrlParser requestURL, String type, String id,
             Resource newResource, String ifMatchValue, String searchQueryString, boolean skippableUpdate,
             String localIdentifier, Integer ifNoneMatch) {
-        super(entryIndex, event, newResource, validationResponseEntry, requestDescription, requestURL, initialTime);
+        super(entryIndex, event, newResource, validationResponseEntry, requestDescription, requestURL);
         this.type = type;
         this.id = id;
         this.ifMatchValue = ifMatchValue;
@@ -61,11 +60,12 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
     }
 
     @Override
-    public void accept(FHIRRestInteractionVisitor visitor) throws Exception {
+    public void process(FHIRRestInteractionVisitor visitor) throws Exception {
 
         FHIRRestOperationResponse result = visitor.doUpdate(getEntryIndex(), getEvent(), getValidationResponseEntry(),
-                getRequestDescription(), getRequestURL(), getInitialTime(), type, id, getNewResource(),
-                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted, ifNoneMatch);
+                getRequestDescription(), getRequestURL(), getAccumulatedTime(), type, id, getNewResource(),
+                getPrevResource(), ifMatchValue, searchQueryString, skippableUpdate, localIdentifier, getWarnings(), deleted, ifNoneMatch,
+                getOffloadResponse());
 
         // update the resource so we can use it when called in the next processing phase
         if (result != null) {
@@ -76,7 +76,11 @@ public class FHIRRestInteractionUpdate extends FHIRRestInteractionResource {
             if (result.getPrevResource() != null) {
                 setPrevResource(result.getPrevResource());
             }
-            
+
+            if (result.getStorePayloadResponse() != null) {
+                setOffloadResponse(result.getStorePayloadResponse());
+            }
+
             // Record the deletion status so we can return the correct response when undeleting
             this.deleted = result.isDeleted();
         }

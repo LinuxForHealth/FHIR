@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,8 @@ import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
@@ -54,6 +55,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -1982,8 +1984,10 @@ public class FHIRRestHelperTest {
                     .build())
                 .build();
 
-        // Process bundle
-        Bundle responseBundle = helper.createSearchResponseBundle(Arrays.asList(null, patientNoId), context, "Patient");
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
+        resourceResults.add(ResourceResult.builder().build());
+        resourceResults.add(ResourceResult.builder().resource(patientNoId).build());
+        Bundle responseBundle = helper.createSearchResponseBundle(resourceResults, context, "Patient");
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1994,6 +1998,53 @@ public class FHIRRestHelperTest {
         assertEquals("A resource with no data was found.", operationOutcome.getIssue().get(0).getDetails().getText().getValue());
         assertEquals("A resource with no id was found.", operationOutcome.getIssue().get(1).getDetails().getText().getValue());
     }
+
+    /**
+     * Ensure delete event contains the required resources.
+     */
+    @Test
+    public void testResourcesInDeleteEvent() throws Exception {
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+            @Override
+            public void beforeDelete(FHIRPersistenceEvent event) {
+                assertNotNull(event.getPrevFhirResource());
+                assertNotNull(event.getFhirResource());
+            }
+
+            @Override
+            public void afterDelete(FHIRPersistenceEvent event) {
+                assertNotNull(event.getPrevFhirResource());
+                assertNotNull(event.getFhirResource());
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id("123")
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        // Call doDelete, the interceptor will check if the events are set
+        helper.doDelete("Patient", "123", null);
+    }
+
 
     /**
      * Test an interceptor that modifies the resource
@@ -2053,18 +2104,18 @@ public class FHIRRestHelperTest {
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
         // when(persistence.create(any(), any())).thenReturn(mockResult);
-        when(persistence.createWithMeta(any(), any())).thenReturn(mockResult);
-        when(persistence.updateWithMeta(any(), any())).thenReturn(mockResult);
+        when(persistence.create(any(), any())).thenReturn(mockResult);
+        when(persistence.update(any(), any())).thenReturn(mockResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence);
 
         // The helper must pass the resource updated by the interceptor to the persistence#create method
         ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
         helper.doCreate("Patient", patientNoId, null);
-        Mockito.verify(persistence).createWithMeta(any(), patientCaptor.capture());
+        Mockito.verify(persistence).create(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
 
         helper.doUpdate("Patient", "123", patientWithId, null, null, false, null);
-        Mockito.verify(persistence).updateWithMeta(any(), patientCaptor.capture());
+        Mockito.verify(persistence).update(any(), patientCaptor.capture());
         assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
     }
 

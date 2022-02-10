@@ -27,7 +27,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         assertFalse(adapter.hasBegun());
         adapter.begin();
         assertTrue(adapter.hasBegun());
@@ -42,7 +42,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();
@@ -62,7 +62,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -82,7 +82,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -107,7 +107,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -135,11 +135,11 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
@@ -167,7 +167,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         assertFalse(adapter.hasBegun());
         adapter.begin();
         assertTrue(adapter.hasBegun());
@@ -177,7 +177,7 @@ public class FHIRUserTransactionAdapterTest {
         assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
 
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         nested.begin();
         assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
@@ -212,14 +212,14 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
 
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         adapter.setRollbackOnly();
         assertTrue(adapter.hasBegun());
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
         // now try and start a nested transaction
-        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter nested = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         nested.begin();
         assertEquals(tx.getStatus(), Status.STATUS_MARKED_ROLLBACK);
 
@@ -248,7 +248,7 @@ public class FHIRUserTransactionAdapterTest {
         MockUserTransaction tx = new MockUserTransaction();
         MockTransactionSynchronizationRegistry sync = new MockTransactionSynchronizationRegistry();
         assertEquals(tx.getStatus(), Status.STATUS_NO_TRANSACTION);
-        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null);
+        FHIRUserTransactionAdapter adapter = new FHIRUserTransactionAdapter(tx, sync, null, null, null);
         adapter.begin();
         assertEquals(tx.getStatus(), Status.STATUS_ACTIVE);
         adapter.end();

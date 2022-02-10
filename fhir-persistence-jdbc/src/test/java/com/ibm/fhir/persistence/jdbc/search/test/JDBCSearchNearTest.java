@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,6 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
@@ -111,7 +110,7 @@ public class JDBCSearchNearTest {
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 
         SingleResourceResult<Location> result =
-                persistence.createWithMeta(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
+                persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
         assertTrue(result.isSuccess());
         assertNotNull(result.getResource());
         savedResource = result.getResource();
@@ -125,10 +124,10 @@ public class JDBCSearchNearTest {
                 persistence.getTransaction().begin();
             }
 
-            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
+            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
-            persistence.delete(persistenceContext, Location.class, savedResource.getId());
+            persistence.delete(persistenceContext, savedResource);
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
             }
@@ -136,7 +135,7 @@ public class JDBCSearchNearTest {
         FHIRRequestContext.get().setTenantId("default");
     }
 
-    public MultiResourceResult<Resource> runQueryTest(String searchParamCode, String queryValue) throws Exception {
+    public MultiResourceResult runQueryTest(String searchParamCode, String queryValue) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         if (searchParamCode != null && queryValue != null) {
             queryParms.put(searchParamCode, Collections.singletonList(queryValue));
@@ -144,7 +143,7 @@ public class JDBCSearchNearTest {
         return runQueryTest(queryParms);
     }
 
-    public MultiResourceResult<Resource> runQueryTestMultiples(String searchParamCode, String... queryValues)
+    public MultiResourceResult runQueryTestMultiples(String searchParamCode, String... queryValues)
             throws Exception {
         Map<String, List<String>> queryParms = new LinkedHashMap<String, List<String>>(queryValues.length);
         for (String queryValue : queryValues) {
@@ -156,10 +155,10 @@ public class JDBCSearchNearTest {
         return runQueryTest(queryParms);
     }
 
-    public MultiResourceResult<Resource> runQueryTest(Map<String, List<String>> queryParms) throws Exception {
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true);
+    public MultiResourceResult runQueryTest(Map<String, List<String>> queryParms) throws Exception {
+        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
-        MultiResourceResult<Resource> result = persistence.search(persistenceContext, Location.class);
+        MultiResourceResult result = persistence.search(persistenceContext, Location.class);
         return result;
     }
 
@@ -183,9 +182,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "42.25475478|-83.6945691|10.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertFalse(result.getResource().size() == 0);
+        assertFalse(result.getResourceResults().size() == 0);
         assertNull(result.getOutcome());
     }
 
@@ -195,9 +194,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "42.25475478|0|10000.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertNotEquals(result.getResource().size(), 0);
+        assertNotEquals(result.getResourceResults().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -207,9 +206,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "42.0|-83.0|500.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertNotEquals(result.getResource().size(), 0);
+        assertNotEquals(result.getResourceResults().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -219,9 +218,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "-83.0|42.0|1.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test
@@ -230,9 +229,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "-79|40|523.3|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test
@@ -243,9 +242,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "40|-79|1046.6|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertNotEquals(result.getResource().size(), 0);
+        assertNotEquals(result.getResourceResults().size(), 0);
     }
 
     @Test
@@ -254,9 +253,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "42.25475478|-83.6945691|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertNotEquals(result.getResource().size(), 0);
+        assertNotEquals(result.getResourceResults().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -267,9 +266,9 @@ public class JDBCSearchNearTest {
         String queryValue1 = "42.25475478|-83.6945691|0.0|km";
         String queryValue2 = "42.25475478|-83.6945691|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTestMultiples(searchParamCode, queryValue1, queryValue2);
+        MultiResourceResult result = runQueryTestMultiples(searchParamCode, queryValue1, queryValue2);
         assertNotNull(result);
-        assertNotEquals(result.getResource().size(), 0);
+        assertNotEquals(result.getResourceResults().size(), 0);
         assertNull(result.getOutcome());
     }
 
@@ -279,9 +278,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "83.6945691|-42.25475478|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertEquals(result.getResource().size(), 0);
+        assertEquals(result.getResourceResults().size(), 0);
     }
 
     @Test
@@ -290,9 +289,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "42.25475478|-83.6945691|0.0|mi_us";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertFalse(result.getResource().size() == 0);
+        assertFalse(result.getResourceResults().size() == 0);
         assertNull(result.getOutcome());
     }
 
@@ -302,9 +301,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "ap83.6945691|-42.25475478|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test(expectedExceptions = { FHIRPersistenceException.class })
@@ -313,9 +312,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "-42.25475478|FUDGESHOULDNOTMATCH|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test(expectedExceptions = { FHIRPersistenceException.class })
@@ -324,9 +323,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "FUDGESHOULDNOTMATCH|-42.25475478|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test(expectedExceptions = { FHIRPersistenceException.class })
@@ -335,9 +334,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "-42.25475478|-42.25475478|FUDGESHOULDNOTMATCH|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test(expectedExceptions = { FHIRPersistenceException.class })
@@ -346,9 +345,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "-42.25475478|-42.25475478|0.0|FUDGESHOULDNOTMATCH";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertTrue(result.getResource().size() == 0);
+        assertTrue(result.getResourceResults().size() == 0);
     }
 
     @Test
@@ -357,9 +356,9 @@ public class JDBCSearchNearTest {
         String searchParamCode = "near";
         String queryValue = "eq42.25475478|-83.6945691|0.0|km";
 
-        MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        MultiResourceResult result = runQueryTest(searchParamCode, queryValue);
         assertNotNull(result);
-        assertFalse(result.getResource().size() == 0);
+        assertFalse(result.getResourceResults().size() == 0);
         assertNull(result.getOutcome());
     }
 }

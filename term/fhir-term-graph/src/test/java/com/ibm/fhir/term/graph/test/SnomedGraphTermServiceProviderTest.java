@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,9 @@ import com.ibm.fhir.model.type.code.CodeSystemContentMode;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 
+/**
+ * Tests for Snomed and Graph
+ */
 public class SnomedGraphTermServiceProviderTest {
     public static void main(String[] args) throws Exception {
         CodeSystem codeSystem = CodeSystem.builder()

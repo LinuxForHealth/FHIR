@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,10 +21,16 @@ import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 
+/**
+ * Helper class to test with Berkley and Cassandra and JanusGraph
+ */
 public class FHIRTermGraphTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void main(String[] args) throws Exception {
-        FHIRTermGraph graph = FHIRTermGraphFactory.open("conf/janusgraph-berkeleyje-lucene.properties");
+        // Use the following configurations:
+        // Cassandra: conf/janusgraph-cassandra-elasticsearch.properties for cassandra
+        // Berkley:   conf/janusgraph-berkeleyje-lucene.properties for Berkley
+        FHIRTermGraph graph = FHIRTermGraphFactory.open("conf/janusgraph-cassandra-elasticsearch.properties");
 
         GraphTraversalSource g = graph.traversal();
 
@@ -70,7 +76,7 @@ public class FHIRTermGraphTest {
         System.out.println("");
 
         // Descendants of 'a' and self
-        g.V().has("code", "a").union(__.identity(), g.V().has("code", "a")
+        g.V().has("code", "a").union(__.identity(), __.in().has("code", "a")
                 .repeat(__.in("isa")
                     .simplePath()
                     .dedup())
@@ -82,12 +88,15 @@ public class FHIRTermGraphTest {
         System.out.println("");
 
         // Descendants of 'b' and self
-        g.V().has("code", "b").union(__.identity(),
-            g.V().has("code", "b")
-                .repeat(__.in("isa")
-                    .simplePath()
-                    .dedup())
-                .emit())
+        g.V().has("code", "b")
+            .union(
+                __.identity(),
+                __.in()
+                    .has("code", "b")
+                    .repeat(__.in("isa")
+                        .simplePath()
+                        .dedup())
+                    .emit())
             .elementMap()
             .toStream()
             .forEach(System.out::println);
@@ -96,8 +105,8 @@ public class FHIRTermGraphTest {
 
         // Union of 'a', 'b', and 'c'
         g.V().has("code", "a").union(__.identity(),
-                g.V().has("code", "b"),
-                g.V().has("code", "c"))
+                __.in().has("code", "b"),
+                __.in().has("code", "c"))
             .elementMap()
             .toStream()
             .forEach(System.out::println);
@@ -134,5 +143,6 @@ public class FHIRTermGraphTest {
         g.V().not(__.out("property_").has("code", "someCode")).hasLabel("Concept").elementMap().toStream().forEach(System.out::println);
 
         graph.close();
+        graph = null; // Completes the closing of the Graph
     }
 }

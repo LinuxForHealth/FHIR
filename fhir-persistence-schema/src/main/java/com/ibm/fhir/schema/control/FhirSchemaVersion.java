@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.schema.control;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Tracks the incremental changes to the FHIR schema as it evolves. Incremental
@@ -41,6 +42,9 @@ public enum FhirSchemaVersion {
     ,V0020(20, "issue-1834 Set PostgreSQL fillfactor", true)
     ,V0021(21, "issue-713 remove Resource_LOGICAL_RESOURCES, DomainResource_LOGICAL_RESOURCES tables", false)
     ,V0022(22, "issue-2979 stored procedure update for 2050 ifNoneMatch", false)
+    ,V0023(23, "issue-2900 erased_resources to support $erase when offloading payloads", false)
+    ,V0024(24, "issue-2900 for offloading add resource_payload_key to xx_resources", false)
+    ,V0025(25, "issue-3158 stored proc updates to prevent deleting currently deleted resources", false)
     ;
 
     // The version number recorded in the VERSION_HISTORY
@@ -102,5 +106,16 @@ public enum FhirSchemaVersion {
                 .sorted(Comparator.comparing(FhirSchemaVersion::vid).reversed())
                 .findFirst();
         return version.isPresent() ? version.get() : null;
+    }
+    
+    /**
+     * Get the max FhirSchemaVersion based on vid
+     * @return
+     */
+    public static FhirSchemaVersion getLatestFhirSchemaVersion() {
+        Optional<FhirSchemaVersion> maxVersion = Stream.of(FhirSchemaVersion.values()).max((l,r) -> {
+            return Integer.compare(l.vid(), r.vid());
+        });
+        return maxVersion.get();
     }
 }

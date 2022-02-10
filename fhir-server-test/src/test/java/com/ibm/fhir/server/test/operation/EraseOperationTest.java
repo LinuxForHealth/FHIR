@@ -225,16 +225,17 @@ public class EraseOperationTest extends FHIRServerTestBase {
     private void eraseResourceByVersion(String resourceType, String logicalId, Integer version, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
         Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg, Optional.of(version)), FHIRMediaType.APPLICATION_FHIR_JSON);
 
+        final String requestPath = "/" + resourceType + "/" + logicalId + "/$erase";
         Response r = getWebTarget()
-            .path("/" + resourceType + "/" + logicalId + "/$erase")
+            .path(requestPath)
             .request(FHIRMediaType.APPLICATION_FHIR_JSON)
             .header("X-FHIR-TENANT-ID", "default")
             .header("X-FHIR-DSID", "default")
             .post(entity, Response.class);
         if (error) {
-            assertEquals(r.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+            assertEquals(r.getStatus(), Response.Status.BAD_REQUEST.getStatusCode(), requestPath);
         } else {
-            assertEquals(r.getStatus(), Response.Status.OK.getStatusCode());
+            assertEquals(r.getStatus(), Response.Status.OK.getStatusCode(), requestPath);
         }
     }
 
@@ -409,12 +410,13 @@ public class EraseOperationTest extends FHIRServerTestBase {
      */
     private void checkResourceHistoryDoesNotExist(String resourceType, String logicalId, Integer version) {
         WebTarget target = getWebTarget();
-        target = target.path("/" + resourceType + "/" + logicalId + "/_history/" + version);
+        final String resourcePath = "/" + resourceType + "/" + logicalId + "/_history/" + version;
+        target = target.path(resourcePath);
         Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "default")
                 .header("X-FHIR-DSID", "default")
                 .get(Response.class);
-        assertEquals(r.getStatus(), Status.NOT_FOUND.getStatusCode());
+        assertEquals(r.getStatus(), Status.NOT_FOUND.getStatusCode(), resourcePath);
     }
 
     /**

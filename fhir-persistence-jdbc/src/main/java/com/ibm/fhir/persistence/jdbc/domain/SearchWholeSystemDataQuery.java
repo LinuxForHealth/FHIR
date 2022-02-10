@@ -14,18 +14,22 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * this class fetches the resource data for whole system searches.
  */
 public class SearchWholeSystemDataQuery extends SearchQuery {
+    
+    // The database resource_type_id matching the resourceType of this sub-query
+    final int resourceTypeId;
 
     /**
      * Public constructor
      * @param resourceType
      */
-    public SearchWholeSystemDataQuery(String resourceType) {
+    public SearchWholeSystemDataQuery(String resourceType, int resourceTypeId) {
         super(resourceType);
+        this.resourceTypeId = resourceTypeId;
     }
 
     @Override
     public <T> T getRoot(SearchQueryVisitor<T> visitor) {
-        return visitor.wholeSystemDataRoot(getRootResourceType());
+        return visitor.wholeSystemDataRoot(getRootResourceType(), this.resourceTypeId);
     }
 
     @Override
@@ -41,7 +45,7 @@ public class SearchWholeSystemDataQuery extends SearchQuery {
         visitExtensions(query, visitor);
 
         // Join the core logical resource selection to the resource versions table
-        query = visitor.joinResources(query);
+        query = visitor.joinResources(query, INCLUDE_RESOURCE_TYPE_ID);
 
         return query;
     }

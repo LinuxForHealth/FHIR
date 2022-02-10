@@ -16,5 +16,5 @@ public interface FHIRPayloadPartitionStrategy {
      * Ask for the partition name from this strategy
      * @return
      */
-    String getPartitionName();
+    String getPartitionName(String resourceType, String logicalId);
 }

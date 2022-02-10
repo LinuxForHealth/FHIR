@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.ibm.fhir.cql.helpers.LibraryHelper;
+import com.ibm.fhir.ecqm.r4.MeasureHelper;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
@@ -47,7 +48,8 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
             throw new IllegalArgumentException(String.format("Unexpected number of libraries '%d' referenced by measure '%s'", numLibraries, measure.getId()));
         }
 
-        Library primaryLibrary = FHIRRegistry.getInstance().getResource(measure.getLibrary().get(0).getValue(), Library.class);
+        String primaryLibraryId = MeasureHelper.getPrimaryLibraryId(measure);
+        Library primaryLibrary = OperationHelper.loadLibraryByReference(resourceHelper, primaryLibraryId);
         List<Library> fhirLibraries = LibraryHelper.loadLibraries(primaryLibrary);
 
         RelatedArtifact related = RelatedArtifact.builder().type(RelatedArtifactType.DEPENDS_ON).resource(measure.getLibrary().get(0)).build();

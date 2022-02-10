@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ package com.ibm.fhir.server.spi.operation;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -25,7 +24,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -134,10 +133,11 @@ public interface FHIRResourceHelpers {
      * @param event
      * @param warnings
      * @param resource
+     * @param offloadResponse
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception;
+    FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * 1st phase of update interaction.
@@ -168,11 +168,12 @@ public interface FHIRResourceHelpers {
      * @param warnings
      * @param isDeleted
      * @param ifNoneMatch
+     * @param offloadResponse
      * @return
      * @throws Exception
      */
     public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch,
-        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception;
+        Resource newResource, Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception;
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
@@ -381,7 +382,30 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
+    default Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+        // whole system history without any resource type filter
+        return doHistory(queryParameters, requestUri, null);
+    }
+
+    /**
+     * Implement the system level history operation to obtain a list of changes to resources
+     * with an optional resourceType which supports for example [base]/Patient/_history
+     * requests to return the complete history of changes filtered to a specific resource type.
+     * Because the resource type is included in the path, this variant allows only a single 
+     * resource type to be specified. To obtain history for more than one resource type, the
+     * [base]/_history whole system history endpoint should be used instead with a list of
+     * resource types specified using the _type query parameter.
+     *
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     *            the request URI
+     * @param resourceType
+     *            optional resourceType to filter the history
+     * @return a Bundle containing the history of the specified Resource
+     * @throws Exception
+     */
+    Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception;
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
@@ -421,11 +445,13 @@ public interface FHIRResourceHelpers {
      *            the resource context
      * @param checkIfInteractionAllowed
      *            if true, check that the search interaction is permitted
+     * @param alwaysIncludeResources
+     *            if true, ignore any return preference and always include the resource in the search result bundle
      * @return a Bundle containing the search result set
      * @throws Exception
      */
     Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
-        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed) throws Exception;
+        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResources) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.
@@ -517,9 +543,10 @@ public interface FHIRResourceHelpers {
      * @param resource the resource to store (with correct Meta fields)
      * @param logicalId the logical id of the resource
      * @param newVersionNumber the version number to use
-     * @return a Future response to the payload store operation, or null if it is not supported
+     * @param resourcePayloadKey the key used to tie the RDBMS record with the offload record
+     * @return a response to the payload store operation, or null if it is not supported
      */
-    Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception;
 
     /**
      * Validate a resource. First validate profile assertions for the resource if configured to do so,

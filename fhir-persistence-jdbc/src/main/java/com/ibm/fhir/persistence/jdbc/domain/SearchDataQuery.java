@@ -14,12 +14,14 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * this class fetches the data and handles pagination
  */
 public class SearchDataQuery extends SearchQuery {
-    
     // Is sorting required?
     boolean addSorting = true;
     
     // Is pagination required?
     boolean addPagination = true;
+    
+    int resourceTypeId = -1;
+    
 
     /**
      * Public constructor
@@ -35,15 +37,16 @@ public class SearchDataQuery extends SearchQuery {
      * @param addSorting
      * @param addPagination
      */
-    public SearchDataQuery(String resourceType, boolean addSorting, boolean addPagination) {
+    public SearchDataQuery(String resourceType, boolean addSorting, boolean addPagination, int resourceTypeId) {
         super(resourceType);
+        this.resourceTypeId = resourceTypeId;
         this.addSorting = addSorting;
         this.addPagination = addPagination;
     }
 
     @Override
     public <T> T getRoot(SearchQueryVisitor<T> visitor) {
-        return visitor.dataRoot(getRootResourceType());
+        return visitor.dataRoot(getRootResourceType(), resourceTypeId);
     }
 
     @Override
@@ -53,7 +56,8 @@ public class SearchDataQuery extends SearchQuery {
         T query = super.visit(visitor);
 
         // Join the core logical resource selection to the resource versions table
-        query = visitor.joinResources(query);
+        final boolean includeResourceTypeId = this.resourceTypeId >= 0;
+        query = visitor.joinResources(query, includeResourceTypeId);
 
         // now attach the requisite ordering and pagination clauses
         if (addSorting) {

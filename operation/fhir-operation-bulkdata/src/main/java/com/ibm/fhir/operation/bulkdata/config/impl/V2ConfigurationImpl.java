@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -136,11 +136,6 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
-    public boolean isStorageProviderParquetEnabled(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/enableParquet", Boolean.FALSE);
-    }
-
-    @Override
     public boolean shouldStorageProviderValidateBaseUrl(String provider) {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableBaseUrlValidation", Boolean.FALSE);
     }
@@ -174,6 +169,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean getStorageProviderUsesRequestAccessToken(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/requiresAccessToken", Boolean.FALSE);
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/requiresAccessToken", Boolean.FALSE)
+                && !isStorageProviderHmacPresigned(provider);
     }
 }

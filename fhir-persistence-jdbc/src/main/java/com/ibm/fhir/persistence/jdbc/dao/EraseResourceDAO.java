@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +21,14 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
+import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
@@ -47,11 +53,14 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     private static final String CLASSNAME = EraseResourceDAO.class.getSimpleName();
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
-    private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?)}";
-    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?)";
+    private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?, ?)}";
+    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?, ?)";
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
+
+    // The name of the admin schema where we find the SV_TENANT_ID variable
+    private final String adminSchemaName;
 
     private ResourceEraseRecord eraseRecord;
     private EraseDTO eraseDto;
@@ -60,15 +69,17 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * Public constructor
      *
      * @param conn
+     * @param adminSchemaName
      * @param translator
      * @param schemaName
      * @param flavor
      * @param cache
      * @param rrd
      */
-    public EraseResourceDAO(Connection conn, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
+    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
             IResourceReferenceDAO rrd) {
         super(conn, schemaName, flavor, cache, rrd);
+        this.adminSchemaName = adminSchemaName;
         this.translator = translator;
     }
 
@@ -76,16 +87,18 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * Execute the stored procedure/function to erase the content.
      *
      * @param callStr the sql that should be executed
+     * @param erasedResourceGroupId the id used to group together ERASED_RESOURCES records made by this procedure
      * @throws Exception
      */
-    private void runCallableStatement(String callStr) throws Exception {
+    private void runCallableStatement(String callStr, long erasedResourceGroupId) throws Exception {
         try (CallableStatement call = getConnection().prepareCall(String.format(callStr, getSchemaName()))){
             call.setString(1, eraseDto.getResourceType());
             call.setString(2, eraseDto.getLogicalId());
-            call.registerOutParameter(3, Types.BIGINT);
+            call.setLong(3, erasedResourceGroupId);
+            call.registerOutParameter(4, Types.BIGINT);
             call.execute();
 
-            int deleted = (int) call.getLong(3);
+            int deleted = (int) call.getLong(4);
             if (LOG.isLoggable(Level.FINEST)) {
                 LOG.finest("Deleted from [" + eraseDto.getResourceType() + "/" + eraseDto.getLogicalId() + "] deleted [" + deleted + "]");
             }
@@ -105,10 +118,11 @@ public class EraseResourceDAO extends ResourceDAOImpl {
 
     /**
      * Executes the SQL logic as part of the dao rather than via a stored procedure/function.
-     *
+     * 
+     * @param erasedResourceGroupId
      * @throws SQLException
      */
-    public void runInDao() throws SQLException {
+    public void runInDao(long erasedResourceGroupId) throws FHIRPersistenceException {
         String resourceType = eraseDto.getResourceType();
         String logicalId = eraseDto.getLogicalId();
 
@@ -116,12 +130,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         int version = -1;
         Integer total = 0;
 
-        // Prep 1: Get the v_resource_type_id
-        Integer resourceTypeId = getResourceTypeIdFromCaches(resourceType);
-        if (resourceTypeId == null) {
-            // There are a couple of options... this one happens to be great for injection during mockups.
-            resourceTypeId = getCache().getResourceTypeCache().getId(resourceType);
-        }
+        // Prep 1: Get the v_resource_type_id. Cannot be null
+        Integer resourceTypeId = getResourceTypeId(resourceType);
 
         // Prep 2: Get the logical from the system-wide logical resource level
         final String GET_LOGICAL_RESOURCES_SYSTEM =
@@ -188,6 +198,24 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         // If the version is 1, we need to fall all the way through and treat it
         // as a whole.
         if (eraseDto.getVersion() != null && version != 1) {
+            
+            // Record the affected record
+            final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
+                    ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id, version_id) "
+                    + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)"
+                    : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
+                    + "     VALUES (?, ?, ?, ?)";
+            try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
+                stmt.setLong(1, erasedResourceGroupId);
+                stmt.setInt(2, resourceTypeId);
+                stmt.setString(3, logicalId);
+                stmt.setInt(4, eraseDto.getVersion());
+                stmt.executeUpdate();
+            } catch (SQLException x) {
+                LOG.log(Level.SEVERE, INSERT_ERASED_RESOURCES, x);
+                throw translator.translate(x);
+            }
+
             // Update the specific version's PAYLOAD by updating the resource
             final String UPDATE_RESOURCE_PAYLOAD =
                     "UPDATE " + resourceType + "_RESOURCES" +
@@ -226,6 +254,22 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             return;
         }
 
+        // The entire logical resource is being erased, so don't include a version when we record this
+        final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
+                ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id) "
+                + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?)"
+                : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
+                + "     VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
+            stmt.setLong(1, erasedResourceGroupId);
+            stmt.setInt(2, resourceTypeId);
+            stmt.setString(3, logicalId);
+            stmt.executeUpdate();
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, INSERT_ERASED_RESOURCES, x);
+            throw translator.translate(x);
+        }
+
         // Step 2: Delete from resource_change_log
         final String RCL_DELETE =
                 "DELETE FROM RESOURCE_CHANGE_LOG"
@@ -257,7 +301,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // Step 4: Delete from parameters tables
-        deleteFromAllParametersTables(resourceType, logicalResourceId);
+        try {
+            deleteFromAllParametersTables(resourceType, logicalResourceId);
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, "while deleting from parameter tables", x);
+            throw translator.translate(x);
+        }
 
         // Step 5: Delete from Logical Resources table
         final String DELETE_LOGICAL_RESOURCE =
@@ -309,17 +358,79 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * @param eraseDto the input
      * @throws Exception
      */
-    public void erase(ResourceEraseRecord eraseRecord, EraseDTO eraseDto) throws Exception {
+    public long erase(ResourceEraseRecord eraseRecord, EraseDTO eraseDto) throws Exception {
         this.eraseRecord = eraseRecord;
         this.eraseDto = eraseDto;
+        
+        // Assign the ERASE_RESOURCE_GROUP_ID which is used to record all the
+        // logical_resource and resource_versions erased here
+        FhirSequenceDAO fhirSequence = FHIRResourceDAOFactory.getSequenceDAO(getConnection(), getFlavor());
+        long erasedResourceGroupId = fhirSequence.nextValue();
 
         if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
-            runCallableStatement(CALL_DB2);
+            runCallableStatement(CALL_DB2, erasedResourceGroupId);
         } else if (DbType.POSTGRESQL.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
-            runCallableStatement(CALL_POSTGRES);
+            runCallableStatement(CALL_POSTGRES, erasedResourceGroupId);
         } else {
             // Uses the Native Java to execute a Resource Erase
-            runInDao();
+            runInDao(erasedResourceGroupId);
+        }
+
+        // So we know which records have been erased
+        return erasedResourceGroupId;
+    }
+
+    /**
+     * Fetch all the ERASED_RESOURCE records associated with the given erasedResourceGroupId
+     * @param erasedResourceGroupId
+     * @return
+     */
+    public List<ErasedResourceRec> getErasedResourceRecords(long erasedResourceGroupId) {
+        List<ErasedResourceRec> result = new ArrayList<>();
+        
+        final String SELECT_RECORDS =
+                "SELECT erased_resource_id, resource_type_id, logical_id, version_id " +
+                "  FROM erased_resources " +
+                " WHERE erased_resource_group_id = ?";
+
+        try (PreparedStatement stmt = getConnection().prepareStatement(SELECT_RECORDS)) {
+            stmt.setLong(1, erasedResourceGroupId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                long erasedResourceId = rs.getLong(1);
+                int resourceTypeId = rs.getInt(2);
+                String logicalId = rs.getString(3);
+                Integer versionId = rs.getInt(4);
+                if (rs.wasNull()) {
+                    versionId = null;
+                }
+                
+                ErasedResourceRec rec = new ErasedResourceRec(erasedResourceId, resourceTypeId, logicalId, versionId);
+                result.add(rec);
+            }
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, SELECT_RECORDS, x);
+            throw translator.translate(x);
+        }
+        
+        return result;
+    }
+
+    /**
+     * Delete all the ERASED_RESOURCE records belonging to the given erasedResourceGroupId
+     * @param erasedResourceGroupId
+     */
+    public void clearErasedResourcesInGroup(long erasedResourceGroupId) {
+        final String DEL =
+                "DELETE FROM erased_resources " +
+                "      WHERE erased_resource_group_id = ?";
+
+        try (PreparedStatement stmt = getConnection().prepareStatement(DEL)) {
+            stmt.setLong(1, erasedResourceGroupId);
+            stmt.executeUpdate();
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, DEL, x);
+            throw translator.translate(x);
         }
     }
 }

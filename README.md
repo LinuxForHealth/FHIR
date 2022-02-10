@@ -80,15 +80,16 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-audit|Audit-related interfaces and implementations including 1) a No-op AuditLogService and 2) an AuditLogService that writes audit events to Apache Kafka in the Cloud Auditing Data Federation (CADF) JSON format|false|
 |fhir-search|Utilities for working with the FHIR search specification|false|
 |fhir-persistence|Interfaces, helpers, and tests for implementing a persistence layer or persistence interceptors for the IBM FHIR Server|false|
-|fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
 |fhir-persistence-cos|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to IBM Cloud Object Storage *experimental* |false|
 |fhir-persistence-cassandra|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Cassandra *experimental* |false|
+|fhir-persistence-blob|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Azure Blob *experimental* |false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-server|JAX-RS resources and related classes for implementing the FHIR REST API and extended operations|false|
 |fhir-server-webapp|A web application that packages the fhir-server with a set of built-in extended operations|false|
 |fhir-server-test|End-to-end integration tests for testing a running server|false|
+|fhir-smart|An interceptor that provides SMART-on-FHIR authorization policy enforcement|false|
 
 #### Extended Operations
 |Module|Description|Java API-stable|
@@ -135,6 +136,8 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-install|Packaging and installation scripts for creating the fhir-distribution zip and the corresponding IBM FHIR Server Docker image|false|
 |fhir-benchmark|Java Microbenchmark Harness (JMH) tests for measuring read/write/validation performance for the IBM FHIR Server and the HL7 FHIR Java Reference Implementation|false|
 |fhir-bucket|Scans cloud object storage buckets and uploads data using the FHIR REST API|false|
+|fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
+|fhir-persistence-cassandra-app|CLI utility application supporting payload storage to Cassandra *experimental* |false|
 
 ### Contributing to the IBM FHIR Server
 The IBM FHIR Server is under active development. To help develop the server, clone or download the project and build it using Maven.

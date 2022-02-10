@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -26,6 +27,7 @@ import com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -38,7 +40,7 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class ExportOperation extends AbstractOperation {
     private static final String FILE = "export.json";
 
-    private static final CommonUtil common = new CommonUtil();
+    private static final CommonUtil COMMON = new CommonUtil(Type.EXPORT);
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     public ExportOperation() {
@@ -58,8 +60,8 @@ public class ExportOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        common.checkEnabled();
-        common.checkAllowed(operationContext, false);
+        COMMON.checkEnabled();
+        COMMON.checkAllowed(operationContext, false);
 
         // Pick off parameters
         MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
@@ -81,7 +83,7 @@ public class ExportOperation extends AbstractOperation {
                 }
             } else if ((ExportType.SYSTEM.equals(exportType) )
                             && (types == null || types.isEmpty())) {
-                types = export.defaultResourceTypes();
+                types = new ArrayList<>(export.getSupportedResourceTypes());
             }
 
             // Early detection of potential issues.

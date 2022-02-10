@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -82,7 +81,7 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.payload.PayloadKey;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -1552,12 +1551,12 @@ public class MemberMatchTest {
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
             Resource contextResource) throws Exception {
             // TODO Auto-generated method stub
-            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false);
+            return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, false, true);
         }
 
         @Override
         public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-            Resource contextResource, boolean checkIfInteractionAllowed) throws Exception {
+            Resource contextResource, boolean checkIfInteractionAllowed, boolean alwaysIncludeResource) throws Exception {
             if (throwException) {
                 throw new Exception("Test");
             }
@@ -1687,7 +1686,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+        public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, String resourceType) throws Exception {
             throw new AssertionError("Unused");
         }
 
@@ -1725,7 +1724,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource) throws Exception {
+        public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
             throw new AssertionError("Unused");
         }
 
@@ -1737,7 +1736,7 @@ public class MemberMatchTest {
 
         @Override
         public FHIRRestOperationResponse doPatchOrUpdatePersist(FHIRPersistenceEvent event, String type, String id, boolean isPatch, Resource newResource,
-            Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch) throws Exception {
+            Resource prevResource, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
             throw new AssertionError("Unused");
         }
 
@@ -1753,7 +1752,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Future<PayloadKey> storePayload(Resource resource, String logicalId, int newVersionNumber) throws Exception {
+        public PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception {
             throw new AssertionError("Unused");
         }
 

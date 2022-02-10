@@ -20,7 +20,7 @@ import com.ibm.fhir.database.utils.thread.ThreadHandler;
  * Active object to periodically scan COS buckets looking for new
  * objects to load
  */
-public class CosScanner {
+public class CosScanner implements IResourceScanner {
     private static final Logger logger = Logger.getLogger(CosScanner.class.getName());
 
     // number of nanos per ms
@@ -79,9 +79,7 @@ public class CosScanner {
         this.scanIntervalMs = scanIntervalMs;
     }
 
-    /**
-     * Run the scanner thread
-     */
+    @Override
     public void init() {
         mainLoopThread = new Thread(new Runnable() {
 
@@ -95,10 +93,7 @@ public class CosScanner {
     }
 
 
-    /**
-     * Tell the active object to stop any new work, but existing work can
-     * complete
-     */
+    @Override
     public void signalStop() {
         if (this.running) {
             logger.info("Stopping CosScanner");
@@ -112,10 +107,7 @@ public class CosScanner {
         }
     }
 
-    /**
-     * Tell the main loop thread to stop if it hasn't already and wait a reasonable time
-     * for the main thread loop to terminate
-     */
+    @Override
     public void waitForStop() {
         signalStop();
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.InputStream;
-import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -29,16 +29,14 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Resource.Builder;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -168,10 +166,12 @@ public abstract class AbstractPersistenceTest {
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
-        return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResource();
+        // Convert the list here so we don't have to change all the test implementations
+        return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResourceResults()
+                .stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
 
-    protected MultiResourceResult<Resource> runQueryTest(FHIRSearchContext searchContext, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+    protected MultiResourceResult runQueryTest(FHIRSearchContext searchContext, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         // ensure that all the query parameters were processed into search parameters (needed because the server ignores invalid params by default)
         int expectedCount = 0;
         for (String key : queryParms.keySet()) {
@@ -205,8 +205,8 @@ public abstract class AbstractPersistenceTest {
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
 
         try {
-            MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
-            assertNotNull(result.getResource());
+            MultiResourceResult result = persistence.search(persistenceContext, resourceType);
+            assertNotNull(result.getResourceResults());
             return result;
         } catch (Throwable t) {
             debugLocks();
@@ -244,9 +244,9 @@ public abstract class AbstractPersistenceTest {
             searchContext.setPageSize(maxPageSize);
         }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
-        assertNotNull(result.getResource());
-        return result.getResource();
+        MultiResourceResult result = persistence.search(persistenceContext, resourceType);
+        assertNotNull(result.getResourceResults());
+        return result.getResourceResults().stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
     
     /**
@@ -270,9 +270,8 @@ public abstract class AbstractPersistenceTest {
      * @param resource
      * @return
      */
-    protected <T extends Resource> T updateVersionMeta(T resource) {
-        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+    protected <T extends Resource> T updateVersionMeta(T resource) throws FHIRPersistenceException {
         final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
-        return copyAndSetResourceMetaFields(resource, resource.getId(), newVersionId, lastUpdated);
+        return FHIRPersistenceTestSupport.setIdAndMeta(persistence, resource, resource.getId(), newVersionId);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,19 +109,15 @@ public class FHIRConfiguration {
     public static final String PROPERTY_NATS_KEYSTORE = "fhirServer/notifications/nats/keystoreLocation";
     public static final String PROPERTY_NATS_KEYSTORE_PW = "fhirServer/notifications/nats/keystorePassword";
 
+    // Operations config properties
+    public static final String PROPERTY_OPERATIONS_EVERYTHING = "fhirServer/operations/everything";
+    public static final String PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES = "includeTypes";
+
     // Persistence layer properties
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";
-    @Deprecated
-    public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
-    @Deprecated
-    public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
-    @Deprecated
-    public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
-    public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
-    public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
     public static final String PROPERTY_PERSISTENCE_PAYLOAD = "fhirServer/persistence/payload";
 
     // Optimizer options within a datasource definition

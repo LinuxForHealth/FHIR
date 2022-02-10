@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
@@ -124,6 +125,9 @@ public class NewQueryBuilder {
     private static final Logger log = java.util.logging.Logger.getLogger(NewQueryBuilder.class.getName());
     private static final String CLASSNAME = NewQueryBuilder.class.getName();
 
+    // Database translator to handle SQL syntax variations among databases
+    private final IDatabaseTranslator translator;
+    
     // For id lookups
     private final JDBCIdentityCache identityCache;
 
@@ -135,10 +139,12 @@ public class NewQueryBuilder {
 
     /**
      * Public constructor
+     * @param translator
      * @param queryHints
      * @param identityCache
      */
-    public NewQueryBuilder(QueryHints queryHints, JDBCIdentityCache identityCache) {
+    public NewQueryBuilder(IDatabaseTranslator translator, QueryHints queryHints, JDBCIdentityCache identityCache) {
+        this.translator = translator;
         this.queryHints = queryHints;
         this.identityCache = identityCache;
         this.legacyWholeSystemSearchParamsEnabled =
@@ -219,7 +225,7 @@ public class NewQueryBuilder {
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext) throws FHIRPersistenceException {
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
-        SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage);
+        SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
     }
@@ -266,7 +272,8 @@ public class NewQueryBuilder {
                 // Create a domain model for each resource type
                 List<SearchQuery> subDomainModels = new ArrayList<>();
                 for (String domainResourceType : resourceTypes) {
-                    SearchQuery subDomainModel = new SearchDataQuery(domainResourceType, false, false);
+                    int domainResourceTypeId = identityCache.getResourceTypeId(domainResourceType);
+                    SearchQuery subDomainModel = new SearchDataQuery(domainResourceType, false, false, domainResourceTypeId);
                     buildModelCommon(subDomainModel, ModelSupport.getResourceType(domainResourceType), searchContext);
                     subDomainModels.add(subDomainModel);
                 }
@@ -387,7 +394,7 @@ public class NewQueryBuilder {
         for (Integer resourceTypeId : resourceTypeIdToLogicalResourceIdMap.keySet()) {
             String resourceType = identityCache.getResourceTypeName(resourceTypeId);
             List<Long> logicalResourceIds = resourceTypeIdToLogicalResourceIdMap.get(resourceTypeId);
-            SearchQuery subDomainModel = new SearchWholeSystemDataQuery(resourceType);
+            SearchQuery subDomainModel = new SearchWholeSystemDataQuery(resourceType, resourceTypeId);
             subDomainModel.add(new WholeSystemDataExtension(resourceType, logicalResourceIds));
             buildModelCommon(subDomainModel, ModelSupport.getResourceType(resourceType), searchContext);
             subDomainModels.add(subDomainModel);

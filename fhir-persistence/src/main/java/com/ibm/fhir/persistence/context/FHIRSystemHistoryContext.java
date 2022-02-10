@@ -6,7 +6,11 @@
 
 package com.ibm.fhir.persistence.context;
 
+import java.util.List;
+
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.persistence.HistorySortOrder;
 
 /**
  *
@@ -18,12 +22,18 @@ public interface FHIRSystemHistoryContext {
      * @return
      */
     Instant getSince();
-
+    
     /**
-     * Get the value of the _afterHistoryId parameter, or null if not given
+     * Get the value of the _before parameter, or null if not given
      * @return
      */
-    Long getAfterHistoryId();
+    Instant getBefore();
+
+    /**
+     * Get the value of the _changeIdMarker parameter, or null if not given
+     * @return
+     */
+    Long getChangeIdMarker();
 
     /**
      * Get the value of the _count parameter, or null if not given
@@ -36,4 +46,34 @@ public interface FHIRSystemHistoryContext {
      * @return
      */
     boolean isLenient();
+    
+    /**
+     * Get the list of resource types
+     * @return an immutable list of resource type names
+     */
+    List<String> getResourceTypes();
+    
+    /**
+     * Should we exclude resources that fall inside the server's transaction timeout window?
+     * @return
+     */
+    boolean isExcludeTransactionTimeoutWindow();
+    
+    /**
+     * Get the whole system history sort order
+     * @return
+     */
+    HistorySortOrder getHistorySortOrder();
+    
+    /**
+     * Get the return preference
+     * <pre>
+     *   Prefer: return=minimal          response bundle summary without Resources
+     *   Prefer: return=representation   response bundle includes Resources
+     *   Prefer: return=OperationOutcome 400 Bad Request
+     * </pre>
+     *
+     * @return
+     */
+    HTTPReturnPreference getReturnPreference();
 }

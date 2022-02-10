@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,6 +58,12 @@ public class CqlOperation extends AbstractCqlOperation {
 
     private static final Logger LOG = Logger.getLogger(CqlOperation.class.getName());
 
+    /**
+     * Data container for grouped input parameters library.url, library.name. The 
+     * version is parsed from the library.url if present. Alias is part of the
+     * FHIR RelatedArtifact DataType, so it is included as an attribute, but is
+     * not currently used.
+     */
     public static class IncludeLibraryDetail {
         public IncludeLibraryDetail() {
             // No Operation
@@ -117,14 +123,33 @@ public class CqlOperation extends AbstractCqlOperation {
             result = doEvaluation(resourceHelper, paramMap, primaryLibrary);
             
         } catch (IllegalArgumentException | CqlTranslationException iex) {
-            throw new FHIROperationException(iex.getMessage(), iex).withIssue(Issue.builder().severity(IssueSeverity.ERROR).code(IssueType.INVALID).details(CodeableConcept.builder().text(fhirstring(iex.getMessage())).build()).build());
+            throw new FHIROperationException(iex.getMessage(), iex)
+                .withIssue(Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.INVALID)
+                    .details(CodeableConcept.builder()
+                        .text(fhirstring(iex.getMessage()))
+                        .build())
+                    .build());
         } catch (Exception ex) {
-            throw new FHIROperationException("Evaluation failed", ex);
+            throwOperationException(ex);
         }
 
         return result;
     }
 
+    /**
+     * Create a Library resource matching the provided input parameters.
+     * 
+     * @param context
+     *            CQL execution context (e.g. Patient)
+     * @param expression
+     *            FHIR Parameter resource containg the CQL code to evaluate
+     * @param includes
+     *            List of FHIR parameter resources describing any helper libraries
+     *            that need to be included in order to evaluate the provided expression.
+     * @return generated Library resource
+     */
     protected Library createLibraryResource(String context, Parameter expression, List<Parameter> includes) {
         String libraryName = DEFAULT_LIBRARY_NAME;
         String libraryVersion = DEFAULT_LIBRARY_VERSION;
@@ -185,6 +210,12 @@ public class CqlOperation extends AbstractCqlOperation {
         return builder.build();
     }
 
+    /**
+     * Convert FHIR Parameter resource into corresponding IncludeLibraryDetail DTO
+     * 
+     * @param includeParameter FHIR Parameter resource
+     * @return IncludeLibraryDetail
+     */
     protected IncludeLibraryDetail getIncludeDetail(Parameter includeParameter) {
         IncludeLibraryDetail includeDetail = new IncludeLibraryDetail();
         

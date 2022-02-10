@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -45,7 +46,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to a PostgreSQL database.
@@ -83,26 +83,13 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // Make sure the resource type is valid according to the database
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();
@@ -125,6 +112,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 connection,
                 parameterDao,
                 ifNoneMatch,
+                resource.getResourcePayloadKey(),
                 outInteractionStatus,
                 outIfNoneMatchVersion
                 );
@@ -205,7 +193,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, 
             InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
             String p_source_key, Integer p_version, String parameterHashB64, Connection conn, 
-            ParameterDAO parameterDao, Integer ifNoneMatch, 
+            ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -390,8 +378,8 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         }
 
         // Finally we get to the big resource data insert
-        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) "
-                + "VALUES (?,?,?,?,?,?)";
+        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) "
+                + "VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
             // bind parameters
             stmt.setLong(1, v_resource_id);
@@ -400,6 +388,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             stmt.setBinaryStream(4, p_payload);
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
+            setString(stmt, 7, resourcePayloadKey);
             stmt.executeUpdate();
         }
 

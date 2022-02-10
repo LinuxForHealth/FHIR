@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_page", Arrays.asList("invalid"));
         queryParameters.put("_count", Arrays.asList("-1"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertEquals(context.getPageNumber(), 1);
         assertEquals(context.getPageSize(), 10);
@@ -75,7 +75,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
         queryParameters.put("_page", Arrays.asList("invalid"));
         queryParameters.put("_count", Arrays.asList("20"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_page'.");
@@ -92,7 +92,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
         queryParameters.put("_page", Arrays.asList("2"));
         queryParameters.put("_count", Arrays.asList("-1"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_count'.");
@@ -107,7 +107,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_page", Arrays.asList("3", "4"));
         queryParameters.put("_count", Arrays.asList("30", "40"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true);
+        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertEquals(context.getPageNumber(), 3);
         assertEquals(context.getPageSize(), 30);
@@ -121,7 +121,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
         queryParameters.put("_page", Arrays.asList("3", "4"));
         queryParameters.put("_count", Arrays.asList("30"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_page' is specified multiple times");
@@ -138,7 +138,7 @@ public class PageCountParameterParseTest extends BaseSearchTest {
         queryParameters.put("_page", Arrays.asList("3"));
         queryParameters.put("_count", Arrays.asList("30", "40"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false);
+            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_count' is specified multiple times");

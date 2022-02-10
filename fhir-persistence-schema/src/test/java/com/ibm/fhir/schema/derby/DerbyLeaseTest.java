@@ -18,11 +18,11 @@ import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateControl;
-import com.ibm.fhir.schema.app.LeaseManager;
-import com.ibm.fhir.schema.app.LeaseManagerConfig;
 
 /**
  * Unit test for the LeaseManager with Derby
@@ -62,7 +62,7 @@ public class DerbyLeaseTest {
             // finally cancel our lease
             lm1.cancelLease();
             assertFalse(lm1.hasLease());
-            lm1.shutdown();
+            lm1.cancelLease();
             
             // Now we should be able to obtain the lease using a different LeaseManager
             LeaseManagerConfig config2 = LeaseManagerConfig.builder().withHost("lm2").withLeaseTimeSeconds(64).build();
@@ -78,10 +78,8 @@ public class DerbyLeaseTest {
             assertFalse(gotLease3);
 
             assertTrue(lm2.cancelLease());
-            lm2.shutdown();
             
             assertFalse(lm3.cancelLease());
-            lm3.shutdown();
         }
     }
 }

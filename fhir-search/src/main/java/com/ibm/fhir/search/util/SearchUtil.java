@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -126,8 +126,6 @@ public class SearchUtil {
     // Other Constants
     private static final String SEARCH_PARAM_COMBINATION_ANY = "*";
     private static final String SEARCH_PARAM_COMBINATION_DELIMITER = "\\+";
-    private static final String SEARCH_PROPERTY_TYPE_INCLUDE = "_include";
-    private static final String SEARCH_PROPERTY_TYPE_REVINCLUDE = "_revinclude";
     private static final String HAS_DELIMITER = SearchConstants.COLON_DELIMITER_STR + SearchConstants.HAS + SearchConstants.COLON_DELIMITER_STR;
 
     // compartment parameter reference which can be ignore
@@ -185,7 +183,7 @@ public class SearchUtil {
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
-        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+        for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 SearchParameter searchParam = parametersMap.lookupByCode(code);
@@ -222,7 +220,7 @@ public class SearchUtil {
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
-        for (String type : new String[]{resourceType, SearchConstants.RESOURCE_RESOURCE}) {
+        for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 SearchParameter searchParam = parametersMap.lookupByCanonical(uri.getValue());
@@ -369,14 +367,15 @@ public class SearchUtil {
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters) throws Exception {
-        return parseQueryParameters(resourceType, queryParameters, false);
+        return parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
-            Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
+        context.setIncludeResourceData(includeResource);
         List<QueryParameter> parameters = new ArrayList<>();
         HashSet<String> resourceTypes = new LinkedHashSet<>();
 
@@ -723,7 +722,7 @@ public class SearchUtil {
                     for (PropertyEntry rsrcsEntry : rsrcsEntries) {
 
                         // Check if matching resource type
-                        if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
+                        if (FHIRConfigHelper.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
                             PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
                             if (resourceTypeGroup != null) {
                                 combinations =
@@ -1148,13 +1147,13 @@ public class SearchUtil {
         String tenantId = FHIRRequestContext.get().getTenantId();
         Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
 
-        for (String type : new String[]{SearchConstants.RESOURCE_RESOURCE, resourceType}) {
+        for (String type : new String[]{FHIRConfigHelper.RESOURCE_RESOURCE, resourceType}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
             if (parametersMap != null) {
                 for (Entry<String, SearchParameter> entry : parametersMap.codeEntries()) {
                     String code = entry.getKey();
                     if (log.isLoggable(Level.FINE) && result.containsKey(code)) {
-                        log.fine("Code '" + code + "' is defined for both " + SearchConstants.RESOURCE_RESOURCE
+                        log.fine("Code '" + code + "' is defined for both " + FHIRConfigHelper.RESOURCE_RESOURCE
                             + " and " + resourceType + "; using " + resourceType);
                     }
                     result.put(code, entry.getValue());
@@ -1189,13 +1188,13 @@ public class SearchUtil {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient, true);
     }
 
 
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
-        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true, true);
     }
 
     /**
@@ -1211,17 +1210,23 @@ public class SearchUtil {
     }
 
     /**
+     * @param compartmentName
+     * @param compartmentLogicalId
+     * @param resourceType
+     * @param queryParameters
      * @param lenient
      *                Whether to ignore unknown or unsupported parameter
+     * @param includeResource
+     *                Whether to include the resource from the result (return handling prefer != minimal)
      * @return
      * @throws Exception
      */
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
 
         // Add the inclusion criteria to the front of the search parameter list
         if (inclusionCriteria != null) {
@@ -1873,8 +1878,8 @@ public class SearchUtil {
         String resourceTypeAndParameterName;
         String searchParameterTargetType;
 
-        List<String> allowedIncludes = getSearchPropertyRestrictions(resourceType.getSimpleName(), SEARCH_PROPERTY_TYPE_INCLUDE);
-        List<String> allowedRevIncludes = getSearchPropertyRestrictions(resourceType.getSimpleName(), SEARCH_PROPERTY_TYPE_REVINCLUDE);
+        List<String> allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(resourceType.getSimpleName(), FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
+        List<String> allowedRevIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(resourceType.getSimpleName(), FHIRConfigHelper.SEARCH_PROPERTY_TYPE_REVINCLUDE);
 
         // Parse inclusionKeyword into parameter name and modifier (if present).
         Modifier modifier = null;
@@ -1996,59 +2001,6 @@ public class SearchUtil {
                 }
             }
         }
-    }
-
-    /**
-     * Retrieves the search property restrictions.
-     *
-     * @param resourceType the resource type
-     * @param propertyType the property type
-     * @return list of allowed values for the search property, or null if no restrictions
-     * @throws Exception
-     *             an exception
-     */
-    private static List<String> getSearchPropertyRestrictions(String resourceType, String propertyType) throws Exception {
-        String propertyField = null;
-        if (SEARCH_PROPERTY_TYPE_INCLUDE.equals(propertyType)) {
-            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES;
-        }
-        else if (SEARCH_PROPERTY_TYPE_REVINCLUDE.equals(propertyType)) {
-            propertyField = FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_REV_INCLUDES;
-        }
-
-        // Retrieve the "resources" config property group.
-        if (propertyField != null) {
-            PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            if (rsrcsGroup != null) {
-                List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
-                if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-
-                    // Try to find search property for matching resource type
-                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                        if (resourceType.equals(rsrcsEntry.getName())) {
-                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                            if (resourceTypeGroup != null) {
-                                return resourceTypeGroup.getStringListProperty(propertyField);
-                            }
-                        }
-                    }
-
-                    // Otherwise, try to find search property for "Resource" resource type
-                    for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-
-                        // Check if matching resource type
-                        if (SearchConstants.RESOURCE_RESOURCE.equals(rsrcsEntry.getName())) {
-                            PropertyGroup resourceTypeGroup = (PropertyGroup) rsrcsEntry.getValue();
-                            if (resourceTypeGroup != null) {
-                                return resourceTypeGroup.getStringListProperty(propertyField);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 
     /**

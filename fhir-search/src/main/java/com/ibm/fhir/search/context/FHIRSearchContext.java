@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,18 @@ import com.ibm.fhir.search.parameters.SortParameter;
  * Interface for FHIR Search Context.
  */
 public interface FHIRSearchContext extends FHIRPagingContext {
+
+    /**
+     * Should the search result include the actual resource in the response
+     * @return
+     */
+    boolean isIncludeResourceData();
+
+    /**
+     * Set the includeResourceData flag
+     * @param flag
+     */
+    void setIncludeResourceData(boolean flag);
 
     List<String> getSearchResourceTypes();
 

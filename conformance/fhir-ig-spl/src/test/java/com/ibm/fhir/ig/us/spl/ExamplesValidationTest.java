@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,8 +22,10 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
@@ -70,6 +72,18 @@ public class ExamplesValidationTest {
         try (InputStream in = new FileInputStream(path.toFile())) {
             System.out.println("Path: " + path);
             Resource resource = FHIRParser.parser(Format.JSON).parse(in);
+
+            // Before we can validate, we need to update resources with a
+            // timestamp so we don't violate:
+            // spl-X.1.1.2: The effective time year is equal to the current year
+            if (resource.is(Bundle.class)) {
+                Bundle bundle = resource.as(Bundle.class);
+                if (bundle.getTimestamp() != null && bundle.getTimestamp().getValue() != null) {
+                    resource = bundle.toBuilder()
+                            .timestamp(Instant.now())
+                            .build();
+                }
+            }
             List<Issue> issues = FHIRValidator.validator().validate(resource);
             for (Issue issue : issues) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity())) {

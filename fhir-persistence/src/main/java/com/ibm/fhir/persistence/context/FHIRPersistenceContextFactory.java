@@ -30,7 +30,8 @@ public class FHIRPersistenceContextFactory {
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
      */
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event) {
-        return new FHIRPersistenceContextImpl(event);
+        return FHIRPersistenceContextImpl.builder(event)
+                .build();
     }
 
     /**
@@ -39,16 +40,20 @@ public class FHIRPersistenceContextFactory {
      * @param includeDeleted flag to tell the persistence layer to include deleted resources in the operation results.
      */
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
-        return new FHIRPersistenceContextImpl(event, includeDeleted);
+        return FHIRPersistenceContextImpl.builder(event)
+                .withIncludeDeleted(includeDeleted)
+                .build();
     }
     
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
-     * @param ifNoneExist flag to tell the persistence layer to apply conditional create-on-update logic.
+     * @param ifNoneMatch flag to tell the persistence layer to apply conditional create-on-update logic.
      */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, Integer ifNoneExist) {
-        return new FHIRPersistenceContextImpl(event, ifNoneExist);
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, Integer ifNoneMatch) {
+        return FHIRPersistenceContextImpl.builder(event)
+                .withIfNoneMatch(ifNoneMatch)
+                .build();
     }
 
     /**
@@ -57,7 +62,9 @@ public class FHIRPersistenceContextFactory {
      * @param historyContext the FHIRHistoryContext instance to be contained in the FHIRPersistenceContext instance
      */
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRHistoryContext historyContext) {
-        return new FHIRPersistenceContextImpl(event, historyContext);
+        return FHIRPersistenceContextImpl.builder(event)
+                .withHistoryContext(historyContext)
+                .build();
     }
 
     /**
@@ -66,7 +73,9 @@ public class FHIRPersistenceContextFactory {
      * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
      */
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
-        return new FHIRPersistenceContextImpl(event, searchContext);
+        return FHIRPersistenceContextImpl.builder(event)
+                .withSearchContext(searchContext)
+                .build();
     }
 
     /**
@@ -96,6 +105,9 @@ public class FHIRPersistenceContextFactory {
      * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
      */
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted, FHIRSearchContext searchContext) {
-        return new FHIRPersistenceContextImpl(event, includeDeleted, searchContext);
+        return FHIRPersistenceContextImpl.builder(event)
+                .withIncludeDeleted(includeDeleted)
+                .withSearchContext(searchContext)
+                .build();
     }
 }

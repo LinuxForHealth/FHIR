@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,6 +48,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -211,7 +212,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
-        List<Resource> resources = null;
+        List<? extends Resource> resources = null;
 
         ReadResultDTO dto = new ReadResultDTO();
 
@@ -223,7 +224,9 @@ public class ChunkReader extends AbstractItemReader {
         try {
             // Execute the search query to obtain the page of resources
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
+            List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, resourceType).getResourceResults();
+            resources = ResourceResult.toResourceList(resourceResults);
+            
             if (isDoDuplicationCheck) {
                 resources = resources.stream()
                         // the add returns false if the id already exists, which filters it out of the collection

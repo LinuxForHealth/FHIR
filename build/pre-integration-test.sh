@@ -50,7 +50,7 @@ java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
@@ -77,6 +77,9 @@ rm -rf ${USERLIB}/fhir-operation-*-tests.jar
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}/
 cp -pr ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}/
 find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
+
+# Add the member-match to the build
+find ${WORKSPACE}/operation/fhir-operation-member-match/target -iname 'fhir-operation*.jar' -not -iname 'fhir*-tests.jar' -exec cp -f {} ${USERLIB} \;
 
 # Start up the fhir server
 echo "

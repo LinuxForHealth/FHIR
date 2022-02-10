@@ -120,6 +120,18 @@ public class Select {
     public void addColumn(String source, String name, Alias alias) {
         selectList.addColumn(source, name, alias);
     }
+    
+    /**
+     * Add a value column to the select list, for example:
+     * addColumn("5", alias("RESOURCE_TYPE_ID")) can be used for:
+     *     SELECT foo, 5 AS RESOURCE_TYPE_ID
+     *       FROM ...
+     * @param columnValue
+     * @param alias
+     */
+    public void addColumn(String columnValue, Alias alias) {
+        selectList.addColumn(columnValue, alias);
+    }
 
     /**
      * Add a table item to the from-clause

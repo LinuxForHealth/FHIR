@@ -48,11 +48,11 @@ public class ProviderTest {
     }
 
     @Test
-    public static void testConstraintGenerator() throws Exception {
+    public void testConstraintGenerator() throws Exception {
         FHIRRegistryResourceProvider provider = new C4BB110ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
-                String url = registryResource.getUrl();
+                String url = registryResource.getUrl() + "|1.1.0";
                 System.out.println(url);
                 Class<?> type =
                         ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;

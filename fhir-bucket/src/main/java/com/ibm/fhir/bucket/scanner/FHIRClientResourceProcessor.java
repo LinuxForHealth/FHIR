@@ -197,7 +197,9 @@ public class FHIRClientResourceProcessor implements IResourceEntryProcessor {
      * @return
      */
     private void processResourceIdValues(ResourceEntry re, List<ResourceIdValue> idValues) {
-        dataAccess.recordLogicalIds(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), idValues, BATCH_SIZE);
+        if (dataAccess != null) {
+            dataAccess.recordLogicalIds(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), idValues, BATCH_SIZE);
+        }
     }
     /**
      * Parse the location to create a {@link ResourceIdValue} DTO object.
@@ -237,7 +239,9 @@ public class FHIRClientResourceProcessor implements IResourceEntryProcessor {
             String resourceType = parts[6];
             String id = parts[7];
             logger.info("[" +re.toString() + "] new " + resourceType + "/" + id + " [took " + responseTimeMs + " ms]");
-            dataAccess.recordLogicalId(resourceType, id, re.getJob().getResourceBundleLoadId(), re.getLineNumber(), responseTimeMs);
+            if (dataAccess != null) {
+                dataAccess.recordLogicalId(resourceType, id, re.getJob().getResourceBundleLoadId(), re.getLineNumber(), responseTimeMs);
+            }
             result = true;
         }
         
@@ -263,7 +267,9 @@ public class FHIRClientResourceProcessor implements IResourceEntryProcessor {
         errors.add(new ResourceBundleError(re.getLineNumber(), response.getOperationalOutcomeText(), 
             response.getResponseTime(), response.getStatusCode(), response.getStatusMessage()));
         
-        dataAccess.recordErrors(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), errors);
+        if (dataAccess != null) {
+            dataAccess.recordErrors(re.getJob().getResourceBundleLoadId(), re.getLineNumber(), errors);
+        }
     }
 
     /**

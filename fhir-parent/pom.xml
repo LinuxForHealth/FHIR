@@ -78,6 +78,9 @@
         <module>../fhir-persistence</module>
         <module>../fhir-persistence-schema</module>
         <module>../fhir-persistence-jdbc</module>
+        <module>../fhir-persistence-cassandra</module>
+        <module>../fhir-persistence-cassandra-app</module>
+        <module>../fhir-persistence-blob</module>
         <module>../fhir-provider</module>
         <module>../cql</module>
         <module>../operation/fhir-operation-test</module>
@@ -90,6 +93,7 @@
         <module>../operation/fhir-operation-everything</module>
         <module>../operation/fhir-operation-erase</module>
         <module>../operation/fhir-operation-member-match</module>
+        <module>../operation/fhir-operation-versions</module>
         <module>../fhir-bulkdata-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
@@ -117,22 +121,22 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
-                <version>1.7.32</version>
+                <version>1.7.36</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.32</version>
+                <version>1.7.36</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-nop</artifactId>
-                <version>1.7.32</version>
+                <version>1.7.36</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
-                <version>1.7.32</version>
+                <version>1.7.36</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet</groupId>
@@ -166,7 +170,7 @@
             <dependency>
                 <groupId>com.ibm.db2</groupId>
                 <artifactId>jcc</artifactId>
-                <version>11.5.6.0</version>
+                <version>11.5.7.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
@@ -186,7 +190,12 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
-                <version>3.4.4</version>
+                <version>3.4.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-features-logging</artifactId>
+                <version>3.4.5</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -214,7 +223,7 @@
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
-                <version>2.8.3</version>
+                <version>2.9.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -253,47 +262,47 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>7.4.0</version>
+                <version>7.5</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-scala_2.12</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
             </dependency>
             <dependency>
                 <!-- used by postgres and janus graph -->
@@ -335,12 +344,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.14</version>
+                <version>4.4.15</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore-nio</artifactId>
-                <version>4.4.14</version>
+                <version>4.4.15</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
@@ -371,7 +380,7 @@
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-grizzly-client</artifactId>
-                <version>1.15</version>
+                <version>1.18</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -384,13 +393,13 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>3.7.7</version>
+                <version>4.3.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-inline</artifactId>
-                <version>3.7.7</version>
+                <version>4.3.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -449,28 +458,34 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>42.2.23</version>
+                <version>42.3.2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>3.19.1</version>
+                <version>3.19.3</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protoc</artifactId>
-                <version>3.19.1</version>
+                <version>3.19.3</version>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
                 <version>4.13.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-annotations</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-query-builder</artifactId>
-                <version>4.10.0</version>
+                <version>4.13.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
@@ -488,16 +503,6 @@
                 <version>6.3.18</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-sql_2.12</artifactId>
-                <version>3.2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ibm.stocator</groupId>
-                <artifactId>stocator</artifactId>
-                <version>1.1.4</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.11.0</version>
@@ -510,32 +515,58 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.boundary</groupId>
+                        <artifactId>high-scale-lib</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-berkeleyje</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>it.unimi.dsi</groupId>
+                        <artifactId>fastutil</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.logging</groupId>
+                        <artifactId>jboss-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-lucene</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-es</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tinkerpop</groupId>
                 <artifactId>gremlin-driver</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-transport-rxtx</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -555,12 +586,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.10</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.2.7</version>
+                <version>1.2.9</version>
             </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
@@ -575,7 +606,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.69.Final</version>
+                <version>4.1.72.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
@@ -583,7 +614,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.70.Final</version>
+                <version>4.1.71.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
@@ -601,11 +632,23 @@
                 <groupId>org.opencds.cqf.cql</groupId>
                 <artifactId>engine</artifactId>
                 <version>1.5.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.javaparser</groupId>
+                        <artifactId>javaparser</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>info.cqframework</groupId>
                 <artifactId>cql-to-elm</artifactId>
-                <version>1.5.4</version>
+                <version>1.5.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.javaparser</groupId>
+                        <artifactId>javaparser</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -626,12 +669,23 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core-http-okhttp</artifactId>
-                <version>1.7.4</version>
+                <version>1.7.9</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core</artifactId>
-                <version>1.21.0</version>
+                <version>1.24.0</version>
+            </dependency>
+            <!-- Used in OKHTTP as part of azure-core -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>1.6.10</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-common</artifactId>
+                <version>1.6.10</version>
             </dependency>
             <dependency>
                 <groupId>org.fhir</groupId>
@@ -646,7 +700,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>3.9.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -713,8 +767,20 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0-M2</version>
+                    <version>3.0.0</version>
                     <configuration>
                         <rules>
                             <dependencyConvergence />
@@ -728,10 +794,6 @@
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.0.0-M5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -750,39 +812,8 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-scm-plugin</artifactId>
-                    <version>1.9.5</version>
+                    <version>1.12.2</version>
                     <configuration></configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>com/ibm/fhir/model/*.class</exclude>
-                            <exclude>**/*Exception.*</exclude>
-                            <exclude>**/FHIRPersistenceInterceptor.*</exclude>
-                            <exclude>**/exception/*</exclude>
-                            <exclude>com/ibm/fhir/audit/logging/beans/*</exclude>
-                            <exclude>com/ibm/fhir/audit/whc/**/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailApplication.*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/FHIRAuditTrailBuildIdentifier.*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/filter/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/listener/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/provider/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/resource/*</exclude>
-                            <exclude>com/ibm/fhir/audit/trail/util/*</exclude>
-                            <exclude>**/DerbyBootstrapper.*</exclude>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
@@ -803,6 +834,13 @@
                         <headerLocation>java.header</headerLocation>
                         <consoleOutput>true</consoleOutput>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>9.2.1</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <phase>validate</phase>
@@ -890,7 +928,7 @@
                             <additionalOption>--no-module-directories</additionalOption>
                         </additionalOptions>
                         <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                        <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                        <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                         <author>false</author>
                         <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                         <!-- skips the three entries -->
@@ -916,6 +954,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <testSource>${java.version}</testSource>
+                    <testTarget>${java.version}</testTarget>
+                    <debug>true</debug>
+                    <debuglevel>source,lines,vars</debuglevel>
+                    <parameters>true</parameters>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -925,10 +972,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -941,6 +984,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <!-- Without the following three versions specified, the build does not use them.-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
@@ -1188,7 +1247,7 @@
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
                             <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
@@ -1281,7 +1340,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.1</version>
+                        <version>3.9.0</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -1445,7 +1504,7 @@
                         <additionalOption>--no-module-directories</additionalOption>
                     </additionalOptions>
                     <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                    <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                    <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                     <author>false</author>
                     <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                     <!-- skips the three entries -->

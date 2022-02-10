@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.DateTime;
@@ -21,6 +23,9 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.persistence.HistorySortOrder;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
@@ -75,9 +80,9 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-    // Parse history parameters into a FHIRHistoryContext
 
     /**
+     * Parse history parameters into a FHIRHistoryContext
      *
      * @param queryParameters
      * @param lenient
@@ -88,17 +93,31 @@ public class FHIRPersistenceUtil {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
         context.setLenient(lenient);
+        context.setHistorySortOrder(HistorySortOrder.DESC_LAST_UPDATED); // default is most recent first
         try {
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
                 String first = values.get(0);
-                if ("_afterHistoryId".equals(name)) {
+                if ("_changeIdMarker".equals(name)) {
                     long id = Long.parseLong(first);
-                    context.setAfterHistoryId(id);
+                    context.setChangeIdMarker(id);
                 } else if ("_count".equals(name)) {
                     int resourceCount = Integer.parseInt(first);
                     if (resourceCount >= 0) {
                         context.setCount(resourceCount);
+                    }
+                } else if ("_type".equals(name)) {
+                    for (String v: values) {
+                        String[] resourceTypes = v.split(",");
+                        for (String resourceType: resourceTypes) {
+                            if (ModelSupport.isResourceType(resourceType)) {
+                                context.addResourceType(resourceType);
+                            } else {
+                                String msg = "Invalid resource type name";
+                                throw new FHIRPersistenceException(msg)
+                                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                            }
+                        }
                     }
                 } else if ("_since".equals(name)) {
                     DateTime dt = DateTime.of(first);
@@ -111,9 +130,35 @@ public class FHIRPersistenceUtil {
                         throw new FHIRPersistenceException(msg)
                                 .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                     }
+                } else if ("_before".equals(name)) {
+                    DateTime dt = DateTime.of(first);
+                    if (!dt.isPartial()) {
+                        Instant before = Instant.of(ZonedDateTime.from(dt.getValue()));
+                        context.setBefore(before);
+                    }
+                    else {
+                        String msg = "The '_before' parameter must be a fully specified ISO 8601 date/time";
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
                 } else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
+                } else if ("_sort".equals(name)) {
+                    try {
+                        HistorySortOrder hso = HistorySortOrder.of(first);
+                        context.setHistorySortOrder(hso);
+                    } catch (IllegalArgumentException ex) {
+                        // IllegalArgumentException needs to be converted to INVALID which is then a Client Error.
+                        final String msg = "The '_sort' parameter must be a '_lastUpdated', '-_lastUpdated' or 'none'";
+                        log.throwing(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters", ex);
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
+                } else if ("_excludeTransactionTimeoutWindow".equals(name)) {
+                    if ("true".equalsIgnoreCase(first)) {
+                        context.setExcludeTransactionTimeoutWindow(true);
+                    }
                 } else {
                     String msg = "Unrecognized history parameter: '" + name + "'";
                     throw new FHIRPersistenceException(msg)
@@ -121,10 +166,16 @@ public class FHIRPersistenceUtil {
                 }
             }
 
-            if (context.getAfterHistoryId() != null && context.getSince() != null) {
-                String msg = "_since and _afterHistoryId can only be used exclusively, not together";
-                throw new FHIRPersistenceException(msg)
-                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+            // Grab the return preference from the request context. We add it to the history
+            // context so we have everything we need in one place
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            if (requestContext.getReturnPreference() != null) {
+                log.fine("Setting return preference: " + requestContext.getReturnPreference());
+                context.setReturnPreference(requestContext.getReturnPreference());
+            } else {
+                // by default, return the resource in the bundle to make it compliant with the R4 spec.
+                log.fine("Setting default return preference: " + HTTPReturnPreference.REPRESENTATION);
+                context.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
             }
         } catch (FHIRPersistenceException e) {
             throw e;
@@ -140,32 +191,24 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-
     /**
-     * Create a minimal deleted resource marker from the given resource
-     *
-     * @param deletedResource
-     * @return deletedResourceMarker
+     * Create a new {@link ResourceResult} instance to represent a deleted or partially
+     * erased resource
+     * @param resourceType
+     * @param logicalId
+     * @param version
+     * @param lastUpdated
+     * @return
      */
-    public static Resource createDeletedResourceMarker(Resource deletedResource) {
-        try {
-            // Build a fresh meta with only versionid/lastupdated defined
-            Meta meta = Meta.builder()
-                    .versionId(deletedResource.getMeta().getVersionId())
-                    .lastUpdated(deletedResource.getMeta().getLastUpdated())
-                    .build();
+    public static ResourceResult<Resource> createDeletedResourceResultMarker(String resourceType, String logicalId, int version, java.time.Instant lastUpdated) {
 
-            // TODO this will clone the entire resource, but we only want the minimal parameters
-            Resource deletedResourceMarker = deletedResource.toBuilder()
-                    .id(deletedResource.getId())
-                    .meta(meta)
-                    .build();
-
-            return deletedResourceMarker;
-        } catch (Exception e) {
-            throw new IllegalStateException("Error while creating deletion marker for resource of type "
-                    + deletedResource.getClass().getSimpleName());
-        }
+        return ResourceResult.builder()
+                .deleted(true)
+                .resourceTypeName(resourceType)
+                .logicalId(logicalId)
+                .version(version)
+                .lastUpdated(lastUpdated)
+                .build();
     }
 
     /**

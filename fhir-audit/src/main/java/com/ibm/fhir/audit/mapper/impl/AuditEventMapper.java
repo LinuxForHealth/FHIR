@@ -442,16 +442,12 @@ public class AuditEventMapper implements Mapper {
         // @formatter:on
     }
 
-    /*
-     * in the future, we could
-     * enhance this part to log the alternative outcomes.
-     * This applies to the next two methods: outcomeDesc, outcome
+    /**
+     * @implNote This applies to the next two methods: outcomeDesc, outcome
+     * Previously, it had pending as an option, however it should now be success/failure in all cases.
      */
     private com.ibm.fhir.model.type.String outcomeDesc(AuditLogEntry entry) {
-        if (entry.getContext().getEndTime() == null ||
-                entry.getContext().getStartTime().equalsIgnoreCase(entry.getContext().getEndTime())) {
-            return string("pending");
-        } else if (entry.getContext().getApiParameters().getStatus() < 400) {
+        if (entry.getContext().getApiParameters().getStatus() < 400) {
             return string("success");
         } else if (entry.getContext().getApiParameters().getStatus() < 500) {
             return string("minor failure");

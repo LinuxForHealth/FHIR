@@ -1,22 +1,71 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.schema.app;
 
+import static com.ibm.fhir.schema.app.menu.Menu.ADD_TENANT_KEY;
+import static com.ibm.fhir.schema.app.menu.Menu.ALLOCATE_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.CHECK_COMPATIBILITY;
+import static com.ibm.fhir.schema.app.menu.Menu.CONFIRM_DROP;
+import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMAS;
+import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_BATCH;
+import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_FHIR;
+import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_OAUTH;
+import static com.ibm.fhir.schema.app.menu.Menu.DB_TYPE;
+import static com.ibm.fhir.schema.app.menu.Menu.DELETE_TENANT_META;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_ADMIN;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_DETACHED;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_BATCH;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_FHIR;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_OAUTH;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
+import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
+import static com.ibm.fhir.schema.app.menu.Menu.FREEZE_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.GRANT_TO;
+import static com.ibm.fhir.schema.app.menu.Menu.HELP;
+import static com.ibm.fhir.schema.app.menu.Menu.LIST_TENANTS;
+import static com.ibm.fhir.schema.app.menu.Menu.POOL_SIZE;
+import static com.ibm.fhir.schema.app.menu.Menu.PROP;
+import static com.ibm.fhir.schema.app.menu.Menu.PROP_FILE;
+import static com.ibm.fhir.schema.app.menu.Menu.REFRESH_TENANTS;
+import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_ALL_TENANT_KEYS;
+import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_TENANT_KEY;
+import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_NAME;
+import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE;
+import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE_DETAIL;
+import static com.ibm.fhir.schema.app.menu.Menu.SKIP_ALLOCATE_IF_TENANT_EXISTS;
+import static com.ibm.fhir.schema.app.menu.Menu.TARGET;
+import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY;
+import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY_FILE;
+import static com.ibm.fhir.schema.app.menu.Menu.TENANT_NAME;
+import static com.ibm.fhir.schema.app.menu.Menu.TEST_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_PROC;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA_BATCH;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA_FHIR;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA_OAUTH;
+import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_VACUUM;
+import static com.ibm.fhir.schema.app.menu.Menu.VACUUM_COST_LIMIT;
+import static com.ibm.fhir.schema.app.menu.Menu.VACUUM_SCALE_FACTOR;
+import static com.ibm.fhir.schema.app.menu.Menu.VACUUM_TABLE_NAME;
+import static com.ibm.fhir.schema.app.menu.Menu.VACUUM_TRESHOLD;
 import static com.ibm.fhir.schema.app.util.CommonUtil.configureLogger;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getDbAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getPropertyAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getRandomKey;
 import static com.ibm.fhir.schema.app.util.CommonUtil.loadDriver;
 import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
-import static com.ibm.fhir.schema.app.util.CommonUtil.printUsage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -37,10 +86,12 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.core.util.handler.HostnameHandler;
+import com.ibm.fhir.database.utils.api.ConcurrentUpdateException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
@@ -67,6 +118,9 @@ import com.ibm.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
+import com.ibm.fhir.database.utils.schema.LeaseManager;
+import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
+import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
@@ -78,8 +132,7 @@ import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.schema.api.ConcurrentUpdateException;
-import com.ibm.fhir.schema.api.ILeaseManagerConfig;
+import com.ibm.fhir.schema.app.menu.Menu;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
@@ -88,6 +141,7 @@ import com.ibm.fhir.schema.control.DropForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0014Migration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
@@ -106,6 +160,12 @@ import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.control.UnusedTableRemovalNeedsV0021Migration;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
+import com.ibm.fhir.schema.size.Db2SizeCollector;
+import com.ibm.fhir.schema.size.FHIRDbSizeModel;
+import com.ibm.fhir.schema.size.ISizeCollector;
+import com.ibm.fhir.schema.size.ISizeReport;
+import com.ibm.fhir.schema.size.PostgresSizeCollector;
+import com.ibm.fhir.schema.size.ReadableSizeReport;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -126,6 +186,9 @@ public class Main {
     private static final int EXIT_NOT_READY = 4; // DATABASE NOT READY
     private static final int EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE = 5; // Tablespace Removal not complete
     private static final int EXIT_CONCURRENT_UPDATE = 6; // Another schema update is running and the wait time expired
+
+    private static final Menu menu = new Menu();
+    private static boolean help = Boolean.FALSE;
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
@@ -208,6 +271,15 @@ public class Main {
 
     // Forces the removal of tables if data exists
     private boolean forceUnusedTableRemoval = false;
+
+    // Force schema update even if whole-schema-version is current
+    private boolean force = false;
+    
+    // Report on database size metrics
+    private boolean showDbSize;
+    
+    // Include detail output in the report (default is no)
+    private boolean showDbSizeDetail = false;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -450,10 +522,9 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildFhirDataSchemaModel(pdm);
@@ -465,32 +536,37 @@ public class Main {
                     if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && isNewDb) {
                         populateResourceTypeAndParameterNameTableEntries(null);
                     }
-    
+
                     if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
                         logger.info("Refreshing tenant partitions");
                         refreshTenants();
                     }
-    
+
                     // backfill the resource_change_log table if needed
                     backfillResourceChangeLog();
-    
+
                     // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
                     applyDataMigrationForV0010();
-    
+
                     // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
                     applyDataMigrationForV0014();
-    
+
                     // V0021 removes Abstract Type tables which are unused.
                     applyTableRemovalForV0021();
-    
+
                     // Apply privileges if asked
                     if (grantTo != null) {
                         grantPrivilegesForFhirData();
                     }
-    
+
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is up-to-date; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -516,10 +592,9 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
@@ -529,10 +604,15 @@ public class Main {
                     if (grantTo != null) {
                         grantPrivilegesForOAuth();
                     }
-    
+
                     // Mark the schema as up-to-date
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -558,23 +638,27 @@ public class Main {
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
-            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName);
-            if (svm.isLatestSchema()) {
-                logger.info("Already at latest version; skipping update for: '" + targetSchemaName + "'");
-            } else {
+            SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
+                FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
+            if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
-                
+
                 if (this.exitStatus == EXIT_OK) {
                     // Apply privileges if asked
                     if (grantTo != null) {
                         grantPrivilegesForBatch();
                     }
-    
+
                     // Mark the schema as up-to-date
                     svm.updateSchemaVersion();
                 }
+            } else if (this.force) {
+                logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
+                this.exitStatus = EXIT_BAD_ARGS;
+            } else {
+                logger.info("Schema is current; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -1690,14 +1774,14 @@ public class Main {
             int nextIdx = (i + 1);
             String arg = args[i];
             switch (arg) {
-            case "--prop-file":
+            case PROP_FILE:
                 if (++i < args.length) {
                     loadPropertyFile(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--schema-name":
+            case SCHEMA_NAME:
                 if (++i < args.length) {
                     DataDefinitionUtil.assertValidName(args[i]);
                     schema.setSchemaName(args[i]);
@@ -1705,7 +1789,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--grant-to":
+            case GRANT_TO:
                 if (++i < args.length) {
                     DataDefinitionUtil.assertValidName(args[i]);
 
@@ -1715,7 +1799,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--target":
+            case TARGET:
                 if (++i < args.length) {
                     DataDefinitionUtil.assertValidName(args[i]);
                     List<String> targets = Arrays.asList(args[i].split(","));
@@ -1754,37 +1838,37 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--add-tenant-key":
+            case ADD_TENANT_KEY:
                 if (++i < args.length) {
                     this.addKeyForTenant = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--revoke-tenant-key":
+            case REVOKE_TENANT_KEY:
                 if (++i >= args.length) {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 this.tenantName = args[i];
                 this.revokeTenantKey = true;
                 break;
-            case "--revoke-all-tenant-keys":
+            case REVOKE_ALL_TENANT_KEYS:
                 if (++i >= args.length) {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 this.tenantName = args[i];
                 this.revokeAllTenantKeys = true;
                 break;
-            case "--update-proc":
+            case UPDATE_PROC:
                 this.updateProc = true;
                 break;
-            case "--check-compatibility":
+            case CHECK_COMPATIBILITY:
                 this.checkCompatibility = true;
                 break;
-            case "--drop-admin":
+            case DROP_ADMIN:
                 this.dropAdmin = true;
                 break;
-            case "--test-tenant":
+            case TEST_TENANT:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.testTenant = true;
@@ -1792,29 +1876,36 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--tenant-key":
+            case TENANT_NAME:
+                if (++i < args.length) {
+                    this.tenantName = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case TENANT_KEY:
                 if (++i < args.length) {
                     this.tenantKey = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--tenant-key-file":
+            case TENANT_KEY_FILE:
                 if (++i < args.length) {
                     tenantKeyFileName = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--list-tenants":
+            case LIST_TENANTS:
                 this.listTenants = true;
                 break;
-            case "--update-schema":
+            case UPDATE_SCHEMA:
                 this.updateFhirSchema = true;
                 this.updateOauthSchema = true;
                 this.updateJavaBatchSchema = true;
                 break;
-            case "--update-schema-fhir":
+            case UPDATE_SCHEMA_FHIR:
                 this.updateFhirSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setSchemaName(args[nextIdx]);
@@ -1823,75 +1914,75 @@ public class Main {
                     schema.setSchemaName(DATA_SCHEMANAME);
                 }
                 break;
-            case "--update-schema-batch":
+            case UPDATE_SCHEMA_BATCH:
                 this.updateJavaBatchSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setJavaBatchSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--update-schema-oauth":
+            case UPDATE_SCHEMA_OAUTH:
                 this.updateOauthSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--create-schemas":
+            case CREATE_SCHEMAS:
                 this.createFhirSchema = true;
                 this.createOauthSchema = true;
                 this.createJavaBatchSchema = true;
                 break;
-            case "--create-schema-fhir":
+            case CREATE_SCHEMA_FHIR:
                 this.createFhirSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--create-schema-batch":
+            case CREATE_SCHEMA_BATCH:
                 this.createJavaBatchSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setJavaBatchSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--create-schema-oauth":
+            case CREATE_SCHEMA_OAUTH:
                 this.createOauthSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--drop-schema":
+            case DROP_SCHEMA:
                 System.err.print("Option '--drop-schema' has been retired.  Please use '--drop-schema-fhir', "
                         + "'--drop-schema-batch', and/or '--drop-schema-oauth'.");
                 break;
-            case "--drop-schema-fhir":
+            case DROP_SCHEMA_FHIR:
                 this.dropFhirSchema = Boolean.TRUE;
                 break;
-            case "--drop-schema-batch":
+            case DROP_SCHEMA_BATCH:
                 this.dropJavaBatchSchema = Boolean.TRUE;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setJavaBatchSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--drop-schema-oauth":
+            case DROP_SCHEMA_OAUTH:
                 this.dropOauthSchema = Boolean.TRUE;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
                 break;
-            case "--pool-size":
+            case POOL_SIZE:
                 if (++i < args.length) {
                     this.maxConnectionPoolSize = Integer.parseInt(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--prop":
+            case PROP:
                 if (++i < args.length) {
                     // properties are given as name=value
                     addProperty(args[i]);
@@ -1899,41 +1990,41 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--update-vacuum":
+            case UPDATE_VACUUM:
                 updateVacuum = true;
                 break;
-            case "--vacuum-cost-limit":
+            case VACUUM_COST_LIMIT:
                 if (++i < args.length) {
                     this.vacuumCostLimit = Integer.parseInt(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--vacuum-threshold":
+            case VACUUM_TRESHOLD:
                 if (++i < args.length) {
                     this.vacuumThreshold = Integer.parseInt(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--vacuum-scale-factor":
+            case VACUUM_SCALE_FACTOR:
                 if (++i < args.length) {
                     this.vacuumScaleFactor = Double.parseDouble(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--vacuum-table-name":
+            case VACUUM_TABLE_NAME:
                 if (++i < args.length) {
                     this.vacuumTableName = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--confirm-drop":
+            case CONFIRM_DROP:
                 this.confirmDrop = true;
                 break;
-            case "--allocate-tenant":
+            case ALLOCATE_TENANT:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.allocateTenant = true;
@@ -1942,12 +2033,12 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--refresh-tenants":
+            case REFRESH_TENANTS:
                 this.refreshTenants = true;
                 this.allocateTenant = false;
                 this.dropTenant = false;
                 break;
-            case "--drop-tenant":
+            case DROP_TENANT:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.dropTenant = true;
@@ -1956,7 +2047,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--freeze-tenant":
+            case FREEZE_TENANT:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.freezeTenant = true;
@@ -1966,7 +2057,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--drop-detached":
+            case DROP_DETACHED:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.dropDetached = true;
@@ -1976,7 +2067,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--delete-tenant-meta":
+            case DELETE_TENANT_META:
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.deleteTenantMeta = true;
@@ -1984,7 +2075,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--db-type":
+            case DB_TYPE:
                 if (++i < args.length) {
                     this.dbType = DbType.from(args[i]);
                 } else {
@@ -2003,12 +2094,24 @@ public class Main {
                 }
                 break;
             // Skips the allocateTenant action if the tenant exists (e.g. a shortcircuit)
-            case "--skip-allocate-if-tenant-exists":
+            case SKIP_ALLOCATE_IF_TENANT_EXISTS:
                 skipIfTenantExists = true;
                 break;
-            case "--force-unused-table-removal":
+            case FORCE_UNUSED_TABLE_REMOVAL:
                 forceUnusedTableRemoval = true;
                 break;
+            case FORCE:
+                force = true;
+                break;
+            case SHOW_DB_SIZE:
+                showDbSize = true;
+                break;
+            case SHOW_DB_SIZE_DETAIL:
+                showDbSizeDetail = true;
+                break;
+            case HELP:
+                help = Boolean.TRUE;
+                throw new IllegalArgumentException("Help Menu Triggered");
             default:
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");
             }
@@ -2439,6 +2542,59 @@ public class Main {
         }
         return result;
     }
+
+    /**
+     * Query the database to collect information on space usage by tables and indexes
+     * attributed to resources and their search parameters then render to a useful
+     * report
+     */
+    private void generateDbSizeReport() {
+        FHIRDbSizeModel model = new FHIRDbSizeModel(this.schema.getSchemaName());
+        final ISizeCollector collector;
+        switch (dbType) {
+        case POSTGRESQL:
+            collector = new PostgresSizeCollector(model);
+            break;
+        case DB2:
+            collector = new Db2SizeCollector(model, this.tenantName);
+            break;
+        case DERBY:
+            collector = null;
+            logger.severe("Size report not supported for Derby databases");
+            exitStatus = EXIT_BAD_ARGS;
+        default:
+            throw new IllegalArgumentException("Unsupported DbType: " + dbType);
+        }
+        
+        if (collector != null) {
+            collectDbSizeInfo(collector);
+            // render the report using UTF8 regardless of system config
+            OutputStreamWriter writer = new OutputStreamWriter(System.out, StandardCharsets.UTF_8);
+            ISizeReport report = new ReadableSizeReport(writer, this.showDbSizeDetail);
+            report.render(model);
+            try {
+                writer.flush();
+            } catch (IOException x) {
+                throw new RuntimeException(x);
+            }
+        }
+    }
+
+    /**
+     * Run the collector to populate the size model
+     * @param collector
+     */
+    private void collectDbSizeInfo(ISizeCollector collector) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection()) {
+                collector.run(this.schema.getSchemaName(), c, translator);
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw this.translator.translate(x);
+            }
+        }
+    }
+
     /**
      * Process the requested operation
      */
@@ -2470,7 +2626,9 @@ public class Main {
             }
         }
 
-        if (addKeyForTenant != null) {
+        if (showDbSize) {
+            generateDbSizeReport();
+        } else if (addKeyForTenant != null) {
             addTenantKey();
         } else if (updateVacuum) {
             updateVacuumSettings();
@@ -2606,9 +2764,13 @@ public class Main {
             logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
             exitStatus = EXIT_NOT_READY;
         } catch (IllegalArgumentException x) {
-            logger.log(Level.SEVERE, "bad argument", x);
-            printUsage();
-            exitStatus = EXIT_BAD_ARGS;
+            if (!help) {
+                logger.log(Level.SEVERE, "bad argument", x);
+                exitStatus = EXIT_BAD_ARGS;
+            } else {
+                exitStatus = EXIT_OK;
+            }
+            menu.generateHelpMenu();
         } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);
             exitStatus = EXIT_RUNTIME_ERROR;

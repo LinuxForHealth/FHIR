@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -27,6 +29,7 @@ import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
@@ -44,7 +47,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
-import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to an Apache Derby database.
@@ -63,6 +65,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 public class DerbyResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
     private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
+    private static final int INTERACTION_STATUS_IF_NONE_MATCH = 1;
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
@@ -88,26 +91,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        Integer resourceTypeId;
         Timestamp lastUpdated;
-        boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
+            // check that the resource type is valid according to the database
+            Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
             lastUpdated = resource.getLastUpdated();
             dbCallStartTime = System.nanoTime();
@@ -121,7 +111,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             long resourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
-                resource.getDataStream().inputStream(),
+                resource.getDataStream() != null ? resource.getDataStream().inputStream() : null,
                 lastUpdated,
                 resource.isDeleted(),
                 sourceKey,
@@ -130,6 +120,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 connection,
                 parameterDao,
                 ifNoneMatch,
+                resource.getResourcePayloadKey(),
                 outInteractionStatus,
                 outIfNoneMatchVersion
                 );
@@ -137,7 +128,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
-            if (outInteractionStatus.get() == 1) {
+            if (outInteractionStatus.get() == INTERACTION_STATUS_IF_NONE_MATCH) {
                 resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
                 resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
             } else {
@@ -155,8 +146,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             throw severe(logger, fx, e);
         } catch(SQLException e) {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
-                // this is just a concurrency update, so there's no need to log the SQLException here
+                // this is just a concurrent update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else if (FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED.equals((e.getSQLState()))) {
+                // the resource is already deleted, which should be handled before the persistence layer is called
+                throw new FHIRPersistenceResourceDeletedException("Unexpected attempt to delete a Resource which is currently deleted.");
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);
@@ -212,7 +206,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
             String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
-            ParameterDAO parameterDao, Integer ifNoneMatch,
+            ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
@@ -227,7 +221,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         boolean v_duplicate = false;
         boolean v_currently_deleted = false;
         int v_current_version;
-        final InteractionStatus interactionStatus;
 
         // used to bypass param delete/insert if all param values are the same
         String currentParameterHash = null;
@@ -421,7 +414,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
                 // Conditional create-on-update If-None-Match matches the current resource, so skip the update
                 logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
-                outInteractionStatus.set(1);
+                outInteractionStatus.set(INTERACTION_STATUS_IF_NONE_MATCH);
                 outIfNoneMatchVersion.set(v_current_version);
                 return -1L;
             } else if (p_version != v_current_version + 1) {
@@ -431,6 +424,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 // mimic the exception we'd see from one of our stored procedures
                 logger.warning("Concurrent update of resource: " + v_resource_type + "/" + p_logical_id + " [" + p_version + " != " + (v_current_version+1) + "]");
                 throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
+            } else if (v_currently_deleted && p_is_deleted) {
+                // Cannot delete a resource which is currently deleted. This is an extra
+                // safety check and primarily used to handle unit tests which may attempt
+                // to double-delete a resource. Should not be relevant to the REST layer,
+                // unless someone breaks it.
+                logger.warning("Cannot delete a resource which is currently deleted: " + v_resource_type + "/" + p_logical_id + " [" + p_version + "]");
+                throw new SQLException("Cannot delete a resource which is currently deleted", FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED);
             }
 
             // existing resource, so need to delete all its parameters unless they share
@@ -445,16 +445,23 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (logger.isLoggable(Level.FINEST)) {
             logger.finest("Creating " + tablePrefix + "_resources row: " + v_resource_type + "/" + p_logical_id);
         }
-        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) "
-                + "VALUES (?,?,?,?,?,?)";
+        String sql3 = "INSERT INTO " + tablePrefix + "_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) "
+                + "VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
             // bind parameters
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, p_version);
-            stmt.setBinaryStream(4, p_payload);
+            
+            if (p_payload != null) {
+                stmt.setBinaryStream(4, p_payload);
+            } else {
+                // payload offloaded to another data store
+                stmt.setNull(4, Types.BLOB);
+            }
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
+            setString(stmt, 7, resourcePayloadKey); // can be null
             stmt.executeUpdate();
         }
 

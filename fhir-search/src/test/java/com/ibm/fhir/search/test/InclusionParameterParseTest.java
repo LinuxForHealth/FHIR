@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,7 +66,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("xxx"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -150,7 +150,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("MedicationOrder:patient"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -171,7 +171,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("MedicationOrder:patient"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("Patient:bogus"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -205,7 +205,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("Patient:bogus"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -218,7 +218,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("Patient:active"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -324,7 +324,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include", Collections.singletonList("Patient:careprovider:Contract"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -345,7 +345,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include", Collections.singletonList("Patient:careprovider:Contract"));
-        System.out.println(SearchUtil.parseQueryParameters(resourceType, queryParameters, false));
+        System.out.println(SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true));
     }
 
     @Test
@@ -394,7 +394,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:link:Patient"));
         queryParameters.put("_summary", Collections.singletonList("text"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
 
         assertFalse(searchContext.hasIncludeParameters());
@@ -465,7 +465,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Invalid:general-practitioner"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(1, searchContext.getRevIncludeParameters().size());
@@ -486,7 +486,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Invalid:general-practitioner"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -499,7 +499,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Patient:general-practitioner:Practitioner"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(1, searchContext.getRevIncludeParameters().size());
@@ -533,7 +533,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Patient:bogus"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(1, searchContext.getRevIncludeParameters().size());
@@ -554,7 +554,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Patient:bogus"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -567,7 +567,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude", Collections.singletonList("Patient:active"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(1, searchContext.getRevIncludeParameters().size());
@@ -588,7 +588,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_revinclude", Collections.singletonList("Patient:active"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -1023,7 +1023,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include:invalid", Collections.singletonList("Patient:link"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -1057,7 +1057,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_include:iterate", Collections.singletonList("MedicationOrder:patient"));
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
         assertEquals(1, searchContext.getIncludeParameters().size());
@@ -1078,7 +1078,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_include:iterate", Collections.singletonList("MedicationOrder:patient"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -1091,7 +1091,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In lenient mode, the invalid parameter should be ignored
         queryParameters.put("_revinclude:iterate", Collections.singletonList("Patient:general-practitioner:Practitioner"));
         queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(1, searchContext.getRevIncludeParameters().size());
@@ -1132,7 +1132,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         // In strict mode, the invalid parameter should be ignored if not explicitly specified by the user
         queryParameters.put("_revinclude:iterate", Collections.singletonList("Patient:general-practitioner"));
         queryParameters.put("_revinclude", Collections.singletonList("PractitionerRole:organization"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, false);
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.hasRevIncludeParameters());
         assertEquals(expectedIncludeParms.size(), searchContext.getRevIncludeParameters().size());

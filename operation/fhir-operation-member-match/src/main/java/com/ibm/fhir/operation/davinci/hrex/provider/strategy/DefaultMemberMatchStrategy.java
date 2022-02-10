@@ -1,18 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.operation.davinci.hrex.provider.strategy;
 
-import java.time.temporal.ChronoField;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult.ResponseType;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -54,10 +56,14 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * 2. HealthPlan (Match) checks the incoming Parameters validates against the profile.
  * 3. HealthPlan (Match) executes a local Search to find the Coverage
  * 4. HealhPlan (Match) (optionally) augments the Coverage details on the local system with a LINK.
+ * 
+ * @implNote the following search parameters are needed.
+ * Patient = identifier (USUAL, OFFICIAL), telecom, name, address, address-city, address-state, address-postalcode, address-country, gender, birthdate (uses eq), language
+ * Coverage = patient, subscriber, payor, subscriber-id, identifier, beneficiary
  */
 public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
-    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getSimpleName());
+    private static final Logger LOG = Logger.getLogger(DefaultMemberMatchStrategy.class.getName());
 
     private Patient memberPatient;
     private Coverage coverageToMatch;
@@ -139,6 +145,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
 
     @Override
     public MemberMatchResult executeMemberMatch() throws FHIROperationException {
+        LOG.entering(this.getClass().getName(), "executeMemberMatch");
         MemberMatchPatientSearchCompiler patientCompiler = new MemberMatchPatientSearchCompiler();
         memberPatient.accept(patientCompiler);
 
@@ -146,11 +153,12 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         try {
             // Compartment / CompartmentId is OK to be null in this case as we are not doing any includes
             // defined by the customer, it's all in the Compiler.
-            String type = "Patient";
             String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
-            LOG.fine("SPs for Patient " + patientCompiler.getSearchParameters());
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Search Parameters used to find the member in 'Patient' " + patientCompiler.getSearchParameters());
+            }
             Bundle patientBundle = resourceHelper()
-                    .doSearch(type, null, null, patientCompiler.getSearchParameters(), requestUri, null);
+                    .doSearch("Patient", null, null, patientCompiler.getSearchParameters(), requestUri, null);
             int size = patientBundle.getEntry().size();
             if (size == 0) {
                 returnNoMatchException();
@@ -164,16 +172,17 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                         .build();
             }
 
-            String patientReference = "Patient/" + patientBundle.getEntry().get(0).getId();
-            type = "Coverage";
+            String patientReference = "Patient/" + patientBundle.getEntry().get(0).getResource().getId();
 
             // Compiles the Coverage Search Parameters
             MemberMatchCovergeSearchCompiler coverageCompiler = new MemberMatchCovergeSearchCompiler(patientReference);
             coverageToMatch.accept(coverageCompiler);
 
             // essentially a search on beneficiary
-            LOG.info("SPs for Coverage " + coverageCompiler.getSearchParameters());
-            Bundle coverageBundle = resourceHelper().doSearch(type, null, null, coverageCompiler.getSearchParameters(), requestUri, null);
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Search Parameters used to find the member's Coverage " + coverageCompiler.getSearchParameters());
+            }
+            Bundle coverageBundle = resourceHelper().doSearch("Coverage", null, null, coverageCompiler.getSearchParameters(), requestUri, null);
 
             if (coverageBundle.getEntry().isEmpty()) {
                 // This may warrant a separate exception in custom implementations.
@@ -197,13 +206,16 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                         .responseType(ResponseType.NO_MATCH)
                         .build();
             }
-        } catch (Exception e) {
-            LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", e);
-            throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION);
+        } catch (FHIROperationException foe){
+            throw foe;
+        } catch (Exception ex) {
+            LOG.throwing(getClass().getSimpleName(), "executeMemberMatch", ex);
+            throw FHIROperationUtil.buildExceptionWithIssue("Error executing the MemberMatch", IssueType.EXCEPTION, ex);
         }
 
         updateLinkedCoverageResource();
 
+        LOG.exiting(this.getClass().getName(), "executeMemberMatch");
         return MemberMatchResult.builder()
                     .responseType(ResponseType.SINGLE)
                     .type("http://terminology.hl7.org/CodeSystem/v2-0203", "MB")
@@ -247,7 +259,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                             addIdValue(identifier);
                         break;
                         default:
-                            LOG.fine("Identifier contains an unexected use " + identifier.getUse().getValueAsEnum());
+                            LOG.fine("Identifier contains an unexpected use [" + identifier.getUse().getValueAsEnum() + "]");
                     }
                 } else {
                     addIdValue(identifier);
@@ -319,6 +331,8 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
         private Set<String> addressState = new HashSet<>();
         private Set<String> addressPostalCode = new HashSet<>();
         private Set<String> addressCountry = new HashSet<>();
+
+        private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         /**
          * public constructor which automatically enables child element processing.
@@ -456,8 +470,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             // SearchParameter: birthdate
             if ("birthDate".equals(elementName) && date.getValue() != null) {
                 TemporalAccessor acc = date.getValue();
-                String searchVal = "eq" + acc.get(ChronoField.YEAR) + "-" + acc.get(ChronoField.MONTH_OF_YEAR) + "-" + acc.get(ChronoField.DAY_OF_MONTH);
-                searchParams.add("birthdate", searchVal);
+                searchParams.add("birthdate", "eq" + formatter.format(acc));
             }
             return false;
         }
@@ -548,6 +561,15 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                 }
             }
             return false;
+        }
+
+        @Override
+        public boolean visit(java.lang.String elementName, int elementIndex, Resource resource) {
+            // contained resources shouldn't be processed.
+            if ("contained".equals(elementName)){
+                return false;
+            }
+            return visit(elementName, elementIndex, (Visitable) resource);
         }
     }
 
@@ -655,6 +677,15 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
                 searchParams.put("subscriber-id", Arrays.asList(string.getValue()));
             }
             return false;
+        }
+
+        @Override
+        public boolean visit(java.lang.String elementName, int elementIndex, Resource resource) {
+            // contained resources shouldn't be processed.
+            if ("contained".equals(elementName)){
+                return false;
+            }
+            return visit(elementName, elementIndex, (Visitable) resource);
         }
     }
 }

@@ -1,0 +1,26 @@
+{
+	"resourceType": "Measure",
+	"id": "NoLibrary",
+	"name": "NoLibrary",
+	"version": "1.0.0",
+	"url": "http://localhost/fhir-server/api/v4/Measure/NoLibrary",
+	"status": "active",
+	"scoring": {
+		"coding": [{
+			"code": "cohort"
+		}]
+	},
+	"group": [{
+		"population": [{
+			"code": {
+				"coding": [{
+					"code": "initial-population"
+				}]
+			},
+			"criteria": {
+				"language": "text/cql",
+				"expression": "cohort"
+			}
+		}]
+	}]
+}
