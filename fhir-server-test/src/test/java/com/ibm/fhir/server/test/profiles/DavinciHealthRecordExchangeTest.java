@@ -253,6 +253,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
                     Parameters.Parameter patientParameter = patientParameterBuilder.build();
                     params.add(patientParameter);
                     params.add(source.getParameter().get(1));
+                    params.add(source.getParameter().get(3));
 
                     Parameters.Builder builder = Parameters.builder().parameter(params);
                     return builder.build();
@@ -278,7 +279,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             public Parameters getInputParameters() {
                 try {
                     Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
-                    Parameters.Builder builder = Parameters.builder().parameter(Arrays.asList(source.getParameter().get(0)));
+                    Parameters.Builder builder = Parameters.builder().parameter(Arrays.asList(source.getParameter().get(0), source.getParameter().get(3)));
                     return builder.build();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -353,6 +354,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
                     Parameters.Parameter patientParameter = patientParameterBuilder.build();
                     params.add(patientParameter);
                     params.add(source.getParameter().get(1));
+                    params.add(source.getParameter().get(3));
 
                     return Parameters.builder().parameter(params).build();
                 } catch (Exception e) {
@@ -390,6 +392,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
                     Parameters.Parameter patientParameter = patientParameterBuilder.build();
                     params.add(patientParameter);
                     params.add(source.getParameter().get(1));
+                    params.add(source.getParameter().get(3));
 
                     return Parameters.builder().parameter(params).build();
                 } catch (Exception e) {
@@ -440,6 +443,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
                                     .build());
                     Parameters.Parameter coverageParameter = coverageParameterBuilder.build();
                     params.add(coverageParameter);
+                    params.add(source.getParameter().get(3));
 
                     return Parameters.builder().parameter(params).build();
                 } catch (Exception e) {
