@@ -475,6 +475,12 @@
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
                 <version>4.13.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-annotations</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
@@ -526,6 +532,20 @@
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
                 <version>0.6.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>it.unimi.dsi</groupId>
+                        <artifactId>fastutil</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jboss.logging</groupId>
+                        <artifactId>jboss-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
@@ -541,6 +561,12 @@
                 <groupId>org.apache.tinkerpop</groupId>
                 <artifactId>gremlin-driver</artifactId>
                 <version>3.5.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty-transport-rxtx</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -606,11 +632,23 @@
                 <groupId>org.opencds.cqf.cql</groupId>
                 <artifactId>engine</artifactId>
                 <version>1.5.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.javaparser</groupId>
+                        <artifactId>javaparser</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>info.cqframework</groupId>
                 <artifactId>cql-to-elm</artifactId>
                 <version>1.5.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.javaparser</groupId>
+                        <artifactId>javaparser</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
