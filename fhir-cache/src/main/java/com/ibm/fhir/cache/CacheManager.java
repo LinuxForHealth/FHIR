@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -131,8 +131,8 @@ public final class CacheManager {
      * @return
      *     a snapshot of the cumulative statistics for the cache with the given name, or null if not exists
      */
-    public static CacheStats getCacheStats(String cacheName) {
-        Cache<?, ?> cache = getCache(cacheName);
+    public static <K, V> CacheStats getCacheStats(String cacheName) {
+        Cache<K, V> cache = getCache(cacheName);
         return (cache != null) ? cache.stats() : null;
     }
 
@@ -144,8 +144,8 @@ public final class CacheManager {
      * @param key
      *     the key
      */
-    public static void invalidate(String cacheName, Object key) {
-        Cache<?, ?> cache = getCache(cacheName);
+    public static <K, V> void invalidate(String cacheName, K key) {
+        Cache<K, V> cache = getCache(cacheName);
         if (cache != null) {
             cache.invalidate(key);
         }
@@ -157,8 +157,8 @@ public final class CacheManager {
      * @param cacheName
      *     the cache name
      */
-    public static void invalidateAll(String cacheName) {
-        Cache<?, ?> cache = getCache(cacheName);
+    public static <K, V> void invalidateAll(String cacheName) {
+        Cache<K, V> cache = getCache(cacheName);
         if (cache != null) {
             cache.invalidateAll();
         }

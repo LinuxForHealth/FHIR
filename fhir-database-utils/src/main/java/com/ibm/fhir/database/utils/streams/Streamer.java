@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 /**
  * Simple implementation taking a JDBC ResultSet and rendering it using
- * the Java 8 Streams API.
+ * the Java Streams API.
  * <br>
  * The JDBC API is really starting to show its age here
  */
@@ -45,16 +45,16 @@ public class Streamer {
                 cols[i] = rs.getObject(i+1);
             }
         }
-        
+
         public String[] getColumnNames() {
             return this.columnNames;
         }
-        
+
         public Object[] getCols() {
             return this.cols;
         }
     }
-    
+
 
     /**
      * Wrap the JDBC {@link ResultSet} as a stream object. Note that the stream has to be consumed within
@@ -68,7 +68,7 @@ public class Streamer {
         for (int i=0; i<columnNames.length; i++) {
             columnNames[i] = md.getColumnName(i+1);
         }
-        
+
         Spliterator<Row> s = new Spliterators.AbstractSpliterator<Row>(Long.MAX_VALUE, Spliterator.NONNULL | Spliterator.IMMUTABLE) {
 
             @Override
@@ -77,7 +77,7 @@ public class Streamer {
                     if (!rs.next()) {
                         return false;
                     }
-                    
+
                     // wrap the current result record as a Row which is then handed
                     // off to the stream
                     action.accept(new Row(rs, columnNames));
@@ -90,9 +90,9 @@ public class Streamer {
                 }
             }
         };
-        
+
         // Create a sequential stream of the rows from the result set
         return StreamSupport.stream(s, false);
     }
-    
+
 }
