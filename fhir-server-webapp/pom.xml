@@ -105,7 +105,6 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
                     <copyDependencies>
-                        <!-- Used to Test Profiles and Operations -->
                         <dependencyGroup>
                             <dependency>
                                 <groupId>org.apache.derby</groupId>
