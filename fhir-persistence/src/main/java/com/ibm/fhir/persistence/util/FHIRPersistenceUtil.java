@@ -151,7 +151,7 @@ public class FHIRPersistenceUtil {
                     } catch (IllegalArgumentException ex) {
                         // IllegalArgumentException needs to be converted to INVALID which is then a Client Error.
                         final String msg = "The '_sort' parameter must be a '_lastUpdated', '-_lastUpdated' or 'none'";
-                        log.throwing(FHIRPersistenceUtil.class.getName(), ex);
+                        log.throwing(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters", ex);
                         throw new FHIRPersistenceException(msg)
                                 .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
                     }
