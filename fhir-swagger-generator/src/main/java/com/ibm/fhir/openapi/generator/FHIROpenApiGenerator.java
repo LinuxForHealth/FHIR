@@ -567,7 +567,11 @@ public class FHIROpenApiGenerator {
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
-        swagger.add("basePath", CONTEXT_ROOT);
+        JsonArrayBuilder servers = factory.createArrayBuilder();
+        JsonObjectBuilder server = factory.createObjectBuilder();
+        server.add("url", CONTEXT_ROOT);
+        servers.add(server);
+        swagger.add("servers", servers);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -631,7 +635,11 @@ public class FHIROpenApiGenerator {
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
-        swagger.add("basePath", CONTEXT_ROOT);
+        JsonArrayBuilder servers = factory.createArrayBuilder();
+        JsonObjectBuilder server = factory.createObjectBuilder();
+        server.add("url", CONTEXT_ROOT);
+        servers.add(server);
+        swagger.add("servers", servers);
 
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
@@ -701,7 +709,11 @@ public class FHIROpenApiGenerator {
         info.add("version", "4.0.0");
         swagger.add("info", info);
 
-        swagger.add("basePath", CONTEXT_ROOT);
+        JsonArrayBuilder servers = factory.createArrayBuilder();
+        JsonObjectBuilder server = factory.createObjectBuilder();
+        server.add("url", CONTEXT_ROOT);
+        servers.add(server);
+        swagger.add("servers", servers);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -1465,10 +1477,6 @@ public class FHIROpenApiGenerator {
         }
         get.add("operationId", operationId);
 
-        JsonArrayBuilder produces = factory.createArrayBuilder();
-        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
-        get.add("produces", produces);
-        
         JsonArrayBuilder parameters = factory.createArrayBuilder();
         // Add parameters to api call
         JsonObjectBuilder sortParameter = factory.createObjectBuilder();

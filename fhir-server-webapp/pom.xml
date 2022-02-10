@@ -75,6 +75,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-operation-versions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
@@ -100,11 +105,44 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
                     <copyDependencies>
-                        <dependency>
-                            <groupId>org.apache.derby</groupId>
-                            <artifactId>derby</artifactId>
-                        </dependency>
-                        <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
+                        <!-- Used to Test Profiles and Operations -->
+                        <dependencyGroup>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derby</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbyclient</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbyshared</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbytools</artifactId>
+                            </dependency>
+                            <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
+                        </dependencyGroup>
+                        <dependencyGroup>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-operation-member-match</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-ig-us-core</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-ig-davinci-hrex</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <location>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/userlib/</location>
+                        </dependencyGroup>
                     </copyDependencies>
                 </configuration>
             </plugin>

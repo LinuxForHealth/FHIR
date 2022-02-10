@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2022
-lastupdated: "2022-01-20"
+lastupdated: "2022-02-09"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -44,7 +44,7 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 # 2 Installation
 
 ## 2.1 Installing a new server
-0.  Prereqs: The IBM FHIR Server requires Java 8 or higher and has been tested with OpenJDK 8, OpenJDK 11, and the IBM SDK, Java Technology Edition, Version 8. To install Java on your system, we recommend downloading and installing OpenJDK 8 from https://adoptopenjdk.net/.
+0.  Prereqs: The IBM FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
 1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
@@ -123,6 +123,14 @@ The IBM FHIR Server is configured using Environment variables using:
 | Environment Variable | Description |
 |----------------------|-------------|
 |`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+
+*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+
+```
+docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
+  -v $(pwd)/jvm-dev.options:/config/configDropins/default/jvm.options \
+  ibmcom/ibm-fhir-server
+```
 
 # 3 Configuration
 This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
@@ -2758,7 +2766,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:
-*   [IBM Java 8 Keytool documentation](https://www.ibm.com/support/knowledgecenter/SSYKE2_8.0.0/com.ibm.java.security.component.80.doc/security-component/keytoolDocs/keytool_overview.html)
+*   [Java 11 Keytool documentation](https://docs.oracle.com/en/java/javase/11/tools/keytool.html)
 *   [WebSphere Liberty documentation: Configuring your web application and server for client certificate authentication](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_sec_clientcert.html)
 *   [Java EE 7 Tutorial, Chapter 50](https://docs.oracle.com/javaee/7/tutorial/security-advanced002.htm#GLIEN)
 *   [WebSphere Liberty documentation: Defining an OAuth Service Provider](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html)
@@ -2800,7 +2808,7 @@ For more information about topics related to configuring a FHIR server, see the 
 
 - <b id="f9">9</b>
 
-    The _keytool_ command is provided as part of the Java 8 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
+    The _keytool_ command is provided as part of the Java 11 JRE.  The command can be found in $JAVA_HOME/jre/bin. [↩](#a9)
 
 - <b id="f10">10</b> These instructions assume the use of a basic user registry in the server.xml file.  If you are instead using an LDAP registry, then the entire DN associated with the client certificate must match the DN of a user in the LDAP registry. [↩](#a10)
 
