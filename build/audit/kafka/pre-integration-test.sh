@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020, 2021
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -28,7 +28,6 @@ config(){
     touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
-
 
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST

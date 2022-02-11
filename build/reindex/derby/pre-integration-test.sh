@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -35,14 +35,6 @@ config() {
     # Move over the test configurations
     echo "Checking dynamic resource provider"
     bash ${WORKSPACE}/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config.json
-    if [ "$(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json)" = "true" ]
-    then 
-        echo "serverRegistryResourceProviderEnabled is true"
-    else 
-        echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
-        exit 1;
-    fi
-
 }
 
 # cleanup - cleanup existing docker
