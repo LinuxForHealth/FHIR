@@ -2,16 +2,16 @@
 	"resourceType": "StructureDefinition",
 	"id": "hrex-coverage",
 	"text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-    },
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage",
 	"version": "0.2.0",
 	"name": "HRexCoverage",
 	"title": "HRex Coverage Profile",
 	"status": "active",
 	"experimental": false,
-	"date": "2021-10-05T18:17:41+00:00",
+	"date": "2022-02-08T21:08:21+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -1066,7 +1066,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
 							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization",
 							"http://hl7.org/fhir/StructureDefinition/RelatedPerson"
 						]
@@ -1125,7 +1125,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
 						]
 					}
 				],
@@ -1308,6 +1308,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
+				"mustSupport": true,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -2834,7 +2835,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
 							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization",
 							"http://hl7.org/fhir/StructureDefinition/RelatedPerson"
 						]
@@ -2848,7 +2849,7 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
 						]
 					}
 				]
@@ -2871,6 +2872,16 @@
 						"targetProfile": [
 							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-demographics"
 						]
+					}
+				],
+				"mustSupport": true
+			},
+			{
+				"id": "Coverage.dependent",
+				"path": "Coverage.dependent",
+				"type": [
+					{
+						"code": "string"
 					}
 				],
 				"mustSupport": true

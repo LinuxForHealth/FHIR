@@ -5,17 +5,19 @@
 
 1. - Modified ig-r4.json to remove unsupported values from the parameters array, such as  `copyrightyear`, `releaselabel`.
 
-2. - Change targetProfile for us-core profile references to dependency on 3.1.1, so it's not conflicting with 4.0.0 (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1)
+2. - Change targetProfile for us-core profile references to dependency on 4.0.0, so it doesn't conflict with future releases (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0)
+    - StructureDefinition-hrex-claimresponse.json
+    - StructureDefinition-hrex-consent.json
     - StructureDefinition-hrex-coverage.json
     - StructureDefinition-hrex-task-data-request.json
     - StructureDefinition-hrex-provenance.json
     - StructureDefinition-hrex-practitionerrole.json
     - StructureDefinition-hrex-practitioner.json
-    - StructureDefinition-hrex-patient-member.json
     - StructureDefinition-hrex-patient-demographics.json
+    - StructureDefinition-hrex-patient-member.json
     - StructureDefinition-hrex-organization.json
     - StructureDefinition-hrex-parameters-member-match-in.json
-    - StructureDefinition-hrex-parameters-member-match-out.json
+    - StructureDefinition-extension-itemAuthorizedProvider.json
 
     
 # Known Issues
