@@ -115,7 +115,7 @@ $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
 
 Write-Host 'Update the serverRegistryResourceProviderEnabled to True'
 $CONFIG_JSON=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\default\fhir-server-config.json'
-$FHIR_SERVER_CONFIG = Get-Content $CONFIG_JSON -raw | ConvertFrom-Json -AsHashtable
+$FHIR_SERVER_CONFIG = Get-Content $CONFIG_JSON -raw | ConvertFrom-Json
 $FHIR_SERVER_CONFIG.fhirServer.core.serverRegistryResourceProviderEnabled = [bool]::Parse('True')
 $FHIR_SERVER_CONFIG | ConvertTo-Json -depth 32 | set-content $CONFIG_JSON
 
