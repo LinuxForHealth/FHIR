@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,18 +12,24 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
     private static final int BASE_URL_GROUP = 1;
@@ -72,6 +78,17 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Collection<FHIRPathNode> result = new ArrayList<>();
+        FHIRPathNode root = FHIRPathUtil.getSingleton(evaluationContext.getExternalConstant("rootResource"));
+        boolean isBundleContext = root != null && root.type() == FHIRPathType.FHIR_BUNDLE;
+        Map<String, Resource> bundleResources = new HashMap<>();
+        if (isBundleContext) {
+            Bundle bundle = root.asResourceNode().resource().as(Bundle.class);
+            for (Entry e : bundle.getEntry()) {
+                if (e.getResource() != null && e.getFullUrl() != null && e.getFullUrl().hasValue()) {
+                    bundleResources.put(e.getFullUrl().getValue(), e.getResource());
+                }
+            }
+        }
         for (FHIRPathNode node : context) {
             if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
                 Reference reference = node.asElementNode().element().as(Reference.class);
@@ -83,6 +100,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 Resource resource = null;
                 FHIRPathResourceNode resourceNode = null;
 
+                // if a literal reference
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
@@ -94,16 +112,51 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                             }
                         }
                     } else {
-                        Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
-                        if (matcher.matches()) {
-                            resourceType = matcher.group(RESOURCE_TYPE_GROUP);
-                            if (referenceType != null && !resourceType.equals(referenceType)) {
-                                throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
+                        if (isBundleContext) {
+                            // we know the root of the tree is a Bundle and the current node is of type Reference,
+                            // so walk up the tree until we get to highest Bundle.entry.fullUrl in the tree
+                            // and save the value of its fullUrl
+                            String fullUrl = null;
+                            FHIRPathTree tree = evaluationContext.getTree();
+                            FHIRPathNode nodeUnderTest = tree.getParent(node);
+                            while (nodeUnderTest != root) {
+                                if (nodeUnderTest.isResourceNode()) {
+                                    FHIRPathNode sibling = tree.getSibling(nodeUnderTest, "fullUrl");
+                                    if (sibling != null && sibling.hasValue()) {
+                                        fullUrl = sibling.getValue().asStringValue().string();
+                                    }
+                                }
+                                nodeUnderTest = tree.getParent(nodeUnderTest);
                             }
-                            String baseUrl = matcher.group(BASE_URL_GROUP);
-                            if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && evaluationContext.resolveRelativeReferences()) {
-                                // relative reference
-                                resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
+
+                            String bundleReference = FHIRUtil.buildBundleReference(reference, fullUrl);
+                            if (bundleReference != null) {
+                                resource = bundleResources.get(bundleReference);
+                                if (resource != null) {
+                                    resourceType = resource.getClass().getSimpleName();
+                                }
+                            }
+                        }
+
+                        if (resource == null) {
+                            Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+                            if (matcher.matches()) {
+                                if (resourceType == null) {
+                                    resourceType = matcher.group(RESOURCE_TYPE_GROUP);
+                                }
+
+                                if (referenceType != null && !resourceType.equals(referenceType)) {
+                                    throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
+                                }
+
+                                // if we're not in a bundle or the target resource wasn't found in the bundle
+                                if (resource == null) {
+                                    String baseUrl = matcher.group(BASE_URL_GROUP);
+                                    if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && evaluationContext.resolveRelativeReferences()) {
+                                        // relative reference
+                                        resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
+                                    }
+                                }
                             }
                         }
                     }

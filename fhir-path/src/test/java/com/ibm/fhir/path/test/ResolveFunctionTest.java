@@ -1,40 +1,249 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.path.test;
 
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+
 import java.io.InputStream;
 import java.util.Collection;
 
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.fhir.model.resource.HealthcareService;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Organization;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 
 public class ResolveFunctionTest {
-    public static void main(String[] args) throws Exception {
+    @Test
+    public static void testResolve() throws Exception {
         try (InputStream in = ResolveFunctionTest.class.getClassLoader().getResourceAsStream("JSON/observation-example-f001-glucose.json")) {
             Observation observation = FHIRParser.parser(Format.JSON).parse(in);
 
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(observation);
 
-            System.out.println("expr: Observation.subject.where(resolve() is Patient)");
+            // resolve of "Patient/f001" should return a Patient
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "Observation.subject.where(resolve() is Patient)");
-            System.out.println("result: " + result);
-            System.out.println("    Observation.subject.reference: " + result.iterator().next().asElementNode().element().as(Reference.class).getReference().getValue());
-            System.out.println("");
+            assertNotNull(result);
+            assertEquals(result.size(), 1);
+            String value = result.iterator().next().asElementNode().element().as(Reference.class).getReference().getValue();
+            assertEquals(value, "Patient/f001", "Observation.subject.reference");
 
-            System.out.println("expr: Observation.subject.where(resolve() is Device)");
+            // resolve of "Patient/f001" should not return a Device
             result = evaluator.evaluate(evaluationContext, "Observation.subject.where(resolve() is Device)");
-            System.out.println("result: " + result);
-            System.out.println("");
+            assertNotNull(result);
+            assertEquals(result.size(), 0);
         }
+    }
+
+    @Test
+    public void testResolveInternalFragmentReference() throws Exception {
+        Bundle bundle = Bundle.builder()
+                .type(BundleType.TRANSACTION)
+                .entry(Entry.builder()
+                    .resource(Organization.builder()
+                        .id("1")
+                        .name("Test Organization")
+                        .contained(HealthcareService.builder()
+                            .providedBy(Reference.builder()
+                                .reference("#")
+                                .build())
+                            .build(),
+                            Organization.builder()
+                                .id("parentOrg")
+                                .name("Parent Organization")
+                            .build())
+                        .partOf(Reference.builder()
+                            .reference("#parentOrg")
+                            .build())
+                        .build())
+                    .request(Request.builder()
+                        .method(HTTPVerb.PUT)
+                        .url(Uri.of("Organization/1"))
+                        .build())
+                    .build())
+                .build();
+
+        EvaluationContext evaluationContext = new EvaluationContext(bundle);
+        FHIRPathResourceNode resourceNode = evaluationContext.getTree()
+                .getNode("Bundle.entry[0].resource.contained[0]").asResourceNode();
+
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                "providedBy.exists() and providedBy.resolve().partOf.resolve().is(Organization)", resourceNode);
+
+        assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testResolveBundleReference_AbsoluteFullUrl() throws Exception {
+        String baseUrl = "https://example.com/";
+        String orgEndpoint = baseUrl + "Organization/";
+        Bundle bundle = buildTestBundleWithFullUrlPrefix(orgEndpoint);
+
+        // add an extra entry to test relative path resolution
+        bundle = FHIRPathUtil.add(bundle, "Bundle", "entry", Entry.builder()
+            .fullUrl(Uri.of(orgEndpoint + "2"))
+            .resource(Organization.builder()
+                .name("Child Organization 2")
+                .partOf(Reference.builder()
+                    .reference("Organization/test")
+                    .build())
+                .build())
+            .request(Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Organization"))
+                .build())
+            .build());
+
+        // add an extra entry to test absolute path resolution with different base url
+        bundle = FHIRPathUtil.add(bundle, "Bundle", "entry", Entry.builder()
+            .fullUrl(Uri.of(orgEndpoint + "3"))
+            .resource(Organization.builder()
+                .name("Unrelated Organization 3")
+                .partOf(Reference.builder()
+                    .reference("https://some.other.base/Organization/test")
+                    .build())
+                .build())
+            .request(Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Organization"))
+                .build())
+            .build());
+
+        // add an extra entry to test absolute path resolution with different base url
+        bundle = FHIRPathUtil.add(bundle, "Bundle", "entry", Entry.builder()
+            .fullUrl(Uri.of("https://some.other.base/Organization/4"))
+            .resource(Organization.builder()
+                .name("Unrelated Organization 4")
+                .partOf(Reference.builder()
+                    .reference("Organization/test")
+                    .build())
+                .build())
+            .request(Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Organization"))
+                .build())
+            .build());
+
+        EvaluationContext evaluationContext = new EvaluationContext(bundle);
+
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                "Bundle.entry.resource.partOf.resolve()");
+        assertEquals(result.size(), 5);
+        for (FHIRPathNode n : result) {
+            assertEquals(n.type(), FHIRPathType.FHIR_ORGANIZATION);
+        }
+
+        Object[] resources = result.stream()
+                .map(n -> n.asResourceNode().resource())
+                .toArray();
+
+        Resource testOrg = bundle.getEntry().get(0).getResource();
+        assertNotEquals(resources[0], testOrg);
+        assertEquals(resources[1], testOrg);
+        assertEquals(resources[2], testOrg);
+        assertNotEquals(resources[3], testOrg);
+        assertNotEquals(resources[4], testOrg);
+    }
+
+    @Test
+    public void testResolveNonBundleReference() throws Exception {
+        Organization org = Organization.builder()
+            .name("Test Organization")
+            .partOf(Reference.builder()
+                .reference("resource:1")
+                .build())
+            .build();
+
+        EvaluationContext evaluationContext = new EvaluationContext(org);
+
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                "Organization.partOf.resolve()");
+        assertEquals(result.size(), 1);
+        assertNull(result.iterator().next().asResourceNode().resource());
+    }
+
+    @Test
+    public void testResolveBundleReference_localFullUrl() throws Exception {
+        String[] prefixes = new String[] {"resource:", "urn:uuid:"};
+        for (String prefix : prefixes) {
+            Bundle bundle = buildTestBundleWithFullUrlPrefix(prefix);
+
+            EvaluationContext evaluationContext = new EvaluationContext(bundle);
+
+            Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                    "Bundle.entry[1].resource.partOf.resolve()");
+            assertEquals(result.size(), 1);
+
+            Resource testOrg = bundle.getEntry().get(0).getResource();
+
+            assertEquals(result.iterator().next().asResourceNode().resource(), testOrg, "prefix '" + prefix + "'");
+        }
+    }
+
+    private Bundle buildTestBundleWithFullUrlPrefix(String prefix) {
+        Bundle bundle = Bundle.builder()
+                .type(BundleType.TRANSACTION)
+                .entry(Entry.builder()
+                    .fullUrl(Uri.of(prefix + "test"))
+                    .resource(Organization.builder()
+                        .name("Test Organization")
+                        .contained(HealthcareService.builder()
+                            .providedBy(Reference.builder()
+                                .reference("#")
+                                .build())
+                            .build(),
+                            Organization.builder()
+                                .id("parentOrg")
+                                .name("Parent Organization")
+                            .build())
+                        .partOf(Reference.builder()
+                            .reference("#parentOrg")
+                            .build())
+                        .build())
+                    .request(Request.builder()
+                        .method(HTTPVerb.POST)
+                        .url(Uri.of("Organization"))
+                        .build())
+                    .build())
+                .entry(Entry.builder()
+                    .fullUrl(Uri.of(prefix + "1"))
+                    .resource(Organization.builder()
+                        .name("Child Organization 1")
+                        .partOf(Reference.builder()
+                            .reference(prefix + "test")
+                            .build())
+                        .build())
+                    .request(Request.builder()
+                        .method(HTTPVerb.POST)
+                        .url(Uri.of("Organization"))
+                        .build())
+                    .build())
+                .build();
+        return bundle;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,13 +23,13 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
-import com.ibm.fhir.model.resource.Resource;
 
 
 /**
@@ -39,8 +39,9 @@ import com.ibm.fhir.model.resource.Resource;
  */
 public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
     private static final Logger logger = Logger.getLogger(BundleBreakerResourceProcessor.class.getName());
-    private static final String LOCAL_REF_PREFIX = "urn:";
-    
+    private static final String LOCAL_REF_URN_PREFIX = "urn:";
+    private static final String LOCAL_REF_RESOURCE_PREFIX = "resource:";
+
     // to write the processed bundles back to COS
     private final COSClient cosClient;
 
@@ -49,7 +50,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
 
     // The COS bucket we want to use to store the resource bundle fragments
     private final String targetBucket;
-    
+
     // The COS key prefix where we want to store everything
     private final String targetPrefix;
 
@@ -82,7 +83,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
             re.getJob().operationComplete(success);
         }
     }
-    
+
     /**
      * See fhir-persistence-jdbc TimestampPrefixedUUID.
      * TODO refactor to use a common class without having to
@@ -93,19 +94,19 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
         // It's OK to use milli-time here. It doesn't matter too much if the time changes
         // because we're not using the timestamp to determine uniqueness in any way. The
         // timestamp prefix is purely to help push index writes to the right hand side
-        // of the btree, minimizing the number of physical reads likely required 
+        // of the btree, minimizing the number of physical reads likely required
         // during ingestion when an index is too large to be fully cached.
         long millis = System.currentTimeMillis();
-        
+
         // String encoding. Needs to collate correctly, so don't use any
         // byte-based encoding which would be sensitive to endian issues. For simplicity,
         // hex is sufficient, although a custom encoding using the full character set
         // supported by FHIR identifiers would be a little more compact (== smaller indexes).
         // Do not use Base64.
         String prefix = Long.toHexString(millis);
-        
+
         UUID uuid = UUID.randomUUID();
-        
+
         StringBuilder result = new StringBuilder();
         result.append(prefix);
         result.append("-"); // redundant, but more visually appealing.
@@ -137,7 +138,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
             // identifiers first, before we make the second pass and
             // generate the individual bundles with external identifiers
             for (Entry requestEntry: bundle.getEntry()) {
-                
+
                 String localIdentifier = retrieveLocalIdentifier(requestEntry);
                 Resource resource = requestEntry.getResource();
                 if (localIdentifier != null) {
@@ -149,7 +150,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                         // be used for a PUT in the new bundle
                         String logicalId = createNewIdentityValue();
                         String externalRef = ModelSupport.getTypeName(resource.getClass()) + "/" + logicalId;
-                        
+
                         if (logger.isLoggable(Level.FINE)) {
                             logger.fine("Creating POST-to-PUT mapping " + localIdentifier + " --> " + externalRef);
                         }
@@ -167,7 +168,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
 
                 // Update any references internal to the resource
                 Resource resource = requestEntry.getResource();
-                
+
                 String localId = retrieveLocalIdentifier(requestEntry);
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("Processing localId: " + localId);
@@ -181,7 +182,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                                 new ReferenceMappingVisitor<Resource>(localRefMap, localId);
                         resource.accept(visitor);
                         resource = visitor.getResult();
-                        
+
                         // Make sure the fullUrl matches the resource id
                         String url = ModelSupport.getTypeName(resource.getClass()) + "/" + resource.getId();
                         entryBuilder = Entry.builder();
@@ -198,7 +199,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                             IdReferenceMappingVisitor visitor = new IdReferenceMappingVisitor(localRefMap, localId, newId);
                             resource.accept(visitor);
                             resource = visitor.getResult();
-                            
+
                             entryBuilder = Entry.builder();
                             entryBuilder.resource(resource);
                             entryBuilder.fullUrl(Uri.of(externalId));
@@ -220,11 +221,11 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                         entryBuilder.fullUrl(Uri.of(localId));
                         entryBuilder.request(Request.builder().method(HTTPVerb.DELETE).url(Url.of(localId)).build());
                     }
-                    
+
                     // If we built a new entry, add it to the current output bundle
                     if (entryBuilder != null) {
                         bb.entry(entryBuilder.build());
-                        
+
                         // Each time we hit the max number of resources we want in a bundle,
                         // save it off and start a new one
                         if (++resourceCount == this.maxBundleSize) {
@@ -235,7 +236,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
                     }
                 }
             }
-            
+
             // process the final chunk of resources
             if (resourceCount > 0) {
                 saveBundle(originalName, bb.build(), bundleCount++);
@@ -264,12 +265,12 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
         if (posn < 0) {
             posn = originalName.lastIndexOf(".JSON");
         }
-        
+
         if (posn < 0) {
             logger.warning("Invalid bundle name: " + originalName);
             throw new IllegalArgumentException("Expecting bundle name to end in .json or .JSON");
         }
-        
+
         String bundleName;
         if (bundleNumber < 0) {
             // Bundle isn't modified, so just use the original name under
@@ -280,7 +281,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
             // and put it under the new prefix
             bundleName = String.format("%s/%s_SUB%03d.json", this.targetPrefix, originalName.substring(0, posn), bundleNumber);
         }
-        
+
         writeBundle(newBundle, bundleName);
     }
 
@@ -300,7 +301,7 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
         final String payload = new String(os.toByteArray(), StandardCharsets.UTF_8);
         cosClient.write(targetBucket, bundleName, payload);
     }
-    
+
     /**
      * This method will retrieve the local identifier associated with the specified bundle request entry, or return null
      * if the fullUrl field is not specified or doesn't contain a local identifier.
@@ -312,13 +313,18 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
      * @return
      */
     private String retrieveLocalIdentifier(Bundle.Entry bundleEntry) {
-        
+
         String localIdentifier = null;
         if (bundleEntry.getFullUrl() != null) {
             String fullUrl = bundleEntry.getFullUrl().getValue();
-            if (fullUrl != null && fullUrl.startsWith(LOCAL_REF_PREFIX)) {
-                // e.g. urn:uuid:12345678-abcd-45e1-b5ef-75b155dde2b7
-                localIdentifier = fullUrl;
+            if (fullUrl != null) {
+                if (fullUrl.startsWith(LOCAL_REF_URN_PREFIX)) {
+                    // e.g. urn:uuid:12345678-abcd-45e1-b5ef-75b155dde2b7
+                    localIdentifier = fullUrl;
+                } else if (fullUrl.startsWith(LOCAL_REF_RESOURCE_PREFIX)) {
+                    // e.g. resource:1
+                    localIdentifier = fullUrl;
+                }
             }
         }
         return localIdentifier;
@@ -335,13 +341,12 @@ public class BundleBreakerResourceProcessor implements IResourceEntryProcessor {
      * @param resource
      *            the resource for which an external identifier will be built
      */
-    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier,
-        Resource resource) {
+    private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, Resource resource) {
         if (localIdentifier != null) {
             String externalIdentifier =
                     ModelSupport.getTypeName(resource.getClass()) + "/" + resource.getId();
             localRefMap.put(localIdentifier, externalIdentifier);
-            
+
             if (logger.isLoggable(Level.FINER)) {
                 logger.finer("Added local/ext identifier mapping: " + localIdentifier + " --> "
                         + externalIdentifier);
