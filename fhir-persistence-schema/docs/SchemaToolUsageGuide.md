@@ -613,7 +613,7 @@ and grants permission to the username|
 |--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|
 |--drop-schema-batch||drop the db schema used by liberty's java-batch feature"|
 |--drop-schema-fhir||drop the schema set by '--schema-name'|
-|--update-schema||deploy or update the schema set by '--schema-name' *deprecated*|
+|--update-schema||deploy or update the schema set by '--schema-name', *deprecated* use --update-schema-fhir|
 |--update-schema-fhir|schemaName|Updates the FHIR Data Schema|
 |--update-schema-batch|schemaName|Updates the Batch Schema|
 |--update-schema-oauth|schemaName|Updates the OAuth Schema|
