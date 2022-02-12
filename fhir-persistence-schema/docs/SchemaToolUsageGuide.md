@@ -573,6 +573,8 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 
 |Flag|Variable|Description|
 |----------------|----------------|----------------|
+|Flag|Variable|Description|
+|----------------|----------------|----------------|
 |--help||This menu|
 |--prop-file|path-to-property-file|loads the properties from a file|
 |--schema-name|schema-name|uses the schema as specified, must be valid.|
@@ -586,6 +588,7 @@ and grants permission to the username|
 |--check-compatibility||checks feature compatibility|
 |--drop-admin||drops the admin schema|
 |--test-tenant|tenantName| used to test with tenantName|
+|--tenant-name|tenantName| specify the tenantName|
 |--tenant-key|tenantKey|the tenant-key in the queries|
 |--tenant-key-file|tenant-key-file-location|sets the tenant key file location|
 |--list-tenants||fetches list of tenants and current status|
@@ -597,22 +600,20 @@ and grants permission to the username|
 |--refresh-tenants||(Db2 only) ensure that any new tables added by the update have the correct partitions. The refresh-tenants process will iterate over each tenant and allocate new partitions as needed.|
 |--allocate-tenant||allocates a tenant|
 |--confirm-drop||confirms the dropping of a schema|
-|--show-db-size||generate database size report|
-|--show-db-size-detail||include table and index detail in database size report|
 |--update-vacuum||Update the Vacuum settings for PostgreSQL|
 |--vacuum-table-name|tableName|Table Name to update vacuum settings|
 |--vacuum-scale-factor|scaleFactor|The scale factor to alter to 'scaleFactor'|
 |--vacuum-threshold|threshold|The threshold value to alter to 'threshold'|
 |--vacuum-cost-limit|costLimit|The Vacuum cost limit to set|
 |--skip-allocate-if-tenant-exists||Skips allocating a tenant if it already exists|
+|--force||Do not skip schema update process when the whole-schema-version matches.|
 |--force-unused-table-removal||Forces the removal of unused tables - DomainResource, Resource|
-| --force || Do not skip schema update process when the whole-schema-version matches.|
 |--prop|name=value|name=value that is passed in on the commandline|
 |--pool-size|poolSize|poolsize used with the database actions|
 |--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|
 |--drop-schema-batch||drop the db schema used by liberty's java-batch feature"|
 |--drop-schema-fhir||drop the schema set by '--schema-name'|
-|--update-schema||deploy or update the schema set by '--schema-name', *deprecated* use --update-schema-fhir|
+|--update-schema||deploy or update the schema set by '--schema-name' *deprecated*|
 |--update-schema-fhir|schemaName|Updates the FHIR Data Schema|
 |--update-schema-batch|schemaName|Updates the Batch Schema|
 |--update-schema-oauth|schemaName|Updates the OAuth Schema|
@@ -620,5 +621,7 @@ and grants permission to the username|
 |--create-schema-fhir|schemaName|Create the FHIR Data Schema|
 |--create-schema-batch|schemaName|Create the Batch Schema|
 |--create-schema-oauth|schemaName|Create the OAuth Schema|
+|--show-db-size||Generate report with a breakdown of database size|
+|--show-db-size-detail||Include detailed table and index info in size report|
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
