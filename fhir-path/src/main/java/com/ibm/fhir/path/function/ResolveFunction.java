@@ -113,9 +113,22 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                         }
                     } else {
                         if (isBundleContext) {
-                            // we know the root of the tree is a Bundle and the current node is of type Reference,
+                            // We know the root of the tree is a Bundle and the current node is of type Reference,
                             // so walk up the tree until we get to highest Bundle.entry.fullUrl in the tree
-                            // and save the value of its fullUrl
+                            // and save the value of its fullUrl.
+                            // For example:
+                            //   A. if node represents Organization.partOf at Bundle.entry[1]
+                            //     1. we walk up the tree until the first resource node:  Bundle.entry[1].resource
+                            //     2. we look for a fullUrl that is peer to this element
+                            //     3. we find it and assign the local fullUrl variable that value
+                            //     4. we continue to walk up the tree until we get to the root (Bundle)
+                            //   B. if node represents Organization.partOf under Patient.contained[0] at Bundle.entry[2]
+                            //     1. we walk up the tree until the first resource node:  Patient.contained[0]
+                            //     2. we look for a fullUrl that is peer to this element, but we don't find one
+                            //     3. we continue to walk up the tree until we get to the next resource node: Bundle.entry[2].resource
+                            //     4. we look for a fullUrl that is peer to this element
+                            //     5. we find it and assign the local fullUrl variable that value
+                            //     6. we continue to walk up the tree until we get to the root (Bundle)
                             String fullUrl = null;
                             FHIRPathTree tree = evaluationContext.getTree();
                             FHIRPathNode nodeUnderTest = tree.getParent(node);

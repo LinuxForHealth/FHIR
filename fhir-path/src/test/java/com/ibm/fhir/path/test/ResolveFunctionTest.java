@@ -99,6 +99,50 @@ public class ResolveFunctionTest {
     }
 
     @Test
+    public void testResolveBundleReference_NestedBundle() throws Exception {
+            String baseUrl = "https://example.com/";
+            String orgEndpoint = baseUrl + "Organization/";
+            Bundle innerBundle = buildTestBundleWithFullUrlPrefix(orgEndpoint);
+            Bundle outerBundle = Bundle.builder()
+                    .id("outer")
+                    .type(BundleType.TRANSACTION)
+                    .entry(Entry.builder()
+                        .fullUrl(Uri.of("https://example.com/Bundle/inner"))
+                        .resource(innerBundle)
+                        .build())
+                    .build();
+
+            // When the outer bundle is the context,
+            // the bundle-local references of the resources within the inner bundle are expected to not resolve
+            EvaluationContext evaluationContext = new EvaluationContext(outerBundle);
+            Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                    "Bundle.entry[0].resource.entry[1].resource.partOf.resolve()");
+            assertEquals(result.size(), 1);
+            assertNull(result.iterator().next().asResourceNode().resource());
+
+            // When the inner bundle is the context,
+            // the bundle-local references within the bundle resolve to the targets within that bundle
+            evaluationContext = new EvaluationContext(innerBundle);
+            result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                    "Bundle.entry[1].resource.partOf.resolve()");
+            assertEquals(result.size(), 1);
+
+            Resource testOrg = innerBundle.getEntry().get(0).getResource();
+            assertEquals(result.iterator().next().asResourceNode().resource(), testOrg);
+
+            // move https://example.com/Organization/test to the outer bundle and now the reference from the inner bundle should work
+            outerBundle = FHIRPathUtil.add(outerBundle, "Bundle", "entry", innerBundle.getEntry().get(0));
+            outerBundle = FHIRPathUtil.delete(outerBundle, "Bundle.entry[0].resource.entry[0]");
+
+            evaluationContext = new EvaluationContext(outerBundle);
+            result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext,
+                    "Bundle.entry[0].resource.entry[0].resource.partOf.resolve()");
+            assertEquals(result.size(), 1);
+            testOrg = outerBundle.getEntry().get(1).getResource();
+            assertEquals(result.iterator().next().asResourceNode().resource(), testOrg);
+    }
+
+    @Test
     public void testResolveBundleReference_AbsoluteFullUrl() throws Exception {
         String baseUrl = "https://example.com/";
         String orgEndpoint = baseUrl + "Organization/";

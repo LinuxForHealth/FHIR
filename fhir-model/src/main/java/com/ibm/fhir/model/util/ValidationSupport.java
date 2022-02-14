@@ -55,10 +55,6 @@ public final class ValidationSupport {
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
-    private static final String LOCAL_REF_URN_PREFIX = "urn:";
-    private static final String LOCAL_REF_RESOURCE_PREFIX = "resource:";
-    private static final String HTTP_PREFIX = "http:";
-    private static final String HTTPS_PREFIX = "https:";
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
     private static final String FHIR_XML_XSD = "xml.xsd";
     private static final String FHIR_XMLDSIG_CORE_SCHEMA_XSD = "xmldsig-core-schema.xsd";
@@ -752,11 +748,7 @@ public final class ValidationSupport {
         String referenceReference = getReferenceReference(reference);
         List<String> referenceTypeList = Arrays.asList(referenceTypes);
 
-        if (referenceReference != null && !referenceReference.startsWith("#")
-                && !referenceReference.startsWith(LOCAL_REF_URN_PREFIX)
-                && !referenceReference.startsWith(LOCAL_REF_RESOURCE_PREFIX)
-                && !referenceReference.startsWith(HTTP_PREFIX)
-                && !referenceReference.startsWith(HTTPS_PREFIX)) {
+        if (referenceReference != null && !referenceReference.startsWith("#") && !hasScheme(referenceReference)) {
             int index = referenceReference.indexOf("?");
             if (index != -1) {
                 // conditional reference
@@ -799,6 +791,16 @@ public final class ValidationSupport {
                 throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s", referenceReference, elementName, referenceType));
             }
         }
+    }
+
+    /**
+     * @param literalRefValue
+     * @return true if literalRefValue has a URI scheme (i.e. a prefix followed by ':')
+     *     and a non-empty value; otherwise false
+     */
+    private static boolean hasScheme(String literalRefValue) {
+        int indexOf = literalRefValue.indexOf(':');
+        return (indexOf > 0) && (literalRefValue.length() > (indexOf + 1));
     }
 
     private static String getReferenceReference(Reference reference) {
