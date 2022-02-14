@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -34,6 +34,7 @@ echo "test.bulkdata.path = ${BULKDATA}" >> ${WORKSPACE}/fhir-server-test/src/tes
 echo "Copying the server config files..."
 cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
+bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-db2.json
 cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
 
 echo "Replacing datasource content in server configDropins..."

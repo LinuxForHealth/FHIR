@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -43,6 +43,7 @@ config(){
 
     # Move over the test configurations
     cp -pr ${WORKSPACE}/build/notifications/kafka/resources/* ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/
+    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config-notifications-cicd.json
     mv ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config-notifications-cicd.json ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 

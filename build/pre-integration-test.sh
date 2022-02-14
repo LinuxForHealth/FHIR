@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -80,6 +80,9 @@ find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar
 
 # Add the member-match to the build
 find ${WORKSPACE}/operation/fhir-operation-member-match/target -iname 'fhir-operation*.jar' -not -iname 'fhir*-tests.jar' -exec cp -f {} ${USERLIB} \;
+
+# Update to support server enabled registry provider
+bash ${WORKSPACE}/build/update-server-registry-resource.sh ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
 
 # Start up the fhir server
 echo "

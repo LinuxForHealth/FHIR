@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -48,6 +48,7 @@ copy_server_config(){
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
+    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
     cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides

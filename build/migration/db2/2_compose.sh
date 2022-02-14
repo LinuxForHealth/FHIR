@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -72,6 +72,7 @@ config(){
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
+    bash ${WORKSPACE}/fhir/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config-db2.json
     jq '.fhirServer.notifications.nats.enabled = false' ${DIST}/config/default/fhir-server-config-db2.json > ${DIST}/config/default/fhir-server-config-t.json
     jq '.fhirServer.persistence.datasources.default.tenantKey = "change-password"' ${DIST}/config/default/fhir-server-config-t.json > ${DIST}/config/default/fhir-server-config.json
 
