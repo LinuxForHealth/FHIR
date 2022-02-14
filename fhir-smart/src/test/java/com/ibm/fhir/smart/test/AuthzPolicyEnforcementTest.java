@@ -46,6 +46,9 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -91,12 +94,14 @@ public class AuthzPolicyEnforcementTest {
         patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .id(PATIENT_ID)
+                .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
 
         patientProvenance = provenanceBase.toBuilder()
                 .target(Reference.builder()
                     .reference(string("Patient/" + PATIENT_ID))
                     .build())
+                .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
 
         observation = TestUtil.getMinimalResource(Observation.class);
@@ -104,12 +109,14 @@ public class AuthzPolicyEnforcementTest {
                 .id(OBSERVATION_ID)
                 .subject(Reference.builder().reference(string("Patient/" + PATIENT_ID)).build())
                 .encounter(Reference.builder().reference(string("Encounter/" + MockPersistenceImpl.ENCOUNTER_ID_GOOD)).build())
+                .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
 
         observationProvenance = provenanceBase.toBuilder()
                 .target(Reference.builder()
                     .reference(string("Observation/" + OBSERVATION_ID))
                     .build())
+                .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
 
         condition = TestUtil.getMinimalResource(Condition.class);
@@ -117,6 +124,7 @@ public class AuthzPolicyEnforcementTest {
                 .subject(Reference.builder()
                     .reference(string("Patient/" + CONDITION_ID + "/_history/1"))
                     .build())
+                .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
 
         properties = new HashMap<String, Object>();

@@ -70,7 +70,7 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
 
         // delete resource4
-        resource4 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource4);
+        delete(getDefaultPersistenceContext(), resource4);
     }
 
     @AfterClass
@@ -80,7 +80,7 @@ public abstract class AbstractExportTest extends AbstractPersistenceTest {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
             for (Resource resource : resources) {
-                persistence.delete(getDefaultPersistenceContext(), resource);
+                delete(getDefaultPersistenceContext(), resource);
             }
             commitTrx();
         }

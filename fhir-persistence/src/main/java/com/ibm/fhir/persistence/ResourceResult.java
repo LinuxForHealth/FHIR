@@ -32,12 +32,29 @@ public class ResourceResult<T extends Resource> {
      * @param builder
      */
     private ResourceResult(Builder<T> builder) {
+        if (builder.resource == null && builder.version < 1) {
+            // This is an extra check to make sure that the caller has set the version
+            // correctly when no version is available.
+            throw new IllegalArgumentException("version must be set if resource is null");
+        }
+
         resource = builder.resource;
         deleted = builder.deleted;
         resourceTypeName = builder.resourceTypeName;
         logicalId = builder.logicalId;
-        version = builder.version;
         lastUpdated = builder.lastUpdated;
+
+        // as a convenience (primarily for unit test mocks) set the version from
+        // the resource if we have one
+        if (this.resource != null && builder.version < 1) {
+            this.version = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+        } else {
+            this.version = builder.version;
+        }
+
+        if (this.version < 1) {
+            throw new IllegalStateException("version not set");
+        }
     }
 
     @Override

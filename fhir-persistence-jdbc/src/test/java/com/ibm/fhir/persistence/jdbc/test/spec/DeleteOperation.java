@@ -18,9 +18,8 @@ public class DeleteOperation extends BaseOperation {
         final Resource resource = tc.getResource();
         final FHIRPersistenceContext context = tc.createPersistenceContext();
 
-        Resource deletedResource = FHIRPersistenceTestSupport.delete(tc.getPersistence(), context, resource);
-
-        // Update the context with the modified resource
-        tc.setResource(deletedResource);
+        // Resource is no longer stored with the deletion marker, so delete
+        // doesn't return anything
+        FHIRPersistenceTestSupport.delete(tc.getPersistence(), context, resource);
     }
 }

@@ -64,13 +64,11 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test(expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
     public void testDeleteInvalidDevice() throws Exception {
 
-        // The persistence delete operation simply inserts a resource version with
-        // the is_deleted flag set. This means that for invalid devices we won't
-        // ever get a FHIRPersistenceResourceNotFoundException but instead it will
-        // be a version mismatch (because version 1 shouldn't exist.
+        // When the persistence layer attempts to read the device it should kick
+        // back with FHIRPersistenceResourceNotFoundException
         Device device = TestUtil.getMinimalResource(Device.class);
         device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, "invalid-device-id", 1);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test
@@ -83,12 +81,10 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test
     public void testDeleteValidDevice() throws Exception {
 
+        // Try to delete the device created @BeforeClass
         Device device = TestUtil.getMinimalResource(Device.class);
-        
-        // remember that the current device version is 1, so the delete marker
-        // must be version 2
-        device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 2);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 1);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test(dependsOnMethods = { "testDeleteValidDevice" },
@@ -151,7 +147,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         // resource is currently deleted, we expect the delete call to throw
         // an exception
         device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 3);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test
