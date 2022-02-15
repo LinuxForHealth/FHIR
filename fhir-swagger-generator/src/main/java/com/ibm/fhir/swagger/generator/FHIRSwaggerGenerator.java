@@ -520,9 +520,9 @@ public class FHIRSwaggerGenerator {
         // FHIR _history interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
         
-        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get");
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get", false);
         // add post call
-        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post");
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post", false);
         paths.add("/$export", path);
        
         swagger.add("paths", paths);
@@ -813,12 +813,19 @@ public class FHIRSwaggerGenerator {
         // Add Export Generation
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "export") && DATA_EXPORT_TYPES.contains(modelClass.getSimpleName())) {
-            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "get");
-            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "post");
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "get", "Group".equals(modelClass.getSimpleName()));
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "post", "Group".equals(modelClass.getSimpleName()));
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
-            paths.add("/" + modelClass.getSimpleName() + "/$export", pathObject);
+            StringBuilder pathStringBuilder = new StringBuilder();
+            pathStringBuilder.append("/");
+            pathStringBuilder.append(modelClass.getSimpleName());
+            if (modelClass.getSimpleName().equals("Group"))
+                pathStringBuilder.append("/{id}");
+            pathStringBuilder.append("/$export");
+            
+            paths.add(pathStringBuilder.toString(), pathObject);
         }
         
         // TODO: add patch
@@ -1357,7 +1364,7 @@ public class FHIRSwaggerGenerator {
      * @param resourceSpecific
      * @param httpMethod
      */
-    private static void generateExportPathItem(JsonObjectBuilder path, String tag, String summary, boolean resourceSpecific, String httpMethod) {
+    private static void generateExportPathItem(JsonObjectBuilder path, String tag, String summary, boolean resourceSpecific, String httpMethod, boolean addIdParam) {
         JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
@@ -1373,7 +1380,13 @@ public class FHIRSwaggerGenerator {
         httpMethodBuilder.add("operationId", operationId);
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
-        
+
+        if (addIdParam) {
+            JsonObjectBuilder idParameter = factory.createObjectBuilder();
+            idParameter.add("$ref", "#/parameters/idParam");
+            parameters.add(idParameter);
+        }
+
         if ("post".equalsIgnoreCase(httpMethod)) {
             JsonArrayBuilder consumes = factory.createArrayBuilder();
             consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -1390,7 +1403,7 @@ public class FHIRSwaggerGenerator {
             body.add("schema", schema);
             
             parameters.add(body);
-        } else {
+       } else {
             // Generate GET parameters
             JsonObjectBuilder outputFormatParameter = factory.createObjectBuilder();
             outputFormatParameter.add("$ref", "#/parameters/_outputFormatParam");
