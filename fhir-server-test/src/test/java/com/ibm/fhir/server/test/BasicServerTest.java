@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -444,7 +444,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request()
-                    .header("Prefer", "handling=lenient;return=representation")
+                    .header("Prefer", "handling=lenient,return=representation")
                     .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         assertNotNull(response.readEntity(Observation.class));
@@ -456,7 +456,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request()
-                    .header("Prefer", "handling=lenient; return=OperationOutcome")
+                    .header("Prefer", "handling=lenient, return=OperationOutcome")
                     .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);

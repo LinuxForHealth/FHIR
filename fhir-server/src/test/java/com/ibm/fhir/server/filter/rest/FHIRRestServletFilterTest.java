@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.server.exception.FHIRRestServletRequestException;
 
 public class FHIRRestServletFilterTest {
@@ -27,9 +28,11 @@ public class FHIRRestServletFilterTest {
         Map<String, List<String>> requestHeaders = new HashMap<>();
         requestHeaders.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/fhir+json;fhirVersion=4.0.1"));
         requestHeaders.put(HttpHeaders.ACCEPT, Collections.singletonList("application/fhir+json;fhirVersion=4.0.1"));
+        FHIRRequestContext context = new FHIRRequestContext();
+        context.setHttpHeaders(requestHeaders);
 
         FHIRRestServletFilter servletFilter = new FHIRRestServletFilter();
-        servletFilter.checkFhirVersionParameter(requestHeaders);
+        servletFilter.checkFhirVersionParameter(context);
     }
 
     @Test
@@ -37,10 +40,12 @@ public class FHIRRestServletFilterTest {
         Map<String, List<String>> requestHeaders = new HashMap<>();
         requestHeaders.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/fhir+json;fhirVersion=3.0.1"));
         requestHeaders.put(HttpHeaders.ACCEPT, Collections.singletonList("application/fhir+json;fhirVersion=4.0.1"));
+        FHIRRequestContext context = new FHIRRequestContext();
+        context.setHttpHeaders(requestHeaders);
 
         FHIRRestServletFilter servletFilter = new FHIRRestServletFilter();
         try {
-            servletFilter.checkFhirVersionParameter(requestHeaders);
+            servletFilter.checkFhirVersionParameter(context);
             fail();
         } catch (FHIRRestServletRequestException e) {
             assertEquals(e.getHttpStatusCode(), HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
@@ -52,10 +57,12 @@ public class FHIRRestServletFilterTest {
         Map<String, List<String>> requestHeaders = new HashMap<>();
         requestHeaders.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/fhir+json;fhirVersion=3.0.1"));
         requestHeaders.put(HttpHeaders.ACCEPT, Collections.singletonList("application/fhir+json;fhirVersion=4.0.1"));
+        FHIRRequestContext context = new FHIRRequestContext();
+        context.setHttpHeaders(requestHeaders);
 
         FHIRRestServletFilter servletFilter = new FHIRRestServletFilter();
         try {
-            servletFilter.checkFhirVersionParameter(requestHeaders);
+            servletFilter.checkFhirVersionParameter(context);
             fail();
         } catch (FHIRRestServletRequestException e) {
             assertEquals(e.getHttpStatusCode(), HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
@@ -67,10 +74,12 @@ public class FHIRRestServletFilterTest {
         Map<String, List<String>> requestHeaders = new HashMap<>();
         requestHeaders.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/fhir+json;fhirVersion=4.0.1"));
         requestHeaders.put(HttpHeaders.ACCEPT, Collections.singletonList("application/fhir+json;fhirVersion=3.0.1"));
+        FHIRRequestContext context = new FHIRRequestContext();
+        context.setHttpHeaders(requestHeaders);
 
         FHIRRestServletFilter servletFilter = new FHIRRestServletFilter();
         try {
-            servletFilter.checkFhirVersionParameter(requestHeaders);
+            servletFilter.checkFhirVersionParameter(context);
             fail();
         } catch (FHIRRestServletRequestException e) {
             assertEquals(e.getHttpStatusCode(), HttpServletResponse.SC_NOT_ACCEPTABLE);

@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2022-02-02
+date:   2022-02-15
 permalink: /conformance/
 ---
 
@@ -45,7 +45,7 @@ Additionally, server administrators can configure whether or not to honor the cl
 
 For example, to ask the server to be lenient in processing a given request, but to return warnings for non-fatal errors, a client should set the Prefer header as follows:
 ```
-Prefer: return=OperationOutcome; handling=lenient
+Prefer: return=OperationOutcome, handling=lenient
 ```
 
 In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir/search.html#conformance) of a search response to determine which parameters were used in computing the response.
