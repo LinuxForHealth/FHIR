@@ -2170,24 +2170,24 @@ public class FHIRRestHelperTest {
     /**
      * Test transaction bundle post with multiple local reference dependencies. The
      * local references, as well as the fullUrls, are a mix of absolute and relative URLs.
-     * 
+     *
      * Encounter has local references to Procedure and Condition, and a RESTful server fullUrl.
      * The reference to Condition is a relative reference to a bundle entry with a RESTful
      * server fullUrl (match). The reference to Procedure is a relative reference to a bundle entry
      * with a relative fullUrl (no match).
-     * 
+     *
      * Procedure has local references to Patient, Encounter, Condition, and a relative fullUrl.
      * The reference to Patient is a urn reference to a bundle entry with a urn fullUrl (match).
      * The reference to Encounter is an absolute reference to a bundle entry with a RESTful server
      * fullUrl (match). The reference to Condition is a urn reference to a bundle entry with a
      * RESTful server fullUrl (no match).
-     * 
+     *
      * Patient has local reference to Practitioner and a urn fullUrl. The reference to Practitioner
      * is a non-urn, non-RESTful server absolute reference to a bundle entry with a non-urn,
      * non-RESTful server fullUrl (match).
-     * 
+     *
      * Practitioner has no local references and a non-urn, non-RESTful server fullUrl.
-     * 
+     *
      * Condition has local references to Patient, Encounter, Procedure, and a RESTful server
      * fullUrl. The reference to Patient is a urn reference to a bundle entry with a urn
      * fullUrl (match). The reference to Encounter is a relative reference to a bundle entry
@@ -2344,4 +2344,157 @@ public class FHIRRestHelperTest {
         }
     }
 
+    /**
+     * A copy of testTransactionBundlePostWithAbsoluteFullUrlsMultipleDependency above
+     * except that all references use the "resource:" scheme in their fullUrl and references
+     */
+    @Test
+    public void testTransactionBundlePostWithResourceSchemeReference() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        Encounter encounter = Encounter.builder()
+                .status(EncounterStatus.FINISHED)
+                .clazz(Coding.builder()
+                    .code(Code.of("AMB"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("resource:1"))
+                    .build(),
+                    Reference.builder()
+                    .reference(string("resource:4"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Encounter"))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("resource:0")) // 0-indexed to match the MockPersistenceImpl's id generator
+                .resource(encounter)
+                .request(bundleEntryRequest)
+                .build();
+
+        Procedure procedure = Procedure.builder()
+                .status(ProcedureStatus.COMPLETED)
+                .subject(Reference.builder()
+                    .reference(string("resource:2"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("resource:0"))
+                    .build())
+                .reasonReference(Reference.builder()
+                    .reference(string("resource:4"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest2 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Procedure"))
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("resource:1"))
+                .resource(procedure)
+                .request(bundleEntryRequest2)
+                .build();
+
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                    .reference(string("resource:3"))
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest3 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Patient"))
+                .build();
+        Bundle.Entry bundleEntry3 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("resource:2"))
+                .resource(patient)
+                .request(bundleEntryRequest3)
+                .build();
+
+        Practitioner practitioner = Practitioner.builder()
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest4 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Practitioner"))
+                .build();
+        Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("resource:3"))
+                .resource(practitioner)
+                .request(bundleEntryRequest4)
+                .build();
+
+        Condition condition = Condition.builder()
+                .subject(Reference.builder()
+                    .reference(string("resource:2"))
+                    .build())
+                .encounter(Reference.builder()
+                    .reference(string("resource:0"))
+                    .build())
+                .evidence(Condition.Evidence.builder()
+                    .detail(Reference.builder()
+                        .reference(string("resource:1"))
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry.Request bundleEntryRequest5 = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.POST)
+                .url(Uri.of("Condition"))
+                .build();
+        Bundle.Entry bundleEntry5 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("resource:4"))
+                .resource(condition)
+                .request(bundleEntryRequest5)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2, bundleEntry3, bundleEntry4, bundleEntry5)
+                .build();
+
+        // Process bundle
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(5, responseBundle.getEntry().size());
+        for (Bundle.Entry entry : responseBundle.getEntry()) {
+            Bundle.Entry.Response response = entry.getResponse();
+            if (response.getLocation().getValue().startsWith("Encounter")) {
+                assertEquals(response.getLocation().getValue(), "Encounter/generated-0/_history/1");
+                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                Encounter returnedEncounter = (Encounter) entry.getResource();
+                assertEquals(returnedEncounter.getReasonReference().get(0).getReference().getValue(), "Procedure/generated-1");
+                assertEquals(returnedEncounter.getReasonReference().get(1).getReference().getValue(), "Condition/generated-4");
+            } else if (response.getLocation().getValue().startsWith("Procedure")) {
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-1/_history/1");
+                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                Procedure returnedProcedure = (Procedure) entry.getResource();
+                assertEquals(returnedProcedure.getEncounter().getReference().getValue(), "Encounter/generated-0");
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-2");
+                assertEquals(returnedProcedure.getReasonReference().get(0).getReference().getValue(), "Condition/generated-4");
+            } else if (response.getLocation().getValue().startsWith("Patient")) {
+                assertEquals(response.getLocation().getValue(), "Patient/generated-2/_history/1");
+                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                Patient returnedPatient = (Patient) entry.getResource();
+                assertEquals(returnedPatient.getGeneralPractitioner().get(0).getReference().getValue(), "Practitioner/generated-3");
+            } else if (response.getLocation().getValue().startsWith("Practitioner")) {
+                assertEquals(response.getLocation().getValue(), "Practitioner/generated-3/_history/1");
+                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+            } else if (response.getLocation().getValue().startsWith("Condition")) {
+                assertEquals(response.getLocation().getValue(), "Condition/generated-4/_history/1");
+                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                Condition returnedCondition = (Condition) entry.getResource();
+                assertEquals(returnedCondition.getEncounter().getReference().getValue(), "Encounter/generated-0");
+                assertEquals(returnedCondition.getEvidence().get(0).getDetail().get(0).getReference().getValue(), "Procedure/generated-1");
+                assertEquals(returnedCondition.getSubject().getReference().getValue(), "Patient/generated-2");
+            } else {
+                fail();
+            }
+        }
+    }
 }

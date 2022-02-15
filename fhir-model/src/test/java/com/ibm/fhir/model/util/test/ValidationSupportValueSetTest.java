@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,9 +23,9 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ValidationSupport;
 
 /**
- * ValidationSupport Test
+ * ValidationSupport tests for the checkValueSetBinding methods
  */
-public class ValidationSupportTest {
+public class ValidationSupportValueSetTest {
 
     @Test
     public void testCheckValueSetBindingCodeValid1() {
