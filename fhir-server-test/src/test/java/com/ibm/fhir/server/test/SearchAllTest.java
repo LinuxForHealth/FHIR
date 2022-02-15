@@ -824,7 +824,6 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
-        bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
 
         // Check to see that we have at least a page (_count=5)

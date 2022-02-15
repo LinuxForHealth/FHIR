@@ -105,14 +105,25 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <configuration>
                     <copyDependencies>
-                        <dependency>
-                            <groupId>org.apache.derby</groupId>
-                            <artifactId>derby</artifactId>
-                        </dependency>
-                        <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
-                    </copyDependencies>
-                    <copyDependencies>
-                        <!-- Used to Test Profiles and Operations -->
+                        <dependencyGroup>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derby</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbyclient</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbyshared</artifactId>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.apache.derby</groupId>
+                                <artifactId>derbytools</artifactId>
+                            </dependency>
+                            <location>${project.build.directory}/liberty/wlp/usr/shared/resources/lib/derby/</location>
+                        </dependencyGroup>
                         <dependencyGroup>
                             <dependency>
                                 <groupId>com.ibm.fhir</groupId>
@@ -122,6 +133,11 @@
                             <dependency>
                                 <groupId>com.ibm.fhir</groupId>
                                 <artifactId>fhir-ig-us-core</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-ig-carin-bb</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
                             <dependency>

@@ -2,15 +2,25 @@
 	"resourceType": "StructureDefinition",
 	"id": "hrex-patient-member",
 	"text": {
-        "status": "empty",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-    },
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "draft"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 0
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-member",
 	"version": "0.2.0",
 	"name": "HRexPatientMember",
 	"title": "HRex Patient Member Profile",
 	"status": "draft",
-	"date": "2021-10-05T18:17:41+00:00",
+	"date": "2022-02-08T21:08:21+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -64,7 +74,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "Patient",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [
@@ -436,7 +446,7 @@
 					{
 						"code": "Extension",
 						"profile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|3.1.1"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|4.0.0"
 						]
 					}
 				],
@@ -461,7 +471,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
 					}
 				],
-				"mustSupport": true,
+				"mustSupport": false,
 				"isModifier": false,
 				"mapping": [
 					{
@@ -487,7 +497,7 @@
 					{
 						"code": "Extension",
 						"profile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|3.1.1"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|4.0.0"
 						]
 					}
 				],
@@ -512,7 +522,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
 					}
 				],
-				"mustSupport": true,
+				"mustSupport": false,
 				"isModifier": false,
 				"mapping": [
 					{
@@ -539,7 +549,7 @@
 					{
 						"code": "Extension",
 						"profile": [
-							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex|3.1.1"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex|4.0.0"
 						]
 					}
 				],
@@ -564,7 +574,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
 					}
 				],
-				"mustSupport": true,
+				"mustSupport": false,
 				"isModifier": false,
 				"mapping": [
 					{
@@ -2068,6 +2078,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
+				"mustSupport": false,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -2078,6 +2089,10 @@
 					{
 						"identity": "rim",
 						"map": "./part[partType = SFX]"
+					},
+					{
+						"identity": "argonaut-dq-dstu2",
+						"map": "NA"
 					}
 				]
 			},
@@ -2109,6 +2124,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
+				"mustSupport": false,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -2123,6 +2139,10 @@
 					{
 						"identity": "servd",
 						"map": "./StartDate and ./EndDate"
+					},
+					{
+						"identity": "argonaut-dq-dstu2",
+						"map": "NA"
 					}
 				]
 			},
@@ -2155,7 +2175,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
-				"mustSupport": true,
+				"mustSupport": false,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -3212,7 +3232,7 @@
 				"binding": {
 					"strength": "extensible",
 					"description": "Two Letter USPS alphabetic codes.",
-					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|3.1.1"
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|4.0.0"
 				},
 				"mapping": [
 					{
@@ -4126,7 +4146,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
-				"mustSupport": true,
+				"mustSupport": false,
 				"isModifier": false,
 				"isSummary": false,
 				"mapping": [
@@ -4314,7 +4334,7 @@
 				"isSummary": false,
 				"binding": {
 					"strength": "extensible",
-					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/simple-language|3.1.1"
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/simple-language"
 				},
 				"mapping": [
 					{

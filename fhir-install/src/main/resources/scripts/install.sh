@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -59,7 +59,7 @@ LIBERTY_ROOT=${LIBERTY_INSTALL_DIR}/wlp
 # Determine java command to be used.
 if [ -z "$JAVA_HOME" ]; then
     echo "
-Warning: JAVA_HOME not set; Java 8 or above is required for proper execution."
+Warning: JAVA_HOME not set; Java 11 or above is required for proper execution."
 fi
 
 # Create our server
@@ -103,11 +103,10 @@ The following manual steps must be completed before the server can be started:
    This includes the definition of the ports, the configuration
    of datastore(s), and other associated configuration.
 
-3) The fhir-server application requires Java 8 or above.
-   If you do not have one, a copy of the Java 8 SDK can be obtained at https://adoptopenjdk.net.
-   Be sure to set the JAVA_HOME environment variable to point to your Java 8 installation
-   before starting the server:
-       export JAVA_HOME=${LIBERTY_ROOT}/ibm-java-x86_64-80
+3) The fhir-server application requires Java 11 or above.
+   If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptopenjdk.net.
+   Be sure to set the JAVA_HOME environment variable to point to your Java 11 installation
+   before starting the server.
 
 4) You can start and stop the server with these commands:
    ${LIBERTY_ROOT}/bin/server start fhir-server

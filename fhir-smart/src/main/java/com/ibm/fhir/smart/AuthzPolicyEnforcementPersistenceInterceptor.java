@@ -604,8 +604,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private void checkSystemScopes(String resourceType, Permission requiredPermission, List<Scope> systemScopes, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         if (!isApprovedByScopes(resourceType, requiredPermission, systemScopes)) {
             String msg = requiredPermission.value() + " permission for '" + resourceType
-                    + "' is not granted by any of the provided 'system/' scopes: " + systemScopes
-                    + " requested scopes: " + getScopesFromToken(jwt);
+                    + "' not granted by any of the provided scopes that begin with 'system/':" + getScopesFromToken(jwt);
             if (log.isLoggable(Level.FINE)) {
                 log.fine(msg);
             }

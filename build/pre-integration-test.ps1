@@ -1,5 +1,5 @@
 ###############################################################################
-# (C) Copyright IBM Corp. 2020, 2021
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -112,6 +112,12 @@ Write-Host 'Copying test artifacts to install location'
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*-tests.jar'
 $USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
 $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
+
+Write-Host 'Update the serverRegistryResourceProviderEnabled to True'
+$CONFIG_JSON=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\default\fhir-server-config.json'
+$FHIR_SERVER_CONFIG = Get-Content $CONFIG_JSON -raw | ConvertFrom-Json
+$FHIR_SERVER_CONFIG.fhirServer.core.serverRegistryResourceProviderEnabled = [bool]::Parse('True')
+$FHIR_SERVER_CONFIG | ConvertTo-Json -depth 32 | set-content $CONFIG_JSON
 
 If (!(Test-Path -Path $USERLIB_DIR) ) {
     New-Item -Path $USERLIB_DIR -Name 'userlib' -ItemType 'directory'

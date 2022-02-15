@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -223,6 +223,20 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
     }
+
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testSystemHistoryWithBadSort() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        Response historyResponse =
+                target.path("_history")
+                    .queryParam("_sort", "bogus")
+                    .request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
+    } 
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithTypePatientAndOrderNone() throws Exception {

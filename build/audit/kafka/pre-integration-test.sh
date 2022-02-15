@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020, 2021
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -29,7 +29,6 @@ config(){
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
 
-
     echo "Copying fhir configuration files..."
     cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
@@ -44,6 +43,7 @@ config(){
 
     # Move over the test configurations
     cp -pr ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/
+    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json
     mv ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 

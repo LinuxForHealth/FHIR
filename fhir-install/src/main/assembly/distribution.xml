@@ -69,8 +69,10 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>org.apache.derby:derbyclient</include>
                 <include>org.apache.derby:derby</include>
+                <include>org.apache.derby:derbyclient</include>
+                <include>org.apache.derby:derbyshared</include>
+                <include>org.apache.derby:derbytools</include>
             </includes>
         </dependencySet>
         <dependencySet>
