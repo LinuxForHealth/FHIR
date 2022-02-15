@@ -33,11 +33,10 @@ public class ServerMeasureCollectDataOperationTest extends BaseMeasureOperationT
         assertResponse(response, 200);
 
         String responseBody = response.readEntity(String.class);
-        //System.out.println(responseBody);
-        MeasureReport report = (MeasureReport) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));        
+        MeasureReport report = (MeasureReport) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertEquals(report.getSubject().getReference().getValue(), TEST_PATIENT_ID);
     }
-    
+
     @Test
     public void testEvaluatePatientMeasureInstance() throws Exception {
         Response response =
@@ -50,8 +49,7 @@ public class ServerMeasureCollectDataOperationTest extends BaseMeasureOperationT
         assertResponse(response, 200);
 
         String responseBody = response.readEntity(String.class);
-        //System.out.println(responseBody);
-        MeasureReport report = (MeasureReport) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));        
+        MeasureReport report = (MeasureReport) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertEquals(report.getSubject().getReference().getValue(), TEST_PATIENT_ID);
     }
     

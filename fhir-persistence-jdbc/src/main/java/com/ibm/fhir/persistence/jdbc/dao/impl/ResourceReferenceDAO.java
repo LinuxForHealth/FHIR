@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,10 +19,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -30,14 +32,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.postgres.PostgresParameterNamesDAO;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -69,10 +67,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     // The cache used to track the ids of the normalized entities we're managing
     private final ICommonTokenValuesCache cache;
-    
+
     // Cache of parameter names to id
     private final INameIdCache<Integer> parameterNameCache;
-    
+
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
 
@@ -384,7 +382,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // second query.
         final Map<String, Integer> idMap = new HashMap<>();
         doCodeSystemsFetch(idMap, inList.toString(), sortedSystemNames);
-        
+
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: systems) {
             Integer id = idMap.get(xr.getCodeSystemValue());
@@ -428,9 +426,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         } catch (SQLException x) {
             logger.log(Level.SEVERE, select.toString(), x);
             throw translator.translate(x);
-        }        
+        }
     }
-    
+
     /**
      * Add the missing values to the database (and get ids allocated)
      * @param profileValues
@@ -444,7 +442,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         Set<String> valueSet = profileValues.stream().map(xr -> xr.getCanonicalValue()).collect(Collectors.toSet());
         List<String> sortedValues = new ArrayList<String>(valueSet);
         sortedValues.sort(String::compareTo);
-        
+
         StringBuilder paramList = new StringBuilder();
         StringBuilder inList = new StringBuilder();
         for (int i=0; i<sortedValues.size(); i++) {
@@ -756,76 +754,96 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             // nothing to do
             return;
         }
-        
+
         // Sort the values so we always process in the same order (deadlock protection)
         List<CommonTokenValue> sortedTokenValues = new ArrayList<>(tokenValueSet);
         sortedTokenValues.sort(CommonTokenValue::compareTo);
 
-        // Build a string of parameter values we use in the query to drive the insert statement.
-        // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
-        // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
-        StringBuilder inList = new StringBuilder(); // for the select query later
-        StringBuilder paramList = new StringBuilder();
-        for (int i=0; i<sortedTokenValues.size(); i++) {
-            if (paramList.length() > 0) {
-                paramList.append(", ");
-            }
-            paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "))");
-            paramList.append(",CAST(? AS INT))");
+        // Process the data in a window.
+        int idx = 0;
+        int max = sortedTokenValues.size();
 
-            // also build the inList for the select statement later
-            if (inList.length() > 0) {
-                inList.append(",");
-            }
-            inList.append("(?,?)");
+        // The maximum number of query parameters that are available for a particular persistence layer.
+        // There are two '?' parameters declared for each CommonTokenValue.
+        Optional<Integer> maxQuery = translator.maximumQueryParameters();
+        int maxSub;
+        if (maxQuery.isPresent() && (max * 2) > maxQuery.get()) {
+            maxSub = maxQuery.get() / 2;
+        } else {
+            maxSub = max;
         }
 
-        final String paramListStr = paramList.toString();
-        doCommonTokenValuesUpsert(paramListStr, sortedTokenValues);
+        while (idx < max) {
+            List<CommonTokenValue> sortedTokenValuesSub = new ArrayList<>();
+        
+            // Build a string of parameter values we use in the query to drive the insert statement.
+            // The database needs to know the type when it parses the query, hence the slightly verbose CAST functions:
+            // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
+            StringBuilder inList = new StringBuilder(); // for the select query later
+            StringBuilder paramList = new StringBuilder();
+            for (; idx < maxSub; idx++) {
+                if (paramList.length() > 0) {
+                    paramList.append(", ");
+                }
+                paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "))");
+                paramList.append(",CAST(? AS INT))");
 
-        // Now grab the ids for the rows we just created. If we had a RETURNING implementation
-        // which worked reliably across all our database platforms, we wouldn't need this
-        // second query.
-        // Derby doesn't support IN LISTS with multiple members, so we have to join against
-        // a VALUES again. No big deal...probably similar amount of work for the database
-        StringBuilder select = new StringBuilder();
-        select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
-        select.append("     (VALUES ").append(paramListStr).append(" ) AS v(token_value, code_system_id) ");
-        select.append("       JOIN common_token_values ctv ");
-        select.append("              ON ctv.token_value = v.token_value ");
-        select.append("             AND ctv.code_system_id = v.code_system_id ");
+                // also build the inList for the select statement later
+                if (inList.length() > 0) {
+                    inList.append(",");
+                }
+                inList.append("(?,?)");
 
-        // Grab the ids
-        Map<CommonTokenValue, Long> idMap = new HashMap<>();
-        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
-            int a = 1;
-            for (CommonTokenValue tv: sortedTokenValues) {
-                ps.setString(a++, tv.getTokenValue());
-                ps.setInt(a++, tv.getCodeSystemId());
+                sortedTokenValuesSub.add(sortedTokenValues.get(idx));
             }
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                // SELECT code_system_id, token_value...note codeSystem not required
-                CommonTokenValue key = new CommonTokenValue(null, rs.getInt(1), rs.getString(2));
-                idMap.put(key, rs.getLong(3));
+            final String paramListStr = paramList.toString();
+            doCommonTokenValuesUpsert(paramListStr, sortedTokenValuesSub);
+
+            // Now grab the ids for the rows we just created. If we had a RETURNING implementation
+            // which worked reliably across all our database platforms, we wouldn't need this
+            // second query.
+            // Derby doesn't support IN LISTS with multiple members, so we have to join against
+            // a VALUES again. No big deal...probably similar amount of work for the database
+            StringBuilder select = new StringBuilder();
+            select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
+            select.append("     (VALUES ").append(paramListStr).append(" ) AS v(token_value, code_system_id) ");
+            select.append("       JOIN common_token_values ctv ");
+            select.append("              ON ctv.token_value = v.token_value ");
+            select.append("             AND ctv.code_system_id = v.code_system_id ");
+
+            // Grab the ids
+            Map<CommonTokenValue, Long> idMap = new HashMap<>();
+            try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+                int a = 1;
+                for (CommonTokenValue tv: sortedTokenValuesSub) {
+                    ps.setString(a++, tv.getTokenValue());
+                    ps.setInt(a++, tv.getCodeSystemId());
+                }
+
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    // SELECT code_system_id, token_value...note codeSystem not required
+                    CommonTokenValue key = new CommonTokenValue(null, rs.getInt(1), rs.getString(2));
+                    idMap.put(key, rs.getLong(3));
+                }
+            } catch (SQLException x) {
+                throw translator.translate(x);
             }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
 
-        // Now update the ids for all the matching systems in our list
-        for (ResourceTokenValueRec xr: values) {
-            // ignore entries with null tokenValue elements - we don't store them in common_token_values
-            if (xr.getTokenValue() != null) {
-                CommonTokenValue key = new CommonTokenValue(null, xr.getCodeSystemValueId(), xr.getTokenValue());
-                Long id = idMap.get(key);
-                if (id != null) {
-                    xr.setCommonTokenValueId(id);
+            // Now update the ids for all the matching systems in our list
+            for (ResourceTokenValueRec xr: values) {
+                // ignore entries with null tokenValue elements - we don't store them in common_token_values
+                if (xr.getTokenValue() != null) {
+                    CommonTokenValue key = new CommonTokenValue(null, xr.getCodeSystemValueId(), xr.getTokenValue());
+                    Long id = idMap.get(key);
+                    if (id != null) {
+                        xr.setCommonTokenValueId(id);
 
-                    // update the thread-local cache with this id. The values aren't committed to the shared cache
-                    // until the transaction commits
-                    cache.addTokenValue(key, id);
+                        // update the thread-local cache with this id. The values aren't committed to the shared cache
+                        // until the transaction commits
+                        cache.addTokenValue(key, id);
+                    }
                 }
             }
         }
@@ -844,9 +862,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     @Override
     public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
-        
+
         collectAndResolveParameterNames(records, profileRecs, tagRecs, securityRecs);
-        
+
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
         cache.resolveCodeSystems(records, systemMisses);
@@ -924,9 +942,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
      * @param tagRecs
      * @param securityRecs
      */
-    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, 
+    private void collectAndResolveParameterNames(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs,
         Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
-        
+
         List<ResourceRefRec> recList = new ArrayList<>();
         recList.addAll(records);
         recList.addAll(profileRecs);
@@ -937,13 +955,13 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         Set<String> parameterNameSet = new HashSet<>(recList.stream().map(rec -> rec.getParameterName()).collect(Collectors.toList()));
         List<String> parameterNameList = new ArrayList<>(parameterNameSet);
         parameterNameList.sort(String::compareTo);
-        
+
         // Do lookups in order (deadlock protection)
         for (String parameterName: parameterNameList) {
             // The cache holds a local map of name to id, so no need to duplicate that here
             getParameterNameId(parameterName);
         }
-        
+
         // Fetch the values that we just cached in the previous loop
         for (ResourceRefRec rec: recList) {
             rec.setParameterNameId(getParameterNameId(rec.getParameterName()));
@@ -970,9 +988,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
         return result;
     }
-    
+
     /**
-     * Get the id from the local (tenant-specific) identity cache, or read/create using 
+     * Get the id from the local (tenant-specific) identity cache, or read/create using
      * the database if needed.
      * @param parameterName
      * @return
