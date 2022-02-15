@@ -288,16 +288,14 @@ public abstract class AbstractPersistenceTest {
         // before attempting the delete, we need to make sure the resource actually exists
         // so we can avoid a (confusing) version mismatch exception from the persistence layer
         Class<? extends Resource> resourceType = resource.getClass();
-        final String versionId = resource.getMeta().getVersionId().getValue();
         SingleResourceResult<? extends Resource> srr = persistence.read(context, resourceType, resource.getId());
 
-        // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper
+        // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper.
         if (srr.getResource() == null) {
             throw new FHIRPersistenceResourceNotFoundException("Resource '"
-                    + resourceType.getSimpleName() + "/" + resource.getId() + "' version " + versionId + " not found.");
+                    + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
         }
         
-
         // Note we don't want to compare the version we just read with the version of
         // the given resource because we want the following delete method to perform
         // this check for us.
