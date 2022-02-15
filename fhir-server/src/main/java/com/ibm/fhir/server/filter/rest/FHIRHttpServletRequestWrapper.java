@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -233,13 +233,6 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * method is called for the "Accept" header, we'll allow the "_format" query parameter to act as an override for the
      * HTTP header value.
      *
-     * <p>If headerName includes a ":" we interpret that as a request for the value of a specific part of a complex header.
-     * For example, given a header value like:
-     * <pre>
-     * X-TEST: part1=a;part2=multipart;part3=value;
-     * </pre>
-     * getHeader("X-TEST:part2") would return "multipart".
-     *
      * @param headerName
      *            the name of the HTTP header to be retrieved
      * @return the value of the specified header
@@ -252,48 +245,27 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         String s = null;
+        String headerNameLC = headerName.toLowerCase();
 
-        if (headerName.contains(":")) {
-            // If the header name contains a ":", interpret that as a request for just a part of the header
-            String[] splitHeaderName = headerName.split(":", 2);
-            String realHeaderName = splitHeaderName[0].trim();
-            String partName = splitHeaderName[1].trim();
+        // First, check to see if the user specified this header as a query parameter.
+        String queryValue = headerQueryParameters.get(headerNameLC);
+        if (queryValue != null && !queryValue.isEmpty()) {
+            s = queryValue;
+            s = possiblyMapQueryParameterValue(headerNameLC, s);
+        }
 
-            String fullHeaderValue = delegate.getHeader(realHeaderName);
-            if (fullHeaderValue != null) {
-                String[] parts = fullHeaderValue.split(";");
-                for (int i = 0; i < parts.length; i++) {
-                    String[] splitPart = parts[i].split("=", 2);
-                    if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
-                        s = splitPart[1].trim();
-                        break;
-                    }
-                }
-            }
-        } else {
+        // If we didn't find an override value via the query string, then call
+        // our delegate.
+        if (s == null) {
+            s = delegate.getHeader(headerName);
+        }
 
-            String headerNameLC = headerName.toLowerCase();
-
-            // First, check to see if the user specified this header as a query parameter.
-            String queryValue = headerQueryParameters.get(headerNameLC);
-            if (queryValue != null && !queryValue.isEmpty()) {
-                s = queryValue;
-                s = possiblyMapQueryParameterValue(headerNameLC, s);
-            }
-
-            // If we didn't find an override value via the query string, then call
-            // our delegate.
-            if (s == null) {
-                s = delegate.getHeader(headerName);
-            }
-
-            // Finally, if we still don't have a value for the requested header,
-            // then check to see if we should return a default value for this header.
-            if (s == null || s.isEmpty()) {
-                String defaultValue = defaultHeaderValues.get(headerNameLC);
-                if (defaultValue != null) {
-                    s = defaultValue;
-                }
+        // Finally, if we still don't have a value for the requested header,
+        // then check to see if we should return a default value for this header.
+        if (s == null || s.isEmpty()) {
+            String defaultValue = defaultHeaderValues.get(headerNameLC);
+            if (defaultValue != null) {
+                s = defaultValue;
             }
         }
 
@@ -448,11 +420,11 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         // Add charset according to the Accept|Accept-Charset header of the request
         if (headerName.equalsIgnoreCase(ACCEPT)) {
-                v = new Vector<String>();
-                while (e.hasMoreElements()) {
-                    v.add(updateAcceptHeader(e.nextElement()));
-                }
-                e = v.elements();
+            v = new Vector<String>();
+            while (e.hasMoreElements()) {
+                v.add(updateAcceptHeader(e.nextElement()));
+            }
+            e = v.elements();
         }
 
         // In order to display the header values in a trace message, we actually need to

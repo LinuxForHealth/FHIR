@@ -258,12 +258,13 @@ public class FHIRRestServletFilter extends HttpFilter {
     }
 
     /**
-     * Computes the return preference from the Prefer header value. The default preference
-     * for all interactions except system history is MINIMAL. The default for system
-     * history is different and uses REPRESENTATION. To implement this without
+     * Computes the return preference from the Prefer header value. The default return
+     * preference for all interactions except system history is MINIMAL. The default for
+     * system history is different and uses REPRESENTATION. To implement this without
      * disrupting the existing behavior we use a new returnPreferenceDefault flag
      * to indicate whether or not the default value has been overridden by a
      * client-specified header value.
+     * The handling preference should be set in the context before calling this method.
      * @param context the context containing the HTTP headers
      * @throws FHIRException
      */
@@ -345,7 +346,7 @@ public class FHIRRestServletFilter extends HttpFilter {
                                         + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
                             }
                             // If Content-Type header, check for multiple different FHIR versions
-                            if (headerName.equals(HttpHeaders.CONTENT_TYPE)) {
+                            if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
                                 if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
                                     throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
                                         + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));

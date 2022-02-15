@@ -166,8 +166,8 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         response = target.path("Patient")
                 .queryParam("fake-parameter", "fakeValue")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "handling=lenient,handling=strict")
-                .header("Prefer", "handling=strict")
+                .header("prefer", "handling=lenient,handling=strict")
+                .header("prefer", "handling=strict")
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
@@ -178,8 +178,8 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         response = target.path("Patient")
                 .queryParam("fake-parameter", "fakeValue")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "handling=strict,handling=lenient")
-                .header("Prefer", "handling=lenient")
+                .header("prefer", "handling=strict,handling=lenient")
+                .header("prefer", "handling=lenient")
                 .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
@@ -225,9 +225,9 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         response = target.path("Patient")
                 .queryParam("fake-parameter", "fakeValue")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "fakeName=fakeValue")
-                .header("Prefer", "handling=strict")
-                .header("Prefer", "fakeName2=fakeValue2")
+                .header("prefer", "fakeName=fakeValue")
+                .header("prefer", "handling=strict")
+                .header("prefer", "fakeName2=fakeValue2")
                 .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);

@@ -382,8 +382,8 @@ public class UpdateTest extends FHIRServerTestBase {
             String id1 = UUID.randomUUID().toString();
             patient = patient.toBuilder().id(id1).build();
             // Verify the first occurrence of the return pref is used
-            returnPref = new FHIRRequestHeader("Prefer", "fakeName=fakeValue,return=minimal;fakeName2=fakeValue2,return=representation");
-            returnPref2 = new FHIRRequestHeader("Prefer", "return=OperationOutcome");
+            returnPref = new FHIRRequestHeader("prefer", "fakeName=fakeValue,return=minimal;fakeName2=fakeValue2,return=representation");
+            returnPref2 = new FHIRRequestHeader("prefer", "return=OperationOutcome");
             FHIRResponse response1 = client.update(patient, returnPref, returnPref2);
             assertNotNull(response1);
             assertResponse(response1.getResponse(), Response.Status.CREATED.getStatusCode());
@@ -417,8 +417,8 @@ public class UpdateTest extends FHIRServerTestBase {
             // Create the new resource with return pref of "representation"
             String id3 = UUID.randomUUID().toString();
             patient = patient.toBuilder().id(id3).build();
-            returnPref = new FHIRRequestHeader("Prefer", "fakeName=fakeValue,return=OperationOutcome;fakeName2=fakeValue2,return=representation");
-            returnPref2 = new FHIRRequestHeader("Prefer", "return=minimal");
+            returnPref = new FHIRRequestHeader("prefer", "fakeName=fakeValue,return=OperationOutcome;fakeName2=fakeValue2,return=representation");
+            returnPref2 = new FHIRRequestHeader("prefer", "return=minimal");
             FHIRResponse response3 = client.update(patient, returnPref, returnPref2);
             assertNotNull(response3);
             assertResponse(response3.getResponse(), Response.Status.CREATED.getStatusCode());
