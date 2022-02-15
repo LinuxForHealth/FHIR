@@ -767,7 +767,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // There are two '?' parameters declared for each CommonTokenValue.
         Optional<Integer> maxQuery = translator.maximumQueryParameters();
         int maxSub;
-        if (maxQuery.isPresent() && (max / 2) > maxQuery.get()) {
+        if (maxQuery.isPresent() && (max * 2) > maxQuery.get()) {
             maxSub = maxQuery.get() / 2;
         } else {
             maxSub = max;
