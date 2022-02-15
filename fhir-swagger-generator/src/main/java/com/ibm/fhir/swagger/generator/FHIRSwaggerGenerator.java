@@ -82,6 +82,8 @@ public class FHIRSwaggerGenerator {
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = true;
+    private static final List<String> DATA_EXPORT_TYPES = Arrays.asList("Patient", "Group");
+    
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
@@ -166,6 +168,20 @@ public class FHIRSwaggerGenerator {
 
                     JsonObjectBuilder parameters = factory.createObjectBuilder();
                     generateParameters(parameters, filter);
+                    if (DATA_EXPORT_TYPES.contains(resourceModelClass.getSimpleName()) && filter.acceptOperation("export")) {
+                        generateExportParametersDefinition(parameters);
+                        generateDefinition(Parameters.class, definitions);
+ 
+                        // generate definition for all inner classes inside the top level resources.
+                        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+                            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+                            if (Parameters.class.equals(parentClass)) {
+                                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                                generateDefinition(innerModelClass, definitions);
+                            }
+                        }
+                    }
+                    
                     JsonObject parametersObject = parameters.build();
                     if (!parametersObject.isEmpty()) {
                         swagger.add("parameters", parametersObject);
@@ -792,6 +808,17 @@ public class FHIRSwaggerGenerator {
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/_history", pathObject);
+        }
+        
+        // Add Export Generation
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "export") && DATA_EXPORT_TYPES.contains(modelClass.getSimpleName())) {
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "get");
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "post");
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/$export", pathObject);
         }
         
         // TODO: add patch
@@ -1800,7 +1827,7 @@ public class FHIRSwaggerGenerator {
                 String resourceType = className;
                 // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
-                        "history", "batch", "transaction");
+                        "history", "batch", "transaction", "export");
                 filterMap.put(resourceType, operationList);
             }
         }
