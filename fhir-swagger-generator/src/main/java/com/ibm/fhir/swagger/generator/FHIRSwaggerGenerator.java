@@ -168,6 +168,8 @@ public class FHIRSwaggerGenerator {
 
                     JsonObjectBuilder parameters = factory.createObjectBuilder();
                     generateParameters(parameters, filter);
+                    
+                    // Generate export parameters if valid for the model class
                     if (DATA_EXPORT_TYPES.contains(resourceModelClass.getSimpleName()) && filter.acceptOperation("export")) {
                         generateExportParametersDefinition(parameters);
                         generateDefinition(Parameters.class, definitions);
@@ -810,7 +812,7 @@ public class FHIRSwaggerGenerator {
             paths.add("/" + modelClass.getSimpleName() + "/_history", pathObject);
         }
         
-        // Add Export Generation
+        // Add Export
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "export") && DATA_EXPORT_TYPES.contains(modelClass.getSimpleName())) {
             generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "get", "Group".equals(modelClass.getSimpleName()));
@@ -827,7 +829,27 @@ public class FHIRSwaggerGenerator {
             
             paths.add(pathStringBuilder.toString(), pathObject);
         }
+
         
+        // Add Patient Everything
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
+            generatePatientEveryThingPathItem(path, false);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/Patient/$everything", pathObject);
+        }
+
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
+            generatePatientEveryThingPathItem(path, true);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/Patient/{id}/$everything", pathObject);
+        }
+
         // TODO: add patch
     }
 
@@ -1444,6 +1466,82 @@ public class FHIRSwaggerGenerator {
         path.add(httpMethod, httpMethodBuilder);
     }
 
+    /**
+     * Generates the $everything path for a Patient resource
+     *  
+     * @param path
+     * @param tag
+     * @param summary
+     * @param resourceSpecific
+     * @param httpMethod
+     */
+    private static void generatePatientEveryThingPathItem(JsonObjectBuilder path, boolean addIdParam) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Patient");
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", "Return all the information related to one or more patients");       
+        if (addIdParam)
+            httpMethodBuilder.add("operationId", "everythingPatient");
+        else
+            httpMethodBuilder.add("operationId", "everythingAllPatients");
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+
+        if (addIdParam) {
+            JsonObjectBuilder idParameter = factory.createObjectBuilder();
+            idParameter.add("$ref", "#/parameters/idParam");
+            parameters.add(idParameter);
+        }
+
+        JsonObjectBuilder startParam = factory.createObjectBuilder();
+        startParam.add("name", "start");
+        startParam.add("description", "All records relating to care provided in a certain date range");
+        startParam.add("in", "query");
+        startParam.add("required", false);
+        startParam.add("type", "string");
+        parameters.add(startParam);
+
+        JsonObjectBuilder endParam = factory.createObjectBuilder();
+        endParam.add("name", "end");
+        endParam.add("description", "All records relating to care provided in a certain date range");
+        endParam.add("in", "query");
+        endParam.add("required", false);
+        endParam.add("type", "string");
+        parameters.add(endParam);
+
+        JsonObjectBuilder type = factory.createObjectBuilder();
+        type.add("name", "_type");
+        type.add("description", "Limit which resource types are returned");
+        type.add("in", "query");
+        type.add("required", false);
+        type.add("type", "string");
+
+        parameters.add(type);
+            
+        httpMethodBuilder.add("parameters", parameters);
+
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
+        httpMethodBuilder.add("produces", produces);
+        
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "everything operation successful");
+
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/Bundle");
+
+        response.add("schema", schema);
+        responses.add("200", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add("get", httpMethodBuilder);
+    }
+
     private static void generateDefinition(Class<?> modelClass, JsonObjectBuilder definitions) throws Exception {
         if (!ModelSupport.isPrimitiveType(modelClass)) {
             JsonObjectBuilder definition = factory.createObjectBuilder();
@@ -1840,7 +1938,7 @@ public class FHIRSwaggerGenerator {
                 String resourceType = className;
                 // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
-                        "history", "batch", "transaction", "export");
+                        "history", "batch", "transaction", "export", "everything");
                 filterMap.put(resourceType, operationList);
             }
         }
