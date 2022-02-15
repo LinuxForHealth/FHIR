@@ -29,7 +29,6 @@ import javax.xml.validation.Validator;
 
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -403,38 +402,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated replaced by {@link #checkNonEmptyList(List, String, Class)}
-     * @throws IllegalStateException if the passed list is empty or contains any null objects
-     */
-    @Deprecated
-    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        requireNonNull(elements, elementName);
-        if (elements.isEmpty()) {
-            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
-        }
-        return elements;
-    }
-
-    /**
-     * @deprecated replaced by {@link #checkList(List, String, Class)}
-     * @throws IllegalStateException if the passed list contains any null objects
-     */
-    @Deprecated
-    public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
-        boolean anyMatch = false;
-        for (T element : elements) {
-            if (Objects.isNull(element)) {
-                anyMatch = true;
-                break;
-            }
-        }
-        if (anyMatch) {
-            throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
-        }
-        return elements;
-    }
-
-    /**
      * @return the same list that was passed
      * @throws IllegalStateException if the passed list is empty or contains any null objects or objects of an incompatible type
      */
@@ -472,17 +439,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated https://jira.hl7.org/browse/FHIR-26565 has clarified that empty resources are allowed
-     * @throws IllegalStateException if the passed element has no children
-     */
-    @Deprecated
-    public static void requireChildren(Resource resource) {
-        if (!resource.hasChildren()) {
-            throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
-        }
-    }
-
-    /**
      * @throws IllegalStateException if the passed element is not null
      */
     public static void prohibited(Element element, String elementName) {
@@ -497,25 +453,6 @@ public final class ValidationSupport {
     public static <T extends Element> void prohibited(List<T> elements, String elementName) {
         if (!elements.isEmpty()) {
             throw new IllegalStateException(String.format("Element: '%s' is prohibited.", elementName));
-        }
-    }
-
-    /**
-     * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
-     * @deprecated use {@link #checkValueSetBinding(Element, String, String, String, String...)}
-     */
-    @Deprecated
-    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
-        if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
-            List<String> codeList = Arrays.asList(codes);
-            for (Coding coding : codeableConcept.getCoding()) {
-                if (hasSystemAndCodeValues(coding) &&
-                        system.equals(coding.getSystem().getValue()) &&
-                        codeList.contains(coding.getCode().getValue())) {
-                    return;
-                }
-            }
-            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
         }
     }
 

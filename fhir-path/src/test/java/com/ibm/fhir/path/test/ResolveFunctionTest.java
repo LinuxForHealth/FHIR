@@ -37,7 +37,13 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
+/**
+ * Tests for the FHIRPath ResolveFunction implementation
+ */
 public class ResolveFunctionTest {
+    /**
+     * The default resolve() implementation returns a FHIRPathResourceNode that can work with the 'is' operator.
+     */
     @Test
     public static void testResolve() throws Exception {
         try (InputStream in = ResolveFunctionTest.class.getClassLoader().getResourceAsStream("JSON/observation-example-f001-glucose.json")) {
@@ -60,6 +66,13 @@ public class ResolveFunctionTest {
         }
     }
 
+    /**
+     * The default resolve() implementation can resolve fragment references in both directions
+     * <pre>
+     * containded -(#)-> container
+     * container -(#parentOrg)-> contained
+     * </pre>
+     */
     @Test
     public void testResolveInternalFragmentReference() throws Exception {
         Bundle bundle = Bundle.builder()
@@ -98,6 +111,10 @@ public class ResolveFunctionTest {
         assertEquals(result, SINGLETON_TRUE);
     }
 
+    /**
+     * The default resolve() implementation resolves local bundle references
+     * based on the EvaluationContext
+     */
     @Test
     public void testResolveBundleReference_NestedBundle() throws Exception {
             String baseUrl = "https://example.com/";
@@ -142,8 +159,13 @@ public class ResolveFunctionTest {
             assertEquals(result.iterator().next().asResourceNode().resource(), testOrg);
     }
 
+    /**
+     * The default resolve() implementation resolves local bundle references
+     * with the http/https scheme and uses the Bundle.entry.fullUrl to interpret
+     * relative reference values
+     */
     @Test
-    public void testResolveBundleReference_AbsoluteFullUrl() throws Exception {
+    public void testResolveBundleReference_HttpFullUrl() throws Exception {
         String baseUrl = "https://example.com/";
         String orgEndpoint = baseUrl + "Organization/";
         Bundle bundle = buildTestBundleWithFullUrlPrefix(orgEndpoint);
@@ -214,6 +236,10 @@ public class ResolveFunctionTest {
         assertNotEquals(resources[4], testOrg);
     }
 
+    /**
+     * The default resolve() implementation cannot resolve local references when not in a bundle
+     * context, but doesn't blow up when you try.
+     */
     @Test
     public void testResolveNonBundleReference() throws Exception {
         Organization org = Organization.builder()
@@ -231,6 +257,10 @@ public class ResolveFunctionTest {
         assertNull(result.iterator().next().asResourceNode().resource());
     }
 
+    /**
+     * The default resolve() implementation resolves local bundle references with *any* scheme,
+     * so long as the reference values match the fullUrl values
+     */
     @Test
     public void testResolveBundleReference_localFullUrl() throws Exception {
         String[] prefixes = new String[] {"resource:", "urn:uuid:"};
