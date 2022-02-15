@@ -89,9 +89,11 @@ public interface FHIRPersistence {
      * @param resourceType the resource type of the Resource instance to be deleted
      * @param logicalId the logical id of the Resource instance to be deleted
      * @param versionId the current version of the Resource instance to be deleted
+     * @param lastUpdated the modification timestamp to use for the deletion
      * @throws FHIRPersistenceException
      */
-    default <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId) throws FHIRPersistenceException {
+    default <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 

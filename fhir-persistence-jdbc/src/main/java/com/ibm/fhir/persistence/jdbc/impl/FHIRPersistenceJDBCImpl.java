@@ -85,7 +85,6 @@ import com.ibm.fhir.path.FHIRPathSystemValue;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
 import com.ibm.fhir.persistence.InteractionStatus;
@@ -1022,7 +1021,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -1031,7 +1031,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             // Create a new Resource DTO instance to represent the deletion marker.
-            final Instant lastUpdated = FHIRPersistenceSupport.getCurrentInstant();
             final int newVersionId = versionId + 1;
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
                     createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null,

@@ -56,9 +56,11 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
@@ -2019,8 +2021,19 @@ public class FHIRRestHelperTest {
 
             @Override
             public void afterDelete(FHIRPersistenceEvent event) {
-                assertNotNull(event.getPrevFhirResource());
-                assertNull(event.getFhirResource());
+                try {
+                    assertNotNull(event.getPrevFhirResource());
+                    int currentVersion = FHIRPersistenceSupport.getMetaVersionId(event.getPrevFhirResource());
+                    
+                    // The event contains a version of the resource with the lastUpdated time set
+                    assertNotNull(event.getFhirResource());
+                    assertNotNull(event.getFhirResource().getMeta());
+                    assertNotNull(event.getFhirResource().getMeta().getLastUpdated());
+                    int newVersion = FHIRPersistenceSupport.getMetaVersionId(event.getFhirResource());
+                    assertEquals(newVersion, currentVersion+1);
+                } catch (FHIRPersistenceException x) {
+                    fail("afterDelete(event)", x);
+                }
             }
         };
         FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);

@@ -53,6 +53,7 @@ import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -130,7 +131,8 @@ public class JDBCSearchNearTest {
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
-            persistence.delete(persistenceContext, savedResource.getClass(), savedResource.getId(), FHIRPersistenceSupport.getMetaVersionId(savedResource));
+            com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
+            persistence.delete(persistenceContext, savedResource.getClass(), savedResource.getId(), FHIRPersistenceSupport.getMetaVersionId(savedResource), lastUpdated);
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
             }

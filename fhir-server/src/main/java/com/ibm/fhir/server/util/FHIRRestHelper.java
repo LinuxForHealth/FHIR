@@ -1008,18 +1008,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             FHIRPersistenceContextImpl.builder(event)
                             .build();
 
-                    persistence.delete(persistenceContext, resourceType, resourceToDelete.getId(), currentVersionNumber);
+                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+                    persistence.delete(persistenceContext, resourceType, resourceToDelete.getId(), currentVersionNumber, lastUpdated);
 
                     if (responseBundle.getEntry().size() == 1) {
                         // The response needs to return the version number of the deletion marker
                         // as the ETag. This was previously obtained by returning the modified resource,
-                        // which we no longer have. So we have to make up a copy of the resource
-                        // to support this
+                        // which we no longer have.
                         int newVersionNumber = currentVersionNumber + 1;
                         ior.setVersionForETag(newVersionNumber);
                     }
 
-                    // Invoke the 'afterDelete' interceptor methods.
+                    // Invoke the 'afterDelete' interceptor methods. To support the notification service, we 
+                    // need to provide a resource with the lastUpdated element set. This is just to simplify
+                    // passing values, even though the resource itself doesn't really exist
+                    final int newVersionNumber = currentVersionNumber + 1;
+                    Resource deletionMarker = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, resourceToDelete.getId(), newVersionNumber, lastUpdated);
+                    event.setFhirResource(deletionMarker);
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 

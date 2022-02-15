@@ -92,7 +92,8 @@ public class FHIRPersistenceTestSupport {
         }
         
         final int currentVersionId = FHIRPersistenceSupport.getMetaVersionId(resource);
-        persistence.delete(context, resource.getClass(), resource.getId(), currentVersionId);
+        final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
+        persistence.delete(context, resource.getClass(), resource.getId(), currentVersionId, lastUpdated);
     }
 
     /**
