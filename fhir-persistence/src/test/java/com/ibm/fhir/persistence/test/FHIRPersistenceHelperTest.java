@@ -66,7 +66,7 @@ public class FHIRPersistenceHelperTest {
         assertNotNull(persistence);
         
         assertFalse(persistence.isDeleteSupported());
-        persistence.delete(null, null);
+        persistence.delete(null, null, null, -1, null);
     }
     
     @Test(expectedExceptions = {FHIRPersistenceException.class})

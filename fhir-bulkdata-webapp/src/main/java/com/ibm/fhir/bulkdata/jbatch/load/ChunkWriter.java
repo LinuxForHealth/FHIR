@@ -316,8 +316,7 @@ public class ChunkWriter extends AbstractItemWriter {
         Resource oldResource = oldResourceResult.getResource();
 
         final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getCurrentInstant();
-        final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
-                ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
+        final int newVersionNumber = oldResourceResult.getVersion() + 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
         // If the resource was previously deleted, we need to treat this as a not to skip, otherwise we end up with really inconsistent data

@@ -152,9 +152,9 @@ public class MockPersistenceImpl implements FHIRPersistence {
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         // NOP. No need to do anything in this very simple mock
     }
 

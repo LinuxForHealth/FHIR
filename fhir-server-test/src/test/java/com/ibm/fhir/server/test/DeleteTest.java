@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -193,11 +194,19 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(request);
         assertEquals(expectedURL, request.getUrl().getValue());
         assertEquals(expectedMethod.toString(), request.getMethod().getValue());
-        Resource rc = entry.getResource();
-        assertNotNull(rc);
-        MedicationAdministration ma = (MedicationAdministration) rc;
-        String actualVersionId = ma.getMeta().getVersionId().getValue();
-        assertEquals(expectedVersionId, actualVersionId);
+
+        // The the bundle entry is for a DELETE, we don't get a resource so need
+        // to do a different check
+        if (expectedMethod == HTTPVerb.Value.DELETE) {
+            assertEquals("W/\"" + expectedVersionId + "\"", entry.getResponse().getEtag().getValue());
+            assertNull(entry.getResource());
+        } else {
+            Resource rc = entry.getResource();
+            assertNotNull(rc);
+            MedicationAdministration ma = (MedicationAdministration) rc;
+            String actualVersionId = ma.getMeta().getVersionId().getValue();
+            assertEquals(expectedVersionId, actualVersionId);
+        }
     }
 
     @Test(dependsOnMethods = {"testHistory1"})

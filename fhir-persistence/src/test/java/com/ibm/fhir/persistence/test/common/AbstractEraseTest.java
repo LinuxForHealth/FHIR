@@ -154,7 +154,7 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         // Resource where the last is deleted (C - D)
         Basic resource1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
         resources.add(resource1);
-        resource1 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource1);
+        delete(getDefaultPersistenceContext(), resource1);
         EraseDTO dto = new EraseDTO();
         dto.setLogicalId(resource1.getId());
         dto.setResourceType("Basic");
