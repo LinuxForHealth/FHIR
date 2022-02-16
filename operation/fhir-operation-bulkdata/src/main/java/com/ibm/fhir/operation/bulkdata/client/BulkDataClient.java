@@ -461,6 +461,10 @@ public class BulkDataClient {
                     result.setOutput(Collections.emptyList());
                 }
 
+                if (result.getDeleted() == null || result.getDeleted().isEmpty()) {
+                    result.setDeleted(Collections.emptyList());
+                }
+
             } catch (FHIROperationException fe) {
                 throw fe;
             } catch (Exception ex) {
