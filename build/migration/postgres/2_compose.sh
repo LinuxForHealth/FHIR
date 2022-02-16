@@ -154,7 +154,7 @@ bringup(){
     mkdir -p ${DB_LOC}
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,AllergyIntolerance,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
