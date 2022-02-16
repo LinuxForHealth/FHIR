@@ -51,6 +51,7 @@ public class PollingLocationResponse {
     private Boolean requiresAccessToken;
     private List<Output> output;
     private List<Output> error;
+    private List<Output> deleted;
     private JsonObject extension;
 
     public String getTransactionTime() {
@@ -98,6 +99,14 @@ public class PollingLocationResponse {
 
     public void setError(List<Output> error) {
         this.error = error;
+    }
+
+    public List<Output> getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(List<Output> deleted) {
+        this.deleted = deleted;
     }
 
     public JsonObject getExtension() {
@@ -254,6 +263,15 @@ public class PollingLocationResponse {
                         // outputs the output array.
                         generator.writeStartArray("error");
                         for (Output output : response.getError()) {
+                            Output.Writer.generate(generator, output);
+                        }
+                        generator.writeEnd();
+                    }
+
+                    if (response.getDeleted() != null) {
+                        // outputs the output array.
+                        generator.writeStartArray("deleted");
+                        for (Output output : response.getDeleted()) {
                             Output.Writer.generate(generator, output);
                         }
                         generator.writeEnd();

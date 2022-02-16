@@ -292,6 +292,10 @@ public class PollingLocationResponseTest {
         errors.add(new Output("type3", "url3", "3000"));
         errors.add(new Output("type4", "url4", "4000"));
 
+        List<Output> deleted = new ArrayList<>();
+        deleted.add(new Output("dtype3", "urld3", "13000"));
+        deleted.add(new Output("dtype4", "urld4", "44000"));
+
         PollingLocationResponse metadata = new PollingLocationResponse();
 
         metadata.setRequest("request");
@@ -300,23 +304,17 @@ public class PollingLocationResponseTest {
         String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
         metadata.setTransactionTime(s);
         assertNotNull(metadata.getTransactionTime());
+        
+        // Set the output arrays
         metadata.setError(errors);
-
+        metadata.setDeleted(deleted);
         metadata.setOutput(outputs);
+
         assertFalse(metadata.getOutput().isEmpty());
         assertFalse(metadata.getError().isEmpty());
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(s, ""),
-                "{\n" + "    \"transactionTime\": \"\",\n"
-                        + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
-                        + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
-                        + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"
-                        + "        {\n" + "            \"type\": \"type2\",\n" + "            \"url\": \"url2\",\n"
-                        + "            \"count\": 2000\n" + "        }\n" + "    ],\n" + "    \"error\": [\n"
-                        + "        {\n" + "            \"type\": \"type3\",\n" + "            \"url\": \"url3\",\n"
-                        + "            \"count\": 3000\n" + "        },\n" + "        {\n"
-                        + "            \"type\": \"type4\",\n" + "            \"url\": \"url4\",\n"
-                        + "            \"count\": 4000\n" + "        }\n" + "    ]\n" + "}");
+                "{\n    \"transactionTime\": \"\",\n    \"request\": \"request\",\n    \"requiresAccessToken\": false,\n    \"output\": [\n        {\n            \"type\": \"type\",\n            \"url\": \"url\",\n            \"count\": 1000\n        },\n        {\n            \"type\": \"type2\",\n            \"url\": \"url2\",\n            \"count\": 2000\n        }\n    ],\n    \"error\": [\n        {\n            \"type\": \"type3\",\n            \"url\": \"url3\",\n            \"count\": 3000\n        },\n        {\n            \"type\": \"type4\",\n            \"url\": \"url4\",\n            \"count\": 4000\n        }\n    ],\n    \"deleted\": [\n        {\n            \"type\": \"dtype3\",\n            \"url\": \"urld3\",\n            \"count\": 13000\n        },\n        {\n            \"type\": \"dtype4\",\n            \"url\": \"urld4\",\n            \"count\": 44000\n        }\n    ]\n}");
     }
 }
