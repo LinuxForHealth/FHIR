@@ -58,10 +58,9 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
-import com.ibm.fhir.search.parameters.ParametersMap;
-import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -232,7 +231,6 @@ public class EverythingOperation extends AbstractOperation {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
 
-        Map<String, ParametersMap> supportedSearchParameters = ParametersUtil.getTenantSPs(FHIRRequestContext.get().getTenantId());
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
 
@@ -255,7 +253,7 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
                 if (retrieveAdditionalResources) {
-                    ParametersMap supportedSearchParametersMap = supportedSearchParameters.get(compartmentMemberType);
+                    Map<String, SearchParameter> supportedSearchParametersMap = SearchUtil.getSearchParameters(compartmentMemberType);
                     addIncludesSearchParameters(compartmentMemberType, tempSearchParameters, extraResources, supportedSearchParametersMap);
                 }
                 results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null, null);
@@ -472,7 +470,7 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters,
-            List<String> extraResources, ParametersMap supportedSearchParametersMap) throws Exception {
+            List<String> extraResources, Map<String, SearchParameter> supportedSearchParametersMap) throws Exception {
         // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
         // from search parameters only if the request does not have a _type parameter or it does have a
         // _type parameter that includes these
@@ -756,17 +754,22 @@ public class EverythingOperation extends AbstractOperation {
 
     private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code,
             ResourceType subResourceType, MultivaluedMap<String, String> searchParameters,
-            List<String> allowedIncludes, List<String> extraResources, ParametersMap supportedSearchParametersMap) {
+            List<String> allowedIncludes, List<String> extraResources, Map<String, SearchParameter> supportedSearchParametersMap) {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
         String simplifiedParameterName = compartmentMemberType + ":" + code;
         // Also search if parameter name is supported by looking at the list of search
         // parameters
-        SearchParameter searchParam = supportedSearchParametersMap.lookupByCode(code);
-        if ((extraResources != null && extraResources.contains(subResourceType.value())) &&
-                (allowedIncludes == null || allowedIncludes.contains(parameterName)
-                || allowedIncludes.contains(simplifiedParameterName)) &&
-                searchParam != null) {
+
+        boolean isAllowed = allowedIncludes == null ||
+                allowedIncludes.contains(parameterName) ||
+                allowedIncludes.contains(simplifiedParameterName);
+
+        boolean isConfigured = extraResources != null &&
+                extraResources.contains(subResourceType.value());
+
+        SearchParameter searchParam = supportedSearchParametersMap.get(code);
+        if (isAllowed && isConfigured && searchParam != null) {
             searchParameters.add("_include", parameterName);
         } else {
             if (LOG.isLoggable(Level.FINE)) {

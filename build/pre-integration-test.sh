@@ -50,7 +50,7 @@ java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Medication,Provenance,Consent \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,AllergyIntolerance,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Medication,Provenance,Consent \
   --update-schema
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
