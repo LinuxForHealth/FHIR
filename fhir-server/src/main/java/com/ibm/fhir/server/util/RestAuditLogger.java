@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,6 +43,7 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.util.FHIRUtil;
 
@@ -362,55 +363,82 @@ public class RestAuditLogger {
 
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         if (auditLogSvc.isEnabled()) {
-            AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-            long readCount = 0;
-            long createCount = 0;
-            long updateCount = 0;
-            long deleteCount = 0;
-            long executeCount = 0;
-            HTTPVerb requestMethod;
+            if (BundleType.BATCH.equals(requestBundle.getType())) {
+                logBundleBatch(auditLogSvc, request, requestBundle, responseBundle, startTime, endTime, responseStatus);
+            } else {
+                // Transaction
+                logBundleTransaction(auditLogSvc, request, requestBundle, responseBundle, startTime, endTime, responseStatus);
+            }
+            
+        }
+        log.exiting(CLASSNAME, METHODNAME);
+    }
 
-            populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-            if (requestBundle != null) {
-                // We need the requestBundle so we know what the request was for at this point.
-                // We don't have a "request" field otherwise
-                for (Entry bundleEntry : requestBundle.getEntry()) {
-                    if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
-                        requestMethod = bundleEntry.getRequest().getMethod();
-                        boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
-                                                || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
-                        switch (HTTPVerb.Value.from(requestMethod.getValue())) {
-                        case GET:
-                            if (operation) {
-                                executeCount++;
-                            } else {
-                                readCount++;
-                            }
-                            break;
-                        case POST:
-                            if (operation) {
-                                executeCount++;
-                            } else {
-                                createCount++;
-                            }
-                            break;
-                        case PUT:
-                            updateCount++;
-                            break;
-                        case DELETE:
-                            if (operation) {
-                                executeCount++;
-                            } else {
-                                deleteCount++;
-                            }
-                            break;
-                        default:
-                            break;
+    /**
+     * Logs the Bundle as a batch in multiple messages
+     * 
+     * @implNote batch fail or succeed as a individual processing unit. 
+     * 
+     * @param auditLogSvc
+     * @param request
+     * @param requestBundle
+     * @param responseBundle
+     * @param startTime
+     * @param endTime
+     * @param responseStatus
+     * @throws Exception
+     */
+    private static void logBundleBatch(AuditLogService auditLogSvc, HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime,
+        Response.Status responseStatus) throws Exception {
+        
+        if (requestBundle != null) {
+            // We need the requestBundle so we know what the request was for at this point.
+            // We don't have a "request" field otherwise
+            for (Entry bundleEntry : requestBundle.getEntry()) {
+                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+                long readCount = 0;
+                long createCount = 0;
+                long updateCount = 0;
+                long deleteCount = 0;
+                long executeCount = 0;
+                HTTPVerb requestMethod;
+
+                populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
+                if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
+                    requestMethod = bundleEntry.getRequest().getMethod();
+                    boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
+                                            || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
+                    switch (HTTPVerb.Value.from(requestMethod.getValue())) {
+                    case GET:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            readCount++;
                         }
+                        break;
+                    case POST:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            createCount++;
+                        }
+                        break;
+                    case PUT:
+                        updateCount++;
+                        break;
+                    case DELETE:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            deleteCount++;
+                        }
+                        break;
+                    default:
+                        break;
                     }
                 }
-            }
-            entry.getContext()
+
+                entry.getContext()
                 .setBatch(Batch.builder()
                     .resourcesCreated(createCount)
                     .resourcesRead(readCount)
@@ -418,16 +446,103 @@ public class RestAuditLogger {
                     .resourcesDeleted(deleteCount)
                     .resourcesExecuted(executeCount)
                     .build());
-            entry.setDescription("FHIR Bundle request");
 
-            entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
-
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
+                entry.setDescription("FHIR Bundle Batch request");
+        
+                entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
+        
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
+                }
+                // @implNote The audit messages can be batched and sent off to the logEntry.
+                // The signature would be updated to AuditEntry... entries
+                // Then a loop and bulk action on Kafka.
+                auditLogSvc.logEntry(entry);
             }
-            auditLogSvc.logEntry(entry);
         }
-        log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Logs the Bundle as a Transaction in a single request
+     * 
+     * @implNote transactions fail or succeed as a single processing unit. 
+     * 
+     * @param auditLogSvc
+     * @param request
+     * @param requestBundle
+     * @param responseBundle
+     * @param startTime
+     * @param endTime
+     * @param responseStatus
+     * @throws Exception
+     */
+    private static void logBundleTransaction(AuditLogService auditLogSvc, HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime,
+        Response.Status responseStatus) throws Exception {
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+        long readCount = 0;
+        long createCount = 0;
+        long updateCount = 0;
+        long deleteCount = 0;
+        long executeCount = 0;
+        HTTPVerb requestMethod;
+
+        populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
+        if (requestBundle != null) {
+            // We need the requestBundle so we know what the request was for at this point.
+            // We don't have a "request" field otherwise
+            for (Entry bundleEntry : requestBundle.getEntry()) {
+                if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
+                    requestMethod = bundleEntry.getRequest().getMethod();
+                    boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
+                                            || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
+                    switch (HTTPVerb.Value.from(requestMethod.getValue())) {
+                    case GET:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            readCount++;
+                        }
+                        break;
+                    case POST:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            createCount++;
+                        }
+                        break;
+                    case PUT:
+                        updateCount++;
+                        break;
+                    case DELETE:
+                        if (operation) {
+                            executeCount++;
+                        } else {
+                            deleteCount++;
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+        }
+
+        entry.getContext()
+            .setBatch(Batch.builder()
+                .resourcesCreated(createCount)
+                .resourcesRead(readCount)
+                .resourcesUpdated(updateCount)
+                .resourcesDeleted(deleteCount)
+                .resourcesExecuted(executeCount)
+                .build());
+        entry.setDescription("FHIR Bundle Transaction request");
+
+        entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
+        }
+        auditLogSvc.logEntry(entry);
     }
 
     /**
