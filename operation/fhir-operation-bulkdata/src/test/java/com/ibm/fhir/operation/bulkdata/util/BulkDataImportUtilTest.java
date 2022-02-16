@@ -78,7 +78,7 @@ public class BulkDataImportUtilTest {
     public void testBulkImportUtilStorageDetails() throws IOException, FHIRException {
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo.json"));
         assertNotNull(util.retrieveStorageDetails());
-        assertEquals(util.retrieveStorageDetails().getType(), "https");
+        assertEquals(util.retrieveStorageDetails().getType(), "ibm-cos");
     }
 
     @Test
