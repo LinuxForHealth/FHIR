@@ -184,6 +184,14 @@ public class ChunkWriter extends AbstractItemWriter {
                     for (Resource fhirResource : fhirResourceList) {
                         if (this.resourceType != fhirResource.getClass().getSimpleName()) {
                             failValidationIds.add(fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId());
+
+                            if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
+                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(
+                                    "The resource being imported does not match the declared resource - '" + this.resourceType 
+                                        + " '" + fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId() + "'", IssueType.SECURITY, IssueSeverity.ERROR);
+                                FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
                         }
                     }
                 }
