@@ -240,7 +240,6 @@ public class FHIRResource {
     /**
      * Adds the Etag header to the specified response object.
      * @param rb
-     * @param resource
      * @param fallbackETagVersion
      * @return
      */
