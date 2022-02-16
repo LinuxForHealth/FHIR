@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,6 +66,9 @@ public class BulkDataImportUtilTest {
 
     @Test
     public void testBulkImportUtilInputs() throws IOException, FHIRException {
+        FHIRRequestContext context = FHIRRequestContext.get();
+        FHIRRequestContext.set(context);
+        context.setTenantId("not-config");
         BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo.json"));
         assertFalse(util.retrieveInputs().isEmpty());
         assertEquals(util.retrieveInputs().size(), 2);
@@ -153,6 +156,15 @@ public class BulkDataImportUtilTest {
     public void testCheckAllowedTotalSizeForTenantOrSystemFail() throws FHIROperationException, FHIRParserException, IOException {
         BulkDataImportUtil util = new BulkDataImportUtil(null, loadTestFile("/testdata/import/import-demo-bad-format3.json"));
         util.checkAllowedTotalSizeForTenantOrSystem(100);
+    }
+
+    @Test//(expectedExceptions = { FHIROperationException.class })
+    public void testCheckAllowedResourceTypesForInputs() throws IOException, FHIRException {
+        FHIRRequestContext context = FHIRRequestContext.get();
+        FHIRRequestContext.set(context);
+        context.setTenantId("not-config");
+        BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo-not-config.json"));
+        util.retrieveInputs();
     }
 
     public Parameters loadTestFile(String file) throws FHIRParserException, IOException {

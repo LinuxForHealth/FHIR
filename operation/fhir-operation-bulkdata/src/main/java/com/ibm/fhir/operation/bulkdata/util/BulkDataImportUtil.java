@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -111,6 +113,7 @@ public class BulkDataImportUtil {
         List<Input> inputs = new ArrayList<>();
 
         try {
+            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'input')");
 
             Iterator<FHIRPathNode> iter = result.iterator();
@@ -127,6 +130,12 @@ public class BulkDataImportUtil {
                 // Checks if not valid, and throws exception
                 if (!ModelSupport.isResourceType(type)) {
                     throw COMMON.buildExceptionWithIssue("$import invalid Resource Type 'input'", IssueType.INVALID);
+                }
+
+                // Checks to see if the Server supports this ResourceType
+                if (supportedResourceTypes != null && !supportedResourceTypes.contains(type)) {
+                    System.out.println(supportedResourceTypes);
+                    throw COMMON.buildExceptionWithIssue("A resource type not configured for 'input' check server configuration", IssueType.EXCEPTION);
                 }
 
                 // Resource URL extracted.
@@ -146,6 +155,10 @@ public class BulkDataImportUtil {
             throw COMMON.buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);
         } catch (FHIRPathException e) {
             throw COMMON.buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e, IssueType.INVALID);
+        } catch (FHIROperationException opEx) {
+            throw opEx;
+        } catch (FHIRException e) {
+            throw COMMON.buildExceptionWithIssue("Unable to retrieve server configuration", e, IssueType.INVALID);
         }
 
         if (inputs.isEmpty()) {

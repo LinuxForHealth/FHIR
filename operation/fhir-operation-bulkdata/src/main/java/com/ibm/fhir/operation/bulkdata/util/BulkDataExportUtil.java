@@ -103,7 +103,7 @@ public class BulkDataExportUtil {
     public Set<String> getSupportedResourceTypes() {
         try {
             List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-            if (!rts.isEmpty()) {
+            if (rts == null || !rts.isEmpty()) {
                 return new HashSet<>(rts);
             }
         } catch (FHIRException e) {
@@ -213,6 +213,7 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
+        Set<String> supportedResourceTypes = getSupportedResourceTypes();
         List<String> result = new ArrayList<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
@@ -223,7 +224,7 @@ public class BulkDataExportUtil {
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         for (String type : types.split(",")) {
                             // Type will never be null here.
-                            if (!type.isEmpty() && RESOURCE_TYPES.contains(type)) {
+                            if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
                                 result.add(type);
                             } else {
                                 throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
