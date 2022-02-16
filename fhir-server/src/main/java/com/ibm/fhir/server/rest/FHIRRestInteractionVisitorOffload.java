@@ -177,11 +177,12 @@ public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisito
 
     /**
      * Unified exception handling for each of the operation calls
+     * 
      * @param entryIndex
-     * @param v
-     * @param failFast
      * @param requestDescription
      * @param accumulatedTime
+     * @param v
+     * @return
      * @throws Exception
      */
     private FHIRRestOperationResponse doOperation(int entryIndex, String requestDescription, long accumulatedTime, Callable<FHIRRestOperationResponse> v) throws Exception {

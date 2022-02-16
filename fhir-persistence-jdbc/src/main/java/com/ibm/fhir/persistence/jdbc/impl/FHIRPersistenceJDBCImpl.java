@@ -448,6 +448,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
      * 
+     * @param resourceType
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
@@ -1062,11 +1063,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-    /**
-     * Read the current version of the resource from the database.
-     * @throws FHIRPersistenceResourceDeletedException if the resource being read is currently in a deleted state and
-     *         FHIRPersistenceContext.includeDeleted() is set to false
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
                             throws FHIRPersistenceException {
