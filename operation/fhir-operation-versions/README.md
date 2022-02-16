@@ -11,29 +11,34 @@ A client invokes the operation with no parameters and the server returns the lis
 Request:
 
 ```
-    GET [base]/$versions
-    Accept: application/fhir+json
-    [other headers]
+GET [base]/$versions
+Accept: application/fhir+json
+[other headers]
 ```
 
 Response:
 
-```json
+```
 HTTP/1.1 200 OK
 [other headers]
-
+```
+```json
 {
     "resourceType": "Parameters",
-    "parameter": [{
-    "name": "version",
-    "valueString": "4.0"
-    }, {
-    "name": "version",
-    "valueString": "4.3"
-    }, {
-    "name": "default",
-    "valueString": "4.0"
-    }]
+    "parameter": [
+        {
+            "name": "version",
+            "valueString": "4.0"
+        },
+        {
+            "name": "version",
+            "valueString": "4.3"
+        },
+        {
+            "name": "default",
+            "valueString": "4.0"
+        }
+    ]
 }
 ```
 
@@ -49,23 +54,24 @@ Accept: application/fhir+xml
 
 Response:
 
-```xml
+```
 HTTP/1.1 200 OK
 [other headers]
-
+```
+```xml
 <Parameters xmlns="http://hl7.org/fhir">
-  <parameter>
-		<name value="version"/>
-		<valueString value="4.0"/>
-  </parameter>
-	<parameter>
-		<name value="version"/>
-		<valueString value="4.3"/>
-	</parameter>
-	<parameter>
-		<name value="default"/>
-		<valueString value="4.0"/>
-	</parameter>
+    <parameter>
+        <name value="version"/>
+        <valueString value="4.0"/>
+    </parameter>
+    <parameter>
+        <name value="version"/>
+        <valueString value="4.3"/>
+    </parameter>
+    <parameter>
+        <name value="default"/>
+        <valueString value="4.0"/>
+    </parameter>
 </Parameters>
 ```
 
@@ -83,13 +89,17 @@ Accept: application/json
 
 Response:
 
-```json
+```
 HTTP/1.1 200 OK
 [other headers]
-
+```
+```json
 {
-	"versions": ["4.0", "4.3"],
-	"default" : "4.0"
+    "versions": [
+        "4.0",
+        "4.3"
+    ],
+    "default": "4.0"
 }
 ```
 
@@ -107,13 +117,14 @@ Accept: application/xml
 
 Response:
 
-```xml
+```
 HTTP/1.1 200 OK
 [other headers]
-
+```
+```xml
 <versions>
-  <version>4.0</version>
-  <version>4.3</version>
-  <default>4.0</default>
+    <version>4.0</version>
+    <version>4.3</version>
+    <default>4.0</default>
 </versions>
 ```
