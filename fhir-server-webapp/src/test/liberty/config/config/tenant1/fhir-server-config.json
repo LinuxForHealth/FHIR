@@ -2,7 +2,8 @@
     "__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
     "fhirServer": {
         "resources": {
-            "open": true,
+            "open": false,
+            "AllergyIntolerance": {},
             "CarePlan": {
                 "searchIncludes": [
                     "CarePlan:date",
@@ -29,7 +30,9 @@
                     "patient": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-patient",
                     "status": "http://hl7.org/fhir/us/core/SearchParameter/us-core-careteam-status"
                 }
-            },            
+            },
+            "CodeSystem": {},
+            "Condition": {},
             "Consent" : {
                 "searchIncludes": [
                     "Consent:actor",
@@ -44,6 +47,7 @@
                     "organization": "http://hl7.org/fhir/SearchParameter/Consent-organization"
                 }
             },
+            "Encounter": {},
             "Location": {
                 "searchIncludes": [
                 ],
@@ -55,6 +59,7 @@
                     "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-location-name"
                 }
             },
+            "MedicationAdministration": {},
             "Observation": {
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
@@ -102,6 +107,7 @@
                     "name": "http://hl7.org/fhir/us/core/SearchParameter/us-core-practitioner-name"
                 }
             },
+            "PractitionerRole": {},
             "Provenance": {
                 "searchIncludes": [
                     "Provenance:agent",
@@ -114,6 +120,8 @@
                     "target": "http://hl7.org/fhir/SearchParameter/Provenance-target"
                 }
             },
+            "StructureDefinition": {},
+            "ValueSet": {},
             "Resource": {
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"

@@ -762,12 +762,17 @@ public class EverythingOperation extends AbstractOperation {
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
         String simplifiedParameterName = compartmentMemberType + ":" + code;
 
-        // Also check if the parameter is supported by retrieving it from SearchUtil
+        boolean isAllowed = allowedIncludes == null ||
+                allowedIncludes.contains(parameterName) ||
+                allowedIncludes.contains(simplifiedParameterName);
+
+        boolean isConfigured = extraResources != null &&
+                extraResources.contains(subResourceType.value());
+
+        // Also check if the parameter is supported by retrieving it from the SearchHelper
         SearchParameter searchParam = searchHelper.getSearchParameter(compartmentMemberType, code);
-        if ((extraResources != null && extraResources.contains(subResourceType.value())) &&
-                (allowedIncludes == null || allowedIncludes.contains(parameterName)
-                || allowedIncludes.contains(simplifiedParameterName)) &&
-                searchParam != null) {
+
+        if (isAllowed && isConfigured && searchParam != null) {
             searchParameters.add("_include", parameterName);
         } else {
             if (LOG.isLoggable(Level.FINE)) {
