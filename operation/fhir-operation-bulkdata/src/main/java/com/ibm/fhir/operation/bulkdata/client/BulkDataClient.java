@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -456,6 +456,10 @@ public class BulkDataClient {
 
                 if (result.getOutput() == null || result.getOutput().isEmpty()) {
                     result.setOutput(Collections.emptyList());
+                }
+
+                if (result.getDeleted() == null || result.getDeleted().isEmpty()) {
+                    result.setDeleted(Collections.emptyList());
                 }
 
             } catch (FHIROperationException fe) {
