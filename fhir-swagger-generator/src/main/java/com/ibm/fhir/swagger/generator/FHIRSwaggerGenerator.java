@@ -526,9 +526,14 @@ public class FHIRSwaggerGenerator {
         // add post call
         generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post", false);
         paths.add("/$export", path);
+        
+        // Add bulkdata-status
+        path = factory.createObjectBuilder();
+        
+        generateBulkDataStatusPathItem(path);
+        paths.add("/$bulkdata-status", path);
        
         swagger.add("paths", paths);
-
 
         generateDefinition(Parameters.class, definitions);
         generateDefinition(Resource.class, definitions);
@@ -1467,13 +1472,98 @@ public class FHIRSwaggerGenerator {
     }
 
     /**
+     *  
+     * @param path
+     */
+    private static void generateBulkDataStatusPathItem(JsonObjectBuilder path) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", "Retrieves the status of the buld data request");
+        httpMethodBuilder.add("operationId", "bulkDataStatus");
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+
+        // Generate GET parameters
+        JsonObjectBuilder jobParameter = factory.createObjectBuilder();
+        jobParameter.add("name", "job");
+        jobParameter.add("description", "Job id from the Content-Location header response value after the export request");
+        jobParameter.add("in", "query");
+        jobParameter.add("required", true);
+        jobParameter.add("type", "string");
+        parameters.add(jobParameter);
+               
+        httpMethodBuilder.add("parameters", parameters);
+
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add("application/json");
+        httpMethodBuilder.add("produces", produces);
+
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        // 202 not completed
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Export job is queued and not yet complete");
+        responses.add("202", response);
+        
+        // Add 200 completed
+        response = factory.createObjectBuilder();
+        response.add("description", "Export job completed");
+
+        // add response body
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "object");
+        JsonObjectBuilder properties = factory.createObjectBuilder();
+        JsonObjectBuilder transactionTime = factory.createObjectBuilder();
+        transactionTime.add("type", "string");
+        properties.add("transactionTime", transactionTime);
+        
+        JsonObjectBuilder request = factory.createObjectBuilder();
+        request.add("type", "string");
+        properties.add("request", request);
+
+        JsonObjectBuilder requiresAccessToken = factory.createObjectBuilder();
+        requiresAccessToken.add("type", "boolean");
+        properties.add("requiresAccessToken", requiresAccessToken);
+        
+        JsonObjectBuilder output = factory.createObjectBuilder();
+        output.add("type", "array");
+        JsonObjectBuilder items = factory.createObjectBuilder();
+        items.add("type", "object");
+        JsonObjectBuilder itemProperties = factory.createObjectBuilder();
+        
+        JsonObjectBuilder outputArrayEntryTypeProperty = factory.createObjectBuilder();
+        outputArrayEntryTypeProperty.add("type", "string");
+        itemProperties.add("type", outputArrayEntryTypeProperty);
+
+        JsonObjectBuilder outputArrayEntryUrlProperty = factory.createObjectBuilder();
+        outputArrayEntryUrlProperty.add("type", "string");
+        itemProperties.add("url", outputArrayEntryUrlProperty);
+        
+        JsonObjectBuilder outputArrayEntryCountProperty = factory.createObjectBuilder();
+        outputArrayEntryCountProperty.add("type", "integer");
+        itemProperties.add("count", outputArrayEntryCountProperty);
+        
+        items.add("properties", itemProperties);
+        output.add("items", items);
+        properties.add("output", output);
+        
+        schema.add("properties", properties);
+        response.add("schema", schema);
+        responses.add("200", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add("get", httpMethodBuilder);
+    }
+
+    /**
      * Generates the $everything path for a Patient resource
      *  
      * @param path
-     * @param tag
-     * @param summary
-     * @param resourceSpecific
-     * @param httpMethod
+     * @param addIdParam
      */
     private static void generatePatientEveryThingPathItem(JsonObjectBuilder path, boolean addIdParam) {
         JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
