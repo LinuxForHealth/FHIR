@@ -32,10 +32,12 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -273,5 +275,30 @@ public abstract class AbstractPersistenceTest {
     protected <T extends Resource> T updateVersionMeta(T resource) throws FHIRPersistenceException {
         final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
         return FHIRPersistenceTestSupport.setIdAndMeta(persistence, resource, resource.getId(), newVersionId);
+    }
+
+    /**
+     * Soft delete the resource
+     * @param <T>
+     * @param context
+     * @param resource
+     * @throws FHIRPersistenceException
+     */
+    protected <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        // before attempting the delete, we need to make sure the resource actually exists
+        // so we can avoid a (confusing) version mismatch exception from the persistence layer
+        Class<? extends Resource> resourceType = resource.getClass();
+        SingleResourceResult<? extends Resource> srr = persistence.read(context, resourceType, resource.getId());
+
+        // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper.
+        if (srr.getResource() == null) {
+            throw new FHIRPersistenceResourceNotFoundException("Resource '"
+                    + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
+        }
+        
+        // Note we don't want to compare the version we just read with the version of
+        // the given resource because we want the following delete method to perform
+        // this check for us.
+        FHIRPersistenceTestSupport.delete(persistence, context, resource);
     }
 }

@@ -131,20 +131,18 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             context.setOriginalRequestUri(originalRequestUri);
 
+            // Set the request headers.
+            extractRequestHeaders(context, request);
+
             // Set the handling preference.
-            HTTPHandlingPreference handlingPref = computeHandlingPref(request);
-            context.setHandlingPreference(handlingPref);
+            computeHandlingPref(context);
 
             // Set the return preference.
-            computeReturnPref(context, request, handlingPref);
-
-            // Set the request headers.
-            Map<String, List<String>> requestHeaders = extractRequestHeaders(request);
-            context.setHttpHeaders(requestHeaders);
+            computeReturnPref(context);
 
             // Check the FHIR version parameter.
             try {
-                checkFhirVersionParameter(requestHeaders);
+                checkFhirVersionParameter(context);
             } catch (FHIRRestServletRequestException e) {
                 statusOnException = e.getHttpStatusCode();
                 throw e;
@@ -220,85 +218,122 @@ public class FHIRRestServletFilter extends HttpFilter {
     }
 
     /**
-     * @return a map of HTTP request headers, keyed by header name
+     * Extracts a map of HTTP request headers, keyed by header name, and sets them in the request context.
      */
-    private Map<String, List<String>> extractRequestHeaders(HttpServletRequest request) {
+    private void extractRequestHeaders(FHIRRequestContext context, HttpServletRequest request) {
         // Uses LinkedHashMap just to preserve the order.
         Map<String, List<String>> requestHeaders = new LinkedHashMap<>();
-
         List<String> headerNames = Collections.list(request.getHeaderNames());
         for (String headerName : headerNames) {
             requestHeaders.put(headerName, Collections.list(request.getHeaders(headerName)));
         }
-
-        return requestHeaders;
+        context.setHttpHeaders(requestHeaders);
     }
 
-    private HTTPHandlingPreference computeHandlingPref(ServletRequest request) throws FHIRException {
-        HTTPHandlingPreference handlingPref = HTTPHandlingPreference.from(FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_HANDLING, "strict"));
+    /**
+     * Computes the handling preference from the Prefer header value.
+     * The default handling preference for all interactions is STRICT.
+     * @param context the context containing the HTTP headers
+     * @throws FHIRException
+     */
+    private void computeHandlingPref(FHIRRequestContext context) throws FHIRException {
+        HTTPHandlingPreference handlingPref = HTTPHandlingPreference.from(FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_HANDLING, HTTPHandlingPreference.STRICT.value()));
         boolean allowClientHandlingPref = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_ALLOW_CLIENT_HANDLING_PREF, true);
         if (allowClientHandlingPref) {
-            String handlingPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferHandlingHeaderSectionName);
-            if (handlingPrefString != null && !handlingPrefString.isEmpty()) {
+            String handlingPrefString = getHeaderTokenValue(context, preferHeaderName, preferHandlingHeaderSectionName);
+            if (handlingPrefString != null) {
                 try {
                     handlingPref = HTTPHandlingPreference.from(handlingPrefString);
                 } catch (IllegalArgumentException e) {
-                    String message = "Invalid HTTP handling preference passed in header 'Prefer': '" + handlingPrefString + "'";
+                    String message = "Invalid HTTP handling preference 'handling=" + handlingPrefString + "' passed in header 'Prefer'";
                     if (handlingPref == HTTPHandlingPreference.STRICT) {
-                        throw new FHIRException(message + "; use 'strict' or 'lenient'.");
+                        throw new FHIRException(message + "; use 'handling=strict' or 'handling=lenient'.");
                     } else {
-                        log.fine(message + "; using " + handlingPref.value() + ".");
+                        log.fine(message + "; using 'handling=" + handlingPref.value() + "'.");
                     }
                 }
             }
         }
-        return handlingPref;
+        context.setHandlingPreference(handlingPref);
     }
 
     /**
-     * Computes the return preference from the Prefer header value. The default preference
-     * for all interactions except system history is MINIMAL. The default for system
-     * history is different and uses REPRESENTATION. To implement this without
+     * Computes the return preference from the Prefer header value. The default return
+     * preference for all interactions except system history is MINIMAL. The default for
+     * system history is different and uses REPRESENTATION. To implement this without
      * disrupting the existing behavior we use a new returnPreferenceDefault flag
      * to indicate whether or not the default value has been overridden by a
      * client-specified header value.
-     * @param context
-     * @param request
-     * @param handlingPref
+     * The handling preference should be set in the context before calling this method.
+     * @param context the context containing the HTTP headers
      * @throws FHIRException
      */
-    private void computeReturnPref(FHIRRequestContext context, ServletRequest request, HTTPHandlingPreference handlingPref) throws FHIRException {
+    private void computeReturnPref(FHIRRequestContext context) throws FHIRException {
         HTTPReturnPreference returnPref = defaultHttpReturnPref;
         boolean isDefault = true;
-        String returnPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferReturnHeaderSectionName);
-        if (returnPrefString != null && !returnPrefString.isEmpty()) {
+        String returnPrefString = getHeaderTokenValue(context, preferHeaderName, preferReturnHeaderSectionName);
+        if (returnPrefString != null) {
             try {
                 returnPref = HTTPReturnPreference.from(returnPrefString);
                 isDefault = false;
-                
+
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Requested return preference = " + returnPref);
                 }
             } catch (IllegalArgumentException e) {
-                String message = "Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'";
-                if (handlingPref == HTTPHandlingPreference.STRICT) {
-                    throw new FHIRException(message + "; use 'minimal', 'representation' or 'OperationOutcome'.");
+                String message = "Invalid HTTP return preference 'return=" + returnPrefString + "' passed in header 'Prefer'";
+                if (context.getHandlingPreference() == HTTPHandlingPreference.STRICT) {
+                    throw new FHIRException(message + "; use 'return=minimal', 'return=representation', or 'return=OperationOutcome'.");
                 } else {
-                    log.fine(message + "; using " + returnPref.value() + ".");
+                    log.fine(message + "; using 'return=" + returnPref.value() + "'.");
                 }
             }
         }
-        
         context.setReturnPreference(returnPref);
         context.setReturnPreferenceDefault(isDefault);
     }
 
     /**
+     * Gets the value (without parameters) of the first occurrence of a token name in an HTTP header.
+     * @param context the context containing the HTTP headers
+     * @param headerName the header name
+     * @param tokenName the token name
+     * @return the value, or null if no match found
+     */
+    private String getHeaderTokenValue(FHIRRequestContext context, String headerName, String tokenName) {
+        String preferValue = null;
+        for (String curHeaderName : context.getHttpHeaders().keySet()) {
+            if (curHeaderName.equalsIgnoreCase(headerName)) {
+                for (String headerValue : context.getHttpHeaders().getOrDefault(curHeaderName, Collections.emptyList())) {
+                    for (String headerValueElement : headerValue.split(",")) {
+                        headerValueElement = headerValueElement.split(";")[0];
+                        String[] tokenAndValue = headerValueElement.split("=", 2);
+                        if (tokenName.equals(tokenAndValue[0].trim())) {
+                            preferValue = "";
+                            if (tokenAndValue.length > 1) {
+                                preferValue = tokenAndValue[1].trim();
+                            }
+                            break;
+                        }
+                    }
+                    if (preferValue != null) {
+                        break;
+                    }
+                }
+            }
+            if (preferValue != null) {
+                break;
+            }
+        }
+        return preferValue;
+    }
+
+    /**
      * Check that FHIR version parameters in the HTTP headers are valid.
-     * @param requestHeaders the headers
+     * @param context the context containing the HTTP headers
      * @throws FHIRRestServletRequestException
      */
-    void checkFhirVersionParameter(Map<String, List<String>> requestHeaders) throws FHIRRestServletRequestException {
+    void checkFhirVersionParameter(FHIRRequestContext context) throws FHIRRestServletRequestException {
         Map<String, Integer> headerStatusMap = new LinkedHashMap<>();
         // 415 Unsupported Media Type is the appropriate response when the client posts a format that is not supported to the server.
         headerStatusMap.put(HttpHeaders.CONTENT_TYPE, HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
@@ -307,23 +342,27 @@ public class FHIRRestServletFilter extends HttpFilter {
 
         for (String headerName : headerStatusMap.keySet()) {
             String fhirVersion = null;
-            for (String headerValue : requestHeaders.getOrDefault(headerName, Collections.emptyList())) {
-                for (String headerValueElement : headerValue.split(",")) {
-                    for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
-                        if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
-                            String curFhirVersion = parameter.getValue();
-                            if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
-                                throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                    + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
-                                        + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
-                            }
-                            // If Content-Type header, check for multiple different FHIR versions
-                            if (headerName.equals(HttpHeaders.CONTENT_TYPE)) {
-                                if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
-                                    throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                        + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
+            for (String curHeaderName : context.getHttpHeaders().keySet()) {
+                if (curHeaderName.equalsIgnoreCase(headerName)) {
+                    for (String headerValue : context.getHttpHeaders().getOrDefault(curHeaderName, Collections.emptyList())) {
+                        for (String headerValueElement : headerValue.split(",")) {
+                            for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
+                                if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
+                                    String curFhirVersion = parameter.getValue();
+                                    if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
+                                        throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                            + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
+                                                + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
+                                    }
+                                    // If Content-Type header, check for multiple different FHIR versions
+                                    if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
+                                        if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
+                                            throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                                + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
+                                        }
+                                        fhirVersion = curFhirVersion;
+                                    }
                                 }
-                                fhirVersion = curFhirVersion;
                             }
                         }
                     }

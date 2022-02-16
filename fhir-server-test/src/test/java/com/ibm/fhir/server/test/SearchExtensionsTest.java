@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -161,23 +161,95 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
+        // the first occurrence of the header should be used
+        // in lenient mode, an unknown parameter should be ignored
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("prefer", "handling=lenient,handling=strict")
+                .header("prefer", "handling=strict")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        // the first occurrence of the header should be used
+        // in strict mode, an unknown parameter should result in a 400 Bad Request
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("prefer", "handling=strict,handling=lenient")
+                .header("prefer", "handling=lenient")
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+
+        // header with extra parameters should be handled appropriately
+        // in lenient mode, an unknown parameter should be ignored
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient;fakeName=fakeValue")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        // header with extra parameters should be handled appropriately
+        // in strict mode, an unknown parameter should result in a 400 Bad Request
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=strict;fakeName=fakeValue")
+                .get();
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+
         // multiple headers should be handled appropriately
+        // in lenient mode, an unknown parameter should be ignored
         response = target.path("Patient")
                 .queryParam("fake-parameter", "fakeValue")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("Prefer", "fakeName=fakeValue")
-                .header("Prefer", "handling=strict")
+                .header("Prefer", "handling=lenient")
                 .header("Prefer", "fakeName2=fakeValue2")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        // multiple headers should be handled appropriately
+        // in strict mode, an unknown parameter should result in a 400 Bad Request
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("prefer", "fakeName=fakeValue")
+                .header("prefer", "handling=strict")
+                .header("prefer", "fakeName2=fakeValue2")
                 .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
         // multiple parts to the Prefer header should be handled
+        // in lenient mode, an unknown parameter should result in a 400 Bad Request
         response = target.path("Patient")
                 .queryParam("fake-parameter", "fakeValue")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2")
+                .header("Prefer", "fakeName=fakeValue,handling=lenient,fakeName2=fakeValue2")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        // multiple parts to the Prefer header should be handled
+        // in strict mode, an unknown parameter should result in a 400 Bad Request
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "fakeName=fakeValue,handling=strict,fakeName2=fakeValue2")
                 .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);

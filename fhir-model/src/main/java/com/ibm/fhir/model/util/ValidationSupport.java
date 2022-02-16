@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,6 @@ import javax.xml.validation.Validator;
 
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -55,9 +54,6 @@ public final class ValidationSupport {
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
-    private static final String LOCAL_REF_PREFIX = "urn:";
-    private static final String HTTP_PREFIX = "http:";
-    private static final String HTTPS_PREFIX = "https:";
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
     private static final String FHIR_XML_XSD = "xml.xsd";
     private static final String FHIR_XMLDSIG_CORE_SCHEMA_XSD = "xmldsig-core-schema.xsd";
@@ -406,38 +402,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated replaced by {@link #checkNonEmptyList(List, String, Class)}
-     * @throws IllegalStateException if the passed list is empty or contains any null objects
-     */
-    @Deprecated
-    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        requireNonNull(elements, elementName);
-        if (elements.isEmpty()) {
-            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
-        }
-        return elements;
-    }
-
-    /**
-     * @deprecated replaced by {@link #checkList(List, String, Class)}
-     * @throws IllegalStateException if the passed list contains any null objects
-     */
-    @Deprecated
-    public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
-        boolean anyMatch = false;
-        for (T element : elements) {
-            if (Objects.isNull(element)) {
-                anyMatch = true;
-                break;
-            }
-        }
-        if (anyMatch) {
-            throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
-        }
-        return elements;
-    }
-
-    /**
      * @return the same list that was passed
      * @throws IllegalStateException if the passed list is empty or contains any null objects or objects of an incompatible type
      */
@@ -475,17 +439,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated https://jira.hl7.org/browse/FHIR-26565 has clarified that empty resources are allowed
-     * @throws IllegalStateException if the passed element has no children
-     */
-    @Deprecated
-    public static void requireChildren(Resource resource) {
-        if (!resource.hasChildren()) {
-            throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
-        }
-    }
-
-    /**
      * @throws IllegalStateException if the passed element is not null
      */
     public static void prohibited(Element element, String elementName) {
@@ -500,25 +453,6 @@ public final class ValidationSupport {
     public static <T extends Element> void prohibited(List<T> elements, String elementName) {
         if (!elements.isEmpty()) {
             throw new IllegalStateException(String.format("Element: '%s' is prohibited.", elementName));
-        }
-    }
-
-    /**
-     * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
-     * @deprecated use {@link #checkValueSetBinding(Element, String, String, String, String...)}
-     */
-    @Deprecated
-    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
-        if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
-            List<String> codeList = Arrays.asList(codes);
-            for (Coding coding : codeableConcept.getCoding()) {
-                if (hasSystemAndCodeValues(coding) &&
-                        system.equals(coding.getSystem().getValue()) &&
-                        codeList.contains(coding.getCode().getValue())) {
-                    return;
-                }
-            }
-            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
         }
     }
 
@@ -751,8 +685,7 @@ public final class ValidationSupport {
         String referenceReference = getReferenceReference(reference);
         List<String> referenceTypeList = Arrays.asList(referenceTypes);
 
-        if (referenceReference != null && !referenceReference.startsWith("#") && !referenceReference.startsWith(LOCAL_REF_PREFIX)
-                && !referenceReference.startsWith(HTTP_PREFIX) && !referenceReference.startsWith(HTTPS_PREFIX)) {
+        if (referenceReference != null && !referenceReference.startsWith("#") && !hasScheme(referenceReference)) {
             int index = referenceReference.indexOf("?");
             if (index != -1) {
                 // conditional reference
@@ -795,6 +728,16 @@ public final class ValidationSupport {
                 throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s", referenceReference, elementName, referenceType));
             }
         }
+    }
+
+    /**
+     * @param literalRefValue
+     * @return true if literalRefValue has a URI scheme (i.e. a prefix followed by ':')
+     *     and a non-empty value; otherwise false
+     */
+    private static boolean hasScheme(String literalRefValue) {
+        int indexOf = literalRefValue.indexOf(':');
+        return (indexOf > 0) && (literalRefValue.length() > (indexOf + 1));
     }
 
     private static String getReferenceReference(Reference reference) {

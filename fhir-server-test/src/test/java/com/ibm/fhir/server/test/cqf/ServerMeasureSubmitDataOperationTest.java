@@ -90,11 +90,11 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
         assertResponse(response, 200);
 
         String responseBody = response.readEntity(String.class);
-        System.out.println(responseBody);
+        //System.out.println(responseBody);
         Bundle output = (Bundle) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertNotNull(output);
     }
-    
+
     @Test
     public void testMeasureSubmitDataResourceTypeDuplicateResourceID() throws Exception {
         MeasureReport measureReport = MeasureReport.builder()
@@ -119,7 +119,7 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
                 .clazz(Coding.builder().code(Code.of("wellness")).build())
                 .subject( Reference.builder().reference(string("Patient/" + patient.getId())).build() )
                 .build();
-        
+
         Encounter encounter2 = Encounter.builder()
                 .id("submitdata-encounter")
                 .meta(Meta.builder().versionId(Id.of("2")).lastUpdated(Instant.now()).build())
@@ -152,7 +152,6 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
         assertResponse(response, 409);
 
         String responseBody = response.readEntity(String.class);
-        System.out.println(responseBody);
         OperationOutcome output = (OperationOutcome) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertNotNull(output);
     }
@@ -178,9 +177,8 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
                         .request()
                         .post(Entity.json(parameters));
             assertResponse(response, 200);
-    
+
             String responseBody = response.readEntity(String.class);
-            System.out.println(responseBody);
             Bundle output = (Bundle) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
             assertNotNull(output);
         }

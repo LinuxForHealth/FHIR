@@ -41,7 +41,7 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
     @BeforeClass
     public void setup() throws Exception {
         CapabilityStatement conf = retrieveConformanceStatement();
-        
+
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(conf);
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, "rest.resource.where(type = 'Measure').operation.name");
@@ -49,7 +49,7 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
         if( ! listOfOperations.contains("evaluate-measure") ) {
             throw new SkipException("CQF Measure Operations are not enabled");
         }
-        
+
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         setUp(testProperties);
 
@@ -57,12 +57,12 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = getWebTarget().path("/" + TEST_PATIENT_ID).request().put(entity);
         assertResponse(response, Response.Status.Family.SUCCESSFUL);
-        
+
         jsonObject = TestUtil.readJsonObject("testdata/Bundle-EXM74-10.2.000.json");
         entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = getWebTarget().request().post( entity );
         assertResponse( response, Response.Status.Family.SUCCESSFUL );
-        
+
         jsonObject = TestUtil.readJsonObject("testdata/Bundle-ValueSets.json");
         entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = getWebTarget().request().post( entity );
@@ -78,11 +78,11 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
         response = getWebTarget().path("/Measure/NoLibrary").request().put( entity );
         assertResponse( response, Response.Status.Family.SUCCESSFUL );
     }
-    
+
     public Period getPeriod(String start, String end) {
-        ZoneOffset zoneOffset = OffsetDateTime.now().getOffset();
-        OffsetDateTime expectedStart = OffsetDateTime.of(LocalDate.parse(start), LocalTime.MIN, zoneOffset);
-        OffsetDateTime expectedEnd = OffsetDateTime.of(LocalDate.parse(end), LocalTime.MAX, zoneOffset);
+        // Servers are in UTC
+        OffsetDateTime expectedStart = OffsetDateTime.of(LocalDate.parse(start), LocalTime.MIN, ZoneOffset.UTC);
+        OffsetDateTime expectedEnd = OffsetDateTime.of(LocalDate.parse(end), LocalTime.MAX, ZoneOffset.UTC);
         Period expectedPeriod = Period.builder().start(DateTime.of(expectedStart.toZonedDateTime())).end(DateTime.of(expectedEnd.toZonedDateTime())).build();
         return expectedPeriod;
     }

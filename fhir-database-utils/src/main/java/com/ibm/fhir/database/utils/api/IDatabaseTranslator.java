@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.api;
 
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 
 import com.ibm.fhir.database.utils.model.DbType;
@@ -214,4 +215,12 @@ public interface IDatabaseTranslator {
      * @return
      */
     default boolean isIndexUseSchemaPrefix() { return true; }
+
+    /**
+     * @return the total number of parameters supported by the data store during a query.
+     *  An empty optional indicates no maximum is set.
+     */
+    default Optional<Integer> maximumQueryParameters() {
+        return Optional.empty();
+    }
 }

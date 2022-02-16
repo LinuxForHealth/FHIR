@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,17 +40,10 @@ import com.ibm.fhir.server.filter.rest.FHIRHttpServletRequestWrapper;
 public class FHIRHttpServletRequestWrapperTest {
 
     /**
-     * Given a header value like:
-     * 
-     * <pre>
-     *  
-     * X-TEST: part1=a;part2=multipart;part3=value;
-     * </pre>
-     * 
-     * getHeader("X-TEST:part2") should return "multipart".
+     * Given a header value like.
      */
     @Test
-    public void testComplexHeader() {
+    public void testHeader() {
         String headerName = "X-TEST";
         String headerValue = "part1=a;part2=multipart;part3=value;";
 
@@ -60,9 +53,6 @@ public class FHIRHttpServletRequestWrapperTest {
         FHIRHttpServletRequestWrapper fhirRequestWrapper = new FHIRHttpServletRequestWrapper(dummyHttpServletRequest);
         String returnedHeader = fhirRequestWrapper.getHeader("X-TEST");
         assertEquals(returnedHeader, headerValue);
-
-        String returnedPart = fhirRequestWrapper.getHeader("X-TEST:part2");
-        assertEquals(returnedPart, "multipart");
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -281,7 +281,7 @@ public class FHIRUtil {
      * Builds a relative "Location" header value for the specified resource type/id/version. This will be a string of the form
      * <code>"[resource-type]/[id]/_history/[version]"</code>. Note that the server will turn this into an absolute URL prior to
      * returning it to the client.
-     * 
+     *
      * @param type the resource type name
      * @param id the resource logical id value
      * @param version the resource version
@@ -621,9 +621,12 @@ public class FHIRUtil {
      * Build the reference {@code reference} based on the {@code fullUrlString} value.
      *
      * @see https://www.hl7.org/fhir/r4/bundle.html#references
-     * @param reference
+     * @param ref
      * @param fullUrlString
-     * @throws URISyntaxException 
+     * @return
+     *     An absolute fullUrl string for the literal value of Reference {@code ref},
+     *     or the passed literal value in Reference {@code ref} if it cannot be parsed,
+     *     or null if {@code ref} has no literal value
      */
     public static String buildBundleReference(Reference ref, String fullUrlString) {
         String referenceUriString = null;

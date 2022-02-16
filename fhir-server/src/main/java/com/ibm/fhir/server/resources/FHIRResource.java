@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ package com.ibm.fhir.server.resources;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.server.util.FHIRRestSupport.getEtagValue;
+import static com.ibm.fhir.server.util.FHIRRestSupport.getEtagValueFromLocation;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.io.StringWriter;
@@ -223,12 +225,26 @@ public class FHIRResource {
 
     /**
      * Adds the Etag and Last-Modified headers to the specified response object.
+     * 
+     * @param rb
+     * @param resource
+     * @return
      */
     protected ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
         return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
                 // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST only generate the RFC 1123 format for representing HTTP-date values
                 // in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
                 .lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
+    }
+
+    /**
+     * Adds the Etag header to the specified response object.
+     * @param rb
+     * @param fallbackETagVersion
+     * @return
+     */
+    protected ResponseBuilder addHeaders(ResponseBuilder rb, int fallbackETagVersion) {
+        return rb.header(HttpHeaders.ETAG, getEtagValue(fallbackETagVersion));
     }
 
     /**
@@ -246,24 +262,6 @@ public class FHIRResource {
         }
     }
 
-    private String getEtagValue(Resource resource) {
-        return "W/\"" + resource.getMeta().getVersionId().getValue() + "\"";
-    }
-
-    /**
-     * Get the ETag value by extracting the version from the locationURI
-     * @param locationURI
-     * @return
-     */
-    private String getEtagValueFromLocation(URI locationURI) {
-        String locn = locationURI.toString();
-        int idx = locn.lastIndexOf('/');
-        if (idx >= 0) {
-            return "W/\"" + locn.substring(idx+1) + "\"";
-        } else {
-            return null;
-        }
-    }
 
     protected Response exceptionResponse(FHIRRestBundledRequestException e) {
         Response response;

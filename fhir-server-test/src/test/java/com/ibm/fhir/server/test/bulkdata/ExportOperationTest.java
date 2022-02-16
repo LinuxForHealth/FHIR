@@ -52,6 +52,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.testng.Assert;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -126,13 +127,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.export.enabled", "false"));
         path = testProperties.getProperty("test.bulkdata.path");
-        /*
-         * isUseMinio = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio", "false"));
-         * minioUserName = testProperties.getProperty("test.bulkdata.minio.username");
-         * minioPassword = testProperties.getProperty("test.bulkdata.minio.password");
-         * isUseMinioInBuildPipeline =
-         * Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio.inbuildpipeline", "false"));
-         */
+
+        if (!ON) {
+            throw new SkipException("Not Enabled - Bulk Data Export");
+        }
     }
 
     /**

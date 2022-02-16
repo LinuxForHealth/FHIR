@@ -29,7 +29,6 @@ public class ServerMeasureDataRequirementsOperationTest extends BaseMeasureOpera
         assertResponse(response, 200);
 
         String responseBody = response.readEntity(String.class);
-        System.out.println(responseBody);
         Library module = (Library) FHIRParser.parser(Format.JSON).parse(new StringReader(responseBody));
         assertNotNull(module);
     }
