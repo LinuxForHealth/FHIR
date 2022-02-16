@@ -724,7 +724,7 @@ public class EverythingOperation extends AbstractOperation {
         boolean isConfigured = extraResources != null &&
                 extraResources.contains(subResourceType.value());
 
-        // Also check if the parameter is supported by retrieving it from SearchUtil
+        // Also check if the parameter is supported by retrieving it from the SearchHelper
         SearchParameter searchParam = searchHelper.getSearchParameter(compartmentMemberType, code);
 
         if (isAllowed && isConfigured && searchParam != null) {
