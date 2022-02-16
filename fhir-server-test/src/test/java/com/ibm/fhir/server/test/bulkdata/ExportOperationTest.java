@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -672,6 +672,39 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkExportStatus(false, false, types);
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    public void testBaseExportWithMultipleTypes() throws Exception {
+        if (ON) {
+            Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
+            Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+            Response response = getWebTarget()
+                                    .path(BASE_VALID_URL)
+                                    .queryParam("_outputFormat", FORMAT_NDJSON)
+                                    .queryParam("_type", "Patient,Coverage")
+                                    .queryParam("_type", "Patient")
+                                    .queryParam("_type", "Coverage")
+                                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                                    .header("X-FHIR-TENANT-ID", tenantName)
+                                    .header("X-FHIR-DSID", dataStoreId)
+                                    .header("X-FHIR-BULKDATA-PROVIDER", "default")
+                                    .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", "default")
+                                    .post(entity, Response.class);
+
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false, false, Arrays.asList("Coverage", "Patient"));
         }
     }
 

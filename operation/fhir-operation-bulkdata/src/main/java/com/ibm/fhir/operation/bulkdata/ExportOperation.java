@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.operation.bulkdata;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +13,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
@@ -28,17 +25,16 @@ import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
- * <a href="https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-export.html">BulkDataAccess V1.0.0: STU1 -
- * ExportOperation</a> Creates an System Export of FHIR Data to NDJSON format system export operation definition for
- * <code>$export</code>
+ * Creates an System Export of FHIR Data to NDJSON format
+ * @see https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-export.html
  */
 public class ExportOperation extends AbstractOperation {
-    private static final String FILE = "export.json";
 
     private static final CommonUtil COMMON = new CommonUtil(Type.EXPORT);
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
@@ -49,11 +45,7 @@ public class ExportOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(FILE);) {
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+        return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export", OperationDefinition.class);
     }
 
     @Override

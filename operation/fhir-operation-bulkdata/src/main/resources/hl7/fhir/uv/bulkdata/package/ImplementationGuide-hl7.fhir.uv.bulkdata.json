@@ -1,0 +1,477 @@
+{
+    "resourceType": "ImplementationGuide",
+    "id": "hl7.fhir.uv.bulkdata",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>BulkDataAccessIG</h2><p>The official URL for this implementation guide is: </p><pre>http://hl7.org/fhir/uv/bulkdata/ImplementationGuide/hl7.fhir.uv.bulkdata</pre><div><p>FHIR based approach for exporting large data sets from a FHIR server to a client application</p>\n</div></div>"
+    },
+    "url": "http://hl7.org/fhir/uv/bulkdata/ImplementationGuide/hl7.fhir.uv.bulkdata",
+    "version": "2.0.0",
+    "name": "BulkDataAccessIG",
+    "title": "Bulk Data Access IG",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-11-26T05:57:39+11:00",
+    "publisher": "HL7 International - FHIR Infrastructure Work Group",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/Special/committees/fiwg"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR based approach for exporting large data sets from a FHIR server to a client application",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001"
+                }
+            ]
+        }
+    ],
+    "packageId": "hl7.fhir.uv.bulkdata",
+    "license": "CC0-1.0",
+    "fhirVersion": [
+        "4.0.1"
+    ],
+    "definition": {
+        "extension": [
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "copyrightyear"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "2021+"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "releaselabel"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "Standard for Trial Use"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-liquid"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "templates\\liquid"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "excludexml"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "excludettl"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "excludemap"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "autoload-resources"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-liquid"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "template/liquid"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-liquid"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "input/liquid"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-qa"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "temp/qa"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-temp"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "temp/pages"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-output"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "output"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-suppressed-warnings"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "input/ignoreWarnings.txt"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "path-history"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "http://hl7.org/fhir/uv/bulkdata/history.html"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "template-html"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "template-page.html"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "template-md"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "template-page-md.html"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-contact"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-context"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-copyright"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-jurisdiction"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-license"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-publisher"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "apply-version"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "code",
+                        "valueString": "active-tables"
+                    },
+                    {
+                        "url": "value",
+                        "valueString": "true"
+                    }
+                ],
+                "url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+            }
+        ],
+        "resource": [
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CapabilityStatement"
+                    }
+                ],
+                "reference": {
+                    "reference": "CapabilityStatement/bulk-data"
+                },
+                "name": "FHIR Bulk Data Access Implementation Guide",
+                "description": "The expected capabilities of a Bulk Data Provider actor (e.g., EHR systems, data warehouses, and other clinical and administrative systems that aim to interoperate by sharing large FHIR datasets) which is responsible for providing responses to the queries submitted by a FHIR Bulk Data Client actor. Systems implementing this capability statement should meet the requirements set by the Bulk Data Access Implementation Guide. A FHIR Bulk Data Client has the option of choosing from this list to access necessary data based on use cases and other contextual requirements."
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OperationDefinition"
+                    }
+                ],
+                "reference": {
+                    "reference": "OperationDefinition/export"
+                },
+                "name": "FHIR Bulk Data System Level Export",
+                "description": "FHIR Operation to export data from a FHIR server whether or not it is associated with a patient. This supports use cases like backing up a server, or exporting terminology data by restricting the resources returned using the _type parameter. The FHIR server SHALL support invocation of this operation using the [FHIR Asynchronous Request Pattern](http://hl7.org/fhir/R4/async.html)"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OperationDefinition"
+                    }
+                ],
+                "reference": {
+                    "reference": "OperationDefinition/group-export"
+                },
+                "name": "FHIR Bulk Data Group Level Export",
+                "description": "FHIR Operation to obtain a detailed set of FHIR resources of diverse resource types pertaining to all members of the specified [Group](https://www.hl7.org/fhir/group.html). The FHIR server SHALL support invocation of this operation using the [FHIR Asynchronous Request Pattern](http://hl7.org/fhir/R4/async.html)"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OperationDefinition"
+                    }
+                ],
+                "reference": {
+                    "reference": "OperationDefinition/patient-export"
+                },
+                "name": "FHIR Bulk Data Patient Level Export",
+                "description": "FHIR Operation to obtain a detailed set of FHIR resources of diverse resource types pertaining to all patients. The FHIR server SHALL support invocation of this operation using the [FHIR Asynchronous Request Pattern](http://hl7.org/fhir/R4/async.html)"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/include-associated-data"
+                },
+                "name": "Include Associated Data Value Set",
+                "description": "Metadata inclusion options for Bulk Data Access Export Operation includeAssociatedData parameter"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/include-associated-data"
+                },
+                "name": "Include Associated Data Code System",
+                "description": "Metadata inclusion options for Bulk Data Access Export Operation includeAssociatedData parameter"
+            }
+        ],
+        "page": {
+            "nameUrl": "toc.html",
+            "title": "Table of Contents",
+            "generation": "html",
+            "page": [
+                {
+                    "nameUrl": "index.html",
+                    "title": "Bulk Data IG Home Page",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "export.html",
+                    "title": "Bulk Data Export",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "authorization.html",
+                    "title": "SMART Backend Services Authorization",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "abbreviations.html",
+                    "title": "Bulk Data Abbreviations",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "changes.html",
+                    "title": "IG Change History",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "downloads.html",
+                    "title": "Downloads",
+                    "generation": "html"
+                }
+            ]
+        },
+        "parameter": [
+        ]
+    }
+}
