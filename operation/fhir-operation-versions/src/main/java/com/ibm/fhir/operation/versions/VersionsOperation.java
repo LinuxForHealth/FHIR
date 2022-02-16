@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -48,7 +47,6 @@ import jakarta.json.JsonObject;
 public class VersionsOperation extends AbstractOperation {
 
     private static final JsonBuilderFactory JSON_BUILDER_FACTORY = Json.createBuilderFactory(null);
-    private static final DocumentBuilderFactory XML_DOM_FACTORY = DocumentBuilderFactory.newInstance();
     private static final String ACCEPT_HEADER = "Accept";
     private static final String PARAM_DEFAULT = "default";
     private static final String PARAM_VERSION = "version";
@@ -74,6 +72,11 @@ public class VersionsOperation extends AbstractOperation {
             String defaultVersion = getDefaultFhirVersion();
 
             // Build and return response based on the Accept header
+            // This allows responses to be in any of the following formats:
+            //   - application/fhir+json
+            //   - application/fhir+xml
+            //   - application/json (for convenience of non-FHIR clients)
+            //   - application/xml (for convenience of non-FHIR clients)
             String outputFormat = getNonFhirOutputFormat(operationContext);
             if (MediaType.APPLICATION_JSON.equals(outputFormat)) {
                 return buildJsonResponse(operationContext, versions, defaultVersion);
@@ -160,8 +163,7 @@ public class VersionsOperation extends AbstractOperation {
      */
     private Parameters buildXmlResponse(FHIROperationContext operationContext, List<String> versions, String defaultVersion) throws ParserConfigurationException {
         // Build the response
-        DocumentBuilder docBuilder = XML_DOM_FACTORY.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         Element versionsElement = doc.createElement(PARAM_VERSIONS);
         doc.appendChild(versionsElement);
         for (String version : versions) {
