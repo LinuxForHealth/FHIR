@@ -156,7 +156,7 @@ public class ChunkWriter extends AbstractItemWriter {
                         } catch (FHIRValidationException | FHIROperationException e) {
                             logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                             failedNum++;
-                            failValidationIds.add(fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId());
+                            failValidationIds.add(fhirResource.getClass().getName() + "/" + fhirResource.getId());
 
                             if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
                                 OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
@@ -192,6 +192,9 @@ public class ChunkWriter extends AbstractItemWriter {
                                 FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
+
+                            logger.warning("The resource being imported does not match the declared resource - '" + this.resourceType 
+                                + " '" + fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId() + "'");
                         }
                     }
                 }
