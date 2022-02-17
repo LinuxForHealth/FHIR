@@ -178,6 +178,53 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
     }
     
     @Test
+    public void testInlineExpressionUsesResourceId() throws Exception {
+        Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
+
+        String codesystem = "http://snomed.ct/info";
+        String encounterCode = "office-visit";
+        Coding reason = coding(codesystem, encounterCode);
+
+        Encounter encounter = Encounter.builder()
+                .reasonCode(concept(reason))
+                .status(EncounterStatus.FINISHED)
+                .clazz(reason)
+                .period(Period.builder()
+                    .start(DateTime.now())
+                    .end(DateTime.now())
+                    .build())
+                .build();
+
+        String expression = "[Encounter] e return Last(Split(e.id,'/'))";
+
+        Parameter pSubject = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
+        Parameter pLibrary = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_EXPRESSION)).value(fhirstring(expression)).build();
+        Parameter pDebug = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_DEBUG)).value(fhirboolean(true)).build();
+        Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pDebug).build();
+
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        when(resourceHelper.doRead(eq("Patient"), anyString(), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> asResult(patient));
+        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn(bundle(encounter));
+
+        // Library fhirHelpers = TestHelper.getTestLibraryResource("FHIRHelpers-4.0.1.json");
+
+        try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
+            FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
+            staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
+
+            // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
+
+            FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
+            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            assertNotNull(result);
+
+            ParameterMap resultMap = new ParameterMap(result);
+            assertNotNull(resultMap.getSingletonParameter(CqlOperation.PARAM_OUT_RETURN));
+
+        }
+    }
+    
+    @Test
     public void testInlineExpressionPatientGender() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
 
