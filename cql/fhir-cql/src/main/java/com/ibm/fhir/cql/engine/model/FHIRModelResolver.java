@@ -71,7 +71,10 @@ public class FHIRModelResolver implements ModelResolver {
             TYPE_PACKAGE_NAME,
             CODE_PACKAGE_NAME }; 
 
+    public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
+    
     public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
+
 
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
@@ -244,9 +247,13 @@ public class FHIRModelResolver implements ModelResolver {
 
 
     protected Object patchResult(String path, Object result) {
-        if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
-            // Patch the model to match the CQL translator modelinfo expectations
-            result = Uri.of((String) result);
+        // Patch the model to match the CQL translator modelinfo expectations
+        if( result instanceof java.lang.String ) {
+            if( urlPattern.matcher(path).matches() ) {
+                result = Uri.of((String) result);
+            } else if( idPattern.matcher(path).matches() ) {
+                result = com.ibm.fhir.model.type.String.of((String) result);
+            }
         } else if( result instanceof TemporalAccessor ) {
             TemporalAccessor ta = (TemporalAccessor) result;
             result = DateHelper.toCqlTemporal(ta);
