@@ -49,6 +49,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -182,19 +183,20 @@ public class ChunkWriter extends AbstractItemWriter {
                     List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
                     for (Resource fhirResource : fhirResourceList) {
-                        if (this.resourceType != fhirResource.getClass().getSimpleName()) {
-                            failValidationIds.add(fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId());
+                        String assertedResourceType = fhirResource.getClass().getSimpleName();
+                        if (this.resourceType.equals(assertedResourceType)) {
+                            failValidationIds.add(assertedResourceType + "/" + fhirResource.getId());
 
                             if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
                                 OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(
                                     "The resource being imported does not match the declared resource - '" + this.resourceType 
-                                        + " '" + fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId() + "'", IssueType.SECURITY, IssueSeverity.ERROR);
+                                        + " '" + assertedResourceType + "/" + fhirResource.getId() + "'", IssueType.SECURITY, IssueSeverity.ERROR);
                                 FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
 
                             logger.warning("The resource being imported does not match the declared resource - '" + this.resourceType 
-                                + " '" + fhirResource.getClass().getSimpleName() + "/" + fhirResource.getId() + "'");
+                                + " '" + assertedResourceType + "/" + fhirResource.getId() + "'");
                         }
                     }
                 }
