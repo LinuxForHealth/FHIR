@@ -55,6 +55,7 @@ import com.ibm.fhir.model.resource.MedicinalProductManufactured;
 import com.ibm.fhir.model.resource.MedicinalProductPackaged;
 import com.ibm.fhir.model.resource.MedicinalProductUndesirableEffect;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.PlanDefinition;
 import com.ibm.fhir.model.resource.RequestGroup;
 import com.ibm.fhir.model.resource.ResearchElementDefinition;
@@ -135,6 +136,8 @@ public class FHIROpenApiGenerator {
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = true;
+    private static final List<String> DATA_EXPORT_TYPES = Arrays.asList("Patient", "Group");
+    
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
@@ -161,6 +164,8 @@ public class FHIROpenApiGenerator {
         generateMetadataOpenApi();
         generateBatchTransactionOpenApi(filter);
         generateWholeSystemHistoryOpenApi();
+        if (filter.acceptOperation("export"))
+            generateExportOpenApi();
     }
 
     private static void generateAllInOne(Filter filter) throws Exception {
@@ -217,6 +222,9 @@ public class FHIROpenApiGenerator {
         // for error response
         definitionsToAdd.add(OperationOutcome.class);
         definitionsToAdd.add(OperationOutcome.Issue.class);
+
+        if (filter.acceptOperation("export")) 
+            definitionsToAdd.add(Parameters.class);
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();
@@ -303,6 +311,22 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder parameters = factory.createObjectBuilder();
         generateSearchParameters(parameters, filter);
         generateWholeSystemHistoryParameters(parameters, true);
+        
+        // Generate export parameters if enabled
+        if (filter.acceptOperation("export")) {
+            generateExportParameters(parameters);
+            generateDefinition(Parameters.class, definitions);
+
+            // generate definition for all inner classes inside the top level resources.
+            for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+                Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+                if (Parameters.class.equals(parentClass)) {
+                    Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                    generateDefinition(innerModelClass, definitions);
+                }
+            }
+        }
+        
         JsonObject parametersObject = parameters.build();
         if (!parametersObject.isEmpty()) {
             components.add("parameters", parametersObject);
@@ -322,6 +346,15 @@ public class FHIROpenApiGenerator {
         path = factory.createObjectBuilder();
         generateWholeSystemHistoryPathItem(path, "Other", "Get the whole system history", false);
         paths.add("/_history", path);
+    
+        // FHIR System Export operation      
+        if (filter.acceptOperation("export")) {
+            path = factory.createObjectBuilder();
+            generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get", false);
+            // add post call
+            generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post", false);
+            paths.add("/$export", path);
+        }
         
         components.add("requestBodies", requestBodies);
         components.add("schemas", definitions);
@@ -417,6 +450,23 @@ public class FHIROpenApiGenerator {
                 JsonObjectBuilder parameters = factory.createObjectBuilder();
                 generateSearchParameters(parameters, filter);
                 generateWholeSystemHistoryParameters(parameters, filter);
+                
+                // Generate export parameters if valid for the model class
+                if (DATA_EXPORT_TYPES.contains(resourceClassName) && filter.acceptOperation("export")) {
+                    generateExportParameters(parameters);
+                    generateDefinition(Parameters.class, definitions);
+
+                    // generate definition for all inner classes inside the top level resources.
+                    for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+                        Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+                        if (Parameters.class.equals(parentClass)) {
+                            Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                            generateDefinition(innerModelClass, definitions);
+                        }
+                    }
+                }
+
+                
                 JsonObject parametersObject = parameters.build();
                 if (!parametersObject.isEmpty()) {
                     components.add("parameters", parametersObject);
@@ -534,6 +584,22 @@ public class FHIROpenApiGenerator {
                 JsonObjectBuilder parameters = factory.createObjectBuilder();
                 generateSearchParameters(parameters, filter);
                 generateWholeSystemHistoryParameters(parameters, filter);
+                
+                // Generate export parameters if valid for the model class
+                if (DATA_EXPORT_TYPES.contains(compartmentClassName) && filter.acceptOperation("export")) {
+                    generateExportParameters(parameters);
+                    generateDefinition(Parameters.class, definitions);
+
+                    // generate definition for all inner classes inside the top level resources.
+                    for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+                        Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+                        if (Parameters.class.equals(parentClass)) {
+                            Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                            generateDefinition(innerModelClass, definitions);
+                        }
+                    }
+                }
+                
                 JsonObject parametersObject = parameters.build();
                 if (!parametersObject.isEmpty()) {
                     components.add("parameters", parametersObject);
@@ -760,6 +826,90 @@ public class FHIROpenApiGenerator {
         }
     }
 
+    private static void generateExportOpenApi() throws Exception, ClassNotFoundException, Error {
+        JsonObjectBuilder swagger = factory.createObjectBuilder();
+        swagger.add("openapi", "3.0.0");
+
+        JsonObjectBuilder info = factory.createObjectBuilder();
+        info.add("title", "Bulk Data Export");
+        info.add("description", "Export Data from the FHIR server.");
+        info.add("version", "4.0.0");
+        swagger.add("info", info);
+
+        JsonArrayBuilder servers = factory.createArrayBuilder();
+        JsonObjectBuilder server = factory.createObjectBuilder();
+        server.add("url", CONTEXT_ROOT);
+        servers.add(server);
+        swagger.add("servers", servers);
+
+        // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
+        // with a default ExecuteInvoke Assembly
+        APIConnectAdapter.addApiConnectStuff(swagger); 
+
+        JsonObjectBuilder paths = factory.createObjectBuilder();
+        JsonObjectBuilder definitions = factory.createObjectBuilder();
+
+        // FHIR _history interaction
+        JsonObjectBuilder path = factory.createObjectBuilder();
+        
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get", false);
+        // add post call
+        generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post", false);
+        paths.add("/$export", path);
+        
+        // Add bulkdata-status
+        path = factory.createObjectBuilder();
+        
+        generateBulkDataStatusPathItem(path);
+        paths.add("/$bulkdata-status", path);
+       
+        swagger.add("paths", paths);
+
+        generateDefinition(Parameters.class, definitions);
+        generateDefinition(Resource.class, definitions);
+
+        // generate definition for all inner classes inside the top level resources.
+        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
+            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
+            if (Parameters.class.equals(parentClass)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+
+        // generate definition for all the applicable data types.
+        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+            Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
+            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, Parameters.class)) {
+                generateDefinition(typeModelClass, definitions);
+            }
+        }
+
+        JsonObjectBuilder components = factory.createObjectBuilder();
+
+        components.add("schemas", definitions);
+
+        JsonObjectBuilder parameters = factory.createObjectBuilder();
+        generateExportParameters(parameters);
+        JsonObject parametersObject = parameters.build();
+        if (!parametersObject.isEmpty()) {
+            components.add("parameters", parametersObject);
+        }
+        
+        swagger.add("components", components);
+
+        Map<String, Object> config = new HashMap<String, Object>();
+        config.put(JsonGenerator.PRETTY_PRINTING, true);
+        JsonWriterFactory factory = Json.createWriterFactory(config);
+
+        File outFile = new File(OUTDIR + File.separator + "export-openapi.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
+            writer.writeObject(swagger.build());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
     private static Map<Class<?>, StructureDefinition> buildStructureDefinitionMap() {
         Map<Class<?>, StructureDefinition> structureDefinitionMap = new HashMap<Class<?>, StructureDefinition>();
         try {
@@ -910,6 +1060,43 @@ public class FHIROpenApiGenerator {
         }
     }
 
+    private static void generateExportParameters(JsonObjectBuilder parameters) throws Exception {
+        JsonObjectBuilder outputFormat = factory.createObjectBuilder();
+        outputFormat.add("name", "_outputFormat");
+        outputFormat.add("description", "The format for the requested bulk data files to be generated");
+        outputFormat.add("in", "query");
+        outputFormat.add("required", false);
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "string");     
+        outputFormat.add("schema", schema);
+        
+        parameters.add("_outputFormatParam", outputFormat);
+        
+        // add _since=<timestamp>
+        JsonObjectBuilder since = factory.createObjectBuilder();
+        since.add("name", "_since");
+        since.add("description", "Resources updated after this period will be included in the response.");
+        since.add("in", "query");
+        since.add("required", false);
+        schema = factory.createObjectBuilder();
+        schema.add("type", "string");     
+        since.add("schema", schema);
+        
+        parameters.add("_sinceParam", since);
+        
+        JsonObjectBuilder type = factory.createObjectBuilder();
+        type.add("name", "_type");
+        type.add("description", "Limit which resource types are returned");
+        type.add("in", "query");
+        type.add("required", false);
+        schema = factory.createObjectBuilder();
+        schema.add("type", "string");     
+        type.add("schema", schema);
+
+        parameters.add("_typeParam", type);
+    }
+    
+
     private static void generatePaths(Class<?> modelClass, JsonObjectBuilder paths, Filter filter) throws Exception {
         JsonObjectBuilder path = factory.createObjectBuilder();
         // FHIR create operation
@@ -981,6 +1168,44 @@ public class FHIROpenApiGenerator {
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/_history", pathObject);
+        }
+
+        // Add Export
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "export") && DATA_EXPORT_TYPES.contains(modelClass.getSimpleName())) {
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "get", "Group".equals(modelClass.getSimpleName()));
+            generateExportPathItem(path, modelClass.getSimpleName(), "Export " + modelClass.getSimpleName() + " data from the FHIR server", true, "post", "Group".equals(modelClass.getSimpleName()));
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            StringBuilder pathStringBuilder = new StringBuilder();
+            pathStringBuilder.append("/");
+            pathStringBuilder.append(modelClass.getSimpleName());
+            if (modelClass.getSimpleName().equals("Group"))
+                pathStringBuilder.append("/{id}");
+            pathStringBuilder.append("/$export");
+            
+            paths.add(pathStringBuilder.toString(), pathObject);
+        }
+
+        
+        // Add Patient Everything
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
+            generatePatientEveryThingPathItem(path, false);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/Patient/$everything", pathObject);
+        }
+
+        path = factory.createObjectBuilder();
+        if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
+            generatePatientEveryThingPathItem(path, true);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/Patient/{id}/$everything", pathObject);
         }
 
         // TODO: add patch
@@ -1577,6 +1802,266 @@ public class FHIROpenApiGenerator {
         path.add("post", post);
     }
 
+    /**
+     * Common method used for both the general export function and the Patient or Group specific function.
+     * Expected tag parameter is set to "other" for non resource specific generation.  Tags "Patient" or "Group" for resource specific generation.
+     * HttpMethod parameter is "get" or "post".
+     *  
+     * @param path
+     * @param tag
+     * @param summary
+     * @param resourceSpecific
+     * @param httpMethod
+     */
+    private static void generateExportPathItem(JsonObjectBuilder path, String tag, String summary, boolean resourceSpecific, String httpMethod, boolean addIdParam) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(tag);
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", summary);
+        
+        String operationId = httpMethod + "Export";
+        if (resourceSpecific) {
+            operationId = operationId + tag;
+        }
+        httpMethodBuilder.add("operationId", operationId);
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+
+        if (addIdParam) {
+            JsonObjectBuilder idParameter = factory.createObjectBuilder();
+            addIdPathParam(idParameter);
+            parameters.add(idParameter);
+        }
+
+        if ("post".equalsIgnoreCase(httpMethod)) {
+            if (addIdParam)
+                httpMethodBuilder.add("parameters", parameters);
+            
+            // Generate POST request body
+            JsonObjectBuilder requestBody = factory.createObjectBuilder();
+
+            JsonObjectBuilder content = factory.createObjectBuilder();
+            JsonObjectBuilder contentType = factory.createObjectBuilder();
+            JsonObjectBuilder schema = factory.createObjectBuilder();
+            schema.add("$ref", "#/components/schemas/Parameters");
+            contentType.add("schema", schema);
+            content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
+            requestBody.add("content", content);
+            requestBody.add("required", true);
+            httpMethodBuilder.add("requestBody", requestBody);
+            
+       } else {
+            // Generate GET parameters
+            JsonObjectBuilder outputFormatParameter = factory.createObjectBuilder();
+            outputFormatParameter.add("$ref", "#/components/parameters/_outputFormatParam");
+            parameters.add(outputFormatParameter);
+            
+            JsonObjectBuilder sinceParameter = factory.createObjectBuilder();
+            sinceParameter.add("$ref", "#/components/parameters/_sinceParam");
+            parameters.add(sinceParameter);
+            
+            JsonObjectBuilder typeParameter = factory.createObjectBuilder();
+            typeParameter.add("$ref", "#/components/parameters/_typeParam");
+            parameters.add(typeParameter);
+            
+            httpMethodBuilder.add("parameters", parameters);
+            
+        }
+ 
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Export job is initiated");
+        
+        // Add Response headers
+        JsonObjectBuilder headers = factory.createObjectBuilder();
+        JsonObjectBuilder contentLocation = factory.createObjectBuilder();
+        contentLocation.add("description", "The polling location");
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        contentLocation.add("schema", schema);
+        
+        headers.add("Content-Location", contentLocation);
+        response.add("headers", headers);
+
+        responses.add("202", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add(httpMethod, httpMethodBuilder);
+    }
+
+    /**
+     *  
+     * @param path
+     */
+    private static void generateBulkDataStatusPathItem(JsonObjectBuilder path) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Other");
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", "Retrieves the status of the buld data request");
+        httpMethodBuilder.add("operationId", "bulkDataStatus");
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+
+        // Generate GET parameters
+        JsonObjectBuilder jobParameter = factory.createObjectBuilder();
+        jobParameter.add("name", "job");
+        jobParameter.add("description", "Job id from the Content-Location header response value after the export request");
+        jobParameter.add("in", "query");
+        jobParameter.add("required", true);
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        jobParameter.add("schema", schema);
+        parameters.add(jobParameter);
+               
+        httpMethodBuilder.add("parameters", parameters);
+
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        // 202 not completed
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Export job is queued and not yet complete");
+        responses.add("202", response);
+        
+        // Add 200 completed
+        response = factory.createObjectBuilder();
+        response.add("description", "Export job completed");
+
+        // add response body
+        JsonObjectBuilder content = factory.createObjectBuilder();
+        JsonObjectBuilder contentType = factory.createObjectBuilder();
+        schema = factory.createObjectBuilder();
+        schema.add("type", "object");
+        JsonObjectBuilder properties = factory.createObjectBuilder();
+        JsonObjectBuilder transactionTime = factory.createObjectBuilder();
+        transactionTime.add("type", "string");
+        properties.add("transactionTime", transactionTime);
+        
+        JsonObjectBuilder request = factory.createObjectBuilder();
+        request.add("type", "string");
+        properties.add("request", request);
+
+        JsonObjectBuilder requiresAccessToken = factory.createObjectBuilder();
+        requiresAccessToken.add("type", "boolean");
+        properties.add("requiresAccessToken", requiresAccessToken);
+        
+        JsonObjectBuilder output = factory.createObjectBuilder();
+        output.add("type", "array");
+        JsonObjectBuilder items = factory.createObjectBuilder();
+        items.add("type", "object");
+        JsonObjectBuilder itemProperties = factory.createObjectBuilder();
+        
+        JsonObjectBuilder outputArrayEntryTypeProperty = factory.createObjectBuilder();
+        outputArrayEntryTypeProperty.add("type", "string");
+        itemProperties.add("type", outputArrayEntryTypeProperty);
+
+        JsonObjectBuilder outputArrayEntryUrlProperty = factory.createObjectBuilder();
+        outputArrayEntryUrlProperty.add("type", "string");
+        itemProperties.add("url", outputArrayEntryUrlProperty);
+        
+        JsonObjectBuilder outputArrayEntryCountProperty = factory.createObjectBuilder();
+        outputArrayEntryCountProperty.add("type", "integer");
+        itemProperties.add("count", outputArrayEntryCountProperty);
+        
+        items.add("properties", itemProperties);
+        output.add("items", items);
+        properties.add("output", output);
+        
+        schema.add("properties", properties);
+        contentType.add("schema", schema);
+        content.add("application/json", contentType);
+
+        response.add("content", content);
+        responses.add("200", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add("get", httpMethodBuilder);
+    }
+    
+    /**
+     * Generates the $everything path for a Patient resource
+     *  
+     * @param path
+     * @param addIdParam
+     */
+    private static void generatePatientEveryThingPathItem(JsonObjectBuilder path, boolean addIdParam) {
+        JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add("Patient");
+
+        httpMethodBuilder.add("tags", tags);
+        httpMethodBuilder.add("summary", "Return all the information related to one or more patients");       
+        if (addIdParam)
+            httpMethodBuilder.add("operationId", "everythingPatient");
+        else
+            httpMethodBuilder.add("operationId", "everythingAllPatients");
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+
+        if (addIdParam) {
+            JsonObjectBuilder idParameter = factory.createObjectBuilder();
+            addIdPathParam(idParameter);
+            parameters.add(idParameter);
+        }
+
+        JsonObjectBuilder startParam = factory.createObjectBuilder();
+        startParam.add("name", "start");
+        startParam.add("description", "All records relating to care provided in a certain date range");
+        startParam.add("in", "query");
+        startParam.add("required", false);
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        startParam.add("schema", schema);
+        parameters.add(startParam);
+
+        JsonObjectBuilder endParam = factory.createObjectBuilder();
+        endParam.add("name", "end");
+        endParam.add("description", "All records relating to care provided in a certain date range");
+        endParam.add("in", "query");
+        endParam.add("required", false);
+        schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        endParam.add("schema", schema);
+        parameters.add(endParam);
+
+        JsonObjectBuilder type = factory.createObjectBuilder();
+        type.add("name", "_type");
+        type.add("description", "Limit which resource types are returned");
+        type.add("in", "query");
+        type.add("required", false);
+        schema = factory.createObjectBuilder();
+        schema.add("type", "string");
+        type.add("schema", schema);
+
+        parameters.add(type);
+            
+        httpMethodBuilder.add("parameters", parameters);
+
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        JsonObjectBuilder content = factory.createObjectBuilder();
+        JsonObjectBuilder contentType = factory.createObjectBuilder();
+        schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/components/schemas/Bundle");
+        contentType.add("schema", schema);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
+
+        response.add("content", content);
+        response.add("description", "everything operation successful");
+        responses.add("200", response);
+        httpMethodBuilder.add("responses", responses);
+
+        path.add("get", httpMethodBuilder);
+    }
+    
+    
     private static void generateRequestBody(Class<?> modelClass, JsonObjectBuilder requestBodies) {
         if (ModelSupport.isResourceType(modelClass.getSimpleName())) {
 //        "Coverage": {
@@ -2040,7 +2525,7 @@ public class FHIROpenApiGenerator {
                 String resourceType = className;
                 // TODO: add patch
                 List<String> operationList = Arrays.asList("create", "read", "vread", "update", "delete", "search",
-                        "history", "batch", "transaction");
+                        "history", "batch", "transaction", "export", "everything");
                 filterMap.put(resourceType, operationList);
             }
         }

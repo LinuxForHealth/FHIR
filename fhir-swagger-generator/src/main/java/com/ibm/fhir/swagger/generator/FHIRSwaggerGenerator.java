@@ -171,7 +171,7 @@ public class FHIRSwaggerGenerator {
                     
                     // Generate export parameters if valid for the model class
                     if (DATA_EXPORT_TYPES.contains(resourceModelClass.getSimpleName()) && filter.acceptOperation("export")) {
-                        generateExportParametersDefinition(parameters);
+                        generateExportParameters(parameters);
                         generateDefinition(Parameters.class, definitions);
  
                         // generate definition for all inner classes inside the top level resources.
@@ -210,7 +210,8 @@ public class FHIRSwaggerGenerator {
         generateMetadataSwagger();
         generateBatchTransactionSwagger();
         generateWholeSystemHistorySwagger();
-        generateExportSwagger();
+        if (filter.acceptOperation("export"))
+            generateExportSwagger();
     }
 
     private static void generateCompartmentSwagger(Class<?> compartmentModelClass, Filter filter) throws Exception, ClassNotFoundException, Error {
@@ -556,7 +557,7 @@ public class FHIRSwaggerGenerator {
         }
 
         JsonObjectBuilder parameters = factory.createObjectBuilder();
-        generateExportParametersDefinition(parameters);
+        generateExportParameters(parameters);
         JsonObject parametersObject = parameters.build();
         if (!parametersObject.isEmpty()) {
             swagger.add("parameters", parametersObject);
@@ -714,7 +715,7 @@ public class FHIRSwaggerGenerator {
         }
     }
 
-    private static void generateExportParametersDefinition(JsonObjectBuilder parameters) throws Exception {
+    private static void generateExportParameters(JsonObjectBuilder parameters) throws Exception {
         JsonObjectBuilder outputFormat = factory.createObjectBuilder();
         outputFormat.add("name", "_outputFormat");
         outputFormat.add("description", "The format for the requested bulk data files to be generated");
@@ -1424,7 +1425,7 @@ public class FHIRSwaggerGenerator {
             body.add("name", "body");
             body.add("description", "The Parameters for the bulk data export request.");
             body.add("in", "body");
-            body.add("required", false);
+            body.add("required", true);
             JsonObjectBuilder schema = factory.createObjectBuilder();
             schema.add("$ref", "#/definitions/Parameters");     
             body.add("schema", schema);
