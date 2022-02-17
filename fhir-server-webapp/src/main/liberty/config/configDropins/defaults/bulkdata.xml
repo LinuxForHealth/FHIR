@@ -37,4 +37,10 @@
 
     <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
+
+    <!--
+         The defaultHostName is set in the deployment.yaml https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#L159
+         and is subsequently used by the bulkdata configurations
+    -->
+    <variable name="defaultHostName" value="${env.MY_POD_NAME}"/>
 </server>
