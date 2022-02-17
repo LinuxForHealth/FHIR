@@ -676,7 +676,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test//(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testBaseExportWithMultipleTypes() throws Exception {
         if (ON) {
             Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
@@ -688,6 +688,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
                                     .queryParam("_type", "Patient,Observation")
                                     .queryParam("_type", "Patient")
                                     .queryParam("_type", "Observation")
+                                    .queryParam("_type", "Condition")
                                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                                     .header("X-FHIR-TENANT-ID", tenantName)
                                     .header("X-FHIR-DSID", dataStoreId)
