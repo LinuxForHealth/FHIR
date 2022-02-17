@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -56,10 +57,14 @@ public class ExportOperation extends AbstractOperation {
         COMMON.checkAllowed(operationContext, false);
 
         // Pick off parameters
+        javax.ws.rs.core.UriInfo uriInfo = (javax.ws.rs.core.UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
+        MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+
         MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
 
         Instant since = export.checkAndExtractSince(parameters);
-        List<String> types = export.checkAndValidateTypes(parameters);
+
+        List<String> types = export.checkAndValidateTypes(parameters, queryParameters);
         List<String> typeFilters = export.checkAndValidateTypeFilters(parameters);
 
         // If Patient - Export Patient Filter Resources
