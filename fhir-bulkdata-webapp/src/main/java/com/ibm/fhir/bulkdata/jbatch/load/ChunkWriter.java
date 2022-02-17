@@ -184,7 +184,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
                     for (Resource fhirResource : fhirResourceList) {
                         String assertedResourceType = fhirResource.getClass().getSimpleName();
-                        if (this.resourceType.equals(assertedResourceType)) {
+                        if (!this.resourceType.equals(assertedResourceType)) {
                             failValidationIds.add(assertedResourceType + "/" + fhirResource.getId());
 
                             if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
