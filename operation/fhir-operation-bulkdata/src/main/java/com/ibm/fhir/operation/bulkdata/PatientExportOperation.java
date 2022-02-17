@@ -10,7 +10,7 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
- * Creates an Patient Export of FHIR Data to NDJSON
+ * Creates a Patient Export of FHIR Data to NDJSON
  * @see https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-patient-export.json.html
  */
 public class PatientExportOperation extends ExportOperation {

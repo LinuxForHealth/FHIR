@@ -32,7 +32,7 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 /**
- * Creates an System Export of FHIR Data to NDJSON format
+ * Creates a System Export of FHIR Data to NDJSON format
  * @see https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-export.html
  */
 public class ExportOperation extends AbstractOperation {
