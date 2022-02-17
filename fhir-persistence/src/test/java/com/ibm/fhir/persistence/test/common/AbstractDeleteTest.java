@@ -8,12 +8,15 @@ package com.ibm.fhir.persistence.test.common;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertNull;
 
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
@@ -64,13 +67,11 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test(expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
     public void testDeleteInvalidDevice() throws Exception {
 
-        // The persistence delete operation simply inserts a resource version with
-        // the is_deleted flag set. This means that for invalid devices we won't
-        // ever get a FHIRPersistenceResourceNotFoundException but instead it will
-        // be a version mismatch (because version 1 shouldn't exist.
+        // When the persistence layer attempts to read the device it should kick
+        // back with FHIRPersistenceResourceNotFoundException
         Device device = TestUtil.getMinimalResource(Device.class);
         device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, "invalid-device-id", 1);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test
@@ -83,12 +84,10 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
     @Test
     public void testDeleteValidDevice() throws Exception {
 
+        // Try to delete the device created @BeforeClass
         Device device = TestUtil.getMinimalResource(Device.class);
-        
-        // remember that the current device version is 1, so the delete marker
-        // must be version 2
-        device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 2);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 1);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test(dependsOnMethods = { "testDeleteValidDevice" },
@@ -97,6 +96,66 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
 
         persistence.read(getDefaultPersistenceContext(), Device.class, this.deviceId1);
 
+    }
+
+    /**
+     * Test that we can read a device after it has been deleted as long
+     * as we set up the context correctly
+     * @throws Exception
+     */
+    @Test
+    public void testReadIncludeDeletedDevice() throws Exception {
+        Device myDevice = TestUtil.getMinimalResource(Device.class);
+        final String myDeviceId = UUID.randomUUID().toString();
+        myDevice = FHIRPersistenceTestSupport.setIdAndMeta(persistence, myDevice, myDeviceId, 1);
+
+        // try reading the device before it exists
+        SingleResourceResult<? extends Resource> srr = persistence.read(getDefaultPersistenceContext(), Device.class, myDeviceId);
+        assertNotNull(srr);
+        assertFalse(srr.isSuccess());
+        assertNull(srr.getResource());
+
+        // Create the initial version
+        srr = persistence.create(getDefaultPersistenceContext(), myDevice);
+        assertNotNull(srr);
+        assertTrue(srr.isSuccess());
+        assertNotNull(srr.getResource());
+        assertEquals("1", srr.getResource().getMeta().getVersionId().getValue());
+        assertEquals(myDeviceId, srr.getResource().getId());
+
+        // Delete the device
+        delete(getDefaultPersistenceContext(), myDevice);
+        
+        // Check we can't read the device using the default persistence context
+        try {
+            persistence.read(getDefaultPersistenceContext(), Device.class, myDeviceId);
+            fail("expected FHIRPersistenceResourceDeletedException");
+        } catch (FHIRPersistenceResourceDeletedException x) {
+            // expected
+        } catch (Exception x) {
+            fail("expected FHIRPersistenceResourceDeletedException", x);
+        }
+
+        // Try reading when we set up the context to include deleted
+        FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, true);
+        srr = persistence.read(context, Device.class, myDeviceId);
+        assertNotNull(srr);
+        assertTrue(srr.isSuccess());
+        assertNull(srr.getResource());
+        assertTrue(srr.isDeleted());
+        assertEquals(2, srr.getVersion());
+
+        // And check that we can undelete it. New version will be 3
+        myDevice = FHIRPersistenceTestSupport.setIdAndMeta(persistence, myDevice, myDeviceId, 3);
+        persistence.update(getDefaultPersistenceContext(), myDevice);
+
+        // Now we should be able to read the resource using the standard context
+        srr = persistence.read(getDefaultPersistenceContext(), Device.class, myDeviceId);
+        assertNotNull(srr);
+        assertTrue(srr.isSuccess());
+        assertNotNull(srr.getResource());
+        assertEquals("3", srr.getResource().getMeta().getVersionId().getValue());
+        assertEquals(3, srr.getVersion());
     }
 
     @Test(dependsOnMethods = { "testDeleteValidDevice" })
@@ -151,7 +210,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         // resource is currently deleted, we expect the delete call to throw
         // an exception
         device = FHIRPersistenceTestSupport.setIdAndMeta(persistence, device, this.deviceId1, 3);
-        persistence.delete(getDefaultPersistenceContext(), device);
+        delete(getDefaultPersistenceContext(), device);
     }
 
     @Test

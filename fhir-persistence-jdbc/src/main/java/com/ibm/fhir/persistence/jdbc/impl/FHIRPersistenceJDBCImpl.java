@@ -377,7 +377,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource, 
+                    createResourceDTO(updatedResource.getClass(), logicalId, newVersionNumber, lastUpdated, updatedResource, 
                         getResourcePayloadKeyFromContext(context));
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
@@ -448,6 +448,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
      * 
+     * @param resourceType
      * @param logicalId
      * @param newVersionNumber
      * @param lastUpdated
@@ -457,7 +458,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws IOException
      * @throws FHIRGeneratorException
      */
-    private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
+    private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(Class<? extends Resource> resourceType,
+            String logicalId, int newVersionNumber,
             Instant lastUpdated, Resource updatedResource, String resourcePayloadKey) throws IOException, FHIRGeneratorException {
 
         Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
@@ -466,11 +468,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         resourceDTO.setLogicalId(logicalId);
         resourceDTO.setVersionId(newVersionNumber);
         resourceDTO.setLastUpdated(timestamp);
-        resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
+        resourceDTO.setResourceType(resourceType.getSimpleName());
         resourceDTO.setResourcePayloadKey(resourcePayloadKey);
 
         // Are storing the payload in our RDBMS, or offloading to another store?
-        if (this.payloadPersistence == null) {
+        if (this.payloadPersistence == null && updatedResource != null) {
             // Most resources are well under 10K after being serialized and compressed
             InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
 
@@ -573,8 +575,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resource.getId(), newVersionNumber, 
-                        resource.getMeta().getLastUpdated(), resource, 
+                    createResourceDTO(resource.getClass(), resource.getId(), newVersionNumber,
+                        resource.getMeta().getLastUpdated(), resource,
                         getResourcePayloadKeyFromContext(context));
 
             // Persist the Resource DTO.
@@ -1020,7 +1022,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -1028,17 +1031,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             doCachePrefill(connection);
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
-            // Create a new Resource DTO instance to represent the deleted version.
-            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
-            if (newVersionNumber < 2) {
-                // Can't delete a resource which doesn't yet exist
-                throw new FHIRPersistenceResourceNotFoundException("New version number for delete must be > 1");
-            }
-
-            // Create the new Resource DTO instance.
+            // Create a new Resource DTO instance to represent the deletion marker.
+            final int newVersionId = versionId + 1;
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resource.getId(), newVersionNumber, resource.getMeta().getLastUpdated(), resource,
-                        getResourcePayloadKeyFromContext(context));
+                    createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null,
+                        null);
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -1066,10 +1063,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-    /**
-     * @throws FHIRPersistenceResourceDeletedException if the resource being read is currently in a deleted state and
-     *         FHIRPersistenceContext.includeDeleted() is set to false
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
                             throws FHIRPersistenceException {
@@ -1124,10 +1117,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             final T resource = convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true)
+                    .success(resourceDTO != null) // we didn't read anything from the DB
                     .resource(resource)
-                    .deleted(resourceIsDeleted)
+                    .deleted(resourceIsDeleted) // true if we read something and the is_deleted flag was set
+                    .version(resourceDTO != null ? resourceDTO.getVersionId() : 0)
                     .interactionStatus(InteractionStatus.READ)
+                    .outcome(getOutcomeIfResourceNotFound(resourceDTO, resourceType.getSimpleName(), logicalId))
                     .build();
 
             return result;
@@ -1139,6 +1134,28 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw fx;
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+
+    /**
+     * This method builds an OperationOutcome required by SingleResourceResult when the
+     * resource was not read from the database
+     * @param resourceDTO
+     * @param resourceType
+     * @param logicalId
+     * @return
+     */
+    private OperationOutcome getOutcomeIfResourceNotFound(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO,
+            String resourceType, String logicalId) {
+        if (resourceDTO != null) {
+            return null;
+        } else {
+            // Note that it's possible that the resource has been deleted, but we don't know
+            // that here, because we may have asked the database to exclude deleted resources
+            final String diag = "Resource not found: '" + resourceType + "/" + logicalId + "'";
+            return OperationOutcome.builder()
+                    .issue(Issue.builder().code(IssueType.NOT_FOUND).severity(IssueSeverity.WARNING).diagnostics(string(diag)).build())
+                    .build();
         }
     }
 
@@ -1325,9 +1342,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                    .success(true)
+                    .success(resourceDTO != null)
                     .interactionStatus(InteractionStatus.READ)
+                    .deleted(resourceDTO != null && resourceDTO.isDeleted())
+                    .version(resourceDTO != null ? resourceDTO.getVersionId() : 0)
                     .resource(resource)
+                    .outcome(getOutcomeIfResourceNotFound(resourceDTO, resourceType.getSimpleName(), logicalId))
                     .build();
 
             return result;
@@ -1437,8 +1457,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // to look into batch or parallel fetch requests
                 ResourceResult<? extends Resource> resourceResult = convertResourceDTOToResourceResult(resourceDTO, resourceType, elements, includeResourceData);
                 
-                // Check to make sure we got a Resource if we asked for it
-                if (resourceResult.getResource() == null && includeResourceData) {
+                // Check to make sure we got a Resource if we asked for it and expect there to be one
+                if (resourceResult.getResource() == null && includeResourceData && !resourceResult.isDeleted()) {
                     String resourceTypeName = getResourceTypeInfo(resourceDTO);
                     if (resourceTypeName == null) {
                         resourceTypeName = resourceType.getSimpleName();

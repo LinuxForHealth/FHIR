@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -66,9 +67,10 @@ public class FHIRPersistenceTestSupport {
     }
 
     /**
-     * Helper funciton to replace the previously deprecated persistence layer method which has
-     * now been removed. Injects/replaces the meta elements in the resource before calling the
-     * persistence delete method.
+     * Helper function to replace the previously deprecated persistence layer method which has
+     * now been removed. Calls the persistence delete method with arguments extracted from
+     * the resource. No new resource is created because the payload is no longer stored with
+     * the deletion marker.
      * 
      * @param <T>
      * @param persistence
@@ -76,7 +78,7 @@ public class FHIRPersistenceTestSupport {
      * @param resource
      * @throws FHIRPersistenceException
      */
-    public static <T extends Resource> T delete(FHIRPersistence persistence, FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    public static <T extends Resource> void delete(FHIRPersistence persistence, FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         // cannot delete a resource which hasn't been created - we expect the id to be present
         // and the meta.versionId current. If the version in the resource parameter isn't the latest, the
         // persistence layer will fail the delete thinking there's a concurrent update issue.
@@ -89,13 +91,9 @@ public class FHIRPersistenceTestSupport {
             throw new FHIRPersistenceException("test error - resource must have a valid meta.versionId");
         }
         
-        final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-        final int newVersionId = Integer.parseInt(resource.getMeta().getVersionId().getValue()) + 1;
-        resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, resource.getId(), newVersionId, lastUpdated);
-        persistence.delete(context, resource);
-
-        // return the modified resource which may be used for subsequent tests
-        return resource;
+        final int currentVersionId = FHIRPersistenceSupport.getMetaVersionId(resource);
+        final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
+        persistence.delete(context, resource.getClass(), resource.getId(), currentVersionId, lastUpdated);
     }
 
     /**
