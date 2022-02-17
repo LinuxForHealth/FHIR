@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -138,6 +138,8 @@ public class Delete extends FHIRResource {
 
         if (ior.getResource() != null) {
             addHeaders(response, ior.getResource());
+        } else if (ior.getVersionForETag() > 0) {
+            addHeaders(response, ior.getVersionForETag());
         }
         return response.build();
     }

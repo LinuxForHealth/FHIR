@@ -9,6 +9,7 @@ package com.ibm.fhir.server.util;
 import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
+import static com.ibm.fhir.server.util.FHIRRestSupport.getEtagValue;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
@@ -107,7 +108,6 @@ import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -128,6 +128,7 @@ import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorMeta;
+import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorOffload;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorPersist;
 import com.ibm.fhir.server.rest.FHIRRestInteractionVisitorReferenceMapping;
 import com.ibm.fhir.server.spi.operation.FHIROperation;
@@ -500,6 +501,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         boolean isDeleted; // stash the deleted status of the resource when we first read it
+        int currentVersion; // stash the current version of the resource when we first read it
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         try {
@@ -552,16 +554,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     if (newResource.getId() == null) {
                         id = persistence.generateResourceId();
                         newResource = newResource.toBuilder().id(id).build();
-                        // No match, so deletion status doesn't matter
+                        // No match, so deletion/version status doesn't matter
                         isDeleted = false;
+                        currentVersion = 0; // will be a create
                     } else {
                         // An id was provided, so we need to perform a read at this point so we know whether
                         // this is going to be an update or create. This also now gives us the version id
                         // needed to correctly update the meta for the new resource
                         id = newResource.getId();
                         SingleResourceResult<? extends Resource> srr = doRead(type, id, false, true, newResource, null, false);
-                        ior.setPrevResource(srr.getResource());
+                        ior.setPrevResource(srr.getResource()); // might be null if resource is deleted
                         isDeleted = srr.isDeleted();
+                        currentVersion = srr.getVersion();
                     }
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll perform a normal update on the matched resource.
@@ -589,6 +593,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // Got a match, so definitely can't be deleted
                     isDeleted = false;
+                    currentVersion = FHIRPersistenceSupport.getMetaVersionId(responseBundle.getEntry().get(0).getResource());
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
@@ -621,9 +626,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Retrieve the resource to be updated using the type and id values. Include
                 // the resource even if it has been deleted
-                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), true, newResource, null, false);
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), INCLUDE_DELETED, newResource, null, false);
                 ior.setPrevResource(srr.getResource());
                 isDeleted = srr.isDeleted();
+                currentVersion = srr.getVersion();
 
                 // Since 1869, this check is performed before entering the persistence layer
                 // Check that the resource exists, unless the updateCreate feature is enabled
@@ -712,7 +718,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // again under a database lock during the persistence phase and the request will be rejected if there's
             // a mismatch (can happen when there are concurrent updates).
             final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-            final int newVersionNumber = updateCreate ? 1 : FHIRPersistenceSupport.getMetaVersionId(ior.getPrevResource()) + 1;
+            final int newVersionNumber = currentVersion + 1; // currentVersion will be 0 if this is a create
             newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
 
             ior.setResource(newResource);
@@ -909,7 +915,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Next, if a conditional delete was invoked then use the search criteria to find the
             // resource to be deleted. Otherwise, we'll use the id value to identify the resource
             // to be deleted.
-            Resource resourceToDelete = null;
             Bundle responseBundle = null;
 
             if (searchQueryString != null) {
@@ -959,23 +964,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
-                try {
-                    resourceToDelete = doRead(type, id, !THROW_EXC_ON_NULL, !INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource();
-                    if (resourceToDelete != null) {
-                        responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
-                                .id(UUID.randomUUID().toString())
-                                .entry(Entry.builder().id(id).resource(resourceToDelete).build())
-                                .total(UnsignedInt.of(1))
-                                .build();
-                    } else {
-                        warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_FOUND, "Cannot find "
-                                + type + " with id '" + id + "'."));
-                    }
-                } catch (FHIRPersistenceResourceDeletedException e) {
-                    // Absorb this exception.
-                    ior.setResource(doRead(type, id, !THROW_EXC_ON_NULL, INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED).getResource());
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, !THROW_EXC_ON_NULL, INCLUDE_DELETED, null, null, !CHECK_INTERACTION_ALLOWED);
+                if (srr.isDeleted()) {
+                    // Because the resource is already deleted, we can't create a
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
+                    ior.setVersionForETag(srr.getVersion());
+                } else if (srr.getResource() != null) {
+                    responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
+                            .id(UUID.randomUUID().toString())
+                            .entry(Entry.builder().id(id).resource(srr.getResource()).build())
+                            .total(UnsignedInt.of(1))
+                            .build();
+                } else {
+                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_FOUND, "Cannot find "
+                            + type + " with id '" + id + "'."));
                 }
             }
 
@@ -983,37 +986,45 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 for (Entry entry: responseBundle.getEntry()) {
                     id = entry.getResource().getId();
-                    resourceToDelete = entry.getResource();
+                    Resource resourceToDelete = entry.getResource();
                     
                     // For soft-delete we store a new version of the resource with the deleted
-                    // flag set. Update the resource meta so that it has the correct version id
-                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
-                    final int newVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete) + 1;
-                    final Resource resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, id, newVersionNumber, lastUpdated);
+                    // flag set. Because we've read the resource already, we need to check that
+                    // the version we are deleting matches the version we just read, so the
+                    // persistence layer takes the current version as an argument so that it
+                    // can perform this check after the logical resource is locked for update.
+                    final int currentVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete);
 
+                    // Because we no longer store a resource payload along with the deletion marker, there's
+                    // no fhirResource value set in the event.
                     FHIRPersistenceEvent event =
                         new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
                     event.setPrevFhirResource(resourceToDelete);
-                    event.setFhirResource(resource);
 
                     // First, invoke the 'beforeDelete' interceptor methods.
                     getInterceptorMgr().fireBeforeDeleteEvent(event);
 
-                    // If we're offloading, the payload gets stored outside the RDBMS
-                    final String resourcePayloadKey = UUID.randomUUID().toString();
-                    PayloadPersistenceResponse offloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
                     FHIRPersistenceContext persistenceContext =
                             FHIRPersistenceContextImpl.builder(event)
-                            .withOffloadResponse(offloadResponse)
                             .build();
 
-                    persistence.delete(persistenceContext, resource);
+                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+                    persistence.delete(persistenceContext, resourceType, resourceToDelete.getId(), currentVersionNumber, lastUpdated);
 
                     if (responseBundle.getEntry().size() == 1) {
-                        ior.setResource(resource);
+                        // The response needs to return the version number of the deletion marker
+                        // as the ETag. This was previously obtained by returning the modified resource,
+                        // which we no longer have.
+                        int newVersionNumber = currentVersionNumber + 1;
+                        ior.setVersionForETag(newVersionNumber);
                     }
 
-                    // Invoke the 'afterDelete' interceptor methods.
+                    // Invoke the 'afterDelete' interceptor methods. To support the notification service, we 
+                    // need to provide a resource with the lastUpdated element set. This is just to simplify
+                    // passing values, even though the resource itself doesn't really exist
+                    final int newVersionNumber = currentVersionNumber + 1;
+                    Resource deletionMarker = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, resourceToDelete.getId(), newVersionNumber, lastUpdated);
+                    event.setFhirResource(deletionMarker);
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 
@@ -1129,11 +1140,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext);
             result = persistence.read(persistenceContext, resourceType, id);
-            Resource resource = result.getResource();
-            if (resource == null && throwExcOnNull) {
+            if (!result.isSuccess() && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
 
+            Resource resource = result.getResource();
             event.setFhirResource(resource);
 
             // Invoke the 'afterRead' interceptor methods.
@@ -1169,8 +1180,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Start a new txn in the persistence layer if one is not already active.
         txn.begin();
 
-        Resource resource = null;
-
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
@@ -1195,13 +1204,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
-            resource = persistence.vread(persistenceContext, resourceType, id, versionId).getResource();
-            if (resource == null) {
+            SingleResourceResult<? extends Resource> srr = persistence.vread(persistenceContext, resourceType, id, versionId);
+            if (!srr.isSuccess() || srr.getResource() == null && !srr.isDeleted()) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '"
                         + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
             }
 
-            event.setFhirResource(resource);
+            // The resource should exist at this point because if not found, we have already thrown
+            // FHIRPersistenceResourceNotFoundException or, if deleted, a FHIRPersistenceResourceDeletedException.
+            event.setFhirResource(srr.getResource());
 
             // Invoke the 'afterVread' interceptor methods.
             getInterceptorMgr().fireAfterVreadEvent(event);
@@ -1210,7 +1221,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.commit();
             txn = null;
 
-            return resource;
+            return srr.getResource();
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1980,13 +1991,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // Phase 2: Now we have id values for each resource we can update any local references. At this point,
-            // the localRefMap should be fixed, so let's enforce that here
+            // the localRefMap should be fixed, so let's enforce that here. Once reference mapping is done, the
+            // resource is finalized - if the persistence layer supports payload offloading, we can do that now
             localRefMap = Collections.unmodifiableMap(localRefMap);
             FHIRRestInteractionVisitorReferenceMapping refMapper = new FHIRRestInteractionVisitorReferenceMapping(transaction, this, localRefMap, responseEntries);
+            FHIRRestInteractionVisitorOffload offloadVisitor = new FHIRRestInteractionVisitorOffload(transaction, this, localRefMap, responseEntries);
             for (FHIRRestInteraction interaction: bundleInteractions) {
                 // Only process stuff we don't yet have a response for
                 if (responseEntries[interaction.getEntryIndex()] == null) {
                     interaction.accept(refMapper);
+                }
+
+                // Now that the resource will no longer be changed, we can
+                // initiate payload offload (when supported)
+                if (responseEntries[interaction.getEntryIndex()] == null) {
+                    interaction.accept(offloadVisitor);
                 }
             }
 
@@ -2367,7 +2386,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .build();
 
             Entry.Response response =
-                    Entry.Response.builder().status(string("200")).build();
+                    Entry.Response.builder()
+                    .status(string("200"))
+                    .etag(getEtagValue(resourceResult.getVersion()))
+                    .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
+                    .build();
 
             Entry entry =
                     Entry.builder().request(request)

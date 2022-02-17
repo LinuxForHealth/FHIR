@@ -78,14 +78,22 @@ public interface FHIRPersistence {
     <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
 
     /**
-     * Deletes the FHIR resource from the datastore. The resource must be configured with the correct
-     * meta information because the persistence layer no longer makes any modifications to resources.
+     * Deletes the FHIR resource from the datastore. The delete is a soft-delete, resulting
+     * in a new version being created to act as a deletion marker. This version is created
+     * without a payload body. The versionId must match the latest version of the resource.
+     * This must be checked by the {@link FHIRPersistence} implementation, which should throw a
+     * FHIRPersistenceVersionIdMismatchException is there is a mismatch (likely an indication
+     * of concurrent changes to the resource).
      * @param <T>
-     * @param context
-     * @param resource
+     * @param context the FHIRPersistenceContext instance associated with the current request
+     * @param resourceType the resource type of the Resource instance to be deleted
+     * @param logicalId the logical id of the Resource instance to be deleted
+     * @param versionId the current version of the Resource instance to be deleted
+     * @param lastUpdated the modification timestamp to use for the deletion
      * @throws FHIRPersistenceException
      */
-    default <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+    default <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+            com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("The 'delete' operation is not supported by this persistence implementation");
     }
 

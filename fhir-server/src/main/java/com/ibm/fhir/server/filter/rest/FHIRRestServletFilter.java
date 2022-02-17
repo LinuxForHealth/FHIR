@@ -302,16 +302,23 @@ public class FHIRRestServletFilter extends HttpFilter {
      */
     private String getHeaderTokenValue(FHIRRequestContext context, String headerName, String tokenName) {
         String preferValue = null;
-        for (String headerValue : context.getHttpHeaders().getOrDefault(headerName, Collections.emptyList())) {
-            for (String headerValueElement : headerValue.split(",")) {
-                headerValueElement = headerValueElement.split(";")[0];
-                String[] tokenAndValue = headerValueElement.split("=", 2);
-                if (tokenName.equals(tokenAndValue[0].trim())) {
-                    preferValue = "";
-                    if (tokenAndValue.length > 1) {
-                        preferValue = tokenAndValue[1].trim();
+        for (String curHeaderName : context.getHttpHeaders().keySet()) {
+            if (curHeaderName.equalsIgnoreCase(headerName)) {
+                for (String headerValue : context.getHttpHeaders().getOrDefault(curHeaderName, Collections.emptyList())) {
+                    for (String headerValueElement : headerValue.split(",")) {
+                        headerValueElement = headerValueElement.split(";")[0];
+                        String[] tokenAndValue = headerValueElement.split("=", 2);
+                        if (tokenName.equals(tokenAndValue[0].trim())) {
+                            preferValue = "";
+                            if (tokenAndValue.length > 1) {
+                                preferValue = tokenAndValue[1].trim();
+                            }
+                            break;
+                        }
                     }
-                    break;
+                    if (preferValue != null) {
+                        break;
+                    }
                 }
             }
             if (preferValue != null) {
@@ -335,23 +342,27 @@ public class FHIRRestServletFilter extends HttpFilter {
 
         for (String headerName : headerStatusMap.keySet()) {
             String fhirVersion = null;
-            for (String headerValue : context.getHttpHeaders().getOrDefault(headerName, Collections.emptyList())) {
-                for (String headerValueElement : headerValue.split(",")) {
-                    for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
-                        if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
-                            String curFhirVersion = parameter.getValue();
-                            if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
-                                throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                    + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
-                                        + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
-                            }
-                            // If Content-Type header, check for multiple different FHIR versions
-                            if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
-                                if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
-                                    throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                        + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
+            for (String curHeaderName : context.getHttpHeaders().keySet()) {
+                if (curHeaderName.equalsIgnoreCase(headerName)) {
+                    for (String headerValue : context.getHttpHeaders().getOrDefault(curHeaderName, Collections.emptyList())) {
+                        for (String headerValueElement : headerValue.split(",")) {
+                            for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
+                                if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
+                                    String curFhirVersion = parameter.getValue();
+                                    if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
+                                        throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                            + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
+                                                + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
+                                    }
+                                    // If Content-Type header, check for multiple different FHIR versions
+                                    if (headerName.equalsIgnoreCase(HttpHeaders.CONTENT_TYPE)) {
+                                        if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
+                                            throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                                + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
+                                        }
+                                        fhirVersion = curFhirVersion;
+                                    }
                                 }
-                                fhirVersion = curFhirVersion;
                             }
                         }
                     }

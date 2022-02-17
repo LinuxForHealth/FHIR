@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
@@ -55,14 +56,17 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.test.MockPersistenceImpl;
 import com.ibm.fhir.server.test.MockTransactionAdapter;
 
@@ -1982,10 +1986,14 @@ public class FHIRRestHelperTest {
                     .given(string("John"))
                     .family(string("Doe"))
                     .build())
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
                 .build();
 
         List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
-        resourceResults.add(ResourceResult.builder().build());
+        resourceResults.add(ResourceResult.builder().version(1).build());
         resourceResults.add(ResourceResult.builder().resource(patientNoId).build());
         Bundle responseBundle = helper.createSearchResponseBundle(resourceResults, context, "Patient");
 
@@ -2008,13 +2016,24 @@ public class FHIRRestHelperTest {
             @Override
             public void beforeDelete(FHIRPersistenceEvent event) {
                 assertNotNull(event.getPrevFhirResource());
-                assertNotNull(event.getFhirResource());
+                assertNull(event.getFhirResource());
             }
 
             @Override
             public void afterDelete(FHIRPersistenceEvent event) {
-                assertNotNull(event.getPrevFhirResource());
-                assertNotNull(event.getFhirResource());
+                try {
+                    assertNotNull(event.getPrevFhirResource());
+                    int currentVersion = FHIRPersistenceSupport.getMetaVersionId(event.getPrevFhirResource());
+                    
+                    // The event contains a version of the resource with the lastUpdated time set
+                    assertNotNull(event.getFhirResource());
+                    assertNotNull(event.getFhirResource().getMeta());
+                    assertNotNull(event.getFhirResource().getMeta().getLastUpdated());
+                    int newVersion = FHIRPersistenceSupport.getMetaVersionId(event.getFhirResource());
+                    assertEquals(newVersion, currentVersion+1);
+                } catch (FHIRPersistenceException x) {
+                    fail("afterDelete(event)", x);
+                }
             }
         };
         FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
@@ -2045,6 +2064,34 @@ public class FHIRRestHelperTest {
         helper.doDelete("Patient", "123", null);
     }
 
+    /**
+     * Ensure delete event contains the required resources.
+     */
+    @Test
+    public void testDeleteDeleted() throws Exception {
+
+
+        // Mock up the result that the persistence layer will return from its read call
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(null);
+        when(mockResult.getVersion()).thenReturn(2);
+        when(mockResult.isDeleted()).thenReturn(true);
+
+        // Mock up the persistence impl
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        // Call doDelete, check that the response contains the version of the deleted resource
+        // even though it doesn't contain the resource.
+        FHIRRestOperationResponse response = helper.doDelete("Patient", "123", null);
+        assertNotNull(response);
+        assertNull(response.getResource());
+        assertEquals(response.getVersionForETag(), 2);
+    }
 
     /**
      * Test an interceptor that modifies the resource

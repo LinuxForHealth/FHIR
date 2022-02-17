@@ -237,10 +237,12 @@ public class ChunkWriter extends AbstractItemWriter {
                                 operationOutcome =
                                         fhirPersistence.create(persistenceContext, updatedResource).getOutcome();
                                 if (auditLogger.shouldLog()) {
+                                    // QA: We were sending the original Resource, not the result of the Interaction resource,
+                                    // which does not have the Resource.id or the Resource.version
                                     // audit log entry based on the original resource, not the one we modified with meta elements
                                     long endTime = System.currentTimeMillis();
                                     String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
-                                    auditLogger.logCreateOnImport(fhirResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
+                                    auditLogger.logCreateOnImport(updatedResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
                                 }
                             } else {
                                 Map<String, Object> props = new HashMap<>();
@@ -337,8 +339,7 @@ public class ChunkWriter extends AbstractItemWriter {
         Resource oldResource = oldResourceResult.getResource();
 
         final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getCurrentInstant();
-        final int newVersionNumber = oldResource != null && oldResource.getMeta() != null && oldResource.getMeta().getVersionId() != null
-                ? Integer.parseInt(oldResource.getMeta().getVersionId().getValue()) + 1 : 1;
+        final int newVersionNumber = oldResourceResult.getVersion() + 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
         // If the resource was previously deleted, we need to treat this as a not to skip, otherwise we end up with really inconsistent data
@@ -395,9 +396,9 @@ public class ChunkWriter extends AbstractItemWriter {
             long endTime = System.currentTimeMillis();
             String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
             if (!skipped) {
-                auditLogger.logUpdateOnImport(oldResource, resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                auditLogger.logUpdateOnImport(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
             } else {
-                auditLogger.logUpdateOnImportSkipped(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                auditLogger.logUpdateOnImportSkipped(oldResource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
             }
         }
         return oo;
