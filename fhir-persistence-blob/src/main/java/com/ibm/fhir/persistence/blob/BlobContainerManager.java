@@ -9,6 +9,8 @@ package com.ibm.fhir.persistence.blob;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import com.azure.core.http.HttpClient;
+import com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -69,9 +71,9 @@ public class BlobContainerManager implements EventCallback {
     }
 
     /**
-     * Get or create the Azure Blob connection for the current
+     * Get or create the Azure Blob client for the current
      * tenant/datasource.
-     * @return a BlobContainerClient for the current tenant/datasource
+     * @return a BlobManagedContainer for the current tenant/datasource
      */
     private BlobManagedContainer getOrCreateSession() {
         if (!running) {
@@ -79,7 +81,7 @@ public class BlobContainerManager implements EventCallback {
         }
         
         // Connections can be tenant-specific, so find out what tenant we're associated with and use its persistence
-        // configuration to obtain the appropriate CqlSession instance (shared by multiple threads).
+        // configuration to obtain the appropriate instance (shared by multiple threads).
         final String tenantId = FHIRRequestContext.get().getTenantId();
         final String dsId = FHIRRequestContext.get().getDataStoreId();
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
@@ -162,9 +164,23 @@ public class BlobContainerManager implements EventCallback {
      * @return
      */
     private static BlobContainerClient makeConnection(TenantDatasourceKey key, BlobPropertyGroupAdapter adapter) {
+        final String containerName;
+        if (adapter.getContainerName() != null) {
+            containerName = adapter.getContainerName();
+        } else {
+            // Fallback option, which can be used as long as the tenant and datasource ids
+            // adhere to the restrictions required to container names (alphanum or '-')
+            containerName = key.getTenantId().toLowerCase() + "-" + key.getDatasourceId().toLowerCase();
+        }
+
+        // Explicitly use the okhttp client so we don't end up with library versioning
+        // issues for Netty.
+        HttpClient httpClient = new OkHttpAsyncHttpClientBuilder()
+                .build();
         BlobContainerClient blobContainerClient = new BlobContainerClientBuilder()
+                .httpClient(httpClient)
                 .connectionString(adapter.getConnectionString())
-                .containerName(adapter.getTenantContainer())
+                .containerName(containerName)
                 .buildClient();
         
         return blobContainerClient;

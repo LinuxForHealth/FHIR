@@ -6,11 +6,12 @@
  
 package com.ibm.fhir.persistence.blob;
 
+import java.util.logging.Logger;
+
 import com.azure.core.http.rest.Response;
-import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.models.BlockBlobItem;
-import com.azure.storage.blob.options.BlobParallelUploadOptions;
+import com.azure.storage.blob.models.AppendBlobItem;
+import com.azure.storage.blob.specialized.AppendBlobClient;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
@@ -18,6 +19,7 @@ import com.ibm.fhir.persistence.util.InputOutputByteStream;
  * DAO command to store the configured payload in the Azure blob
  */
 public class BlobStorePayload {
+    private static final Logger logger = Logger.getLogger(BlobStorePayload.class.getName());
     final int resourceTypeId;
     final String logicalId;
     final int version;
@@ -45,20 +47,17 @@ public class BlobStorePayload {
      * @param client
      * @throws FHIRPersistenceException
      */
-    public Response<BlockBlobItem> run(BlobManagedContainer client) throws FHIRPersistenceException {
-        final StringBuilder blobNameBuilder = new StringBuilder();
-        blobNameBuilder.append(resourceTypeId);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(logicalId);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(version);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(resourcePayloadKey);
-        BlobClient bc = client.getClient().getBlobClient(blobNameBuilder.toString());
-        
-        BlobParallelUploadOptions uploadOptions = new BlobParallelUploadOptions(BinaryData.fromBytes(ioStream.getRawBuffer()));
-        Response<BlockBlobItem> response = bc.uploadWithResponse(uploadOptions, client.getProperties().getTimeout(), null);
-        
+    public Response<AppendBlobItem> run(BlobManagedContainer client) throws FHIRPersistenceException {
+        final String blobPath = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
+        logger.fine(() -> "Payload storage path: " + blobPath);
+        BlobClient bc = client.getClient().getBlobClient(blobPath);
+        AppendBlobClient abc = bc.getAppendBlobClient();
+        if (!abc.exists()) {
+            abc.create(true);
+        }
+        Response<AppendBlobItem> response = abc.appendBlockWithResponse(ioStream.inputStream(), ioStream.size(), null, null, null, null);
+//        BlobParallelUploadOptions uploadOptions = new BlobParallelUploadOptions(BinaryData.fromBytes(ioStream.getRawBuffer()));
+//        Response<BlockBlobItem> response = bc.uploadWithResponse(uploadOptions, client.getProperties().getTimeout(), null);
         return response;
     }
 }
