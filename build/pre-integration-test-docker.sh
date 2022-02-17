@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2021
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -51,6 +51,7 @@ docker-compose exec -T --user db2inst1 db2 bash -c 'source ./database/config/db2
 mkdir -p minio/miniodata/fhirbulkdata
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-neg.ndjson ./minio/miniodata/fhirbulkdata
+cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-mismatch.ndjson ./minio/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
 docker-compose build --pull minio
