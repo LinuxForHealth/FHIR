@@ -71,7 +71,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
 
         // delete resource4
-        resource4 = FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource4);
+        FHIRPersistenceTestSupport.delete(persistence, getDefaultPersistenceContext(), resource4);
     }
 
     @AfterClass

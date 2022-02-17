@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.LogManager;
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -51,6 +53,7 @@ import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -120,6 +123,7 @@ public class JDBCSearchNearTest {
     @AfterClass
     public void teardown() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
+            Objects.requireNonNull(savedResource.getMeta(), "savedResource must have a meta element");
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
@@ -127,7 +131,8 @@ public class JDBCSearchNearTest {
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
-            persistence.delete(persistenceContext, savedResource);
+            com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
+            persistence.delete(persistenceContext, savedResource.getClass(), savedResource.getId(), FHIRPersistenceSupport.getMetaVersionId(savedResource), lastUpdated);
             if (persistence.isTransactional()) {
                 persistence.getTransaction().end();
             }

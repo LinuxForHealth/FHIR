@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence;
 
-import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -18,7 +17,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
  * @author lmsurpre
  */
 public class SingleResourceResult<T extends Resource> {
-    @Required
+    // The resourceResult will only be set if success == true
     private final ResourceResult<T> resourceResult;
     private final boolean success;
     private final OperationOutcome outcome;
@@ -29,7 +28,12 @@ public class SingleResourceResult<T extends Resource> {
     
     private SingleResourceResult(Builder<T> builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
-        resourceResult = builder.resourceResultBuilder.build();
+        
+        if (success) {
+            resourceResult = builder.resourceResultBuilder.build();
+        } else {
+            resourceResult = null;
+        }
         outcome = builder.outcome;
         interactionStatus = builder.interactionStatus;
         ifNoneMatchVersion = builder.ifNoneMatchVersion;
@@ -62,7 +66,9 @@ public class SingleResourceResult<T extends Resource> {
      * @return whether the resource is deleted
      */
     public boolean isDeleted() {
-        return resourceResult.isDeleted();
+        // we can only say if the resource is deleted if we were able to read the record
+        // (in which case resourceResult will be non-null)
+        return resourceResult != null && resourceResult.isDeleted();
     }
 
     /**
@@ -72,7 +78,11 @@ public class SingleResourceResult<T extends Resource> {
      *     An immutable object of type {@link Resource}.
      */
     public T getResource() {
-        return resourceResult.getResource();
+        if (this.success) {
+            return resourceResult.getResource();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -105,6 +115,9 @@ public class SingleResourceResult<T extends Resource> {
      * @return the type name of the resource
      */
     public String getResourceTypeName() {
+        if (!success) {
+            throw new IllegalStateException("getResourceTypeName called for a resource which doesn't exist");
+        }
         return resourceResult.getResourceTypeName();
     }
 
@@ -112,14 +125,17 @@ public class SingleResourceResult<T extends Resource> {
      * @return the logicalId of the resource
      */
     public String getLogicalId() {
+        if (!success) {
+            throw new IllegalStateException("getLogicalId called for a resource which doesn't exist");
+        }
         return resourceResult.getLogicalId();
     }
 
     /**
-     * @return the version of the resource
+     * @return the version of the resource, or 0 if resourceResult is null
      */
     public int getVersion() {
-        return resourceResult.getVersion();
+        return resourceResult != null ? resourceResult.getVersion() : 0;
     }
 
     // result builder

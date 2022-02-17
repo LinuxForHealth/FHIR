@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ public class ImportPartitionAnalyzer implements PartitionAnalyzer {
     private static final Logger logger = Logger.getLogger(ImportPartitionAnalyzer.class.getName());
 
     private static final ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+    private static final DecimalFormat FORMAT = new DecimalFormat("#0.000");
 
     @Inject
     JobContext jobContext;
@@ -72,30 +73,34 @@ public class ImportPartitionAnalyzer implements PartitionAnalyzer {
                     importedResourceTypeInFlySummaries.get(partitionSummaryForMetrics.getImportPartitionResourceType());
             if (importedResourceTypeInFlySummary == null) {
                 // Instantiate a partition summary for this resourceType and add it to the list
+                // Note we're caching here in case there are more than 1 executions of the job.
+                // (for instance a recoverable failure of the job during execution).
                 importedResourceTypeInFlySummary =
                         ImportCheckPointData.Builder.builder()
                             .importPartitionResourceType(partitionSummaryForMetrics.getImportPartitionResourceType())
-                            .numOfProcessedResources(adapter.getImportNumberOfFhirResourcesPerRead(null))
+                            .importPartitionWorkitem(partitionSummaryForMetrics.getImportPartitionWorkitem())
+                            .numOfProcessedResources(partitionSummaryForMetrics.getNumOfProcessedResources())
                             .inFlyRateBeginMilliSeconds(partitionSummaryForMetrics.getInFlyRateBeginMilliSeconds())
                             .build();
 
                 importedResourceTypeInFlySummaries.put(partitionSummaryForMetrics.getImportPartitionResourceType(), importedResourceTypeInFlySummary);
             } else {
-                // Add info to the object thats already in the list
-                importedResourceTypeInFlySummary.setNumOfProcessedResources(importedResourceTypeInFlySummary.getNumOfProcessedResources()
-                        + adapter.getImportNumberOfFhirResourcesPerRead(null));
-
-                if (importedResourceTypeInFlySummary.getNumOfProcessedResources() % adapter.getImportInflyRateNumberOfFhirResources(null) == 0) {
+                // Add current summary to the local cache.
+                importedResourceTypeInFlySummary.addToNumOfProcessedResources(partitionSummaryForMetrics.getNumOfToBeImported());
+                if ((importedResourceTypeInFlySummary.getNumOfProcessedResources() - importedResourceTypeInFlySummary.getLastChecked()) > adapter.getImportInflyRateNumberOfFhirResources(null)) {
                     long currentTimeMilliSeconds = System.currentTimeMillis();
-                    double jobProcessingSeconds = (currentTimeMilliSeconds - importedResourceTypeInFlySummary.getInFlyRateBeginMilliSeconds()) / 1000.0;
-                    jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
+                    long time = currentTimeMilliSeconds - importedResourceTypeInFlySummary.getInFlyRateBeginMilliSeconds();
+                    double rate = partitionSummaryForMetrics.getNumOfToBeImported() / (1.0 * time);
 
                     // log the in-fly rate.
-                    logger.info(adapter.getImportInflyRateNumberOfFhirResources(null) + " " + importedResourceTypeInFlySummary.getImportPartitionResourceType()
-                            + " resources imported in " + jobProcessingSeconds + " seconds, ImportRate: "
-                            + new DecimalFormat("#0.00").format(adapter.getImportInflyRateNumberOfFhirResources(null) / jobProcessingSeconds) + "/Second");
+                    logger.info("Import in-fly rate: [" + jobCtx.getInstanceId() + "/" + jobCtx.getExecutionId() + "/"
+                            + importedResourceTypeInFlySummary.getImportPartitionWorkitem() + "/" + importedResourceTypeInFlySummary.getImportPartitionResourceType()
+                            + "] reportingThreshold=[" + adapter.getImportInflyRateNumberOfFhirResources(null)
+                            + "] resources imported in " + time + " milliseconds, ImportRate: ["
+                            + FORMAT.format(rate) + "] Resources/milliseconds");
 
                     importedResourceTypeInFlySummary.setInFlyRateBeginMilliSeconds(currentTimeMilliSeconds);
+                    importedResourceTypeInFlySummary.setLastChecked(importedResourceTypeInFlySummary.getNumOfProcessedResources());
                 }
             }
         } catch (Exception e) {
