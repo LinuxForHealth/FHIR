@@ -61,6 +61,9 @@ public class ImportCheckPointData implements Serializable {
     // ETags for COS/S3 multiple-parts upload.
     protected List<PartETag> dataPacksForFailureOperationOutcomes = new ArrayList<>();
 
+    // Used to track last resource count when in fly rate was logged
+    protected long lastChecked = 0;
+
     protected ImportCheckPointData() {
         super();
     }
@@ -135,6 +138,14 @@ public class ImportCheckPointData implements Serializable {
 
     public void setCurrentBytes(long currentBytes) {
         this.currentBytes = currentBytes;
+    }
+
+    public long getLastChecked() {
+        return lastChecked;
+    }
+
+    public void setLastChecked(long lastChecked) {
+        this.lastChecked = lastChecked;
     }
 
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {

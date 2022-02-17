@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,9 @@ public class FHIRRestOperationResponse {
     private Resource prevResource;
     private OperationOutcome operationOutcome;
     private boolean deleted;
+
+    // For delete we need to return the version of the deletion marker
+    private int versionForETag;
 
     // Flag to indicate the request is complete and can be returned as-is
     private boolean completed;
@@ -137,5 +140,19 @@ public class FHIRRestOperationResponse {
      */
     public void setStorePayloadResponse(PayloadPersistenceResponse storePayloadResponse) {
         this.storePayloadResponse = storePayloadResponse;
+    }
+
+    /**
+     * @return the versionForETag
+     */
+    public int getVersionForETag() {
+        return versionForETag;
+    }
+
+    /**
+     * @param versionForETag the versionForETag to set
+     */
+    public void setVersionForETag(int versionForETag) {
+        this.versionForETag = versionForETag;
     }
 }

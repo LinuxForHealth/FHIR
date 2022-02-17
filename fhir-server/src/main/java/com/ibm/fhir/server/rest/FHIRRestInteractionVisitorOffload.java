@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021, 2022
+ * (C) Copyright IBM Corp. 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import javax.ws.rs.core.MultivaluedMap;
@@ -21,7 +22,6 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -35,9 +35,10 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 
 /**
- * Visitor used to update references in an incoming resource prior to persistence
+ * Visitor used to initiate payload offloading when supported by the
+ * persistence layer
  */
-public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteractionVisitorBase {
+public class FHIRRestInteractionVisitorOffload extends FHIRRestInteractionVisitorBase {
 
     // True if there's a bundle-level transaction, null otherwise
     final boolean transaction;
@@ -46,74 +47,71 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
      * Public constructor
      * @param helpers
      */
-    public FHIRRestInteractionVisitorReferenceMapping(boolean transaction, FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
+    public FHIRRestInteractionVisitorOffload(boolean transaction, FHIRResourceHelpers helpers, Map<String, String> localRefMap, Entry[] responseBundleEntries) {
         super(helpers, localRefMap, responseBundleEntries);
         this.transaction = transaction;
     }
 
     @Override
     public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String compartment, String compartmentId,
-        MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
+            MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
         // NOP. Nothing to do
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
-        throws Exception {
+            throws Exception {
         // NOP for now. TODO: when offloading payload, start an async optimistic read of the id/version payload
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
-        MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
+            MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
-        throws Exception {
+            throws Exception {
         // NOP for now. TODO: optimistic async reads, if we can scope them properly
         return null;
     }
 
     @Override
     public FHIRRestOperationResponse doCreate(int entryIndex, FHIRPersistenceEvent event, List<Issue> warnings, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, Resource resource, String ifNoneExist, String localIdentifier, PayloadPersistenceResponse offloadResponse) throws Exception {
+        // Note the offloadResponse will be null when passed in to this method, because
+        // we only initiate the offload in this particular visitor - the fact that we have
+        // the parameter defined is just a side-effect of the visitor pattern we're using.
 
         // Use doOperation so we can implement common exception handling in one place
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
 
-            // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
-            resource.accept(visitor);
-            final Resource finalResource = visitor.getResult(); // finalResource immutable
-
-            // Pass back the updated resource so it can be used in the next phase if required
-            return new FHIRRestOperationResponse(finalResource, finalResource.getId(), null);
+            // Resource doesn't change, so no need to return it
+            return new FHIRRestOperationResponse(null, null, actualOffloadResponse);
         });
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(int entryIndex, FHIRPersistenceEvent event, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL,
-        long accumulatedTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
+            long accumulatedTime, String type, String id, Resource resource, Resource prevResource, String ifMatchValue, String searchQueryString,
+            boolean skippableUpdate, String localIdentifier, List<Issue> warnings, boolean isDeleted, Integer ifNoneMatch, PayloadPersistenceResponse offloadResponse) throws Exception {
 
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
 
-            // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
-            resource.accept(visitor);
-            Resource newResource = visitor.getResult();
-
-            if (localIdentifier != null && localRefMap.get(localIdentifier) == null) {
-                addLocalRefMapping(localIdentifier, newResource);
-            }
-
-            // Pass back the updated resource so it can be used in the next phase
-            FHIRRestOperationResponse result = new FHIRRestOperationResponse(newResource, null, null);
+            // Resource doesn't change, so no need to return it
+            FHIRRestOperationResponse result = new FHIRRestOperationResponse(null, null, actualOffloadResponse);
             result.setDeleted(isDeleted);
             
             return result;
@@ -127,17 +125,13 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
         // Use doOperation for common exception handling
         return doOperation(entryIndex, requestDescription, accumulatedTime, () -> {
 
-            // Convert any local references found within the resource to their corresponding external reference.
-            ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap, localIdentifier);
-            resource.accept(visitor);
-            Resource newResource = visitor.getResult();
+            // Try offloading storage of the payload. The offloadResponse will be null if not supported
+            String resourcePayloadKey = UUID.randomUUID().toString();
+            int newVersionNumber = Integer.parseInt(resource.getMeta().getVersionId().getValue());
+            PayloadPersistenceResponse actualOffloadResponse = storePayload(resource, resource.getId(), newVersionNumber, resourcePayloadKey);
 
-            if (localIdentifier != null && localRefMap.get(localIdentifier) == null) {
-                addLocalRefMapping(localIdentifier, newResource);
-            }
-
-            // Pass back the updated resource so it can be used in the next phase
-            return new FHIRRestOperationResponse(newResource, null, null);
+            // Resource doesn't change, so no need to return it
+            return new FHIRRestOperationResponse(null, null, actualOffloadResponse);
         });
     }
 
@@ -150,7 +144,7 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
 
     @Override
     public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long accumulatedTime, String type, String id, String searchQueryString) throws Exception {
-        // NOP
+        // We no longer store the payload for a deleted resource
         return null;
     }
 
@@ -167,12 +161,28 @@ public class FHIRRestInteractionVisitorReferenceMapping extends FHIRRestInteract
     }
 
     /**
+     * If payload offloading is supported by the persistence layer, store the given resource. This
+     * can be an async operation which we resolve at the end just prior to the transaction being
+     * committed. If offloading isn't enabled, the operation is a NOP and the persistence layer 
+     * returns null. 
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param resourcePayloadKey
+     * @return
+     */
+    protected PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws Exception {
+       return helpers.storePayload(resource, logicalId, newVersionNumber, resourcePayloadKey);
+    }
+
+    /**
      * Unified exception handling for each of the operation calls
+     * 
      * @param entryIndex
-     * @param v
-     * @param failFast
      * @param requestDescription
      * @param accumulatedTime
+     * @param v
+     * @return
      * @throws Exception
      */
     private FHIRRestOperationResponse doOperation(int entryIndex, String requestDescription, long accumulatedTime, Callable<FHIRRestOperationResponse> v) throws Exception {

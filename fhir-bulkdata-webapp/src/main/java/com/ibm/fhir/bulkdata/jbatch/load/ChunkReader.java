@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -141,18 +141,21 @@ public class ChunkReader extends AbstractItemReader {
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         numOfLinesToSkip = chunkData.getNumOfProcessedResources();
-        logger.fine(() -> "Number of lines to skip are: '" + numOfLinesToSkip + "'");
 
-        Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
-        wrapper.registerTransient(chunkData);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(() -> "Number of lines to skip are: '" + numOfLinesToSkip + "'");
+        }
+
+        Provider provider = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
+        provider.registerTransient(chunkData);
 
         long readStartTimeInMilliSeconds = System.currentTimeMillis();
-        wrapper.readResources(numOfLinesToSkip, ctx.getImportPartitionWorkitem());
+        provider.readResources(numOfLinesToSkip, ctx.getImportPartitionWorkitem());
 
-        long numOfParseFailures = wrapper.getNumberOfParseFailures();
-        long numOfLoaded = wrapper.getNumberOfLoaded();
+        long numOfParseFailures = provider.getNumberOfParseFailures();
+        long numOfLoaded = provider.getNumberOfLoaded();
 
-        List<Resource> resources = wrapper.getResources();
+        List<Resource> resources = provider.getResources();
 
         chunkData.addToTotalReadMilliSeconds(System.currentTimeMillis() - readStartTimeInMilliSeconds);
         chunkData.setNumOfParseFailures(numOfParseFailures);

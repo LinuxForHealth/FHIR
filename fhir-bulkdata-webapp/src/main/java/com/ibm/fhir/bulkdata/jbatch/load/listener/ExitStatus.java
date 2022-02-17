@@ -1,12 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.bulkdata.jbatch.load.listener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,17 +37,23 @@ public class ExitStatus {
         this.partitionSummaries = partitionSummaries;
     }
 
+    /**
+     * Generates the EXIT_STATUS that is part of the batch job.
+     * @return
+     */
     public String generateResultExitStatus() {
-        Map<String, Integer> inputUrlSequenceMap = new HashMap<>();
+        Map<String, ExitStatusVal> inputUrlSequenceMap = new HashMap<>();
         int sequenceNum = 0;
         for (JsonValue jsonValue : dataSourceArray) {
             JsonObject dataSourceInfo = jsonValue.asJsonObject();
             String dSTypeInfo = dataSourceInfo.getString(OperationFields.IMPORT_INPUT_RESOURCE_TYPE);
             String dSDataLocationInfo = dataSourceInfo.getString(OperationFields.IMPORT_INPUT_RESOURCE_URL);
-            inputUrlSequenceMap.put(dSTypeInfo + ":" + dSDataLocationInfo, sequenceNum++);
+            ExitStatusVal val = new ExitStatusVal();
+            val.sequenceNum = sequenceNum++;
+            inputUrlSequenceMap.put(dSTypeInfo + ":" + dSDataLocationInfo, val);
         }
 
-        String[] resultInExitStatus = new String[sequenceNum];
+        // Summarize the counts if they are matrixed work items.
         logger.fine(() -> "The partitions are " + partitionSummaries);
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             String key;
@@ -52,6 +61,7 @@ public class ExitStatus {
                 key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem();
             } else {
                 // must be matrixed
+                // matrixWorkItem=test- maps to importPartitionWorkitem=test-import.ndjson and test-import-skip.ndjson
                 key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getMatrixWorkItem();
             }
 
@@ -61,9 +71,42 @@ public class ExitStatus {
                 logger.warning("Partition Key is incorrect '" + key + "' matrix='" + partitionSummary.getMatrixWorkItem() + "'");
             }
 
-            int index = inputUrlSequenceMap.get(key);
-            resultInExitStatus[index] = partitionSummary.getNumOfImportedResources() + ":" + partitionSummary.getNumOfImportFailures();
+            ExitStatusVal val = inputUrlSequenceMap.get(key);
+            val.numberOfResources += partitionSummary.getNumOfImportedResources();
+            val.numberOfFailures += partitionSummary.getNumOfImportFailures();
         }
-        return Arrays.toString(resultInExitStatus);
+
+        List<ExitStatusVal> vals = new ArrayList<>(inputUrlSequenceMap.values());
+        Collections.sort(vals, new ExitStatusValComparator());
+        return Arrays.toString(vals.toArray());
+    }
+
+    /**
+     * Uses to aggregate and order the Partition Data
+     */
+    private static class ExitStatusVal {
+        int sequenceNum = 0;
+        int numberOfResources = 0;
+        int numberOfFailures = 0;
+        @Override
+        public String toString() {
+            return numberOfResources + ":" + numberOfFailures;
+        }
+    }
+
+    /**
+     * Private Comparator to faciliate organizing the data so the calculations are correctly counted
+     */
+    private static class ExitStatusValComparator implements Comparator<ExitStatusVal> {
+        @Override
+        public int compare(ExitStatusVal o1, ExitStatusVal o2) {
+            if (o1.sequenceNum == o2.sequenceNum) {
+                return 0;
+            } else if (o1.sequenceNum < o2.sequenceNum) {
+                return 1;
+            } else { // (o1.sequenceNum > o2.sequenceNum)
+                return -1;
+            }
+        }
     }
 }

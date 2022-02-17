@@ -68,6 +68,22 @@ public class ServerCqlOperationTest extends BaseCPGOperationTest {
     }
     
     @Test
+    public void testEvaluateArbitraryCqlUsesResourceID() {
+        Response response = getWebTarget().path("$cql").queryParam("expression", "[Patient] p return Last(Split(p.id,'/'))").queryParam("subject", TEST_PATIENT_ID).request().get();
+        assertResponse( response, 200 );
+        
+        Parameters parameters = response.readEntity(Parameters.class);
+        assertNotNull(parameters.getParameter(), "Null parameters list");
+        assertEquals(parameters.getParameter().size(), 1);
+        
+        Parameter pReturn = parameters.getParameter().get(0);
+        assertEquals(pReturn.getName().getValue(), "return");
+        
+        Parameter pPart = pReturn.getPart().get(0);
+        assertEquals(pPart.getValue(), com.ibm.fhir.model.type.String.of("sally-fields"));
+    }
+    
+    @Test
     public void testEvaluateArbitraryCqlCompileError() {
         Response response = getWebTarget().path("$cql").queryParam("expression", "[NonResource]").queryParam("subject", TEST_PATIENT_ID).request().get();
         assertResponse( response, 400 );
