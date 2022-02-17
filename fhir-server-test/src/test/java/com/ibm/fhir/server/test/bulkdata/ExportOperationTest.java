@@ -706,7 +706,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false, false, Arrays.asList("Patient", "Observation"));
+            checkExportStatus(false, false, Arrays.asList("Patient", "Observation", "Condition"));
         }
     }
 
