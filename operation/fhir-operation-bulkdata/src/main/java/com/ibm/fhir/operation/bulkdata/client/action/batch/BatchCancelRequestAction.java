@@ -117,7 +117,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
         if (supportsDeleteJob()) {
             deleteJob(job);
         } else {
-            throw export.buildOperationException("Job deletion is not supported with the configured (in-memory) database. The Java Batch schema must be deployed and configured.", IssueType.NOT_SUPPORTED);
+            throw export.buildOperationException("Job deletion is not supported with the default Java Batch (in-memory) datastore. The Java Batch schema must be deployed and configured.", IssueType.NOT_SUPPORTED);
         }
 
         // Check for a server-side error
