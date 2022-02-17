@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -320,6 +320,30 @@ public class ImportOperationTest extends FHIRServerTestBase {
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         checkValidResponse(response);
         checkOnFourResources();
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testImportFromFileDefaultSkippableRemove"})
+    public void testImportFromFileMismatch() throws Exception {
+        if (!ON) {
+            return;
+        }
+        String path = BASE_VALID_URL;
+        String inputFormat = FORMAT;
+        String inputSource = "https://localhost:9443/source-fhir-server";
+        String resourceType = "Patient";
+        String url = "test-import-mismatch.ndjson";
+
+        Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+        // check the content-location that's returned.
+        String contentLocation = response.getHeaderString("Content-Location");
+        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+        // Check eventual value
+        response = polling(contentLocation);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        checkValidResponse(response);
     }
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})

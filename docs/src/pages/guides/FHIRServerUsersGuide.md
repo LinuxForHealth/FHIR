@@ -1410,7 +1410,10 @@ https://s3.appdomain.cloud/fhir-example/Patient_1.ndjson?X-Amz-Algorithm=AWS4-HM
 
 The presigned URL is valid for 86400 seconds (1 day).
 
-Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
+To cancel a running job (or delete a completed job), issue an HTTP DELETE request to the polling URL.
+* Invoking DELETE on a running job will return HTTP 202 (Accepted) and stop the job
+* Invoking DELETE on a completed job will return HTTP 204 (Deleted) and delete the job
+* Invoking DELETE on a deleted job will return a 404 (Not Found)
 
 Prior to version 4.8.1, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time using `fhirServer/bulkdata/storageProviders/(source)/exportPublic`. The exported content is best made available with  presigned urls with the `hmac` authentication type.
 
@@ -1487,6 +1490,8 @@ If one wants to support Postgres with a user-name and password , one should copy
 Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
+
+If you are running in a Kubernetes deployment, be sure to set the environment variable MY_POD_NAME to `metadata.name` as shown in [deployment.yaml](https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#:~:text=MY_POD_NAME). This setting allows the stopping and deleting of jobs on all the hosts in the deployment.
 
 ### 4.10.1 *Path* and *Virtual Host* Bucket Access
 
@@ -2244,6 +2249,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|string| The s3 access type, `host` or `path` (s3 only) [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)|
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|boolean|controls the `$bulkdata-status` response to indicate Bulk Data storageprovider requires an accessToken using `requiresAccessToken`. When presigned URLs are enabled, this setting is overridden and shows as false in the $export response.|
+|`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|string|Enables multiple resources to be loaded from a single ndjson.|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 |`fhirServer/operations/membermatch/enabled`|boolean|Enables or disables the $member-match|
@@ -2388,6 +2394,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/create`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|`path`|
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|false|
 |`fhirServer/operations/erase/enabled`|false|
 |`fhirServer/operations/erase/allowedRoles`|empty, all roles|
 |`fhirServer/operations/membermatch/enabled`|true|
@@ -2565,6 +2572,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
 |`fhirServer/operations/membermatch/enabled`|Y|Y|
