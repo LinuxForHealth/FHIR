@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -117,7 +117,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
         if (supportsDeleteJob()) {
             deleteJob(job);
         } else {
-            throw export.buildOperationException("Job deletion is not supported with the configured (in-memory) database.", IssueType.NOT_SUPPORTED);
+            throw export.buildOperationException("Job deletion is not supported with the configured (in-memory) database. The Java Batch schema must be deployed and configured.", IssueType.NOT_SUPPORTED);
         }
 
         // Check for a server-side error
