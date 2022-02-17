@@ -158,8 +158,17 @@ public class BulkDataImportUtilTest {
         util.checkAllowedTotalSizeForTenantOrSystem(100);
     }
 
-    @Test//(expectedExceptions = { FHIROperationException.class })
+    @Test
     public void testCheckAllowedResourceTypesForInputs() throws IOException, FHIRException {
+        FHIRRequestContext context = FHIRRequestContext.get();
+        FHIRRequestContext.set(context);
+        context.setTenantId("config");
+        BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo-config.json"));
+        util.retrieveInputs();
+    }
+
+    @Test(expectedExceptions = { FHIROperationException.class })
+    public void testCheckAllowedResourceTypesForInputsBad() throws IOException, FHIRException {
         FHIRRequestContext context = FHIRRequestContext.get();
         FHIRRequestContext.set(context);
         context.setTenantId("not-config");
