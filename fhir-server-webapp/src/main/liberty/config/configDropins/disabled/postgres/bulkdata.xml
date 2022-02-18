@@ -32,6 +32,7 @@
         </application-bnd>
     </webApplication>
 
+    <variable name="BATCH_DB_HOSTNAME" defaultValue=""/>
     <variable name="BATCH_DB_NAME" defaultValue="FHIRDB"/>
     <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
     <variable name="BATCH_DB_PORT" defaultValue="5432"/>
