@@ -677,7 +677,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
-    public void testBaseExportWithMultipleTypes() throws Exception {
+    public void testBaseExportWithMultipleTypes_Post() throws Exception {
         if (ON) {
             Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
             Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -695,6 +695,39 @@ public class ExportOperationTest extends FHIRServerTestBase {
                                     .header("X-FHIR-BULKDATA-PROVIDER", "default")
                                     .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", "default")
                                     .post(entity, Response.class);
+
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false, false, Arrays.asList("Patient", "Observation", "Condition"));
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    public void testBaseExportWithMultipleTypes_Get() throws Exception {
+        if (ON) {
+            Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
+
+            Response response = getWebTarget()
+                                    .path(BASE_VALID_URL)
+                                    .queryParam("_outputFormat", FORMAT_NDJSON)
+                                    .queryParam("_type", "Patient,Observation")
+                                    .queryParam("_type", "Patient")
+                                    .queryParam("_type", "Observation")
+                                    .queryParam("_type", "Condition")
+                                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                                    .header("X-FHIR-TENANT-ID", tenantName)
+                                    .header("X-FHIR-DSID", dataStoreId)
+                                    .header("X-FHIR-BULKDATA-PROVIDER", "default")
+                                    .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", "default")
+                                    .get(Response.class);
 
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
