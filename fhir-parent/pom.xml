@@ -629,7 +629,7 @@
                 <!-- [CVE-2017-18640] The Alias feature in SnakeYAML 1.18 allows entity expansion during a load operation, addressed in latest versions. -->
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.29</version>
+                <version>1.30</version>
             </dependency>
             <dependency>
                 <groupId>org.opencds.cqf.cql</groupId>
