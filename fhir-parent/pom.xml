@@ -478,7 +478,7 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
-                <version>4.13.0</version>
+                <version>4.14.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.github.spotbugs</groupId>
@@ -494,7 +494,7 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-mapper-runtime</artifactId>
-                <version>4.13.0</version>
+                <version>4.14.0</version>
             </dependency>
             <dependency>
                 <groupId>redis.clients</groupId>
