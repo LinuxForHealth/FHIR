@@ -102,6 +102,7 @@ public class SearchConstants {
     public static final String VERSION = "version";
 
     public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
+    public static final String DO_NOT_STORE_EXT_URL = FHIRConstants.EXT_BASE + "do-not-store";
 
     // Extracted search parameter suffix for :identifier modifier
     public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";

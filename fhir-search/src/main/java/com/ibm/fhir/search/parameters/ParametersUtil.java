@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -178,8 +178,6 @@ public final class ParametersUtil {
 
         addWildcardAndCompartmentParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
 
-//        addCompartmentParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
-
         return Collections.unmodifiableMap(paramMapsByType);
     }
 
@@ -210,7 +208,7 @@ public final class ParametersUtil {
 
                                 // If this param is an inclusion criteria for one or more compartments
                                 if (compartmentParamToCompartment.containsKey(code)) {
-                                    paramMap.insertInclusionParam(code, sp, compartmentParamToCompartment.get(code));
+                                    paramMap.insertInclusionParam(code, sp);
                                 }
                             } else {
                                 log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() +
@@ -274,7 +272,7 @@ public final class ParametersUtil {
                                     sp.getCode().getValue() + "' is already configured.");
                         }
                     } else {
-                        paramMap.insertInclusionParam(code, sp, compartmentParamToCompartment.get(code));
+                        paramMap.insertInclusionParam(code, sp);
                     }
                 }
             }
