@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -63,7 +63,7 @@ public class ParameterTransactionDataImpl implements TransactionData {
     public void persist() {
 
         try {
-            impl.persistResourceTokenValueRecords(tokenValueRecs, profileRecs, tagRecs, securityRecs);
+            impl.onCommit(tokenValueRecs, profileRecs, tagRecs, securityRecs);
         } catch (Throwable t) {
             logger.log(Level.SEVERE, "Failed persisting parameter transaction data. Marking transaction for rollback", t);
             try {

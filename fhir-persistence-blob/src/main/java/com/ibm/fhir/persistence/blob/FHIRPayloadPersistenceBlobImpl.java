@@ -12,8 +12,6 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.azure.core.http.rest.Response;
-import com.azure.storage.blob.models.AppendBlobItem;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -55,14 +53,8 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
             InputOutputByteStream ioStream = FHIRPersistenceSupport.render(resource, !PAYLOAD_COMPRESSED);
             logger.fine(() -> "payload size: " + ioStream.getRawBuffer().length + " bytes");
             BlobStorePayload spl = new BlobStorePayload(resourceTypeId, logicalId, version, resourcePayloadKey, ioStream);
-            Response<AppendBlobItem> response = spl.run(getBlobManagedContainer());
+            result = spl.run(getBlobManagedContainer());
 
-            // TODO actual async behavior
-            if (response.getStatusCode() == 201) {
-                result = CompletableFuture.completedFuture(new PayloadPersistenceResult(Status.OK));
-            } else {
-                throw new FHIRPersistenceException("storePayload, expected [201] not [" + response.getStatusCode() + "]");
-            }
         } catch (FHIRPersistenceException x) {
             logger.log(Level.SEVERE, "storePayload request failed for resource '" 
         + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version + "'");

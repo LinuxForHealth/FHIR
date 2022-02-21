@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -152,6 +153,7 @@ import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
+import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
@@ -2092,7 +2094,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 
                 // If a specific version of a resource has been deleted using $erase, it
                 // is possible for the result here to be null.
-                result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+                if (!resourceDTO.isDeleted()) {
+                    result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+                } else {
+                    result = null; // we no longer store payloads for deleted resources, so have nothing to return
+                }
             } else {
                 // original impl - the resource, if any, was read from the RDBMS
                 if (resourceDTO.getDataStream() != null) {
@@ -2148,7 +2154,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 
                 // If a specific version of a resource has been deleted using $erase, it
                 // is possible for the result here to be null.
-                resource = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+                if (!resourceDTO.isDeleted()) {
+                    resource = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
+                } else {
+                    // Payload never stored for deletion markers, so there's no resource to read
+                    resource = null;
+                }
             } else {
                 // original impl - the resource, if any, was read from the RDBMS
                 if (resourceDTO.getDataStream() != null) {
@@ -2615,7 +2626,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param securityRecs
      * @throws FHIRPersistenceException
      */
-    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
+    public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
             rrd.persist(records, profileRecs, tagRecs, securityRecs);
@@ -2629,6 +2640,29 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         }
+
+        // At this stage we also need to check that any (async) payload offload operations have completed
+        for (PayloadPersistenceResponse ppr: this.payloadPersistenceResponses) {
+            try {
+                log.fine(() -> "Getting storePayload() async result for: " + ppr.toString());
+                PayloadPersistenceResult result = ppr.getResult().get();
+                if (result.getStatus() == PayloadPersistenceResult.Status.FAILED) {
+                    log.warning("Payload persistence returned unexpected value for: " + ppr.toString());
+                    throw new FHIRPersistenceException("Payload persistence returned unexpected value");
+                }
+            } catch (InterruptedException e) {
+                log.warning("Payload persistence was interrupted for: " + ppr.toString());
+                throw new FHIRPersistenceException("Interrupted waiting for storePayload");
+            } catch (ExecutionException e) {
+                log.warning("Payload persistence failed for: " + ppr.toString());
+                throw new FHIRPersistenceException("storePayload failed", e);
+                
+            }
+        }
+        
+        // NOTE: we do not clear the payloadPersistenceResponses list here on purpose. We want to keep
+        // the list intact until the transaction actually commits, just in case there's a rollback, in which
+        // case the rollback handling will attempt to call delete for all of the records in the list.
     }
 
     @Override

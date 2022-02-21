@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder;
-import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -32,7 +32,7 @@ public class BlobContainerManager implements EventCallback {
     private static final Logger logger = Logger.getLogger(BlobContainerManager.class.getName());
 
     // Map holding one container client instance per tenant/datasource
-    private final ConcurrentHashMap<TenantDatasourceKey, BlobContainerClient> connectionMap = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<TenantDatasourceKey, BlobContainerAsyncClient> connectionMap = new ConcurrentHashMap<>();
     
     // so we can reject future requests when shut down
     private volatile boolean running = true;
@@ -87,7 +87,7 @@ public class BlobContainerManager implements EventCallback {
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
 
         // Get the session for this tenant/datasource, or create a new one if needed
-        BlobContainerClient client = connectionMap.computeIfAbsent(key, BlobContainerManager::newConnection);
+        BlobContainerAsyncClient client = connectionMap.computeIfAbsent(key, BlobContainerManager::newConnection);
         String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         BlobPropertyGroupAdapter properties = getPropertyGroupAdapter(dsPropertyName);
         
@@ -99,7 +99,7 @@ public class BlobContainerManager implements EventCallback {
      * @param key
      * @return
      */
-    private static BlobContainerClient newConnection(TenantDatasourceKey key) {
+    private static BlobContainerAsyncClient newConnection(TenantDatasourceKey key) {
         String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         BlobPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return makeConnection(key, adapter);
@@ -163,7 +163,7 @@ public class BlobContainerManager implements EventCallback {
      * @param adapter
      * @return
      */
-    private static BlobContainerClient makeConnection(TenantDatasourceKey key, BlobPropertyGroupAdapter adapter) {
+    private static BlobContainerAsyncClient makeConnection(TenantDatasourceKey key, BlobPropertyGroupAdapter adapter) {
         final String containerName;
         if (adapter.getContainerName() != null) {
             containerName = adapter.getContainerName();
@@ -177,11 +177,12 @@ public class BlobContainerManager implements EventCallback {
         // issues for Netty.
         HttpClient httpClient = new OkHttpAsyncHttpClientBuilder()
                 .build();
-        BlobContainerClient blobContainerClient = new BlobContainerClientBuilder()
+        
+        BlobContainerAsyncClient blobContainerClient = new BlobContainerClientBuilder()
                 .httpClient(httpClient)
                 .connectionString(adapter.getConnectionString())
                 .containerName(containerName)
-                .buildClient();
+                .buildAsyncClient();
         
         return blobContainerClient;
     }
