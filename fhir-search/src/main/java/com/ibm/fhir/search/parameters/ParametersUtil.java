@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
@@ -175,7 +176,9 @@ public final class ParametersUtil {
             }
         }
 
-        addWildcardParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
+        addWildcardAndCompartmentParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
+
+//        addCompartmentParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
 
         return Collections.unmodifiableMap(paramMapsByType);
     }
@@ -192,6 +195,9 @@ public final class ParametersUtil {
             if (spGroup != null) {
                 List<PropertyEntry> spEntries = spGroup.getProperties();
                 if (spEntries != null && !spEntries.isEmpty()) {
+
+                    Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
+
                     for (PropertyEntry spEntry : spEntries) {
                         String code = spEntry.getName();
                         if (SearchConstants.WILDCARD.equals(code)) {
@@ -201,8 +207,14 @@ public final class ParametersUtil {
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
                                 paramMap.insert(code, sp);
+
+                                // If this param is an inclusion criteria for one or more compartments
+                                if (compartmentParamToCompartment.containsKey(code)) {
+                                    paramMap.insertInclusionParam(code, sp, compartmentParamToCompartment.get(code));
+                                }
                             } else {
-                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() + "' for resourceType '" + resourceType + "' could not be found.");
+                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() +
+                                        "' for resourceType '" + resourceType + "' could not be found.");
                             }
                         }
                     }
@@ -215,10 +227,11 @@ public final class ParametersUtil {
         return paramMap;
     }
 
-    private static void addWildcardParams(Map<String, ParametersMap> paramMapsByType,
+    private static void addWildcardAndCompartmentParams(Map<String, ParametersMap> paramMapsByType,
             Set<String> resourceTypesWithWildcardParams, Map<String, Set<String>> configuredCodes) {
 
         for (SearchParameter sp : getAllSearchParameters()) {
+            String code = sp.getCode().getValue();
             // For each resource type this search parameter applies to
             for (ResourceType resourceType : sp.getBase()) {
 
@@ -232,17 +245,38 @@ public final class ParametersUtil {
 
                     // Only add it if the code wasn't explicitly configured in fhir-server-config
                     Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
-                    if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
+                    if (configuredCodesForType != null && configuredCodesForType.contains(code)) {
                         if (log.isLoggable(Level.FINE)) {
                             String canonical = getCanonicalUrl(sp);
                             log.fine("Skipping search parameter '" + canonical + "' because code '" +
                                     sp.getCode().getValue() + "' is already configured.");
                         }
                     } else {
-                        paramMap.insert(sp.getCode().getValue(), sp);
+                        paramMap.insert(code, sp);
                     }
                 }
 
+                // If this param is an inclusion criteria for one or more compartments
+                Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType.getValue());
+                if (compartmentParamToCompartment.containsKey(code)) {
+                    ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
+                    if (paramMap == null) {
+                        paramMap = new ParametersMap();
+                        paramMapsByType.put(resourceType.getValue(), paramMap);
+                    }
+
+                    // Only add it if the code wasn't explicitly configured in fhir-server-config
+                    Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
+                    if (configuredCodesForType != null && configuredCodesForType.contains(code)) {
+                        if (log.isLoggable(Level.FINE)) {
+                            String canonical = getCanonicalUrl(sp);
+                            log.fine("Skipping compartment inclusion parameter '" + canonical + "' because code '" +
+                                    sp.getCode().getValue() + "' is already configured.");
+                        }
+                    } else {
+                        paramMap.insertInclusionParam(code, sp, compartmentParamToCompartment.get(code));
+                    }
+                }
             }
         }
     }

@@ -30,6 +30,8 @@ public class ParametersMap {
     private final Map<String, SearchParameter> codeMap;
     private final Map<String, SearchParameter> canonicalMap;
 
+    private final Map<String, SearchParameter> inclusionParamMap;
+
     /**
      * Construct a ParametersMap from a Bundle of SearchParameter
      */
@@ -37,6 +39,10 @@ public class ParametersMap {
         // LinkedHashMaps to preserve insertion order
         codeMap = new LinkedHashMap<>();
         canonicalMap = new LinkedHashMap<>();
+
+        // Inclusion parameters are stored separately because they may be internal-only
+        // i.e. not externally searchable except through compartment search
+        inclusionParamMap = new LinkedHashMap<>();
     }
 
     /**
@@ -82,6 +88,23 @@ public class ParametersMap {
         }
     }
 
+    /**
+     * @param code
+     * @param parameter
+     * @param compartments
+     * @implSpec Any existing parameters will be replaced and a warning will be logged; last insert wins
+     */
+    public void insertInclusionParam(String code, SearchParameter parameter, Set<String> compartments) {
+        Objects.requireNonNull(code, "cannot insert a null code");
+        Objects.requireNonNull(parameter, "cannot insert a null parameter");
+
+        if (inclusionParamMap.containsKey(code)) {
+            SearchParameter previous = inclusionParamMap.get(code);
+            logParamConflict("inclusion criteria '" + code + "'", parameter, ParametersUtil.getCanonicalUrl(parameter), previous);
+        }
+        inclusionParamMap.put(code, parameter);
+    }
+
     private void logParamConflict(String distinguisher, SearchParameter parameter, String canonical, SearchParameter previous) {
         if (previous.getExpression().equals(parameter.getExpression())) {
             if (log.isLoggable(Level.FINE)) {
@@ -115,6 +138,10 @@ public class ParametersMap {
 
     public SearchParameter lookupByCanonical(String searchParameterCanonical) {
         return canonicalMap.get(searchParameterCanonical);
+    }
+
+    public SearchParameter getInclusionParam(String searchParameterCode) {
+        return inclusionParamMap.get(searchParameterCode);
     }
 
     public Collection<SearchParameter> values() {

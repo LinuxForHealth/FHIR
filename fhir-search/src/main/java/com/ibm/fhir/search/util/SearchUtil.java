@@ -159,6 +159,33 @@ public class SearchUtil {
         ParametersUtil.init();
     }
 
+//    /**
+//     * @param resourceType
+//     * @param code
+//     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
+//     * @throws Exception
+//     */
+//    public static SearchParameter getInclusionParameter(String resourceType, String code) {
+//        if (code == null) {
+//            return null;
+//        }
+//        String tenantId = FHIRRequestContext.get().getTenantId();
+//        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+//
+//        // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
+//        for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
+//            ParametersMap parametersMap = paramsByResourceType.get(type);
+//            if (parametersMap != null) {
+//                SearchParameter searchParam = parametersMap.lookupByCode(code);
+//                if (searchParam != null) {
+//                    return searchParam;
+//                }
+//            }
+//        }
+//
+//        return null;
+//    }
+
     /**
      * @param resourceType
      * @param code
@@ -318,6 +345,14 @@ public class SearchUtil {
         EvaluationContext evaluationContext = new EvaluationContext(resource);
 
         Map<String, SearchParameter> parameters = getSearchParameters(resourceType.getSimpleName());
+
+        for (String inclusionParamName : CompartmentUtil.getCompartmentParamsForResourceType(resourceType.getSimpleName()).keySet()) {
+            if (!parameters.containsKey(inclusionParamName)) {
+                String tenantId = FHIRRequestContext.get().getTenantId();
+                ParametersMap parametersMap = ParametersUtil.getTenantSPs(tenantId).get(resourceType.getSimpleName());
+                parameters.put(inclusionParamName, parametersMap.getInclusionParam(inclusionParamName));
+            }
+        }
 
         for (Entry<String, SearchParameter> parameterEntry : parameters.entrySet()) {
             String code = parameterEntry.getKey();
