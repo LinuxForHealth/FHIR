@@ -548,4 +548,14 @@ public interface ConfigurationAdapter {
      * @return
      */
     boolean getStorageProviderUsesRequestAccessToken(String provider);
+
+    /**
+     * allows multiple resources in a single file. 
+     * 
+     * @implNote this default is false. 
+     * 
+     * @param source
+     * @return
+     */
+    boolean shouldStorageProviderAllowAllResources(String source);
 }

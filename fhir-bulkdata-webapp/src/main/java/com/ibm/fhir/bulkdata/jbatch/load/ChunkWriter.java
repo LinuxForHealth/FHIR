@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
@@ -48,6 +49,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -139,7 +141,7 @@ public class ChunkWriter extends AbstractItemWriter {
             int failedNum = 0;
             ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
-            // Validate the resources first if required.
+            // Validates the Resources are valid for included profiles
             if (adapter.shouldStorageProviderValidateResources(ctx.getSource())) {
                 long validationStartTimeInMilliSeconds = System.currentTimeMillis();
                 for (Object objResJsonList : arg0) {
@@ -155,7 +157,7 @@ public class ChunkWriter extends AbstractItemWriter {
                         } catch (FHIRValidationException | FHIROperationException e) {
                             logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                             failedNum++;
-                            failValidationIds.add(fhirResource.getId());
+                            failValidationIds.add(fhirResource.getClass().getName() + "/" + fhirResource.getId());
 
                             if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
                                 OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
@@ -172,6 +174,32 @@ public class ChunkWriter extends AbstractItemWriter {
                     }
                 }
                 chunkData.addTotalValidationMilliSeconds(System.currentTimeMillis() - validationStartTimeInMilliSeconds);
+            }
+
+            // Validates the ResourceType matches
+            if (!adapter.shouldStorageProviderAllowAllResources(ctx.getSource())) {
+                for (Object objResJsonList : arg0) {
+                    @SuppressWarnings("unchecked")
+                    List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+
+                    for (Resource fhirResource : fhirResourceList) {
+                        String assertedResourceType = fhirResource.getClass().getSimpleName();
+                        if (!this.resourceType.equals(assertedResourceType)) {
+                            failValidationIds.add(assertedResourceType + "/" + fhirResource.getId());
+
+                            if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
+                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(
+                                    "The resource being imported does not match the declared resource - '" + this.resourceType 
+                                        + " '" + assertedResourceType + "/" + fhirResource.getId() + "'", IssueType.SECURITY, IssueSeverity.ERROR);
+                                FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
+
+                            logger.warning("The resource being imported does not match the declared resource - '" + this.resourceType 
+                                + " '" + assertedResourceType + "/" + fhirResource.getId() + "'");
+                        }
+                    }
+                }
             }
 
             // Begin writing the resources into DB.
@@ -199,7 +227,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             String id = fhirResource.getId();
                             processedNum++;
                             // Skip the resources which failed the validation
-                            if (failValidationIds.contains(id)) {
+                            if (failValidationIds.contains(fhirResource.getClass().getSimpleName() + "/" + id)) {
                                 continue;
                             }
                             OperationOutcome operationOutcome;

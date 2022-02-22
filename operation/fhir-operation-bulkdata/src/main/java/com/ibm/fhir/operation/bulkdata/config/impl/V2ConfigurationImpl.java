@@ -172,4 +172,9 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
         return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/requiresAccessToken", Boolean.FALSE)
                 && !isStorageProviderHmacPresigned(provider);
     }
+
+    @Override
+    public boolean shouldStorageProviderAllowAllResources(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/allowAllResources", Boolean.FALSE);
+    }
 }

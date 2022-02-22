@@ -310,7 +310,7 @@ public class FHIRModelResolverTest {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath(patient, "id");
         assertNotNull( result, "Null result" );
-        assertEquals( result.getClass(), java.lang.String.class );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.String.class );
     }
     
     @Test
@@ -319,7 +319,7 @@ public class FHIRModelResolverTest {
         Bundle bundle = Bundle.builder().type(BundleType.SEARCHSET).entry(Bundle.Entry.builder().resource(patient).build()).build();
         Object result = resolver.resolvePath(bundle, "entry[0].resource.id");
         assertNotNull( result, "Null result" );
-        assertEquals( result.getClass(), java.lang.String.class );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.String.class );
     }
 
     @Test
@@ -327,7 +327,7 @@ public class FHIRModelResolverTest {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath(patient, "name[0].id");
         assertNotNull( result, "Null result" );
-        assertEquals( result.getClass(), java.lang.String.class );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.String.class );
     }
     
     @Test
@@ -335,7 +335,7 @@ public class FHIRModelResolverTest {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath( patient.getName().get(0), "id");
         assertNotNull( result, "Null result" );
-        assertEquals( result.getClass(), java.lang.String.class );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.String.class );
     }
     
     @Test
