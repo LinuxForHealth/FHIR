@@ -61,9 +61,10 @@ public final class ParametersUtil {
 
     // Logging:
     public static final String LOG_PARAMETERS = "Parameter is loaded -> %s";
-    public static final String LOG_HEADER = "BASE:RESOURCE_NAME:SearchParameter";
-    public static final String LOG_SIZE = "Size: %s";
-    private static final String LOG_OUTPUT = "%s|%s|%s";
+    public static final String LOG_HEADER = "ResourceType | SearchParameter.code | SearchParameter.expression\n"
+            + "'*' denotes compartment inclusion criteria parameters";
+    public static final String LOG_SIZE = "Number of resource types: %s";
+    private static final String LOG_OUTPUT = "%s | %s | %s";
 
     private static final String LEFT = "[";
     private static final String RIGHT = "]";
@@ -369,6 +370,13 @@ public final class ParametersUtil {
                     expression = param.getExpression().getValue();
                 }
                 out.println(String.format(LOG_OUTPUT, base, param.getCode().getValue(), expression));
+            }
+            for(SearchParameter param : tmp.inclusionValues()) {
+                String expression = MISSING_EXPRESSION;
+                if (param.getExpression() != null) {
+                    expression = param.getExpression().getValue();
+                }
+                out.println(String.format(LOG_OUTPUT, "*" + base, param.getCode().getValue(), expression));
             }
             out.println(SearchConstants.LOG_BOUNDARY);
         }

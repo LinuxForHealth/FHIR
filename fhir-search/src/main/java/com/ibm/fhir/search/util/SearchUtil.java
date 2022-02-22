@@ -318,7 +318,10 @@ public class SearchUtil {
             if (!COMPARTMENT_PARM_DEF.equals(inclusionParamName) && !parameters.containsKey(inclusionParamName)) {
                 String tenantId = FHIRRequestContext.get().getTenantId();
                 ParametersMap parametersMap = ParametersUtil.getTenantSPs(tenantId).get(resourceType.getSimpleName());
-                parameters.put(inclusionParamName, parametersMap.getInclusionParam(inclusionParamName));
+                SearchParameter inclusionParam = parametersMap.getInclusionParam(inclusionParamName).toBuilder()
+                        .extension(SearchConstants.DO_NOT_STORE_EXT)
+                        .build();
+                parameters.put(inclusionParamName, inclusionParam);
             }
         }
 

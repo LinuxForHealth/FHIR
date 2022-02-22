@@ -655,12 +655,12 @@ public class SearchTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(observation, responseObservation);
     }
 
-    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient", "testCreatePractitioner"})
     public void testCreateObservation() throws Exception {
         WebTarget target = getWebTarget();
 
         Observation observation =
-                TestUtil.buildPatientObservation(patientId, "Observation1.json");
+                TestUtil.buildPatientObservation(patientId, practitionerId, "Observation1.json");
         Entity<Observation> entity =
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -923,6 +923,11 @@ public class SearchTest extends FHIRServerTestBase {
                 + patientId, observation.getSubject().getReference().getValue());
     }
 
+    /**
+     * 'patient' is a configured Observation search parameter for tenant1,
+     * so this tests that compartment info is extracted and searchable
+     * when the related parameter is not filtered out
+     */
     @Test(groups = { "server-search" }, dependsOnMethods = {
             "testCreateObservation", "retrieveConfig" })
     public void testSearchObservationWithPatientCompartment() {
@@ -966,6 +971,50 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    /**
+     * 'performer' is not a configured Observation search parameter for tenant1,
+     * so this tests that compartment info is still extracted and searchable
+     * when the related parameter is filtered
+     */
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+            "testCreateObservation", "retrieveConfig" })
+    public void testSearchObservationWithPractitionerCompartment() {
+        assertNotNull(compartmentSearchSupported);
+        if (!compartmentSearchSupported.booleanValue()) {
+            return;
+        }
+
+        WebTarget target = getWebTarget();
+        String targetUri = "Practitioner/" + practitionerId + "/Observation";
+        Response response =
+                target.path(targetUri).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        // verify link does not include consecutive '&' characters
+        assertTrue(bundle.getLink().size() >= 1);
+        assertFalse(bundle.getLink().get(0).getUrl().getValue().contains("&&"));
+
+        // Also verify a negative search
+        targetUri = "Practitioner/" + practitionerId2 + "/Observation";
+        response =
+                target.path(targetUri).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 0);
+        // verify link does not include consecutive '&' characters
+        assertTrue(bundle.getLink().size() >= 1);
+        assertFalse(bundle.getLink().get(0).getUrl().getValue().contains("&&"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })

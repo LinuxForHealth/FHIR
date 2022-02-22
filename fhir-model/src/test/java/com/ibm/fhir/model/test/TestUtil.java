@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.test;
 
-import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.fail;
 
 import java.io.File;
@@ -117,12 +116,26 @@ public class TestUtil {
      * the specified patient via a subject attribute.
      */
     public static Observation buildPatientObservation(String patientId, String fileName) throws Exception {
-        // TODO review Reference id
         Observation observation = readLocalResource(fileName);
 
         observation = observation
             .toBuilder()
-            .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
+            .subject(Reference.builder().reference("Patient/" + patientId).build())
+            .build();
+        return observation;
+    }
+
+    /**
+     * Loads an Observation resource from the specified file, then associates it with
+     * the specified patient via a subject attribute.
+     */
+    public static Observation buildPatientObservation(String patientId, String practitionerId, String fileName) throws Exception {
+        Observation observation = readLocalResource(fileName);
+
+        observation = observation
+            .toBuilder()
+            .subject(Reference.builder().reference("Patient/" + patientId).build())
+            .performer(Reference.builder().reference("Practitioner/" + practitionerId).build())
             .build();
         return observation;
     }

@@ -18,6 +18,7 @@ import java.util.Set;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
@@ -103,6 +104,10 @@ public class SearchConstants {
 
     public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
     public static final String DO_NOT_STORE_EXT_URL = FHIRConstants.EXT_BASE + "do-not-store";
+    public static final Extension DO_NOT_STORE_EXT = Extension.builder()
+            .url(SearchConstants.DO_NOT_STORE_EXT_URL)
+            .value(true)
+            .build();
 
     // Extracted search parameter suffix for :identifier modifier
     public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";

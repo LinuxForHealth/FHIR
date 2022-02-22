@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.search.SearchConstants;
 
 /**
  * A multi-key map that indexes a set of search parameters by SearchParameter.code and
@@ -28,11 +26,6 @@ public class ParametersMap {
     private static final Logger log = Logger.getLogger(ParametersMap.class.getName());
 
     public static final String MISSING_EXPRESSION_WARNING = "Skipping parameter '%s' with missing expression";
-
-    public static final Extension DO_NOT_STORE = Extension.builder()
-            .url(SearchConstants.DO_NOT_STORE_EXT_URL)
-            .value(true)
-            .build();
 
     private final Map<String, SearchParameter> codeMap;
     private final Map<String, SearchParameter> canonicalMap;
@@ -108,10 +101,6 @@ public class ParametersMap {
             SearchParameter previous = inclusionParamMap.get(code);
             logParamConflict("inclusion criteria '" + code + "'", parameter, ParametersUtil.getCanonicalUrl(parameter), previous);
         }
-
-        parameter = parameter.toBuilder()
-                .extension(DO_NOT_STORE)
-                .build();
         inclusionParamMap.put(code, parameter);
     }
 
@@ -172,6 +161,14 @@ public class ParametersMap {
 
     public Set<Entry<String, SearchParameter>> codeEntries() {
         return Collections.unmodifiableSet(codeMap.entrySet());
+    }
+
+    public Collection<SearchParameter> inclusionValues() {
+        // use List to preserve order
+        return Collections.unmodifiableList(inclusionParamMap.entrySet().stream()
+                .filter(e -> !e.getKey().contains("|"))
+                .map(e -> e.getValue())
+                .collect(Collectors.toList()));
     }
 
     /**
