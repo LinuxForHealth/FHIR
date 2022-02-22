@@ -14,8 +14,8 @@ Guides for configuring, operating, and extending the IBM FHIR Server are availab
 
 #### From the zip installer
 Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/IBM/FHIR/releases) and follow the instructions from the [User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
-1. use fhir-persistence-schema-VERSION-cli.jar to deploy the schema
-2. unzip, install, and configure the server
+1. Use fhir-persistence-schema-VERSION-cli.jar to deploy the schema.
+2. Unzip, install, and configure the server.
 
 #### From the container image
 Quickstart:
