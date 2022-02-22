@@ -127,7 +127,10 @@ public class TestUtil {
 
     /**
      * Loads an Observation resource from the specified file, then associates it with
-     * the specified patient via a subject attribute.
+     * <ul>
+     * <li>the specified patient via Observation.subject
+     * <li>the specified practitioner via Observation.performer
+     * </ul>
      */
     public static Observation buildPatientObservation(String patientId, String practitionerId, String fileName) throws Exception {
         Observation observation = readLocalResource(fileName);

@@ -131,7 +131,7 @@ public final class ParametersUtil {
             }
         }
 
-        return Collections.unmodifiableMap(result);
+        return result;
     }
 
     private static Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
@@ -301,8 +301,17 @@ public final class ParametersUtil {
         if (searchParameters.containsKey(tenantId)) {
             return searchParameters.get(tenantId);
         } else {
-            log.warning("No search parameter configuration was loaded for tenant " + tenantId);
-            return new HashMap<>();
+            log.warning("No search parameter configuration was loaded for tenant " + tenantId + "; computing now");
+            try {
+                PropertyGroup root = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+                PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                Map<String, ParametersMap> tenantSPs = computeTenantSPs(rsrcsGroup);
+                searchParameters.put(tenantId, tenantSPs);
+                return tenantSPs;
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenantId + "; returning empty", e);
+                return new HashMap<>();
+            }
         }
     }
 
