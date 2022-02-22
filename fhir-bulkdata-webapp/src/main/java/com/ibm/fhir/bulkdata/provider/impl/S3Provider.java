@@ -133,7 +133,7 @@ public class S3Provider implements Provider {
      * @return
      */
     private AmazonS3 getClient(boolean iam, String cosApiKeyProperty, String cosSrvinstId, String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
-    	 return GENERATOR.getClient(iam, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation, useFhirServerTrustStore, pathStyle);
+        return GENERATOR.getClient(iam, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation, useFhirServerTrustStore, pathStyle);
     }
 
     /**
