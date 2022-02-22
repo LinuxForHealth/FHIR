@@ -177,12 +177,17 @@ public class FHIRRequestContext {
 
     /**
      * Returns the FHIRRequestContext on the current thread.
+     * If it doesn't exist yet, this method will create a default instance
+     * and associate that with the current thread before returning it.
      */
     public static FHIRRequestContext get() {
         FHIRRequestContext result = contexts.get();
         if (log.isLoggable(Level.FINEST)) {
             log.finest("FHIRRequestContext.get: " + result.toString());
         }
+        // Java ThreadLocal initial values are *not* automatically associated with the current thread
+        // so we need to explicitly set that here
+        contexts.set(result);
         return result;
     }
 

@@ -37,7 +37,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @AfterMethod
     public void cleanup() throws FHIRException {
         // Restore the threadLocal FHIRRequestContext to the default tenant
-        FHIRRequestContext.get().setTenantId("default");
+        FHIRRequestContext.remove();
     }
 
     @Test
