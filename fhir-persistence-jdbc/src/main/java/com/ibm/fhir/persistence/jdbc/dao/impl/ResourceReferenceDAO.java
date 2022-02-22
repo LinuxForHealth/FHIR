@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -773,6 +772,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             maxSub = max;
         }
 
+        // The sliding window
+        int window = 1;
         while (idx < max) {
             List<CommonTokenValue> sortedTokenValuesSub = new ArrayList<>();
         
@@ -781,7 +782,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             // VALUES ((CAST(? AS VARCHAR(1234)), CAST(? AS INT)), (...)) AS V(common_token_value, parameter_name_id, code_system_id)
             StringBuilder inList = new StringBuilder(); // for the select query later
             StringBuilder paramList = new StringBuilder();
-            for (; idx < maxSub; idx++) {
+            for (; idx < (maxSub * window) && idx < max; idx++) {
                 if (paramList.length() > 0) {
                     paramList.append(", ");
                 }
@@ -795,6 +796,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                 inList.append("(?,?)");
 
                 sortedTokenValuesSub.add(sortedTokenValues.get(idx));
+            }
+
+            // Condition where there are more than one
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("sortedTokenValuesSub=[" + sortedTokenValuesSub.size() + "] sortedTokenValues=[" + sortedTokenValues.size() + "]");
             }
 
             final String paramListStr = paramList.toString();
@@ -846,6 +852,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     }
                 }
             }
+            window++;
         }
     }
 
