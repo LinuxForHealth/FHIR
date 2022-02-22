@@ -15,6 +15,7 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.testng.annotations.Test;
 
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -128,5 +129,19 @@ public class ReactorTests {
                 fail();
             }
         }
+    }
+
+    /**
+     * example of cancelling a Flux
+     */
+    @Test
+    public void testCancel() {
+        Flux.range(0, 10)
+                .subscribe(new BaseSubscriber<Integer>() {
+                    @Override
+                    protected void hookOnNext(Integer value) {
+                    }
+                });
+        
     }
 }

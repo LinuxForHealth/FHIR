@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.blob;
 
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceRecord;
 
 /**
  *
@@ -30,5 +31,24 @@ public class BlobPayloadSupport {
         blobNameBuilder.append("/");
         blobNameBuilder.append(resourcePayloadKey);
         return blobNameBuilder.toString();
+    }
+
+    /**
+     * Construct a {@link ResourceRecord} from the path name used
+     * to store the payload blob
+     * @param path
+     * @return
+     */
+    public static ResourceRecord buildResourceRecordFromPath(String path) {
+        String[] elements = path.split("/");
+        if (elements.length == 4) {
+            final int resourceTypeId = Integer.parseInt(elements[0]);
+            final String logicalId = elements[1];
+            final int version = Integer.parseInt(elements[2]);
+            final String resourcePayloadKey = elements[3];
+            return new ResourceRecord(resourceTypeId, logicalId, version, resourcePayloadKey);
+        } else {
+            throw new IllegalArgumentException("invalid path for payload blob: " + path);
+        }
     }
 }

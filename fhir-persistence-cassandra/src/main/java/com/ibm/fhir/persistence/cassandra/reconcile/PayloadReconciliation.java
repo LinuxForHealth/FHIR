@@ -22,6 +22,8 @@ import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.payload.CqlDeletePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceExistsDAO;
 
 /**
  * Implements an algorithm to scan the offload persistence store and check

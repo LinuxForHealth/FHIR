@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.cassandra.reconcile;
+package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
