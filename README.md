@@ -6,7 +6,7 @@ For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/C
 The server is available in the following forms:
 * a web application archive (war)
 * a zip file with installation script
-* a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-schematool) from the ibmcom org on DockerHub
+* a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-server) from the ibmcom org on DockerHub
 * a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
 ### Running the IBM FHIR Server
