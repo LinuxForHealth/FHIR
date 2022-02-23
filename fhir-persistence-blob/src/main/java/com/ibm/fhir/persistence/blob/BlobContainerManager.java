@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.persistence.blob;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.azure.core.http.HttpClient;
@@ -19,6 +21,8 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.lifecycle.EventCallback;
 import com.ibm.fhir.core.lifecycle.EventManager;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Singleton to abstract and manage Azure Blob containers.
@@ -36,7 +40,9 @@ public class BlobContainerManager implements EventCallback {
     
     // so we can reject future requests when shut down
     private volatile boolean running = true;
-    
+
+    // We provide our own OkHttpClient so we can shut down and exit quickly when done
+    private final OkHttpClient okHttpClient;
     /**
      * Singleton pattern safe construction 
      */
@@ -48,6 +54,13 @@ public class BlobContainerManager implements EventCallback {
      * Private constructor
      */
     private BlobContainerManager() {
+        // If we use the client created by the Azure Blob SDK, we don't have a way
+        // to shut things down which results in the the JVM taking a couple of minutes
+        // to exit after the program has completed. By supplying our own, we get to
+        // initiate some cleanup on it, and the JVM then exits immediately.
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        this.okHttpClient = httpClientBuilder.build();
+
         // receive server lifecycle events
         EventManager.register(this);
     }
@@ -87,7 +100,7 @@ public class BlobContainerManager implements EventCallback {
         TenantDatasourceKey key = new TenantDatasourceKey(tenantId, dsId);
 
         // Get the session for this tenant/datasource, or create a new one if needed
-        BlobContainerAsyncClient client = connectionMap.computeIfAbsent(key, BlobContainerManager::newConnection);
+        BlobContainerAsyncClient client = connectionMap.computeIfAbsent(key, tdk -> newConnection(tdk));
         String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         BlobPropertyGroupAdapter properties = getPropertyGroupAdapter(dsPropertyName);
         
@@ -99,7 +112,7 @@ public class BlobContainerManager implements EventCallback {
      * @param key
      * @return
      */
-    private static BlobContainerAsyncClient newConnection(TenantDatasourceKey key) {
+    private BlobContainerAsyncClient newConnection(TenantDatasourceKey key) {
         String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + key.getDatasourceId();
         BlobPropertyGroupAdapter adapter = getPropertyGroupAdapter(dsPropertyName);
         return makeConnection(key, adapter);
@@ -124,7 +137,7 @@ public class BlobContainerManager implements EventCallback {
      * @param dsPropertyName
      * @return
      */
-    public static BlobPropertyGroupAdapter getPropertyGroupAdapter(String dsPropertyName) {
+    public BlobPropertyGroupAdapter getPropertyGroupAdapter(String dsPropertyName) {
         
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         if (dsPG == null) {
@@ -163,7 +176,7 @@ public class BlobContainerManager implements EventCallback {
      * @param adapter
      * @return
      */
-    private static BlobContainerAsyncClient makeConnection(TenantDatasourceKey key, BlobPropertyGroupAdapter adapter) {
+    private BlobContainerAsyncClient makeConnection(TenantDatasourceKey key, BlobPropertyGroupAdapter adapter) {
         final String containerName;
         if (adapter.getContainerName() != null) {
             containerName = adapter.getContainerName();
@@ -175,7 +188,7 @@ public class BlobContainerManager implements EventCallback {
 
         // Explicitly use the okhttp client so we don't end up with library versioning
         // issues for Netty.
-        HttpClient httpClient = new OkHttpAsyncHttpClientBuilder()
+        HttpClient httpClient = new OkHttpAsyncHttpClientBuilder(this.okHttpClient)
                 .build();
         
         BlobContainerAsyncClient blobContainerClient = new BlobContainerClientBuilder()
@@ -194,16 +207,27 @@ public class BlobContainerManager implements EventCallback {
         // prevent anyone asking for a session
         this.running = false;
         connectionMap.clear();
+
+        // Shut down the OkHttpClient to get a quicker exit
+        okHttpClient.dispatcher().executorService().shutdown();
+        okHttpClient.connectionPool().evictAll();
+        try {
+            if (okHttpClient.cache() != null) {
+                okHttpClient.cache().close();
+            }
+        } catch (IOException x) {
+            logger.log(Level.WARNING, "OkHttpClient cache", x);
+        }
     }
 
     /**
-     * Close any sessions that are currently open to permit a clean exit
-     * TODO what shutdown do we need to do
+     * Shut down the service so that we don't try and accept any
+     * new work
      */
     public static void shutdown() {
-        logger.info("Shutting down DatasourceSessions");
+        logger.info("Shutting down Azure Blob connection service");
         getInstance().closeAllSessions();
-        logger.info("DatasourceSessions shutdown complete");
+        logger.info("Shutdown complete");
     }
 
     @Override

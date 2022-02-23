@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.persistence.blob.BlobContainerManager;
 
 /**
  * Standalone application to provide support services (like reconciliation) for
@@ -23,9 +24,6 @@ import com.ibm.fhir.database.utils.model.DbType;
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-
-    // properties to configure the application
-    private final Properties applicationProperties = new Properties();
 
     // properties for connecting to the database
     private final Properties databaseProperties = new Properties();
@@ -61,13 +59,6 @@ public class Main {
                     this.continuationToken = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for --continuation-token");
-                }
-                break;
-            case "--app-properties":
-                if (++i < args.length) {
-                    readApplicationProperties(args[i]);
-                } else {
-                    throw new IllegalArgumentException("missing value for --app-properties");
                 }
                 break;
             case "--db-properties":
@@ -119,18 +110,6 @@ public class Main {
     }
 
     /**
-     * Read application properties from the given filename
-     * @param filename
-     */
-    protected void readApplicationProperties(String filename) {
-        try (InputStream is = new FileInputStream(filename)) {
-            applicationProperties.load(is);
-        } catch (IOException x) {
-            throw new IllegalArgumentException(x);
-        }
-    }
-
-    /**
      * Read database properties from the given filename
      * @param filename
      */
@@ -177,6 +156,13 @@ public class Main {
     }
 
     /**
+     * Shut down any thread pools so we can make a quick exit
+     */
+    protected void terminate() {
+        BlobContainerManager.shutdown();
+    }
+
+    /**
      * Entry point
      * @param args
      */
@@ -185,6 +171,7 @@ public class Main {
         try {
             m.parseArgs(args);
             m.process();
+            m.terminate();
         } catch (Exception x) {
             logger.log(Level.SEVERE, "failed", x);
             System.exit(-1);
