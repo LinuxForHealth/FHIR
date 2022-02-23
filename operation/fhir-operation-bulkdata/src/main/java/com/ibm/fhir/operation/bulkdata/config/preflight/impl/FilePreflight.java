@@ -19,16 +19,16 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Preflight is a health check prior to executing the calls on BulkData.
  */
 public class FilePreflight extends NopPreflight {
 
-    public FilePreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+    public FilePreflight(String source, String outcome, List<InputDTO> inputs, OperationConstants.ExportType exportType, String format) {
         super(source, outcome, inputs, exportType, format);
     }
 
@@ -53,7 +53,7 @@ public class FilePreflight extends NopPreflight {
                 accessible = Files.isWritable(p);
             } else {
                 // This is an import
-                for (Input input : getInputs()) {
+                for (InputDTO input : getInputs()) {
 
                     // We want to append the input path on the base, we don't want to allow everything.
                     Path p1 = Paths.get(base, input.getUrl()).normalize();

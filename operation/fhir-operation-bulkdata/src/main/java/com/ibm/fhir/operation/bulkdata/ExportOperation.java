@@ -26,6 +26,8 @@ import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
+import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -94,8 +96,25 @@ public class ExportOperation extends AbstractOperation {
                          IssueType.INVALID);
             }
 
-            response = BulkDataFactory.getInstance(operationContext)
-                        .export(logicalId, exportType, outputFormat, since, types, typeFilters, operationContext);
+            // Process the
+            FHIRPersistence pl = (FHIRPersistence) operationContext
+                    .getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+            try {
+                FHIRPersistenceTransaction tx = resourceHelper.getTransaction();
+                tx.begin();
+                try {
+                    response = BulkDataFactory.getInstance(operationContext).export(logicalId, exportType, outputFormat,
+                            since, types, typeFilters, operationContext, pl.getJobManager());
+                } finally {
+                    tx.end();
+                }
+            } catch (FHIROperationException e) {
+                throw e;
+            } catch (Throwable throwable) {
+                throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
+                        + getName() + "': " + throwable.getClass().getName() + ": " + throwable.getMessage(),
+                        throwable);
+            }
         } else {
             // Unsupported on instance, specific types other than group/patient/system
             throw buildExceptionWithIssue(

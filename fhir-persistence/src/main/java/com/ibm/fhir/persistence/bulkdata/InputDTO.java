@@ -1,19 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bulkdata.model.type;
+package com.ibm.fhir.persistence.bulkdata;
 
 /**
- * Import input elements
+ * Input DTO
  */
-public class Input {
+public class InputDTO {
     private String type;
     private String url;
 
-    public Input(String type, String url) {
+    public InputDTO(String type, String url) {
         super();
         this.type = type;
         this.url  = url;

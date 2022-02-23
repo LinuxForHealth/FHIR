@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Common Configuration Parameters for the Job Request/Response.
@@ -40,7 +41,7 @@ public class JobParameter {
     private String fhirPatientGroupId;
     private String fhirTypeFilters;
     private String fhirExportFormat;
-    private List<Input> inputs;
+    private String dataSourcesInfo;
     private StorageDetail storageDetail;
     private String source;
     private String outcome;
@@ -113,12 +114,12 @@ public class JobParameter {
         this.fhirExportFormat = fhirExportFormat;
     }
 
-    public List<Input> getInputs() {
-        return inputs;
+    public String getInputs() {
+        return dataSourcesInfo;
     }
 
-    public void setInputs(List<Input> inputs) {
-        this.inputs = inputs;
+    public void setInputs(String dataSourcesInfo) {
+        this.dataSourcesInfo = dataSourcesInfo;
     }
 
     public StorageDetail getStorageDetails() {
@@ -210,7 +211,7 @@ public class JobParameter {
             }
 
             if (parameter.getInputs() != null) {
-                generator.write(OperationFields.FHIR_DATA_SOURCES_INFO, writeToBase64(parameter.getInputs()));
+                generator.write(OperationFields.FHIR_DATA_SOURCES_INFO, parameter.getInputs());
             }
 
             if (parameter.getSource() != null) {
@@ -235,12 +236,12 @@ public class JobParameter {
             generator.writeEnd();
         }
 
-        public static String writeToBase64(List<Input> inputs) throws IOException {
+        public static String writeToBase64(List<InputDTO> inputs) throws IOException {
             String sources = "";
             try (StringWriter writer = new StringWriter();) {
                 try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
                     generator.writeStartArray();
-                    for (Input input : inputs) {
+                    for (InputDTO input : inputs) {
                         generator.writeStartObject();
                         generator.write("type", input.getType());
                         generator.write("url", input.getUrl());
@@ -275,7 +276,7 @@ public class JobParameter {
 
         public Builder fhirTypeFilters(String fhirTypeFilters);
 
-        public Builder fhirDataSourcesInfo(List<Input> inputs);
+        public Builder fhirDataSourcesInfo(String jobId);
 
         public Builder fhirStorageType(StorageDetail storageDetail);
 
@@ -334,7 +335,7 @@ public class JobParameter {
             if (obj.containsKey(OperationFields.FHIR_DATA_SOURCES_INFO)) {
                 String dataSourcesInfo = obj.getString(OperationFields.FHIR_DATA_SOURCES_INFO);
                 // Base64 at this point, and we just dump it into an intermediate value until it's needed.
-                builder.fhirDataSourcesInfo(parseInputsFromString(dataSourcesInfo));
+                builder.fhirDataSourcesInfo(dataSourcesInfo);
             }
 
             if (obj.containsKey(OperationFields.FHIR_IMPORT_STORAGE_TYPE)) {
@@ -365,8 +366,8 @@ public class JobParameter {
          * @return
          * @throws IOException
          */
-        public static List<Input> parseInputsFromString(String input) throws IOException {
-            List<Input> inputs = new ArrayList<>();
+        public static List<InputDTO> parseInputsFromString(String input) throws IOException {
+            List<InputDTO> inputs = new ArrayList<>();
             Decoder decoder = Base64.getDecoder();
             byte[] bytes = decoder.decode(input);
 
@@ -380,7 +381,7 @@ public class JobParameter {
                     ListIterator<JsonValue> iter = jsonArray.listIterator();
                     while (iter.hasNext()) {
                         JsonObject obj = iter.next().asJsonObject();
-                        inputs.add(new Input(obj.getString("type"), obj.getString("url")));
+                        inputs.add(new InputDTO(obj.getString("type"), obj.getString("url")));
                     }
                 }
             }
@@ -397,7 +398,7 @@ public class JobParameter {
                 ", fhirPatientGroupId=" + fhirPatientGroupId +
                 ", fhirTypeFilters=" + fhirTypeFilters +
                 ", fhirExportFormat=" + fhirExportFormat +
-                ", inputs=" + inputs +
+                ", inputs=" + getInputs() +
                 ", storageDetail=" + storageDetail +
                 ", incomingUrl=" + incomingUrl +
                 ", cosBucketPathPrefix=" + cosBucketPathPrefix + "]";

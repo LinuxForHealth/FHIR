@@ -9,11 +9,11 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
@@ -35,7 +35,6 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -344,12 +343,14 @@ public class BulkDataExportUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+                    String job = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
 
-                    // The job is never going to be empty or null as STRING is never empty at this point.
-                    if (job.contains("/") || job.contains("?")) {
-                        throw new FHIROperationException("job passed is invalid and is not supported");
+                    try {
+                        UUID.fromString(job);
+                    } catch (IllegalArgumentException iae) {
+                        throw new FHIROperationException("job passed is invalid and is not supported", iae);
                     }
+
                     // Don't look at any other parameters.
                     return job;
                 }

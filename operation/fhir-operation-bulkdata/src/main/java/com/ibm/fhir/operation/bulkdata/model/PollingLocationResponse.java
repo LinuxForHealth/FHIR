@@ -18,7 +18,6 @@ import java.util.Map;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -117,12 +116,15 @@ public class PollingLocationResponse {
         this.extension = extension;
     }
 
-    public void addOperationOutcomeToExtension(OperationOutcome outcome) throws FHIRGeneratorException, IOException {
+    public void addOperationOutcomeToExtension(OperationOutcome outcome) {
         // Convert to the JsonObject and add as "operationOutcome" to the existing extension.
-        JsonObject jsonObject = Json.createObjectBuilder()
-                .add("outcome", JsonSupport.toJsonObject(outcome))
-                .build();
-        this.setExtension(jsonObject);
+        try {
+            JsonObject jsonObject = Json.createObjectBuilder().add("outcome", JsonSupport.toJsonObject(outcome))
+                    .build();
+            this.setExtension(jsonObject);
+        } catch (Exception e) {
+            // NOP
+        }
     }
 
     public static class Output {

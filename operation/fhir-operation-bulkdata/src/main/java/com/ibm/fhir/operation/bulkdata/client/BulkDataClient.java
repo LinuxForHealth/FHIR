@@ -7,7 +7,6 @@
 package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -43,7 +42,6 @@ import org.apache.http.util.EntityUtils;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -56,15 +54,15 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceResponse;
+import com.ibm.fhir.operation.bulkdata.model.JobOutput;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.model.type.JobType;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 /**
@@ -146,7 +144,9 @@ public class BulkDataClient {
     }
 
     /**
-     *
+     * submits the export job
+     * 
+     * @param extJobId
      * @param since
      * @param types
      * @param exportType
@@ -156,8 +156,7 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submitExport(Instant since, List<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId)
-        throws Exception {
+    public Result submitExport(String extJobId, Instant since, List<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId) throws Exception {
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(adapter.getApplicationName());
         builder.moduleName(adapter.getModuleName());
@@ -246,7 +245,7 @@ public class BulkDataClient {
         CloseableHttpResponse jobResponse = cli.execute(jobPost);
 
         int status = -1;
-        String jobId = "-1";
+        String intJobId = "-1";
         try {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
@@ -265,7 +264,7 @@ public class BulkDataClient {
 
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
-            jobId = Integer.toString(response.getInstanceId());
+            intJobId = Integer.toString(response.getInstanceId());
 
         } finally {
             jobPost.releaseConnection();
@@ -273,7 +272,10 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
+        Result result = new Result();
+        result.url = baseUri + "/$bulkdata-status?job=" + extJobId;
+        result.intJobId = intJobId;
+        return result;
     }
 
     /**
@@ -394,87 +396,89 @@ public class BulkDataClient {
 
             // Don't forget to return null, so the HTTP Status Code is 202
             return null;
-        } else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
-            // Job has a successful batch status, so go to work
-            try {
-                String source = null;
-                String baseUrl = null;
-                String cosBucketPathPrefix = null;
-
-                for (int i = 0; i < bulkExportJobInstanceResponse.getExecutionId().size(); i++) {
-                    // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
-                    // Get the current job execution status of the job instance.
-                    String jobexecutionUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job +
-                            "/jobexecutions/" + i;
-
-                    HttpGet executionStatusGet = new HttpGet(jobexecutionUrl);
-                    CloseableHttpResponse executionStatusResponse = cli.execute(executionStatusGet);
-
-                    JobExecutionResponse executionResponse = null;
-                    try {
-                        handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
-                        HttpEntity entity = executionStatusResponse.getEntity();
-
-                        try (InputStream is = entity.getContent()) {
-                            executionResponse = JobExecutionResponse.Parser.parse(is);
-                        }
-                        EntityUtils.consume(entity);
-                    } finally {
-                        executionStatusGet.releaseConnection();
-                        executionStatusResponse.close();
-                    }
-
-                    // These properties should be the same on each execution, so only set them once
-                    if (i == 0) {
-                        // Override the source:
-                        source = executionResponse.getJobParameters().getSource();
-
-                        // Assemble the URL
-                        baseUrl = adapter.getStorageProviderEndpointExternal(source);
-                        cosBucketPathPrefix = executionResponse.getJobParameters().getCosBucketPathPrefix();
-
-                        String request = executionResponse.getJobParameters().getIncomingUrl();
-                        LOG.fine(executionResponse.getJobName());
-                        result.setRequest(request);
-
-                        // Per the storageProvider setting the output to indicate that the use of an access token is required.
-                        boolean requireAccessToken = adapter.getStorageProviderUsesRequestAccessToken(source);
-                        result.setRequiresAccessToken(requireAccessToken);
-
-                        if (!"bulkimportchunkjob".equals(executionResponse.getJobName())) {
-                            // Errors need to be added.
-                            result.setError(Collections.emptyList());
-                        }
-                    }
-
-                    verifyTenant(executionResponse.getJobParameters());
-
-                    if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Logging the JobExecutionResponse Details -> \n"
-                                + JobExecutionResponse.Writer.generate(executionResponse, false));
-                    }
-
-                    addExecutionResponse(result, source, baseUrl, cosBucketPathPrefix, executionResponse);
-                }
-
-                if (result.getOutput() == null || result.getOutput().isEmpty()) {
-                    result.setOutput(Collections.emptyList());
-                }
-
-                if (result.getDeleted() == null || result.getDeleted().isEmpty()) {
-                    result.setDeleted(Collections.emptyList());
-                }
-
-            } catch (FHIROperationException fe) {
-                throw fe;
-            } catch (Exception ex) {
-                LOG.throwing(CLASSNAME, "status", ex);
-                throw export.buildOperationException("An unexpected error has occurred while checking the status - "
-                        + ex.getMessage(), IssueType.TRANSIENT, ex);
-            } finally {
-                cli.close();
-            }
         }
+
+//        else if (OperationConstants.SUCCESS_STATUS.contains(batchStatus)) {
+//            // Job has a successful batch status, so go to work
+//            try {
+//                String source = null;
+//                String baseUrl = null;
+//                String cosBucketPathPrefix = null;
+//
+//                for (int i = 0; i < bulkExportJobInstanceResponse.getExecutionId().size(); i++) {
+//                    // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+//                    // Get the current job execution status of the job instance.
+//                    String jobexecutionUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job +
+//                            "/jobexecutions/" + i;
+//
+//                    HttpGet executionStatusGet = new HttpGet(jobexecutionUrl);
+//                    CloseableHttpResponse executionStatusResponse = cli.execute(executionStatusGet);
+//
+//                    JobExecutionResponse executionResponse = null;
+//                    try {
+//                        handleStandardResponseStatus(executionStatusResponse.getStatusLine().getStatusCode());
+//                        HttpEntity entity = executionStatusResponse.getEntity();
+//
+//                        try (InputStream is = entity.getContent()) {
+//                            executionResponse = JobExecutionResponse.Parser.parse(is);
+//                        }
+//                        EntityUtils.consume(entity);
+//                    } finally {
+//                        executionStatusGet.releaseConnection();
+//                        executionStatusResponse.close();
+//                    }
+//
+//                    // These properties should be the same on each execution, so only set them once
+//                    if (i == 0) {
+//                        // Override the source:
+//                        source = executionResponse.getJobParameters().getSource();
+//
+//                        // Assemble the URL
+//                        baseUrl = adapter.getStorageProviderEndpointExternal(source);
+//                        cosBucketPathPrefix = executionResponse.getJobParameters().getCosBucketPathPrefix();
+//
+//                        String request = executionResponse.getJobParameters().getIncomingUrl();
+//                        LOG.fine(executionResponse.getJobName());
+//                        result.setRequest(request);
+//
+//                        // Per the storageProvider setting the output to indicate that the use of an access token is required.
+//                        boolean requireAccessToken = adapter.getStorageProviderUsesRequestAccessToken(source);
+//                        result.setRequiresAccessToken(requireAccessToken);
+//
+//                        if (!"bulkimportchunkjob".equals(executionResponse.getJobName())) {
+//                            // Errors need to be added.
+//                            result.setError(Collections.emptyList());
+//                        }
+//                    }
+//
+//                    verifyTenant(executionResponse.getJobParameters());
+//
+//                    if (LOG.isLoggable(Level.FINE)) {
+//                        LOG.fine("Logging the JobExecutionResponse Details -> \n"
+//                                + JobExecutionResponse.Writer.generate(executionResponse, false));
+//                    }
+//
+//                    addExecutionResponse(result, source, baseUrl, cosBucketPathPrefix, executionResponse);
+//                }
+//
+//                if (result.getOutput() == null || result.getOutput().isEmpty()) {
+//                    result.setOutput(Collections.emptyList());
+//                }
+//
+//                if (result.getDeleted() == null || result.getDeleted().isEmpty()) {
+//                    result.setDeleted(Collections.emptyList());
+//                }
+//
+//            } catch (FHIROperationException fe) {
+//                throw fe;
+//            } catch (Exception ex) {
+//                LOG.throwing(CLASSNAME, "status", ex);
+//                throw export.buildOperationException("An unexpected error has occurred while checking the status - "
+//                        + ex.getMessage(), IssueType.TRANSIENT, ex);
+//            } finally {
+//                cli.close();
+//            }
+//        }
 
         return result;
     }
@@ -541,117 +545,115 @@ public class BulkDataClient {
         }
     }
 
-    /**
-     * Add the exit status from this job execution response to the passed pollingLocationResponse
-     * @param pollingLocationResponse
-     * @param baseUrl
-     * @param cosBucketPathPrefix
-     * @param source
-     * @param executionResponse
-     * @return
-     */
-    private void addExecutionResponse(PollingLocationResponse pollingLocationResponse, String source, String baseUrl, String cosBucketPathPrefix,
-            JobExecutionResponse executionResponse) {
-
-        // Outputs lastUpdatedTime as yyyy-MM-dd'T'HH:mm:ss
-        String lastUpdatedTime = executionResponse.getLastUpdatedTime();
-        TemporalAccessor acc = DATE_TIME_PARSER_FORMATTER.parse(lastUpdatedTime);
-
-        String currentTransactionTimeStringInResponse = pollingLocationResponse.getTransactionTime();
-        if (currentTransactionTimeStringInResponse != null) {
-            java.time.Instant currentTransactionTimeInResponse = java.time.Instant.from(Instant.PARSER_FORMATTER.parse(currentTransactionTimeStringInResponse));
-            if (currentTransactionTimeInResponse.isBefore(java.time.Instant.from(acc))) {
-                pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
-            }
-        } else {
-            pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
-        }
-
-        // Compose outputs for all exported ndjson files from the batch job exit status,
-        // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
-        // COMPLETED means no file exported.
-        String exitStatus = executionResponse.getExitStatus();
-        LOG.fine(() -> "The Exit Status is '" + exitStatus + "'");
-
-        // Export Jobs with data in the exitStatus field
-        if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
-            List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
-            List<PollingLocationResponse.Output> outputList = new ArrayList<>();
-            for (String resourceTypeInf : resourceTypeInfs) {
-                String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
-                String[] resourceCounts =
-                        resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
-                for (int i = 0; i < resourceCounts.length; i++) {
-                    boolean parquet = adapter.isStorageProviderParquetEnabled(source);
-                    StorageType storageType = adapter.getStorageProviderStorageType(source);
-                    String sUrl;
-
-                    LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
-                    if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
-                        String region = adapter.getStorageProviderLocation(source);
-                        String bucketName = adapter.getStorageProviderBucketName(source);
-                        String objectKey = resourceType + "_" + (i + 1);
-                        String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
-                        String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
-                        boolean presigned = adapter.isStorageProviderHmacPresigned(source);
-                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, adapter.getS3HostStyleByStorageProvider(source));
-                        sUrl = url.getUrl();
-                    } else {
-                        // Must be File
-                        String ext;
-                        if (parquet) {
-                            ext = ".parquet";
-                        } else {
-                            ext = ".ndjson";
-                        }
-                        // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
-                        sUrl = cosBucketPathPrefix + File.separator + resourceType + "_" + (i + 1) + ext;
-                    }
-                    outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
-                }
-            }
-            pollingLocationResponse.addOutput(outputList);
-        }
-        // Export that has no data exported
-        else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
-            LOG.fine(() -> "Outputlist is empty");
-            try {
-                pollingLocationResponse.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
-            } catch (FHIRGeneratorException | IOException e) {
-                LOG.severe("Unexpected issue while serializing a fixed value");
-            }
-        }
-        // Import Jobs
-        else if ("bulkimportchunkjob".equals(executionResponse.getJobName())) {
-            // Currently there is no output
-            LOG.fine("Hit the case where we don't form output with counts");
-            List<Input> inputs = executionResponse.getJobParameters().getInputs();
-
-            List<PollingLocationResponse.Output> outputs = new ArrayList<>();
-            List<PollingLocationResponse.Output> errors = new ArrayList<>();
-            List<String> responseCounts = Arrays.asList(executionResponse.getExitStatus().split(","));
-            Iterator<String> iter = responseCounts.iterator();
-            for (Input input : inputs) {
-                String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
-                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_success.ndjson", counts[0]));
-                errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson", counts[1]));
-            }
-            pollingLocationResponse.setOutput(outputs);
-            pollingLocationResponse.setError(errors);
-        }
-    }
+//    /**
+//     * Add the exit status from this job execution response to the passed pollingLocationResponse
+//     * @param pollingLocationResponse
+//     * @param baseUrl
+//     * @param cosBucketPathPrefix
+//     * @param source
+//     * @param executionResponse
+//     * @return
+//     */
+//    private void addExecutionResponse(PollingLocationResponse pollingLocationResponse, String source, String baseUrl, String cosBucketPathPrefix,
+//            JobExecutionResponse executionResponse) {
+//
+//        // Outputs lastUpdatedTime as yyyy-MM-dd'T'HH:mm:ss
+//        String lastUpdatedTime = executionResponse.getLastUpdatedTime();
+//        TemporalAccessor acc = DATE_TIME_PARSER_FORMATTER.parse(lastUpdatedTime);
+//
+//        String currentTransactionTimeStringInResponse = pollingLocationResponse.getTransactionTime();
+//        if (currentTransactionTimeStringInResponse != null) {
+//            java.time.Instant currentTransactionTimeInResponse = java.time.Instant.from(Instant.PARSER_FORMATTER.parse(currentTransactionTimeStringInResponse));
+//            if (currentTransactionTimeInResponse.isBefore(java.time.Instant.from(acc))) {
+//                pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+//            }
+//        } else {
+//            pollingLocationResponse.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+//        }
+//
+//        // Compose outputs for all exported ndjson files from the batch job exit status,
+//        // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
+//        // COMPLETED means no file exported.
+//        String exitStatus = executionResponse.getExitStatus();
+//        LOG.fine(() -> "The Exit Status is '" + exitStatus + "'");
+//
+//        // Export Jobs with data in the exitStatus field
+//        if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
+//            List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
+//            List<PollingLocationResponse.Output> outputList = new ArrayList<>();
+//            for (String resourceTypeInf : resourceTypeInfs) {
+//                String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
+//                String[] resourceCounts =
+//                        resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
+//                for (int i = 0; i < resourceCounts.length; i++) {
+//
+//                    StorageType storageType = adapter.getStorageProviderStorageType(source);
+//                    String sUrl;
+//
+//                    LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
+//                    if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
+//                        String region = adapter.getStorageProviderLocation(source);
+//                        String bucketName = adapter.getStorageProviderBucketName(source);
+//                        String objectKey = resourceType + "_" + (i + 1);
+//                        String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
+//                        String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
+//                        boolean presigned = adapter.isStorageProviderHmacPresigned(source);
+//
+//                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey,
+//                                accessKey, secretKey, false, presigned,
+//                                adapter.getS3HostStyleByStorageProvider(source));
+//                        sUrl = url.getUrl();
+//                    } else {
+//                        // Must be File
+//                        String ext = ".ndjson";
+//                        // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
+//                        sUrl = cosBucketPathPrefix + File.separator + resourceType + "_" + (i + 1) + ext;
+//                    }
+//                    outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
+//                }
+//            }
+//            pollingLocationResponse.addOutput(outputList);
+//        }
+//        // Export that has no data exported
+//        else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
+//            LOG.fine(() -> "Outputlist is empty");
+//            try {
+//                pollingLocationResponse.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
+//            } catch (FHIRGeneratorException | IOException e) {
+//                LOG.severe("Unexpected issue while serializing a fixed value");
+//            }
+//        }
+//        // Import Jobs
+//        else if ("bulkimportchunkjob".equals(executionResponse.getJobName())) {
+//            // Currently there is no output
+//            LOG.fine("Hit the case where we don't form output with counts");
+//            List<Input> inputs = executionResponse.getJobParameters().getInputs();
+//
+//            List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+//            List<PollingLocationResponse.Output> errors = new ArrayList<>();
+//            List<String> responseCounts = Arrays.asList(executionResponse.getExitStatus().split(","));
+//            Iterator<String> iter = responseCounts.iterator();
+//            for (Input input : inputs) {
+//                String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
+//                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_success.ndjson", counts[0]));
+//                errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson", counts[1]));
+//            }
+//            pollingLocationResponse.setOutput(outputs);
+//            pollingLocationResponse.setError(errors);
+//        }
+//    }
 
     /**
      * submit import job with bulkdata.
      *
      * @param inputFormat
      * @param inputSource
-     * @param inputs
+     * @param extJobId
      * @param storageDetail
      * @return
      * @throws Exception
      */
-    public String submitImport(String inputFormat, String inputSource, List<Input> inputs, StorageDetail storageDetail) throws Exception {
+    public Result submitImport(String inputFormat, String inputSource, String extJobId, StorageDetail storageDetail) throws Exception {
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(adapter.getApplicationName());
         builder.moduleName(adapter.getModuleName());
@@ -660,8 +662,7 @@ public class BulkDataClient {
         builder.jobXMLName(JobType.IMPORT.value());
 
         // Add import specific: fhir.dataSourcesInfo
-        // Base64 conversion is done in the builder method
-        builder.fhirDataSourcesInfo(inputs);
+        builder.fhirDataSourcesInfo(extJobId);
 
         // Add import specific storage type
         // import.fhir.storagetype
@@ -695,7 +696,7 @@ public class BulkDataClient {
         CloseableHttpResponse jobResponse = cli.execute(jobPost);
 
         int status = -1;
-        String jobId = "-1";
+        String intJobId = "-1";
         try {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
@@ -714,7 +715,7 @@ public class BulkDataClient {
 
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
-            jobId = Integer.toString(response.getInstanceId());
+            intJobId = Integer.toString(response.getInstanceId());
 
         } finally {
             jobPost.releaseConnection();
@@ -722,7 +723,10 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
+        Result result = new Result();
+        result.intJobId = intJobId;
+        result.url = baseUri + "/$bulkdata-status?job=" + extJobId;
+        return result;
     }
 
     /**
@@ -744,5 +748,105 @@ public class BulkDataClient {
             RANDOM.nextBytes(bytes);
         }
         return encoder.encodeToString(bytes);
+    }
+    
+
+    /**
+     * Job Details/Result
+     */
+    public static class Result { 
+        public String url;
+        public String intJobId;
+    }
+
+    public PollingLocationResponse translateResponse(String blob) throws FHIROperationException {
+        JobOutput output = JobOutput.parse(blob);
+
+        PollingLocationResponse result = new PollingLocationResponse();
+
+        // JSON: "request"
+        String request = output.getIncomingUrl();
+        result.setRequest(request);
+
+        // Per the storageProvider setting the output to indicate that the use of an
+        // access token is required.
+        // JSON: "requiresAccessToken"
+        String source = output.getSource();
+        boolean requireAccessToken = adapter.getStorageProviderUsesRequestAccessToken(source);
+        result.setRequiresAccessToken(requireAccessToken);
+
+        // Outputs lastUpdatedTime as yyyy-MM-dd'T'HH:mm:ss
+        String lastUpdatedTime = output.getLastUpdatedTime();
+        TemporalAccessor acc = DATE_TIME_PARSER_FORMATTER.parse(lastUpdatedTime);
+        result.setTransactionTime(Instant.PARSER_FORMATTER.format(acc));
+
+        // EXPORT
+        if (output.isExport()) {
+            String baseUrl = adapter.getStorageProviderEndpointExternal(source);
+            // Compose outputs for all exported ndjson files from the batch job exit status,
+            // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
+            // COMPLETED means no file exported.
+            List<String> resourceTypeInfs = Arrays.asList(output.getExportOutput().split("\\s*:\\s*"));
+            List<PollingLocationResponse.Output> outputList = new ArrayList<>();
+            for (String resourceTypeInf : resourceTypeInfs) {
+                String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
+                String[] resourceCounts = resourceTypeInf
+                        .substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
+                for (int i = 0; i < resourceCounts.length; i++) {
+                    StorageType storageType = adapter.getStorageProviderStorageType(source);
+                    String sUrl;
+
+                    LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " "
+                            + StorageType.AWSS3.equals(storageType));
+                    if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
+                        String region = adapter.getStorageProviderLocation(source);
+                        String bucketName = adapter.getStorageProviderBucketName(source);
+                        String objectKey = resourceType + "_" + (i + 1);
+                        String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
+                        String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
+                        boolean presigned = adapter.isStorageProviderHmacPresigned(source);
+                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, output.getBucketPathPrefix(),
+                                objectKey, accessKey, secretKey, false, presigned,
+                                adapter.getS3HostStyleByStorageProvider(source));
+                        sUrl = url.getUrl();
+                    } else {
+                        // Originally we set i to resourceCounts[i], however we don't always know the
+                        // count when create the file.
+                        sUrl = output.getBucketPathPrefix() + File.separator + resourceType + "_" + (i + 1) + ".ndjson";
+                    }
+                    outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
+                }
+            }
+            result.addOutput(outputList);
+
+            // Export that has no data exported
+            if (result.getOutput() == null || result.getOutput().isEmpty()) {
+                result.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
+                result.setOutput(Collections.emptyList());
+            }
+
+            if (result.getDeleted() == null || result.getDeleted().isEmpty()) {
+                result.setDeleted(Collections.emptyList());
+            }
+        }
+        // IMPORT
+        else {
+            List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+            List<PollingLocationResponse.Output> errors = new ArrayList<>();
+            List<String> responseCounts = Arrays.asList(output.getImportOutput().split(","));
+            Iterator<String> iter = responseCounts.iterator();
+            for (InputDTO input : output.getInputs()) {
+                String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
+                outputs.add(new PollingLocationResponse.Output("OperationOutcome",
+                        input.getUrl() + "_oo_success.ndjson", counts[0]));
+                errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson",
+                        counts[1]));
+            }
+            result.setOutput(outputs);
+
+            // It'll even add an empty array.
+            result.setError(errors);
+        }
+        return result;
     }
 }

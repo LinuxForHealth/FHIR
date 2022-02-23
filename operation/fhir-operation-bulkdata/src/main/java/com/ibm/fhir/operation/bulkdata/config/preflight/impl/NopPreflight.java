@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * For the legacy configurations, we don't want to run the preflight checks.
@@ -27,11 +27,11 @@ public class NopPreflight implements Preflight {
 
     private String source = null;
     private String outcome = null;
-    private List<Input> inputs = null;
+    private List<InputDTO> inputs = null;
     private OperationConstants.ExportType exportType = null;
     private String format = null;
 
-    public NopPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+    public NopPreflight(String source, String outcome, List<InputDTO> inputs, OperationConstants.ExportType exportType, String format) {
         this.source = source;
         this.outcome = outcome;
         this.inputs = inputs;
@@ -62,7 +62,7 @@ public class NopPreflight implements Preflight {
         return outcome;
     }
 
-    protected List<Input> getInputs() {
+    protected List<InputDTO> getInputs() {
         return inputs;
     }
 

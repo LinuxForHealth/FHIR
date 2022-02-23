@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import jakarta.json.Json;
@@ -22,32 +21,11 @@ import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 /**
  * BulkExport Job Instance Request
- *
- * <pre>
- * {
-    "applicationName": "fhir-bulkdata-webapp",
-    "moduleName": "fhir-bulkdata-webapp.war",
-    "jobXMLName": "FhirBulkExportChunkJob",
-    "jobParameters": {
-        "fhir.resourcetype": "Patient",
-        "fhir.exportFormat": "application/fhir+ndjson",
-        "cos.bucket.name": "fhir-r4-connectathon",
-        "cos.location": "us",
-        "cos.endpoint.internal": "https://fake.cloud",
-        "cos.endpoint.external": "https://fake.cloud",
-        "cos.credential.ibm": "Y",
-        "cos.api.key": "key",
-        "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/fake::",
-        "fhir.search.fromdate": "2019-08-01"
-    }
-    }
- * </pre>
  */
 public class JobInstanceRequest {
     private String applicationName;
@@ -156,8 +134,8 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder fhirDataSourcesInfo(List<Input> inputs) {
-            jobParameter.setInputs(inputs);
+        public Builder fhirDataSourcesInfo(String dataSourcesInfo) {
+            jobParameter.setInputs(dataSourcesInfo);
             return this;
         }
 

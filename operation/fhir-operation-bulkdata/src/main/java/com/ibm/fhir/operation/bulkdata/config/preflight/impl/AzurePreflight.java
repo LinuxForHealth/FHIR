@@ -15,10 +15,10 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Verifies the Export/Import is valid for Azure
@@ -26,7 +26,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 public class AzurePreflight extends NopPreflight {
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
-    public AzurePreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+    public AzurePreflight(String source, String outcome, List<InputDTO> inputs, OperationConstants.ExportType exportType, String format) {
         super(source, outcome, inputs, exportType, format);
     }
 

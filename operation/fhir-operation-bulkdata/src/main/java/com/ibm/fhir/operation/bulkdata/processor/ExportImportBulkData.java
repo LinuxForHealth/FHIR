@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,9 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
+import com.ibm.fhir.persistence.bulkdata.JobManager;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -39,11 +40,13 @@ public interface ExportImportBulkData {
      * @param types
      * @param typeFilters
      * @param operationContext used to signal a non-standard response
+     * @param dao
      * @return
      * @throws FHIROperationException
      */
     public Parameters export(String logicalId, OperationConstants.ExportType exportType, MediaType outputFormat,
-            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext) throws FHIROperationException;
+            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
+            JobManager dao) throws FHIROperationException;
 
     /**
      * Pattern: POST [Base]/$import
@@ -53,28 +56,35 @@ public interface ExportImportBulkData {
      * @param inputs
      * @param storageDetails
      * @param operationContext used to signal a non-standard response
+     * @param dao
      * @return
      * @throws FHIROperationException
      */
-    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs, StorageDetail storageDetails, FHIROperationContext operationContext) throws FHIROperationException;
+    public Parameters importBulkData(String inputFormat, String inputSource, List<InputDTO> inputs,
+            StorageDetail storageDetails, FHIROperationContext operationContext, JobManager dao)
+            throws FHIROperationException;
 
     /**
      * deletes the export/import job
      *
      * @param job
      * @param operationContext used to signal a non-standard response
+     * @param dao
      * @return
      * @throws FHIROperationException
      */
-    public Parameters delete(String job, FHIROperationContext operationContext) throws FHIROperationException;
+    public Parameters delete(String job, FHIROperationContext operationContext, JobManager dao)
+            throws FHIROperationException;
 
     /**
      * checks the status of the export/import job
      *
      * @param job
      * @param operationContext used to signal a non-standard response
+     * @param dao
      * @return
      * @throws FHIROperationException
      */
-    public Parameters status(String job, FHIROperationContext operationContext) throws FHIROperationException;
+    public Parameters status(String job, FHIROperationContext operationContext, JobManager dao)
+            throws FHIROperationException;
 }

@@ -16,9 +16,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Tests for Input and StorageDetail
@@ -26,7 +26,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 public class ImportsTest {
     @Test
     public void testInput() throws IOException {
-        Input input = new Input("a", "b");
+        InputDTO input = new InputDTO("a", "b");
         assertNotNull(input);
         assertEquals(input.getType(), "a");
         assertEquals(input.getUrl(), "b");
@@ -59,11 +59,11 @@ public class ImportsTest {
 
     @Test
     public void testJobParametersSerialization() throws IOException {
-        Input input1 = new Input("a", "b");
-        Input input2 = new Input("c", "d");
-        List<Input> inputs = Arrays.asList(input1, input2);
+        InputDTO input1 = new InputDTO("a", "b");
+        InputDTO input2 = new InputDTO("c", "d");
+        List<InputDTO> inputs = Arrays.asList(input1, input2);
         String base64str = JobParameter.Writer.writeToBase64(inputs);
-        List<Input> roundtripInputs = JobParameter.Parser.parseInputsFromString(base64str);
+        List<InputDTO> roundtripInputs = JobParameter.Parser.parseInputsFromString(base64str);
         assertNotNull(roundtripInputs);
         assertFalse(roundtripInputs.isEmpty());
         assertEquals(roundtripInputs.size(), 2);

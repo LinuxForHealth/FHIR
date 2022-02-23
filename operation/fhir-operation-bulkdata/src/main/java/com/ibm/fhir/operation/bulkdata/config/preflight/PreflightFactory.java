@@ -17,8 +17,8 @@ import com.ibm.fhir.operation.bulkdata.config.preflight.impl.FilePreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.HttpsPreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.NopPreflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.impl.S3Preflight;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -37,7 +37,7 @@ public class PreflightFactory {
      * @param exportType
      * @return
      */
-    public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs,
+    public static Preflight getInstance(FHIROperationContext operationContext, List<InputDTO> inputs,
             OperationConstants.ExportType exportType, String format) {
         // Get the Source
         // If inputs != null, then we're dealing with an ImportOperation.

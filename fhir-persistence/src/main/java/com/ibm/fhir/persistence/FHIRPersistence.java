@@ -12,6 +12,7 @@ import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.bulkdata.JobManager;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -251,6 +252,16 @@ public interface FHIRPersistence {
      */
     default ResourceEraseRecord erase(EraseDTO eraseDto) throws FHIRPersistenceException {
         throw new FHIRPersistenceException("Erase is not supported");
+    }
+
+    /**
+     * Creates a job manager and manipulates the base layer related.
+     * 
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    default JobManager getJobManager() throws FHIRPersistenceException {
+        throw new FHIRPersistenceException("JobManager is not supported");
     }
 
     /**

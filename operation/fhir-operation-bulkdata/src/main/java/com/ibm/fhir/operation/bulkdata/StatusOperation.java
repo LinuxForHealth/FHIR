@@ -19,6 +19,8 @@ import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
+import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -54,21 +56,37 @@ public class StatusOperation extends AbstractOperation {
             throws FHIROperationException {
         COMMON.checkEnabled();
         if (logicalId == null && versionId == null && resourceType == null) {
-            String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
-            if ("DELETE".equalsIgnoreCase(method)) {
-                String job = export.checkAndValidateJob(parameters);
-                // For now, we're going to execute the status update, and check.
-                // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getInstance(operationContext).delete(job, operationContext);
-            } else {
-                // Assume GET or POST
-                String job = export.checkAndValidateJob(parameters);
+            // Data Access to get the JobManager
+            FHIRPersistence pl = (FHIRPersistence) operationContext
+                    .getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+            try {
+                FHIRPersistenceTransaction tx = resourceHelper.getTransaction();
+                tx.begin();
+                try {
+                    String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
+                    if ("DELETE".equalsIgnoreCase(method)) {
+                        String job = export.checkAndValidateJob(parameters);
+                        // For now, we're going to execute the status update, and check.
+                        // If Base, Export Status (Else Invalid)
+                        return BulkDataFactory.getInstance(operationContext).delete(job, operationContext, pl.getJobManager());
+                    } else {
+                        // Assume GET or POST
+                        String job = export.checkAndValidateJob(parameters);
 
-                // @implNote We don't need a preflight... we wouldn't have go here otherwise.
+                        // @implNote We don't need a preflight... we wouldn't have go here otherwise.
 
-                // For now, we're going to execute the status update, and check.
-                // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getInstance(operationContext).status(job, operationContext);
+                        // For now, we're going to execute the status update, and check.
+                        // If Base, Export Status (Else Invalid)
+                        return BulkDataFactory.getInstance(operationContext).status(job, operationContext, pl.getJobManager());
+                    }
+                } finally {
+                    tx.end();
+                }
+            } catch (FHIROperationException e) {
+                throw e;
+            } catch (Throwable throwable) {
+                throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
+                        + getName() + "': " + throwable.getClass().getName() + ": " + throwable.getMessage(), throwable);
             }
         } else {
             // Unsupported on Resource Type

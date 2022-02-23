@@ -18,6 +18,10 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkdata.jbatch.export.fast.data.PartitionSummary;
+import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.bulkdata.JobManager;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 
 @Dependent
 public class ExportPartitionAnalyzer implements PartitionAnalyzer {
@@ -37,6 +41,18 @@ public class ExportPartitionAnalyzer implements PartitionAnalyzer {
     public void analyzeStatus(BatchStatus batchStatus, String exitStatus) {
         if (BatchStatus.FAILED.equals(batchStatus) && "NO_SUCH_BUCKET".equals(exitStatus)) {
             jobContext.setExitStatus("NO_SUCH_BUCKET");
+        }
+
+        if (BatchStatus.COMPLETED.equals(batchStatus)) {
+            FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+            try {
+                FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+                JobManager manager = fhirPersistence.getJobManager();
+
+            } catch (FHIRPersistenceException e) {
+                logger.throwing(ExportPartitionAnalyzer.class.getName(), "analyzeStatus", e);
+            }
+
         }
     }
 

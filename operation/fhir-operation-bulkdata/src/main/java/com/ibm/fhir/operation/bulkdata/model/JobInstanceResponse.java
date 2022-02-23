@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,29 +31,6 @@ import jakarta.json.stream.JsonGeneratorFactory;
 
 /**
  * BulkImportJob's JSON response
- *
- * <pre>
- *  {
-   “jobName”: “BulkImportJob”,
-   “instanceId”: 9,
-   “appName”: “fhir-bulkdata-webapp#fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war”,
-   “submitter”: “fhiruser”,
-   “batchStatus”: “STARTING”,
-   “jobXMLName”: “FhirBulkExportChunkJob”,
-   “instanceState”: “SUBMITTED”,
-   “lastUpdatedTime”: “2019/09/12 15:18:01.416 -0400”,
-   “_links”: [
-       {
-           “rel”: “self”,
-           “href”: “https://localhost:9443/ibm/api/batch/jobinstances/9”
-       },
-       {
-           “rel”: “job logs”,
-           “href”: “https://localhost:9443/ibm/api/batch/jobinstances/9/joblogs”
-       }
-   ]
-    }
- * </pre>
  */
 public class JobInstanceResponse {
     private String jobName;

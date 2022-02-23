@@ -1,11 +1,24 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.schema.control;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_DATASTORE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_EXT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_INCOMING;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_INT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_OUTCOME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_SOURCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_STATUS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_TENANT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BD_TYPE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BULK_INPUT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BULK_JOB_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BULK_OUTPUT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.BULK_TABLE_NAME;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_URL_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TSTAMP;
@@ -71,12 +84,14 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.URL;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.UUID_LEN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -396,6 +411,7 @@ public class FhirSchemaGenerator {
         addLogicalResourceTags(model);     // V0014
         addLogicalResourceSecurity(model); // V0016
         addErasedResources(model);  // V0023
+        addBulkOperationsTables(model);
 
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
@@ -1326,6 +1342,59 @@ public class FhirSchemaGenerator {
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+    
+    /**
+     * The BULK_OPERATIONS table is used to facilitate input/output.
+     * This is a first table to support Bulk Data operations.
+     * @param pdm
+     */
+    public void addBulkOperationsTables(PhysicalDataModel pdm) {
+        final String tableName = BULK_TABLE_NAME;
+        final String mtId = this.multitenant ? MT_ID : null;
+
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0026.vid())
+                .setTenantColumnName(mtId)
+                // Primary Key (Generated)
+                .addBigIntColumn(BULK_JOB_ID, false)
+                .setIdentityColumn(BULK_JOB_ID, Generated.ALWAYS)
+                .addPrimaryKey(tableName + "_PK", BULK_JOB_ID)
+                // UUID: external JOB_ID
+                .addVarcharColumn(BD_EXT_ID,    UUID_LEN,         true)
+                // Internal Job Id: INT
+                .addVarcharColumn(BD_INT_ID,    UUID_LEN,         true)
+                // Job Type: ExportChunk, ExportFast, GroupChunk, PatientChunk, ImportChunk
+                .addIntColumn(      BD_TYPE,                      true)
+                // Job Status
+                .addCharColumn(   BD_STATUS,           1,        false)
+                // Tenant
+                .addVarcharColumn(BD_TENANT,    UUID_LEN,         true)
+                // Datastore
+                .addVarcharColumn(BD_DATASTORE, UUID_LEN,         true)
+                // incomingUrl 
+                .addVarcharColumn(BD_INCOMING,       512,         true)
+                // bulkdata.source
+                .addVarcharColumn(BD_SOURCE,    UUID_LEN,         true)
+                // bulkdata.outcome
+                .addVarcharColumn(BD_OUTCOME,   UUID_LEN,         true)
+                // Inputs (2MB)
+                .addBlobColumn(   BULK_INPUT,  2242880,  10240, true)
+                // Output (2MB)
+                .addBlobColumn(   BULK_OUTPUT,  2242880,  10240, true)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // add table tuning
+                .addMigration(priorVersion -> {
+                    return Collections.emptyList();
+                })
+                .build(pdm);
+
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);

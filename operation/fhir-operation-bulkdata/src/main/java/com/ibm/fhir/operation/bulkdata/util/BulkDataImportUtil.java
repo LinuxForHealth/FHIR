@@ -24,7 +24,6 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
@@ -33,6 +32,7 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -110,9 +110,9 @@ public class BulkDataImportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public List<Input> retrieveInputs() throws FHIROperationException {
+    public List<InputDTO> retrieveInputs() throws FHIROperationException {
         // Parameter: input (required)
-        List<Input> inputs = new ArrayList<>();
+        List<InputDTO> inputs = new ArrayList<>();
 
         try {
             List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
@@ -150,7 +150,7 @@ public class BulkDataImportUtil {
                 verifyUrlAllowed(url);
 
                 // Add to the Inputs List
-                inputs.add(new Input(type, url));
+                inputs.add(new InputDTO(type, url));
             }
         } catch (java.util.NoSuchElementException nsee) {
             throw buildExceptionWithIssue("$import invalid elements in the 'input' field", nsee, IssueType.INVALID);

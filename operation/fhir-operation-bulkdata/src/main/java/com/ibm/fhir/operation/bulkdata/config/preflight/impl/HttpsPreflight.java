@@ -26,10 +26,10 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Verifies the Export/Import is valid for Https
@@ -37,7 +37,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 public class HttpsPreflight extends NopPreflight {
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
-    public HttpsPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+    public HttpsPreflight(String source, String outcome, List<InputDTO> inputs, OperationConstants.ExportType exportType, String format) {
         super(source, outcome, inputs, exportType, format);
     }
 
@@ -57,7 +57,7 @@ public class HttpsPreflight extends NopPreflight {
 
         // Check that we can access it.
         Set<Callable<Boolean>> callables = new HashSet<>();
-        for (Input input : getInputs()) {
+        for (InputDTO input : getInputs()) {
             HttpsUrlConnectionCallable callable = new HttpsUrlConnectionCallable(input.getUrl());
             callables.add(callable);
         }

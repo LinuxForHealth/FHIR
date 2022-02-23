@@ -26,10 +26,10 @@ import com.ibm.fhir.operation.bulkdata.client.S3ClientGenerator;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 
 /**
  * Checks the S3 Configuration.
@@ -40,7 +40,7 @@ public class S3Preflight extends NopPreflight {
     private static final S3ClientGenerator GENERATOR = new S3ClientGenerator();
     private static final BulkDataExportUtil EXPORT = new BulkDataExportUtil();
 
-    public S3Preflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+    public S3Preflight(String source, String outcome, List<InputDTO> inputs, OperationConstants.ExportType exportType, String format) {
         super(source, outcome, inputs, exportType, format);
     }
 

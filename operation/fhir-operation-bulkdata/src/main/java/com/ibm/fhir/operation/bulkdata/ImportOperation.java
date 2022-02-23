@@ -18,12 +18,14 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
 import com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataImportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
+import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.bulkdata.InputDTO;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -69,7 +71,7 @@ public class ImportOperation extends AbstractOperation {
         String inputSource = util.retrieveInputSource();
 
         // Parameter: input
-        List<Input> inputs = util.retrieveInputs();
+        List<InputDTO> inputs = util.retrieveInputs();
 
         // Parameter: storageDetail
         StorageDetail storageDetail = util.retrieveStorageDetails();
@@ -77,8 +79,25 @@ public class ImportOperation extends AbstractOperation {
         Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null, inputFormat);
         preflight.checkStorageAllowed(storageDetail);
         preflight.preflight(true);
-        return BulkDataFactory.getInstance(operationContext, true)
-                .importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
+
+        // Data Access to get the JobManager
+        FHIRPersistence pl = (FHIRPersistence) operationContext
+                .getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+        try {
+            FHIRPersistenceTransaction tx = resourceHelper.getTransaction();
+            tx.begin();
+            try {
+                return BulkDataFactory.getInstance(operationContext, true).importBulkData(inputFormat, inputSource,
+                        inputs, storageDetail, operationContext, pl.getJobManager());
+            } finally {
+                tx.end();
+            }
+        } catch (FHIROperationException e) {
+            throw e;
+        } catch (Throwable throwable) {
+            throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
+                    + getName() + "': " + throwable.getClass().getName() + ": " + throwable.getMessage(), throwable);
+        }
     }
 
     private void checkImportType(FHIROperationContext.Type type) throws FHIROperationException {

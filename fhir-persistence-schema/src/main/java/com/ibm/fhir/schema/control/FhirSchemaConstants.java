@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -192,4 +192,22 @@ public class FhirSchemaConstants {
     public static final String ERASED_RESOURCES = "ERASED_RESOURCES";
     public static final String ERASED_RESOURCE_ID = "ERASED_RESOURCE_ID";
     public static final String ERASED_RESOURCE_GROUP_ID = "ERASED_RESOURCE_GROUP_ID";
+
+    // Support for Bulk Operations
+    public static final String BULK_TABLE_NAME = "BULK_OPERATIONS";
+    // - Columns
+    public static final String BULK_JOB_ID = "ID";
+    public static final String BD_EXT_ID = "BD_EXT";
+    public static final String BD_INT_ID = "BD_INT";
+    public static final String BD_TYPE = "TYPE";
+    public static final String BD_STATUS = "STATUS";
+    public static final String BD_TENANT = "TENANT";
+    public static final String BD_DATASTORE = "DATASTORE";
+    public static final String BD_INCOMING = "INCOMING";
+    public static final String BD_SOURCE = "SOURCE";
+    public static final String BD_OUTCOME = "OUTCOME";
+    public static final String BULK_INPUT = "INPUT";
+    public static final String BULK_OUTPUT = "OUTPUT";
+    // - Group ID
+    public static final String BULK_GROUP_ID = "BULK_OPERATIONS_GROUP_ID";
 }
