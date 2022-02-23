@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,8 +78,8 @@ public class Reporter {
 
         // log the simple metrics.
         logger.info("Operation Type: $import");
-        logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
-            "Resource Type","failures", "success", "processed", "totalRead", "totalSkip", "totalValidation", "totalWrite", "fileSize", "Resource Size"));
+        logger.info(String.format("%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s",
+            "Resource Type","failures (R)", "success (R)", "processed (R)", "totalRead (ms)", "totalSkip (R)", "totalValidation (ms)", "totalWrite (ms)", "fileSize (bytes)", "Resource Size (bytes/resource)"));
         long totalImportedFhirResources = 0;
         for (ImportCheckPointData importedResourceTypeSummary : importedResourceTypeSummaries.values()) {
             String resourceType = importedResourceTypeSummary.getImportPartitionResourceType();
