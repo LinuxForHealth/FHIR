@@ -90,14 +90,14 @@ public class ImportPartitionAnalyzer implements PartitionAnalyzer {
                 if ((importedResourceTypeInFlySummary.getNumOfProcessedResources() - importedResourceTypeInFlySummary.getLastChecked()) > adapter.getImportInflyRateNumberOfFhirResources(null)) {
                     long currentTimeMilliSeconds = System.currentTimeMillis();
                     long time = currentTimeMilliSeconds - importedResourceTypeInFlySummary.getInFlyRateBeginMilliSeconds();
-                    double rate = partitionSummaryForMetrics.getNumOfToBeImported() / (1.0 * time);
+                    double rate = (importedResourceTypeInFlySummary.getNumOfProcessedResources() - importedResourceTypeInFlySummary.getLastChecked()) / (1.0 * time);
 
                     // log the in-fly rate.
                     logger.info("Import in-fly rate: [" + jobCtx.getInstanceId() + "/" + jobCtx.getExecutionId() + "/"
                             + importedResourceTypeInFlySummary.getImportPartitionWorkitem() + "/" + importedResourceTypeInFlySummary.getImportPartitionResourceType()
                             + "] reportingThreshold=[" + adapter.getImportInflyRateNumberOfFhirResources(null)
-                            + "] resources imported in " + time + " milliseconds, ImportRate: ["
-                            + FORMAT.format(rate) + "] Resources/milliseconds");
+                            + "] resources=[" + (importedResourceTypeInFlySummary.getNumOfProcessedResources() - importedResourceTypeInFlySummary.getLastChecked())
+                            + "] imported in " + time + " milliseconds, ImportRate: [" + FORMAT.format(rate) + "] Resources/milliseconds");
 
                     importedResourceTypeInFlySummary.setInFlyRateBeginMilliSeconds(currentTimeMilliSeconds);
                     importedResourceTypeInFlySummary.setLastChecked(importedResourceTypeInFlySummary.getNumOfProcessedResources());

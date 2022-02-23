@@ -1,0 +1,44 @@
+{
+    "resourceType": "ValueSet",
+    "id": "include-associated-data",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"CodeSystem-include-associated-data.html\"><code>http://hl7.org/fhir/uv/bulkdata/CodeSystem/include-associated-data</code></a></li></ul></div>"
+    },
+    "url": "http://hl7.org/fhir/uv/bulkdata/ValueSet/include-associated-data",
+    "version": "2.0.0",
+    "name": "IncludeAssociatedDataValueSet",
+    "title": "Include Associated Data Value Set",
+    "status": "active",
+    "date": "2021-07-29",
+    "publisher": "HL7 International - FHIR Infrastructure Work Group",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/Special/committees/fiwg"
+                }
+            ]
+        }
+    ],
+    "description": "Metadata inclusion options for Bulk Data Access Export Operation includeAssociatedData parameter",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001"
+                }
+            ]
+        }
+    ],
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/uv/bulkdata/CodeSystem/include-associated-data"
+            }
+        ]
+    }
+}

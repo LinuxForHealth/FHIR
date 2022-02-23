@@ -38,7 +38,7 @@
         },
         {
             "name": "storageDetail",
-            "valueString": "ibm-cos",
+            "valueString": "aws-s3",
             "part": [
                 {
                     "name": "contentEncoding",
@@ -46,7 +46,7 @@
                 },
                 {
                     "name": "contentEncoding",
-                    "valueString": "text"
+                    "valueString": "text/plain"
                 }
             ]
         }

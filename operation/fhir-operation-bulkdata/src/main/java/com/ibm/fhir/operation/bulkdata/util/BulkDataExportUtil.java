@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -102,9 +105,13 @@ public class BulkDataExportUtil {
      */
     public Set<String> getSupportedResourceTypes() {
         try {
-            List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-            if (!rts.isEmpty()) {
-                return new HashSet<>(rts);
+            if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.TRUE)) {
+                List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
+                if (rts == null || !rts.isEmpty()) {
+                    rts.remove("Resource");
+                    rts.remove("DomainResource");
+                    return new HashSet<>(rts);
+                }
             }
         } catch (FHIRException e) {
             // NOP
@@ -199,7 +206,14 @@ public class BulkDataExportUtil {
         return null;
     }
 
-    public List<String> checkAndValidateTypes(Parameters parameters) throws FHIROperationException {
+    /**
+     * processes both the Parameters object and the query parameters
+     * @param parameters
+     * @param queryParameters
+     * @return
+     * @throws FHIROperationException
+     */
+    public List<String> checkAndValidateTypes(Parameters parameters, MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -213,7 +227,8 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
-        List<String> result = new ArrayList<>();
+        Set<String> supportedResourceTypes = getSupportedResourceTypes(); 
+        Set<String> result = new HashSet<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 // The model makes sure getName is never non-null.
@@ -223,7 +238,7 @@ public class BulkDataExportUtil {
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         for (String type : types.split(",")) {
                             // Type will never be null here.
-                            if (!type.isEmpty() && RESOURCE_TYPES.contains(type)) {
+                            if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
                                 result.add(type);
                             } else {
                                 throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
@@ -235,7 +250,21 @@ public class BulkDataExportUtil {
                 }
             }
         }
-        return result;
+
+        // Query Parameters
+        if (queryParameters != null) {
+            List<String> qps = queryParameters.get(OperationConstants.PARAM_TYPE);
+            for (String qpv : qps) {
+                for (String type : qpv.split(",")) {
+                    if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
+                        result.add(type);
+                    } else {
+                        throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(result);
     }
 
     /**

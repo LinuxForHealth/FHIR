@@ -88,7 +88,6 @@ public class FHIRRestHelperTest {
                 .details(CodeableConcept.builder()
                     .text(string("The create request resource included id: '1'; this id has been replaced"))
                     .build())
-                .expression(string("<no expression>"))
                 .build())
             .build();
     public static final OperationOutcome NO_NARRATIVE = OperationOutcome.builder()
@@ -2024,7 +2023,7 @@ public class FHIRRestHelperTest {
                 try {
                     assertNotNull(event.getPrevFhirResource());
                     int currentVersion = FHIRPersistenceSupport.getMetaVersionId(event.getPrevFhirResource());
-                    
+
                     // The event contains a version of the resource with the lastUpdated time set
                     assertNotNull(event.getFhirResource());
                     assertNotNull(event.getFhirResource().getMeta());

@@ -72,7 +72,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     private static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
-    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 50;
     public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
     // The following are set on startup:

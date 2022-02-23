@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,13 +16,11 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-
 
 /**
  * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
