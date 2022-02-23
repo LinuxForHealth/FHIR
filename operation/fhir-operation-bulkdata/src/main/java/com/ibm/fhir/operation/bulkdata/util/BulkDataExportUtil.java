@@ -105,7 +105,7 @@ public class BulkDataExportUtil {
      */
     public Set<String> getSupportedResourceTypes() {
         try {
-            if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.FALSE)) {
+            if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.TRUE)) {
                 List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
                 if (rts == null || !rts.isEmpty()) {
                     rts.remove("Resource");
