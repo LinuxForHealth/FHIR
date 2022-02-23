@@ -371,6 +371,66 @@ public class ImportOperationTest extends FHIRServerTestBase {
             checkValidResponse(response);
         }
     }
+    
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportLargeFromFile() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "patient-large.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540001");
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540002");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportLargeFromS3() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "patient-large.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540001");
+            checkOnResource("17d4cf94fcc-91381ffd-9fc4-4830-be49-c317ae540002");
+        }
+    }
 
     /**
      * {

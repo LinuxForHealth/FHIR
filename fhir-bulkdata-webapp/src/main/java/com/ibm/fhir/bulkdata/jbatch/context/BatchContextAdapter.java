@@ -133,6 +133,7 @@ public class BatchContextAdapter {
         context(ctx);
         source(ctx);
         addImport(ctx);
+        ctx.setCosBucketPathPrefix(props.getProperty(OperationFields.COS_BUCKET_PATH_PREFIX));
         return ctx;
     }
 

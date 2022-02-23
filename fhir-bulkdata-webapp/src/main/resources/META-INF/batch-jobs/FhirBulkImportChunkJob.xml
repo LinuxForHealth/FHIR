@@ -27,7 +27,7 @@
                     <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
                     <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
                     <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
-                    
+                    <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                     
                     <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@ package com.ibm.fhir.bulkdata.load.partition.transformer.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
@@ -63,6 +64,11 @@ public class S3Transformer implements PartitionSourceTransformer {
         // We shouldn't hit this situation.
         if (sources.isEmpty()) {
             throw new FHIRLoadException("The source is not found '" + location + "'");
+        }
+
+        if (LOG.isLoggable(Level.FINE)) {
+            // Helpful while debugging to know how many match the Prefix search
+            LOG.fine("The total number of inputs sources are: " + sources.size());
         }
 
         return sources;
