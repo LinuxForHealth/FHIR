@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -104,9 +105,13 @@ public class BulkDataExportUtil {
      */
     public Set<String> getSupportedResourceTypes() {
         try {
-            List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-            if (rts == null || !rts.isEmpty()) {
-                return new HashSet<>(rts);
+            if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.FALSE)) {
+                List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
+                if (rts == null || !rts.isEmpty()) {
+                    rts.remove("Resource");
+                    rts.remove("DomainResource");
+                    return new HashSet<>(rts);
+                }
             }
         } catch (FHIRException e) {
             // NOP
@@ -222,6 +227,7 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
+        Set<String> supportedResourceTypes = getSupportedResourceTypes(); 
         List<String> result = new ArrayList<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
