@@ -228,7 +228,7 @@ public class BulkDataExportUtil {
          * resources from a FHIR endpoint.
          */
         Set<String> supportedResourceTypes = getSupportedResourceTypes(); 
-        List<String> result = new ArrayList<>();
+        Set<String> result = new HashSet<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 // The model makes sure getName is never non-null.
