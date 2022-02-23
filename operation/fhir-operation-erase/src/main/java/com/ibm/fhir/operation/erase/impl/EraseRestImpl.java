@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,6 +51,8 @@ public class EraseRestImpl implements EraseRest {
     // For the errors this list aggregates the issues across the inputs.
     private List<OperationOutcome.Issue> issues = new ArrayList<>();
 
+    private final CompartmentUtil compartmentHelper;
+
     /**
      * create the Erase Rest instance.
      *
@@ -66,6 +68,7 @@ public class EraseRestImpl implements EraseRest {
         this.parameters = parameters;
         this.resourceType = rt.getSimpleName();
         this.logicalId = logicalId;
+        this.compartmentHelper = new CompartmentUtil();
     }
 
     @Override
@@ -372,7 +375,7 @@ public class EraseRestImpl implements EraseRest {
 
 
             // If this is in the patient compartment, then we want throw an issue.
-            if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
+            if (compartmentHelper.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
                 issues.add(Issue.builder()
                     .diagnostics(string("Operation[$erase] on the resource type '" + resourceType + "' requires a reference patient id"))
                     .code(IssueType.INVALID)

@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -63,6 +64,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
@@ -101,6 +103,11 @@ public class FHIRRestHelperTest {
                 .expression(string("Patient"))
                 .build())
             .build();
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        SearchUtil.init();
+    }
 
     /**
      * Test transaction bundle post single.
@@ -2024,7 +2031,7 @@ public class FHIRRestHelperTest {
                 try {
                     assertNotNull(event.getPrevFhirResource());
                     int currentVersion = FHIRPersistenceSupport.getMetaVersionId(event.getPrevFhirResource());
-                    
+
                     // The event contains a version of the resource with the lastUpdated time set
                     assertNotNull(event.getFhirResource());
                     assertNotNull(event.getFhirResource().getMeta());

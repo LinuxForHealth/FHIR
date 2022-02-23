@@ -1,12 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.cql.engine.server.retrieve;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -16,6 +14,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,24 +24,26 @@ import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.server.terminology.ServerFHIRTerminologyProvider;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class ServerFHIRRetrieveProviderTest {
@@ -49,6 +51,11 @@ public class ServerFHIRRetrieveProviderTest {
     private ServerFHIRTerminologyProvider termProvider;
     private ServerFHIRRetrieveProvider provider;
     private FHIRResourceHelpers helpers;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        SearchUtil.init();
+    }
 
     @BeforeMethod
     public void setup() {
@@ -89,8 +96,8 @@ public class ServerFHIRRetrieveProviderTest {
         when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenThrow(FHIRPersistenceResourceNotFoundException.class);
 
         provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
-    }    
-    
+    }
+
     @Test
     public void testMultiplePagesAllReadSuccessfully() throws Exception {
         Condition c1 = Condition.builder().id("c1").subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("Patient/123")).build()).build();
@@ -137,10 +144,12 @@ public class ServerFHIRRetrieveProviderTest {
             this.key = key;
         }
 
+        @Override
         public boolean matches(MultivaluedMap<String, String> map) {
             return map.containsKey(key);
         }
 
+        @Override
         public String toString() {
             return "[hasEntry(" + key + ")]";
         }

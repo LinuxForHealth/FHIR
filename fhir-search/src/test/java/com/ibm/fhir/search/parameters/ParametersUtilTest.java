@@ -6,18 +6,15 @@
 
 package com.ibm.fhir.search.parameters;
 
-import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,12 +22,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Markdown;
-import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
@@ -39,6 +31,9 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 public class ParametersUtilTest extends BaseSearchTest {
     public static final boolean DEBUG = false;
 
+    CompartmentUtil compartmentHelper = new CompartmentUtil();
+    ParametersUtil parametersHelper = new ParametersUtil(compartmentHelper);
+
     @Test
     public void testGetAllSearchParameters() throws IOException {
         // Tests JSON
@@ -46,7 +41,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         assertNotNull(params);
         // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
-            ParametersUtil.print(out);
+            parametersHelper.print(out);
             Assert.assertNotNull(outBA);
         }
         assertEquals(params.size(), 1379);
@@ -56,7 +51,7 @@ public class ParametersUtilTest extends BaseSearchTest {
     public void testPrint() {
         // Test the output, OK, if it gets through.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
-            ParametersUtil.print(out);
+            parametersHelper.print(out);
             assertNotNull(outBA);
             assertNotNull(outBA.toByteArray());
             if (DEBUG) {
@@ -71,35 +66,20 @@ public class ParametersUtilTest extends BaseSearchTest {
     @Test
     public void testGetTenantSPs() {
         // getBuiltInSearchParameterMapByResourceType
-        Map<String, ParametersMap> result = ParametersUtil.getTenantSPs("default");
+        Map<String, ParametersMap> result = parametersHelper.getTenantSPs("default");
         assertNotNull(result);
         assertNull(result.get("Junk"));
         assertFalse(result.get("Observation").getCodes().isEmpty());
     }
 
-    @Test
-    public void testPrintSearchParameter() throws IOException {
-        // Intentionally the data is caputred in the bytearray output stream.
-        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
-
-            SearchParameter.Builder builder =
-                    SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
-            builder.expression(string("test"));
-            ParametersUtil.printSearchParameter(builder.build(), out);
-            assertNotNull(outBA.toByteArray());
-            if (DEBUG) {
-                System.out.println(outBA.toString("UTF-8"));
-            }
-        }
-    }
-
-    @Test
-    public void testInit() {
-        ParametersUtil.init();
-        assertTrue(true);
-    }
-
-    @Test
+    /**
+     * To execute: update com.ibm.fhir.search.parameters.ParametersUtil log level to FINE
+     * and manually invoke this test.  You should see only a single message:
+     * <pre>
+     * The code and name of the search parameter does not match [_code] [_notcode]
+     * </pre>
+     */
+    @Test(enabled = false)
     public void testCheckAndWarnForIssueWithCodeAndName() {
         // Issue 202 : added warning and corresponding test.
         ParametersUtil.checkAndWarnForIssueWithCodeAndName(null, null);
@@ -108,10 +88,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         ParametersUtil.checkAndWarnForIssueWithCodeAndName("", "");
         ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_code");
 
-        // Run as individual unit test, you should see only one warning:
-        // WARNING: The code and name of the search parameter does not match [_code] [_notcode]
+        // This is the one line that should produce a log message (level=FINE)
         ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_notcode");
-
-        assertTrue(true);
     }
 }

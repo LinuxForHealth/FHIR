@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
@@ -31,6 +32,7 @@ public class CapabilitiesTest {
     @BeforeClass
     void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
+        SearchUtil.init();
     }
 
     @AfterClass

@@ -45,8 +45,10 @@ public class BulkDataExportUtil {
                                                     .map(Class::getSimpleName)
                                                     .collect(Collectors.toSet());
 
+    private final CompartmentUtil compartmentHelper;
+
     public BulkDataExportUtil() {
-        // No Operation
+        compartmentHelper = new CompartmentUtil();
     }
 
 
@@ -82,7 +84,7 @@ public class BulkDataExportUtil {
         boolean valid = false;
         try {
             // Also Check to see if the Export is valid for the Compartment.
-            List<String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+            List<String> allCompartmentResourceTypes = compartmentHelper.getCompartmentResourceTypes("Patient");
             Set<String> supportedResourceTypes = getSupportedResourceTypes();
             List<String> tmp = resourceTypes.stream()
                                         .filter(item -> allCompartmentResourceTypes.contains(item) && supportedResourceTypes.contains(item))
@@ -248,7 +250,7 @@ public class BulkDataExportUtil {
             // Ensures only supported resources are added
             Set<String> supportedResourceTypes = getSupportedResourceTypes();
             List<String> supportedDefaultResourceTypes = new ArrayList<>();
-            for (String compartmentResourceType : CompartmentUtil.getCompartmentResourceTypes("Patient")) {
+            for (String compartmentResourceType : compartmentHelper.getCompartmentResourceTypes("Patient")) {
                 if (supportedResourceTypes.contains(compartmentResourceType)) {
                     supportedDefaultResourceTypes.add(compartmentResourceType);
                 }

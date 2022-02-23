@@ -28,6 +28,7 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * A base search test with utilities for other search tests
@@ -66,6 +67,7 @@ public abstract class BaseSearchTest {
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
+        SearchUtil.init();
     }
 
     @AfterMethod

@@ -1501,6 +1501,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         String type;
         String expression;
         boolean isForStoring;
+        boolean isCompartmentInclusionParam;
 
         // LinkedList because we don't need random access, we might remove from it later, and we want this fast
         List<ExtractedParameterValue> allParameters = new LinkedList<>();
@@ -1517,15 +1518,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     url = sp.getUrl().getValue();
                     version = sp.getVersion() != null ? sp.getVersion().getValue(): null;
                     final boolean wholeSystemParam = isWholeSystem(sp);
-
-                    String doNotStoreExtVal = FHIRUtil.getExtensionStringValue(sp, SearchConstants.DO_NOT_STORE_EXT_URL);
-                    isForStoring = (doNotStoreExtVal == null) || "false".equals(doNotStoreExtVal);
+                    isForStoring = !FHIRUtil.hasTag(sp, SearchConstants.TAG_DO_NOT_STORE);
+                    isCompartmentInclusionParam = FHIRUtil.hasTag(sp, SearchConstants.TAG_COMPARTMENT_INCLUSION_PARAM);
 
                     // As not to inject any other special handling logic, this is a simple inline check to see if
                     // _id or _lastUpdated are used, and ignore those extracted values.
                     if (SPECIAL_HANDLING.contains(code)) {
                         continue;
                     }
+
+                    Set<String> compartments = new HashSet<>();
+                    if (isCompartmentInclusionParam) {
+                        for (Extension e : sp.getExtension()) {
+                            if (SearchConstants.COMPARTMENT_EXT_URL.equals(e.getUrl())) {
+                                compartments.add(e.getValue().as(ModelSupport.FHIR_STRING).getValue());
+                            }
+                        }
+                    }
+
                     type = sp.getType().getValue();
                     expression = sp.getExpression().getValue();
 
@@ -1720,6 +1730,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 p.setWholeSystem(true);
                             }
                             p.setForStoring(isForStoring);
+                            if (p instanceof ReferenceParmVal) {
+                                p.setCompartments(compartments);
+                            }
                             allParameters.add(p);
                             if (log.isLoggable(Level.FINE)) {
                                 log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -1811,56 +1824,46 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.fine("Processing compartment parameters for resourceType: " + resourceType);
         }
 
-        Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
-        Map<String, List<ExtractedParameterValue>> collectedEPVByCode = allParameters.stream()
-                .collect(Collectors.groupingBy(epv -> epv.getName()));
-
-        for (Entry<String, Set<String>> entry : compartmentRefParams.entrySet()) {
-            String param = entry.getKey();
-            Set<String> compartments = entry.getValue();
-
-            List<ExtractedParameterValue> collectedEPV = collectedEPVByCode.get(param);
-            // If the parameter has no corresponding extracted values, log and continue
-            if (collectedEPV == null) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.warning("Compartment inclusion param " + param + " has no value");
-                }
+        Set<ExtractedParameterValue> compartmentMemberships = new HashSet<>();
+        for (ExtractedParameterValue epv : allParameters) {
+            if (!epv.isCompartmentInclusionParam()) {
                 continue;
             }
 
-            for (ExtractedParameterValue epv : collectedEPV) {
-                if (!(epv instanceof ReferenceParmVal)) {
-                    log.warning("Skipping compartment inclusion param " + param + "; expected ReferenceParmVal but found " +
-                            epv.getClass().getSimpleName());
-                    continue;
-                }
+            if (!(epv instanceof ReferenceParmVal)) {
+                log.warning("Skipping extracted value for compartment inclusion param " + epv.getName() + "; "
+                        + "expected ReferenceParmVal but found " + epv.getClass().getSimpleName());
+                continue;
+            }
 
-                ReferenceValue rv = ((ReferenceParmVal) epv).getRefValue();
-                if (rv != null && rv.getType() == ReferenceType.LITERAL_RELATIVE
-                        && compartments.contains(rv.getTargetResourceType())) {
-                    String internalCompartmentParamName = CompartmentUtil.makeCompartmentParamName(rv.getTargetResourceType());
+            ReferenceValue rv = ((ReferenceParmVal) epv).getRefValue();
+            if (rv != null && rv.getType() == ReferenceType.LITERAL_RELATIVE
+                    && epv.getCompartments().contains(rv.getTargetResourceType())) {
+                String internalCompartmentParamName = CompartmentUtil.makeCompartmentParamName(rv.getTargetResourceType());
 
-                    if (epv.isForStoring()) {
-                        // create a copy of the extracted parameter value but with the new internal compartment parameter name
-                        ReferenceParmVal pv = new ReferenceParmVal();
-                        pv.setName(internalCompartmentParamName);
-                        pv.setResourceType(resourceType);
-                        pv.setRefValue(rv);
+                if (epv.isForStoring()) {
+                    // create a copy of the extracted parameter value but with the new internal compartment parameter name
+                    ReferenceParmVal pv = new ReferenceParmVal();
+                    pv.setName(internalCompartmentParamName);
+                    pv.setResourceType(resourceType);
+                    pv.setCompartments(Collections.singleton(rv.getTargetResourceType()));
+                    pv.setRefValue(rv);
 
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Adding compartment reference parameter: [" + resourceType + "] " +
-                                    internalCompartmentParamName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
-                        }
-                        allParameters.add(pv);
-                    } else {
-                        // since the extracted parameter value isn't going to be stored,
-                        // just rename it with our internal compartment param name and mark that for storing
-                        epv.setName(internalCompartmentParamName);
-                        epv.setForStoring(true);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Adding compartment reference parameter: [" + resourceType + "] " +
+                                internalCompartmentParamName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
                     }
+                    compartmentMemberships.add(pv);
+                } else {
+                    // since the extracted parameter value isn't going to be stored,
+                    // just rename it with our internal compartment param name and mark that for storing
+                    epv.setName(internalCompartmentParamName);
+                    epv.setForStoring(true);
                 }
             }
         }
+
+        allParameters.addAll(compartmentMemberships);
     }
 
     /**

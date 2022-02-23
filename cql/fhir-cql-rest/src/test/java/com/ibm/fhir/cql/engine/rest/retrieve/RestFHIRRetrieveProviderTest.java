@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,11 +19,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.runtime.DateTime;
 import org.opencds.cqf.cql.engine.runtime.Interval;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.cql.engine.rest.R4RestFHIRTest;
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.search.util.SearchUtil;
 
 public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
 
@@ -45,6 +47,11 @@ public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
     FHIRClient CLIENT;
 
     RestFHIRRetrieveProvider provider;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        SearchUtil.init();
+    }
 
     @BeforeMethod
     public void setUp() throws Exception {

@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mockito.MockedStatic;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,12 +58,18 @@ import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.MeasureReportType;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class EvaluateMeasureOperationTest {
 
     private EvaluateMeasureOperation operation;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        SearchUtil.init();
+    }
 
     @BeforeMethod
     public void setup() {
@@ -146,7 +153,7 @@ public class EvaluateMeasureOperationTest {
             assertEquals( group.getPopulation().size(), 3 );
         }
     }
-    
+
     @Test
     public void testDoEvaluationInvalidIDReferenceNoPrefix() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -189,7 +196,7 @@ public class EvaluateMeasureOperationTest {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT VALID\"");
         }
     }
-    
+
     @Test
     public void testDoEvaluationInvalidIDReferenceWithPrefix() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -232,7 +239,7 @@ public class EvaluateMeasureOperationTest {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT_VALID\"");
         }
     }
-    
+
     @Test
     public void testDoEvaluationInvalidURLReference() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -275,7 +282,7 @@ public class EvaluateMeasureOperationTest {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"https://iamnothere.com/Measure/NOT_VALID|1.0\"");
         }
     }
-    
+
     /**
      * Evaluate a Measure that does not define a library reference
      */

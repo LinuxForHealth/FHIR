@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,12 +12,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.testng.annotations.BeforeMethod;
 import org.opencds.cqf.cql.engine.runtime.Date;
 import org.opencds.cqf.cql.engine.runtime.Interval;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.search.util.SearchUtil;
 
 public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
 
@@ -27,6 +29,11 @@ public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
     protected java.util.Date end;
 
     protected abstract OT getOperation();
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        SearchUtil.init();
+    }
 
     @BeforeMethod
     public void setup() {
@@ -47,7 +54,7 @@ public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
 
     @SuppressWarnings("unchecked")
     protected SingleResourceResult<? extends Resource> asResult(Resource patient) {
-        SingleResourceResult<Resource> result = (SingleResourceResult<Resource>) mock(SingleResourceResult.class);
+        SingleResourceResult<Resource> result = mock(SingleResourceResult.class);
         when(result.isSuccess()).thenReturn(true);
         when(result.getResource()).thenReturn(patient);
         return result;

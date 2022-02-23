@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,6 +36,8 @@ public class PatientExportPartitionMapper implements PartitionMapper {
     @Inject
     JobContext jobCtx;
 
+    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+
     public PatientExportPartitionMapper() {
         // No Operation
     }
@@ -50,7 +52,7 @@ public class PatientExportPartitionMapper implements PartitionMapper {
 
         // By default we're in the Patient Compartment, if we have a valid context
         // which has a resourceType specified, it's valid as the operation has already checked.
-        List<String> resourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+        List<String> resourceTypes = compartmentHelper.getCompartmentResourceTypes("Patient");
         if (ctx.getFhirResourceTypes() != null ) {
             resourceTypes = Arrays.asList(ctx.getFhirResourceTypes().split("\\s*,\\s*"));
         }

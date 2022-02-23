@@ -85,6 +85,8 @@ public class FHIRSwaggerGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 
+    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
         if (!file.exists()) {
@@ -303,10 +305,10 @@ public class FHIRSwaggerGenerator {
         swagger.add("info", info);
 
         swagger.add("basePath", "/fhir-server/api/v4");
-        
+
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
-        APIConnectAdapter.addApiConnectStuff(swagger); 
+        APIConnectAdapter.addApiConnectStuff(swagger);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -368,7 +370,7 @@ public class FHIRSwaggerGenerator {
 
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
-        APIConnectAdapter.addApiConnectStuff(swagger); 
+        APIConnectAdapter.addApiConnectStuff(swagger);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -436,7 +438,7 @@ public class FHIRSwaggerGenerator {
 
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
-        APIConnectAdapter.addApiConnectStuff(swagger); 
+        APIConnectAdapter.addApiConnectStuff(swagger);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
@@ -563,16 +565,16 @@ public class FHIRSwaggerGenerator {
         sort.add("description", "Sort the returned data using one of three options: \r\n\r\n* -_lastUpdated: [Default] Decreasing time - most recent changes first\r\n* _lastUpdated: Increasing time - oldest changes first\r\n* none: Increasing id order - oldest changes first\r\n");
         sort.add("in", "query");
         sort.add("required", false);
-        
+
         sort.add("type", "string");
         JsonArrayBuilder enums = factory.createArrayBuilder();
         enums.add("-_lastUpdated");
         enums.add("_lastUpdated");
         enums.add("none");
         sort.add("enum", enums);
-        
+
         parameters.add("_sortParam", sort);
-        
+
         // add _since=<timestamp>
         JsonObjectBuilder since = factory.createObjectBuilder();
         since.add("name", "_since");
@@ -580,9 +582,9 @@ public class FHIRSwaggerGenerator {
         since.add("in", "query");
         since.add("required", false);
         since.add("type", "string");
-        
+
         parameters.add("_sinceParam", since);
-        
+
         // add _before=<timestamp>
         JsonObjectBuilder before = factory.createObjectBuilder();
         before.add("name", "_before");
@@ -590,9 +592,9 @@ public class FHIRSwaggerGenerator {
         before.add("in", "query");
         before.add("required", false);
         before.add("type", "string");
-        
+
         parameters.add("_beforeParam", before);
-        
+
         // add _count
         JsonObjectBuilder count = factory.createObjectBuilder();
         count.add("name", "_count");
@@ -601,9 +603,9 @@ public class FHIRSwaggerGenerator {
         count.add("required", false);
         count.add("type", "integer");
         count.add("default", 100);
-        
+
         parameters.add("_countParam", count);
-        
+
         // add _type
         if (includeType) {
             JsonObjectBuilder type = factory.createObjectBuilder();
@@ -689,7 +691,7 @@ public class FHIRSwaggerGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/_history", pathObject);
         }
-        
+
         // TODO: add patch
     }
 
@@ -1101,7 +1103,7 @@ public class FHIRSwaggerGenerator {
     }
 
     /**
-     * This method is used by both the resource specific whole system history path generation and the general whole system history path generation.  
+     * This method is used by both the resource specific whole system history path generation and the general whole system history path generation.
      * If it is resource specific, the type parameter will not be generated and the resource type will be included in the operationId.
      * @param path
      * @param tag
@@ -1116,7 +1118,7 @@ public class FHIRSwaggerGenerator {
 
         get.add("tags", tags);
         get.add("summary", summary);
-        
+
         String operationId = "wholeSystemHistory";
         if (resourceSpecific) {
             operationId = operationId + tag;
@@ -1126,33 +1128,33 @@ public class FHIRSwaggerGenerator {
         JsonArrayBuilder produces = factory.createArrayBuilder();
         produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         get.add("produces", produces);
-        
+
         JsonArrayBuilder parameters = factory.createArrayBuilder();
         // Add parameters to api call
         JsonObjectBuilder sortParameter = factory.createObjectBuilder();
         sortParameter.add("$ref", "#/parameters/_sortParam");
         parameters.add(sortParameter);
-        
+
         JsonObjectBuilder sinceParameter = factory.createObjectBuilder();
         sinceParameter.add("$ref", "#/parameters/_sinceParam");
         parameters.add(sinceParameter);
-        
+
         JsonObjectBuilder beforeParameter = factory.createObjectBuilder();
         beforeParameter.add("$ref", "#/parameters/_beforeParam");
         parameters.add(beforeParameter);
-        
+
         JsonObjectBuilder countParameter = factory.createObjectBuilder();
         countParameter.add("$ref", "#/parameters/_countParam");
         parameters.add(countParameter);
-        
+
         if (!resourceSpecific) {
             JsonObjectBuilder typeParameter = factory.createObjectBuilder();
             typeParameter.add("$ref", "#/parameters/_typeParam");
             parameters.add(typeParameter);
         }
-        
+
         get.add("parameters", parameters);
-        
+
         JsonObjectBuilder responses = factory.createObjectBuilder();
 
         JsonObjectBuilder response = factory.createObjectBuilder();
@@ -1532,7 +1534,7 @@ public class FHIRSwaggerGenerator {
 
     private static List<String> getCompartmentClassNames(String compartment) {
         try {
-            return CompartmentUtil.getCompartmentResourceTypes(compartment);
+            return compartmentHelper.getCompartmentResourceTypes(compartment);
         } catch (FHIRSearchException e) {
             return Collections.emptyList();
         }

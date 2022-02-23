@@ -84,6 +84,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
+    private final CompartmentUtil compartmentHelper = new CompartmentUtil();
+
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
         Permission neededPermission;
@@ -203,7 +205,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         case RESOURCE_TYPE: // Patient/$export
             // Either way, the set resourceTypes to export are those from the Patient compartment
             try {
-                List<String> compartmentResourceMembers = CompartmentUtil.getCompartmentResourceTypes(PATIENT);
+                List<String> compartmentResourceMembers = compartmentHelper.getCompartmentResourceTypes(PATIENT);
                 if (typesParam.isPresent() && typesParam.get().getValue() != null) {
                     String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
                     for (String requestedType : Arrays.asList(typesString.split(","))) {
@@ -369,7 +371,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             } else {
                 // Not compartment search - validate and convert to Patient compartment search if the resource type can be in the Patient compartment
                 try {
-                    if (CompartmentUtil.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
+                    if (compartmentHelper.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
                         // Special case for the List resource because we want to enable searches for Formulary Coverage Plan lists
                         if ("List".equals(event.getFhirResourceType())) {
                             // In this case, we will rely on the afterSearch logic to prevent unauthorized access to patient-scoped Lists
@@ -757,14 +759,13 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         try {
-            if (!CompartmentUtil.getCompartmentResourceTypes(compartment).contains(resourceType)) {
+            if (!compartmentHelper.getCompartmentResourceTypes(compartment).contains(resourceType)) {
                 // If the resource type is not applicable for the patient compartment, allow it
                 // TODO: this may be overly broad...how do we appropriately scope user access to non-Patient resources?
                 return true;
             }
 
-            List<String> inclusionCriteria = CompartmentUtil
-                    .getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
+            List<String> inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
 
             EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(resource);
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,7 +60,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
     protected CqlOperation getOperation() {
         return new CqlOperation();
     }
-    
+
     @Test
     public void testRequestContainsUnsupportedParameters() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -83,15 +83,15 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 
         Parameter pSubject = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_SUBJECT)).value(fhirstring("Patient/" + patient.getId())).build();
         Parameter pLibrary = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_EXPRESSION)).value(fhirstring(expression)).build();
-        
+
         Parameter pUseServerData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_USE_SERVER_DATA)).value(fhirboolean(true)).build();
-        
+
         Bundle data = Bundle.builder().type(BundleType.COLLECTION).build();
         Parameter pData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_DATA)).resource(data).build();
-        
+
         Parameters prefetchData = Parameters.builder().parameter(Parameter.builder().name("key").value("key-value").build()).build();
         Parameter pPrefetchData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_PREFETCH_DATA)).resource(prefetchData).build();
-        
+
         Endpoint endpoint = Endpoint.builder()
                 .status(EndpointStatus.ACTIVE)
                 .connectionType(Coding.builder()
@@ -121,7 +121,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
             getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
             fail("Operation was expected to fail due to unsupported parameters");
-            
+
         } catch (FHIROperationException fex) {
             assertNotNull(fex.getIssues());
             assertEquals(fex.getIssues().size(), 6);
@@ -176,7 +176,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 
         }
     }
-    
+
     @Test
     public void testInlineExpressionUsesResourceId() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -223,7 +223,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
 
         }
     }
-    
+
     @Test
     public void testInlineExpressionPatientGender() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -344,8 +344,8 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             System.out.println(fex.getMessage());
         }
     }
-    
-    
+
+
 
     @SuppressWarnings("unchecked")
     @Test

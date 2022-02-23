@@ -37,11 +37,13 @@ import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.SearchParameter.Builder;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -80,9 +82,8 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
- * Search Utility<br>
- * This class uses FHIRPath Expressions (and currently does not support XPath)
- * and uses init to activate the Parameters/Compartments/ValueTypes components.
+ * Search utilities for the IBM FHIR Server.<br>
+ * This class must be initialized via {@link SearchUtil#init()} before it can be used.
  */
 public class SearchUtil {
     private static final String CLASSNAME = SearchUtil.class.getName();
@@ -131,27 +132,27 @@ public class SearchUtil {
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
 
+    private static CompartmentUtil compartmentHelper;
+    private static ParametersUtil parametersHelper;
 
-
-    private SearchUtil() {
+    public SearchUtil() {
         // No Operation
-        // Hides the Initialization
     }
 
     /**
-     * Initializes the various services related to Search and pre-caches.
-     * <br>
-     * Loads the class in the classloader to initialize static members. Call this
-     * before using the class in order to
-     * avoid a slight performance hit on first use.
+     * Construct (or re-construct) the underlying maps used to
+     * work with compartments and search parameters.
      */
     public static void init() {
-        // Inherently the searchParameterCache is loaded.
+        compartmentHelper = new CompartmentUtil();
+        parametersHelper = new ParametersUtil(compartmentHelper);
+    }
 
-        // Loads the Compartments
-        CompartmentUtil.init();
-
-        ParametersUtil.init();
+    private static void validateInitialization() {
+        if (compartmentHelper == null || parametersHelper == null) {
+            throw new IllegalStateException("SearchUtil must be initialized "
+                    + "via init() before it can be used");
+        }
     }
 
     /**
@@ -171,11 +172,12 @@ public class SearchUtil {
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
+        validateInitialization();
         if (code == null) {
             return null;
         }
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+        Map<String, ParametersMap> paramsByResourceType = parametersHelper.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
         for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
@@ -208,11 +210,12 @@ public class SearchUtil {
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
+        validateInitialization();
         if (uri == null || uri.getValue() == null) {
             return null;
         }
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+        Map<String, ParametersMap> paramsByResourceType = parametersHelper.getTenantSPs(tenantId);
 
         // First try the passed resourceType, then fall back to the Resource resourceType (for whole system params)
         for (String type : new String[]{resourceType, FHIRConfigHelper.RESOURCE_RESOURCE}) {
@@ -253,7 +256,7 @@ public class SearchUtil {
      * @throws Exception
      */
     private static Map<String, SearchParameter> getInclusionWildcardSearchParameters(String resourceType, String joinResourceType,
-        String searchParameterTargetType, String inclusionKeyword, Modifier modifier) throws Exception {
+            String searchParameterTargetType, String inclusionKeyword, Modifier modifier) throws Exception {
         Map<String, SearchParameter> inclusionSearchParameters = new HashMap<>();
 
         for (Entry<String, SearchParameter> searchParameterEntry : getSearchParameters(joinResourceType).entrySet()) {
@@ -302,7 +305,7 @@ public class SearchUtil {
      */
     public static Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(Resource resource, boolean skipEmpty)
             throws Exception {
-
+        validateInitialization();
         Map<SearchParameter, List<FHIRPathNode>> result = new LinkedHashMap<>();
 
         // Get the Parameters for the class.
@@ -313,14 +316,13 @@ public class SearchUtil {
         EvaluationContext evaluationContext = new EvaluationContext(resource);
 
         Map<String, SearchParameter> parameters = getSearchParameters(resourceType.getSimpleName());
-
-        for (String inclusionParamName : CompartmentUtil.getCompartmentParamsForResourceType(resourceType.getSimpleName()).keySet()) {
+        Map<String, Set<String>> inclusionParams = compartmentHelper.getCompartmentParamsForResourceType(resourceType.getSimpleName());
+        for (String inclusionParamName : inclusionParams.keySet()) {
             if (!COMPARTMENT_PARM_DEF.equals(inclusionParamName) && !parameters.containsKey(inclusionParamName)) {
                 String tenantId = FHIRRequestContext.get().getTenantId();
-                ParametersMap parametersMap = ParametersUtil.getTenantSPs(tenantId).get(resourceType.getSimpleName());
-                SearchParameter inclusionParam = parametersMap.getInclusionParam(inclusionParamName).toBuilder()
-                        .extension(SearchConstants.DO_NOT_STORE_EXT)
-                        .build();
+                ParametersMap parametersMap = parametersHelper.getTenantSPs(tenantId).get(resourceType.getSimpleName());
+                SearchParameter inclusionParam = parametersMap.getInclusionParam(inclusionParamName);
+                inclusionParam = FHIRUtil.addTag(inclusionParam, SearchConstants.TAG_DO_NOT_STORE);
                 parameters.put(inclusionParamName, inclusionParam);
             }
         }
@@ -328,6 +330,24 @@ public class SearchUtil {
         for (Entry<String, SearchParameter> parameterEntry : parameters.entrySet()) {
             String code = parameterEntry.getKey();
             SearchParameter parameter = parameterEntry.getValue();
+
+            if (inclusionParams.containsKey(code)) {
+                // convert to builder and add the compartment-inclusion-param tag
+                Meta.Builder metaBuilder = (parameter.getMeta() == null) ? Meta.builder() : parameter.getMeta().toBuilder();
+                Builder builder = parameter.toBuilder()
+                        .meta(metaBuilder.tag(SearchConstants.TAG_COMPARTMENT_INCLUSION_PARAM).build());
+
+                // add extensions for each potential compartment
+                for (String compartment : inclusionParams.get(code)) {
+                    builder.extension(Extension.builder()
+                        .url(SearchConstants.COMPARTMENT_EXT_URL)
+                        .value(compartment)
+                        .build());
+                }
+
+                // save the result back into parameter
+                parameter = builder.build();
+            }
 
             com.ibm.fhir.model.type.String expression = parameter.getExpression();
 
@@ -379,6 +399,7 @@ public class SearchUtil {
     public static FHIRSearchContext parseQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
+        validateInitialization();
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
         context.setIncludeResourceData(includeResource);
@@ -1148,10 +1169,11 @@ public class SearchUtil {
      * @return the applicable search parameters for the current request context, indexed by code; never null
      */
     public static Map<String, SearchParameter> getSearchParameters(String resourceType) throws Exception {
+        validateInitialization();
         Map<String, SearchParameter> result = new LinkedHashMap<>();
 
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, ParametersMap> paramsByResourceType = ParametersUtil.getTenantSPs(tenantId);
+        Map<String, ParametersMap> paramsByResourceType = parametersHelper.getTenantSPs(tenantId);
 
         for (String type : new String[]{FHIRConfigHelper.RESOURCE_RESOURCE, resourceType}) {
             ParametersMap parametersMap = paramsByResourceType.get(type);
@@ -1181,6 +1203,7 @@ public class SearchUtil {
      */
     public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
             Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+        validateInitialization();
         String resourceTypeName = resourceType.getSimpleName();
 
         // Read and vRead only allow general search parameters
@@ -1230,6 +1253,7 @@ public class SearchUtil {
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient, boolean includeResource) throws Exception {
 
+        validateInitialization();
         Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient, includeResource);
@@ -1253,6 +1277,8 @@ public class SearchUtil {
      */
     public static QueryParameter buildInclusionCriteria(String compartmentName, Set<String> compartmentLogicalIds, String resourceType)
             throws FHIRSearchException {
+
+        validateInitialization();
         QueryParameter rootParameter = null;
 
         if (compartmentName != null && compartmentLogicalIds != null && !compartmentLogicalIds.isEmpty()) {
@@ -1265,11 +1291,11 @@ public class SearchUtil {
                 // issue #1708. When enabled, use the ibm-internal-... compartment parameter. This
                 // results in faster queries because only a single parameter is used to represent the
                 // compartment membership.
-                CompartmentUtil.checkValidCompartmentAndResource(compartmentName, resourceType);
+                compartmentHelper.checkValidCompartmentAndResource(compartmentName, resourceType);
                 inclusionCriteria = Collections.singletonList(CompartmentUtil.makeCompartmentParamName(compartmentName));
             } else {
                 // pre #1708 behavior
-                inclusionCriteria = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);
+                inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);
             }
 
             for (String criteria : inclusionCriteria) {
@@ -1876,8 +1902,10 @@ public class SearchUtil {
      *     and optionally searchParameterTargetType, colon-delimited
      * @throws Exception
      */
-    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues) throws Exception {
+    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues)
+            throws Exception {
 
+        validateInitialization();
         String[] inclusionValueParts;
         String joinResourceType;
         String searchParameterName;
@@ -2024,9 +2052,10 @@ public class SearchUtil {
      * @throws FHIRSearchException
      */
     private static List<InclusionParameter> buildInclusionParameters(Class<?> resourceType, String joinResourceType,
-        SearchParameter searchParm, String searchParameterTargetType, Modifier modifier, String inclusionKeyword,
-        FHIRSearchContext context) throws FHIRSearchException {
+            SearchParameter searchParm, String searchParameterTargetType, Modifier modifier, String inclusionKeyword,
+            FHIRSearchContext context) throws FHIRSearchException {
 
+        validateInitialization();
         List<InclusionParameter> inclusionParameters = new ArrayList<>();
         String searchParameterCode = searchParm.getCode().getValue();
         boolean isCanonical = isCanonicalSearchParm(resourceType, searchParm.getExpression().getValue());

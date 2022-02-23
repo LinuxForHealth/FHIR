@@ -25,6 +25,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -98,6 +99,11 @@ public abstract class AbstractPersistenceTest {
     }
     protected FHIRPersistenceContext getPersistenceContextForHistory(FHIRHistoryContext ctxt) {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
+    }
+
+    @BeforeSuite
+    public void initializeSearchUtil() {
+        SearchUtil.init();
     }
 
     @BeforeClass
@@ -250,7 +256,7 @@ public abstract class AbstractPersistenceTest {
         assertNotNull(result.getResourceResults());
         return result.getResourceResults().stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
-    
+
     /**
      * Creates and returns a copy of the passed resource with the {@code Resource.id}
      * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
@@ -295,7 +301,7 @@ public abstract class AbstractPersistenceTest {
             throw new FHIRPersistenceResourceNotFoundException("Resource '"
                     + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
         }
-        
+
         // Note we don't want to compare the version we just read with the version of
         // the given resource because we want the following delete method to perform
         // this check for us.
