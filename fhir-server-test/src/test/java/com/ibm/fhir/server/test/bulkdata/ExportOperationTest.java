@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,8 @@
 package com.ibm.fhir.server.test.bulkdata;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -40,22 +40,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
-import org.testng.Assert;
-import org.testng.SkipException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -72,6 +56,22 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.testng.Assert;
+import org.testng.SkipException;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -275,12 +275,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     private void checkExportStatus(boolean isCheckPatient, boolean s3, List<String> types) throws Exception {
         Response response;
+        // We're doing a tight loop here so we can do an immediate DELETE it.
+        ZonedDateTime startTime = ZonedDateTime.now();
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-            Thread.sleep(1000);
+            waitForSetPeriodOfTime(startTime, 5, 1000);
         } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -321,10 +323,9 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 }
             }
         }
-        if (true) {
-            System.out.println("The list of resources is " + types);
-            System.out.println("The actual list of resources is " + tmpTypes);
-        }
+        
+        System.out.println("The list of resources is " + types);
+        System.out.println("The actual list of resources is " + tmpTypes);
 
         // Check the Types that we retrieved are the ones we requested.
         for (String type : tmpTypes) {
@@ -675,6 +676,73 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    public void testBaseExportWithMultipleTypes_Post() throws Exception {
+        if (ON) {
+            Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
+            Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+            Response response = getWebTarget()
+                                    .path(BASE_VALID_URL)
+                                    .queryParam("_outputFormat", FORMAT_NDJSON)
+                                    .queryParam("_type", "Patient,Observation")
+                                    .queryParam("_type", "Patient")
+                                    .queryParam("_type", "Observation")
+                                    .queryParam("_type", "Condition")
+                                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                                    .header("X-FHIR-TENANT-ID", tenantName)
+                                    .header("X-FHIR-DSID", dataStoreId)
+                                    .header("X-FHIR-BULKDATA-PROVIDER", "default")
+                                    .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", "default")
+                                    .post(entity, Response.class);
+
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false, false, Arrays.asList("Patient", "Observation", "Condition"));
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
+    public void testBaseExportWithMultipleTypes_Get() throws Exception {
+        if (ON) {
+            Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
+
+            Response response = getWebTarget()
+                                    .path(BASE_VALID_URL)
+                                    .queryParam("_outputFormat", FORMAT_NDJSON)
+                                    .queryParam("_type", "Patient,Observation")
+                                    .queryParam("_type", "Patient")
+                                    .queryParam("_type", "Observation")
+                                    .queryParam("_type", "Condition")
+                                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                                    .header("X-FHIR-TENANT-ID", tenantName)
+                                    .header("X-FHIR-DSID", dataStoreId)
+                                    .header("X-FHIR-BULKDATA-PROVIDER", "default")
+                                    .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", "default")
+                                    .get(Response.class);
+
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+            checkExportStatus(false, false, Arrays.asList("Patient", "Observation", "Condition"));
+        }
+    }
+
     @Test(groups = { TEST_GROUP_NAME })
     public void testBaseExportWithBadResourceType() throws Exception {
         if (ON) {
@@ -957,12 +1025,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     private void checkGroupExportStatus(boolean s3, List<String> types) throws Exception {
         Response response;
+        // We're doing a tight loop here so we can do an immediate DELETE it.
+        ZonedDateTime startTime = ZonedDateTime.now();
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-            Thread.sleep(5000);
+            waitForSetPeriodOfTime(startTime, 5, 1000);
         } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -998,12 +1068,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
 
+            // We're doing a tight loop here so we can do an immediate DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
             do {
                 response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
                 // 202 accept means the request is still under processing
                 // 200 mean export is finished
                 assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-                Thread.sleep(1000);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
             } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
@@ -1033,12 +1105,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
 
+            // We're doing a tight loop here so we can do an immediate DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
             do {
                 response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
                 // 202 accept means the request is still under processing
                 // 200 mean export is finished
                 assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-                Thread.sleep(1000);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
             } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());

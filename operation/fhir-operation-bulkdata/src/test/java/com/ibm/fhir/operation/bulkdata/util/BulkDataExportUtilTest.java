@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -321,7 +321,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps);
+        util.checkAndValidateTypes(ps, null);
         fail();
     }
 
@@ -336,7 +336,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps);
+        util.checkAndValidateTypes(ps, null);
         fail();
     }
 
@@ -351,7 +351,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ps);
+        List<String> types = util.checkAndValidateTypes(ps, null);
         assertNotNull(types);
     }
 
@@ -366,7 +366,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = util.checkAndValidateTypes(ps);
+        List<String> types = util.checkAndValidateTypes(ps, null);
         assertNotNull(types);
     }
 
@@ -381,7 +381,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ps);
+        List<String> types = util.checkAndValidateTypes(ps, null);
         assertNotNull(types);
     }
 
@@ -396,7 +396,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps);
+        util.checkAndValidateTypes(ps, null);
         fail();
     }
 
@@ -411,7 +411,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ps);
+        List<String> result = util.checkAndValidateTypes(ps, null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -427,7 +427,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = util.checkAndValidateTypes(ps);
+        List<String> result = util.checkAndValidateTypes(ps, null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -435,7 +435,7 @@ public class BulkDataExportUtilTest {
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(null);
+        List<String> result = util.checkAndValidateTypes(null, null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
