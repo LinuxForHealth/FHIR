@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.blob.BlobContainerManager;
 
 /**
@@ -33,6 +34,7 @@ public class Main {
     private String dsId;
     private DbType dbType;
     private boolean reconcile;
+    private boolean createContainer;
     private boolean dryRun = true;
     private String continuationToken = null;
 
@@ -92,6 +94,9 @@ public class Main {
             case "--reconcile":
                 this.reconcile = true;
                 break;
+            case "--create-container":
+                this.createContainer = true;
+                break;
             case "--confirm":
                 this.dryRun = false;
                 break;
@@ -135,12 +140,29 @@ public class Main {
         }
 
         FHIRConfiguration.setConfigHome(fhirConfigDir);
+
+        boolean didSomething = false;
+        if (createContainer) {
+            createContainer();
+            didSomething = true;
+        }
+
         if (this.reconcile) {
             runReconciliation();
-        } else {
-            // just in case we want to extend this app to support more functions
-            logger.info("Nothing do to");
+            didSomething = true;
         }
+        
+        if (!didSomething) {
+            throw new IllegalArgumentException("Must specify at least one action");
+        }
+    }
+
+    /**
+     * Create the container
+     */
+    private void createContainer() throws FHIRException {
+        CreateContainer action = new CreateContainer(this.tenantId, this.dsId, this.dryRun);
+        action.run();
     }
 
     /**

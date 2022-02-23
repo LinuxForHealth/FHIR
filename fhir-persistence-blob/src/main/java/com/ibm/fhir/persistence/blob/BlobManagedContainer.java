@@ -40,4 +40,11 @@ public class BlobManagedContainer {
     public BlobPropertyGroupAdapter getProperties() {
         return this.properties;
     }
+
+    /**
+     * @return the containerName property value
+     */
+    public String getContainerName() {
+        return properties.getContainerName();
+    }
 }
