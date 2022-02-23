@@ -1,3 +1,5 @@
+BulkData Operation is also the ImplementationGuide for STU2 (2.0.0) http://hl7.org/fhir/uv/bulkdata/STU2/.
+
 The following is a brief template of the V2 Configuration. 
 
 ```

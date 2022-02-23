@@ -1,13 +1,61 @@
-
 {
-    "index-version": 1,
-    "files": [
-        {
-            "filename": "CapabilityStatement-bulk-data.json",
-            "resourceType": "CapabilityStatement",
-            "id": "bulk-data",
-            "url": "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data",
-            "version": "1.0.1"
-        }
-    ]
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "ValueSet-include-associated-data.json",
+      "resourceType": "ValueSet",
+      "id": "include-associated-data",
+      "url": "http://hl7.org/fhir/uv/bulkdata/ValueSet/include-associated-data",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ImplementationGuide-hl7.fhir.uv.bulkdata.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.uv.bulkdata",
+      "url": "http://hl7.org/fhir/uv/bulkdata/ImplementationGuide/hl7.fhir.uv.bulkdata",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "CapabilityStatement-bulk-data.json",
+      "resourceType": "CapabilityStatement",
+      "id": "bulk-data",
+      "url": "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data",
+      "version": "2.0.0",
+      "kind": "requirements"
+    },
+    {
+      "filename": "OperationDefinition-patient-export.json",
+      "resourceType": "OperationDefinition",
+      "id": "patient-export",
+      "url": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/patient-export",
+      "version": "2.0.0",
+      "kind": "operation",
+      "type": "true"
+    },
+    {
+      "filename": "OperationDefinition-group-export.json",
+      "resourceType": "OperationDefinition",
+      "id": "group-export",
+      "url": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/group-export",
+      "version": "2.0.0",
+      "kind": "operation",
+      "type": "false"
+    },
+    {
+      "filename": "CodeSystem-include-associated-data.json",
+      "resourceType": "CodeSystem",
+      "id": "include-associated-data",
+      "url": "http://hl7.org/fhir/uv/bulkdata/CodeSystem/include-associated-data",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "OperationDefinition-export.json",
+      "resourceType": "OperationDefinition",
+      "id": "export",
+      "url": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export",
+      "version": "2.0.0",
+      "kind": "operation",
+      "type": "false"
+    }
+  ]
 }
