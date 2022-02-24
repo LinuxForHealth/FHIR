@@ -266,6 +266,12 @@ public class BulkDataExportUtil {
                 }
             }
         }
+
+        // The case where no resourceTypes are specified, inlining only the supported
+        // ResourceTypes
+        if (result.isEmpty()) {
+            result = new HashSet<>(supportedResourceTypes);
+        }
         return new ArrayList<>(result);
     }
 
