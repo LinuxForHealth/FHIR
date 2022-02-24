@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkdata.provider.impl;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -211,5 +212,36 @@ public class FileProvider implements Provider {
         }
 
         chunkData.setLastWrittenPageNum(chunkData.getPageNum());
+    }
+
+    @Override
+    public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
+            throws FHIRException {
+            String base = configuration.getBaseFileLocation(source);
+
+            if (baos.size() > 0) {
+                Path folderPath = Paths.get(base + File.separator + folder);
+                try {
+                    Files.createDirectories(folderPath);
+                } catch (IOException ioe) {
+                    if (!Files.exists(folderPath)) {
+                        throw new FHIRException(
+                                "Error accessing operationoutcome folder during $import '" + folderPath + "'");
+                    }
+                }
+
+                String fn = base + File.separator + folder + File.separator + fileName;
+                Path p1 = Paths.get(fn);
+                try {
+                    // Be sure to mark CREATE and APPEND.
+                    out = Files.newOutputStream(p1, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    baos.writeTo(out);
+                    baos.reset();
+                    out.close();
+                } catch (IOException e) {
+                    logger.warning("Error creating a file '" + fn + "'");
+                    throw new FHIRException("Error creating a file operationoutcome during $import '" + fn + "'");
+                }
+            }
     }
 }
