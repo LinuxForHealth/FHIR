@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.examples.ExamplesUtil;
@@ -243,13 +244,8 @@ public class FHIROpenApiGenerator {
                     definitionsToAdd.add(resourceModelClass);
 
                     // generate definition for all inner classes inside the top level resources.
-                    for (String innerClassName : getAllResourceInnerClasses()) {
-                        String parentClassName = innerClassName.split("\\$")[0];
-                        if (resourceClassName.equals(parentClassName)) {
-                            Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                            definitionsToAdd.add(innerModelClass);
-                        }
-                    }
+                    Set<String> classFilter = Stream.of(resourceClassName).collect(Collectors.toSet());
+                    addDefinitionsForInnerClasses(classFilter, definitionsToAdd);
 
                     // add all the applicable data types to the set of definitions
                     for (String typeClassName : getAllTypesList()) {
@@ -262,7 +258,7 @@ public class FHIROpenApiGenerator {
 
                 // Within compartments, only include resource types that are accepted by the filter
                 for (String withinCompartmentResourceClassName : getCompartmentClassNames(resourceClassName)) {
-                    Class<?> withinCompartmentResourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + withinCompartmentResourceClassName);
+                    Class<?> withinCompartmentResourceModelClass = Class.forName(RESOURCEPACKAGENAME + "." + withinCompartmentResourceClassName);
                     if (DomainResource.class.isAssignableFrom(withinCompartmentResourceModelClass)
                             && DomainResource.class != withinCompartmentResourceModelClass
                             && filter.acceptResourceType(withinCompartmentResourceModelClass)) {
@@ -273,13 +269,8 @@ public class FHIROpenApiGenerator {
                         definitionsToAdd.add(withinCompartmentResourceModelClass);
 
                         // generate definition for all inner classes inside the top level resources.
-                        for (String innerClassName : getAllResourceInnerClasses()) {
-                            String parentClassName = innerClassName.split("\\$")[0];
-                            if (withinCompartmentResourceClassName.equals(parentClassName)) {
-                                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                                definitionsToAdd.add(innerModelClass);
-                            }
-                        }
+                        Set<String> classFilter = Stream.of(withinCompartmentResourceClassName).collect(Collectors.toSet());
+                        addDefinitionsForInnerClasses(classFilter, definitionsToAdd);
 
                         // add all the applicable data types to the set of definitions
                         for (String typeClassName : getAllTypesList()) {
@@ -318,13 +309,8 @@ public class FHIROpenApiGenerator {
             generateDefinition(Parameters.class, definitions);
 
             // generate definition for all inner classes inside the top level resources.
-            for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-                Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-                if (Parameters.class.equals(parentClass)) {
-                    Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                    generateDefinition(innerModelClass, definitions);
-                }
-            }
+            Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+            generateDefinitionForInnerClasses(classFilter, definitions);
         }
         
         JsonObject parametersObject = parameters.build();
@@ -423,17 +409,8 @@ public class FHIROpenApiGenerator {
                 generateDefinition(OperationOutcome.class, definitions);
 
                 // generate definition for all inner classes inside the top level resources.
-                for (String innerClassName : getAllResourceInnerClasses()) {
-                    String parentClassName = innerClassName.split("\\$")[0];
-                    if (resourceClassName.equals(parentClassName) ||
-                            "DomainResource".equals(parentClassName) ||
-                            "Resource".equals(parentClassName) ||
-                            "Bundle".equals(parentClassName) ||
-                            "OperationOutcome".equals(parentClassName)) {
-                        Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                        generateDefinition(innerModelClass, definitions);
-                    }
-                }
+                Set<String> classFilter = Stream.of(resourceClassName, "DomainResource", "Resource", "Bundle", "OperationOutcome").collect(Collectors.toSet());
+                generateDefinitionForInnerClasses(classFilter, definitions);
 
                 // generate definition for all the applicable data types.
                 for (String typeClassName : getAllTypesList()) {
@@ -456,16 +433,9 @@ public class FHIROpenApiGenerator {
                     generateExportParameters(parameters);
                     generateDefinition(Parameters.class, definitions);
 
-                    // generate definition for all inner classes inside the top level resources.
-                    for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-                        Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-                        if (Parameters.class.equals(parentClass)) {
-                            Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                            generateDefinition(innerModelClass, definitions);
-                        }
-                    }
+                    classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+                    generateDefinitionForInnerClasses(classFilter, definitions);
                 }
-
                 
                 JsonObject parametersObject = parameters.build();
                 if (!parametersObject.isEmpty()) {
@@ -510,7 +480,7 @@ public class FHIROpenApiGenerator {
 
                 // Only include resource types that are accepted by the filter
                 for (String resourceClassName : resourceClassNames) {
-                    Class<?> resourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + resourceClassName);
+                    Class<?> resourceModelClass = Class.forName(RESOURCEPACKAGENAME + "." + resourceClassName);
                     if (DomainResource.class.isAssignableFrom(resourceModelClass)
                             && DomainResource.class != resourceModelClass
                             && filter.acceptResourceType(resourceModelClass)) {
@@ -524,17 +494,8 @@ public class FHIROpenApiGenerator {
                         generateDefinition(resourceModelClass, definitions);
 
                         // generate definition for all inner classes inside the top level resources.
-                        for (String innerClassName : getAllResourceInnerClasses()) {
-                            String parentClassName = innerClassName.split("\\$")[0];
-                            if (resourceClassName.equals(parentClassName) ||
-                                    "DomainResource".equals(parentClassName) ||
-                                    "Resource".equals(parentClassName) ||
-                                    "Bundle".equals(parentClassName) ||
-                                    "OperationOutcome".equals(parentClassName)) {
-                                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                                generateDefinition(innerModelClass, definitions);
-                            }
-                        }
+                        Set<String> classFilter = Stream.of(resourceClassName, "DomainResource", "Resource", "Bundle", "OperationOutcome").collect(Collectors.toSet());
+                        generateDefinitionForInnerClasses(classFilter, definitions);
 
                         // generate definition for all the applicable data types.
                         for (String typeClassName : getAllTypesList()) {
@@ -591,13 +552,8 @@ public class FHIROpenApiGenerator {
                     generateDefinition(Parameters.class, definitions);
 
                     // generate definition for all inner classes inside the top level resources.
-                    for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-                        Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-                        if (Parameters.class.equals(parentClass)) {
-                            Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                            generateDefinition(innerModelClass, definitions);
-                        }
-                    }
+                    Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+                    generateDefinitionForInnerClasses(classFilter, definitions);
                 }
                 
                 JsonObject parametersObject = parameters.build();
@@ -657,13 +613,8 @@ public class FHIROpenApiGenerator {
         generateDefinition(DomainResource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        for (String innerClassName : getAllResourceInnerClasses()) {
-            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-            if (CapabilityStatement.class.equals(parentClass)) {
-                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                generateDefinition(innerModelClass, definitions);
-            }
-        }
+        Set<String> classFilter = Stream.of("CapabilityStatement").collect(Collectors.toSet());
+        generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable defined Types.
         for (String typeClassName : getAllTypesList()) {
@@ -724,18 +675,13 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-            if (Bundle.class.equals(parentClass)) {
-                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                generateDefinition(innerModelClass, definitions);
-            }
-        }
+        Set<String> classFilter = Stream.of("Bundle").collect(Collectors.toSet());
+        generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable data types.
-        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+        for (String typeClassName : getAllTypesList()) {
             Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, Bundle.class)) {
+            if (isApplicableForClass(typeModelClass, Bundle.class)) {
                 generateDefinition(typeModelClass, definitions);
             }
         }
@@ -794,13 +740,8 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        for (String innerClassName : getAllResourceInnerClasses()) {
-            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-            if (Bundle.class.equals(parentClass)) {
-                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                generateDefinition(innerModelClass, definitions);
-            }
-        }
+        Set<String> classFilter = Stream.of("Bundle").collect(Collectors.toSet());
+        generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the defined Types.
         for (String typeClassName : getAllTypesList()) {
@@ -869,18 +810,13 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
-            Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
-            if (Parameters.class.equals(parentClass)) {
-                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
-                generateDefinition(innerModelClass, definitions);
-            }
-        }
+        Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+        generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable data types.
-        for (String typeClassName : FHIROpenApiGenerator.getAllTypesList()) {
+        for (String typeClassName : getAllTypesList()) {
             Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
-            if (FHIROpenApiGenerator.isApplicableForClass(typeModelClass, Parameters.class)) {
+            if (isApplicableForClass(typeModelClass, Parameters.class)) {
                 generateDefinition(typeModelClass, definitions);
             }
         }
@@ -1192,7 +1128,7 @@ public class FHIROpenApiGenerator {
         // Add Patient Everything
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
-            generatePatientEveryThingPathItem(path, false);
+            generatePatientEverythingPathItem(path, false);
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
@@ -1201,7 +1137,7 @@ public class FHIROpenApiGenerator {
 
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
-            generatePatientEveryThingPathItem(path, true);
+            generatePatientEverythingPathItem(path, true);
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
@@ -1990,7 +1926,7 @@ public class FHIROpenApiGenerator {
      * @param path
      * @param addIdParam
      */
-    private static void generatePatientEveryThingPathItem(JsonObjectBuilder path, boolean addIdParam) {
+    private static void generatePatientEverythingPathItem(JsonObjectBuilder path, boolean addIdParam) {
         JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
@@ -2715,4 +2651,38 @@ public class FHIROpenApiGenerator {
 
         return isApplicable;
     }
+
+    /**
+     * Generate definition for all inner classes inside the top level resources.
+     * @param classFilter
+     * @param definitions
+     * @throws Exception
+     */
+    private static void generateDefinitionForInnerClasses(Set<String> classFilter, JsonObjectBuilder definitions) throws Exception {
+        for (String innerClassName : getAllResourceInnerClasses()) {
+            String parentClassName = innerClassName.split("\\$")[0];
+            if (classFilter.contains(parentClassName)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                generateDefinition(innerModelClass, definitions);
+            }
+        }
+    }
+    
+    /**
+     * Adds the definitions for all inner classes inside the top level resources to the given definitions set.
+     * @param classFilter
+     * @param definitions
+     * @throws Exception
+     */
+    private static void addDefinitionsForInnerClasses(Set<String> classFilter, Set<Class<?>> definitions) throws Exception {
+        for (String innerClassName : getAllResourceInnerClasses()) {
+            String parentClassName = innerClassName.split("\\$")[0];
+            if (classFilter.contains(parentClassName)) {
+                Class<?> innerModelClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName);
+                definitions.add(innerModelClass);
+            }
+        }
+    }
+    
+    
 }

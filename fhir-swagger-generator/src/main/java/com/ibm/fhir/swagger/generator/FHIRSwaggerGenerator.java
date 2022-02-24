@@ -840,7 +840,7 @@ public class FHIRSwaggerGenerator {
         // Add Patient Everything
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
-            generatePatientEveryThingPathItem(path, false);
+            generatePatientEverythingPathItem(path, false);
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
@@ -849,7 +849,7 @@ public class FHIRSwaggerGenerator {
 
         path = factory.createObjectBuilder();
         if (filter.acceptOperation(modelClass, "everything") && "Patient".equals(modelClass.getSimpleName())) {
-            generatePatientEveryThingPathItem(path, true);
+            generatePatientEverythingPathItem(path, true);
         }
         pathObject = path.build();
         if (!pathObject.isEmpty()) {
@@ -1566,7 +1566,7 @@ public class FHIRSwaggerGenerator {
      * @param path
      * @param addIdParam
      */
-    private static void generatePatientEveryThingPathItem(JsonObjectBuilder path, boolean addIdParam) {
+    private static void generatePatientEverythingPathItem(JsonObjectBuilder path, boolean addIdParam) {
         JsonObjectBuilder httpMethodBuilder = factory.createObjectBuilder();
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
