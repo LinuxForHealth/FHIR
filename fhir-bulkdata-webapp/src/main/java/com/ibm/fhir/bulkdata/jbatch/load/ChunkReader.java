@@ -105,8 +105,12 @@ public class ChunkReader extends AbstractItemReader {
                     // Note: for those good imports, we don't really generate any meaningful OperationOutcome,
                     // so only error import
                     // OperationOutcomes are supported for now.
-                    .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
-                    .uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .uniqueIDForImportOperationOutcomes(ctx.getCosBucketPathPrefix() + "/"
+                            + ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
+                    .uniqueIDForImportFailureOperationOutcomes(
+                            ctx.getCosBucketPathPrefix() + "/" + ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .partNumForOperationOutcomes(1)
+                    .partNumForFailureOperationOutcomes(1)
                     .inFlyRateBeginMilliSeconds(System.currentTimeMillis())
                     .build();
 

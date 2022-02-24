@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkdata.jbatch.load;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,11 +21,13 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportCheckPointData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
-import com.ibm.fhir.bulkdata.provider.impl.S3Provider;
+import com.ibm.fhir.bulkdata.provider.Provider;
+import com.ibm.fhir.bulkdata.provider.ProviderFactory;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -33,9 +36,9 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 @Dependent
 public class ImportPartitionCollector implements PartitionCollector {
-    private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
+    private static final Logger LOG = Logger.getLogger(ImportPartitionCollector.class.getName());
 
-    private S3Provider wrapper = null;
+    private Provider provider = null;
 
     @Inject
     StepContext stepCtx;
@@ -63,11 +66,12 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
             boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
-                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
+                    && !StorageType.HTTPS.equals(type);
 
             String cosOperationOutcomesBucketName = adapter.getStorageProviderBucketName(ctx.getOutcome());
             if (collectImportOperationOutcomes) {
-                wrapper = new S3Provider(ctx.getOutcome());
+                provider = ProviderFactory.getSourceWrapper(ctx.getOutcome(),
+                        adapter.getStorageProviderType(ctx.getOutcome()));
             }
 
             ImportTransientUserData partitionSummaryData  = (ImportTransientUserData)stepCtx.getTransientUserData();
@@ -88,20 +92,23 @@ public class ImportPartitionCollector implements PartitionCollector {
                 if (collectImportOperationOutcomes) {
                     // Upload remaining OperationOutcomes.
                     if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
-                        if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
-                            partitionSummaryData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(wrapper.getClient(),
+                        if (partitionSummaryData.getUploadIdForOperationOutcomes() == null) {
+                            partitionSummaryData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(provider.getClient(),
                                     cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes()));
                         }
 
-                        partitionSummaryData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(wrapper.getClient(),
+                        ByteArrayOutputStream baos = partitionSummaryData.getBufferStreamForImportError();
+
+                        PartETag tag = BulkDataUtils.multiPartUpload(provider.getClient(),
                                 cosOperationOutcomesBucketName,
                                 partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
                                 partitionSummaryData.getUploadIdForOperationOutcomes(),
-                                new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImport().toByteArray()),
-                                partitionSummaryData.getBufferStreamForImport().size(),
-                                partitionSummaryData.getPartNumForOperationOutcomes()));
-                        if (logger.isLoggable(Level.FINE)) {
-                            logger.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImport().size()
+                                new ByteArrayInputStream(baos.toByteArray()), baos.size(),
+                                partitionSummaryData.getPartNumForOperationOutcomes());
+                        partitionSummaryData.getDataPacksForOperationOutcomes().add(tag);
+
+                        if (LOG.isLoggable(Level.FINE)) {
+                            LOG.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImport().size()
                                 + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportOperationOutcomes());
                         }
                         partitionSummaryData.setPartNumForOperationOutcomes(partitionSummaryData.getPartNumForOperationOutcomes() + 1);
@@ -109,26 +116,26 @@ public class ImportPartitionCollector implements PartitionCollector {
                     }
                     // Finish uploading OperationOutcomes.
                     if (partitionSummaryData.getUploadIdForOperationOutcomes() != null) {
-                        BulkDataUtils.finishMultiPartUpload(wrapper.getClient(), cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
+                        BulkDataUtils.finishMultiPartUpload(provider.getClient(), cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
                                 partitionSummaryData.getUploadIdForOperationOutcomes(), partitionSummaryData.getDataPacksForOperationOutcomes());
                     }
 
                     // Upload remaining failure OperationOutcomes.
                     if (partitionSummaryData.getBufferStreamForImportError().size() > 0) {
                         if (partitionSummaryData.getUploadIdForFailureOperationOutcomes()  == null) {
-                            partitionSummaryData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(wrapper.getClient(),
+                            partitionSummaryData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(provider.getClient(),
                                     cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes()));
                         }
 
-                        partitionSummaryData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(wrapper.getClient(),
+                        partitionSummaryData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(provider.getClient(),
                                 cosOperationOutcomesBucketName,
                                 partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
                                 partitionSummaryData.getUploadIdForFailureOperationOutcomes(),
                                 new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
                                 partitionSummaryData.getBufferStreamForImportError().size(),
                                 partitionSummaryData.getPartNumForFailureOperationOutcomes()));
-                        if (logger.isLoggable(Level.FINE)) {
-                            logger.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImportError().size()
+                        if (LOG.isLoggable(Level.FINE)) {
+                            LOG.fine("pushImportOperationOutcomesToCOS: " + partitionSummaryData.getBufferStreamForImportError().size()
                                 + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes());
                         }
                         partitionSummaryData.setPartNumForFailureOperationOutcomes(partitionSummaryData.getPartNumForFailureOperationOutcomes() + 1);
@@ -136,7 +143,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                     }
                     // Finish uploading failure OperationOutcomes.
                     if (partitionSummaryData.getUploadIdForFailureOperationOutcomes() != null) {
-                        BulkDataUtils.finishMultiPartUpload(wrapper.getClient(), cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
+                        BulkDataUtils.finishMultiPartUpload(provider.getClient(), cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
                                 partitionSummaryData.getUploadIdForFailureOperationOutcomes(), partitionSummaryData.getDataPacksForFailureOperationOutcomes());
                     }
                 }
@@ -148,15 +155,15 @@ public class ImportPartitionCollector implements PartitionCollector {
             ImportCheckPointData partitionSummaryForMetrics = ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
             partitionSummaryForMetrics.setNumOfToBeImported(partitionSummaryData.getNumOfToBeImported());
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.info("collected partition data: " + partitionSummaryForMetrics);
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.info("collected partition data: " + partitionSummaryForMetrics);
             }
             return partitionSummaryForMetrics;
         }catch (FHIRException e) {
-            logger.log(Level.SEVERE, "Import PartitionCollector.collectPartitionData during job[" + executionId + "] - " + e.getMessage(), e);
+            LOG.log(Level.SEVERE, "Import PartitionCollector.collectPartitionData during job[" + executionId + "] - " + e.getMessage(), e);
             throw e;
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Import PartitionCollector.collectPartitionData during job[" + executionId + "]", e);
+            LOG.log(Level.SEVERE, "Import PartitionCollector.collectPartitionData during job[" + executionId + "]", e);
             throw e;
         }
     }
