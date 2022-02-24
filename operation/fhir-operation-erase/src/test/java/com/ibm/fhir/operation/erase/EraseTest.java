@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -76,16 +77,13 @@ public class EraseTest {
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("src/test/resources");
+        SearchUtil.init();
     }
 
     @BeforeMethod
     public void startMethod(Method method) throws FHIRException {
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
 
         //Facilitate the switching of tenant configurations based on method name
         String tenant = "default";

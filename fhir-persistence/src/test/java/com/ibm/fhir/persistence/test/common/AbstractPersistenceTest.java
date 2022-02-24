@@ -25,7 +25,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -101,11 +100,6 @@ public abstract class AbstractPersistenceTest {
         return FHIRPersistenceContextFactory.createPersistenceContext(null, ctxt);
     }
 
-    @BeforeSuite
-    public void initializeSearchUtil() {
-        SearchUtil.init();
-    }
-
     @BeforeClass
     public void configureLogging() throws Exception {
         final InputStream inputStream = AbstractPersistenceTest.class.getResourceAsStream("/logging.unitTest.properties");
@@ -119,15 +113,13 @@ public abstract class AbstractPersistenceTest {
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
+        SearchUtil.init();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
         context.setOriginalRequestUri(BASE);
 
         FHIRRequestContext.set(context);

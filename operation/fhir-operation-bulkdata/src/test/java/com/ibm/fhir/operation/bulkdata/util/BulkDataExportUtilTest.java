@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,10 +64,6 @@ public class BulkDataExportUtilTest {
 
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
         context.setTenantId("default");
     }
 

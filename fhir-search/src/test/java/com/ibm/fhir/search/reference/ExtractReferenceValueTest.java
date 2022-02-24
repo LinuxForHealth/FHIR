@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -22,11 +23,11 @@ public class ExtractReferenceValueTest {
     private static final String BASE = "https://example.com/";
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws FHIRException {
         // Inject a reasonable uri into the request context - it gets used to
         // calculate the service base address which is used when processing
         // reference params
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext("default");
         context.setOriginalRequestUri(BASE);
         FHIRRequestContext.set(context);
     }

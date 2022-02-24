@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,10 +35,6 @@ public class ConfigurationTest {
     public void startMethod(Method method) throws FHIRException {
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
 
         //Facilitate the switching of tenant configurations based on method name
         String tenant = "default";

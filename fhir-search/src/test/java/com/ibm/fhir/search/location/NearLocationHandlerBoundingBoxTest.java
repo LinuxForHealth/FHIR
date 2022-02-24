@@ -48,10 +48,6 @@ public class NearLocationHandlerBoundingBoxTest {
     public void startMethod(Method method) throws FHIRException {
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
 
         //Facilitate the switching of tenant configurations based on method name
         String tenant = "default";
