@@ -68,7 +68,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     /**
      * used when processing Erase on all Resources
@@ -195,7 +195,12 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param reasonMsg the string to provide
      */
     private void eraseResource(String resourceType, String logicalId, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
-        Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg, Optional.empty()), FHIRMediaType.APPLICATION_FHIR_JSON);
+        Parameters requestBody = generateParameters(patient, reason, reasonMsg, Optional.empty());
+        if (DEBUG) {
+            System.out.println("Invoking $erase with the following: " + requestBody);
+        }
+
+        Entity<Parameters> entity = Entity.entity(requestBody, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         Response r = getWebTarget()
             .path("/" + resourceType + "/" + logicalId + "/$erase")
@@ -1323,6 +1328,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
     public void testEraseWithoutPatientIdInsideOfPatientCompartment() throws Exception {
         String resourceType = "Patient";
         String logicalId = generateMockResource(resourceType);
+        System.out.println("testEraseWithoutPatientIdInsideOfPatientCompartment for Patient/" + logicalId);
         eraseResource(resourceType, logicalId, true, null, false);
         checkResourceExists(resourceType, logicalId);
     }
