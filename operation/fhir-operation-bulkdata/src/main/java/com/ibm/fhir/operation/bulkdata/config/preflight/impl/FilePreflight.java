@@ -64,7 +64,7 @@ public class FilePreflight extends NopPreflight {
                     accessible = Files.isReadable(p1);
                     if (!accessible) {
                         // Skip out of the for loop
-                        return;
+                        break;
                     }
                 }
             }
