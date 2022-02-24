@@ -1,0 +1,51 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "include-associated-data",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/uv/bulkdata/CodeSystem/include-associated-data defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">LatestProvenanceResources<a name=\"include-associated-data-LatestProvenanceResources\"> </a></td><td>LatestProvenanceResources</td><td>Export will include the most recent Provenance resources associated with each of the non-provenance resources being returned. Other Provenance resources will not be returned.</td></tr><tr><td style=\"white-space:nowrap\">RelevantProvenanceResources<a name=\"include-associated-data-RelevantProvenanceResources\"> </a></td><td>RelevantProvenanceResources</td><td>Export will include all Provenance resources associated with each of the non-provenance resources being returned.</td></tr></table></div>"
+    },
+    "url": "http://hl7.org/fhir/uv/bulkdata/CodeSystem/include-associated-data",
+    "version": "2.0.0",
+    "name": "IncludeAssociatedDataCodeSystem",
+    "title": "Include Associated Data Code System",
+    "status": "active",
+    "date": "2021-07-29",
+    "publisher": "HL7 International - FHIR Infrastructure Work Group",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/Special/committees/fiwg"
+                }
+            ]
+        }
+    ],
+    "description": "Metadata inclusion options for Bulk Data Access Export Operation includeAssociatedData parameter",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/uv/bulkdata/ValueSet/include-associated-data",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "LatestProvenanceResources",
+            "display": "LatestProvenanceResources",
+            "definition": "Export will include the most recent Provenance resources associated with each of the non-provenance resources being returned. Other Provenance resources will not be returned."
+        },
+        {
+            "code": "RelevantProvenanceResources",
+            "display": "RelevantProvenanceResources",
+            "definition": "Export will include all Provenance resources associated with each of the non-provenance resources being returned."
+        }
+    ]
+}

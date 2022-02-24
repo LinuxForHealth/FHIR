@@ -142,7 +142,7 @@ public class FHIRUtil {
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(String msg, IssueType code) {
-        return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, "<empty>");
+        return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, null);
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details) {
@@ -151,18 +151,16 @@ public class FHIRUtil {
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
             String expression) {
-        if (details == null || details.isEmpty()) {
-            details = "<no details>";
-        }
-        if (expression == null || expression.isEmpty()) {
-            expression = "<no expression>";
-        }
-        return OperationOutcome.Issue.builder()
+        OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder()
                 .severity(severity)
-                .code(code)
-                .details(CodeableConcept.builder().text(string(details)).build())
-                .expression(Collections.singletonList(string(expression)))
-                .build();
+                .code(code);
+        if (details != null && !details.isEmpty()) {
+            builder.details(CodeableConcept.builder().text(string(details)).build());
+        }
+        if (expression != null && !expression.isEmpty()) {
+            builder.expression(Collections.singletonList(string(expression)));
+        }
+        return builder.build();
     }
 
     /**

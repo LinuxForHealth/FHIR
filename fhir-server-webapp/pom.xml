@@ -152,6 +152,16 @@
                             </dependency>
                             <location>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/userlib/</location>
                         </dependencyGroup>
+                        <dependencyGroup>
+                            <dependency>
+                                <groupId>com.ibm.fhir</groupId>
+                                <artifactId>fhir-bulkdata-webapp</artifactId>
+                                <version>${project.version}</version>
+                                <type>war</type>
+                            </dependency>
+                            <stripVersion>true</stripVersion>
+                            <location>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/dropins/</location>
+                        </dependencyGroup>
                     </copyDependencies>
                 </configuration>
             </plugin>

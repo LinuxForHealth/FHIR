@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,15 @@ public interface Preflight {
      * @throws FHIROperationException
      */
     void preflight() throws FHIROperationException;
+
+    /**
+     * checks the preflight execution for a conditional-write
+     * @param write
+     * @throws FHIROperationException
+     */
+    default void preflight(boolean write) throws FHIROperationException {
+        preflight();
+    }
 
     /**
      * Checks the storage type is allowed.
