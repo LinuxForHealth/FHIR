@@ -9,7 +9,6 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +50,6 @@ public class BulkDataExportUtil {
     public BulkDataExportUtil() {
         // No Operation
     }
-
 
     /**
      * Check the Export Type is valid and converts to intermediate enum
@@ -254,15 +252,25 @@ public class BulkDataExportUtil {
         // Query Parameters
         if (queryParameters != null) {
             List<String> qps = queryParameters.get(OperationConstants.PARAM_TYPE);
-            for (String qpv : qps) {
-                for (String type : qpv.split(",")) {
-                    if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
-                        result.add(type);
-                    } else {
-                        throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
+            if (qps != null) {
+                for (String qpv : qps) {
+                    for (String type : qpv.split(",")) {
+                        if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
+                            result.add(type);
+                        } else {
+                            throw buildOperationException(
+                                    "invalid resource type sent as a parameter to $export operation",
+                                    IssueType.INVALID);
+                        }
                     }
                 }
             }
+        }
+
+        // The case where no resourceTypes are specified, inlining only the supported
+        // ResourceTypes
+        if (result.isEmpty()) {
+            result = new HashSet<>(supportedResourceTypes);
         }
         return new ArrayList<>(result);
     }
