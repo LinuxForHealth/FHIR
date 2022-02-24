@@ -40,8 +40,8 @@ import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
  */
 public class EraseRestImpl implements EraseRest {
     private static final String CLZ = EraseRestImpl.class.getName();
-
     private static final Logger LOG = Logger.getLogger(CLZ);
+
     private boolean supportedMethod = false;
     private SecurityContext ctx = null;
     private Parameters parameters = null;
@@ -364,7 +364,7 @@ public class EraseRestImpl implements EraseRest {
                             .build());
                     } else if (dto.getPatient().length() > 1000) {
                         issues.add(Issue.builder()
-                            .diagnostics(string("Operation[$erase] must have patient parameter exceeds 1024 characters"))
+                            .diagnostics(string("Operation[$erase] patient parameter exceeds 1024 characters"))
                             .code(IssueType.EXCEPTION)
                             .severity(IssueSeverity.FATAL)
                             .build());
@@ -373,6 +373,9 @@ public class EraseRestImpl implements EraseRest {
                 hasMoreThanOne = true;
             }
 
+            LOG.info("!!!!!!!!!!!!!!!!! compartments: " + compartmentHelper.getCompartmentResourceTypes("Patient"));
+            LOG.info("!!!!!!!!!!!!!!!!! resourceType: " + resourceType);
+            LOG.info("!!!!!!!!!!!!!!!!! dto.getPatient: " + dto.getPatient());
 
             // If this is in the patient compartment, then we want throw an issue.
             if (compartmentHelper.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
@@ -385,6 +388,7 @@ public class EraseRestImpl implements EraseRest {
         } catch (FHIRPathException | FHIRSearchException e) {
             logException(issues, e);
         }
+        LOG.info("!!!!!!!!!!!!!!!!! issues: " + issues);
     }
 
     /**
