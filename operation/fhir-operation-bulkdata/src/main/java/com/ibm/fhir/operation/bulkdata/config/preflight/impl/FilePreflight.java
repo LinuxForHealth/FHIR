@@ -44,7 +44,7 @@ public class FilePreflight extends NopPreflight {
         }
     }
 
-    private void checkFile(String base) throws FHIROperationException {
+    protected void checkFile(String base) throws FHIROperationException {
         if (base != null) {
             Path p = Paths.get(base);
             boolean accessible = Files.isReadable(p);
