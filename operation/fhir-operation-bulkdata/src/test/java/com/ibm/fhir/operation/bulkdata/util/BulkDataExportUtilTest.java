@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -337,6 +338,21 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         util.checkAndValidateTypes(ps, null);
+        fail();
+    }
+
+    @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
+    public void testCheckAndValidateTypesNullQPS() throws FHIROperationException {
+        BulkDataExportUtil util = new BulkDataExportUtil();
+        // parameters
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("_type")).value((Element) null).build());
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        util.checkAndValidateTypes(ps, new MultivaluedHashMap<String, String>());
         fail();
     }
 
