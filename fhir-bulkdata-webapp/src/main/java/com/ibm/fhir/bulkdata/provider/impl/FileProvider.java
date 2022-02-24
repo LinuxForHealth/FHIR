@@ -48,7 +48,6 @@ public class FileProvider implements Provider {
 
     private String source = null;
     private long parseFailures = 0l;
-    @SuppressWarnings("unused")
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
