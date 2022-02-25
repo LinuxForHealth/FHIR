@@ -373,14 +373,14 @@ public final class ParametersUtil {
         out.println(String.format(LOG_SIZE, keys.size()));
         for (String base : keys) {
             ParametersMap tmp = searchParamsMap.get(base);
-            for(SearchParameter param : tmp.values()) {
+            for (SearchParameter param : tmp.values()) {
                 String expression = MISSING_EXPRESSION;
                 if (param.getExpression() != null) {
                     expression = param.getExpression().getValue();
                 }
                 out.println(String.format(LOG_OUTPUT, base, param.getCode().getValue(), expression));
             }
-            for(SearchParameter param : tmp.inclusionValues()) {
+            for (SearchParameter param : tmp.inclusionValues()) {
                 String expression = MISSING_EXPRESSION;
                 if (param.getExpression() != null) {
                     expression = param.getExpression().getValue();

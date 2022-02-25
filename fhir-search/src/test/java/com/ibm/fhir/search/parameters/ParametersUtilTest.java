@@ -74,7 +74,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         Map<String, ParametersMap> result = ParametersUtil.getTenantSPs("default");
         assertNotNull(result);
         assertNull(result.get("Junk"));
-        assertFalse(result.get("Observation").isEmpty());
+        assertFalse(result.get("Observation").getCodes().isEmpty());
     }
 
     @Test

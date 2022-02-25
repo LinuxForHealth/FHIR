@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -1501,7 +1502,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         String expression;
         boolean isForStoring;
 
-        List<ExtractedParameterValue> allParameters = new ArrayList<>();
+        // LinkedList because we don't need random access, we might remove from it later, and we want this fast
+        List<ExtractedParameterValue> allParameters = new LinkedList<>();
         String parameterHashB64 = null;
 
         try {
@@ -1740,7 +1742,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Remove parameters that aren't to be stored
             boolean anyRemoved = allParameters.removeIf(value -> !value.isForStoring());
             if (anyRemoved) {
-                log.warning("Removed unexpectedly found extracted search parameter values that weren't for storing");
+                log.warning("The set of extracted parameters values unexpectedly contained values "
+                        + "that weren't for storing; these have been removed");
             }
 
             // Generate the hash which is used to quickly determine whether the extracted parameters
