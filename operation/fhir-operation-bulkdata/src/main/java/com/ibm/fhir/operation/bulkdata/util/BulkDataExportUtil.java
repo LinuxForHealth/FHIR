@@ -82,7 +82,7 @@ public class BulkDataExportUtil {
      * @param resourceTypes
      * @throws FHIROperationException
      */
-    public void checkExportPatientResourceTypes(List<String> resourceTypes) throws FHIROperationException {
+    public void checkExportPatientResourceTypes(Set<String> resourceTypes) throws FHIROperationException {
         boolean valid = false;
         try {
             // Also Check to see if the Export is valid for the Compartment.
@@ -210,12 +210,14 @@ public class BulkDataExportUtil {
 
     /**
      * processes both the Parameters object and the query parameters
+     * 
+     * @param exportType
      * @param parameters
      * @param queryParameters
      * @return
      * @throws FHIROperationException
      */
-    public List<String> checkAndValidateTypes(Parameters parameters, MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
+    public List<String> checkAndValidateTypes(OperationConstants.ExportType exportType, Parameters parameters, MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -271,10 +273,15 @@ public class BulkDataExportUtil {
             }
         }
 
-        // The case where no resourceTypes are specified, inlining only the supported
-        // ResourceTypes
-        if (result.isEmpty()) {
+        // The case where no resourceTypes are specified, inlining only the supported ResourceTypes
+        if (result.isEmpty() && ExportType.SYSTEM.equals(exportType)) {
             result = new HashSet<>(supportedResourceTypes);
+        } else if (ExportType.PATIENT.equals(exportType) || ExportType.GROUP.equals(exportType)) {
+            if (!result.isEmpty()) {
+                checkExportPatientResourceTypes(result);
+            } else {
+                return addDefaultsForPatientCompartment();
+            }
         }
         return new ArrayList<>(result);
     }
