@@ -46,10 +46,10 @@ public class CompartmentUtil {
     public static final String INVALID_COMPARTMENT_AND_RESOURCE = "Invalid resource type: %s for compartment: %s";
 
     // Map of Compartment name to CompartmentCache
-    private Map<String, CompartmentCache> compartmentMap = new HashMap<>();
+    private final Map<String, CompartmentCache> compartmentMap = new HashMap<>();
 
     // Map of Inclusion resource type to ResourceCompartmentCache
-    private Map<String, ResourceCompartmentCache> resourceCompartmentMap = new HashMap<>();
+    private final Map<String, ResourceCompartmentCache> resourceCompartmentMap = new HashMap<>();
 
     public CompartmentUtil() {
         // make one pass over the CompartmentDefinitions to build both maps
@@ -102,9 +102,9 @@ public class CompartmentUtil {
     }
 
     /**
-     * gets the compartment
+     * get the resource types that can be in the compartment
      *
-     * @param compartment
+     * @param compartment the compartment code value (resourceType name) to look up
      * @return
      * @throws FHIRSearchException
      */

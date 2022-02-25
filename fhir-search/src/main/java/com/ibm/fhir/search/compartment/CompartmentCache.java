@@ -14,11 +14,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Compartment Cache is a localized class to cache the compartment information and provide helper methods to add to the
- * cache.
+ * Information about a single compartment type.
  */
 public class CompartmentCache {
 
+    /**
+     * A map from the includable resourceType codes (resourceType name) to their inclusion criteria params
+     */
     private Map<java.lang.String, List<java.lang.String>> codeAndParams = new HashMap<>();
 
     /**

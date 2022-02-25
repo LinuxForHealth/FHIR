@@ -62,13 +62,14 @@ public class EraseRestImpl implements EraseRest {
      * @param rt
      * @param logicalId
      */
-    public EraseRestImpl(String method, SecurityContext ctx, Parameters parameters, Class<? extends Resource> rt, String logicalId) {
+    public EraseRestImpl(String method, SecurityContext ctx, Parameters parameters, Class<? extends Resource> rt, String logicalId,
+            CompartmentUtil compartmentHelper) {
         supportedMethod = "POST".equals(method);
         this.ctx = ctx;
         this.parameters = parameters;
         this.resourceType = rt.getSimpleName();
         this.logicalId = logicalId;
-        this.compartmentHelper = new CompartmentUtil();
+        this.compartmentHelper = compartmentHelper;
     }
 
     @Override

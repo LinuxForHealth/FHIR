@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -19,6 +20,8 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  * for Persistence Layers or specific behaviors, the EraseFactory enables the single location to make that decision.
  */
 public class EraseRestFactory {
+    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+
     private EraseRestFactory() {
         // No Operation
     }
@@ -42,6 +45,6 @@ public class EraseRestFactory {
         // Pick off the security context from the FHIROperationContext.
         SecurityContext securityContext = (SecurityContext) operationContext.getProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT);
 
-        return new EraseRestImpl(method, securityContext, parameters, resourceType, logicalId);
+        return new EraseRestImpl(method, securityContext, parameters, resourceType, logicalId, compartmentHelper);
     }
 }

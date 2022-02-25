@@ -56,7 +56,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -66,6 +66,8 @@ public class EraseTest {
     // Flip to TRUE to see which tenant is running during a test (or peek at the end of the test that failed).
     // if not specified, then it's the default.
     private static final Boolean DEBUG = Boolean.FALSE;
+
+    private CompartmentUtil compartmentHelper;
 
     private static final String LONG_STRING =
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
@@ -77,7 +79,7 @@ public class EraseTest {
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("src/test/resources");
-        SearchUtil.init();
+        compartmentHelper = new CompartmentUtil();
     }
 
     @BeforeMethod
@@ -752,7 +754,7 @@ public class EraseTest {
         Class<? extends Resource> resourceType = StructureDefinition.class;
         String logicalId = UUID.randomUUID().toString();
 
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
+        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId, compartmentHelper);
         java.util.List<Issue> issues = new ArrayList<>();
         erase.logException(issues, new Exception("Test"));
         assertEquals(issues.size(), 1);
@@ -770,7 +772,7 @@ public class EraseTest {
         Class<? extends Resource> resourceType = StructureDefinition.class;
         String logicalId = UUID.randomUUID().toString();
 
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
+        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId, compartmentHelper);
 
         // Return a bean
         EraseDTO bean = new EraseDTO();
@@ -795,7 +797,7 @@ public class EraseTest {
         Class<? extends Resource> resourceType = StructureDefinition.class;
         String logicalId = UUID.randomUUID().toString();
 
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
+        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId, compartmentHelper);
 
         // Return a bean
         EraseDTO bean = new EraseDTO();
@@ -821,7 +823,7 @@ public class EraseTest {
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
 
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, null);
+        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, null, compartmentHelper);
 
         // Return a bean
         EraseDTO bean = new EraseDTO();
@@ -846,7 +848,7 @@ public class EraseTest {
         Class<? extends Resource> resourceType = StructureDefinition.class;
         String logicalId = UUID.randomUUID().toString();
 
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
+        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId, compartmentHelper);
 
         // Return a bean
         EraseDTO bean = new EraseDTO();
