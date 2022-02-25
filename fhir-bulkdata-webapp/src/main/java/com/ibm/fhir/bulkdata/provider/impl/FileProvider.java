@@ -6,7 +6,8 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkdata.provider.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -656,15 +657,15 @@ public class S3Provider implements Provider {
 
                 PartETag tag = BulkDataUtils.multiPartUpload(client, bucketName, fn, uploadId,
                         new ByteArrayInputStream(baos.toByteArray()), baos.size(), 1);
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("pushEndOfJobOperationOutcomes: " + baos.size()
+                if (LOG.isLoggable(Level.FINE)) {
+                    LOG.fine("pushEndOfJobOperationOutcomes: " + baos.size()
                             + " bytes were successfully appended to COS object - " + fn);
                 }
                 baos.reset();
 
                 BulkDataUtils.finishMultiPartUpload(client, bucketName, fn, uploadId, Arrays.asList(tag));
             } catch (Exception e) {
-                logger.warning("Error creating a operation outcomes '" + fn + "'");
+                LOG.warning("Error creating a operation outcomes '" + fn + "'");
                 throw new FHIRException("Error creating a file operation outcome during $import '" + fn + "'");
             }
         }
