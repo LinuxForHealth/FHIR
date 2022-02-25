@@ -8,7 +8,9 @@ package com.ibm.fhir.bulkdata.jbatch.load.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
@@ -305,10 +307,10 @@ public class ImportCheckPointData implements Serializable {
         protected String uniqueIDForImportFailureOperationOutcomes;
         protected String uniqueIDForImportOperationOutcomes;
         protected String uploadIdForOperationOutcomes;
-        protected List<PartETag> dataPacksForOperationOutcomes;
+        protected Set<PartETag> dataPacksForOperationOutcomes = new LinkedHashSet<>();
         protected int partNumForOperationOutcomes;
         protected String uploadIdForFailureOperationOutcomes;
-        protected List<PartETag> dataPacksForFailureOperationOutcomes;
+        protected Set<PartETag> dataPacksForFailureOperationOutcomes = new LinkedHashSet<>();
         protected int partNumForFailureOperationOutcomes;
         protected long totalReadMilliSeconds;
         protected long totalValidationMilliSeconds;
@@ -377,7 +379,9 @@ public class ImportCheckPointData implements Serializable {
         }
 
         public Builder dataPacksForOperationOutcomes(List<PartETag> dataPacksForOperationOutcomes) {
-            this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
+            if (dataPacksForOperationOutcomes != null) {
+                this.dataPacksForOperationOutcomes.addAll(dataPacksForOperationOutcomes);
+            }
             return this;
         }
 
@@ -392,7 +396,9 @@ public class ImportCheckPointData implements Serializable {
         }
 
         public Builder dataPacksForFailureOperationOutcomes(List<PartETag> dataPacksForFailureOperationOutcomes) {
-            this.dataPacksForFailureOperationOutcomes = dataPacksForFailureOperationOutcomes;
+            if (dataPacksForFailureOperationOutcomes != null) {
+                this.dataPacksForFailureOperationOutcomes.addAll(dataPacksForFailureOperationOutcomes);
+            }
             return this;
         }
 
@@ -442,10 +448,11 @@ public class ImportCheckPointData implements Serializable {
             importCheckPointData.uniqueIDForImportFailureOperationOutcomes = this.uniqueIDForImportFailureOperationOutcomes;
             importCheckPointData.uniqueIDForImportOperationOutcomes = this.uniqueIDForImportOperationOutcomes;
             importCheckPointData.uploadIdForOperationOutcomes = this.uploadIdForOperationOutcomes;
-            importCheckPointData.dataPacksForOperationOutcomes = this.dataPacksForOperationOutcomes;
+            importCheckPointData.dataPacksForOperationOutcomes = new ArrayList<>(this.dataPacksForOperationOutcomes);
             importCheckPointData.partNumForOperationOutcomes = this.partNumForOperationOutcomes;
             importCheckPointData.uploadIdForFailureOperationOutcomes = this.uploadIdForFailureOperationOutcomes;
-            importCheckPointData.dataPacksForFailureOperationOutcomes = this.dataPacksForFailureOperationOutcomes;
+            importCheckPointData.dataPacksForFailureOperationOutcomes = new ArrayList<>(
+                    this.dataPacksForFailureOperationOutcomes);
             importCheckPointData.partNumForFailureOperationOutcomes = this.partNumForFailureOperationOutcomes;
             importCheckPointData.totalReadMilliSeconds = this.totalReadMilliSeconds;
             importCheckPointData.totalValidationMilliSeconds = this.totalValidationMilliSeconds;

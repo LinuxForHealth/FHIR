@@ -142,8 +142,9 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean shouldStorageProviderCollectOperationOutcomes(String provider) {
-        // Double negation... carefully change this line.
-        return !FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/disableOperationOutcomes", Boolean.FALSE);
+        // 2910: Switches the default to TRUE meaning we don't record them.
+        return !FHIRConfigHelper.getBooleanProperty(
+                "fhirServer/bulkdata/storageProviders/" + provider + "/disableOperationOutcomes", Boolean.TRUE);
     }
 
     @Override

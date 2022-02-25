@@ -27,9 +27,9 @@
                     <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
                     <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
                     <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
-                    
+
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
-                    
+
                     <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>
                     <property name="partition.matrix" value="#{partitionPlan['partition.matrix']}"/>
                     <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
@@ -67,6 +67,7 @@
                     <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
                     <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
                     <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                    <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                 </properties>
             </collector>
             <analyzer ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionAnalyzer"/>
