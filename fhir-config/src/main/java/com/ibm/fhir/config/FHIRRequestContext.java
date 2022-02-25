@@ -185,9 +185,6 @@ public class FHIRRequestContext {
         if (log.isLoggable(Level.FINEST)) {
             log.finest("FHIRRequestContext.get: " + result.toString());
         }
-        // Java ThreadLocal initial values are *not* automatically associated with the current thread
-        // so we need to explicitly set that here
-        contexts.set(result);
         return result;
     }
 
