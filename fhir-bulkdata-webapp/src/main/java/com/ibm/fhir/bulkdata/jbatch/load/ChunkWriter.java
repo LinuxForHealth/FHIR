@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
@@ -49,7 +48,6 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +45,15 @@ public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
 
+    /**
+     * @implNote
+     * The READ_BLOCK is intentionally sized at 512K. 
+     * From experimentation this block was useful and had light downward pressure
+     * on the JVM, small block get pushed into the memory as Resources.
+     * 
+     * If you are testing this block you have to drive a fairly wide range of Resource
+     * sizes, 1K to 1G and see how it performs while reading.
+     */
     private static final long READ_BLOCK_OPT = 524288L;
 
     private String source = null;
@@ -87,7 +97,8 @@ public class FileProvider implements Provider {
                 raf.seek(this.transientUserData.getCurrentBytes());
 
                 try (InputStream in = Channels.newInputStream(raf.getChannel());
-                        CountInputStreamReader reader = new CountInputStreamReader(in)) {
+                        BufferedInputStream bis = new BufferedInputStream(in);
+                        CountInputStreamReader reader = new CountInputStreamReader(bis)) {
 
                     int chunkRead = 0;
 
@@ -155,6 +166,8 @@ public class FileProvider implements Provider {
             int lineLength = 0;
 
             // Protect against attacks with a max line length (and max size we support in the db).
+            // MAX_LENGTH_PER_LINE is intentionally hit and does not throw IOEXCEPTION when exceeded.
+            // The reason is the FHIRParser marks this as an invalid line downstream.
             while (read && lineLength < MAX_LENGTH_PER_LINE) {
                 if (r == -1) {
                     read = false;

@@ -207,7 +207,10 @@ public class S3Provider implements Provider {
     }
 
     /**
-     * Get Size enables multiple use case beyond the default of getSize
+     * Get Size enables multiple use case beyond the default of getSize 
+     * 
+     * @implNote the Unit is in Bytes
+     * 
      * @param c
      * @param bn
      * @param workItem
