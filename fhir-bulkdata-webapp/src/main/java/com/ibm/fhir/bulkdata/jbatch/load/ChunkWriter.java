@@ -164,7 +164,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 if (issues.isEmpty()) {
                                     oo = generateAllOkValidation(chunkData.getNumOfProcessedResources() + cur);
                                 } else {
-                                    oo = generateError(chunkData.getNumOfProcessedResources() + cur, issues);
+                                    oo = generateWarning(chunkData.getNumOfProcessedResources() + cur, issues);
                                 }
 
                                 FHIRGenerator.generator(Format.JSON).generate(oo,
@@ -369,8 +369,7 @@ public class ChunkWriter extends AbstractItemWriter {
         Response.Status status = Response.Status.OK;
 
         // Since issue 1869, we must perform the read at this point in order to obtain
-        // the
-        // latest version id. The persistence layer no longer makes any changes to the
+        // the latest version id. The persistence layer no longer makes any changes to the
         // resource so the resource needs to be fully prepared before the persistence
         // create/update call is made
         SingleResourceResult<? extends Resource> oldResourceResult = persistence.read(context, resource.getClass(),
@@ -482,7 +481,7 @@ public class ChunkWriter extends AbstractItemWriter {
      * @param issues     to be added
      * @return
      */
-    private OperationOutcome generateError(long lineNumber, List<Issue> issues) {
+    private OperationOutcome generateWarning(long lineNumber, List<Issue> issues) {
         Issue issue = Issue.builder()
                 .severity(IssueSeverity.WARNING)
                 .code(IssueType.INFORMATIONAL)
@@ -533,8 +532,7 @@ public class ChunkWriter extends AbstractItemWriter {
     /**
      * generate exception
      * 
-     * @param lineNumber           the location in the file
-     * @param lineNumber
+     * @param lineNumber the location in the file
      * @param id
      * @param assertedResourceType
      * @param actualResourceType

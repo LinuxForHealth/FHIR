@@ -9,7 +9,6 @@ package com.ibm.fhir.bulkdata.provider.impl;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -504,7 +503,7 @@ public class AzureProvider implements Provider {
     @Override
     public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
             throws FHIRException {
-        String fn = folder + File.separator + fileName;
+        String fn = folder + "/" + fileName;
         initializeBlobClient(fn);
 
         AppendBlobClient aClient = client.getAppendBlobClient();

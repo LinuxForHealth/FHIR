@@ -215,8 +215,7 @@ public class FileProvider implements Provider {
     }
 
     @Override
-    public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
-            throws FHIRException {
+    public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName) throws FHIRException {
             String base = configuration.getBaseFileLocation(source);
 
             if (baos.size() > 0) {
