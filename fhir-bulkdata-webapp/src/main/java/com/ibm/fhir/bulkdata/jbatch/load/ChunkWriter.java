@@ -346,10 +346,10 @@ public class ChunkWriter extends AbstractItemWriter {
      * of this particular execution, and then destroyed.
      *
      * @implNote considered using a shared cache, a few things with that to
-     *           consider: 1 - the shared cache would have to be updated at the end
-     *           of a transaction (we don't control it). 2 - we would have to use a
-     *           transaction sync registry to control the synchronization of the
-     *           cache. 3 - Instead, we're doing a read then update.
+     *           consider: 
+     *  1 - the shared cache would have to be updated at the end of a transaction (we don't control it).
+     *  2 - we would have to use a transaction sync registry to control the synchronization of the cache
+     *  3 - Instead, we're doing a read then update.
      *
      * @param chunkData   the transient user data used increment the number of skips
      * @param skip        should skip the resource if it matches
