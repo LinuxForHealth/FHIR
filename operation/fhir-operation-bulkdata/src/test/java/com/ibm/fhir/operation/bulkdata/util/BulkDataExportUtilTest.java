@@ -322,7 +322,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps, null);
+        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         fail();
     }
 
@@ -337,7 +337,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps, null);
+        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         fail();
     }
 
@@ -352,7 +352,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps, new MultivaluedHashMap<String, String>());
+        util.checkAndValidateTypes(ExportType.SYSTEM, ps, new MultivaluedHashMap<String, String>());
         fail();
     }
 
@@ -367,7 +367,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ps, null);
+        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -382,7 +382,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = util.checkAndValidateTypes(ps, null);
+        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -397,7 +397,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ps, null);
+        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -412,7 +412,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        util.checkAndValidateTypes(ps, null);
+        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         fail();
     }
 
@@ -427,7 +427,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ps, null);
+        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -443,7 +443,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = util.checkAndValidateTypes(ps, null);
+        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -451,7 +451,7 @@ public class BulkDataExportUtilTest {
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(null, null);
+        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
