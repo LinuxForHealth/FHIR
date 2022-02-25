@@ -6,9 +6,12 @@
 
 package com.ibm.fhir.persistence.payload;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -42,6 +45,24 @@ public interface FHIRPayloadPersistence {
      * @return the fhirResourcePayload exactly as it was provided to {@link #storePayload(String, int, String, int, String, byte[])}
      */
     <T extends Resource> T readResource(Class<T> resourceType, String rowResourceTypeName, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, List<String> elements) throws FHIRPersistenceException;
+
+    /**
+     * Async retrieval of the payload data for the given resourceTypeId, logicalId and version.
+     * @param <T>
+     * @param resourceType
+     * @param rowResourceTypeName
+     * @param resourceTypeId
+     * @param logicalId
+     * @param version
+     * @param resourcePayloadKey
+     * @param lastUpdated the last modification time of the resource in the RDBMS record
+     * @param elements
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    <T extends Resource> CompletableFuture<ResourceResult<? extends Resource>> readResourceAsync(Class<T> resourceType, 
+            String rowResourceTypeName, int resourceTypeId, String logicalId, int version, String resourcePayloadKey, 
+            Instant lastUpdated, List<String> elements) throws FHIRPersistenceException;
 
     /**
      * Delete the payload item. This may be called to clean up after a failed transaction or

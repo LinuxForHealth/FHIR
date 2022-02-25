@@ -6,14 +6,17 @@
 
 package com.ibm.fhir.persistence.blob;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -73,7 +76,44 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
 
         logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
         BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements, !PAYLOAD_COMPRESSED);
-        return cmd.run(resourceType, getBlobManagedContainer());
+        try {
+            // synchronous read
+            return cmd.run(resourceType, getBlobManagedContainer()).get();
+        } catch (ExecutionException e) {
+            // Unwrap the exceptions to avoid over-nesting
+            // ExecutionException -> RuntimeException -> FHIRPersistenceException
+            if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
+                throw (FHIRPersistenceException)e.getCause().getCause();
+            } else {
+                throw new FHIRPersistenceException("execution failed", e);
+            }
+        } catch (InterruptedException e) {
+            throw new FHIRPersistenceException("fetch interrupted", e);
+        }
+    }
+
+    @Override
+    public <T extends Resource> CompletableFuture<ResourceResult<? extends Resource>> readResourceAsync(Class<T> resourceType, String rowResourceTypeName,
+        int resourceTypeId, String logicalId, int version, String resourcePayloadKey, Instant lastUpdated, List<String> elements) throws FHIRPersistenceException {
+
+        logger.fine(() -> "readResource " + rowResourceTypeName + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
+        BlobReadPayload cmd = new BlobReadPayload(resourceTypeId, logicalId, version, resourcePayloadKey, elements, !PAYLOAD_COMPRESSED);
+
+        // Initiate the read and add a transformation step (thenApply) which will wrap the
+        // resource as a ResourceResult. This makes it easier to consume in lists where
+        // we may want to hold onto the identity of an entry but where the resource value
+        // is null
+        return cmd.run(resourceType, getBlobManagedContainer()).thenApply(resource -> {
+            // transform: wrap the retrieved resource in a ResourceResult
+            ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+            builder.logicalId(logicalId);
+            builder.resourceTypeName(rowResourceTypeName);
+            builder.deleted(false); // we wouldn't be fetching if the resource were deleted
+            builder.resource(resource);
+            builder.version(version);
+            builder.lastUpdated(lastUpdated);
+            return builder.build();
+        });
     }
 
     @Override

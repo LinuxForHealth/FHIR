@@ -7,7 +7,7 @@
 package com.ibm.fhir.persistence.blob;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import com.azure.core.util.BinaryData;
@@ -67,28 +67,14 @@ public class BlobReadPayload {
      * @param client
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> T run(Class<T> resourceType, BlobManagedContainer client) throws FHIRPersistenceException {
+    public <T extends Resource> CompletableFuture<T> run(Class<T> resourceType, BlobManagedContainer client) throws FHIRPersistenceException {
         final String blobPath = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
         logger.fine(() -> "Reading payload using storage path: " + blobPath);
         BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
 
-        try {
-            // TODO obviously we can convert to fully async very easily from here
-            return bc.getAppendBlobAsyncClient()
-                    .downloadContent()
-                    .map(data -> transform(resourceType, data))
-                    .toFuture()
-                    .get(); // synchronous for now
-        } catch (ExecutionException e) {
-            // Unwrap the exceptions to avoid over-nesting
-            // ExecutionException -> RuntimeException -> FHIRPersistenceException
-            if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
-                throw (FHIRPersistenceException)e.getCause().getCause();
-            } else {
-                throw new FHIRPersistenceException("execution failed", e);
-            }
-        } catch (InterruptedException e) {
-            throw new FHIRPersistenceException("fetch interrupted", e);
-        }
+        return bc.getAppendBlobAsyncClient()
+                .downloadContent()
+                .map(data -> transform(resourceType, data))
+                .toFuture();
     }
 }

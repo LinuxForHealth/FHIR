@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +39,9 @@ public class Main {
     private boolean createContainer;
     private boolean dryRun = true;
     private String continuationToken = null;
+
+    // A list of resources for which we want to read the blob contents
+    private final List<String> resourceList = new ArrayList<>();
 
     // Stop scanning after this number of seconds. Use continuationToken to continue
     private int maxScanSeconds = 120;
@@ -110,6 +115,13 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for --max-scan-seconds");
                 }
                 break;
+            case "--read":
+                if (++i < args.length) {
+                    this.resourceList.add(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for --read");
+                }
+                break;
             }
         }
     }
@@ -147,8 +159,12 @@ public class Main {
             didSomething = true;
         }
 
+        // Run reconciliation OR read resources, not both
         if (this.reconcile) {
             runReconciliation();
+            didSomething = true;
+        } else if (this.resourceList.size() > 0) {
+            doReads();
             didSomething = true;
         }
         
@@ -174,6 +190,17 @@ public class Main {
 
         if (newContinuationToken == null) {
             logger.info("Scan complete");
+        }
+    }
+
+    /**
+     * Read each of the resources in the resourceList
+     * @throws Exception
+     */
+    protected void doReads() throws Exception {
+        for (String blobName: this.resourceList) {
+            ReadBlobValue action = new ReadBlobValue(this.tenantId, this.dsId, blobName);
+            action.run();
         }
     }
 
