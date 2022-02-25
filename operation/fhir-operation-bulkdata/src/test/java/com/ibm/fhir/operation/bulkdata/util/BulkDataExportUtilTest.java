@@ -429,7 +429,7 @@ public class BulkDataExportUtilTest {
         BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypes(ps, null);
         assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -445,7 +445,7 @@ public class BulkDataExportUtilTest {
 
         List<String> result = util.checkAndValidateTypes(ps, null);
         assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertFalse(result.isEmpty());
     }
 
     @Test
@@ -453,7 +453,7 @@ public class BulkDataExportUtilTest {
         BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypes(null, null);
         assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertFalse(result.isEmpty());
     }
 
     @Test
