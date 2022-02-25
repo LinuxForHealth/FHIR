@@ -1,10 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.bulkdata.provider;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
@@ -77,8 +79,27 @@ public interface Provider {
      * Pushes the Operation Outcomes
      */
     default void pushOperationOutcomes() throws FHIRException {
-        // No Operation
+        // NOP
     }
 
+    /**
+     * Closes the StorageProvider wrapped resources.
+     * 
+     * @throws Exception
+     */
     void close() throws Exception;
+
+    /**
+     * Pushes End of Job OperationOutcomes and closes the Outcomes StorageProvider
+     * 
+     * @param baos     the byte array output stream that is passed in
+     * @param folder   the folder where the file is to be stored
+     * @param fileName the output filename to be used
+     * 
+     * @throws FHIRException
+     */
+    default void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
+            throws FHIRException {
+        // NOP
+    }
 }

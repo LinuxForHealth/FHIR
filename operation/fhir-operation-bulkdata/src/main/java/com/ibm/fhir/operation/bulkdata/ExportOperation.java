@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.operation.bulkdata;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -64,34 +63,23 @@ public class ExportOperation extends AbstractOperation {
 
         Instant since = export.checkAndExtractSince(parameters);
 
-        List<String> types = export.checkAndValidateTypes(parameters, queryParameters);
         List<String> typeFilters = export.checkAndValidateTypeFilters(parameters);
 
         // If Patient - Export Patient Filter Resources
         Parameters response = null;
         OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
+        List<String> types = export.checkAndValidateTypes(exportType, parameters, queryParameters);
+
         if (!ExportType.INVALID.equals(exportType)) {
-            if (ExportType.PATIENT.equals(exportType) || ExportType.GROUP.equals(exportType)) {
-                if (types != null && !types.isEmpty()) {
-                    export.checkExportPatientResourceTypes(types);
-                } else {
-                    types = export.addDefaultsForPatientCompartment();
-                }
-            } else if ((ExportType.SYSTEM.equals(exportType) )
-                            && (types == null || types.isEmpty())) {
-                types = new ArrayList<>(export.getSupportedResourceTypes());
-            }
 
             // Early detection of potential issues.
             Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType, outputFormat.toString());
             preflight.preflight();
 
-            // Checks if parquet is enabled for the storage provider
-            if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype()) && !preflight.checkParquet()) {
-                throw buildExceptionWithIssue(
-                        "Export to parquet is not enabled; try 'application/fhir+ndjson' or contact the system administrator",
-                         IssueType.INVALID);
+            // Warning that Parquet is deprecated.
+            if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype())) {
+                throw buildExceptionWithIssue("Export to parquet is no longer supported; try 'application/fhir+ndjson'", IssueType.INVALID);
             }
 
             response = BulkDataFactory.getInstance(operationContext)

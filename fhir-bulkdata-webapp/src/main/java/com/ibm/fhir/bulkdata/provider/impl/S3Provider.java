@@ -7,11 +7,11 @@
 package com.ibm.fhir.bulkdata.provider.impl;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +22,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
@@ -639,6 +640,31 @@ public class S3Provider implements Provider {
                 chunkData.setFinishCurrentUpload(false);
                 chunkData.getCosDataPacks().clear();
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            }
+        }
+    }
+
+    @Override
+    public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
+            throws FHIRException {
+        String fn = folder  + "/" + fileName;
+
+        if (baos.size() > 0) {
+            try {
+                String uploadId = BulkDataUtils.startPartUpload(client, bucketName, fn);
+
+                PartETag tag = BulkDataUtils.multiPartUpload(client, bucketName, fn, uploadId,
+                        new ByteArrayInputStream(baos.toByteArray()), baos.size(), 1);
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("pushEndOfJobOperationOutcomes: " + baos.size()
+                            + " bytes were successfully appended to COS object - " + fn);
+                }
+                baos.reset();
+
+                BulkDataUtils.finishMultiPartUpload(client, bucketName, fn, uploadId, Arrays.asList(tag));
+            } catch (Exception e) {
+                logger.warning("Error creating a operation outcomes '" + fn + "'");
+                throw new FHIRException("Error creating a file operation outcome during $import '" + fn + "'");
             }
         }
     }
