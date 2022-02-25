@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
@@ -43,6 +44,8 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  * BulkData Util captures common methods
  */
 public class BulkDataExportUtil {
+    private static final Logger LOG = Logger.getLogger(BulkDataExportUtil.class.getName());
+
     private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
                                                     .map(Class::getSimpleName)
                                                     .collect(Collectors.toSet());
@@ -103,16 +106,17 @@ public class BulkDataExportUtil {
      */
     public Set<String> getSupportedResourceTypes() {
         try {
-            if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.TRUE)) {
+            if (!FHIRConfigHelper.getBooleanProperty("fhirServer/resources/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.TRUE)) {
                 List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-                if (rts == null || !rts.isEmpty()) {
+                System.out.println("RTS -> " + rts);
+                if (rts != null && !rts.isEmpty()) {
                     rts.remove("Resource");
                     rts.remove("DomainResource");
                     return new HashSet<>(rts);
                 }
             }
         } catch (FHIRException e) {
-            // NOP
+            LOG.throwing(BulkDataExportUtil.class.getName(), "getSupportedResourceTypes", e);
         }
         return RESOURCE_TYPES;
     }
@@ -265,6 +269,12 @@ public class BulkDataExportUtil {
                     }
                 }
             }
+        }
+
+        // Where there are none specified.
+        if (result.isEmpty()) {
+            System.out.println(result + "" + supportedResourceTypes);
+            result = supportedResourceTypes;
         }
         return new ArrayList<>(result);
     }
