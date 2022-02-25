@@ -11,8 +11,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
@@ -38,6 +40,8 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * </ul>
  */
 public class CompartmentUtil {
+    private static final Logger LOG = Logger.getLogger(CompartmentUtil.class.getName());
+
     // The URL of the compartment subtype extension...useful for defining new compartments
     public static final String CUSTOM_COMPARTMENT_TYPE_EXT = FHIRConstants.EXT_BASE + "custom-compartment-type";
 
@@ -54,6 +58,14 @@ public class CompartmentUtil {
     public CompartmentUtil() {
         // make one pass over the CompartmentDefinitions to build both maps
         buildMaps(compartmentMap, resourceCompartmentMap);
+        LOG.info("\nbuilt compartmentMap: ");
+        for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
+            LOG.info(entry.getKey() + ": " + entry.getValue().getResourceTypesInCompartment());
+        }
+        LOG.info("\nbuilt resourceCompartmentMap with keys: " + resourceCompartmentMap.keySet());
+        for (Entry<String, ResourceCompartmentCache> entry : resourceCompartmentMap.entrySet()) {
+            LOG.info(entry.getKey() + ": " + entry.getValue().getCompartmentReferenceParams().values());
+        }
     }
 
     /**
@@ -68,6 +80,8 @@ public class CompartmentUtil {
         Objects.requireNonNull(compMap, "resourceCompMap");
 
         Collection<CompartmentDefinition> definitions = FHIRRegistry.getInstance().getResources(CompartmentDefinition.class);
+        LOG.info("definitions from the registry: " + definitions);
+
         for (CompartmentDefinition compartmentDefinition : definitions) {
             CompartmentType type = compartmentDefinition.getCode();
 
