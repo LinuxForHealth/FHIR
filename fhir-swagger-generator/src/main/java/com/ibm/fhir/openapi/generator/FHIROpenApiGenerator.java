@@ -1933,20 +1933,20 @@ public class FHIROpenApiGenerator {
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
         tags.add("Patient");
-
         httpMethodBuilder.add("tags", tags);
-        httpMethodBuilder.add("summary", "Return all the information related to one or more patients");       
-        if (addIdParam)
-            httpMethodBuilder.add("operationId", "everythingPatient");
-        else
-            httpMethodBuilder.add("operationId", "everythingAllPatients");
 
         JsonArrayBuilder parameters = factory.createArrayBuilder();
 
         if (addIdParam) {
+            httpMethodBuilder.add("summary", "Return all the information related to a given patient");       
+            httpMethodBuilder.add("operationId", "everythingPatient");
+            
             JsonObjectBuilder idParameter = factory.createObjectBuilder();
             addIdPathParam(idParameter);
             parameters.add(idParameter);
+        } else {
+            httpMethodBuilder.add("summary", "Return all the information related to one or more patients");       
+            httpMethodBuilder.add("operationId", "everythingAllPatients");
         }
 
         JsonObjectBuilder startParam = factory.createObjectBuilder();
