@@ -454,6 +454,14 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
 
+## Batch/transaction support
+The IBM FHIR Server implements the HL7 FHIR [batch/transaction](https://www.hl7.org/fhir/http.html#transaction) endpoint. We support the batch/transaction processing rules as defined at https://www.hl7.org/fhir/http.html#transaction and we support resolving and replacing both [bundle-local](https://www.hl7.org/fhir/bundle.html#references) and conditional literal references for creates and updates in a transaction bundle.
+
+One discrepency from the specification is that, during reference replacement, we *do not* replace string matches of the fullUrl within
+> elements of type uri, url, oid, uuid, and <a href="" & <img src="" in the narrative
+
+We've opened the following issue on the specification to request this requirement to be relaxed in future versions of the specification:  https://jira.hl7.org/browse/FHIR-36032
+
 ## Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
 The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
