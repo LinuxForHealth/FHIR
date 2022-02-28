@@ -1,4 +1,4 @@
-# HL7 FHIR� Da Vinci Health Record Exchange (HRex) 0.2.0 - STU R1 - 2nd ballot
+# HL7 FHIR� Da Vinci Health Record Exchange (HRex) 1.0.0 - STU R1
 
 - Downloaded - http://build.fhir.org/ig/HL7/davinci-ehrx/index.html
 - Retrieved - 24 FEB 2022
