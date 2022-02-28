@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.core.FHIRConstants;
@@ -58,13 +59,16 @@ public class CompartmentUtil {
     public CompartmentUtil() {
         // make one pass over the CompartmentDefinitions to build both maps
         buildMaps(compartmentMap, resourceCompartmentMap);
-        LOG.info("\nbuilt compartmentMap: ");
-        for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
-            LOG.info(entry.getKey() + ": " + entry.getValue().getResourceTypesInCompartment());
-        }
-        LOG.info("\nbuilt resourceCompartmentMap with keys: " + resourceCompartmentMap.keySet());
-        for (Entry<String, ResourceCompartmentCache> entry : resourceCompartmentMap.entrySet()) {
-            LOG.info(entry.getKey() + ": " + entry.getValue().getCompartmentReferenceParams().values());
+
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("\nbuilt compartmentMap: ");
+            for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
+                LOG.fine(entry.getKey() + ": " + entry.getValue().getResourceTypesInCompartment());
+            }
+            LOG.fine("\nbuilt resourceCompartmentMap with keys: " + resourceCompartmentMap.keySet());
+            for (Entry<String, ResourceCompartmentCache> entry : resourceCompartmentMap.entrySet()) {
+                LOG.fine(entry.getKey() + ": " + entry.getValue().getCompartmentReferenceParams().values());
+            }
         }
     }
 
@@ -80,7 +84,9 @@ public class CompartmentUtil {
         Objects.requireNonNull(compMap, "resourceCompMap");
 
         Collection<CompartmentDefinition> definitions = FHIRRegistry.getInstance().getResources(CompartmentDefinition.class);
-        LOG.info("definitions from the registry: " + definitions);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("using the following compartment definitions from the registry: " + definitions);
+        }
 
         for (CompartmentDefinition compartmentDefinition : definitions) {
             CompartmentType type = compartmentDefinition.getCode();

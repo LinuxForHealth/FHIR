@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     /**
      * used when processing Erase on all Resources
@@ -194,10 +194,12 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param reason should include the reason?
      * @param reasonMsg the string to provide
      */
-    private void eraseResource(String resourceType, String logicalId, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
+    private void eraseResource(String resourceType, String logicalId, boolean error, String msg,
+            boolean patient, boolean reason, String reasonMsg) {
         Parameters requestBody = generateParameters(patient, reason, reasonMsg, Optional.empty());
         if (DEBUG) {
-            System.out.println("Invoking $erase with the following: " + requestBody);
+            System.out.println("Invoking $erase on " + resourceType + "/" + logicalId +
+                    " with the following: " + requestBody);
         }
 
         Entity<Parameters> entity = Entity.entity(requestBody, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -1328,7 +1330,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
     public void testEraseWithoutPatientIdInsideOfPatientCompartment() throws Exception {
         String resourceType = "Patient";
         String logicalId = generateMockResource(resourceType);
-        System.out.println("testEraseWithoutPatientIdInsideOfPatientCompartment for Patient/" + logicalId);
         eraseResource(resourceType, logicalId, true, null, false);
         checkResourceExists(resourceType, logicalId);
     }

@@ -374,10 +374,6 @@ public class EraseRestImpl implements EraseRest {
                 hasMoreThanOne = true;
             }
 
-            LOG.info("!!!!!!!!!!!!!!!!! compartments: " + compartmentHelper.getCompartmentResourceTypes("Patient"));
-            LOG.info("!!!!!!!!!!!!!!!!! resourceType: " + resourceType);
-            LOG.info("!!!!!!!!!!!!!!!!! dto.getPatient: " + dto.getPatient());
-
             // If this is in the patient compartment, then we want throw an issue.
             if (compartmentHelper.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
                 issues.add(Issue.builder()
@@ -389,7 +385,6 @@ public class EraseRestImpl implements EraseRest {
         } catch (FHIRPathException | FHIRSearchException e) {
             logException(issues, e);
         }
-        LOG.info("!!!!!!!!!!!!!!!!! issues: " + issues);
     }
 
     /**
