@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -17,9 +19,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.blob.BlobContainerManager;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ReadResourceTypesDAO;
+import com.ibm.fhir.schema.model.ResourceType;
 
 /**
  * Standalone application to provide support services (like reconciliation) for
@@ -42,6 +48,12 @@ public class Main {
 
     // A list of resources for which we want to read the blob contents
     private final List<String> resourceList = new ArrayList<>();
+
+    // Provides access to database connections and transaction handling
+    private DatabaseSupport dbSupport;
+
+    // Support for resource type lookup when we have a database config
+    private ResourceTypeMaps resourceTypeMaps;
 
     // Stop scanning after this number of seconds. Use continuationToken to continue
     private int maxScanSeconds = 120;
@@ -159,6 +171,12 @@ public class Main {
             didSomething = true;
         }
 
+        if (this.databaseProperties.size() > 0 && this.dbType != null) {
+            this.dbSupport = new DatabaseSupport(this.databaseProperties, dbType);
+            this.dbSupport.init();
+            fillResourceTypeMaps();
+        }
+
         // Run reconciliation OR read resources, not both
         if (this.reconcile) {
             runReconciliation();
@@ -174,6 +192,25 @@ public class Main {
     }
 
     /**
+     * Read the resource types from the database and populate the two lookup
+     * maps for easy conversion between resource type id and resource type name
+     */
+    private void fillResourceTypeMaps() {
+        logger.info("Filling resource type maps");
+        try (ITransaction tx = dbSupport.getTransaction()) {
+            try (Connection c = dbSupport.getConnection()) {
+                ReadResourceTypesDAO dao = new ReadResourceTypesDAO();
+                List<ResourceType> resourceTypes = dao.run(dbSupport.getTranslator(), c);
+                this.resourceTypeMaps = new ResourceTypeMaps();
+                this.resourceTypeMaps.init(resourceTypes);
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw dbSupport.getTranslator().translate(x);
+            }
+        }
+    }
+
+    /**
      * Create the container
      */
     private void createContainer() throws FHIRException {
@@ -185,7 +222,16 @@ public class Main {
      * Run the reconciliation process
      */
     protected void runReconciliation() throws Exception {
-        PayloadReconciliation process = new PayloadReconciliation(this.tenantId, this.dsId, databaseProperties, dbType, dryRun, this.maxScanSeconds);
+        if (this.databaseProperties == null) {
+            // bad args on the CLI
+            throw new IllegalArgumentException("Missing database configuration which is required to run reconciliation");
+        }
+        
+        if (this.resourceTypeMaps == null || !this.resourceTypeMaps.isInitialized()) {
+            throw new IllegalStateException("ResourceTypeMaps not initialized");
+        }
+
+        PayloadReconciliation process = new PayloadReconciliation(this.tenantId, this.dsId, dbSupport, this.resourceTypeMaps, dryRun, this.maxScanSeconds);
         String newContinuationToken = process.run(this.continuationToken);
 
         if (newContinuationToken == null) {
@@ -198,8 +244,15 @@ public class Main {
      * @throws Exception
      */
     protected void doReads() throws Exception {
-        for (String blobName: this.resourceList) {
-            ReadBlobValue action = new ReadBlobValue(this.tenantId, this.dsId, blobName);
+        for (String nm: this.resourceList) {
+            // resourceTypeMaps may be null or empty if no database config
+            // has been provided, in which case BlobName can't do any
+            // conversion
+            BlobName blobName = BlobName.create(resourceTypeMaps, nm);
+            if (blobName.getResourceTypeId() < 0) {
+                throw new IllegalArgumentException("Must use resourceTypeId for path, or provide a database configuration to allow lookup");
+            }
+            ReadBlobValue action = new ReadBlobValue(this.tenantId, this.dsId, this.resourceTypeMaps, blobName);
             action.run();
         }
     }
