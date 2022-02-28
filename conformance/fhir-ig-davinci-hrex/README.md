@@ -1,4 +1,4 @@
-# HL7 FHIRï¿½ Da Vinci Health Record Exchange (HRex) 1.0.0 - STU R1
+# HL7 FHIR® Da Vinci Health Record Exchange (HRex) 1.0.0 - STU R1
 
 - Downloaded - http://build.fhir.org/ig/HL7/davinci-ehrx/index.html
 - Retrieved - 24 FEB 2022
