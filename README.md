@@ -3,17 +3,42 @@ The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL
 
 For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
 
-The server can be packaged as a set of jar files, a web application archive (war), an application installer, or a Docker image.
+The server is available in the following forms:
+* a web application archive (war)
+* a zip file with installation script
+* a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-server) from the ibmcom org on DockerHub
+* a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
 ### Running the IBM FHIR Server
-The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows or as a docker image at https://hub.docker.com/r/ibmcom/ibm-fhir-server.
+Guides for configuring, operating, and extending the IBM FHIR Server are available from https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
+
+#### From the zip installer
+Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/IBM/FHIR/releases) and follow the instructions from the [User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
+1. Use fhir-persistence-schema-VERSION-cli.jar to deploy the schema.
+2. Unzip, install, and configure the server.
+
+#### From the container image
+Quickstart:
+```
+docker run -p 9443:9443 -e BOOTSTRAP_DB=true ibmcom/ibm-fhir-server`
+```
+
+See https://hub.docker.com/r/ibmcom/ibm-fhir-server for more information.
 
 Note:
 1. The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibmcom/ibm-fhir-schematool) is an early technology preview and is experimental.
 2. The Docker image [ibmcom/ibm-fhir-bucket-tool](https://hub.docker.com/r/ibmcom/ibm-fhir-bucket-tool) is an early technology preview and is experimental.
 3. The Docker image [ibmcom/ibm-fhir-term-loader](https://hub.docker.com/r/ibmcom/ibm-fhir-term-loader) is an early technology preview and is experimental.
 
-More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
+#### From the helm chart
+Quickstart:
+```
+helm repo add alvearie https://alvearie.io/alvearie-helm
+export POSTGRES_PASSWORD=$(openssl rand -hex 20)
+helm upgrade --install --render-subchart-notes ibm-fhir-server alvearie/ibm-fhir-server --set postgresql.postgresqlPassword=${POSTGRES_PASSWORD} --set ingress.hostname=example.com --set 'ingress.tls[0].secretName=cluster-tls-secret'
+```
+
+See https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server for more information.
 
 ### Building on top of the IBM FHIR Server Modules
 Each of the IBM FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).

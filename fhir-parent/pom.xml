@@ -312,7 +312,7 @@
                 <!-- used by postgres and janus graph -->
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.10.0</version>
+                <version>3.21.2</version>
             </dependency>
             <dependency>
                 <!-- used by fhir-provider and commons-text -->
@@ -323,7 +323,7 @@
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
             </dependency>
             <dependency>
                 <groupId>io.nats</groupId>
@@ -338,7 +338,7 @@
             <dependency>
                 <groupId>org.eclipse.microprofile.jwt</groupId>
                 <artifactId>microprofile-jwt-auth-api</artifactId>
-                <version>1.2.2</version>
+                <version>2.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -420,7 +420,7 @@
             <dependency>
                 <groupId>jakarta.mail</groupId>
                 <artifactId>jakarta.mail-api</artifactId>
-                <version>1.6.5</version>
+                <version>2.1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.owasp.encoder</groupId>
@@ -478,7 +478,7 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
-                <version>4.13.0</version>
+                <version>4.14.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.github.spotbugs</groupId>
@@ -489,12 +489,12 @@
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-query-builder</artifactId>
-                <version>4.13.0</version>
+                <version>4.14.0</version>
             </dependency>
             <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-mapper-runtime</artifactId>
-                <version>4.13.0</version>
+                <version>4.14.0</version>
             </dependency>
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -504,7 +504,7 @@
             <dependency>
                 <groupId>org.foundationdb</groupId>
                 <artifactId>fdb-java</artifactId>
-                <version>6.3.18</version>
+                <version>6.3.23</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -595,7 +595,7 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>1.2.9</version>
+                <version>1.2.10</version>
             </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
@@ -609,7 +609,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.72.Final</version>
+                <version>4.1.74.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
@@ -617,7 +617,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.71.Final</version>
+                <version>4.1.74.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
@@ -629,7 +629,7 @@
                 <!-- [CVE-2017-18640] The Alias feature in SnakeYAML 1.18 allows entity expansion during a load operation, addressed in latest versions. -->
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.29</version>
+                <version>1.30</version>
             </dependency>
             <dependency>
                 <groupId>org.opencds.cqf.cql</groupId>
@@ -890,7 +890,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.9.1</version>
+                    <version>3.11.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

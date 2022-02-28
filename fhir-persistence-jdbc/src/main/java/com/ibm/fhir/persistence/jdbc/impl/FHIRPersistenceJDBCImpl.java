@@ -1984,13 +1984,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 // Check the schema version
-                if (checkSchemaIsCurrent(connection)) {
-                    return buildOKOperationOutcome();
-                } else {
-                    return buildSchemaVersionErrorOperationOutcome();
-                }
+                return checkSchemaVersion(connection);
             } else {
-                return buildErrorOperationOutcome();
+                String msg = "The database connection was not valid";
+                log.severe(msg);
+                return buildSchemaVersionErrorOperationOutcome(msg);
             }
         } catch (SQLException e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Error while validating the database connection");
@@ -2002,9 +2000,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Checks to make sure the installed schema matches the version we expect
      * @param connection
-     * @return
+     * @return an OperationOutcome
      */
-    private boolean checkSchemaIsCurrent(Connection connection) throws SQLException, FHIRPersistenceException {
+    private OperationOutcome checkSchemaVersion(Connection connection) throws SQLException, FHIRPersistenceException {
         final String schemaName = this.schemaNameSupplier.getSchemaForRequestContext(connection);
         IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
 
@@ -2022,27 +2020,31 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // we allow the database schema to be equal to or ahead of the latest schema known
         // to this instance. This helps with rolling deploys.
         FhirSchemaVersion latest = FhirSchemaVersion.getLatestFhirSchemaVersion();
-        final boolean result;
         if (versionId < 0) {
             // the new server code is running against a database which hasn't been
             // updated to include the whole-schema-version and control tables
-            log.warning("Schema update required: whole-schema-version not supported.");
-            result = false; // not supported - database needs to be updated
+            String msg = "Schema update required: whole-schema-version not supported";
+            log.severe(msg);
+            // not supported - database needs to be updated
+            return buildSchemaVersionErrorOperationOutcome(msg);
         } else if (versionId > latest.vid()) {
             // the database has been updated, but this is the old code still running
-            log.warning("Deployment update required: database schema version [" + versionId
-                + "] is newer than code schema version [" + latest.vid() + "]");
-            result = true; // this is OK
+            String msg = "Deployment update required: database schema version [" + versionId
+                    + "] is newer than code schema version [" + latest.vid() + "]";
+            log.warning(msg);
+            // this is OK - code needs to be updated - return a warning
+            return buildSchemaVersionWarningOperationOutcome(msg);
         } else if (versionId < latest.vid()) {
             // the code is newer than the database schema
-            log.severe("Schema update required: database schema version [" + versionId
-                + "] is older than code schema version [" + latest.vid() + "]");
-            result = false; // not supported - database needs to be updated
+            String msg = "Schema update required: database schema version [" + versionId
+                    + "] is older than code schema version [" + latest.vid() + "]";
+            log.severe(msg);
+            // not supported - database needs to be updated
+            return buildSchemaVersionErrorOperationOutcome(msg);
         } else {
             // perfect match
-            result = true;
+            return buildOKOperationOutcome();
         }
-        return result;
     }
 
     /**
@@ -2302,12 +2304,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return FHIRUtil.buildOperationOutcome("All OK", IssueType.INFORMATIONAL, IssueSeverity.INFORMATION);
     }
 
-    private OperationOutcome buildErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
+    private OperationOutcome buildSchemaVersionErrorOperationOutcome(String msg) {
+        return FHIRUtil.buildOperationOutcome(msg, IssueType.NO_STORE, IssueSeverity.ERROR);
     }
 
-    private OperationOutcome buildSchemaVersionErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database schema version is old", IssueType.NO_STORE, IssueSeverity.ERROR);
+    private OperationOutcome buildSchemaVersionWarningOperationOutcome(String msg) {
+        return FHIRUtil.buildOperationOutcome(msg, IssueType.INFORMATIONAL, IssueSeverity.WARNING);
     }
 
     /**

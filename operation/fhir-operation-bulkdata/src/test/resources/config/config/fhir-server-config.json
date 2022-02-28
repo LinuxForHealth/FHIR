@@ -1,0 +1,70 @@
+{
+    "__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
+    "fhirServer": {
+        "resources": {
+            "open": false,
+            "Patient": {
+                "searchIncludes": [
+                    "Patient:general-practitioner",
+                    "Patient:organization"
+                ],
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "family": "http://hl7.org/fhir/SearchParameter/individual-family",
+                    "favorite-color": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+                    "favorite-number": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+                    "favorite-code": "http://ibm.com/fhir/SearchParameter/Patient-favorite-code",
+                    "favorite-uri": "http://ibm.com/fhir/SearchParameter/Patient-favorite-uri",
+                    "favorite-quantity": "http://ibm.com/fhir/SearchParameter/Patient-favorite-quantity",
+                    "favorite-date": "http://ibm.com/fhir/SearchParameter/Patient-favorite-date",
+                    "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
+                    "general-practitioner": "http://hl7.org/fhir/SearchParameter/Patient-general-practitioner",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+                    "organization": "http://hl7.org/fhir/SearchParameter/Patient-organization"
+                }
+            },
+            "Resource": {
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id"
+                }
+            }
+        },
+        "bulkdata": {
+            "legacy": false,
+            "enabled": true,
+            "core": {
+                "api": {
+                    "url": "https://localhost:9443/ibm/api/batch",
+                    "user": "fhiradmin",
+                    "password": "change-password",
+                    "truststore": "resources/security/fhirTrustStore.p12",
+                    "truststore-password": "asdf", 
+                    "trustAll": true
+                },
+                "cos" : { 
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 15,
+                    "objectResourceCountThreshold": 200000,
+                    "useServerTruststore": true
+                },
+                "pageSize": 100,
+                "_comment": "max of 1000",
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3,
+                "maxInputs": 5,
+                "systemExportImpl": "none"
+            },
+            "storageProviders": {
+                "default" : {
+                    "type": "ibm-cos",
+                    "validBaseUrls": [],
+                    "fileBase": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
+                    "bucketName": "fhir-a",
+                    "location": "us",
+                    "endpointInternal": "https://s3.x.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.x.cloud-object-storage.appdomain.cloud"
+                }
+            }
+        }
+    }
+}
