@@ -5,12 +5,38 @@
 		"status": "empty",
 		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
 	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2,
+			"_valueInteger": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use",
+			"_valueCode": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitionerrole",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"name": "HRexPractitionerRole",
 	"title": "HRex PractitionerRole Profile",
 	"status": "draft",
-	"date": "2022-02-08T21:08:21+00:00",
+	"date": "2022-02-24T21:01:30+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -132,14 +158,6 @@
 						"human": "SHALL have contact information or a reference to an Endpoint",
 						"expression": "telecom or endpoint",
 						"xpath": "exists(f:telecom) or exists(f:endpoint)",
-						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
-					},
-					{
-						"key": "us-core-13",
-						"severity": "error",
-						"human": "SHALL have a practitioner, an organization, a healthcare service, or a location.",
-						"expression": "practitioner or organization or healthcareService or location",
-						"xpath": "exists(f:practitioner) or exists(f:organization) or exists(f:healthcareService) or exists(f:location)",
 						"source": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
 					}
 				],
@@ -629,7 +647,7 @@
 				"path": "PractitionerRole.practitioner",
 				"short": "Practitioner that is able to provide the defined services for the organization",
 				"definition": "Practitioner that is able to provide the defined services for the organization.",
-				"min": 0,
+				"min": 1,
 				"max": "1",
 				"base": {
 					"path": "PractitionerRole.practitioner",
@@ -643,9 +661,6 @@
 							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner"
 						]
 					}
-				],
-				"condition": [
-					"us-core-13"
 				],
 				"constraint": [
 					{
@@ -672,7 +687,7 @@
 				"path": "PractitionerRole.organization",
 				"short": "Organization where the roles are available",
 				"definition": "The organization where the Practitioner performs the roles associated.",
-				"min": 0,
+				"min": 1,
 				"max": "1",
 				"base": {
 					"path": "PractitionerRole.organization",
@@ -686,9 +701,6 @@
 							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization"
 						]
 					}
-				],
-				"condition": [
-					"us-core-13"
 				],
 				"constraint": [
 					{
@@ -794,7 +806,8 @@
 				"isSummary": true,
 				"binding": {
 					"strength": "extensible",
-					"valueSet": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.114222.4.11.1066"
+					"description": "Provider specialty codes consist of NUCC Health Care Provider Taxonomy Code Set for providers.",
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-specialty|4.0.0"
 				},
 				"mapping": [
 					{
@@ -830,9 +843,6 @@
 							"http://hl7.org/fhir/StructureDefinition/Location"
 						]
 					}
-				],
-				"condition": [
-					"us-core-13"
 				],
 				"constraint": [
 					{
@@ -881,9 +891,6 @@
 							"http://hl7.org/fhir/StructureDefinition/HealthcareService"
 						]
 					}
-				],
-				"condition": [
-					"us-core-13"
 				],
 				"constraint": [
 					{

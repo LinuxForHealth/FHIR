@@ -20,12 +20,12 @@
 		}
 	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"name": "DaVinciHealthRecordExchangeHRex",
 	"title": "Da Vinci Health Record Exchange (HRex)",
 	"status": "active",
 	"experimental": false,
-	"date": "2022-02-08T21:08:21+00:00",
+	"date": "2022-02-24T21:01:30+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -58,7 +58,7 @@
 			"id": "uscore",
 			"uri": "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
 			"packageId": "hl7.fhir.us.core",
-			"version": "4.0.0"
+			"version": "3.1.1"
 		},
 		{
 			"id": "udap",
@@ -90,7 +90,7 @@
 					},
 					{
 						"url": "value",
-						"valueString": "STU R1 - 2nd ballot"
+						"valueString": "STU R1"
 					}
 				],
 				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
@@ -334,6 +334,32 @@
 					{
 						"url": "code",
 						"valueString": "active-tables"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "fmm-definition"
+					},
+					{
+						"url": "value",
+						"valueString": "http://hl7.org/fhir/versions.html#maturity"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "propagate-status"
 					},
 					{
 						"url": "value",
@@ -720,6 +746,20 @@
 				"extension": [
 					{
 						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ClaimResponse"
+					}
+				],
+				"reference": {
+					"reference": "ClaimResponse/UnsolicitedReferralAuthorizationResponseExample"
+				},
+				"name": "Unsolicited Prior Authorization example",
+				"description": "Example of an unsolicited prior authorization",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-claimresponse"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
 						"valueString": "StructureDefinition:resource"
 					}
 				],
@@ -958,19 +998,6 @@
 					}
 				],
 				"reference": {
-					"reference": "StructureDefinition/hrex-patient-member"
-				},
-				"name": "HRex Patient Member Profile",
-				"description": "Additional Da Vinci constraints on patient with a mandatory payer identifier"
-			},
-			{
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
-						"valueString": "StructureDefinition:resource"
-					}
-				],
-				"reference": {
 					"reference": "StructureDefinition/hrex-task-data-request"
 				},
 				"name": "HRex Task Data Request Profile",
@@ -1000,41 +1027,89 @@
 					"generation": "markdown"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "exchanging.html",
 					"title": "Approaches to Exchanging FHIR Data",
 					"generation": "html",
 					"page": [
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-search.html",
 							"title": "Exchanging with FHIR search",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-rest.html",
 							"title": "Exchanging with FHIR REST",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-subscription.html",
 							"title": "Exchanging with FHIR subscription",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-polling.html",
 							"title": "Exchanging with polling",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-operation.html",
 							"title": "Exchanging with FHIR operations",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-messaging.html",
 							"title": "Exchanging with messaging",
 							"generation": "html"
 						},
 						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
 							"nameUrl": "exchanging-request.html",
 							"title": "Exchanges allowing human intervention",
 							"generation": "html"
@@ -1042,41 +1117,89 @@
 					]
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "conformance.html",
 					"title": "Conformance Expectations",
 					"generation": "html"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "davinci-guiding-principles.html",
 					"title": "Da Vinci Guiding Principles",
 					"generation": "html"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "security.html",
 					"title": "Security and Privacy",
 					"generation": "html"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "task.html",
 					"title": "Task-based queries",
 					"generation": "markdown"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "smart-app-reg.html",
 					"title": "Dynamic Registration for SMART Apps",
 					"generation": "markdown"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "profiles.html",
 					"title": "Profile overview",
 					"generation": "html"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "searchparameters.html",
 					"title": "Search Parameters overview",
 					"generation": "markdown"
 				},
 				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
 					"nameUrl": "artifacts.html",
 					"title": "Artifact List",
 					"generation": "html"

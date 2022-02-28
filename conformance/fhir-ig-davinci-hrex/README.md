@@ -1,8 +1,8 @@
-# HL7 FHIR® Da Vinci Health Record Exchange (HRex) 0.2.0 - STU R1 - 2nd ballot
+# HL7 FHIRï¿½ Da Vinci Health Record Exchange (HRex) 0.2.0 - STU R1 - 2nd ballot
 
 - Downloaded - http://build.fhir.org/ig/HL7/davinci-ehrx/index.html
-- Retrieved - 9 FEB 2022
-- Commit - https://github.com/HL7/davinci-ehrx/commit/ffb76646a1044736b71d86d17252cc799ff5153d
+- Retrieved - 24 FEB 2022
+- Commit - https://github.com/HL7/davinci-ehrx/commit/6e600f4c38ccec280c235cfa85eecaf27c882c8c
 
 Please note STU1 is NOT yet completed the balloting process at HL7. The IG may change.
 

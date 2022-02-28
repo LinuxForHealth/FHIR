@@ -5,12 +5,38 @@
 		"status": "empty",
 		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
 	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2,
+			"_valueInteger": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use",
+			"_valueCode": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		}
+	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"name": "HRexPractitioner",
 	"title": "HRex Practitioner Profile",
 	"status": "draft",
-	"date": "2022-02-08T21:08:21+00:00",
+	"date": "2022-02-24T21:01:30+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -988,7 +1014,7 @@
 				"sliceName": "ccn",
 				"short": "An identifier for the person as this agent",
 				"definition": "An identifier that applies to this person in this role.",
-				"comment": "NPI must be supported as the identifier system in the US, Tax id is allowed, Local id is allowed in addition to another identifier supplied by a jurisdictional authority such as a practitioner's *Drug Enforcement Administration (DEA)* number.",
+				"comment": "NPI must be supported as the identifier system in the US, Tax id is allowed, Local id is allowed in addition to an another identifier supplied by a jurisdictional authority such as a practitioner's *Drug Enforcement Administration (DEA)* number.",
 				"requirements": "Often, specific identities are assigned for the agent.",
 				"min": 0,
 				"max": "1",

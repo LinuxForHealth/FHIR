@@ -16,12 +16,12 @@
 		}
 	],
 	"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-consent",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"name": "HRexConsent",
 	"title": "HRex Consent Profile",
 	"status": "active",
 	"experimental": false,
-	"date": "2022-02-08T21:08:21+00:00",
+	"date": "2022-02-24T21:01:30+00:00",
 	"publisher": "HL7 International - Clinical Interoperability Council",
 	"contact": [
 		{
@@ -931,8 +931,8 @@
 				"alias": [
 					"consentor"
 				],
-				"min": 0,
-				"max": "*",
+				"min": 1,
+				"max": "1",
 				"base": {
 					"path": "Consent.performer",
 					"min": 0,
@@ -942,11 +942,11 @@
 					{
 						"code": "Reference",
 						"targetProfile": [
-							"http://hl7.org/fhir/StructureDefinition/Organization",
-							"http://hl7.org/fhir/StructureDefinition/Patient",
-							"http://hl7.org/fhir/StructureDefinition/Practitioner",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
 							"http://hl7.org/fhir/StructureDefinition/RelatedPerson",
-							"http://hl7.org/fhir/StructureDefinition/PractitionerRole"
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
 						]
 					}
 				],
@@ -960,6 +960,7 @@
 						"source": "http://hl7.org/fhir/StructureDefinition/Element"
 					}
 				],
+				"mustSupport": true,
 				"isModifier": false,
 				"isSummary": true,
 				"mapping": [
@@ -2549,7 +2550,7 @@
 				"isSummary": false
 			},
 			{
-				"id": "Consent.provision.actor:recpient",
+				"id": "Consent.provision.actor:source",
 				"extension": [
 					{
 						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
@@ -2557,9 +2558,10 @@
 					}
 				],
 				"path": "Consent.provision.actor",
-				"sliceName": "recpient",
-				"short": "Who|what controlled by this rule (or group, by role)",
+				"sliceName": "source",
+				"short": "Authorized to disclose",
 				"definition": "Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 'admitting officers').",
+				"comment": "Multiple repetitions are allowed.  At least one repetition SHALL refer to the target payer's organization.  If the consent is bidirectional, then the source system's organization would also be listed.",
 				"min": 1,
 				"max": "*",
 				"base": {
@@ -2588,7 +2590,7 @@
 				"isSummary": false
 			},
 			{
-				"id": "Consent.provision.actor:recpient.id",
+				"id": "Consent.provision.actor:source.id",
 				"path": "Consent.provision.actor.id",
 				"representation": [
 					"xmlAttr"
@@ -2623,7 +2625,7 @@
 				]
 			},
 			{
-				"id": "Consent.provision.actor:recpient.extension",
+				"id": "Consent.provision.actor:source.extension",
 				"path": "Consent.provision.actor.extension",
 				"short": "Additional content defined by implementations",
 				"definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
@@ -2672,7 +2674,7 @@
 				]
 			},
 			{
-				"id": "Consent.provision.actor:recpient.modifierExtension",
+				"id": "Consent.provision.actor:source.modifierExtension",
 				"path": "Consent.provision.actor.modifierExtension",
 				"short": "Extensions that cannot be ignored even if unrecognized",
 				"definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
@@ -2724,7 +2726,268 @@
 				]
 			},
 			{
-				"id": "Consent.provision.actor:recpient.role",
+				"id": "Consent.provision.actor:source.role",
+				"path": "Consent.provision.actor.role",
+				"short": "How the actor is involved",
+				"definition": "How the individual is involved in the resources content that is described in the exception.",
+				"comment": "This code isn't in the value set, but there's no code that represents the function of 'discloser' or 'performer', so need to go outside the value set.  Multiple ",
+				"min": 1,
+				"max": "1",
+				"base": {
+					"path": "Consent.provision.actor.role",
+					"min": 1,
+					"max": "1"
+				},
+				"type": [
+					{
+						"code": "CodeableConcept"
+					}
+				],
+				"patternCodeableConcept": {
+					"coding": [
+						{
+							"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+							"code": "performer"
+						}
+					]
+				},
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					}
+				],
+				"mustSupport": true,
+				"isModifier": false,
+				"isSummary": false,
+				"binding": {
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+							"valueString": "ConsentActorRole"
+						}
+					],
+					"strength": "extensible",
+					"description": "How an actor is involved in the consent considerations.",
+					"valueSet": "http://hl7.org/fhir/ValueSet/security-role-type"
+				}
+			},
+			{
+				"id": "Consent.provision.actor:source.reference",
+				"path": "Consent.provision.actor.reference",
+				"short": "Resource for the actor (or group, by role)",
+				"definition": "The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. 'admitting officers').",
+				"min": 1,
+				"max": "1",
+				"base": {
+					"path": "Consent.provision.actor.reference",
+					"min": 1,
+					"max": "1"
+				},
+				"type": [
+					{
+						"code": "Reference",
+						"targetProfile": [
+							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization"
+						]
+					}
+				],
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					}
+				],
+				"mustSupport": true,
+				"isModifier": false,
+				"isSummary": false
+			},
+			{
+				"id": "Consent.provision.actor:recipient",
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-explicit-type-name",
+						"valueString": "provisionActor"
+					}
+				],
+				"path": "Consent.provision.actor",
+				"sliceName": "recipient",
+				"short": "Authorized to receive information",
+				"definition": "Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 'admitting officers').",
+				"comment": "Multiple repetitions are allowed.  At least one repetition SHALL refer to the requesting system's organization.  If the consent is bidirectional, then the target payer's organization would also be listed.",
+				"min": 1,
+				"max": "*",
+				"base": {
+					"path": "Consent.provision.actor",
+					"min": 0,
+					"max": "*"
+				},
+				"type": [
+					{
+						"code": "BackboneElement"
+					}
+				],
+				"meaningWhenMissing": "There is no specific actor associated with the exception",
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					}
+				],
+				"mustSupport": true,
+				"isModifier": false,
+				"isSummary": false
+			},
+			{
+				"id": "Consent.provision.actor:recipient.id",
+				"path": "Consent.provision.actor.id",
+				"representation": [
+					"xmlAttr"
+				],
+				"short": "Unique id for inter-element referencing",
+				"definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+				"min": 0,
+				"max": "1",
+				"base": {
+					"path": "Element.id",
+					"min": 0,
+					"max": "1"
+				},
+				"type": [
+					{
+						"extension": [
+							{
+								"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+								"valueUrl": "string"
+							}
+						],
+						"code": "http://hl7.org/fhirpath/System.String"
+					}
+				],
+				"isModifier": false,
+				"isSummary": false,
+				"mapping": [
+					{
+						"identity": "rim",
+						"map": "n/a"
+					}
+				]
+			},
+			{
+				"id": "Consent.provision.actor:recipient.extension",
+				"path": "Consent.provision.actor.extension",
+				"short": "Additional content defined by implementations",
+				"definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+				"comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+				"alias": [
+					"extensions",
+					"user content"
+				],
+				"min": 0,
+				"max": "*",
+				"base": {
+					"path": "Element.extension",
+					"min": 0,
+					"max": "*"
+				},
+				"type": [
+					{
+						"code": "Extension"
+					}
+				],
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					},
+					{
+						"key": "ext-1",
+						"severity": "error",
+						"human": "Must have either extensions or value[x], not both",
+						"expression": "extension.exists() != value.exists()",
+						"xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
+					}
+				],
+				"isModifier": false,
+				"isSummary": false,
+				"mapping": [
+					{
+						"identity": "rim",
+						"map": "n/a"
+					}
+				]
+			},
+			{
+				"id": "Consent.provision.actor:recipient.modifierExtension",
+				"path": "Consent.provision.actor.modifierExtension",
+				"short": "Extensions that cannot be ignored even if unrecognized",
+				"definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+				"comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+				"requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).",
+				"alias": [
+					"extensions",
+					"user content",
+					"modifiers"
+				],
+				"min": 0,
+				"max": "*",
+				"base": {
+					"path": "BackboneElement.modifierExtension",
+					"min": 0,
+					"max": "*"
+				},
+				"type": [
+					{
+						"code": "Extension"
+					}
+				],
+				"constraint": [
+					{
+						"key": "ele-1",
+						"severity": "error",
+						"human": "All FHIR elements must have a @value or children",
+						"expression": "hasValue() or (children().count() > id.count())",
+						"xpath": "@value|f:*|h:div",
+						"source": "http://hl7.org/fhir/StructureDefinition/Element"
+					},
+					{
+						"key": "ext-1",
+						"severity": "error",
+						"human": "Must have either extensions or value[x], not both",
+						"expression": "extension.exists() != value.exists()",
+						"xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+						"source": "http://hl7.org/fhir/StructureDefinition/Extension"
+					}
+				],
+				"isModifier": true,
+				"isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the element that contains them",
+				"isSummary": true,
+				"mapping": [
+					{
+						"identity": "rim",
+						"map": "N/A"
+					}
+				]
+			},
+			{
+				"id": "Consent.provision.actor:recipient.role",
 				"path": "Consent.provision.actor.role",
 				"short": "How the actor is involved",
 				"definition": "How the individual is involved in the resources content that is described in the exception.",
@@ -2775,7 +3038,7 @@
 				}
 			},
 			{
-				"id": "Consent.provision.actor:recpient.reference",
+				"id": "Consent.provision.actor:recipient.reference",
 				"path": "Consent.provision.actor.reference",
 				"short": "Resource for the actor (or group, by role)",
 				"definition": "The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some property they share (e.g. 'admitting officers').",
@@ -3418,6 +3681,25 @@
 				"mustSupport": true
 			},
 			{
+				"id": "Consent.performer",
+				"path": "Consent.performer",
+				"min": 1,
+				"max": "1",
+				"type": [
+					{
+						"code": "Reference",
+						"targetProfile": [
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+							"http://hl7.org/fhir/StructureDefinition/RelatedPerson",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
+							"http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
+						]
+					}
+				],
+				"mustSupport": true
+			},
+			{
 				"id": "Consent.source[x]",
 				"path": "Consent.source[x]",
 				"comment": "...Allows referencing the 'source of truth' for the Consent. This might be a detailed electronic consent, an audio recording of a verbal consent, or an identifier that can be used to follow up for audit.",
@@ -3508,14 +3790,52 @@
 				}
 			},
 			{
-				"id": "Consent.provision.actor:recpient",
+				"id": "Consent.provision.actor:source",
 				"path": "Consent.provision.actor",
-				"sliceName": "recpient",
+				"sliceName": "source",
+				"short": "Authorized to disclose",
+				"comment": "Multiple repetitions are allowed.  At least one repetition SHALL refer to the target payer's organization.  If the consent is bidirectional, then the source system's organization would also be listed.",
 				"min": 1,
 				"mustSupport": true
 			},
 			{
-				"id": "Consent.provision.actor:recpient.role",
+				"id": "Consent.provision.actor:source.role",
+				"path": "Consent.provision.actor.role",
+				"comment": "This code isn't in the value set, but there's no code that represents the function of 'discloser' or 'performer', so need to go outside the value set.  Multiple ",
+				"patternCodeableConcept": {
+					"coding": [
+						{
+							"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+							"code": "performer"
+						}
+					]
+				},
+				"mustSupport": true
+			},
+			{
+				"id": "Consent.provision.actor:source.reference",
+				"path": "Consent.provision.actor.reference",
+				"type": [
+					{
+						"code": "Reference",
+						"targetProfile": [
+							"http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization"
+						]
+					}
+				],
+				"mustSupport": true
+			},
+			{
+				"id": "Consent.provision.actor:recipient",
+				"path": "Consent.provision.actor",
+				"sliceName": "recipient",
+				"short": "Authorized to receive information",
+				"comment": "Multiple repetitions are allowed.  At least one repetition SHALL refer to the requesting system's organization.  If the consent is bidirectional, then the target payer's organization would also be listed.",
+				"min": 1,
+				"mustSupport": true
+			},
+			{
+				"id": "Consent.provision.actor:recipient.role",
 				"path": "Consent.provision.actor.role",
 				"comment": "...The code chosen doesn't strictly have the desired semantics, but of the ones in the value set it is closest and has the needed level of generality.",
 				"patternCodeableConcept": {
@@ -3529,7 +3849,7 @@
 				"mustSupport": true
 			},
 			{
-				"id": "Consent.provision.actor:recpient.reference",
+				"id": "Consent.provision.actor:recipient.reference",
 				"path": "Consent.provision.actor.reference",
 				"type": [
 					{

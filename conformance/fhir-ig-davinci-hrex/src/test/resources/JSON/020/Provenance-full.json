@@ -3,7 +3,7 @@
 	"id": "full",
 	"text": {
 		"status": "generated",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>target</b>: <a href=\"Coverage-full.html\">Coverage/full</a></p><p><b>occurred</b>: 2020-07-28</p><p><b>recorded</b>: Jul 31, 2020, 2:07:15 AM</p><blockquote><p><b>agent</b></p><p><b>type</b>: Transmitter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU4/CodeSystem-us-core-provenance-participant-type.html\">US Core Provenance Participant Type Extension Codes</a>#transmitter)</span></p><p><b>who</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <a href=\"PractitionerRole-full.html\">PractitionerRole/full</a></p></blockquote></div>"
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>target</b>: <a href=\"Coverage-full.html\">Coverage/full</a></p><p><b>occurred</b>: 2020-07-28</p><p><b>recorded</b>: Jul 31, 2020, 2:07:15 AM</p><blockquote><p><b>agent</b></p><p><b>type</b>: Transmitter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU3.1.1/CodeSystem-us-core-provenance-participant-type.html\">US Core Provenance Participant Type Extension Codes</a>#transmitter)</span></p><p><b>who</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <a href=\"Practitioner-full.html\">Practitioner/full</a> \" BONE\"</p></blockquote></div>"
 	},
 	"target": [
 		{
@@ -36,7 +36,7 @@
 				]
 			},
 			"who": {
-				"reference": "PractitionerRole/full"
+				"reference": "Practitioner/full"
 			}
 		}
 	],
