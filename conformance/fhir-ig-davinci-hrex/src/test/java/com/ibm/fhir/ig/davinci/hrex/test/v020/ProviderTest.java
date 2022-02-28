@@ -15,7 +15,7 @@ import java.util.Collection;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.hrex.HREX020ResourceProvider;
+import com.ibm.fhir.ig.davinci.hrex.HREX100ResourceProvider;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Extension;
@@ -29,7 +29,7 @@ public class ProviderTest {
 
     @Test
     public void testHREXResourceProvider() {
-        FHIRRegistryResourceProvider provider = new HREX020ResourceProvider();
+        FHIRRegistryResourceProvider provider = new HREX100ResourceProvider();
         Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
         assertNotNull(registryResources);
         assertTrue(!registryResources.isEmpty());
@@ -40,7 +40,7 @@ public class ProviderTest {
 
     @Test
     public static void testConstraintGenerator() throws Exception {
-        FHIRRegistryResourceProvider provider = new HREX020ResourceProvider();
+        FHIRRegistryResourceProvider provider = new HREX100ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                 String url = registryResource.getUrl();
