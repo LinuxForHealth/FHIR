@@ -210,8 +210,9 @@ public class FHIRSwaggerGenerator {
         generateMetadataSwagger();
         generateBatchTransactionSwagger();
         generateWholeSystemHistorySwagger();
-        if (filter.acceptOperation("export"))
+        if (filter.acceptOperation("export")) {
             generateExportSwagger();
+        }
     }
 
     private static void generateCompartmentSwagger(Class<?> compartmentModelClass, Filter filter) throws Exception, ClassNotFoundException, Error {

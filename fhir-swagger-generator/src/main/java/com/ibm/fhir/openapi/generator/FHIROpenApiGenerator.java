@@ -165,8 +165,9 @@ public class FHIROpenApiGenerator {
         generateMetadataOpenApi();
         generateBatchTransactionOpenApi(filter);
         generateWholeSystemHistoryOpenApi();
-        if (filter.acceptOperation("export"))
+        if (filter.acceptOperation("export")) {
             generateExportOpenApi();
+        }
     }
 
     private static void generateAllInOne(Filter filter) throws Exception {
@@ -224,8 +225,9 @@ public class FHIROpenApiGenerator {
         definitionsToAdd.add(OperationOutcome.class);
         definitionsToAdd.add(OperationOutcome.Issue.class);
 
-        if (filter.acceptOperation("export")) 
+        if (filter.acceptOperation("export")) {
             definitionsToAdd.add(Parameters.class);
+        }
 
         JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();
@@ -244,7 +246,7 @@ public class FHIROpenApiGenerator {
                     definitionsToAdd.add(resourceModelClass);
 
                     // generate definition for all inner classes inside the top level resources.
-                    Set<String> classFilter = Stream.of(resourceClassName).collect(Collectors.toSet());
+                    Set<String> classFilter = Collections.singleton(resourceClassName);
                     addDefinitionsForInnerClasses(classFilter, definitionsToAdd);
 
                     // add all the applicable data types to the set of definitions
@@ -269,7 +271,7 @@ public class FHIROpenApiGenerator {
                         definitionsToAdd.add(withinCompartmentResourceModelClass);
 
                         // generate definition for all inner classes inside the top level resources.
-                        Set<String> classFilter = Stream.of(withinCompartmentResourceClassName).collect(Collectors.toSet());
+                        Set<String> classFilter = Collections.singleton(withinCompartmentResourceClassName);
                         addDefinitionsForInnerClasses(classFilter, definitionsToAdd);
 
                         // add all the applicable data types to the set of definitions
@@ -309,7 +311,7 @@ public class FHIROpenApiGenerator {
             generateDefinition(Parameters.class, definitions);
 
             // generate definition for all inner classes inside the top level resources.
-            Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+            Set<String> classFilter = Collections.singleton("Parameters");
             generateDefinitionForInnerClasses(classFilter, definitions);
         }
         
@@ -552,7 +554,7 @@ public class FHIROpenApiGenerator {
                     generateDefinition(Parameters.class, definitions);
 
                     // generate definition for all inner classes inside the top level resources.
-                    Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+                    Set<String> classFilter = Collections.singleton("Parameters");
                     generateDefinitionForInnerClasses(classFilter, definitions);
                 }
                 
@@ -613,7 +615,7 @@ public class FHIROpenApiGenerator {
         generateDefinition(DomainResource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        Set<String> classFilter = Stream.of("CapabilityStatement").collect(Collectors.toSet());
+        Set<String> classFilter = Collections.singleton("CapabilityStatement");
         generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable defined Types.
@@ -675,7 +677,7 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        Set<String> classFilter = Stream.of("Bundle").collect(Collectors.toSet());
+        Set<String> classFilter = Collections.singleton("Bundle");
         generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable data types.
@@ -740,7 +742,7 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        Set<String> classFilter = Stream.of("Bundle").collect(Collectors.toSet());
+        Set<String> classFilter = Collections.singleton("Bundle");
         generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the defined Types.
@@ -810,7 +812,7 @@ public class FHIROpenApiGenerator {
         generateDefinition(Resource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
-        Set<String> classFilter = Stream.of("Parameters").collect(Collectors.toSet());
+        Set<String> classFilter = Collections.singleton("Parameters");
         generateDefinitionForInnerClasses(classFilter, definitions);
 
         // generate definition for all the applicable data types.
