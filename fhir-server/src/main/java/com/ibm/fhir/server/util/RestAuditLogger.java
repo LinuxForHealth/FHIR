@@ -829,7 +829,7 @@ public class RestAuditLogger {
         String timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
 
         String overrideIp = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_IP, null);
-        String auditIp = overrideIp != null ? overrideIp : componentIpHandler.getIpAddresses();
+        String auditIp = (overrideIp != null) ? overrideIp : componentIpHandler.getIpAddresses();
         AuditLogEntry logEntry = new AuditLogEntry(COMPONENT_ID, eventType.value(), timestamp, auditIp , tenantId);
         log.exiting(CLASSNAME, METHODNAME);
         return logEntry;
