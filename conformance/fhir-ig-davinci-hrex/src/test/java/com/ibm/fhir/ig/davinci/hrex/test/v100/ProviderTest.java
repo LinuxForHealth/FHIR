@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.hrex.test.v020;
+package com.ibm.fhir.ig.davinci.hrex.test.v100;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.compile;
 import static org.testng.Assert.assertNotNull;
