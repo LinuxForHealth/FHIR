@@ -60,7 +60,7 @@ public class ProfileTest {
     @Factory
     public Object[] createInstances() {
         List<Object> result = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/JSON/020/index.txt")))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/JSON/100/index.txt")))) {
             String line;
             while ((line = br.readLine()) != null) {
                 result.add(new ProfileTest(line));
