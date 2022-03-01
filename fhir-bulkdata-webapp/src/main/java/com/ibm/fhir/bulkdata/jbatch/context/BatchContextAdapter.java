@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -158,6 +158,7 @@ public class BatchContextAdapter {
         BulkDataContext ctx = new BulkDataContext();
         context(ctx);
         source(ctx);
+        ctx.setCosBucketPathPrefix(props.getProperty(OperationFields.COS_BUCKET_PATH_PREFIX));
         return ctx;
     }
 

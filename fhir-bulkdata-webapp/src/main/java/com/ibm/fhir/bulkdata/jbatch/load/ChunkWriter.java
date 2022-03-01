@@ -11,6 +11,8 @@ import static com.ibm.fhir.model.type.String.string;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
@@ -45,11 +46,10 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -90,7 +90,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITION_WORKITEM)
+    @BatchProperty(name = OperationFields.PARTITION_WORKITEM)
     private String workItem;
 
     @Inject
@@ -100,7 +100,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITION_RESOURCETYPE)
+    @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
     private String resourceType;
 
     public ChunkWriter() {
@@ -141,6 +141,9 @@ public class ChunkWriter extends AbstractItemWriter {
             int failedNum = 0;
             ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
+            boolean shouldCollectOperationOutcomes = adapter
+                    .shouldStorageProviderCollectOperationOutcomes(ctx.getSource());
+
             // Validates the Resources are valid for included profiles
             if (adapter.shouldStorageProviderValidateResources(ctx.getSource())) {
                 long validationStartTimeInMilliSeconds = System.currentTimeMillis();
@@ -148,19 +151,35 @@ public class ChunkWriter extends AbstractItemWriter {
                     @SuppressWarnings("unchecked")
                     List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
+                    // Used to indicate line number in the OperationOutcomes
+                    long cur = 1;
                     for (Resource fhirResource : fhirResourceList) {
                         long startTime = System.currentTimeMillis();
                         javax.ws.rs.core.Response.Status status = javax.ws.rs.core.Response.Status.PRECONDITION_FAILED;
                         try {
-                            BulkDataUtils.validateInput(fhirResource);
+                            List<Issue> issues = BulkDataUtils.validateInput(fhirResource);
+
+                            if (shouldCollectOperationOutcomes) {
+                                OperationOutcome oo;
+                                if (issues.isEmpty()) {
+                                    oo = generateAllOkValidation(chunkData.getNumOfProcessedResources() + cur);
+                                } else {
+                                    oo = generateWarning(chunkData.getNumOfProcessedResources() + cur, issues);
+                                }
+
+                                FHIRGenerator.generator(Format.JSON).generate(oo,
+                                        chunkData.getBufferStreamForImport());
+                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
                             status = javax.ws.rs.core.Response.Status.OK;
                         } catch (FHIRValidationException | FHIROperationException e) {
                             logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                             failedNum++;
                             failValidationIds.add(fhirResource.getClass().getName() + "/" + fhirResource.getId());
 
-                            if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
-                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                            if (shouldCollectOperationOutcomes) {
+                                OperationOutcome operationOutCome = generateException(
+                                        chunkData.getNumOfProcessedResources() + cur, e);
                                 FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
@@ -171,6 +190,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 auditLogger.logValidateOnImport(fhirResource, new Date(startTime), new Date(endTime), status, location, ctx.getUsers());
                             }
                         }
+                        cur++;
                     }
                 }
                 chunkData.addTotalValidationMilliSeconds(System.currentTimeMillis() - validationStartTimeInMilliSeconds);
@@ -178,6 +198,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
             // Validates the ResourceType matches
             if (!adapter.shouldStorageProviderAllowAllResources(ctx.getSource())) {
+                long cur = 1;
                 for (Object objResJsonList : arg0) {
                     @SuppressWarnings("unchecked")
                     List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
@@ -187,10 +208,10 @@ public class ChunkWriter extends AbstractItemWriter {
                         if (!this.resourceType.equals(assertedResourceType)) {
                             failValidationIds.add(assertedResourceType + "/" + fhirResource.getId());
 
-                            if (adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())) {
-                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(
-                                    "The resource being imported does not match the declared resource - '" + this.resourceType 
-                                        + " '" + assertedResourceType + "/" + fhirResource.getId() + "'", IssueType.SECURITY, IssueSeverity.ERROR);
+                            if (shouldCollectOperationOutcomes) {
+                                OperationOutcome operationOutCome = generateSecurityException(
+                                        failedNum + cur + chunkData.getNumOfProcessedResources(), fhirResource.getId(),
+                                        assertedResourceType, this.resourceType);
                                 FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
@@ -199,6 +220,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 + " '" + assertedResourceType + "/" + fhirResource.getId() + "'");
                         }
                     }
+                    cur++;
                 }
             }
 
@@ -218,6 +240,7 @@ public class ChunkWriter extends AbstractItemWriter {
             // Get the Skippable Update status
             boolean skip = adapter.enableSkippableUpdates();
             try {
+                long cur = 1;
                 for (Object objResJsonList : arg0) {
                     @SuppressWarnings("unchecked")
                     List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
@@ -259,7 +282,9 @@ public class ChunkWriter extends AbstractItemWriter {
 
                                 // Set up the persistence context to include the deleted resources when we read
                                 FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event, true);
-                                operationOutcome = conditionalFingerprintUpdate(chunkData, skip, fhirPersistence, persistenceContext, id, fhirResource, ctx);
+                                operationOutcome = conditionalFingerprintUpdate(chunkData, skip, fhirPersistence,
+                                        persistenceContext, id, fhirResource, ctx,
+                                        failedNum + cur + chunkData.getNumOfProcessedResources());
                             }
 
                             succeededNum++;
@@ -271,11 +296,13 @@ public class ChunkWriter extends AbstractItemWriter {
                             logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                             failedNum++;
                             if (collectImportOperationOutcomes) {
-                                OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                                OperationOutcome operationOutCome = generateException(
+                                        failedNum + cur + chunkData.getNumOfProcessedResources(), e);
                                 FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
                         }
+                        cur++;
                     }
                 }
             } finally {
@@ -314,40 +341,47 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     /**
-     * conditional update checks to see if our cache contains the key, if not reads from the db, and calculates the cache.
-     * The cache is saved within the context of this particular execution, and then destroyed.
+     * conditional update checks to see if our cache contains the key, if not reads
+     * from the db, and calculates the cache. The cache is saved within the context
+     * of this particular execution, and then destroyed.
      *
-     * @implNote considered using a shared cache, a few things with that to consider:
-     * 1 - the shared cache would have to be updated at the end of a transaction (we don't control it).
-     * 2 - we would have to use a transaction sync registry to control the synchronization of the cache.
-     * 3 - Instead, we're doing a read then update.
+     * @implNote considered using a shared cache, a few things with that to
+     *           consider: 
+     *  1 - the shared cache would have to be updated at the end of a transaction (we don't control it).
+     *  2 - we would have to use a transaction sync registry to control the synchronization of the cache
+     *  3 - Instead, we're doing a read then update.
      *
-     * @param chunkData the transient user data used increment the number of skips
-     * @param skip should skip the resource if it matches
+     * @param chunkData   the transient user data used increment the number of skips
+     * @param skip        should skip the resource if it matches
      * @param persistence used to facilitate the calls to the underlying db
-     * @param context used in db calls
-     * @param logicalId the logical id of the FHIR resource (e.g. 1-2-3-4)
-     * @param resource the FHIR Resource
-     * @param ctx the bulk data context
+     * @param context     used in db calls
+     * @param logicalId   the logical id of the FHIR resource (e.g. 1-2-3-4)
+     * @param resource    the FHIR Resource
+     * @param ctx         the bulk data context
+     * @param line        the line number
      * @return outcomes including information or warnings
      * @throws Exception
      */
-    public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource, BulkDataContext ctx) throws Exception {
+    public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip,
+            FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource,
+            BulkDataContext ctx, long line) throws Exception {
         long startTime = System.currentTimeMillis();
         Response.Status status = Response.Status.OK;
 
-        // Since issue 1869, we must perform the read at this point in order to obtain the
-        // latest version id. The persistence layer no longer makes any changes to the
+        // Since issue 1869, we must perform the read at this point in order to obtain
+        // the latest version id. The persistence layer no longer makes any changes to the
         // resource so the resource needs to be fully prepared before the persistence
         // create/update call is made
-        SingleResourceResult<? extends Resource> oldResourceResult = persistence.read(context, resource.getClass(), logicalId);
+        SingleResourceResult<? extends Resource> oldResourceResult = persistence.read(context, resource.getClass(),
+                logicalId);
         Resource oldResource = oldResourceResult.getResource();
 
         final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getCurrentInstant();
         final int newVersionNumber = oldResourceResult.getVersion() + 1;
         resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
-        // If the resource was previously deleted, we need to treat this as a not to skip, otherwise we end up with really inconsistent data
+        // If the resource was previously deleted, we need to treat this as a not to
+        // skip, otherwise we end up with really inconsistent data
         // when there is a DELETED resource.
         boolean skipped = false;
         OperationOutcome oo;
@@ -376,15 +410,21 @@ public class ChunkWriter extends AbstractItemWriter {
                     logger.fine("Skipping $import - update for '" + key + "'");
                 }
                 chunkData.addToNumOfSkippedResources(1);
-                oo =  OperationOutcome.builder()
-                    .issue(Issue.builder()
-                        .severity(IssueSeverity.INFORMATION)
-                        .code(IssueType.INFORMATIONAL)
-                        .details(CodeableConcept.builder()
-                            .text(string("Update to an existing resource matches the stored resource's hash; skipping the update for '" + key + "'"))
-                            .build())
-                        .build())
-                    .build();
+                oo = OperationOutcome.builder()
+                        .issue(Issue.builder()
+                                .severity(IssueSeverity.INFORMATION)
+                                .code(IssueType.INFORMATIONAL)
+                                .details(CodeableConcept.builder()
+                                        .text(string(
+                                                "Update to an existing resource matches the stored resource's hash; skipping the update for '"
+                                                        + key + "'"))
+                                        .build())
+                                .extension(Extension.builder()
+                                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                                        .value(Long.toString(line))
+                                        .build())
+                                .build())
+                        .build();
                 skipped = true;
             } else {
                 // Outcome is an Update
@@ -401,11 +441,121 @@ public class ChunkWriter extends AbstractItemWriter {
             long endTime = System.currentTimeMillis();
             String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
             if (!skipped) {
-                auditLogger.logUpdateOnImport(resource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                auditLogger.logUpdateOnImport(resource, new Date(startTime), new Date(endTime), status, location,
+                        "BulkDataOperator");
             } else {
-                auditLogger.logUpdateOnImportSkipped(oldResource, new Date(startTime), new Date(endTime), status, location, "BulkDataOperator");
+                auditLogger.logUpdateOnImportSkipped(oldResource, new Date(startTime), new Date(endTime), status,
+                        location, "BulkDataOperator");
             }
         }
         return oo;
+    }
+
+    /**
+     * Generates ALL_OK along with a line number.
+     * 
+     * @param lineNumber the location in the file.
+     * @return
+     */
+    private OperationOutcome generateAllOkValidation(long lineNumber) {
+        return OperationOutcome.builder()
+                .issue(Issue.builder()
+                        .severity(IssueSeverity.INFORMATION)
+                        .code(IssueType.INFORMATIONAL)
+                        .details(
+                                CodeableConcept.builder()
+                                        .text(string("All OK"))
+                                        .build())
+                        .extension(Extension.builder()
+                                .url("https://ibm.com/fhir/bulkdata/linenumber")
+                                .value(Long.toString(lineNumber))
+                                .build())
+                        .build())
+                .build();
+    }
+
+    /**
+     * Generates Warning and Informational along with a line number.
+     * 
+     * @param lineNumber the location in the file.
+     * @param issues     to be added
+     * @return
+     */
+    private OperationOutcome generateWarning(long lineNumber, List<Issue> issues) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.WARNING)
+                .code(IssueType.INFORMATIONAL)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string("There is a warning included on the cited line"))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+
+        List<Issue> newIssues = new ArrayList<>();
+        newIssues.addAll(issues);
+        newIssues.add(issue);
+        return OperationOutcome.builder()
+                .issue(newIssues)
+                .build();
+    }
+
+    /**
+     * generate exception
+     * 
+     * @param lineNumber the location in the file
+     * @param ex         exception to log
+     * @return
+     */
+    private OperationOutcome generateException(long lineNumber, Exception ex) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.EXCEPTION)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string("There is an exception: name=[" + ex.getClass().getName() + "] msg=["
+                                        + ex.getMessage() + "]"))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+        return OperationOutcome.builder()
+                .issue(Arrays.asList(issue))
+                .build();
+    }
+
+    /**
+     * generate exception
+     * 
+     * @param lineNumber the location in the file
+     * @param id
+     * @param assertedResourceType
+     * @param actualResourceType
+     * @return
+     */
+    private OperationOutcome generateSecurityException(long lineNumber, String id, String assertedResourceType,
+            String actualResourceType) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.SECURITY)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string("The resource being imported does not match the declared resource - '"
+                                        + actualResourceType
+                                        + " '" + assertedResourceType + "/" + id + "'"))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+        return OperationOutcome.builder()
+                .issue(Arrays.asList(issue))
+                .build();
     }
 }

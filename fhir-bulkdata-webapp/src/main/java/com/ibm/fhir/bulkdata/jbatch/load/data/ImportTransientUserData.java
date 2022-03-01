@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkdata.jbatch.load.data;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -203,10 +204,11 @@ public class ImportTransientUserData extends ImportCheckPointData {
             importTransientUserData.uniqueIDForImportFailureOperationOutcomes = this.uniqueIDForImportFailureOperationOutcomes;
             importTransientUserData.uniqueIDForImportOperationOutcomes = this.uniqueIDForImportOperationOutcomes;
             importTransientUserData.uploadIdForOperationOutcomes = this.uploadIdForOperationOutcomes;
-            importTransientUserData.dataPacksForOperationOutcomes = this.dataPacksForOperationOutcomes;
+            importTransientUserData.dataPacksForOperationOutcomes = new ArrayList<>(this.dataPacksForOperationOutcomes);
             importTransientUserData.partNumForOperationOutcomes = this.partNumForOperationOutcomes;
             importTransientUserData.uploadIdForFailureOperationOutcomes = this.uploadIdForFailureOperationOutcomes;
-            importTransientUserData.dataPacksForFailureOperationOutcomes = this.dataPacksForFailureOperationOutcomes;
+            importTransientUserData.dataPacksForFailureOperationOutcomes = new ArrayList<>(
+                    this.dataPacksForFailureOperationOutcomes);
             importTransientUserData.partNumForFailureOperationOutcomes = this.partNumForFailureOperationOutcomes;
             importTransientUserData.totalReadMilliSeconds = this.totalReadMilliSeconds;
             importTransientUserData.totalValidationMilliSeconds = this.totalValidationMilliSeconds;

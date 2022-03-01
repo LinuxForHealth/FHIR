@@ -107,6 +107,8 @@ public class ChunkReader extends AbstractItemReader {
                     // OperationOutcomes are supported for now.
                     .uniqueIDForImportOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_success.ndjson")
                     .uniqueIDForImportFailureOperationOutcomes(ctx.getImportPartitionWorkitem() + "_oo_errors.ndjson")
+                    .partNumForOperationOutcomes(1)
+                    .partNumForFailureOperationOutcomes(1)
                     .inFlyRateBeginMilliSeconds(System.currentTimeMillis())
                     .build();
 
