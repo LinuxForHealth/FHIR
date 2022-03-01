@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.cassandra.reconcile;
+package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
+
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
 
 /**
  * DAO to check if the configured resource exists
@@ -20,7 +21,7 @@ public class ResourceExistsDAO {
     final String logicalId;
     final int versionId;
     final String resourcePayloadKey;
-    final Map<Integer,String> resourceTypeMap;
+    final IResourceTypeMaps resourceTypeMaps;
 
     /**
      * Public constructor
@@ -30,8 +31,8 @@ public class ResourceExistsDAO {
      * @param versionId
      * @param resourcePayloadKey
      */
-    public ResourceExistsDAO(Map<Integer,String> resourceTypeMap, int resourceTypeId, String logicalId, int versionId, String resourcePayloadKey) {
-        this.resourceTypeMap = resourceTypeMap;
+    public ResourceExistsDAO(IResourceTypeMaps resourceTypeMaps, int resourceTypeId, String logicalId, int versionId, String resourcePayloadKey) {
+        this.resourceTypeMaps = resourceTypeMaps;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.versionId = versionId;
@@ -46,7 +47,7 @@ public class ResourceExistsDAO {
      * @throws SQLException
      */
     public boolean run(Connection c) throws SQLException {
-        final String resourceTypeName = getResourceTypeName(c);
+        final String resourceTypeName = resourceTypeMaps.getResourceTypeName(resourceTypeId);
         final String SQL =
                 "SELECT 1 "
                 + "  FROM " + resourceTypeName + "_RESOURCES R, " 
@@ -64,32 +65,6 @@ public class ResourceExistsDAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 result = true;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Look up the resource type name for the given id
-     * @param c
-     * @return
-     * @throws SQLException
-     */
-    private String getResourceTypeName(Connection c) throws SQLException {
-        String result = resourceTypeMap.get(resourceTypeId);
-        if (result == null) {
-            final String SQL =
-                    "SELECT resource_type FROM resource_types WHERE resource_type_id = ?";
-    
-            try (PreparedStatement ps = c.prepareStatement(SQL)) {
-                ps.setInt(1, resourceTypeId);
-                ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    result = rs.getString(1);
-                    resourceTypeMap.put(resourceTypeId, result);
-                } else {
-                    throw new IllegalArgumentException("Invalid resourceTypeId: " + this.resourceTypeId);
-                }
             }
         }
         return result;
