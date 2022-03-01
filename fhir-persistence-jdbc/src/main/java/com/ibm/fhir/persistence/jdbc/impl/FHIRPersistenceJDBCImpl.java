@@ -223,7 +223,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     // Enable use of legacy whole-system search parameters for the search request
     private final boolean legacyWholeSystemSearchParamsEnabled;
-    
+
     // A list of payload persistence responses in case we have a rollback to clean up
     private final List<PayloadPersistenceResponse> payloadPersistenceResponses = new ArrayList<>();
 
@@ -377,7 +377,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(updatedResource.getClass(), logicalId, newVersionNumber, lastUpdated, updatedResource, 
+                    createResourceDTO(updatedResource.getClass(), logicalId, newVersionNumber, lastUpdated, updatedResource,
                         getResourcePayloadKeyFromContext(context));
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
@@ -447,7 +447,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
-     * 
+     *
      * @param resourceType
      * @param logicalId
      * @param newVersionNumber
@@ -582,9 +582,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(resource, resourceDTO);
-            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), 
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(),
                     parameterDao, context.getIfNoneMatch());
-            
+
             if (log.isLoggable(Level.FINE)) {
                 if (resourceDTO.getInteractionStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
                     log.fine("If-None-Match: Existing FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
@@ -967,12 +967,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             Set<String> lrIds = includeDTOs.stream()
                     .map(r -> Long.toString(r.getLogicalResourceId())).collect(Collectors.toSet());
             Map<String, Set<String>> resultMap = queryResultMap.computeIfAbsent(iterationLevel, k -> new HashMap<>());
-            
+
             final String targetResourceType = SearchConstants.INCLUDE.equals(includeType) ?
                     inclusionParm.getSearchParameterTargetType() : inclusionParm.getJoinResourceType();
             Set<String> resultLogicalResourceIds = resultMap.computeIfAbsent(targetResourceType, k -> new HashSet<>());
             resultLogicalResourceIds.addAll(lrIds);
-            
+
             // Because the resultLogicalResourceIds may contain resources of different types, we need
             // to make sure the resourceTypeId is properly marked on each DTO. We could've selected
             // that from the database, but we have the info here, so it's easy to inject it and avoid
@@ -1022,7 +1022,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId,
             com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         final String METHODNAME = "delete";
         log.entering(CLASSNAME, METHODNAME);
@@ -1428,7 +1428,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceDBConnectException
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> getResourceDTOs(ResourceDAO resourceDao,
-            Class<? extends Resource> resourceType, List<Long> sortedIdList, boolean includeResourceData) 
+            Class<? extends Resource> resourceType, List<Long> sortedIdList, boolean includeResourceData)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
 
         return resourceDao.searchByIds(resourceType.getSimpleName(), sortedIdList, includeResourceData);
@@ -1456,18 +1456,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // TODO Linear fetch of a large number of resources will extend response times. Need
                 // to look into batch or parallel fetch requests
                 ResourceResult<? extends Resource> resourceResult = convertResourceDTOToResourceResult(resourceDTO, resourceType, elements, includeResourceData);
-                
+
                 // Check to make sure we got a Resource if we asked for it and expect there to be one
                 if (resourceResult.getResource() == null && includeResourceData && !resourceResult.isDeleted()) {
                     String resourceTypeName = getResourceTypeInfo(resourceDTO);
                     if (resourceTypeName == null) {
                         resourceTypeName = resourceType.getSimpleName();
                     }
-                    throw new FHIRPersistenceException("convertResourceDTO returned no resource for '" 
+                    throw new FHIRPersistenceException("convertResourceDTO returned no resource for '"
                             + resourceTypeName + "/" + resourceDTO.getLogicalId() + "'");
                 }
 
-                // Note that if the resource has been erased or was not fetched on purpose, 
+                // Note that if the resource has been erased or was not fetched on purpose,
                 // ResourceResult.resource will be null and the caller will need to take this
                 // into account
                 resourceResults.add(resourceResult);
@@ -1958,13 +1958,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 // Check the schema version
-                if (checkSchemaIsCurrent(connection)) {
-                    return buildOKOperationOutcome();
-                } else {
-                    return buildSchemaVersionErrorOperationOutcome();
-                }
+                return checkSchemaVersion(connection);
             } else {
-                return buildErrorOperationOutcome();
+                String msg = "The database connection was not valid";
+                log.severe(msg);
+                return buildSchemaVersionErrorOperationOutcome(msg);
             }
         } catch (SQLException e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Error while validating the database connection");
@@ -1972,13 +1970,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw fx;
         }
     }
-    
+
     /**
      * Checks to make sure the installed schema matches the version we expect
      * @param connection
-     * @return
+     * @return an OperationOutcome
      */
-    private boolean checkSchemaIsCurrent(Connection connection) throws SQLException, FHIRPersistenceException {
+    private OperationOutcome checkSchemaVersion(Connection connection) throws SQLException, FHIRPersistenceException {
         final String schemaName = this.schemaNameSupplier.getSchemaForRequestContext(connection);
         IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
 
@@ -1991,32 +1989,36 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // doesn't exist
             versionId = -1;
         }
-        
+
         // compare what's in the database with the latest FhirSchemaVersion. For now,
         // we allow the database schema to be equal to or ahead of the latest schema known
         // to this instance. This helps with rolling deploys.
         FhirSchemaVersion latest = FhirSchemaVersion.getLatestFhirSchemaVersion();
-        final boolean result;
         if (versionId < 0) {
             // the new server code is running against a database which hasn't been
             // updated to include the whole-schema-version and control tables
-            log.warning("Schema update required: whole-schema-version not supported.");
-            result = false; // not supported - database needs to be updated
+            String msg = "Schema update required: whole-schema-version not supported";
+            log.severe(msg);
+            // not supported - database needs to be updated
+            return buildSchemaVersionErrorOperationOutcome(msg);
         } else if (versionId > latest.vid()) {
             // the database has been updated, but this is the old code still running
-            log.warning("Deployment update required: database schema version [" + versionId 
-                + "] is newer than code schema version [" + latest.vid() + "]");
-            result = true; // this is OK
+            String msg = "Deployment update required: database schema version [" + versionId
+                    + "] is newer than code schema version [" + latest.vid() + "]";
+            log.warning(msg);
+            // this is OK - code needs to be updated - return a warning
+            return buildSchemaVersionWarningOperationOutcome(msg);
         } else if (versionId < latest.vid()) {
             // the code is newer than the database schema
-            log.severe("Schema update required: database schema version [" + versionId 
-                + "] is older than code schema version [" + latest.vid() + "]");
-            result = false; // not supported - database needs to be updated
+            String msg = "Schema update required: database schema version [" + versionId
+                    + "] is older than code schema version [" + latest.vid() + "]";
+            log.severe(msg);
+            // not supported - database needs to be updated
+            return buildSchemaVersionErrorOperationOutcome(msg);
         } else {
             // perfect match
-            result = true;
+            return buildOKOperationOutcome();
         }
-        return result;
     }
 
     /**
@@ -2062,7 +2064,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Converts the passed Resource Data Transfer Object to a FHIR Resource object. The result
      * will be null if the resourceDTO passed in is null.
-     * 
+     *
      * @param resourceDTO - The resource read from the database, or null if the resource doesn't exist
      * @param resourceType - The FHIR type of resource to be converted.
      * @param elements - An optional filter for including only specified elements inside a Resource.
@@ -2089,7 +2091,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     rowResourceTypeName = resourceType.getSimpleName();
                     resourceTypeId = getResourceTypeId(resourceType);
                 }
-                
+
                 // If a specific version of a resource has been deleted using $erase, it
                 // is possible for the result here to be null.
                 result = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
@@ -2120,7 +2122,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // resource doesn't exist
             result = null;
         }
-        
+
         log.exiting(CLASSNAME, METHODNAME);
         return result;
     }
@@ -2131,7 +2133,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
         Objects.requireNonNull(resourceDTO, "resourceDTO must be not null");
         T resource;
-        
+
         if (includeData) {
             if (this.payloadPersistence != null) {
                 // The payload needs to be read from the FHIRPayloadPersistence impl. If this is
@@ -2145,7 +2147,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     rowResourceTypeName = resourceType.getSimpleName();
                     resourceTypeId = getResourceTypeId(resourceType);
                 }
-                
+
                 // If a specific version of a resource has been deleted using $erase, it
                 // is possible for the result here to be null.
                 resource = payloadPersistence.readResource(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), elements);
@@ -2175,7 +2177,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             resource = null;
         }
-    
+
         // Note that resource may be null. We return a ResourceResult so we can
         // communicate back the type/id/version information even if we didn't get
         // an actual resource object
@@ -2192,7 +2194,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         builder.resource(resource); // can be null
         builder.version(resourceDTO.getVersionId());
         builder.lastUpdated(resourceDTO.getLastUpdated().toInstant());
-        
+
         log.exiting(CLASSNAME, METHODNAME);
         return builder.build();
     }
@@ -2206,7 +2208,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      *      but the value cannot be found in the cache
      * @return
      */
-    private String getResourceTypeInfo(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+    private String getResourceTypeInfo(com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO)
                 throws FHIRPersistenceException {
         final String result;
         // resource type name needs to be derived from the resourceTypeId returned by the DB select query
@@ -2276,12 +2278,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return FHIRUtil.buildOperationOutcome("All OK", IssueType.INFORMATIONAL, IssueSeverity.INFORMATION);
     }
 
-    private OperationOutcome buildErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
+    private OperationOutcome buildSchemaVersionErrorOperationOutcome(String msg) {
+        return FHIRUtil.buildOperationOutcome(msg, IssueType.NO_STORE, IssueSeverity.ERROR);
     }
-    
-    private OperationOutcome buildSchemaVersionErrorOperationOutcome() {
-        return FHIRUtil.buildOperationOutcome("The database schema version is old", IssueType.NO_STORE, IssueSeverity.ERROR);
+
+    private OperationOutcome buildSchemaVersionWarningOperationOutcome(String msg) {
+        return FHIRUtil.buildOperationOutcome(msg, IssueType.INFORMATIONAL, IssueSeverity.WARNING);
     }
 
     /**
@@ -2566,7 +2568,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return result;
     }
-    
+
     /**
      * Callback from TransactionData when a transaction has been rolled back
      * @param payloadPersistenceResponses an immutable list of {@link PayloadPersistenceResponse}
@@ -2581,7 +2583,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
             try {
                 log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
-                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(), 
+                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
                         ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
             } catch (Exception x) {
                 // Nothing more we can do other than log the issue. Any rows we can't process
@@ -2591,7 +2593,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
             }
         }
-        
+
         payloadPersistenceResponses.clear();
     }
 
@@ -2657,7 +2659,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified,
-            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder) 
+            Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
             throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
@@ -2672,7 +2674,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 resourceTypeIds = null; // no filter on resource type
             }
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), 
+            FetchResourceChangesDAO dao = new FetchResourceChangesDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection),
                     resourceCount, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeIds, excludeTransactionTimeoutWindow,
                     historySortOrder);
             return dao.run(connection);
@@ -2695,11 +2697,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             doCachePrefill(connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, translator, 
-                    schemaNameSupplier.getSchemaForRequestContext(connection), 
+            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, translator,
+                    schemaNameSupplier.getSchemaForRequestContext(connection),
                     connectionStrategy.getFlavor(), this.cache, rrd);
             long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
-            
+
             // If offloading is enabled, we need to remove the corresponding offloaded resource payloads
             if (isOffloadingSupported()) {
                 erasePayloads(eraseDao, eraseResourceGroupId);
@@ -2707,7 +2709,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // clean up the erased_resources records because they're no longer needed
                 eraseDao.clearErasedResourcesInGroup(eraseResourceGroupId);
             }
-            
+
         } catch(FHIRPersistenceResourceNotFoundException e) {
             throw e;
         } catch(FHIRPersistenceException e) {
@@ -2750,7 +2752,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         for (ErasedResourceRec rec: recs) {
             erasePayload(rec);
         }
-        
+
         // If the above loop completed without throwing an exception, we can safely
         // remove all the records in the group. If an exception was thrown (because
         // the offload persistence layer was not accessible), don't delete right now
@@ -2768,7 +2770,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         if (resourceType == null) {
             throw new FHIRPersistenceException("Resource type not found in cache for resourceTypeId=" + rec.getResourceTypeId());
         }
-        
+
         // Note that if versionId is null, it means delete all known versions
         // The resourcePayloadKey is always null here, because the intention
         // for erase is to delete all instances of the record (in the rare case
@@ -2851,15 +2853,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         for (ResourceChangeLogRecord r: records) {
             Class<? extends Resource> resourceType = ModelSupport.getResourceType(r.getResourceTypeName());
             Resource resource = readResourceForRecord(readContext, r, resourceType);
-            
-            // We add the resource even if it's null because we want to keep the 
+
+            // We add the resource even if it's null because we want to keep the
             // list in alignment with the records list. A null might be returned
             // if the resource has been erased (hard delete).
             result.add(resource);
         }
         return result;
     }
- 
+
     /**
      * Read the resource version for the given ResourceChangeLogRecord
      * @param <T>
