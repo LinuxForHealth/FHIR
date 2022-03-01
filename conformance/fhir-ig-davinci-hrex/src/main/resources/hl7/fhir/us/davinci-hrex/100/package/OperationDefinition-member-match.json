@@ -1,0 +1,125 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "member-match",
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2,
+			"_valueInteger": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use",
+			"_valueCode": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		}
+	],
+	"url": "http://hl7.org/fhir/us/davinci-hrex/OperationDefinition/member-match",
+	"version": "1.0.0",
+	"name": "MemberMatch",
+	"title": "HRex Member Match Operation",
+	"status": "draft",
+	"kind": "operation",
+	"date": "2022-02-24T21:01:30+00:00",
+	"publisher": "HL7 International - Clinical Interoperability Council",
+	"contact": [
+		{
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/cic"
+				}
+			]
+		}
+	],
+	"description": "The **$member-match** operation allows one health plan to retrieve a unique identifier for a member from another health plan using a member's demographic and coverage information.  This identifier can then be used to perform subsequent queries and operations. Members implementing a deterministic match will require a match on member id or subscriber id at a minimum.  (I.e. A pure demographic match will not be supported by such implementations.)",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"affectsState": true,
+	"code": "member-match",
+	"resource": [
+		"Patient"
+	],
+	"system": false,
+	"type": true,
+	"instance": false,
+	"inputProfile": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in",
+	"outputProfile": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out",
+	"parameter": [
+		{
+			"name": "MemberPatient",
+			"use": "in",
+			"min": 1,
+			"max": "1",
+			"documentation": "Parameter submitted by the new plan **SHALL** contain US Core Patient containing member demographics.",
+			"type": "Resource",
+			"referencedFrom": [
+				{
+					"source": "CoverageToMatch",
+					"sourceId": "beneficiary"
+				},
+				{
+					"source": "CoverageToLink",
+					"sourceId": "beneficiary"
+				}
+			]
+		},
+		{
+			"name": "Consent",
+			"use": "in",
+			"min": 1,
+			"max": "1",
+			"documentation": "Consent held by the system seeking the match that grants permission to access the patient information information on the system for whom a patient is sought.",
+			"type": "Resource"
+		},
+		{
+			"name": "CoverageToMatch",
+			"use": "in",
+			"min": 1,
+			"max": "1",
+			"documentation": "Parameter that identifies the coverage to be matched by the receiving payer.  It contains the coverage details of health plan coverage provided by the member, typically from their health plan coverage card.",
+			"type": "Resource"
+		},
+		{
+			"name": "CoverageToLink",
+			"use": "in",
+			"min": 0,
+			"max": "1",
+			"documentation": "Parameter that identifies the coverage information of the member as they are known by the requesting payer.  This information allows the matching payer to link their member coverage information to that of the requesting payer to ease subsequent exchanges, including evaluating authorization to share information in subsequent queries.  This parameter is optional as this operation may be invoked by non-payer systems.  However, it is considered 'mustSupport'.  If the client invoking the operation is a payer, they SHALL include their coverage information for the member when invoking the operation.",
+			"type": "Resource"
+		},
+		{
+			"name": "MemberIdentifier",
+			"use": "out",
+			"min": 1,
+			"max": "1",
+			"documentation": "This is the member identifier information for the patient as known by the server that is the target of the operation.",
+			"type": "Identifier"
+		}
+	]
+}
