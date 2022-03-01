@@ -4,13 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.pdex.test;
+package com.ibm.fhir.ig.davinci.pdex.test.v100;
 
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,6 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.ExamplesUtil;
-import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -31,6 +32,8 @@ public class ProfileTest {
     private String expectation = null;
     private String path = null;
     private Format format = Format.JSON;
+
+    private static final String INDEX = "./src/test/resources/JSON/100/profiles-pdex-json.txt";
 
     public ProfileTest() {
         // No Operation
@@ -66,7 +69,7 @@ public class ProfileTest {
     @Factory
     public Object[] createInstances() {
         List<Object> result = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(ExamplesUtil.indexReader(Index.PROFILES_PDEX_JSON))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(INDEX))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split("\\s+");

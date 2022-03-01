@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.pdex.test;
+package com.ibm.fhir.ig.davinci.pdex.test.v100;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.compile;
 

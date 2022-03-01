@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.ig.davinci.pdex.test;
+package com.ibm.fhir.ig.davinci.pdex.test.v200;
 
 import java.util.List;
 
