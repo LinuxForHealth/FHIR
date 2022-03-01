@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,6 +42,7 @@ public class FHIRPersistenceEvent {
      * This property is of type String and contains the resource id associated with an
      * update, read, vread, history, or delete operation.
      * For update and delete it may be null (i.e. for conditional updates/deletes)
+     * For whole-system history, this property will be null.
      * For other operations, this property will be null.
      */
     public static final String PROPNAME_RESOURCE_ID = "RESOURCE_ID";
@@ -149,7 +150,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the resource id associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for a read, vread, history, or non-conditional update/delete operation.
+     * interceptor invocation.   This will be non-null for a read, vread, non-whole-system history, or non-conditional update/delete operation.
      */
     public String getFhirResourceId() {
         return (String) getProperty(PROPNAME_RESOURCE_ID);

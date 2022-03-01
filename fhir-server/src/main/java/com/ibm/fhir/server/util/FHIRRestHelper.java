@@ -153,7 +153,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     private static final ZoneId UTC = ZoneId.of("UTC");
-    
+
     // Convenience constants to make call parameters more readable
     private static final boolean THROW_EXC_ON_NULL = true;
     private static final boolean INCLUDE_DELETED = true;
@@ -354,7 +354,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             checkIdAndMeta(resource);
 
             // create the resource and return the location header.
-            final FHIRPersistenceContext persistenceContext = 
+            final FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextImpl.builder(event)
                     .withOffloadResponse(offloadResponse)
                     .build();
@@ -763,7 +763,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     .withIfNoneMatch(ifNoneMatch)
                     .withOffloadResponse(offloadResponse)
                     .build();
-            
+
             boolean createOnUpdate = (prevResource == null);
             final SingleResourceResult<Resource> result;
             if (createOnUpdate) {
@@ -987,7 +987,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 for (Entry entry: responseBundle.getEntry()) {
                     id = entry.getResource().getId();
                     Resource resourceToDelete = entry.getResource();
-                    
+
                     // For soft-delete we store a new version of the resource with the deleted
                     // flag set. Because we've read the resource already, we need to check that
                     // the version we are deleting matches the version we just read, so the
@@ -1019,7 +1019,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         ior.setVersionForETag(newVersionNumber);
                     }
 
-                    // Invoke the 'afterDelete' interceptor methods. To support the notification service, we 
+                    // Invoke the 'afterDelete' interceptor methods. To support the notification service, we
                     // need to provide a resource with the lastUpdated element set. This is just to simplify
                     // passing values, even though the resource itself doesn't really exist
                     final int newVersionNumber = currentVersionNumber + 1;
@@ -2166,10 +2166,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                 } else {
                     // Off-spec - simply provide the url without the resource body. But in order
-                    // to satisfy "Rule: must be a resource unless there's a request or response" 
+                    // to satisfy "Rule: must be a resource unless there's a request or response"
                     // we also add a minimal response element
                     final Uri uri = Uri.of(getRequestBaseUri(type) + "/" + resourceResult.getResourceTypeName() + "/" + resourceResult.getLogicalId());
-                    com.ibm.fhir.model.resource.Bundle.Entry.Response response = 
+                    com.ibm.fhir.model.resource.Bundle.Entry.Response response =
                             com.ibm.fhir.model.resource.Bundle.Entry.Response.builder()
                             .status("200")
                             .build();
@@ -3023,7 +3023,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // extract the query parameters
         FHIRRequestContext requestContext = FHIRRequestContext.get();
-        
+
         if (requestContext.isReturnPreferenceDefault()) {
             // For _history, override the default preference to be REPRESENTATION so resources
             // are returned in the response bundle per the R4 spec.
@@ -3038,6 +3038,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         List<ResourceChangeLogRecord> records;
         List<Resource> resources = null;
 
+        // First, invoke the 'beforeHistory' interceptor methods.
+        FHIRPersistenceEvent event =
+                new FHIRPersistenceEvent(null, buildPersistenceEventProperties(resourceType == null ? "Resource" : resourceType, null, null, null));
+        getInterceptorMgr().fireBeforeHistoryEvent(event);
+
         // Start a new txn in the persistence layer if one is not already active.
         Integer count = historyContext.getCount();
         Instant since = historyContext.getSince() != null && historyContext.getSince().getValue() != null ? historyContext.getSince().getValue().toInstant() : null;
@@ -3050,7 +3055,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             } else if (count > MAX_HISTORY_ENTRIES) {
                 count = MAX_HISTORY_ENTRIES;
             }
-            
+
             if (resourceType != null) {
                 // Use the resource type on the path, ignoring any _type parameter
                 records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), Collections.singletonList(resourceType), historyContext.isExcludeTransactionTimeoutWindow(),
@@ -3061,15 +3066,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 for (String rt: historyContext.getResourceTypes()) {
                     validateInteraction(Interaction.HISTORY, rt);
                 }
-                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), historyContext.getResourceTypes(), 
+                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), historyContext.getResourceTypes(),
                         historyContext.isExcludeTransactionTimeoutWindow(), historyContext.getHistorySortOrder());
             } else {
                 // no resource type filter
                 final List<String> NULL_RESOURCE_TYPE_NAMES = null;
-                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), NULL_RESOURCE_TYPE_NAMES, historyContext.isExcludeTransactionTimeoutWindow(), 
+                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), NULL_RESOURCE_TYPE_NAMES, historyContext.isExcludeTransactionTimeoutWindow(),
                         historyContext.getHistorySortOrder());
             }
-            
+
             if (historyContext.getReturnPreference() == HTTPReturnPreference.REPRESENTATION
                     || historyContext.getReturnPreference() == HTTPReturnPreference.OPERATION_OUTCOME) {
                 // vread the resources so that we can include them in the response bundle
@@ -3077,7 +3082,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     log.fine("Fetching resources for history response bundle, count=" + records.size());
                 }
                 resources = persistence.readResourcesForRecords(records);
-                
+
                 if (resources.size() != records.size()) {
                     // very unlikely...unless we overlap with a patient erase operation
                     throw new FHIRPersistenceException("Could not read all required resource records");
@@ -3178,12 +3183,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             nextRequest.append("?");
             nextRequest.append("_count=").append(count);
-            
+
             if (resourceType == null && historyContext.getResourceTypes().size() > 0) {
                 nextRequest.append("&_type=");
                 nextRequest.append(String.join(",", historyContext.getResourceTypes()));
             }
-            
+
             if (historyContext.isExcludeTransactionTimeoutWindow()) {
                 nextRequest.append("&_excludeTransactionTimeoutWindow=true");
             }
@@ -3196,7 +3201,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // make sure we keep including the before filter specified in the original request
                     nextRequest.append("&_before=").append(historyContext.getBefore().getValue().format(DateTime.PARSER_FORMATTER));
                 }
-                
+
                 if (changeIdMarker != null) {
                     // good way to exclude this resource on the next call
                     nextRequest.append("&_changeIdMarker=").append(changeIdMarker);
@@ -3249,7 +3254,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (historyContext.getChangeIdMarker() != null) {
             selfRequest.append("&_changeIdMarker=").append(historyContext.getChangeIdMarker());
         }
-        
+
         if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
             selfRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
         }
@@ -3284,8 +3289,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         linkBuilder.relation(com.ibm.fhir.model.type.String.of("self"));
         bundleBuilder.link(linkBuilder.build());
         bundleBuilder.type(BundleType.HISTORY);
+        Bundle bundle = bundleBuilder.build();
 
-        return bundleBuilder.build();
+        event.setFhirResource(bundle);
+
+        // Invoke the 'afterHistory' interceptor methods.
+        getInterceptorMgr().fireAfterHistoryEvent(event);
+
+        return bundle;
     }
 
     @Override
