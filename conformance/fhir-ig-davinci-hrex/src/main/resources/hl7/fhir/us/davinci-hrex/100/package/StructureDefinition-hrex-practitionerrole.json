@@ -85,7 +85,7 @@
 	"kind": "resource",
 	"abstract": false,
 	"type": "PractitionerRole",
-	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
+	"baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|3.1.1",
 	"derivation": "constraint",
 	"snapshot": {
 		"element": [
@@ -757,7 +757,7 @@
 				"binding": {
 					"strength": "extensible",
 					"description": "Provider role codes consisting of NUCC Health Care Provider Taxonomy Code Set for providers.",
-					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role|4.0.0"
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role|3.1.1"
 				},
 				"mapping": [
 					{
@@ -807,7 +807,7 @@
 				"binding": {
 					"strength": "extensible",
 					"description": "Provider specialty codes consist of NUCC Health Care Provider Taxonomy Code Set for providers.",
-					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-specialty|4.0.0"
+					"valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-specialty|3.1.1"
 				},
 				"mapping": [
 					{
