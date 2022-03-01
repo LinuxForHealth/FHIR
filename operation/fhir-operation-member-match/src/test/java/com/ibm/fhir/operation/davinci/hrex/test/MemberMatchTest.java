@@ -1521,7 +1521,7 @@ public class MemberMatchTest {
      * @throws Exception
      */
     private static Parameters generateInput() throws Exception {
-        return HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+        return HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
     }
 
     private static class LocalResourceHelpers implements FHIRResourceHelpers {

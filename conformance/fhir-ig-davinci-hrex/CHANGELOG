@@ -1,11 +1,11 @@
-# Da Vinci Health Record Exchange (HRex) - 0.2.0 - STU R1 - 2nd ballot
-- Commit https://github.com/HL7/davinci-ehrx/commit/21edf8c77008748576b47214ecc8e74741cddd6f
+# Da Vinci Health Record Exchange (HRex) - 1.0.0 - STU R1 - continuous build
+- Commit https://github.com/HL7/davinci-ehrx/commit/6e600f4c38ccec280c235cfa85eecaf27c882c8c
 
-*13 OCT 2021*
+*24 FEB 2022*
 
 1. - Modified ig-r4.json to remove unsupported values from the parameters array, such as  `copyrightyear`, `releaselabel`.
 
-2. - Change targetProfile for us-core profile references to dependency on 4.0.0, so it doesn't conflict with future releases (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0)
+2. - Change targetProfile for us-core profile references to dependency on 3.1.1, so it doesn't conflict with future releases (http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1)
     - StructureDefinition-hrex-claimresponse.json
     - StructureDefinition-hrex-consent.json
     - StructureDefinition-hrex-coverage.json
@@ -14,7 +14,6 @@
     - StructureDefinition-hrex-practitionerrole.json
     - StructureDefinition-hrex-practitioner.json
     - StructureDefinition-hrex-patient-demographics.json
-    - StructureDefinition-hrex-patient-member.json
     - StructureDefinition-hrex-organization.json
     - StructureDefinition-hrex-parameters-member-match-in.json
     - StructureDefinition-extension-itemAuthorizedProvider.json
