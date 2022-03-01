@@ -1464,8 +1464,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 fetchPayloadsForDTOList(resourceResults, resourceDTOList, resourceType, elements, includeResourceData);
             } else {
                 for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-                    // TODO Linear fetch of a large number of resources will extend response times. Need
-                    // to look into batch or parallel fetch requests
                     ResourceResult<? extends Resource> resourceResult = convertResourceDTOToResourceResult(resourceDTO, resourceType, elements, includeResourceData);
                     resourceResults.add(resourceResult);
                 }

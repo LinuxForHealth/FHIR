@@ -84,7 +84,7 @@ public class ReadBlobValue {
     /**
      * Display the blob content for the given full blob path
      * @param bcc
-     * @param fullBlobName
+     * @param fullBlobPath
      */
     private void displaySingleValue(BlobContainerAsyncClient bcc, String fullBlobPath) {
         // Need to parse the blob path provided by the database

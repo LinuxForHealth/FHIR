@@ -9,8 +9,10 @@ package com.ibm.fhir.persistence.blob.app;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.azure.core.http.rest.Response;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -19,10 +21,10 @@ import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.persistence.blob.BlobContainerManager;
 import com.ibm.fhir.persistence.blob.BlobDeletePayload;
 import com.ibm.fhir.persistence.blob.BlobManagedContainer;
-import com.ibm.fhir.persistence.blob.BlobResourceScanner;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.cache.ResourceTypeMaps;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceRecord;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceExistsDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceListExistsDAO;
 
 /**
  * Implements an algorithm to scan the offload persistence store and check
@@ -58,9 +60,10 @@ public class PayloadReconciliation {
      * Public constructor
      * @param tenantId
      * @param dsId
-     * @param dbProperties
-     * @param dbType
+     * @param dbSupport
+     * @param resourceTypeMaps
      * @param dryRun
+     * @param maxScanSeconds
      */
     public PayloadReconciliation(String tenantId, String dsId, DatabaseSupport dbSupport, ResourceTypeMaps resourceTypeMaps, boolean dryRun, int maxScanSeconds) {
         this.tenantId = tenantId;
@@ -73,7 +76,10 @@ public class PayloadReconciliation {
 
     /**
      * Run the reconciliation process
+     * 
+     * @param continuationToken start from the given point, or the beginning if null
      * @return the continuation token used to start scanning from where we left off
+     * @throws Exception
      */
     public String run(String continuationToken) throws Exception {
         long start = System.nanoTime();
@@ -95,33 +101,34 @@ public class PayloadReconciliation {
     
     /**
      * Consumer to process a page of records retrieved by the scanner
-     * @param session
-     * @param connecion
-     * @param record
+     * 
+     * @param bmc
+     * @param page
      */
     private void processPage(BlobManagedContainer bmc, List<ResourceRecord> page) {
+        final long start = System.nanoTime();
+        int orphanCount = 0;
 
         // Process each page in its own transaction
         try (ITransaction tx = dbSupport.getTransaction()) {
             try (Connection c = dbSupport.getConnection()) {
+                this.totalProcessed += page.size();
+
+                // Look for any resources missing in the RDBMS
+                ResourceListExistsDAO dao = new ResourceListExistsDAO(this.resourceTypeMaps, page);
+                List<ResourceRecord> missing = dao.run(c);
+                orphanCount += missing.size();
+                // We choose to iterate over the whole page and identify the missing
+                // records so that we can also report on the records which we did find
+                Set<String> missingKeys = missing.stream().map(ResourceRecord::getResourcePayloadKey).collect(Collectors.toSet());
                 for (ResourceRecord record: page) {
-                    this.totalProcessed++;
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(getLogRecord(record, "CHECK"));
-                    }
-                    
-                    // Check that we have the resource in the RDBMS configured for
-                    // this tenant
                     try {
-                        ResourceExistsDAO dao = new ResourceExistsDAO(this.resourceTypeMaps, 
-                            record.getResourceTypeId(), record.getLogicalId(), record.getVersion(), 
-                            record.getResourcePayloadKey());
-                        if (dao.run(c)) {
-                            // Found the record, so log it
-                            logger.info(getLogRecord(record, "OK"));
-                        } else {
+                        if (missingKeys.contains(record.getResourcePayloadKey())) {
                             logger.info(getLogRecord(record, "ORPHAN"));
                             handleOrphanedRecord(bmc, record);
+                        } else {
+                            // Only need to see OK when we're tracing
+                            logger.fine(() -> getLogRecord(record, "OK"));
                         }
                     } catch (RuntimeException x) {
                         logger.log(Level.SEVERE, getLogRecord(record, "FAILED"), x);
@@ -137,12 +144,17 @@ public class PayloadReconciliation {
                 tx.setRollbackOnly();
                 throw dbSupport.getTranslator().translate(x);
             }
+        } finally {
+            double elapsed = (System.nanoTime() - start) / 1e9;
+            double rate = page.size() / elapsed;
+            logger.info(String.format("Page size: %d; took: %4.1f s; orphans: %d; rate: %5.0f resources/s)", page.size(), elapsed, orphanCount, rate));
         }
     }
 
     /**
      * Get a consistent log entry description for the given ResourceRecord
      * and status string
+     * 
      * @param record
      * @param status a status string of 6 characters or less
      * @return
@@ -156,7 +168,8 @@ public class PayloadReconciliation {
     /**
      * Erase the record which exists in the offload payload store 
      * but not the RDBMS
-     * @param session
+     * 
+     * @param bmc
      * @param record
      */
     private void handleOrphanedRecord(BlobManagedContainer bmc, ResourceRecord record) throws FHIRPersistenceException {

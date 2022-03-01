@@ -50,4 +50,37 @@ public class BlobPayloadSupportTest {
         final String path = "1/patient1/2";
         BlobPayloadSupport.buildResourceRecordFromPath(path);
     }
+
+    @Test
+    public void testPathDecode() {
+        // periods have to be encoded for Azure Blob paths, so test
+        // that the decode works as expected
+        final String path = "1/patient1#/2/my-payload-key";
+        ResourceRecord rr = BlobPayloadSupport.buildResourceRecordFromPath(path);
+        assertEquals(rr.getResourceTypeId(), 1);
+        assertEquals(rr.getLogicalId(), "patient1."); // # decoded to .
+        assertEquals(rr.getVersion(), 2);
+        assertEquals(rr.getResourcePayloadKey(), "my-payload-key");
+    }
+
+    @Test
+    public void testPathWithEncode() {
+        final int resourceTypeId = 42;
+        final String logicalId = "patient.";
+        final int version = 1;
+        final String resourcePayloadKey = "key1";
+        final String path = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
+        // Make sure that the logical id was encoded correctly
+        assertEquals(path, "42/patient#/1/key1");
+    }
+
+    @Test
+    public void testEncode() {
+        assertEquals("#", BlobPayloadSupport.encodeLogicalId("."));
+    }
+
+    @Test
+    public void testDecode() {
+        assertEquals(".", BlobPayloadSupport.decodeLogicalId("#"));
+    }
 }

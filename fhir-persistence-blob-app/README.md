@@ -111,7 +111,7 @@ java -jar fhir-persistence-blob-app-*-cli.jar \
     --tenant-id <tenant-id> \
     --ds-id <ds-id> \
     --create-container \
-    --confirm
+    --no-dry-run
 ```
 
 The container name will be read from the tenant's fhir-server-config.json configuration, so it is important to complete that configuration step before running this command.
@@ -123,6 +123,8 @@ The command is designed to be idempotent - it checks first to see if the contain
 When payload offloading is configured, the IBM FHIR Server stores the payload in an Azure Blob container. This store operation is not transactional, so if the global transaction is rolled back, any cleanup of the payload data stored during the transaction must be handled by the application code.
 
 If the IBM FHIR Server terminates before this cleanup is completed or the Azure Blob service is no longer available, records may be left in the container which are not associated with any resource record in the RDBMS. Although this is likely to be uncommon, the IBM FHIR Server provides a reconciliation tool to scan the container and look for resource payload records which do not have a corresponding RDBMS record. The reconciliation tool can optionally delete these records.
+
+By default, the reconciliation tool will operate in `dry-run` mode which prevents the tool from making any changes (it is read-only). To enable operations to actually make changes, you must disable dry-run with the `--no-dry-run` command line option. If both `--dry-run` and `--no-dry-run` are specified, the last one wins.
 
 The following examples use PostgreSQL as the database type, but the tool also supports db2 and derby as options.
 
@@ -148,7 +150,7 @@ java -jar fhir-persistence-blob-app-*-cli.jar \
     --db-properties database.properties \
     --db-type postgresql \
     --reconcile \
-    --confirm \
+    --no-dry-run \
     --max-scan-seconds 600 
 ```
 
@@ -162,7 +164,7 @@ java -jar fhir-persistence-blob-app-*-cli.jar \
     --db-properties database.properties \
     --db-type postgresql  \
     --reconcile \
-    --confirm \
+    --no-dry-run \
     --max-scan-seconds 600 \
     --continuation-token "<token>"
 ```
@@ -251,6 +253,6 @@ The utility will read the resource-type-name to resource-type-id mapping from th
 | --read `<blob-key>` | String | Read the resource payload identified by its blob-key |
 | --create-container | | Create the container. The container name is obtained by reading the IBM FHIR Server tenant payload configuration. |
 | --dry-run | | (Default) Do not make any changes (create/delete). |
-| --confirm | | (Optional) Enable changes (create/delete). |
+| --no-dry-run | | (Optional) Enable changes (create/delete). |
 | --max-scan-seconds `<seconds>` | Integer | (Optional) Stop the scan after `<seconds>`. The scan emits a continuation token which can be used to restart the scan from a prior point. |
 | --continuation-token `<token>` | String | (Optional) Start the scan from a previous point.|

@@ -71,7 +71,14 @@ public class BlobStorePayload {
         logger.fine(() -> "Payload storage path: " + blobPath);
         BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
 
-        // Reactor pipeline to first call create then perform the upload.
+        // Reactor pipeline to first call create then perform the upload. The create(true)
+        // calls returns a Mono<AppendBlobItem>. The flatMap is basically installing a
+        // callback (ahem, reaction) saying that when create call completes, then
+        // perform the upload (appendBlockWithResponse). The map(...) call then says when we get
+        // a response from the appendBlockWithResponse call, translate the response status into
+        // a PayloadPersistenceResult. The whole pipeline is then initiated by calling toFuture()
+        // which means we don't have to wait here for the response but can instead collect it
+        // later when we actually need it (usually just before the RDBMS transaction commits)
         return bc.getAppendBlobAsyncClient()
                 .create(true)
                 .flatMap(item -> {

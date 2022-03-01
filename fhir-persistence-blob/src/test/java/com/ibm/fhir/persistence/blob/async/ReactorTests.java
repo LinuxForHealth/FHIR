@@ -15,13 +15,13 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.testng.annotations.Test;
 
-import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * Tests using Flux and Mono which are used in the Azure SDK for async
- * handling.
+ * handling. Useful for examining the behavior of the API and making
+ * sure the features we use do what we expect at a fundamental level.
  */
 public class ReactorTests {
 
@@ -46,8 +46,7 @@ public class ReactorTests {
 
             @Override
             public void onError(Throwable t) {
-                // TODO Auto-generated method stub
-                
+                throw new IllegalStateException("unexpected error", t);
             }
 
             @Override
@@ -129,19 +128,5 @@ public class ReactorTests {
                 fail();
             }
         }
-    }
-
-    /**
-     * example of cancelling a Flux
-     */
-    @Test
-    public void testCancel() {
-        Flux.range(0, 10)
-                .subscribe(new BaseSubscriber<Integer>() {
-                    @Override
-                    protected void hookOnNext(Integer value) {
-                    }
-                });
-        
     }
 }

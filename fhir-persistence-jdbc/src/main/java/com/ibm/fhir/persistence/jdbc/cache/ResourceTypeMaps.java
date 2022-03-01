@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.blob.app;
+package com.ibm.fhir.persistence.jdbc.cache;
 
 import java.util.HashMap;
 import java.util.List;

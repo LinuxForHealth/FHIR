@@ -24,6 +24,7 @@ import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.blob.BlobContainerManager;
+import com.ibm.fhir.persistence.jdbc.cache.ResourceTypeMaps;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ReadResourceTypesDAO;
 import com.ibm.fhir.schema.model.ResourceType;
 
@@ -114,7 +115,7 @@ public class Main {
             case "--create-container":
                 this.createContainer = true;
                 break;
-            case "--confirm":
+            case "--no-dry-run":
                 this.dryRun = false;
                 break;
             case "--dry-run":

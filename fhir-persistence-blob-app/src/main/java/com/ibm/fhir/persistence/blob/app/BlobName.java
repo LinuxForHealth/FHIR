@@ -6,10 +6,16 @@
  
 package com.ibm.fhir.persistence.blob.app;
 
+import com.ibm.fhir.persistence.blob.BlobPayloadSupport;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
 
 /**
  * Representation of a blob name broken down into its individual elements
+ * but with slightly more sophisticated handling so that we can use either
+ * the real resource name or the resource type id when creating a path. Note
+ * that the resource-name version of the path is only used for log/user messages.
+ * The real blob path used as the key for the blob service always uses
+ * resource type id as the first field.
  */
 public class BlobName {
     private final String resourceTypeName;
@@ -39,14 +45,16 @@ public class BlobName {
     }
 
     /**
-     * Return the path using the resourceTypeId value
+     * Return the path using the resourceTypeId value. This can be
+     * used to retrieve the blob, or list blobs if the resourcePayloadKey
+     * is not set.
      * @return
      */
     public String toBlobPath() {
         StringBuilder result = new StringBuilder();
         result.append(resourceTypeId);
         result.append("/");
-        result.append(logicalId);
+        result.append(BlobPayloadSupport.encodeLogicalId(logicalId));
         result.append("/");
         result.append(version);
         result.append("/");
@@ -61,7 +69,8 @@ public class BlobName {
 
     /**
      * Return the path using the resourceTypeName value if it is available, otherwise
-     * use resourceTypeId
+     * use resourceTypeId. This is only used for informational/debug messages, not
+     * for interacting with the Azure Blob service.
      */
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -71,7 +80,7 @@ public class BlobName {
             result.append(resourceTypeId);
         }
         result.append("/");
-        result.append(logicalId);
+        result.append(logicalId); // no need to encode for messages
         result.append("/");
         result.append(version);
         result.append("/");
@@ -216,7 +225,7 @@ public class BlobName {
                 builder.resourceTypeId(resourceTypeId);                
             }
         }
-        builder.logicalId(parts[1]);
+        builder.logicalId(BlobPayloadSupport.decodeLogicalId(parts[1]));
         builder.version(Integer.parseInt(parts[2]));
         if (parts.length == 4) {
             // resourcePayloadKey is optional

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.blob;
+package com.ibm.fhir.persistence.blob.app;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.models.BlobItem;
+import com.ibm.fhir.persistence.blob.BlobManagedContainer;
+import com.ibm.fhir.persistence.blob.BlobPayloadSupport;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceRecord;
 
 /**
@@ -34,7 +36,7 @@ public class BlobResourceScanner {
 
     /**
      * Public constructor
-     * @param marker the Azure Blob marker token from which to start the scan
+     * @param continuationToken the Azure Blob continuation token to mark the scan start point
      * @param pageHandler
      */
     public BlobResourceScanner(String continuationToken, Consumer<List<ResourceRecord>> pageHandler) {
@@ -63,13 +65,13 @@ public class BlobResourceScanner {
         if (continuationToken == null) {
             // start scanning from the very first page
             containerClient.listBlobs()
-                .byPage() // Azure SDK internals issue
+                .byPage(1000)
                 .take(Duration.ofSeconds(maxScanSeconds)) // keep processing for this many seconds
                 .doOnNext(page -> processPage(page))
                 .blockLast(); // wait for scan to complete
         } else {
             containerClient.listBlobs()
-                .byPage(continuationToken) // Azure SDK internals issue
+                .byPage(continuationToken, 1000) // limit page size do avoid overloading page processing
                 .take(Duration.ofSeconds(maxScanSeconds)) // keep processing for this many seconds
                 .doOnNext(page -> processPage(page))
                 .blockLast(); // wait for scan to complete
