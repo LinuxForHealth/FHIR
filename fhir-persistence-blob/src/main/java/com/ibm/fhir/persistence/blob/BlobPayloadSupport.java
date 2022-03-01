@@ -38,13 +38,13 @@ public class BlobPayloadSupport {
      * The FHIR id value is defined as
      *   [A-Za-z0-9\-\.]{1,64}
      * However, Azure Blob paths have specific requirements around the use of '.'
-     * so we simply encode it to '#' which is valid for blob paths, but will not
-     * be found in a FHIR logical id.
+     * so we simply encode it to '*' which is valid for blob paths, but will not
+     * be found in a FHIR logical id. See https://www.ietf.org/rfc/rfc2396.txt
      * @param logicalId
      * @return
      */
     public static String encodeLogicalId(String logicalId) {
-        return logicalId.replace('.', '#');
+        return logicalId.replace('.', '*');
     }
 
     /**
@@ -53,7 +53,7 @@ public class BlobPayloadSupport {
      * @return
      */
     public static String decodeLogicalId(String encodedLogicalId) {
-        return encodedLogicalId.replace('#', '.');
+        return encodedLogicalId.replace('*', '.');
     }
 
     /**

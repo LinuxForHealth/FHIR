@@ -94,7 +94,7 @@ public class BlobNameTest {
         final String path = "Patient/patient.42/1/a-resource-payload-key1";
         BlobName bn = BlobName.create(rtms, path);
         assertEquals(bn.toString(), path);
-        assertEquals(bn.toBlobPath(), "1/patient#42/1/a-resource-payload-key1");
+        assertEquals(bn.toBlobPath(), "1/patient*42/1/a-resource-payload-key1");
     }
 
     @Test
@@ -105,9 +105,9 @@ public class BlobNameTest {
         ResourceTypeMaps rtms = new ResourceTypeMaps();
         rtms.init(resourceTypes);
 
-        final String path = "Patient/patient#42/1/a-resource-payload-key1";
+        final String path = "Patient/patient*42/1/a-resource-payload-key1";
         BlobName bn = BlobName.create(rtms, path);
         assertEquals(bn.toString(), "Patient/patient.42/1/a-resource-payload-key1");
-        assertEquals(bn.toBlobPath(), "1/patient#42/1/a-resource-payload-key1");
+        assertEquals(bn.toBlobPath(), "1/patient*42/1/a-resource-payload-key1");
     }    
 }

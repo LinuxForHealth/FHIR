@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 
 import com.azure.storage.blob.BlobAsyncClient;
 import com.azure.storage.blob.specialized.AppendBlobAsyncClient;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
@@ -65,7 +68,9 @@ public class BlobStorePayload {
     public CompletableFuture<PayloadPersistenceResult> run(BlobManagedContainer client) throws FHIRPersistenceException {
         
         if (ioStream.size() > MAX_APPEND_BLOB_BLOCK_SIZE) {
-            throw new FHIRPersistenceException("Resource payload size cannot exceed " + MAX_APPEND_BLOB_BLOCK_SIZE + " bytes");
+            FHIRPersistenceException x = new FHIRPersistenceException("Resource payload size cannot exceed " + MAX_APPEND_BLOB_BLOCK_SIZE + " bytes");
+            x.withIssue(Issue.builder().code(IssueType.TOO_LONG).severity(IssueSeverity.ERROR).diagnostics("Resource too large for payload offload").build());
+            throw x;
         }
         final String blobPath = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
         logger.fine(() -> "Payload storage path: " + blobPath);

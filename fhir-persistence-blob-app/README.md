@@ -18,7 +18,7 @@ Take the following restrictions into account:
 1. Payload offloading is enabled at the server level. Offloading cannot be enabled/disabled on a per-tenant basis. If you want to support offloading for just one tenant, use a different IBM FHIR Server instance;
 2. Payload offloading must be configured prior to ingesting any resource data;
 3. Payload offloading must not be disabled after resource data has been ingested;
-4. When payload offloading is enabled, FHIR resources are limited to 4 MiB in size when rendered as uncompressed JSON. If this limit is too small, please raise an issue in the IBM FHIR Server [repository](https://github.com/IBM/FHIR/issues) with a description of your use case.
+4. When payload offloading is enabled, FHIR resources are limited to 4 MiB in size when rendered as uncompressed JSON.
 
 
 ### 1. Pick a Container Name
@@ -197,6 +197,15 @@ Where:
 | my-blob-5 | resource logical-id |
 |         7 | resource version number `meta.versionId` |
 | b0a2fb75-1ef8-45c8-b5d7-658350fb45cc | resource payload key matching `xx_resources.resource_payload_key` |
+
+The dot (`.`) character is valid for FHIR resource ids, but there are restrictions on where it can be used in an Azure Blob storage path. The [documentation](https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#blob-names) states that "No path segments should end with a dot (.)". To work around this, the logical id of the payload storage path is encoded by replacing any occurrence of `.` with `*` (an unreserved character under [RFC 2396](https://www.ietf.org/rfc/rfc2396.txt)). For example:
+```
+97/my.blob./7/b0a2fb75-1ef8-45c8-b5d7-658350fb45cc
+```
+becomes
+```
+97/my*blob*/7/b0a2fb75-1ef8-45c8-b5d7-658350fb45cc
+```
 
 For debugging, you can use the fhir-persistence-blob-app utility to read a payload offload value directly from the blob store as follows:
 
