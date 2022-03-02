@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,11 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.FileTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.LogManager;
 
 import org.testng.annotations.AfterMethod;
@@ -27,7 +28,6 @@ import org.testng.annotations.BeforeMethod;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  * A base search test with utilities for other search tests
@@ -53,11 +53,7 @@ public abstract class BaseSearchTest {
 
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
         context.setOriginalRequestUri(BASE);
-        FHIRRequestContext.set(context);
     }
 
     @AfterMethod
@@ -77,15 +73,17 @@ public abstract class BaseSearchTest {
         FHIRRequestContext.remove();
     }
 
-    /*
-     * The SearchParameters return an array of values, now the printSearchParameters returns all values.
-     * @param label
-     * @param spList
+    /**
+     * Conditionally print search parameters (code and url) under a header that includes the testName
+     * @param testName
+     * @param parameters
      */
-    @SuppressWarnings("unused")
-    protected void printSearchParameters(String label, Map<String, SearchParameter> parameters) {
+    protected void printSearchParameters(String testName, Map<String, SearchParameter> parameters) {
         if (DEBUG && parameters != null) {
-            System.out.println("\nTest: " + label + "\nSearch Parameters:");
+            System.out.println("\nTest: " + testName + "\nSearch Parameters:");
+
+            // sort the output for convenience
+            SortedSet<String> set = new TreeSet<String>();
             for (Entry<String, SearchParameter> entry : parameters.entrySet()) {
                 String code = entry.getKey();
                 SearchParameter sp = entry.getValue();
@@ -94,11 +92,10 @@ public abstract class BaseSearchTest {
                 String version = (sp.getVersion() == null) ? null : sp.getVersion().getValue();
                 String canonical = (version == null) ? url : url + "|" + version;
 
-                List<ResourceType> resources = sp.getBase();
-                for (ResourceType resource : resources) {
-                    System.out.println("\t" + resource.getValue() + ":" + code + ":" + canonical);
-                }
+                set.add("\t" + code + ":\t" + canonical);
             }
+
+            set.forEach(System.out::println);
         }
     }
 

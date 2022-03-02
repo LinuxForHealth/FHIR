@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
@@ -60,9 +61,10 @@ public final class ParametersUtil {
 
     // Logging:
     public static final String LOG_PARAMETERS = "Parameter is loaded -> %s";
-    public static final String LOG_HEADER = "BASE:RESOURCE_NAME:SearchParameter";
-    public static final String LOG_SIZE = "Size: %s";
-    private static final String LOG_OUTPUT = "%s|%s|%s";
+    public static final String LOG_HEADER = "ResourceType | SearchParameter.code | SearchParameter.expression\n"
+            + "'*' denotes compartment inclusion criteria parameters";
+    public static final String LOG_SIZE = "Number of resource types: %s";
+    private static final String LOG_OUTPUT = "%s | %s | %s";
 
     private static final String LEFT = "[";
     private static final String RIGHT = "]";
@@ -129,7 +131,7 @@ public final class ParametersUtil {
             }
         }
 
-        return Collections.unmodifiableMap(result);
+        return result;
     }
 
     private static Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
@@ -175,7 +177,7 @@ public final class ParametersUtil {
             }
         }
 
-        addWildcardParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
+        addWildcardAndCompartmentParams(paramMapsByType, resourceTypesWithWildcardParams, configuredCodes);
 
         return Collections.unmodifiableMap(paramMapsByType);
     }
@@ -192,6 +194,9 @@ public final class ParametersUtil {
             if (spGroup != null) {
                 List<PropertyEntry> spEntries = spGroup.getProperties();
                 if (spEntries != null && !spEntries.isEmpty()) {
+
+                    Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
+
                     for (PropertyEntry spEntry : spEntries) {
                         String code = spEntry.getName();
                         if (SearchConstants.WILDCARD.equals(code)) {
@@ -201,8 +206,14 @@ public final class ParametersUtil {
                                     .getResource((String)spEntry.getValue(), SearchParameter.class);
                             if (sp != null) {
                                 paramMap.insert(code, sp);
+
+                                // If this param is an inclusion criteria for one or more compartments
+                                if (compartmentParamToCompartment.containsKey(code)) {
+                                    paramMap.insertInclusionParam(code, sp);
+                                }
                             } else {
-                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() + "' for resourceType '" + resourceType + "' could not be found.");
+                                log.warning("Search parameter '" + code + "' with the configured url '" + spEntry.getValue() +
+                                        "' for resourceType '" + resourceType + "' could not be found.");
                             }
                         }
                     }
@@ -215,10 +226,11 @@ public final class ParametersUtil {
         return paramMap;
     }
 
-    private static void addWildcardParams(Map<String, ParametersMap> paramMapsByType,
+    private static void addWildcardAndCompartmentParams(Map<String, ParametersMap> paramMapsByType,
             Set<String> resourceTypesWithWildcardParams, Map<String, Set<String>> configuredCodes) {
 
         for (SearchParameter sp : getAllSearchParameters()) {
+            String code = sp.getCode().getValue();
             // For each resource type this search parameter applies to
             for (ResourceType resourceType : sp.getBase()) {
 
@@ -232,17 +244,38 @@ public final class ParametersUtil {
 
                     // Only add it if the code wasn't explicitly configured in fhir-server-config
                     Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
-                    if (configuredCodesForType != null && configuredCodesForType.contains(sp.getCode().getValue())) {
+                    if (configuredCodesForType != null && configuredCodesForType.contains(code)) {
                         if (log.isLoggable(Level.FINE)) {
                             String canonical = getCanonicalUrl(sp);
                             log.fine("Skipping search parameter '" + canonical + "' because code '" +
                                     sp.getCode().getValue() + "' is already configured.");
                         }
                     } else {
-                        paramMap.insert(sp.getCode().getValue(), sp);
+                        paramMap.insert(code, sp);
                     }
                 }
 
+                // If this param is an inclusion criteria for one or more compartments
+                Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType.getValue());
+                if (compartmentParamToCompartment.containsKey(code)) {
+                    ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
+                    if (paramMap == null) {
+                        paramMap = new ParametersMap();
+                        paramMapsByType.put(resourceType.getValue(), paramMap);
+                    }
+
+                    // Only add it if the code wasn't explicitly configured in fhir-server-config
+                    Set<String> configuredCodesForType = configuredCodes.get(resourceType.getValue());
+                    if (configuredCodesForType != null && configuredCodesForType.contains(code)) {
+                        if (log.isLoggable(Level.FINE)) {
+                            String canonical = getCanonicalUrl(sp);
+                            log.fine("Skipping compartment inclusion parameter '" + canonical + "' because code '" +
+                                    sp.getCode().getValue() + "' is already configured.");
+                        }
+                    } else {
+                        paramMap.insertInclusionParam(code, sp);
+                    }
+                }
             }
         }
     }
@@ -268,8 +301,17 @@ public final class ParametersUtil {
         if (searchParameters.containsKey(tenantId)) {
             return searchParameters.get(tenantId);
         } else {
-            log.warning("No search parameter configuration was loaded for tenant " + tenantId);
-            return new HashMap<>();
+            log.warning("No search parameter configuration was loaded for tenant " + tenantId + "; computing now");
+            try {
+                PropertyGroup root = FHIRConfiguration.getInstance().loadConfigurationForTenant(tenantId);
+                PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                Map<String, ParametersMap> tenantSPs = computeTenantSPs(rsrcsGroup);
+                searchParameters.put(tenantId, tenantSPs);
+                return tenantSPs;
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenantId + "; returning empty", e);
+                return new HashMap<>();
+            }
         }
     }
 
@@ -331,12 +373,19 @@ public final class ParametersUtil {
         out.println(String.format(LOG_SIZE, keys.size()));
         for (String base : keys) {
             ParametersMap tmp = searchParamsMap.get(base);
-            for(SearchParameter param : tmp.values()) {
+            for (SearchParameter param : tmp.values()) {
                 String expression = MISSING_EXPRESSION;
                 if (param.getExpression() != null) {
                     expression = param.getExpression().getValue();
                 }
                 out.println(String.format(LOG_OUTPUT, base, param.getCode().getValue(), expression));
+            }
+            for (SearchParameter param : tmp.inclusionValues()) {
+                String expression = MISSING_EXPRESSION;
+                if (param.getExpression() != null) {
+                    expression = param.getExpression().getValue();
+                }
+                out.println(String.format(LOG_OUTPUT, "*" + base, param.getCode().getValue(), expression));
             }
             out.println(SearchConstants.LOG_BOUNDARY);
         }
