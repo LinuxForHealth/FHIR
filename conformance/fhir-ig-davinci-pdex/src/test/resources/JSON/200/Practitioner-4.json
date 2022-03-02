@@ -1,1 +1,47 @@
-{"resourceType":"Practitioner","id":"4","meta":{"lastUpdated":"2020-07-12T18:26:23.217+00:00","profile":["http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"]},"text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"4\" Updated \"2020-07-12 06:26:23+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU3.1/StructureDefinition-us-core-practitioner.html\">US Core Practitioner Profile</a></p></div><p><b>identifier</b>: National Provider Identifier: 874635264</p><p><b>name</b>: Susan Smith </p><p><b>telecom</b>: ph: 3015551234</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 1965-11-15</p></div>"},"identifier":[{"type":{"coding":[{"system":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS","code":"npi"}]},"system":"http://hl7.org/fhir/sid/us-npi","value":"874635264"}],"name":[{"family":"Smith","given":["Susan"],"suffix":["MD"]}],"telecom":[{"system":"phone","value":"3015551234"}],"gender":"female","birthDate":"1965-11-15"}
+{
+	"resourceType": "Practitioner",
+	"id": "4",
+	"meta": {
+		"lastUpdated": "2020-07-12T18:26:23.217+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"4\" Updated \"2020-07-12 06:26:23+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU3.1/StructureDefinition-us-core-practitioner.html\">US Core Practitioner Profile</a></p></div><p><b>identifier</b>: National Provider Identifier: 874635264</p><p><b>name</b>: Susan Smith </p><p><b>telecom</b>: ph: 3015551234</p><p><b>gender</b>: female</p><p><b>birthDate</b>: 1965-11-15</p></div>"
+	},
+	"identifier": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS",
+						"code": "npi"
+					}
+				]
+			},
+			"system": "http://hl7.org/fhir/sid/us-npi",
+			"value": "874635264"
+		}
+	],
+	"name": [
+		{
+			"family": "Smith",
+			"given": [
+				"Susan"
+			],
+			"suffix": [
+				"MD"
+			]
+		}
+	],
+	"telecom": [
+		{
+			"system": "phone",
+			"value": "3015551234"
+		}
+	],
+	"gender": "female",
+	"birthDate": "1965-11-15"
+}

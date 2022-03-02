@@ -1,1 +1,57 @@
-{"resourceType":"DocumentReference","id":"123456","meta":{"profile":["http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"]},"text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: current</p><p><b>type</b>: <span title=\"Codes: {http://loinc.org 51852-2}\">Letter</span></p><p><b>category</b>: <span title=\"Codes: {http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category clinical-note}\">Clinical Note</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Generated Summary: language: en-US; Member Number: https://www.xxxhealthplan.com/fhir/memberidentifier#1234-234-1243-12345678901, Medical record number: 1234-234-1243-12345678901m, Health Plan Identifier: 1234-234-1243-12345678901u, Patient external identifier: 1234-234-1243-12345678901a; active; Johnny Appleseed ; Phone: (410)678-2323; gender: male; birthDate: 1986-01-01; <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v3-NullFlavor UNK}\">unknown</span></a></p><p><b>date</b>: Oct 9, 2020, 3:26:23 PM</p><p><b>author</b>: <a href=\"Organization-3.html\">Generated Summary: language: en-US; National Provider Identifier: 345678; active; name: Provider 1</a></p><p><b>custodian</b>: <a href=\"Organization-2.html\">Generated Summary: language: en-US; National Provider Identifier: 345678; active; name: Payer 1</a></p><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td>-</td></tr><tr><td>*</td></tr></table><p><b>format</b>: <span title=\"{http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem null}\">urn:ihe:iti:xds:2017:mimeTypeSufficient</span></p></blockquote></div>"},"status":"current","type":{"coding":[{"system":"http://loinc.org","code":"51852-2"}]},"category":[{"coding":[{"system":"http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category","code":"clinical-note"}]}],"subject":{"reference":"Patient/1"},"date":"2020-10-09T15:26:23.217+00:00","author":[{"reference":"Organization/3"}],"custodian":{"reference":"Organization/2"},"content":[{"attachment":{"contentType":"application/pdf","url":"/Binary/1-pdf","title":"Uri where the data can be found = [base]/Binary/1-pdf\nor base64encode document and include in content.attachment.data element"},"format":{"system":"http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem","display":"urn:ihe:iti:xds:2017:mimeTypeSufficient"}}]}
+{
+	"resourceType": "DocumentReference",
+	"id": "123456",
+	"meta": {
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>status</b>: current</p><p><b>type</b>: <span title=\"Codes: {http://loinc.org 51852-2}\">Letter</span></p><p><b>category</b>: <span title=\"Codes: {http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category clinical-note}\">Clinical Note</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Generated Summary: language: en-US; Member Number: https://www.xxxhealthplan.com/fhir/memberidentifier#1234-234-1243-12345678901, Medical record number: 1234-234-1243-12345678901m, Health Plan Identifier: 1234-234-1243-12345678901u, Patient external identifier: 1234-234-1243-12345678901a; active; Johnny Appleseed ; Phone: (410)678-2323; gender: male; birthDate: 1986-01-01; <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v3-NullFlavor UNK}\">unknown</span></a></p><p><b>date</b>: Oct 9, 2020, 3:26:23 PM</p><p><b>author</b>: <a href=\"Organization-3.html\">Generated Summary: language: en-US; National Provider Identifier: 345678; active; name: Provider 1</a></p><p><b>custodian</b>: <a href=\"Organization-2.html\">Generated Summary: language: en-US; National Provider Identifier: 345678; active; name: Payer 1</a></p><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td>-</td></tr><tr><td>*</td></tr></table><p><b>format</b>: <span title=\"{http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem null}\">urn:ihe:iti:xds:2017:mimeTypeSufficient</span></p></blockquote></div>"
+	},
+	"status": "current",
+	"type": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "51852-2"
+			}
+		]
+	},
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+					"code": "clinical-note"
+				}
+			]
+		}
+	],
+	"subject": {
+		"reference": "Patient/1"
+	},
+	"date": "2020-10-09T15:26:23.217+00:00",
+	"author": [
+		{
+			"reference": "Organization/3"
+		}
+	],
+	"custodian": {
+		"reference": "Organization/2"
+	},
+	"content": [
+		{
+			"attachment": {
+				"contentType": "application/pdf",
+				"url": "/Binary/1-pdf",
+				"title": "Uri where the data can be found = [base]/Binary/1-pdf\nor base64encode document and include in content.attachment.data element"
+			},
+			"format": {
+				"system": "http://ihe.net/fhir/ValueSet/IHE.FormatCode.codesystem",
+				"display": "urn:ihe:iti:xds:2017:mimeTypeSufficient"
+			}
+		}
+	]
+}

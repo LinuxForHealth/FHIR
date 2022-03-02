@@ -1,1 +1,35 @@
-{"resourceType":"Encounter","id":"6","meta":{"lastUpdated":"2019-07-14T19:26:23.217+00:00","profile":["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"]},"text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"6\" Updated \"2019-07-14 07:26:23+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU3.1/StructureDefinition-us-core-encounter.html\">US Core Encounter Profile</a></p></div><p><b>status</b>: finished</p><p><b>class</b>: Ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = 'ambulatory', stated as 'Ambulatory')</p><p><b>type</b>: Consultation <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[US]</a>#11429006)</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Patient/1</a> \" APPLESEED\"</p></div>"},"status":"finished","class":{"system":"http://terminology.hl7.org/CodeSystem/v3-ActCode","code":"AMB","display":"Ambulatory"},"type":[{"coding":[{"system":"http://snomed.info/sct","version":"http://snomed.info/sct/731000124108","code":"11429006","display":"Consultation"}]}],"subject":{"reference":"Patient/1"}}
+{
+	"resourceType": "Encounter",
+	"id": "6",
+	"meta": {
+		"lastUpdated": "2019-07-14T19:26:23.217+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"6\" Updated \"2019-07-14 07:26:23+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"http://hl7.org/fhir/us/core/STU3.1/StructureDefinition-us-core-encounter.html\">US Core Encounter Profile</a></p></div><p><b>status</b>: finished</p><p><b>class</b>: Ambulatory (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code AMB = 'ambulatory', stated as 'Ambulatory')</p><p><b>type</b>: Consultation <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT[US]</a>#11429006)</span></p><p><b>subject</b>: <a href=\"Patient-1.html\">Patient/1</a> \" APPLESEED\"</p></div>"
+	},
+	"status": "finished",
+	"class": {
+		"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+		"code": "AMB",
+		"display": "Ambulatory"
+	},
+	"type": [
+		{
+			"coding": [
+				{
+					"system": "http://snomed.info/sct",
+					"version": "http://snomed.info/sct/731000124108",
+					"code": "11429006",
+					"display": "Consultation"
+				}
+			]
+		}
+	],
+	"subject": {
+		"reference": "Patient/1"
+	}
+}
