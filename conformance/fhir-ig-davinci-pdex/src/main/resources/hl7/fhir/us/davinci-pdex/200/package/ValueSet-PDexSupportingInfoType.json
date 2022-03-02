@@ -1,1 +1,68 @@
-{"resourceType":"ValueSet","id":"PDexSupportingInfoType","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"CodeSystem-PDexSupportingInfoType.html\"><code>http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexSupportingInfoType</code></a></li></ul></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexSupportingInfoType","version":"2.0.0-ballot","name":"PDexSupportingInfoType","title":"PDex SupportingInfo Type","status":"active","date":"2022-02-20T12:46:42+00:00","publisher":"HL7 Financial Management Working Group","contact":[{"name":"HL7 Financial Management Working Group","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"},{"system":"email","value":"fm@lists.HL7.org"}]},{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark.scrimshire@onyxhealth.io"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Used as the discriminator for the types of supporting information for the PDEX Prior Authorization. Based on the CARIN IG for Blue Button� Implementation Guide.","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US","display":"United States of America"}]}],"copyright":"This Valueset is not copyrighted.","compose":{"include":[{"system":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexSupportingInfoType"}]}}
+{
+	"resourceType": "ValueSet",
+	"id": "PDexSupportingInfoType",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexSupportingInfoType",
+	"version": "2.0.0-ballot",
+	"name": "PDexSupportingInfoType",
+	"title": "PDex SupportingInfo Type",
+	"status": "active",
+	"date": "2022-02-20T12:46:42+00:00",
+	"publisher": "HL7 Financial Management Working Group",
+	"contact": [
+		{
+			"name": "HL7 Financial Management Working Group",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				},
+				{
+					"system": "email",
+					"value": "fm@lists.HL7.org"
+				}
+			]
+		},
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark.scrimshire@onyxhealth.io"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Used as the discriminator for the types of supporting information for the PDEX Prior Authorization. Based on the CARIN IG for Blue Button� Implementation Guide.",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US",
+					"display": "United States of America"
+				}
+			]
+		}
+	],
+	"copyright": "This Valueset is not copyrighted.",
+	"compose": {
+		"include": [
+			{
+				"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexSupportingInfoType"
+			}
+		]
+	}
+}

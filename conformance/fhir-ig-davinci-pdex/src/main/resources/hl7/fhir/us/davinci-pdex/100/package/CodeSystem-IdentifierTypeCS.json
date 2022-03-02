@@ -1,1 +1,94 @@
-{"resourceType":"CodeSystem","id":"IdentifierTypeCS","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">tax<a name=\"IdentifierTypeCS-tax\"> </a></td><td>Tax ID Number</td><td>Tax ID Number</td></tr><tr><td style=\"white-space:nowrap\">npi<a name=\"IdentifierTypeCS-npi\"> </a></td><td>National Provider Identifier</td><td>National Provider Identifier</td></tr><tr><td style=\"white-space:nowrap\">clia<a name=\"IdentifierTypeCS-clia\"> </a></td><td>CLIA</td><td>CLIA</td></tr><tr><td style=\"white-space:nowrap\">payerid<a name=\"IdentifierTypeCS-payerid\"> </a></td><td>Payer ID</td><td>Payer ID</td></tr><tr><td style=\"white-space:nowrap\">mb<a name=\"IdentifierTypeCS-mb\"> </a></td><td>Member ID</td><td>Member ID</td></tr><tr><td style=\"white-space:nowrap\">mr<a name=\"IdentifierTypeCS-mr\"> </a></td><td>Medical Record Number</td><td>Medical Record Number</td></tr><tr><td style=\"white-space:nowrap\">pt<a name=\"IdentifierTypeCS-pt\"> </a></td><td>Patient Account Number</td><td>Patient Account Number</td></tr><tr><td style=\"white-space:nowrap\">um<a name=\"IdentifierTypeCS-um\"> </a></td><td>Unique Member ID</td><td>Unique Member ID</td></tr><tr><td style=\"white-space:nowrap\">cn<a name=\"IdentifierTypeCS-cn\"> </a></td><td>Claim Number</td><td>Claim Number</td></tr></table></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS","version":"1.0.0","name":"IdentifierTypeCS","title":"Identifier Type","status":"active","date":"2020-12-01T21:37:51+00:00","contact":[{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark@ekivemark.com0"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Identifier Type","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],"content":"complete","count":9,"concept":[{"code":"tax","display":"Tax ID Number","definition":"Tax ID Number"},{"code":"npi","display":"National Provider Identifier","definition":"National Provider Identifier"},{"code":"clia","display":"CLIA","definition":"CLIA"},{"code":"payerid","display":"Payer ID","definition":"Payer ID"},{"code":"mb","display":"Member ID","definition":"Member ID"},{"code":"mr","display":"Medical Record Number","definition":"Medical Record Number"},{"code":"pt","display":"Patient Account Number","definition":"Patient Account Number"},{"code":"um","display":"Unique Member ID","definition":"Unique Member ID"},{"code":"cn","display":"Claim Number","definition":"Claim Number"}]}
+{
+	"resourceType": "CodeSystem",
+	"id": "IdentifierTypeCS",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS",
+	"version": "1.0.0",
+	"name": "IdentifierTypeCS",
+	"title": "Identifier Type",
+	"status": "active",
+	"date": "2020-12-01T21:37:51+00:00",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Identifier Type",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"content": "complete",
+	"count": 9,
+	"concept": [
+		{
+			"code": "tax",
+			"display": "Tax ID Number",
+			"definition": "Tax ID Number"
+		},
+		{
+			"code": "npi",
+			"display": "National Provider Identifier",
+			"definition": "National Provider Identifier"
+		},
+		{
+			"code": "clia",
+			"display": "CLIA",
+			"definition": "CLIA"
+		},
+		{
+			"code": "payerid",
+			"display": "Payer ID",
+			"definition": "Payer ID"
+		},
+		{
+			"code": "mb",
+			"display": "Member ID",
+			"definition": "Member ID"
+		},
+		{
+			"code": "mr",
+			"display": "Medical Record Number",
+			"definition": "Medical Record Number"
+		},
+		{
+			"code": "pt",
+			"display": "Patient Account Number",
+			"definition": "Patient Account Number"
+		},
+		{
+			"code": "um",
+			"display": "Unique Member ID",
+			"definition": "Unique Member ID"
+		},
+		{
+			"code": "cn",
+			"display": "Claim Number",
+			"definition": "Claim Number"
+		}
+	]
+}

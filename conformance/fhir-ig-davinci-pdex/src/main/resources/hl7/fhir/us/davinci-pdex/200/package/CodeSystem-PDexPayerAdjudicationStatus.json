@@ -1,1 +1,106 @@
-{"resourceType":"CodeSystem","id":"PDexPayerAdjudicationStatus","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexPayerAdjudicationStatus defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">innetwork<a name=\"PDexPayerAdjudicationStatus-innetwork\"> </a></td><td>In Network</td><td>Indicates the claim or claim line was paid in network.  This does not indicate the contracting status of the provider</td></tr><tr><td style=\"white-space:nowrap\">outofnetwork<a name=\"PDexPayerAdjudicationStatus-outofnetwork\"> </a></td><td>Out Of Network</td><td>Indicates the claim or claim line was paid out of network.  This does not indicate the contracting status of the provider</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"PDexPayerAdjudicationStatus-other\"> </a></td><td>Other</td><td>Indicates other network status or when a network does not apply</td></tr><tr><td style=\"white-space:nowrap\">contracted<a name=\"PDexPayerAdjudicationStatus-contracted\"> </a></td><td>Contracted</td><td>Indicates the provider was contracted for the service</td></tr><tr><td style=\"white-space:nowrap\">noncontracted<a name=\"PDexPayerAdjudicationStatus-noncontracted\"> </a></td><td>Non-Contracted</td><td>Indicates the provider was not contracted for the service</td></tr><tr><td style=\"white-space:nowrap\">paid<a name=\"PDexPayerAdjudicationStatus-paid\"> </a></td><td>Paid</td><td>Indicates if the claim was approved for payment</td></tr><tr><td style=\"white-space:nowrap\">denied<a name=\"PDexPayerAdjudicationStatus-denied\"> </a></td><td>Denied</td><td>Indicates if the claim was denied</td></tr><tr><td style=\"white-space:nowrap\">partiallypaid<a name=\"PDexPayerAdjudicationStatus-partiallypaid\"> </a></td><td>Partially Paid</td><td>Indicates that some line items on the claim were denied</td></tr></table></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexPayerAdjudicationStatus","version":"2.0.0-ballot","name":"PDexPayerAdjudicationStatus","title":"PDex Payer Adjudication Status","status":"active","date":"2022-02-20T12:46:42+00:00","publisher":"HL7 Financial Management Working Group","contact":[{"name":"HL7 Financial Management Working Group","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"},{"system":"email","value":"fm@lists.HL7.org"}]},{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark.scrimshire@onyxhealth.io"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Describes the various status fields used when payers adjudicate a claim, such as whether the claim was adjudicated in or out of network, if the provider was contracted or non-contracted for the service","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US","display":"United States of America"}]}],"copyright":"This CodeSystem is not copyrighted.","caseSensitive":false,"content":"complete","count":8,"concept":[{"code":"innetwork","display":"In Network","definition":"Indicates the claim or claim line was paid in network.  This does not indicate the contracting status of the provider"},{"code":"outofnetwork","display":"Out Of Network","definition":"Indicates the claim or claim line was paid out of network.  This does not indicate the contracting status of the provider"},{"code":"other","display":"Other","definition":"Indicates other network status or when a network does not apply"},{"code":"contracted","display":"Contracted","definition":"Indicates the provider was contracted for the service"},{"code":"noncontracted","display":"Non-Contracted","definition":"Indicates the provider was not contracted for the service"},{"code":"paid","display":"Paid","definition":"Indicates if the claim was approved for payment"},{"code":"denied","display":"Denied","definition":"Indicates if the claim was denied"},{"code":"partiallypaid","display":"Partially Paid","definition":"Indicates that some line items on the claim were denied"}]}
+{
+	"resourceType": "CodeSystem",
+	"id": "PDexPayerAdjudicationStatus",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexPayerAdjudicationStatus",
+	"version": "2.0.0-ballot",
+	"name": "PDexPayerAdjudicationStatus",
+	"title": "PDex Payer Adjudication Status",
+	"status": "active",
+	"date": "2022-02-20T12:46:42+00:00",
+	"publisher": "HL7 Financial Management Working Group",
+	"contact": [
+		{
+			"name": "HL7 Financial Management Working Group",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				},
+				{
+					"system": "email",
+					"value": "fm@lists.HL7.org"
+				}
+			]
+		},
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark.scrimshire@onyxhealth.io"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Describes the various status fields used when payers adjudicate a claim, such as whether the claim was adjudicated in or out of network, if the provider was contracted or non-contracted for the service",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US",
+					"display": "United States of America"
+				}
+			]
+		}
+	],
+	"copyright": "This CodeSystem is not copyrighted.",
+	"caseSensitive": false,
+	"content": "complete",
+	"count": 8,
+	"concept": [
+		{
+			"code": "innetwork",
+			"display": "In Network",
+			"definition": "Indicates the claim or claim line was paid in network.  This does not indicate the contracting status of the provider"
+		},
+		{
+			"code": "outofnetwork",
+			"display": "Out Of Network",
+			"definition": "Indicates the claim or claim line was paid out of network.  This does not indicate the contracting status of the provider"
+		},
+		{
+			"code": "other",
+			"display": "Other",
+			"definition": "Indicates other network status or when a network does not apply"
+		},
+		{
+			"code": "contracted",
+			"display": "Contracted",
+			"definition": "Indicates the provider was contracted for the service"
+		},
+		{
+			"code": "noncontracted",
+			"display": "Non-Contracted",
+			"definition": "Indicates the provider was not contracted for the service"
+		},
+		{
+			"code": "paid",
+			"display": "Paid",
+			"definition": "Indicates if the claim was approved for payment"
+		},
+		{
+			"code": "denied",
+			"display": "Denied",
+			"definition": "Indicates if the claim was denied"
+		},
+		{
+			"code": "partiallypaid",
+			"display": "Partially Paid",
+			"definition": "Indicates that some line items on the claim were denied"
+		}
+	]
+}

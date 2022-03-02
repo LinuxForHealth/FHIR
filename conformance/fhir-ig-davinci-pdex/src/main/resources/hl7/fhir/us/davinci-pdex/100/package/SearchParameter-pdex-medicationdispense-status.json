@@ -1,1 +1,79 @@
-{"resourceType":"SearchParameter","id":"pdex-medicationdispense-status","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>SearchParameter: PdexMedicationdispenseStatus</h2><p><b> description</b> : Status of the dispense prescription<br/>\n<em>NOTE</em>: This US Core SearchParameter definition extends the usage context of\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">capabilitystatement-expectation</a>\n extension to formally express implementer conformance expectations for these elements:<br/>\n - multipleAnd<br/>\n - multipleOr<br/>\n - comparator<br/>\n - modifier<br/>\n - chain<br/>\n\n</p><br/><p><b> id</b> pdex-medicationdispense-status</p><p><b> url</b> : <b> http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-status</b>\n\t\t\t</p><p><b> version</b> : 4.0.1</p><p><b> name</b> : PdexeMedicationdispenseStatus</p><p><b> derivedFrom</b> : http://hl7.org/fhir/SearchParameter/medications-status\n\t\t\t</p><p><b> status</b> : active</p><p><b> experimental</b>  False</p><p><b> date</b> : 2020-07-01</p><p><b> publisher</b> : HL7 International - Da Vinci Project</p><p><b> contact</b> : http://www.hl7.org/Special/committees/fm</p><p><b> useContext</b> : </p><p><b> jurisdiction</b> : United States of America (the) <span> (Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United\n           States of America (the)'})</span>\n\t\t\t</p>    <!-- <p>\n\t\t<b> purpose</b> : Need to search by identifier for various infrastructural cases - mainly retrieving packages,\n         and matching as part of a chain</p> --><p><b> code</b> : <code>status</code>\n\t\t\t</p><p><b> base</b> :MedicationDispense</p><p><b> type</b> : token</p><p><b> expression</b> : <code>MedicationDispense.status</code>\n\t\t\t</p><p><b> xpath</b> : <code>f:MedicationDispense/f:status</code>\n\t\t\t</p><p><b> xpathUsage</b> : normal</p><p><b> multipleOr</b> : True   (Conformance Expectation = SHALL)</p><p><b> multipleAnd</b> : True  ( Conformance Expectation = MAY)</p></div>"},"extension":[{"url":"http://ibm.com/fhir/extension/implicit-system","valueUri":"http://terminology.hl7.org/CodeSystem/medicationdispense-status"}],"url":"http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-status","version":"1.0.0","name":"PdexMedicationDispenseStatus","derivedFrom":"http://hl7.org/fhir/SearchParameter/medications-status","status":"active","experimental":false,"date":"2020-07-01T21:51:57.986692Z","publisher":"HL7 International - Financial Management","contact":[{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark@ekivemark.com0"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Status of the prescription dispense.\nNOTE: This SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],"code":"status","base":["MedicationDispense"],"type":"token","expression":"MedicationDispense.status","xpath":"f:MedicationDispense/f:status","xpathUsage":"normal","multipleOr":true,"_multipleOr":{"extension":[{"url":"http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation","valueCode":"SHALL"}]},"multipleAnd":true,"_multipleAnd":{"extension":[{"url":"http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation","valueCode":"MAY"}]}}
+{
+	"resourceType": "SearchParameter",
+	"id": "pdex-medicationdispense-status",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://ibm.com/fhir/extension/implicit-system",
+			"valueUri": "http://terminology.hl7.org/CodeSystem/medicationdispense-status"
+		}
+	],
+	"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-status",
+	"version": "1.0.0",
+	"name": "PdexMedicationDispenseStatus",
+	"derivedFrom": "http://hl7.org/fhir/SearchParameter/medications-status",
+	"status": "active",
+	"experimental": false,
+	"date": "2020-07-01T21:51:57.986692Z",
+	"publisher": "HL7 International - Financial Management",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Status of the prescription dispense.\nNOTE: This SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"code": "status",
+	"base": [
+		"MedicationDispense"
+	],
+	"type": "token",
+	"expression": "MedicationDispense.status",
+	"xpath": "f:MedicationDispense/f:status",
+	"xpathUsage": "normal",
+	"multipleOr": true,
+	"_multipleOr": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "SHALL"
+			}
+		]
+	},
+	"multipleAnd": true,
+	"_multipleAnd": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	}
+}

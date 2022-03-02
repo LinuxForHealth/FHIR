@@ -1,1 +1,52 @@
-{"resourceType":"ValueSet","id":"ProvenanceAgentType","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"CodeSystem-ProvenanceAgentRoleType.html\"><code>http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType</code></a></li></ul></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenanceAgentType","version":"1.0.0","name":"ProvenanceAgentType","title":"Provenance Agent Type","status":"active","date":"2020-12-01T21:37:51+00:00","contact":[{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark@ekivemark.com0"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Agent role performed relating to referenced resource","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],"compose":{"include":[{"system":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType"}]}}
+{
+	"resourceType": "ValueSet",
+	"id": "ProvenanceAgentType",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenanceAgentType",
+	"version": "1.0.0",
+	"name": "ProvenanceAgentType",
+	"title": "Provenance Agent Type",
+	"status": "active",
+	"date": "2020-12-01T21:37:51+00:00",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Agent role performed relating to referenced resource",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"compose": {
+		"include": [
+			{
+				"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType"
+			}
+		]
+	}
+}

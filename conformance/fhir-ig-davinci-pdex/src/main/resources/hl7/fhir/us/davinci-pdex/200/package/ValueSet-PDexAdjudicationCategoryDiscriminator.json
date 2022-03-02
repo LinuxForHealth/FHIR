@@ -1,1 +1,78 @@
-{"resourceType":"ValueSet","id":"PDexAdjudicationCategoryDiscriminator","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"ValueSet-PDexAdjudication.html\">http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudication</a></li><li>Import all the codes that are contained in <a href=\"ValueSet-PDexPayerBenefitPaymentStatus.html\">http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPayerBenefitPaymentStatus</a></li><li>Include all codes defined in <a href=\"CodeSystem-PDexAdjudicationDiscriminator.html\"><code>http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator</code></a></li></ul></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudicationCategoryDiscriminator","version":"2.0.0-ballot","name":"PDexAdjudicationCategoryDiscriminator","title":"PDex Adjudication Category Discriminator","status":"active","date":"2022-02-20T12:46:42+00:00","publisher":"HL7 Financial Management Working Group","contact":[{"name":"HL7 Financial Management Working Group","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"},{"system":"email","value":"fm@lists.HL7.org"}]},{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark.scrimshire@onyxhealth.io"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Used as the discriminator for adjudication.category and item.adjudication.category for the PDex Prior Authorization","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US","display":"United States of America"}]}],"copyright":"This Valueset is not copyrighted.","compose":{"include":[{"valueSet":["http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudication"]},{"valueSet":["http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPayerBenefitPaymentStatus"]},{"system":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator"}]}}
+{
+	"resourceType": "ValueSet",
+	"id": "PDexAdjudicationCategoryDiscriminator",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudicationCategoryDiscriminator",
+	"version": "2.0.0-ballot",
+	"name": "PDexAdjudicationCategoryDiscriminator",
+	"title": "PDex Adjudication Category Discriminator",
+	"status": "active",
+	"date": "2022-02-20T12:46:42+00:00",
+	"publisher": "HL7 Financial Management Working Group",
+	"contact": [
+		{
+			"name": "HL7 Financial Management Working Group",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				},
+				{
+					"system": "email",
+					"value": "fm@lists.HL7.org"
+				}
+			]
+		},
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark.scrimshire@onyxhealth.io"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Used as the discriminator for adjudication.category and item.adjudication.category for the PDex Prior Authorization",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US",
+					"display": "United States of America"
+				}
+			]
+		}
+	],
+	"copyright": "This Valueset is not copyrighted.",
+	"compose": {
+		"include": [
+			{
+				"valueSet": [
+					"http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudication"
+				]
+			},
+			{
+				"valueSet": [
+					"http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPayerBenefitPaymentStatus"
+				]
+			},
+			{
+				"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator"
+			}
+		]
+	}
+}

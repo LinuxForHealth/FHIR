@@ -1,1 +1,77 @@
-{"resourceType":"SearchParameter","id":"pdex-medicationdispense-patient","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>SearchParameter: PdexMedicationDispensePatient</h2><p><b> description</b> : Returns prescriptions for a specific patient<br/>\n<em>NOTE</em>: This Pdex SearchParameter definition extends the usage context of\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">capabilitystatement-expectation</a>\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain\n\n </p><br/><p><b> id</b> pdex-medicationdispense-patient</p><p><b> url</b> : <b> http://hl7.org/fhir/us/core/SearchParameter/pdex-medicationdispense-patient</b>\n\t\t\t</p><p><b> version</b> : 4.0.1</p><p><b> name</b> : PdexMedicationDispensePatient</p><p><b> derivedFrom</b> : http://hl7.org/fhir/SearchParameter/clinical-patient\n\t\t\t</p><p><b> status</b> : active</p><p><b> experimental</b>  False</p><p><b> date</b> : 2020-07-01</p><p><b> publisher</b> : HL7 International - Financial Management</p><p><b> contact</b> : http://www.hl7.org/Special/committees/fm.cfm</p><p><b> useContext</b> : </p><p><b> jurisdiction</b> : United States of America (the) <span> (Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United\n           States of America (the)'})</span>\n\t\t\t</p>    <!-- <p>\n\t\t<b> purpose</b> : Need to search by identifier for various infrastructural cases - mainly retrieving packages,\n         and matching as part of a chain</p> --><p><b> code</b> : <code>patient</code>\n\t\t\t</p><p><b> base</b> :MedicationDispense</p><p><b> type</b> : reference</p><p><b> expression</b> : <code>MedicationDispense.subject.where(resolve() is Patient)</code>\n\t\t\t</p><p><b> xpath</b> : <code>f:MedicationDispense/f:subject</code>\n\t\t\t</p><p><b> xpathUsage</b> : normal</p><p><b> multipleOr</b> : True   (Conformance Expectation = MAY)</p><p><b> multipleAnd</b> : True  ( Conformance Expectation = MAY)</p></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-patient","version":"1.0.0","name":"PdexMedicationDispensePatient","derivedFrom":"http://hl7.org/fhir/SearchParameter/clinical-patient","status":"active","experimental":false,"date":"2020-07-01T21:51:58.017219Z","publisher":"HL7 International - Financial Management","contact":[{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark@ekivemark.com0"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Returns dispensed prescriptions for a specific patient.\nNOTE: This Pdex SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],"code":"patient","base":["MedicationDispense"],"type":"reference","expression":"MedicationDispense.subject.where(resolve() is Patient)","xpath":"f:MedicationDispense/f:subject","xpathUsage":"normal","target":["Patient","Group"],"multipleOr":true,"_multipleOr":{"extension":[{"url":"http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation","valueCode":"MAY"}]},"multipleAnd":true,"_multipleAnd":{"extension":[{"url":"http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation","valueCode":"MAY"}]}}
+{
+	"resourceType": "SearchParameter",
+	"id": "pdex-medicationdispense-patient",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-patient",
+	"version": "1.0.0",
+	"name": "PdexMedicationDispensePatient",
+	"derivedFrom": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+	"status": "active",
+	"experimental": false,
+	"date": "2020-07-01T21:51:58.017219Z",
+	"publisher": "HL7 International - Financial Management",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Returns dispensed prescriptions for a specific patient.\nNOTE: This Pdex SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"code": "patient",
+	"base": [
+		"MedicationDispense"
+	],
+	"type": "reference",
+	"expression": "MedicationDispense.subject.where(resolve() is Patient)",
+	"xpath": "f:MedicationDispense/f:subject",
+	"xpathUsage": "normal",
+	"target": [
+		"Patient",
+		"Group"
+	],
+	"multipleOr": true,
+	"_multipleOr": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	},
+	"multipleAnd": true,
+	"_multipleAnd": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	}
+}

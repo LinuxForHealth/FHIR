@@ -1,1 +1,81 @@
-{"resourceType":"CodeSystem","id":"PDexAdjudicationDiscriminator","text":{"status":"generated","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This code system http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">allowedunits<a name=\"PDexAdjudicationDiscriminator-allowedunits\"> </a></td><td>allowed units</td><td>defines the adjudication slice to define allowed units</td></tr><tr><td style=\"white-space:nowrap\">consumedunits<a name=\"PDexAdjudicationDiscriminator-consumedunits\"> </a></td><td>consumed units</td><td>defines the adjudication slice to define consumed units</td></tr><tr><td style=\"white-space:nowrap\">denialreason<a name=\"PDexAdjudicationDiscriminator-denialreason\"> </a></td><td>Denial Reason</td><td>defines the adjudication slice to identify the denial reason</td></tr></table></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator","version":"2.0.0-ballot","name":"PDexAdjudicationDiscriminator","title":"PDex Adjudication Discriminator","status":"active","date":"2022-02-20T12:46:42+00:00","publisher":"HL7 Financial Management Working Group","contact":[{"name":"HL7 Financial Management Working Group","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"},{"system":"email","value":"fm@lists.HL7.org"}]},{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark.scrimshire@onyxhealth.io"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"Used as the discriminator for the data elements in adjudication and item.adjudication","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US","display":"United States of America"}]}],"copyright":"This CodeSystem is not copyrighted.","caseSensitive":false,"content":"complete","count":3,"concept":[{"code":"allowedunits","display":"allowed units","definition":"defines the adjudication slice to define allowed units"},{"code":"consumedunits","display":"consumed units","definition":"defines the adjudication slice to define consumed units"},{"code":"denialreason","display":"Denial Reason","definition":"defines the adjudication slice to identify the denial reason"}]}
+{
+	"resourceType": "CodeSystem",
+	"id": "PDexAdjudicationDiscriminator",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator",
+	"version": "2.0.0-ballot",
+	"name": "PDexAdjudicationDiscriminator",
+	"title": "PDex Adjudication Discriminator",
+	"status": "active",
+	"date": "2022-02-20T12:46:42+00:00",
+	"publisher": "HL7 Financial Management Working Group",
+	"contact": [
+		{
+			"name": "HL7 Financial Management Working Group",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				},
+				{
+					"system": "email",
+					"value": "fm@lists.HL7.org"
+				}
+			]
+		},
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark.scrimshire@onyxhealth.io"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Used as the discriminator for the data elements in adjudication and item.adjudication",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US",
+					"display": "United States of America"
+				}
+			]
+		}
+	],
+	"copyright": "This CodeSystem is not copyrighted.",
+	"caseSensitive": false,
+	"content": "complete",
+	"count": 3,
+	"concept": [
+		{
+			"code": "allowedunits",
+			"display": "allowed units",
+			"definition": "defines the adjudication slice to define allowed units"
+		},
+		{
+			"code": "consumedunits",
+			"display": "consumed units",
+			"definition": "defines the adjudication slice to define consumed units"
+		},
+		{
+			"code": "denialreason",
+			"display": "Denial Reason",
+			"definition": "defines the adjudication slice to identify the denial reason"
+		}
+	]
+}

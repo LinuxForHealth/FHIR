@@ -1,1 +1,864 @@
-{"resourceType":"ImplementationGuide","id":"hl7.fhir.us.davinci-pdex","text":{"status":"extensions","div":"<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>DaVinciPayerDataExchange</h2><p>The official URL for this implementation guide is: </p><pre>http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex</pre><div><p>This specification is currently undergoing ballot and connectathon testing. It is expected to evolve, possibly significantly, as part of that process.\nFeedback is welcome and may be submitted through the FHIR JIRA tracker indicating US Da Vinci PDex as the specification. If balloting on this IG, please submit your comments via the tracker and reference them in your ballot submission implementation guide.</p>\n<p>This guide can be reviewed offline. Go to the Downloads section. Click on the link to download the full Implementation Guide as a zip file. Expand the zip file and use a web browser to launch the index.html file in the directory created by the zip extract process. External hyperlinks in the guide will not be available unless you have an active internet connection.</p>\n<p><a href=\"https://confluence.hl7.org/display/FM/Financial+Management+Home\">Financial Management</a> is the Sponsoring Work Group for this Implementation Guide.</p>\n<p><strong>The Payer Data Exchange (PDex) Implementation Guide (IG) is provided for Payers/Health Plans to enable them to create a Member's Health History using clinical resources (based on US Core Profiles based on FHIR R4) which can be understood by providers and, if they choose to, committed to their Electronic Medical Records (EMR) System.</strong></p>\n<p>The PDex work group has made changes to the original version of the IG following the publication of the final CMS Interoperability and Patient Access Rule.</p>\n<p>This IG uses the same Member Health History &quot;payload&quot; for member-authorized exchange of information with other Health Plans and with Third-Party Applications. It describes the interaction patterns that, when followed, allow the various parties involved in managing healthcare and payer data to more easily integrate and exchange data securely and effectively.</p>\n<p>This IG covers the exchange of:</p>\n<ul>\n<li>Claims-based information</li>\n<li>Clinical Information (such as Lab Results, Allergies and Conditions)</li>\n</ul>\n<p>This IG covers the exchange of this information using US Core and Da Vinci Health Record Exchange (HRex) Profiles. This superset of clinical profiles forms the Health Plan Member's Health History.</p>\n<p>This IG covers the exchange of a Member's Health History in the following scenarios:</p>\n<ul>\n<li>Provider requested Provider-Health Plan Exchange using CDS-Hooks and SMART-on-FHIR</li>\n<li>Member-authorized Health Plan to Health Plan exchange</li>\n<li>Member-authorized Health Plan to Third-Party Application exchange</li>\n</ul>\n<p>The latter two scenarios are provided to meet the requirements identified in the CMS Interoperability Notice for Proposed Rule Making issued on February 11, 2019.</p>\n<p><strong>There are items in this guide that are subject to update</strong>. This includes:</p>\n<ul>\n<li>Value Sets</li>\n<li>Vocabularies (X12, NUBC etc.)</li>\n<li>Examples</li>\n</ul>\n<p><strong>The Vocabulary, Value Sets and codings used to express data in this IG are subject to review and will be reconciled with</strong>  <a href=\"http://www.x12.org\">X12</a>.</p>\n<p>See the <a href=\"toc.html\">Table of Contents</a> for more information.</p>\n</div></div>"},"url":"http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex","version":"1.0.0","name":"DaVinciPayerDataExchange","title":"Da Vinci Payer Data exchange","status":"draft","date":"2020-12-01T21:37:51+00:00","contact":[{"name":"Mark Scrimshire (mark.scrimshire@onyxhealth.io)","telecom":[{"system":"email","value":"mailto:mark@ekivemark.com0"}]},{"name":"HL7 International - Financial Management","telecom":[{"system":"url","value":"http://www.hl7.org/Special/committees/fm"}]}],"description":"This specification is currently undergoing ballot and connectathon testing. It is expected to evolve, possibly significantly, as part of that process.\nFeedback is welcome and may be submitted through the FHIR JIRA tracker indicating US Da Vinci PDex as the specification. If balloting on this IG, please submit your comments via the tracker and reference them in your ballot submission implementation guide.\n\nThis guide can be reviewed offline. Go to the Downloads section. Click on the link to download the full Implementation Guide as a zip file. Expand the zip file and use a web browser to launch the index.html file in the directory created by the zip extract process. External hyperlinks in the guide will not be available unless you have an active internet connection. \n\n[Financial Management](https://confluence.hl7.org/display/FM/Financial+Management+Home) is the Sponsoring Work Group for this Implementation Guide.\n\n**The Payer Data Exchange (PDex) Implementation Guide (IG) is provided for Payers/Health Plans to enable them to create a Member's Health History using clinical resources (based on US Core Profiles based on FHIR R4) which can be understood by providers and, if they choose to, committed to their Electronic Medical Records (EMR) System.**\n\nThe PDex work group has made changes to the original version of the IG following the publication of the final CMS Interoperability and Patient Access Rule.\n\nThis IG uses the same Member Health History \"payload\" for member-authorized exchange of information with other Health Plans and with Third-Party Applications. It describes the interaction patterns that, when followed, allow the various parties involved in managing healthcare and payer data to more easily integrate and exchange data securely and effectively.\n\nThis IG covers the exchange of:\n- Claims-based information\n- Clinical Information (such as Lab Results, Allergies and Conditions)\n\nThis IG covers the exchange of this information using US Core and Da Vinci Health Record Exchange (HRex) Profiles. This superset of clinical profiles forms the Health Plan Member's Health History. \n\nThis IG covers the exchange of a Member's Health History in the following scenarios:\n- Provider requested Provider-Health Plan Exchange using CDS-Hooks and SMART-on-FHIR\n- Member-authorized Health Plan to Health Plan exchange\n- Member-authorized Health Plan to Third-Party Application exchange\n\nThe latter two scenarios are provided to meet the requirements identified in the CMS Interoperability Notice for Proposed Rule Making issued on February 11, 2019.\n\n**There are items in this guide that are subject to update**. This includes:\n- Value Sets\n- Vocabularies (X12, NUBC etc.)\n- Examples\n\n**The Vocabulary, Value Sets and codings used to express data in this IG are subject to review and will be reconciled with**  [X12](http://www.x12.org).\n\nSee the [Table of Contents](toc.html) for more information.\n","jurisdiction":[{"coding":[{"system":"urn:iso:std:iso:3166","code":"US"}]}],"packageId":"hl7.fhir.us.davinci-pdex","license":"CC0-1.0","fhirVersion":["4.0.1"],"dependsOn":[{"id":"hl7_fhir_us_core","uri":"http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core","packageId":"hl7.fhir.us.core","version":"3.1.1"},{"id":"hl7_fhir_us_davinci_hrex","uri":"http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex","packageId":"hl7.fhir.us.davinci-hrex","version":"0.2.0"}],"definition":{"resource":[{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:resource"}],"reference":{"reference":"StructureDefinition/hrex-coverage"},"name":"HRex Coverage Profile","description":"The HRex Coverage Profile defines the constraints for representing a member's healthcare insurance information to the Payer.  Coverage instances complying with this profile, sometimes together with the Patient which this profile references via `beneficiary`, allows a payer to identify a member in their system.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:resource"}],"reference":{"reference":"StructureDefinition/pdex-device"},"name":"PDex Device","description":"The PDex Device profile is provided to enable payers to record information about devices used by a member that may not have a UDI number.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:resource"}],"reference":{"reference":"StructureDefinition/pdex-medicationdispense"},"name":"PDex MedicationDispense","description":"Prescription Medications dispensed by a pharmacy to a health plan member and paid for in full, or in part, by the health plan","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:resource"}],"reference":{"reference":"StructureDefinition/pdex-provenance"},"name":"PDex Provenance","description":"Provenance is provided by the payer to identify the source of the information, whether the data came via a clinical record or a claim record and whether the data was subject to manual transcription or other interpretive transformation. This profile adds PayerSourceFormat as an extension on the entity base element.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:extension"}],"reference":{"reference":"StructureDefinition/DispenseRefill"},"name":"An attribute to express the refill number of a prescription","description":"Attribute that identifies the refill number of a prescription. e.g. 0, 1, 2, etc.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"StructureDefinition:extension"}],"reference":{"reference":"StructureDefinition/ProvenanceSourceFrom"},"name":"An attribute to describe the data source a resource was constructed from","description":"Attributes that identify the source record format from which data in the referenced resources was derived","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"ValueSet"}],"reference":{"reference":"ValueSet/FDANationalDrugCode"},"name":"FDA National Drug Code (NDC)","description":"The Drug Listing Act of 1972 requires registered drug establishments to provide the Food and Drug Administration (FDA) with a current list of all drugs manufactured, prepared, propagated, compounded, or processed by it for commercial distribution.  (See Section 510 of the Federal Food, Drug, and Cosmetic Act (Act) (21 U.S.C. § 360)). Drug products are identified and reported using a unique, three-segment number, called the National Drug Code (NDC), which serves as a universal product identifier for drugs. FDA publishes the listed NDC numbers and the information submitted as part of the listing information in the NDC Directory which is updated daily.\n\nThe information submitted as part of the listing process, the NDC number, and the NDC Directory are used in the implementation and enforcement of the Act.\n\nUsers should note:\n\nStarting June 1, 2011, only drugs for which electronic listings (SPL) have been submitted to FDA are included in the NDC Directory. Drugs for which listing information was last submitted to FDA on paper forms, prior to June 2009, are included on a separate file and will not be updated after June 2012.\n\nInformation regarding the FDA published NDC Directory can be found [here](https://www.fda.gov/drugs/drug-approvals-and-databases/national-drug-code-directory)\n\nUsers should note a few important items\n\n*   The NDC Directory is updated daily.\n*   The new NDC Directory contains ONLY information on final marketed drugs submitted to FDA in SPL electronic listing files by labelers.\n*   The NDC Directory does not contain all listed drugs. The new version includes the final marketed drugs which listing information were submitted electronically. It does not include animal drugs, blood products, or human drugs that are not in final marketed form, such as Active Pharmaceutical Ingredients(APIs), drugs for further processing, drugs manufactured exclusively for a private label distributor, or drugs that are marketed solely as part of a kit or combination product or inner layer of a multi-level packaged product not marketed individually. For more information about how certain kits or multi-level packaged drugs are addressed in the new NDC Directory, see the NDC Directory Package File definitions document. For the FDA Online Label Repository page and additional resources go to: [FDA Online Label Repository](https://labels.fda.gov/)","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"ValueSet"}],"reference":{"reference":"ValueSet/ProvenanceAgentType"},"name":"Provenance Agent Type","description":"Agent role performed relating to referenced resource","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"ValueSet"}],"reference":{"reference":"ValueSet/ProvenancePayerSourceFormat"},"name":"Payer source of data","description":"Source Data formats used as the source for FHIR referenced record by the Payer.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"CodeSystem"}],"reference":{"reference":"CodeSystem/IdentifierTypeCS"},"name":"Identifier Type","description":"Identifier Type","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"CodeSystem"}],"reference":{"reference":"CodeSystem/ProvenanceAgentRoleType"},"name":"Provenance Roles","description":"CodeSystem for types of role relating to the creation or communication of referenced resources","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"CodeSystem"}],"reference":{"reference":"CodeSystem/ProvenancePayerDataSource"},"name":"Provenance Payer Data Source Format","description":"CodeSystem for source formats that identify what non-FHIR source was used to create FHIR record(s)","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Patient"}],"reference":{"reference":"Patient/1"},"name":"Patient1","description":"Example of a US Core Patient Record","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"MedicationDispense"}],"reference":{"reference":"MedicationDispense/1000001"},"name":"ExampleMedicationDispenseClaim","description":"Example of a MedicationDispense from a Claim","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-medicationdispense"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000001"},"name":"ExampleProvenanceTransmitter","description":"Example of a Transmitter Provenance record for a bundle","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000002"},"name":"ExampleProvenanceAuthor","description":"Example of an author Provenance record displaying a practitioner's organization as the author","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000003"},"name":"ExampleProvenanceSoloPractitioner","description":"Example of an author Provenance record displaying a sole practitioner as the author","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000004"},"name":"ExampleProvenancePayerSource","description":"Example of an payer being the source of the data","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000005"},"name":"ExampleProvenancePayerModified","description":"Example of provenance based on security group recommendations","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000006"},"name":"ExampleDocRefProvenance","description":"Example of a PDex Provenance record for a PDF embedded or linked in a DocumentReference resource.","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Provenance"}],"reference":{"reference":"Provenance/1000017"},"name":"ExampleProvenanceBundleTransmitter","description":"Example of a Transmitter Provenance record for a bundle","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"DocumentReference"}],"reference":{"reference":"DocumentReference/123456"},"name":"ExampleDocumentReference","description":"Example of a US Core DocumentReference with a linked PDF document. The document could also be embedded.","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Organization"}],"reference":{"reference":"Organization/2"},"name":"OrganizationPayer1","description":"Example of the Payer Organization","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Bundle"}],"reference":{"reference":"Bundle/2000002"},"name":"ExampleBundle1","description":"A simple bundle to demonstrate a provenance example","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Organization"}],"reference":{"reference":"Organization/3"},"name":"OrganizationProvider1","description":"Provider Organization Example 1","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Bundle"}],"reference":{"reference":"Bundle/3000002"},"name":"BundleWithProvenance","description":"A bundle that returns provenance using _revinclude=Provenance:target","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Practitioner"}],"reference":{"reference":"Practitioner/4"},"name":"ExamplePractitioner","description":"Example of a Practitioner Record","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Location"}],"reference":{"reference":"Location/5"},"name":"ExampleLocation","description":"Example of a Pharmacy Location Record","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Device"}],"reference":{"reference":"Device/543210"},"name":"ExampleDevice","description":"Example of a Device from a Claim","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-device"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Encounter"}],"reference":{"reference":"Encounter/6"},"name":"ExampleEncounter1","description":"Example of an Encounter that has a provenance record","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Encounter"}],"reference":{"reference":"Encounter/7"},"name":"ExampleEncounter2","description":"Example of an Encounter that has a provenance record","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"Coverage"}],"reference":{"reference":"Coverage/883210"},"name":"ExampleCoverage","description":"Example of a Coverage for a Member","exampleCanonical":"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/hrex-coverage"},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"CapabilityStatement"}],"reference":{"reference":"CapabilityStatement/PdexServerCapabilityStatement"},"name":"PdexServerCapabilityStatement","description":"Payer Data Exchange Server Capability Statement","exampleBoolean":true},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"CapabilityStatement"}],"reference":{"reference":"CapabilityStatement/pdex-server"},"name":"PDEX Server CapabilityStatement","description":"This Section describes the expected capabilities of the PDEX Server actor which is responsible for providing responses to the queries submitted by the PDEX Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by PDEX Servers are defined. PDEX Clients have the option of choosing from this list to access necessary data based on their local use cases and other contextual requirements.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"SearchParameter"}],"reference":{"reference":"SearchParameter/pdex-medicationdispense-patient"},"name":"PdexMedicationDispensePatient","description":"Returns dispensed prescriptions for a specific patient.\nNOTE: This Pdex SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.","exampleBoolean":false},{"extension":[{"url":"http://hl7.org/fhir/tools/StructureDefinition/resource-information","valueString":"SearchParameter"}],"reference":{"reference":"SearchParameter/pdex-medicationdispense-status"},"name":"PdexMedicationDispenseStatus","description":"Status of the prescription dispense.\nNOTE: This SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.","exampleBoolean":false}],"page":{"nameUrl":"toc.html","title":"Table of Contents","generation":"html","page":[{"nameUrl":"index.html","title":"Home","generation":"markdown"},{"nameUrl":"Overview.html","title":"Overview","generation":"markdown"},{"nameUrl":"Introduction.html","title":"Introduction","generation":"markdown"},{"nameUrl":"PDexImplementationActorsInteractionsDataPayloadsandMethods.html","title":"PDex Implementation, Actors, Interactions, Data Payloads and Methods","generation":"markdown","page":[{"nameUrl":"HandlingDataProvenance.html","title":"Handling Data Provenance","generation":"markdown"},{"nameUrl":"PayerToPayerExchange.html","title":"Payer-to-Payer Exchange","generation":"markdown"},{"nameUrl":"DataMapping.html","title":"Data Mapping","generation":"markdown","page":[{"nameUrl":"USCoreAllergyIntolerance.html","title":"US Core AllergyIntolerance","generation":"markdown"},{"nameUrl":"USCoreCarePlan.html","title":"US Core CarePlan","generation":"markdown"},{"nameUrl":"USCoreCareTeam.html","title":"US Core CareTeam","generation":"markdown"},{"nameUrl":"USCoreCondition.html","title":"US Core Condition","generation":"markdown"},{"nameUrl":"Coverage.html","title":"Coverage","generation":"markdown"},{"nameUrl":"PdexDevice.html","title":"PDex Device","generation":"markdown"},{"nameUrl":"USCoreDiagnosticReportforLaboratoryResultsReporting.html","title":"US Core DiagnosticReport for Laboratory Results Reporting","generation":"markdown"},{"nameUrl":"USCoreDiagnosticReportforReportandNoteExchange.html","title":"US Core DiagnosticReport for Report and Note Exchange","generation":"markdown"},{"nameUrl":"USCoreDocumentReference.html","title":"US Core DocumentReference","generation":"markdown"},{"nameUrl":"USCoreEncounter.html","title":"US Core Encounter","generation":"markdown"},{"nameUrl":"USCoreGoal.html","title":"US Core Goal","generation":"markdown"},{"nameUrl":"USCoreImmunization.html","title":"US Core Immunization","generation":"markdown"},{"nameUrl":"USCoreImplantableDevice.html","title":"US Core ImplantableDevice","generation":"markdown"},{"nameUrl":"USCoreLaboratoryResultObservation.html","title":"US Core Laboratory Result Observation","generation":"markdown"},{"nameUrl":"USCoreLocation.html","title":"US Core Location","generation":"markdown"},{"nameUrl":"USCoreMedication.html","title":"US Core Medication","generation":"markdown"},{"nameUrl":"PDexMedicationDispense.html","title":"PDex MedicationDispense","generation":"markdown"},{"nameUrl":"USCoreMedicationRequest.html","title":"US Core MedicationRequest","generation":"markdown"},{"nameUrl":"USCoreOrganization.html","title":"US Core Organization","generation":"markdown"},{"nameUrl":"USCorePatient.html","title":"US Core Patient","generation":"markdown"},{"nameUrl":"USCorePediatricBMIforAgeObservation.html","title":"US Core Pediatric BMI for Age Observation","generation":"markdown"},{"nameUrl":"USCorePediatricHeadOccipital.html","title":"US Core Pediatric Head Occipital-frontal Circumference Observation","generation":"markdown"},{"nameUrl":"USCorePediatricWeightforHeightObservation.html","title":"US Core Pediatric Weight for Height Observation","generation":"markdown"},{"nameUrl":"USCorePractitioner.html","title":"US Core Practitioner","generation":"markdown"},{"nameUrl":"USCorePractitionerRole.html","title":"US Core PractitionerRole","generation":"markdown"},{"nameUrl":"USCoreProcedure.html","title":"US Core Procedure","generation":"markdown"},{"nameUrl":"PDexProvenance.html","title":"PDex Provenance","generation":"markdown"},{"nameUrl":"USCoreProvenance.html","title":"US Core Provenance","generation":"markdown"},{"nameUrl":"USCorePulseOximetry.html","title":"US Core Pulse Oximetry","generation":"markdown"},{"nameUrl":"USCoreSmokingStatusObservation.html","title":"US Core Smoking Status Observation","generation":"markdown"},{"nameUrl":"VitalSigns.html","title":"VitalSigns","generation":"markdown"}]}]},{"nameUrl":"UseCaseScenarios.html","title":"Use Case Scenarios","generation":"markdown"},{"nameUrl":"Provider-controlledInformationRequestsandFiltering.html","title":"Provider-controlled Information Requests and Filtering","generation":"markdown"},{"nameUrl":"CDS-Hooks.html","title":"CDS Hooks","generation":"markdown","page":[{"nameUrl":"WorkflowExamples.html","title":"Workflow Examples","generation":"markdown"}]},{"nameUrl":"Member-AuthorizedOAuth2Exchange.html","title":"Member-Authorized OAuth2.0 Exchange","generation":"markdown"},{"nameUrl":"Credits.html","title":"Credits","generation":"markdown"},{"nameUrl":"Downloads.html","title":"Downloads","generation":"markdown"}]},"parameter":[{"code":"path-resource","value":"input/capabilities"},{"code":"path-resource","value":"input/examples"},{"code":"path-resource","value":"input/extensions"},{"code":"path-resource","value":"input/models"},{"code":"path-resource","value":"input/operations"},{"code":"path-resource","value":"input/profiles"},{"code":"path-resource","value":"input/resources"},{"code":"path-resource","value":"input/vocabulary"},{"code":"path-resource","value":"input/maps"},{"code":"path-resource","value":"input/testing"},{"code":"path-resource","value":"input/history"},{"code":"path-resource","value":"fsh-generated/resources"},{"code":"path-tx-cache","value":"input-cache/txcache"}]}}
+{
+	"resourceType": "ImplementationGuide",
+	"id": "hl7.fhir.us.davinci-pdex",
+	"text": {
+		"status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex",
+	"version": "1.0.0",
+	"name": "DaVinciPayerDataExchange",
+	"title": "Da Vinci Payer Data exchange",
+	"status": "draft",
+	"date": "2020-12-01T21:37:51+00:00",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "This specification is currently undergoing ballot and connectathon testing. It is expected to evolve, possibly significantly, as part of that process.\nFeedback is welcome and may be submitted through the FHIR JIRA tracker indicating US Da Vinci PDex as the specification. If balloting on this IG, please submit your comments via the tracker and reference them in your ballot submission implementation guide.\n\nThis guide can be reviewed offline. Go to the Downloads section. Click on the link to download the full Implementation Guide as a zip file. Expand the zip file and use a web browser to launch the index.html file in the directory created by the zip extract process. External hyperlinks in the guide will not be available unless you have an active internet connection. \n\n[Financial Management](https://confluence.hl7.org/display/FM/Financial+Management+Home) is the Sponsoring Work Group for this Implementation Guide.\n\n**The Payer Data Exchange (PDex) Implementation Guide (IG) is provided for Payers/Health Plans to enable them to create a Member's Health History using clinical resources (based on US Core Profiles based on FHIR R4) which can be understood by providers and, if they choose to, committed to their Electronic Medical Records (EMR) System.**\n\nThe PDex work group has made changes to the original version of the IG following the publication of the final CMS Interoperability and Patient Access Rule.\n\nThis IG uses the same Member Health History \"payload\" for member-authorized exchange of information with other Health Plans and with Third-Party Applications. It describes the interaction patterns that, when followed, allow the various parties involved in managing healthcare and payer data to more easily integrate and exchange data securely and effectively.\n\nThis IG covers the exchange of:\n- Claims-based information\n- Clinical Information (such as Lab Results, Allergies and Conditions)\n\nThis IG covers the exchange of this information using US Core and Da Vinci Health Record Exchange (HRex) Profiles. This superset of clinical profiles forms the Health Plan Member's Health History. \n\nThis IG covers the exchange of a Member's Health History in the following scenarios:\n- Provider requested Provider-Health Plan Exchange using CDS-Hooks and SMART-on-FHIR\n- Member-authorized Health Plan to Health Plan exchange\n- Member-authorized Health Plan to Third-Party Application exchange\n\nThe latter two scenarios are provided to meet the requirements identified in the CMS Interoperability Notice for Proposed Rule Making issued on February 11, 2019.\n\n**There are items in this guide that are subject to update**. This includes:\n- Value Sets\n- Vocabularies (X12, NUBC etc.)\n- Examples\n\n**The Vocabulary, Value Sets and codings used to express data in this IG are subject to review and will be reconciled with**  [X12](http://www.x12.org).\n\nSee the [Table of Contents](toc.html) for more information.\n",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"packageId": "hl7.fhir.us.davinci-pdex",
+	"license": "CC0-1.0",
+	"fhirVersion": [
+		"4.0.1"
+	],
+	"dependsOn": [
+		{
+			"id": "hl7_fhir_us_core",
+			"uri": "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
+			"packageId": "hl7.fhir.us.core",
+			"version": "3.1.1"
+		},
+		{
+			"id": "hl7_fhir_us_davinci_hrex",
+			"uri": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex",
+			"packageId": "hl7.fhir.us.davinci-hrex",
+			"version": "0.2.0"
+		}
+	],
+	"definition": {
+		"resource": [
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-coverage"
+				},
+				"name": "HRex Coverage Profile",
+				"description": "The HRex Coverage Profile defines the constraints for representing a member's healthcare insurance information to the Payer.  Coverage instances complying with this profile, sometimes together with the Patient which this profile references via `beneficiary`, allows a payer to identify a member in their system.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/pdex-device"
+				},
+				"name": "PDex Device",
+				"description": "The PDex Device profile is provided to enable payers to record information about devices used by a member that may not have a UDI number.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/pdex-medicationdispense"
+				},
+				"name": "PDex MedicationDispense",
+				"description": "Prescription Medications dispensed by a pharmacy to a health plan member and paid for in full, or in part, by the health plan",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/pdex-provenance"
+				},
+				"name": "PDex Provenance",
+				"description": "Provenance is provided by the payer to identify the source of the information, whether the data came via a clinical record or a claim record and whether the data was subject to manual transcription or other interpretive transformation. This profile adds PayerSourceFormat as an extension on the entity base element.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/DispenseRefill"
+				},
+				"name": "An attribute to express the refill number of a prescription",
+				"description": "Attribute that identifies the refill number of a prescription. e.g. 0, 1, 2, etc.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/ProvenanceSourceFrom"
+				},
+				"name": "An attribute to describe the data source a resource was constructed from",
+				"description": "Attributes that identify the source record format from which data in the referenced resources was derived",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/FDANationalDrugCode"
+				},
+				"name": "FDA National Drug Code (NDC)",
+				"description": "The Drug Listing Act of 1972 requires registered drug establishments to provide the Food and Drug Administration (FDA) with a current list of all drugs manufactured, prepared, propagated, compounded, or processed by it for commercial distribution.  (See Section 510 of the Federal Food, Drug, and Cosmetic Act (Act) (21 U.S.C. § 360)). Drug products are identified and reported using a unique, three-segment number, called the National Drug Code (NDC), which serves as a universal product identifier for drugs. FDA publishes the listed NDC numbers and the information submitted as part of the listing information in the NDC Directory which is updated daily.\n\nThe information submitted as part of the listing process, the NDC number, and the NDC Directory are used in the implementation and enforcement of the Act.\n\nUsers should note:\n\nStarting June 1, 2011, only drugs for which electronic listings (SPL) have been submitted to FDA are included in the NDC Directory. Drugs for which listing information was last submitted to FDA on paper forms, prior to June 2009, are included on a separate file and will not be updated after June 2012.\n\nInformation regarding the FDA published NDC Directory can be found [here](https://www.fda.gov/drugs/drug-approvals-and-databases/national-drug-code-directory)\n\nUsers should note a few important items\n\n*   The NDC Directory is updated daily.\n*   The new NDC Directory contains ONLY information on final marketed drugs submitted to FDA in SPL electronic listing files by labelers.\n*   The NDC Directory does not contain all listed drugs. The new version includes the final marketed drugs which listing information were submitted electronically. It does not include animal drugs, blood products, or human drugs that are not in final marketed form, such as Active Pharmaceutical Ingredients(APIs), drugs for further processing, drugs manufactured exclusively for a private label distributor, or drugs that are marketed solely as part of a kit or combination product or inner layer of a multi-level packaged product not marketed individually. For more information about how certain kits or multi-level packaged drugs are addressed in the new NDC Directory, see the NDC Directory Package File definitions document. For the FDA Online Label Repository page and additional resources go to: [FDA Online Label Repository](https://labels.fda.gov/)",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/ProvenanceAgentType"
+				},
+				"name": "Provenance Agent Type",
+				"description": "Agent role performed relating to referenced resource",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/ProvenancePayerSourceFormat"
+				},
+				"name": "Payer source of data",
+				"description": "Source Data formats used as the source for FHIR referenced record by the Payer.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CodeSystem"
+					}
+				],
+				"reference": {
+					"reference": "CodeSystem/IdentifierTypeCS"
+				},
+				"name": "Identifier Type",
+				"description": "Identifier Type",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CodeSystem"
+					}
+				],
+				"reference": {
+					"reference": "CodeSystem/ProvenanceAgentRoleType"
+				},
+				"name": "Provenance Roles",
+				"description": "CodeSystem for types of role relating to the creation or communication of referenced resources",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CodeSystem"
+					}
+				],
+				"reference": {
+					"reference": "CodeSystem/ProvenancePayerDataSource"
+				},
+				"name": "Provenance Payer Data Source Format",
+				"description": "CodeSystem for source formats that identify what non-FHIR source was used to create FHIR record(s)",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Patient"
+					}
+				],
+				"reference": {
+					"reference": "Patient/1"
+				},
+				"name": "Patient1",
+				"description": "Example of a US Core Patient Record",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "MedicationDispense"
+					}
+				],
+				"reference": {
+					"reference": "MedicationDispense/1000001"
+				},
+				"name": "ExampleMedicationDispenseClaim",
+				"description": "Example of a MedicationDispense from a Claim",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-medicationdispense"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000001"
+				},
+				"name": "ExampleProvenanceTransmitter",
+				"description": "Example of a Transmitter Provenance record for a bundle",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000002"
+				},
+				"name": "ExampleProvenanceAuthor",
+				"description": "Example of an author Provenance record displaying a practitioner's organization as the author",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000003"
+				},
+				"name": "ExampleProvenanceSoloPractitioner",
+				"description": "Example of an author Provenance record displaying a sole practitioner as the author",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000004"
+				},
+				"name": "ExampleProvenancePayerSource",
+				"description": "Example of an payer being the source of the data",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000005"
+				},
+				"name": "ExampleProvenancePayerModified",
+				"description": "Example of provenance based on security group recommendations",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000006"
+				},
+				"name": "ExampleDocRefProvenance",
+				"description": "Example of a PDex Provenance record for a PDF embedded or linked in a DocumentReference resource.",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/1000017"
+				},
+				"name": "ExampleProvenanceBundleTransmitter",
+				"description": "Example of a Transmitter Provenance record for a bundle",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "DocumentReference"
+					}
+				],
+				"reference": {
+					"reference": "DocumentReference/123456"
+				},
+				"name": "ExampleDocumentReference",
+				"description": "Example of a US Core DocumentReference with a linked PDF document. The document could also be embedded.",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Organization"
+					}
+				],
+				"reference": {
+					"reference": "Organization/2"
+				},
+				"name": "OrganizationPayer1",
+				"description": "Example of the Payer Organization",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Bundle"
+					}
+				],
+				"reference": {
+					"reference": "Bundle/2000002"
+				},
+				"name": "ExampleBundle1",
+				"description": "A simple bundle to demonstrate a provenance example",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Organization"
+					}
+				],
+				"reference": {
+					"reference": "Organization/3"
+				},
+				"name": "OrganizationProvider1",
+				"description": "Provider Organization Example 1",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Bundle"
+					}
+				],
+				"reference": {
+					"reference": "Bundle/3000002"
+				},
+				"name": "BundleWithProvenance",
+				"description": "A bundle that returns provenance using _revinclude=Provenance:target",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Practitioner"
+					}
+				],
+				"reference": {
+					"reference": "Practitioner/4"
+				},
+				"name": "ExamplePractitioner",
+				"description": "Example of a Practitioner Record",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Location"
+					}
+				],
+				"reference": {
+					"reference": "Location/5"
+				},
+				"name": "ExampleLocation",
+				"description": "Example of a Pharmacy Location Record",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Device"
+					}
+				],
+				"reference": {
+					"reference": "Device/543210"
+				},
+				"name": "ExampleDevice",
+				"description": "Example of a Device from a Claim",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-device"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Encounter"
+					}
+				],
+				"reference": {
+					"reference": "Encounter/6"
+				},
+				"name": "ExampleEncounter1",
+				"description": "Example of an Encounter that has a provenance record",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Encounter"
+					}
+				],
+				"reference": {
+					"reference": "Encounter/7"
+				},
+				"name": "ExampleEncounter2",
+				"description": "Example of an Encounter that has a provenance record",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Coverage"
+					}
+				],
+				"reference": {
+					"reference": "Coverage/883210"
+				},
+				"name": "ExampleCoverage",
+				"description": "Example of a Coverage for a Member",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/hrex-coverage"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CapabilityStatement"
+					}
+				],
+				"reference": {
+					"reference": "CapabilityStatement/PdexServerCapabilityStatement"
+				},
+				"name": "PdexServerCapabilityStatement",
+				"description": "Payer Data Exchange Server Capability Statement",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CapabilityStatement"
+					}
+				],
+				"reference": {
+					"reference": "CapabilityStatement/pdex-server"
+				},
+				"name": "PDEX Server CapabilityStatement",
+				"description": "This Section describes the expected capabilities of the PDEX Server actor which is responsible for providing responses to the queries submitted by the PDEX Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by PDEX Servers are defined. PDEX Clients have the option of choosing from this list to access necessary data based on their local use cases and other contextual requirements.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/pdex-medicationdispense-patient"
+				},
+				"name": "PdexMedicationDispensePatient",
+				"description": "Returns dispensed prescriptions for a specific patient.\nNOTE: This Pdex SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.",
+				"exampleBoolean": false
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/pdex-medicationdispense-status"
+				},
+				"name": "PdexMedicationDispenseStatus",
+				"description": "Status of the prescription dispense.\nNOTE: This SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.",
+				"exampleBoolean": false
+			}
+		],
+		"page": {
+			"nameUrl": "toc.html",
+			"title": "Table of Contents",
+			"generation": "html",
+			"page": [
+				{
+					"nameUrl": "index.html",
+					"title": "Home",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "Overview.html",
+					"title": "Overview",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "Introduction.html",
+					"title": "Introduction",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "PDexImplementationActorsInteractionsDataPayloadsandMethods.html",
+					"title": "PDex Implementation, Actors, Interactions, Data Payloads and Methods",
+					"generation": "markdown",
+					"page": [
+						{
+							"nameUrl": "HandlingDataProvenance.html",
+							"title": "Handling Data Provenance",
+							"generation": "markdown"
+						},
+						{
+							"nameUrl": "PayerToPayerExchange.html",
+							"title": "Payer-to-Payer Exchange",
+							"generation": "markdown"
+						},
+						{
+							"nameUrl": "DataMapping.html",
+							"title": "Data Mapping",
+							"generation": "markdown",
+							"page": [
+								{
+									"nameUrl": "USCoreAllergyIntolerance.html",
+									"title": "US Core AllergyIntolerance",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreCarePlan.html",
+									"title": "US Core CarePlan",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreCareTeam.html",
+									"title": "US Core CareTeam",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreCondition.html",
+									"title": "US Core Condition",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "Coverage.html",
+									"title": "Coverage",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "PdexDevice.html",
+									"title": "PDex Device",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreDiagnosticReportforLaboratoryResultsReporting.html",
+									"title": "US Core DiagnosticReport for Laboratory Results Reporting",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreDiagnosticReportforReportandNoteExchange.html",
+									"title": "US Core DiagnosticReport for Report and Note Exchange",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreDocumentReference.html",
+									"title": "US Core DocumentReference",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreEncounter.html",
+									"title": "US Core Encounter",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreGoal.html",
+									"title": "US Core Goal",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreImmunization.html",
+									"title": "US Core Immunization",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreImplantableDevice.html",
+									"title": "US Core ImplantableDevice",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreLaboratoryResultObservation.html",
+									"title": "US Core Laboratory Result Observation",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreLocation.html",
+									"title": "US Core Location",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreMedication.html",
+									"title": "US Core Medication",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "PDexMedicationDispense.html",
+									"title": "PDex MedicationDispense",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreMedicationRequest.html",
+									"title": "US Core MedicationRequest",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreOrganization.html",
+									"title": "US Core Organization",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePatient.html",
+									"title": "US Core Patient",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePediatricBMIforAgeObservation.html",
+									"title": "US Core Pediatric BMI for Age Observation",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePediatricHeadOccipital.html",
+									"title": "US Core Pediatric Head Occipital-frontal Circumference Observation",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePediatricWeightforHeightObservation.html",
+									"title": "US Core Pediatric Weight for Height Observation",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePractitioner.html",
+									"title": "US Core Practitioner",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePractitionerRole.html",
+									"title": "US Core PractitionerRole",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreProcedure.html",
+									"title": "US Core Procedure",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "PDexProvenance.html",
+									"title": "PDex Provenance",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreProvenance.html",
+									"title": "US Core Provenance",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCorePulseOximetry.html",
+									"title": "US Core Pulse Oximetry",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "USCoreSmokingStatusObservation.html",
+									"title": "US Core Smoking Status Observation",
+									"generation": "markdown"
+								},
+								{
+									"nameUrl": "VitalSigns.html",
+									"title": "VitalSigns",
+									"generation": "markdown"
+								}
+							]
+						}
+					]
+				},
+				{
+					"nameUrl": "UseCaseScenarios.html",
+					"title": "Use Case Scenarios",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "Provider-controlledInformationRequestsandFiltering.html",
+					"title": "Provider-controlled Information Requests and Filtering",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "CDS-Hooks.html",
+					"title": "CDS Hooks",
+					"generation": "markdown",
+					"page": [
+						{
+							"nameUrl": "WorkflowExamples.html",
+							"title": "Workflow Examples",
+							"generation": "markdown"
+						}
+					]
+				},
+				{
+					"nameUrl": "Member-AuthorizedOAuth2Exchange.html",
+					"title": "Member-Authorized OAuth2.0 Exchange",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "Credits.html",
+					"title": "Credits",
+					"generation": "markdown"
+				},
+				{
+					"nameUrl": "Downloads.html",
+					"title": "Downloads",
+					"generation": "markdown"
+				}
+			]
+		},
+		"parameter": [
+			{
+				"code": "path-resource",
+				"value": "input/capabilities"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/examples"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/extensions"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/models"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/operations"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/profiles"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/resources"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/vocabulary"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/maps"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/testing"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/history"
+			},
+			{
+				"code": "path-resource",
+				"value": "fsh-generated/resources"
+			},
+			{
+				"code": "path-tx-cache",
+				"value": "input-cache/txcache"
+			}
+		]
+	}
+}
