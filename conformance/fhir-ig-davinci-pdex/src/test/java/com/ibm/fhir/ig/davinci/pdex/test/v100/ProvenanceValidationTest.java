@@ -32,7 +32,7 @@ public class ProvenanceValidationTest {
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 0);
             Assert.assertEquals(countWarnings(issues), 0);
-            Assert.assertEquals(countInformation(issues), 2);
+            Assert.assertEquals(countInformation(issues), 1);
         }
     }
 }
