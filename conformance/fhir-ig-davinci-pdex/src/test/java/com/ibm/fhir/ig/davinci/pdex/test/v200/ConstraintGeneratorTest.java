@@ -10,7 +10,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.compile;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.PDEXResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.PDEX200ResourceProvider;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Extension;
@@ -22,7 +22,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 public class ConstraintGeneratorTest {
     @Test
     public static void testConstraintGenerator() throws Exception {
-        FHIRRegistryResourceProvider provider = new PDEXResourceProvider();
+        FHIRRegistryResourceProvider provider = new PDEX200ResourceProvider();
         for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                 String url = registryResource.getUrl();

@@ -26,13 +26,13 @@ public class ProvenanceValidationTest {
     @Test
     public void testProvenanceValidation1() throws Exception {
 
-        try (InputStream in = ProvenanceValidationTest.class.getClassLoader().getResourceAsStream("JSON/Provenance-Practitioner.json")) {
+        try (InputStream in = ProvenanceValidationTest.class.getClassLoader().getResourceAsStream("JSON/200/Provenance-Practitioner.json")) {
             Provenance provenance = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(provenance);
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 0);
             Assert.assertEquals(countWarnings(issues), 0);
-            Assert.assertEquals(countInformation(issues), 2);
+            Assert.assertEquals(countInformation(issues), 1);
         }
     }
 }
