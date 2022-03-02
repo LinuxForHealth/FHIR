@@ -1909,8 +1909,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             List<ExtractedParameterValue> collectedEPV = collectedEPVByCode.get(param);
             // If the parameter has no corresponding extracted values, log and continue
             if (collectedEPV == null) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.warning("Compartment inclusion param " + param + " has no value");
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("Compartment inclusion param " + param + " has no value");
                 }
                 continue;
             }
