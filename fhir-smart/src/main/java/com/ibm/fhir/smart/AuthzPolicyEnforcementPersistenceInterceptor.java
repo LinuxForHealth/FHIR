@@ -273,7 +273,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
 
-        if (PATIENT.equals(resourceType)) {
+        if (event.getFhirResourceId() == null) {
+            // System/type-level history
+            enforceSystemHistoryAccess(resourceType, event.getSystemHistoryContextImpl().getResourceTypes(), jwt);
+        } else if (PATIENT.equals(resourceType)) {
+            // For a Patient resource instance, check scopes for direct patient access
             enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
         } else {
             checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
@@ -302,6 +306,33 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         } else {
             // no approving scopes
             String msg = "Read permission for '" + resourceType +
+                    "' is not granted by any of the provided scopes: " + scopesFromToken;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(msg);
+            }
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        }
+    }
+
+    private void enforceSystemHistoryAccess(String resourceType, List<String> types, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
+        List<Scope> scopesFromToken = getScopesFromToken(jwt);
+        Map<ContextType, List<Scope>> groupedScopes = getScopesFromToken(jwt).stream()
+                .collect(Collectors.groupingBy(s -> s.getContextType()));
+
+        // Check for user or system access to the resource types
+        // If types specified, then check each of those, otherwise check the single type (which may be 'Resource')
+        boolean deny = false;
+        List<String> typesToCheck = types.isEmpty() ? Arrays.asList(resourceType) : types;
+        for (String type : typesToCheck) {
+            if (!isApprovedByScopes(type, Permission.READ, groupedScopes.get(ContextType.USER)) &&
+                    !isApprovedByScopes(type, Permission.READ, groupedScopes.get(ContextType.SYSTEM))) {
+                deny = true;
+            }
+        }
+
+        if (deny) {
+            String msg = "Read permission for system history of '" + typesToCheck +
                     "' is not granted by any of the provided scopes: " + scopesFromToken;
             if (log.isLoggable(Level.FINE)) {
                 log.fine(msg);

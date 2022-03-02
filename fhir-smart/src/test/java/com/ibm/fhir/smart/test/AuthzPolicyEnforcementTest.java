@@ -54,6 +54,8 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -615,6 +617,143 @@ public class AuthzPolicyEnforcementTest {
             assertTrue(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
+        }
+    }
+
+    @Test
+    public void testBeforeHistory() throws FHIRPersistenceInterceptorException {
+
+        // Valid system-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Resource]' is not granted by any of the provided scopes: [patient/*.read]");
+        }
+
+        // Valid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Valid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/Patient.read system/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Patient, Observation]' is not granted by any of the provided scopes: [patient/Patient.read, patient/Observation.read]");
+        }
+
+        // Valid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Valid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Observation]' is not granted by any of the provided scopes: [patient/Observation.read]");
         }
     }
 

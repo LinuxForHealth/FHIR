@@ -65,6 +65,14 @@ public class FHIRPersistenceEvent {
      */
     public static final String PROPNAME_SEARCH_CONTEXT_IMPL = "SEARCH_CONTEXT_IMPL";
 
+    /**
+     * This property is of type FHIRSystemHistoryContext and is the system history context
+     * associated with a system history request, but it may be null.
+     * For other operations, this property will be null.
+     */
+    public static final String PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL = "SYSTEM_HISTORY_CONTEXT_IMPL";
+
+
     private Resource fhirResource;
     private Resource prevFhirResource = null;
     private boolean  prevFhirResourceSet = false;
@@ -207,4 +215,11 @@ public class FHIRPersistenceEvent {
         return (FHIRSearchContext) getProperty(PROPNAME_SEARCH_CONTEXT_IMPL);
     }
 
+    /**
+     * Returns the FHIRSystemHistoryContext instance currently being used by the FHIR REST API layer
+     * to process the current request.
+     */
+    public FHIRSystemHistoryContext getSystemHistoryContextImpl() {
+        return (FHIRSystemHistoryContext) getProperty(PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL);
+    }
 }

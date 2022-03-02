@@ -205,7 +205,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         try {
             // Prepare the persistence event
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
+                    new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null, null));
 
             // Run the meta phase to handle ifNoneExist and update the resource meta-data
             response = doCreateMeta(event, warnings, type, resource, ifNoneExist);
@@ -444,7 +444,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         try {
             // Do the first phase, which includes updating the meta in the resource
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null));
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, id, null, null, null));
             List<Issue> warnings = new ArrayList<>();
             FHIRRestOperationResponse metaResponse = doUpdateMeta(event, type, id, patch, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation, warnings);
             if (metaResponse.isCompleted()) {
@@ -998,7 +998,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // Because we no longer store a resource payload along with the deletion marker, there's
                     // no fhirResource value set in the event.
                     FHIRPersistenceEvent event =
-                        new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
+                        new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null, null));
                     event.setPrevFhirResource(resourceToDelete);
 
                     // First, invoke the 'beforeDelete' interceptor methods.
@@ -1134,7 +1134,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeRead' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, searchContext));
+                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, id, null, searchContext, null));
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -1199,7 +1199,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeVread' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, searchContext));
+                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, versionId, searchContext, null));
             getInterceptorMgr().fireBeforeVreadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -1279,7 +1279,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeHistory' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
+                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null, null));
             getInterceptorMgr().fireBeforeHistoryEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -1359,7 +1359,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // First, invoke the 'beforeSearch' interceptor methods.
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, searchContext));
+                    new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, searchContext, null));
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRPersistenceContext persistenceContext =
@@ -2565,7 +2565,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public Map<String, Object> buildPersistenceEventProperties(String type, String id,
-            String version, FHIRSearchContext searchContext) throws FHIRPersistenceException {
+            String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext) throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, persistence);
         if (type != null) {
@@ -2579,6 +2579,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
         if (searchContext != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+        }
+        if (searchContext != null) {
+            props.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
         }
         return props;
     }
@@ -3040,7 +3043,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // First, invoke the 'beforeHistory' interceptor methods.
         FHIRPersistenceEvent event =
-                new FHIRPersistenceEvent(null, buildPersistenceEventProperties(resourceType == null ? "Resource" : resourceType, null, null, null));
+                new FHIRPersistenceEvent(null, buildPersistenceEventProperties(resourceType == null ? "Resource" : resourceType, null, null, null, historyContext));
         getInterceptorMgr().fireBeforeHistoryEvent(event);
 
         // Start a new txn in the persistence layer if one is not already active.
@@ -3291,9 +3294,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         bundleBuilder.type(BundleType.HISTORY);
         Bundle bundle = bundleBuilder.build();
 
-        event.setFhirResource(bundle);
-
         // Invoke the 'afterHistory' interceptor methods.
+        event.setFhirResource(bundle);
         getInterceptorMgr().fireAfterHistoryEvent(event);
 
         return bundle;
