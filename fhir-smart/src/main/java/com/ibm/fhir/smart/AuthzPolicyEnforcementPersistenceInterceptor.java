@@ -668,7 +668,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     /**
      * Enforce the authorizations granted by the end user in the form of scope strings.
      *
-     * @param resource the resource
+     * @param resource the resource to check
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
      * @param requiredPermission the permission required for the requested interaction
      * @param approvedScopes a list of SMART scopes associated with the request
@@ -685,7 +685,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      *
      * @param resourceType the resource type
      * @param resourceId the resource ID
-     * @param resource the resource, or null if resource was not retrieved
+     * @param resource the resource to check, or null if resource was not retrieved
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
      * @param requiredPermission the permission required for the requested interaction
      * @param approvedScopes a list of SMART scopes associated with the request
@@ -709,7 +709,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      *
      * @param resourceType the resource type
      * @param resourceId the resource ID
-     * @param resource the resource, or null if resource not retrieved
+     * @param resource the resource to check, or null if resource not retrieved
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
      * @param requiredPermission the permission required for the requested interaction
      * @param approvedScopes a list of SMART scopes associated with the request
@@ -748,54 +748,53 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         if (approvedScopeMap.containsKey(ContextType.PATIENT)) {
-            if (resource == null) {
-                // For `patient` scopes, if no resource was retrieved, then there is no way to check if the
-                // resource meets the criteria of being in the Patient compartment. This means history/search
-                // operations with 'Prefer: return=minimal' HTTP header require `user` or `system` scopes.
+            if (resource != null) {
+                if (resource instanceof Provenance) {
+                    // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
+                    // we want to allow access to if and only if the patient has access to one or more resources that it targets.
+
+                    // In the case of search, Provenance resources can be in the response bundle for two reasons:
+                    // 1. direct search
+                    // 2. _revinclude from a different resource type
+                    // For case 1, the search is already scoped to the patient compartment and therefore only approved resources should be included
+                    // For case 2, only Provenance resources which target to another resource in the response bundle will be included and therefor we
+                    // can base the access decision on those resources rather than the Provenance
+
+                    // In the case of read/vread/history, access to Provenance will be handled elsewhere;
+                    // not by its Patient compartment membership but by the membership of the resources which it targets
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine(requiredPermission.value() + " permission for 'Provenance/" + resource.getId() +
+                            "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
+                    }
+                    return true;
+                } else if (resource instanceof com.ibm.fhir.model.resource.List) {
+                    // List is another special-case:  a Patient-compartment resource type that
+                    // we may want to grant access to when it is not scoped to any particular patient (e.g. for
+                    // <a href="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition-usdf-CoveragePlan.html">Drug Formulary</a>).
+
+                    // TODO: consider double-checking that the Patient compartment inclusion criteria for List have no
+                    // patient references.  The inclusion criteria are "subject" and "source".
+                    if (resource.getMeta() != null &&
+                            resource.getMeta().getProfile().contains(Canonical.of(DAVINCI_DRUG_FORMULARY_COVERAGE_PLAN))) {
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine(requiredPermission.value() + " permission for 'List/" + resource.getId() +
+                                "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
+                        }
+                        return true;
+                    }
+                }
+
+                // Else, see if the target resource belongs to the Patient compartment of the in-context patient
+                return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
+            } else {
+                // For `patient` scopes, if no resource was retrieved, which happens with history/search
+                // operations with 'Prefer: return=minimal' HTTP header, there is no way to check if the
+                // resource meets the criteria of being in the Patient compartment.
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Unable to determine if " + requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
                         "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) + " due to resource not retrieved");
                 }
-                return false;
             }
-
-            if (resource instanceof Provenance) {
-                // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
-                // we want to allow access to if and only if the patient has access to one or more resources that it targets.
-
-                // In the case of search, Provenance resources can be in the response bundle for two reasons:
-                // 1. direct search
-                // 2. _revinclude from a different resource type
-                // For case 1, the search is already scoped to the patient compartment and therefore only approved resources should be included
-                // For case 2, only Provenance resources which target to another resource in the response bundle will be included and therefor we
-                // can base the access decision on those resources rather than the Provenance
-
-                // In the case of read/vread/history, access to Provenance will be handled elsewhere;
-                // not by its Patient compartment membership but by the membership of the resources which it targets
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(requiredPermission.value() + " permission for 'Provenance/" + resource.getId() +
-                        "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
-                }
-                return true;
-            } else if (resource instanceof com.ibm.fhir.model.resource.List) {
-                // List is another special-case:  a Patient-compartment resource type that
-                // we may want to grant access to when it is not scoped to any particular patient (e.g. for
-                // <a href="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition-usdf-CoveragePlan.html">Drug Formulary</a>).
-
-                // TODO: consider double-checking that the Patient compartment inclusion criteria for List have no
-                // patient references.  The inclusion criteria are "subject" and "source".
-                if (resource.getMeta() != null &&
-                        resource.getMeta().getProfile().contains(Canonical.of(DAVINCI_DRUG_FORMULARY_COVERAGE_PLAN))) {
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine(requiredPermission.value() + " permission for 'List/" + resource.getId() +
-                            "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
-                    }
-                    return true;
-                }
-            }
-
-            // Else, see if the target resource belongs to the Patient compartment of the in-context patient
-            return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
         }
 
         return false;

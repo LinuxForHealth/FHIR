@@ -2760,6 +2760,8 @@ This component uses the IBM FHIR Server's PersistenceInterceptor feature to auto
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 
+When the HTTP header `Prefer: return=minimal` is specified on a search or history request, only minimal resource metadata is retrieved. In those cases, either `user` or `system` SMART scopes must be used, since the resource data necessary to enforce access via `patient` SMART scopes is not available.
+
 For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/Alvearie/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
