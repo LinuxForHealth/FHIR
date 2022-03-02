@@ -6,3 +6,8 @@
  
 16 FEB 2021 - add implicit-system extension to SearchParameter-pdex-medicationdispense-status.json
  - this is a minor performance optimization that was made in relation to issue #1929
+ 
+03 MAR 2022 - update to version 2.0.0-ballot, continuous build
+ - found two bugs in the IG
+ - https://jira.hl7.org/browse/FHIR-36174
+ - https://jira.hl7.org/browse/FHIR-36176

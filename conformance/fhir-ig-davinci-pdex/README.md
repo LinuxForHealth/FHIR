@@ -1,10 +1,10 @@
-The contents in this module are from HL7 FHIR® Da Vinci Payer Data exchange Implementation Guide 0.1.18 - CI Build.
+The contents in this module are from HL7 FHIR® Da Vinci Payer Data exchange Implementation Guide version 2.0.0-ballot - CI Build.
 
-COMMIT https://github.com/HL7/davinci-epdx/commit/a8420e6db30b9831618c36308dfff3f48949a72e
+COMMIT https://github.com/HL7/davinci-epdx/commit/4cad24b1f278f9887c7076049248e43d04002fb1
 
 Downloaded from http://build.fhir.org/ig/HL7/davinci-epdx/
 
-Retrieved on 08 SEPT 2020
+Retrieved on 03 MAR 2022
 
 Check the Profiles are on the system: 
 
