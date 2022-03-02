@@ -19,8 +19,7 @@ public enum Index {
         "/spec-xml.txt",
         "/ibm-xml.txt",
         "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt",
-        "/profiles-pdex-json.txt"),
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * All JSON examples
@@ -28,8 +27,7 @@ public enum Index {
     ALL_JSON("/spec-json.txt",
         "/ibm-json.txt",
         "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt",
-        "/profiles-pdex-json.txt"),
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -84,15 +82,9 @@ public enum Index {
     /**
      * Implementation Guides examples in JSON
      */
-    PROFILES_PDEX_JSON("/profiles-pdex-json.txt"),
-
-    /**
-     * Implementation Guides examples in JSON
-     */
     ALL_PROFILES_JSON(
         "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt",
-        "/profiles-pdex-json.txt"),
+        "/profiles-pdex-plan-net-json.txt"),
 
     /**
      * Bulk Data Location examples in JSON

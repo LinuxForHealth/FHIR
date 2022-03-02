@@ -13,14 +13,14 @@ import java.util.Collection;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.PDEXResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.PDEX100ResourceProvider;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class PDEXResourceProviderTest {
     @Test
     public void testPDEXResourceProvider() {
-        FHIRRegistryResourceProvider provider = new PDEXResourceProvider();
+        FHIRRegistryResourceProvider provider = new PDEX100ResourceProvider();
         Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
         assertNotNull(registryResources);
         assertTrue(!registryResources.isEmpty());
