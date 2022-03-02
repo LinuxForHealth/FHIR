@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,15 +7,14 @@
 package com.ibm.fhir.persistence.blob;
 
 import java.util.List;
-import java.util.logging.Level;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import com.azure.core.util.BinaryData;
-import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobAsyncClient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
  * DAO command to store the configured payload in the Azure blob
@@ -48,33 +47,34 @@ public class BlobReadPayload {
     }
 
     /**
+     * Parse the downloaded content and transform into a FHIR resource
+     * @param <T>
+     * @param resourceType
+     * @param data
+     * @return
+     */
+    private static <T extends Resource> T transform(Class<T> resourceType, BinaryData data) {
+        try {
+            return FHIRPersistenceSupport.parse(resourceType, data.toStream(), null, false);
+        } catch (Exception x) {
+            throw new RuntimeException(x);
+        }
+    }
+
+    /**
      * Execute this command against the given client
      * @param resourceType
      * @param client
      * @throws FHIRPersistenceException
      */
-    public <T extends Resource> T run(Class<T> resourceType, BlobManagedContainer client) throws FHIRPersistenceException {
-        T result;
-        final StringBuilder blobNameBuilder = new StringBuilder();
-        blobNameBuilder.append(resourceTypeId);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(logicalId);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(version);
-        blobNameBuilder.append("/");
-        blobNameBuilder.append(resourcePayloadKey);
-        BlobClient bc = client.getClient().getBlobClient(blobNameBuilder.toString());
+    public <T extends Resource> CompletableFuture<T> run(Class<T> resourceType, BlobManagedContainer client) throws FHIRPersistenceException {
+        final String blobPath = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
+        logger.fine(() -> "Reading payload using storage path: " + blobPath);
+        BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
 
-        try {
-            BinaryData binaryData = bc.downloadContent();
-            InputOutputByteStream readStream = new InputOutputByteStream(binaryData.toBytes(), 0);
-            result = FHIRPersistenceSupport.parse(resourceType, readStream.inputStream(), this.elements, this.compress);
-        } catch (Exception x) {
-            logger.log(Level.SEVERE, "Error reading resource, resourceTypeId=" + resourceTypeId
-                + ", logicalId=" + logicalId);
-            throw new FHIRPersistenceException("Error reading resource payload");
-        }
-
-        return result;
+        return bc.getAppendBlobAsyncClient()
+                .downloadContent()
+                .map(data -> transform(resourceType, data))
+                .toFuture();
     }
 }

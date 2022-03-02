@@ -7,29 +7,21 @@
 package com.ibm.fhir.bulkdata.provider.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-
-import com.ibm.cloud.objectstorage.ApacheHttpClientConfig;
-import com.ibm.cloud.objectstorage.ClientConfiguration;
-import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
-import com.ibm.cloud.objectstorage.auth.AWSCredentials;
-import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
-import com.ibm.cloud.objectstorage.auth.BasicAWSCredentials;
-import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder.EndpointConfiguration;
-import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.Bucket;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
@@ -38,7 +30,7 @@ import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.operation.bulkdata.client.HttpWrapper;
+import com.ibm.fhir.operation.bulkdata.client.S3ClientGenerator;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
@@ -51,6 +43,8 @@ public class S3Provider implements Provider {
     private static final Logger logger = Logger.getLogger(S3Provider.class.getName());
 
     private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
+    
+    private static final S3ClientGenerator GENERATOR = new S3ClientGenerator();
 
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
@@ -142,44 +136,7 @@ public class S3Provider implements Provider {
      * @return
      */
     private AmazonS3 getClient(boolean iam, String cosApiKeyProperty, String cosSrvinstId, String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
-        ConfigurationAdapter configAdapter = ConfigurationFactory.getInstance();
-
-        AWSCredentials credentials;
-        if (iam) {
-            SDKGlobalConfiguration.IAM_ENDPOINT = configAdapter.getCoreIamEndpoint();
-            credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
-        } else {
-            credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
-        }
-
-        ClientConfiguration clientConfig =
-                new ClientConfiguration()
-                    .withRequestTimeout(configAdapter.getCoreCosRequestTimeout())
-                    .withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive())
-                    .withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
-
-        if (useFhirServerTrustStore) {
-            ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
-            // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
-            // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3
-            // compatible object store, e.g, minio object store with self signed cert.
-            if (configAdapter.shouldCoreApiBatchTrustAll()) {
-                apacheClientConfig.setSslSocketFactory(HttpWrapper.generateSSF());
-            } else {
-                apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
-            }
-        }
-
-        logger.fine(() -> "The Path Style access is '" + pathStyle + "'");
-
-        // A useful link for the builder describing the pathStyle:
-        // https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#withPathStyleAccessEnabled-java.lang.Boolean-
-        return AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
-                .withClientConfiguration(clientConfig)
-                .withPathStyleAccessEnabled(pathStyle)
-                .build();
+        return GENERATOR.getClient(iam, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation, useFhirServerTrustStore, pathStyle);
     }
 
     /**
@@ -408,6 +365,31 @@ public class S3Provider implements Provider {
                 chunkData.setFinishCurrentUpload(false);
                 chunkData.getCosDataPacks().clear();
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            }
+        }
+    }
+
+    @Override
+    public void pushEndOfJobOperationOutcomes(ByteArrayOutputStream baos, String folder, String fileName)
+            throws FHIRException {
+        String fn = folder  + "/" + fileName;
+
+        if (baos.size() > 0) {
+            try {
+                String uploadId = BulkDataUtils.startPartUpload(client, bucketName, fn);
+
+                PartETag tag = BulkDataUtils.multiPartUpload(client, bucketName, fn, uploadId,
+                        new ByteArrayInputStream(baos.toByteArray()), baos.size(), 1);
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("pushEndOfJobOperationOutcomes: " + baos.size()
+                            + " bytes were successfully appended to COS object - " + fn);
+                }
+                baos.reset();
+
+                BulkDataUtils.finishMultiPartUpload(client, bucketName, fn, uploadId, Arrays.asList(tag));
+            } catch (Exception e) {
+                logger.warning("Error creating a operation outcomes '" + fn + "'");
+                throw new FHIRException("Error creating a file operation outcome during $import '" + fn + "'");
             }
         }
     }

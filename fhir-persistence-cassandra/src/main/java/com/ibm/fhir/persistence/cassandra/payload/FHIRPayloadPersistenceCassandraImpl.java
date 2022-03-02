@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.cassandra.payload;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -19,6 +20,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.cassandra.CassandraPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.cql.TenantDatasourceKey;
@@ -116,5 +118,22 @@ public class FHIRPayloadPersistenceCassandraImpl implements FHIRPayloadPersisten
         
         // Wrap the PropertyGroup in an adapter to make it easier to consume
         return new CassandraPropertyGroupAdapter(dsPG);
+    }
+
+    @Override
+    public <T extends Resource> CompletableFuture<ResourceResult<? extends Resource>> readResourceAsync(Class<T> resourceType, String rowResourceTypeName,
+        int resourceTypeId, String logicalId, int version, String resourcePayloadKey, Instant lastUpdated, List<String> elements)
+        throws FHIRPersistenceException {
+
+        // synchronous for now
+        T resource = readResource(resourceType, rowResourceTypeName, resourceTypeId, logicalId, version, resourcePayloadKey, elements);
+        ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+        builder.logicalId(logicalId);
+        builder.resourceTypeName(rowResourceTypeName);
+        builder.deleted(false); // we wouldn't be fetching if the resource were deleted
+        builder.resource(resource);
+        builder.version(version);
+        builder.lastUpdated(lastUpdated);
+        return CompletableFuture.completedFuture(builder.build());
     }
 }

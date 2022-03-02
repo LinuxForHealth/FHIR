@@ -1,0 +1,54 @@
+{
+    "resourceType": "Parameters",
+    "id": "a102b002-69ef-4331-8e37-9b0bb97d9b8b",
+    "parameter": [
+        {
+            "name": "inputFormat",
+            "valueString": "application/fhir+ndjson"
+        },
+        {
+            "name": "inputSource",
+            "valueUri": "inputSource"
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Patient"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "https://test-url/b"
+                }
+            ]
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Patient"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "https://test-url/a"
+                }
+            ]
+        },
+        {
+            "name": "storageDetail",
+            "valueString": "aws-s3",
+            "part": [
+                {
+                    "name": "contentEncoding",
+                    "valueString": "text"
+                },
+                {
+                    "name": "contentEncoding",
+                    "valueString": "text/plain"
+                }
+            ]
+        }
+    ]
+}

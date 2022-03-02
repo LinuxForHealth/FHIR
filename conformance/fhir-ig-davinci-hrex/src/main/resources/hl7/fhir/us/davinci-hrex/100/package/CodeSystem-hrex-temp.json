@@ -1,0 +1,91 @@
+{
+	"resourceType": "CodeSystem",
+	"id": "hrex-temp",
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2,
+			"_valueInteger": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use",
+			"_valueCode": {
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+					}
+				]
+			}
+		}
+	],
+	"url": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+	"version": "1.0.0",
+	"name": "HRexTempCodes",
+	"title": "HRex Temporary Code System",
+	"status": "draft",
+	"date": "2022-02-24T21:01:30+00:00",
+	"publisher": "HL7 International - Clinical Interoperability Council",
+	"contact": [
+		{
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/cic"
+				}
+			]
+		}
+	],
+	"description": "Codes temporarily defined as part of the HRex implementation guide.  These will eventually migrate into an officially maintained terminology (likely HL7's UTG code systems).",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"caseSensitive": true,
+	"content": "complete",
+	"concept": [
+		{
+			"code": "data-request",
+			"display": "data request task",
+			"definition": "A type of Task asking the owner to deliver the data corresponding to the characteristics defined by the Task.inputs to the Task.beneficiary"
+		},
+		{
+			"code": "data-query",
+			"display": "data query input",
+			"definition": "Indicates the parameters of a FHIR RESTful search to be executed whose results are requested.  The content will be the query URL following the 'base'.  E.g. `Observation?...`"
+		},
+		{
+			"code": "data-code",
+			"display": "data code input",
+			"definition": "A code for a document or otherwise describing the characteristics of the information requested"
+		},
+		{
+			"code": "data-value",
+			"display": "data values output",
+			"definition": "The result of a data request"
+		},
+		{
+			"code": "UMB",
+			"display": "Member Number",
+			"definition": "A payer's unique member identifier"
+		}
+	]
+}

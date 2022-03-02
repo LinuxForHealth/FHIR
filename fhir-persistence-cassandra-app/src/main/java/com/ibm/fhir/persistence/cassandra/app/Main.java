@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +23,15 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.persistence.cassandra.cql.CreateSchema;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.reconcile.PayloadReconciliation;
+import com.ibm.fhir.persistence.jdbc.cache.ResourceTypeMaps;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ReadResourceTypesDAO;
+import com.ibm.fhir.schema.model.ResourceType;
 
 /**
  * Admin operations for the IBM FHIR Server payload offload support
@@ -56,6 +64,12 @@ public class Main {
     // The type of database we are talking to
     private DbType dbType;
     
+    // Holds a mapping between resource type ids and names
+    private ResourceTypeMaps resourceTypeMaps;
+
+    // simple transaction and database connection pool
+    private DatabaseSupport dbSupport;
+
     /**
      * Create the Cassandra keyspace and tables used to persist FHIR payloads
      * @throws Exception
@@ -186,8 +200,28 @@ public class Main {
      * @throws Exception
      */
     private void runReconciliation() throws Exception {
-        PayloadReconciliation process = new PayloadReconciliation(this.tenantId, this.dsIdArg, dbProperties, dbType, dryRun);
+        fillResourceTypeMaps();
+        PayloadReconciliation process = new PayloadReconciliation(this.tenantId, this.dsIdArg, dbSupport, this.resourceTypeMaps, dryRun);
         process.run();
+    }
+
+    /**
+     * Read the resource types from the database and populate the two lookup
+     * maps for easy conversion between resource type id and resource type name
+     */
+    private void fillResourceTypeMaps() {
+        logger.info("Filling resource type maps");
+        try (ITransaction tx = dbSupport.getTransaction()) {
+            try (Connection c = dbSupport.getConnection()) {
+                ReadResourceTypesDAO dao = new ReadResourceTypesDAO();
+                List<ResourceType> resourceTypes = dao.run(dbSupport.getTranslator(), c);
+                this.resourceTypeMaps = new ResourceTypeMaps();
+                this.resourceTypeMaps.init(resourceTypes);
+            } catch (SQLException x) {
+                tx.setRollbackOnly();
+                throw dbSupport.getTranslator().translate(x);
+            }
+        }
     }
 
     /**
@@ -222,6 +256,10 @@ public class Main {
         if (this.bootstrap) {
             bootstrapTenant();
         }
+        
+        this.dbSupport = new DatabaseSupport(dbProperties, dbType);
+        this.dbSupport.init();
+
         if (this.reconcile) {
             runReconciliation();
         }

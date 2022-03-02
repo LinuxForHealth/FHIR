@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class BlobPropertyGroupAdapter {
     public static final String PROP_CONNECTION_STRING = "connectionString";
     
     // The property name for the Azure Blob container name to use for the tenant
-    public static final String PROP_TENANT_CONTAINER = "tenantContainer";
+    public static final String PROP_CONTAINER_NAME = "containerName";
 
     // The property name for the Azure Blob command timeout in seconds
     public static final String PROP_TIMEOUT_SECS = "timeoutSecs";
@@ -53,12 +53,12 @@ public class BlobPropertyGroupAdapter {
      * Get the configured value for the keyspace to use for the tenant.
      * @return
      */
-    public String getTenantContainer() {
+    public String getContainerName() {
         try {
-            return propertyGroup.getStringProperty(PROP_TENANT_CONTAINER);
+            return propertyGroup.getStringProperty(PROP_CONTAINER_NAME);
         } catch (Exception x) {
-            logger.log(Level.SEVERE, PROP_TENANT_CONTAINER, x);
-            throw new IllegalArgumentException("Property group not configured " + PROP_TENANT_CONTAINER);
+            logger.log(Level.SEVERE, PROP_CONTAINER_NAME, x);
+            throw new IllegalArgumentException("Property group not configured " + PROP_CONTAINER_NAME);
         }
     }
 

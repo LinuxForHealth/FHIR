@@ -90,7 +90,6 @@ public class FHIRRestHelperTest {
                 .details(CodeableConcept.builder()
                     .text(string("The create request resource included id: '1'; this id has been replaced"))
                     .build())
-                .expression(string("<no expression>"))
                 .build())
             .build();
     public static final OperationOutcome NO_NARRATIVE = OperationOutcome.builder()

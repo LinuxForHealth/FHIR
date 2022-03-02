@@ -8,20 +8,19 @@ package com.ibm.fhir.persistence.cassandra.reconcile;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.ITransaction;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.pool.DatabaseSupport;
 import com.ibm.fhir.persistence.cassandra.cql.DatasourceSessions;
 import com.ibm.fhir.persistence.cassandra.payload.CqlDeletePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
+import com.ibm.fhir.persistence.jdbc.dao.api.ResourceRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceExistsDAO;
 
 /**
  * Implements an algorithm to scan the offload persistence store and check
@@ -47,23 +46,23 @@ public class PayloadReconciliation {
     // Tracking how many resource versions we process
     private long totalProcessed = 0;
     
-    // Simple map cache of resource type id to name
-    final Map<Integer,String> resourceTypeMap = new HashMap<>();
+    // Mapping between resource type id and name
+    final IResourceTypeMaps resourceTypeMaps;
     
     /**
      * Public constructor
      * @param tenantId
      * @param dsId
-     * @param dbProperties
-     * @param dbType
+     * @param dbSupport
+     * @param resourceTypeMaps
      * @param dryRun
      */
-    public PayloadReconciliation(String tenantId, String dsId, Properties dbProperties, DbType dbType, boolean dryRun) {
+    public PayloadReconciliation(String tenantId, String dsId, DatabaseSupport dbSupport, IResourceTypeMaps resourceTypeMaps, boolean dryRun) {
         this.tenantId = tenantId;
         this.dsId = dsId;
         this.dryRun = dryRun;
-        this.dbSupport = new DatabaseSupport(dbProperties, dbType);
-        this.dbSupport.init();
+        this.resourceTypeMaps = resourceTypeMaps;
+        this.dbSupport = dbSupport;
     }
 
     /**
@@ -125,7 +124,7 @@ public class PayloadReconciliation {
         // Check that we have the resource in the RDBMS configured for
         // this tenant
         try {
-            ResourceExistsDAO dao = new ResourceExistsDAO(this.resourceTypeMap, 
+            ResourceExistsDAO dao = new ResourceExistsDAO(this.resourceTypeMaps, 
                 record.getResourceTypeId(), record.getLogicalId(), record.getVersion(), 
                 record.getResourcePayloadKey());
             if (dao.run(connection)) {

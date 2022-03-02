@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -76,7 +76,7 @@ public class ImportOperation extends AbstractOperation {
 
         Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null, inputFormat);
         preflight.checkStorageAllowed(storageDetail);
-        preflight.preflight();
+        preflight.preflight(true);
         return BulkDataFactory.getInstance(operationContext, true)
                 .importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
     }

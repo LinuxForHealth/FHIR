@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.cos.payload;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -17,6 +18,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
+import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.client.CosPropertyGroupAdapter;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
@@ -128,5 +130,22 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
             throw new IllegalStateException("Could not locate configuration property group: " + dsPropertyName);
         }
         return new CosPropertyGroupAdapter(dsPG);
+    }
+
+    @Override
+    public <T extends Resource> CompletableFuture<ResourceResult<? extends Resource>> readResourceAsync(Class<T> resourceType, String rowResourceTypeName,
+        int resourceTypeId, String logicalId, int version, String resourcePayloadKey, Instant lastUpdated, List<String> elements)
+        throws FHIRPersistenceException {
+
+        // synchronous read because the current COS SDK doesn't support async
+        T resource = readResource(resourceType, rowResourceTypeName, resourceTypeId, logicalId, version, resourcePayloadKey, elements);
+        ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+        builder.logicalId(logicalId);
+        builder.resourceTypeName(rowResourceTypeName);
+        builder.deleted(false); // we wouldn't be fetching if the resource were deleted
+        builder.resource(resource);
+        builder.version(version);
+        builder.lastUpdated(lastUpdated);
+        return CompletableFuture.completedFuture(builder.build());
     }
 }

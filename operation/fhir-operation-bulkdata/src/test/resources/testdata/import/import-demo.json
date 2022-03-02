@@ -38,7 +38,7 @@
         },
         {
             "name": "storageDetail",
-            "valueString": "https",
+            "valueString": "ibm-cos",
             "part": [
                 {
                     "name": "contentEncoding",
@@ -47,20 +47,6 @@
                 {
                     "name": "contentEncoding",
                     "valueString": "text"
-                }
-            ]
-        },
-        {
-            "name": "storageDetail",
-            "valueString": "https",
-            "part": [
-                {
-                    "name": "contentEncoding",
-                    "valueString": "text"
-                },
-                {
-                    "name": "contentEncoding",
-                    "valueString": "text/plain"
                 }
             ]
         }

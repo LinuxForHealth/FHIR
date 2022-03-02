@@ -1,0 +1,1294 @@
+{
+	"resourceType": "ImplementationGuide",
+	"id": "hl7.fhir.us.davinci-hrex",
+	"meta": {
+		"versionId": "97",
+		"lastUpdated": "2019-06-20T04:25:13.000-04:00"
+	},
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "trial-use"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 2
+		}
+	],
+	"url": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex",
+	"version": "1.0.0",
+	"name": "DaVinciHealthRecordExchangeHRex",
+	"title": "Da Vinci Health Record Exchange (HRex)",
+	"status": "active",
+	"experimental": false,
+	"date": "2022-02-24T21:01:30+00:00",
+	"publisher": "HL7 International - Clinical Interoperability Council",
+	"contact": [
+		{
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/cic"
+				}
+			]
+		}
+	],
+	"description": "The Da Vinci Payer Health Record exchange (HRex) Framework/library specifies the FHIR elements used in multiple Da Vinci implementation guides. This includes FHIR profiles, functions, operations, and constraints on other specifications such as CDS-Hooks and other aspects of Da Vinci Use Cases that are common across more than a single use case.\n\nDa Vinci HRex Implementation Guide (IG) will make use of US Core profiles that are based on the FHIR R4 specification wherever practical. The HRex IG will use the HL7 FHIR Release 4/US Core STU3 specification as its base but will provide additional guidance and documentation to support implementations that follow the HL7 FHIR STU3/US Core STU2 and HL7 FHIR DSTU2/Argonaut specifications.\n\nThe HRex profiles documented in this IG will be used to exchange data between providers systems (e.g. EHRs) and other providers, payers, and third-party applications where appropriate. In addition, exchanges from payer systems to providers, other payers, and third-party applications are supported by the HRex profiles and operations.\n\nHRex may define new extensions, profiles, value sets, constraints/extension to other specification (e.g. specific CDS-Hooks) that are specific Da Vinci requirements. Where appropriate these Da Vinci specific artifacts will be promoted for incorporation into the future versions of existing standards (e.g. R4 US Core profiles) and deprecated in this guide on publication in the updated standard.",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"packageId": "hl7.fhir.us.davinci-hrex",
+	"license": "CC0-1.0",
+	"fhirVersion": [
+		"4.0.1"
+	],
+	"dependsOn": [
+		{
+			"id": "uscore",
+			"uri": "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
+			"packageId": "hl7.fhir.us.core",
+			"version": "3.1.1"
+		},
+		{
+			"id": "udap",
+			"uri": "http://hl7.org/fhir/us/udap-security/ImplementationGuide/hl7.fhir.us.udap-security",
+			"packageId": "hl7.fhir.us.udap-security",
+			"version": "0.1.0"
+		}
+	],
+	"definition": {
+		"extension": [
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "copyrightyear"
+					},
+					{
+						"url": "value",
+						"valueString": "2019+"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "releaselabel"
+					},
+					{
+						"url": "value",
+						"valueString": "STU R1"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-expansion-params"
+					},
+					{
+						"url": "value",
+						"valueString": "terminology-settings.json"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "autoload-resources"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-liquid"
+					},
+					{
+						"url": "value",
+						"valueString": "template/liquid"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-liquid"
+					},
+					{
+						"url": "value",
+						"valueString": "input/liquid"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-qa"
+					},
+					{
+						"url": "value",
+						"valueString": "temp/qa"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-temp"
+					},
+					{
+						"url": "value",
+						"valueString": "temp/pages"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-output"
+					},
+					{
+						"url": "value",
+						"valueString": "output"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-suppressed-warnings"
+					},
+					{
+						"url": "value",
+						"valueString": "input/ignoreWarnings.txt"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "path-history"
+					},
+					{
+						"url": "value",
+						"valueString": "http://hl7.org/fhir/us/davinci-hrex/history.html"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "template-html"
+					},
+					{
+						"url": "value",
+						"valueString": "template-page.html"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "template-md"
+					},
+					{
+						"url": "value",
+						"valueString": "template-page-md.html"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-contact"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-context"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-copyright"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-jurisdiction"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-license"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-publisher"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "apply-version"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "active-tables"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "fmm-definition"
+					},
+					{
+						"url": "value",
+						"valueString": "http://hl7.org/fhir/versions.html#maturity"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			},
+			{
+				"extension": [
+					{
+						"url": "code",
+						"valueString": "propagate-status"
+					},
+					{
+						"url": "value",
+						"valueString": "true"
+					}
+				],
+				"url": "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter"
+			}
+		],
+		"resource": [
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Coverage"
+					}
+				],
+				"reference": {
+					"reference": "Coverage/full"
+				},
+				"name": "HRex Coverage full example",
+				"description": "An example showing a fully populated HRex Coverage instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Coverage"
+					}
+				],
+				"reference": {
+					"reference": "Coverage/min"
+				},
+				"name": "HRex Coverage minimal example",
+				"description": "An example showing a minimally populated HRex Coverage instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Organization"
+					}
+				],
+				"reference": {
+					"reference": "Organization/full"
+				},
+				"name": "HRex Organization full example",
+				"description": "An example showing a fully populated HRex Organization provider instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Organization"
+					}
+				],
+				"reference": {
+					"reference": "Organization/min"
+				},
+				"name": "HRex Organization minimal example",
+				"description": "An example showing a minimally populated HRex Organization provider instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Parameters"
+					}
+				],
+				"reference": {
+					"reference": "Parameters/member-match-in"
+				},
+				"name": "$member-match payer example request",
+				"description": "A Parameters instance showing what the input to the $member-match operation would look like when initiated by a payer system",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Parameters"
+					}
+				],
+				"reference": {
+					"reference": "Parameters/member-match-out"
+				},
+				"name": "$member-match example response",
+				"description": "A Parameters instance showing what the result of a $member-match operation would look like when initiated by a payer system",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Parameters"
+					}
+				],
+				"reference": {
+					"reference": "Parameters/member-match-in-provider"
+				},
+				"name": "$member-match provider example request",
+				"description": "A Parameters instance showing what the input to the $member-match operation would look like when initiated by a provider system",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Practitioner"
+					}
+				],
+				"reference": {
+					"reference": "Practitioner/full"
+				},
+				"name": "HRex Practitioner full example",
+				"description": "An example showing a fully populated HRex Practitioner instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Practitioner"
+					}
+				],
+				"reference": {
+					"reference": "Practitioner/min"
+				},
+				"name": "HRex Practitioner minimal example",
+				"description": "An example showing a minimally populated HRex Practitioner instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "PractitionerRole"
+					}
+				],
+				"reference": {
+					"reference": "PractitionerRole/full"
+				},
+				"name": "HRex PractitionerRole full example",
+				"description": "An example showing a fully populated HRex PractitionerRole instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitionerrole"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "PractitionerRole"
+					}
+				],
+				"reference": {
+					"reference": "PractitionerRole/min"
+				},
+				"name": "HRex PractitionerRole min example",
+				"description": "An example showing a minimally populated HRex PractitionerRole instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitionerrole"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/full"
+				},
+				"name": "HRex Provenance full example",
+				"description": "An example showing a fully populated HRex Provenance instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Provenance"
+					}
+				],
+				"reference": {
+					"reference": "Provenance/min"
+				},
+				"name": "HRex Provenance min example",
+				"description": "An example showing a minimally populated HRex Provenance instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-provenance"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Task"
+					}
+				],
+				"reference": {
+					"reference": "Task/min"
+				},
+				"name": "HRex Task minimal example",
+				"description": "An example showing a minimally populated HRex Task Data Request instance",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Task"
+					}
+				],
+				"reference": {
+					"reference": "Task/query-initial"
+				},
+				"name": "HRex Task Data Request - initial query example",
+				"description": "An example showing the initial view of a 'query' data request",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Task"
+					}
+				],
+				"reference": {
+					"reference": "Task/query-status"
+				},
+				"name": "HRex Task Data Request - status query example",
+				"description": "An example showing a 'query' data request task after it has been accepted and is showing a 'progress' status",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Task"
+					}
+				],
+				"reference": {
+					"reference": "Task/query-complete"
+				},
+				"name": "HRex Task Data Request - completed query example",
+				"description": "An example showing a 'query' data request task once it has results - as a contained searchset Bundle",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Task"
+					}
+				],
+				"reference": {
+					"reference": "Task/document-complete"
+				},
+				"name": "HRex Task Data Request - completed document example",
+				"description": "An example showing a 'code' data request task once it has results - as references to the relevant documents",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Bundle"
+					}
+				],
+				"reference": {
+					"reference": "Bundle/subscription-notification-with-data"
+				},
+				"name": "HRex Task Subscription Notification - completed query example",
+				"description": "An example showing the subscription notification for a 'query' data request task that includes data",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Bundle"
+					}
+				],
+				"reference": {
+					"reference": "Bundle/subscription-notification-with-document"
+				},
+				"name": "HRex Task Subscription Notification - completed document example",
+				"description": "An example showing the subscription notification for a 'document' data request task that includes data",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "Bundle"
+					}
+				],
+				"reference": {
+					"reference": "Bundle/task-poll-response"
+				},
+				"name": "HRex Task polling response",
+				"description": "An example showing a polling response monitoring a completed 'document' task",
+				"exampleBoolean": true
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-coverage-identifier"
+				},
+				"name": "Coverage identifier Search Parameter",
+				"description": "The primary identifier of the insured and the coverage\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-coverage-patient"
+				},
+				"name": "Coverage patient Search Parameter",
+				"description": "Retrieve coverages for a patient\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-coverage-payor"
+				},
+				"name": "Coverage payer Search Parameter",
+				"description": "The identity of the insurer or party paying for services\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-coverage-subscriber"
+				},
+				"name": "Coverage subscriber Search Parameter",
+				"description": "Reference to the subscriber\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-coverage-subscriberId"
+				},
+				"name": "Coverage subscriberId Search Parameter",
+				"description": "ID assigned to the subscriber\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "SearchParameter"
+					}
+				],
+				"reference": {
+					"reference": "SearchParameter/hrex-provenance-target"
+				},
+				"name": "Provenance target Search Parameter",
+				"description": "Target Reference(s) (usually version specific)\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ClaimResponse"
+					}
+				],
+				"reference": {
+					"reference": "ClaimResponse/UnsolicitedReferralAuthorizationResponseExample"
+				},
+				"name": "Unsolicited Prior Authorization example",
+				"description": "Example of an unsolicited prior authorization",
+				"exampleCanonical": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-claimresponse"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-provenance"
+				},
+				"name": "HRex Provenance Profile",
+				"description": "Additional constraints on US Core Provenance to ensure it meets payer needs, including indicating when the event occurred and retaining signatures if present"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-coverage"
+				},
+				"name": "HRex Coverage Profile",
+				"description": "The HRex Coverage Profile defines the constraints for representing a member's healthcare insurance information to the Payer.  Coverage instances complying with this profile, sometimes together with the Patient which this profile references via `beneficiary`, allows a payer to identify a member in their system."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-practitioner"
+				},
+				"name": "HRex Practitioner Profile",
+				"description": "Constraints on the US Core Practitioner profiles requiring support for qualification and requiring support for an additional identifier type"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/hrex-task-status"
+				},
+				"name": "HRex Task Status ValueSet",
+				"description": "The set of task codes allowed for use in HRex data request tasks"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-practitionerrole"
+				},
+				"name": "HRex PractitionerRole Profile",
+				"description": "Constraints on the US Core PractitionerRole requiring the use of Da Vinci Organization and Practitioner"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "ValueSet"
+					}
+				],
+				"reference": {
+					"reference": "ValueSet/hrex-consent-policy"
+				},
+				"name": "HRex Consent Policy ValueSet",
+				"description": "The set of policy URIs for use in HRex data disclosureconsent assertions"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-parameters-member-match-out"
+				},
+				"name": "HRex Parameters - Member Match Response Profile",
+				"description": "The Parameters profile for Da Vinci Find Member using Identifier datatype Response.  The old health plan **SHALL** return the following data if records for member are found: \n * The unique member identifier (denoted through identifier parameter) submitted by the new health plan."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-claimresponse"
+				},
+				"name": "HRex Prior authorization",
+				"description": "This profile specifies constraints on ClaimResponse resource to reflect the contents of a pro-active prior authorization returned via a card"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "OperationDefinition"
+					}
+				],
+				"reference": {
+					"reference": "OperationDefinition/member-match"
+				},
+				"name": "HRex Member Match Operation",
+				"description": "The **$member-match** operation allows one health plan to retrieve a unique identifier for a member from another health plan using a member's demographic and coverage information.  This identifier can then be used to perform subsequent queries and operations. Members implementing a deterministic match will require a match on member id or subscriber id at a minimum.  (I.e. A pure demographic match will not be supported by such implementations.)"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemTraceNumber"
+				},
+				"name": "Item Trace Number",
+				"description": "Uniquely identifies this claim item. (2000F-TRN)"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-organization"
+				},
+				"name": "HRex Organization Profile",
+				"description": "Additional Da Vinci constraints on organization - to represent either provider organizations or payers"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-consent"
+				},
+				"name": "HRex Consent Profile",
+				"description": "The HRex Consent Profile defines the constraints for representing a member's to the sharing of their healthcare information to other organizations."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-parameters-member-match-in"
+				},
+				"name": "HRex Parameters - Member Match Request Profile",
+				"description": "The Parameters profile for Da Vinci Find Member using Patient and Coverage Resources Request. The resource must contain: \n * MemberPatient - US Core Patient containing member demographics \n  * CoverageToMatch - details of prior health plan coverage provided by the member, typically from their health plan coverage card \n  * CoverageToLink - details of new or prospective health plan coverage, provided by the health plan based upon the member's enrolment"
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "CodeSystem"
+					}
+				],
+				"reference": {
+					"reference": "CodeSystem/hrex-temp"
+				},
+				"name": "HRex Temporary Code System",
+				"description": "Codes temporarily defined as part of the HRex implementation guide.  These will eventually migrate into an officially maintained terminology (likely HL7's UTG code systems)."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemAuthorizedDate"
+				},
+				"name": "Authorized Date",
+				"description": "The date/period by which the item that is pre-authorized must be completed."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemPreAuthIssueDate"
+				},
+				"name": "Pre Authorized Issue Date",
+				"description": "The date when this item's preauthorization was issued."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:extension"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/extension-itemAuthorizedProvider"
+				},
+				"name": "Authorized Provider",
+				"description": "The specific provider who has been authorized to provide this item."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-patient-demographics"
+				},
+				"name": "HRex Patient Demographics",
+				"description": "Defines constraints on the patient resource for the minimal set of data to query and retrieve patient demographic information."
+			},
+			{
+				"extension": [
+					{
+						"url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+						"valueString": "StructureDefinition:resource"
+					}
+				],
+				"reference": {
+					"reference": "StructureDefinition/hrex-task-data-request"
+				},
+				"name": "HRex Task Data Request Profile",
+				"description": "This Task profile is used to solicit information from a system when direct query is not possible and human intervention might be required"
+			}
+		],
+		"page": {
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+					"valueCode": "informative"
+				}
+			],
+			"nameUrl": "index.html",
+			"title": "Home",
+			"generation": "markdown",
+			"page": [
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "fhir.html",
+					"title": "FHIR Introduction",
+					"generation": "markdown"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "exchanging.html",
+					"title": "Approaches to Exchanging FHIR Data",
+					"generation": "html",
+					"page": [
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-search.html",
+							"title": "Exchanging with FHIR search",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-rest.html",
+							"title": "Exchanging with FHIR REST",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-subscription.html",
+							"title": "Exchanging with FHIR subscription",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-polling.html",
+							"title": "Exchanging with polling",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-operation.html",
+							"title": "Exchanging with FHIR operations",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-messaging.html",
+							"title": "Exchanging with messaging",
+							"generation": "html"
+						},
+						{
+							"extension": [
+								{
+									"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+									"valueCode": "informative"
+								}
+							],
+							"nameUrl": "exchanging-request.html",
+							"title": "Exchanges allowing human intervention",
+							"generation": "html"
+						}
+					]
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "conformance.html",
+					"title": "Conformance Expectations",
+					"generation": "html"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "davinci-guiding-principles.html",
+					"title": "Da Vinci Guiding Principles",
+					"generation": "html"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "security.html",
+					"title": "Security and Privacy",
+					"generation": "html"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "task.html",
+					"title": "Task-based queries",
+					"generation": "markdown"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "smart-app-reg.html",
+					"title": "Dynamic Registration for SMART Apps",
+					"generation": "markdown"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "profiles.html",
+					"title": "Profile overview",
+					"generation": "html"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "searchparameters.html",
+					"title": "Search Parameters overview",
+					"generation": "markdown"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "artifacts.html",
+					"title": "Artifact List",
+					"generation": "html"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "downloads.html",
+					"title": "Downloads",
+					"generation": "markdown"
+				},
+				{
+					"extension": [
+						{
+							"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+							"valueCode": "informative"
+						}
+					],
+					"nameUrl": "tools.html",
+					"title": "Tooling and Support",
+					"generation": "markdown"
+				}
+			]
+		},
+		"parameter": [
+			{
+				"code": "path-resource",
+				"value": "input/capabilities"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/examples"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/extensions"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/models"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/operations"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/profiles"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/resources"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/vocabulary"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/maps"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/testing"
+			},
+			{
+				"code": "path-resource",
+				"value": "input/history"
+			},
+			{
+				"code": "path-resource",
+				"value": "fsh-generated/resources"
+			},
+			{
+				"code": "path-pages",
+				"value": "template/config"
+			},
+			{
+				"code": "path-pages",
+				"value": "input/images"
+			},
+			{
+				"code": "path-tx-cache",
+				"value": "input-cache/txcache"
+			}
+		]
+	}
+}
