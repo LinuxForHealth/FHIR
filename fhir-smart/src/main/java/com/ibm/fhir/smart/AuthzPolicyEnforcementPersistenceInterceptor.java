@@ -478,12 +478,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         if (event.getFhirResource() instanceof Bundle) {
-            for ( Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
+            for (Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
+                String resourceType = getResourceType(entry);
+                String resourceId = getResourceId(entry);
                 Resource resource = entry.getResource();
-
                 if (resource != null) {
                     enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-                    enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+                }
+                if (resourceType != null && resourceId != null) {
+                    enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
                 }
             }
         } else {
@@ -596,9 +599,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         if (event.getFhirResource() instanceof Bundle) {
-            for ( Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry() ) {
-                if (entry.getResource() != null) {
-                    enforce(entry.getResource(), patientIdFromToken, Permission.READ, scopesFromToken);
+            for (Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
+                String resourceType = getResourceType(entry);
+                String resourceId = getResourceId(entry);
+                if (resourceType != null && resourceId != null) {
+                    enforce(resourceType, resourceId, entry.getResource(), patientIdFromToken, Permission.READ, scopesFromToken);
                 }
             }
         } else {
@@ -663,17 +668,34 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     /**
      * Enforce the authorizations granted by the end user in the form of scope strings.
      *
-     * @param resource the resource to check
+     * @param resource the resource
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
-     * @param requiredPermission
+     * @param requiredPermission the permission required for the requested interaction
      * @param approvedScopes a list of SMART scopes associated with the request
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
     private void enforce(Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
             throws FHIRPersistenceInterceptorException {
-        if (!isAllowed(resource, contextIds, requiredPermission, approvedScopes)) {
+        Objects.requireNonNull(resource, "resource");
+        enforce(resource.getClass().getSimpleName(), resource.getId(), resource, contextIds, requiredPermission, approvedScopes);
+    }
+
+    /**
+     * Enforce the authorizations granted by the end user in the form of scope strings.
+     *
+     * @param resourceType the resource type
+     * @param resourceId the resource ID
+     * @param resource the resource, or null if resource was not retrieved
+     * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
+     * @param requiredPermission the permission required for the requested interaction
+     * @param approvedScopes a list of SMART scopes associated with the request
+     * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
+     */
+    private void enforce(String resourceType, String resourceId, Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
+            throws FHIRPersistenceInterceptorException {
+        if (!isAllowed(resourceType, resourceId, resource, contextIds, requiredPermission, approvedScopes)) {
             if (log.isLoggable(Level.FINE)) {
-                log.fine(requiredPermission.value() + " permission for '" + resource.getClass().getSimpleName() + "/" + resource.getId() +
+                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
                         "' is not granted by any of the provided scopes: " + approvedScopes +
                         " with context id(s): " + contextIds);
             }
@@ -685,18 +707,20 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     /**
      * Determine whether authorization to a given resource is granted by the end user in the form of scope strings.
      *
-     * @param resource the resource to check
+     * @param resourceType the resource type
+     * @param resourceId the resource ID
+     * @param resource the resource, or null if resource not retrieved
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
-     * @param requiredPermission
+     * @param requiredPermission the permission required for the requested interaction
      * @param approvedScopes a list of SMART scopes associated with the request
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
-    private boolean isAllowed(Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
+    private boolean isAllowed(String resourceType, String resourceId, Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
             throws FHIRPersistenceInterceptorException {
-        Objects.requireNonNull(resource, "resource");
+        Objects.requireNonNull(resourceType, "resourceType");
+        Objects.requireNonNull(resourceId, "resourceId");
         Objects.requireNonNull(contextIds, "contextIds");
 
-        String resourceType = resource.getClass().getSimpleName();
         Map<ContextType, List<Scope>> approvedScopeMap = approvedScopes.stream()
                 // First filter the list to only scopes which grant the required permissions on the passed resourceType
                 .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE ||
@@ -707,7 +731,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         if (approvedScopeMap.containsKey(ContextType.SYSTEM)) {
             if (log.isLoggable(Level.FINE)) {
-                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resource.getId() +
+                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
                     "' is granted via scope " + approvedScopeMap.get(ContextType.SYSTEM));
             }
             return true;
@@ -717,13 +741,24 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             // For `user` scopes, we grant access to all resources of the requested type.
             // Implementers that use these scopes are encouraged to layer on their own permissions model beyond this.
             if (log.isLoggable(Level.FINE)) {
-                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resource.getId() +
+                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
                     "' is granted via scope " + approvedScopeMap.get(ContextType.USER));
             }
             return true;
         }
 
         if (approvedScopeMap.containsKey(ContextType.PATIENT)) {
+            if (resource == null) {
+                // For `patient` scopes, if no resource was retrieved, then there is no way to check if the
+                // resource meets the criteria of being in the Patient compartment. This means history/search
+                // operations with 'Prefer: return=minimal' HTTP header require `user` or `system` scopes.
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Unable to determine if " + requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
+                        "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) + " due to resource not retrieved");
+                }
+                return false;
+            }
+
             if (resource instanceof Provenance) {
                 // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
                 // we want to allow access to if and only if the patient has access to one or more resources that it targets.
@@ -925,5 +960,41 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Gets the resource type of the resource represented in the bundle entry.
+     * @param entry the bundle entry
+     * @return the resource type, or null
+     */
+    private String getResourceType(Bundle.Entry entry) {
+        Resource resource = entry.getResource();
+        if (resource != null) {
+            return resource.getClass().getSimpleName();
+        } else if (entry.getFullUrl() != null && entry.getFullUrl().getValue() != null) {
+            String[] urlParts = entry.getFullUrl().getValue().split("/");
+            if (urlParts.length > 1) {
+                return urlParts[urlParts.length - 2];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets the resource ID of the resource represented in the bundle entry.
+     * @param entry the bundle entry
+     * @return the resource ID, or null
+     */
+    private String getResourceId(Bundle.Entry entry) {
+        Resource resource = entry.getResource();
+        if (resource != null) {
+            return resource.getId();
+        } else if (entry.getFullUrl() != null && entry.getFullUrl().getValue() != null) {
+            String[] urlParts = entry.getFullUrl().getValue().split("/");
+            if (urlParts.length > 1) {
+                return urlParts[urlParts.length - 1];
+            }
+        }
+        return null;
     }
 }
