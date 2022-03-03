@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -82,7 +82,7 @@ public class ProfileValidationConfigTest {
 
     @BeforeClass
     void setup() throws FHIRException {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
         FHIRRequestContext.get().setTenantId("profileValidationConfigTest");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();

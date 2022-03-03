@@ -78,7 +78,7 @@ public class EraseTest {
 
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
         compartmentHelper = new CompartmentUtil();
     }
 

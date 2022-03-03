@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
     @Override
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
     private void setRequestContext(String tenant) throws FHIRException {

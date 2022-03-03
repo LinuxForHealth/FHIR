@@ -116,7 +116,7 @@ public class MemberMatchTest {
 
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
     public void createContext(String tenant) throws FHIRException {

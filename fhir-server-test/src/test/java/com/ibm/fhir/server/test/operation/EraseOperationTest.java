@@ -198,8 +198,8 @@ public class EraseOperationTest extends FHIRServerTestBase {
             boolean patient, boolean reason, String reasonMsg) {
         Parameters requestBody = generateParameters(patient, reason, reasonMsg, Optional.empty());
         if (DEBUG) {
-            System.out.println("Invoking $erase on " + resourceType + "/" + logicalId +
-                    " with the following: " + requestBody);
+            System.out.println("Invoking $erase on '" + resourceType + "/" + logicalId +
+                    "' with the following: " + requestBody);
         }
 
         Entity<Parameters> entity = Entity.entity(requestBody, FHIRMediaType.APPLICATION_FHIR_JSON);

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.search.parameters;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -40,7 +41,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         Set<SearchParameter> params = ParametersUtil.getAllSearchParameters();
         assertNotNull(params);
         // Intentionally the data is captured in the bytearray output stream.
-        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
+        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true, UTF_8);) {
             parametersHelper.print(out);
             Assert.assertNotNull(outBA);
         }
@@ -50,7 +51,7 @@ public class ParametersUtilTest extends BaseSearchTest {
     @Test
     public void testPrint() {
         // Test the output, OK, if it gets through.
-        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
+        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true, UTF_8);) {
             parametersHelper.print(out);
             assertNotNull(outBA);
             assertNotNull(outBA.toByteArray());

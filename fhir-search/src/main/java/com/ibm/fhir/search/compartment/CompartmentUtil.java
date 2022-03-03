@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
@@ -61,13 +62,20 @@ public class CompartmentUtil {
         buildMaps(compartmentMap, resourceCompartmentMap);
 
         if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("\nbuilt compartmentMap: ");
-            for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
-                LOG.fine(entry.getKey() + ": " + entry.getValue().getResourceTypesInCompartment());
+            LOG.fine("built compartmentMap with keys: " + compartmentMap.keySet());
+            if (LOG.isLoggable(Level.FINER)) {
+                for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
+                    CompartmentCache cc = entry.getValue();
+                    Map<String, List<String>> paramsByResourceType = cc.getResourceTypesInCompartment().stream()
+                        .collect(Collectors.toMap(t -> t, t -> cc.getParametersByResourceTypeInCompartment(t)));
+                    LOG.finer(entry.getKey() + ": " + paramsByResourceType);
+                }
             }
-            LOG.fine("\nbuilt resourceCompartmentMap with keys: " + resourceCompartmentMap.keySet());
-            for (Entry<String, ResourceCompartmentCache> entry : resourceCompartmentMap.entrySet()) {
-                LOG.fine(entry.getKey() + ": " + entry.getValue().getCompartmentReferenceParams().values());
+            LOG.fine("built resourceCompartmentMap with keys: " + resourceCompartmentMap.keySet());
+            if (LOG.isLoggable(Level.FINER)) {
+                for (Entry<String, ResourceCompartmentCache> entry : resourceCompartmentMap.entrySet()) {
+                    LOG.finer(entry.getKey() + ": " + entry.getValue().getCompartmentReferenceParams());
+                }
             }
         }
     }
@@ -79,13 +87,13 @@ public class CompartmentUtil {
      * @param compMap map of compartment name to CompartmentCache
      * @param resourceCompMap map of resource type name to ResourceCompartmentCache
      */
-    public final void buildMaps(Map<String, CompartmentCache> compMap, Map<String, ResourceCompartmentCache> resourceCompMap) {
+    public static final void buildMaps(Map<String, CompartmentCache> compMap, Map<String, ResourceCompartmentCache> resourceCompMap) {
         Objects.requireNonNull(compMap, "compMap");
         Objects.requireNonNull(compMap, "resourceCompMap");
 
         Collection<CompartmentDefinition> definitions = FHIRRegistry.getInstance().getResources(CompartmentDefinition.class);
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.fine("using the following compartment definitions from the registry: " + definitions);
+        if (LOG.isLoggable(Level.FINER)) {
+            LOG.finer("using the following compartment definitions from the registry: " + definitions);
         }
 
         for (CompartmentDefinition compartmentDefinition : definitions) {

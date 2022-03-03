@@ -84,6 +84,9 @@ import com.ibm.fhir.term.util.ValueSetSupport;
 /**
  * Search utilities for the IBM FHIR Server.<br>
  * This class must be initialized via {@link SearchUtil#init()} before it can be used.
+ *
+ * @implNote Initialization is *not* thread safe, so care must be taken to avoid calling initialization
+ * while other threads are using the class.
  */
 public class SearchUtil {
     private static final String CLASSNAME = SearchUtil.class.getName();
