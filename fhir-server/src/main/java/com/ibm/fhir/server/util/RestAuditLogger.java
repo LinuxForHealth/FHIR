@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -394,15 +395,18 @@ public class RestAuditLogger {
         if (requestBundle != null) {
             // We need the requestBundle so we know what the request was for at this point.
             // We don't have a "request" field otherwise
-            for (Entry bundleEntry : requestBundle.getEntry()) {
+            Iterator<Bundle.Entry> iter = requestBundle.getEntry().iterator();
+            for (Entry bundleEntry : responseBundle.getEntry()) {
+                Bundle.Entry requestEntry = iter.next();
+
                 AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
 
-                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
-                if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
-                    boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
-                                            || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
+                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus); 
+                if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
+                    boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
+                                            || requestEntry.getRequest().getUrl().getValue().contains("/%24");
                     String action = "E";
-                    HTTPVerb requestMethod = bundleEntry.getRequest().getMethod();
+                    HTTPVerb requestMethod = requestEntry.getRequest().getMethod();
                     switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                     case GET:
                         if (operation) {
@@ -411,6 +415,7 @@ public class RestAuditLogger {
                                 .resourcesExecuted(1)
                                 .build());
                         } else {
+                            action = "R";
                             entry.getContext()
                                 .setBatch(Batch.builder()
                                 .resourcesRead(1)
@@ -424,6 +429,7 @@ public class RestAuditLogger {
                                 .resourcesExecuted(1)
                                 .build());
                         } else {
+                            action = "C";
                             entry.getContext()
                                 .setBatch(Batch.builder()
                                 .resourcesCreated(1)
@@ -431,6 +437,7 @@ public class RestAuditLogger {
                         }
                         break;
                     case PUT:
+                        action = "U";
                         entry.getContext()
                             .setBatch(Batch.builder()
                             .resourcesUpdated(1)
@@ -443,6 +450,7 @@ public class RestAuditLogger {
                                 .resourcesExecuted(1)
                                 .build());
                         } else {
+                            action = "D";
                             entry.getContext()
                                 .setBatch(Batch.builder()
                                 .resourcesDeleted(1)
@@ -456,10 +464,16 @@ public class RestAuditLogger {
                 }
 
                 // Only for BATCH we want to override the REQUEST URI and Status Code
+                StringBuilder builder = new StringBuilder();
+                builder.append(request.getRemoteAddr())
+                        .append("/")
+                        .append(request.getRemoteHost())
+                        .append("/")
+                        .append(bundleEntry.getResponse().getLocation().getValue());
                 entry.getContext()
                     .setApiParameters(
                         ApiParameters.builder()
-                            .request(bundleEntry.getRequest().getUrl().getValue())
+                            .request(builder.toString())
                             .status(Integer.parseInt(bundleEntry.getResponse().getStatus().getValue()))
                             .build());
 
