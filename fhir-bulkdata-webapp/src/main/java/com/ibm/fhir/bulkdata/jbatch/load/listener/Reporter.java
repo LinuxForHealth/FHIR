@@ -100,7 +100,7 @@ public class Reporter {
             } else {
                 logger.fine("No Content was imported");
             }
-            logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
+            logger.info(String.format("%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s%-32s",
                resourceType,failures, success, processed, totalRead, totalSkip, totalValidation, totalWrite, fileSize, resourceSize));
         }
         logger.info(" ---- Total: " + totalImportedFhirResources

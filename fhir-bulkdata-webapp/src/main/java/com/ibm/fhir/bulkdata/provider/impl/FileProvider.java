@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
+import static com.ibm.fhir.model.type.String.string;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,11 +32,19 @@ import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
  * Wraps behaviors on the File objects on the local volumes.
@@ -42,9 +53,11 @@ public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
 
+    private static final byte[] NDJSON_LINESEPERATOR = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
+
     private String source = null;
     private long parseFailures = 0l;
-    @SuppressWarnings("unused")
+
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
@@ -103,7 +116,20 @@ public class FileProvider implements Provider {
                     } catch (FHIRParserException e) {
                         // Log and skip the invalid FHIR resource.
                         parseFailures++;
-                        logger.log(Level.INFO, "readResources: " + "Failed to parse line " + line + " of [" + source + "].", e);
+
+                        String msg = "readResources: " + "Failed to parse line " + line + " of [" + source + "].";
+
+                        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+                        String out = adapter.getOperationOutcomeProvider(source);
+                        boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(source)
+                                && !StorageType.HTTPS.equals(adapter.getStorageProviderStorageType(out));
+                        if (collectImportOperationOutcomes) {
+                            FHIRGenerator.generator(Format.JSON)
+                                .generate(generateException(line, msg),
+                                        transientUserData.getBufferStreamForImportError());
+                            transientUserData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                        }
+                        logger.log(Level.WARNING, msg);
                     }
                     resourceStr = br.readLine();
                 }
@@ -115,6 +141,31 @@ public class FileProvider implements Provider {
         } catch (Exception e) {
             throw new FHIRException("Unable to read from Local File", e);
         }
+    }
+
+    /**
+     * Generate an operation outcome
+     * 
+     * @param lineNumber
+     * @param msg
+     * @return
+     */
+    private OperationOutcome generateException(long lineNumber, String msg) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.EXCEPTION)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string(msg))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+        return OperationOutcome.builder()
+                .issue(Arrays.asList(issue))
+                .build();
     }
 
     @Override
