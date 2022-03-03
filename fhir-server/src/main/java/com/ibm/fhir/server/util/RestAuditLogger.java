@@ -465,9 +465,7 @@ public class RestAuditLogger {
 
                 // Only for BATCH we want to override the REQUEST URI and Status Code
                 StringBuilder builder = new StringBuilder();
-                builder.append(request.getRemoteAddr())
-                        .append("/")
-                        .append(request.getRemoteHost())
+                builder.append(request.getRequestURI())
                         .append("/")
                         .append(bundleEntry.getResponse().getLocation().getValue());
                 entry.getContext()
