@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +34,19 @@ import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
  * Wraps behaviors on the File objects on the local volumes.
@@ -56,9 +65,11 @@ public class FileProvider implements Provider {
      * sizes, 1K to 1G and see how it performs while reading.
      */
     private static final long READ_BLOCK_OPT = 524288L;
+    private static final byte[] NDJSON_LINESEPERATOR = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     private String source = null;
     private long parseFailures = 0l;
+    @SuppressWarnings("unused")
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;

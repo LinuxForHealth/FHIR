@@ -169,9 +169,8 @@ public class ChunkWriter extends AbstractItemWriter {
                                     oo = generateWarning(chunkData.getNumOfProcessedResources() + cur, issues);
                                 }
 
-                                FHIRGenerator.generator(Format.JSON).generate(oo,
-                                        chunkData.getBufferStreamForImport());
-                                chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                                FHIRGenerator.generator(Format.JSON).generate(oo, chunkData.getBufferStreamForImport());
+                                chunkData.getBufferStreamForImport().write(NDJSON_LINESEPERATOR);
                             }
                             status = javax.ws.rs.core.Response.Status.OK;
                         } catch (FHIRValidationException | FHIROperationException e) {

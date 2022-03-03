@@ -510,7 +510,28 @@ public class AzureProvider implements Provider {
         if (!client.exists().booleanValue()) {
             aClient.create();
         }
-        aClient.appendBlock(new ByteArrayInputStream(baos.toByteArray()), baos.size());
+
+        byte[] ba = baos.toByteArray();
+        int current = 0;
+        for (int i = 0; i <= (Math.ceil(ba.length/MAX_BLOCK_SIZE)); i++) {
+            int payloadLength = MAX_BLOCK_SIZE;
+            if (payloadLength + current > ba.length) {
+                payloadLength = ba.length - current;
+            }
+            byte[] payload = new byte[payloadLength];
+            for (int j = 0; j < payloadLength; j++) {
+                payload[j] = ba[current];
+                current++;
+            }
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Byte Progress: current='" + current + "' total='" + ba.length + "' payload='" + payload.length);
+            }
+            if (payload.length > 0) {
+                aClient.appendBlock(
+                    new ByteArrayInputStream(payload),
+                        payload.length);
+            }
+        }
 
         baos.reset();
     }
