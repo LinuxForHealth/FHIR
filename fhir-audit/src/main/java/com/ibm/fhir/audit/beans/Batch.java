@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
+import com.ibm.fhir.exception.FHIRException;
+
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -20,8 +22,6 @@ import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonValue;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
-
-import com.ibm.fhir.exception.FHIRException;
 
 /**
  * This class defines the Batch parameters section of the IBM FHIR server
@@ -31,15 +31,15 @@ public class Batch {
 
     private String status;
 
-    private Long resourcesRead;
+    private Long resourcesRead = 0L;
 
-    private Long resourcesCreated;
+    private Long resourcesCreated = 0L;
 
-    private Long resourcesUpdated;
+    private Long resourcesUpdated = 0L;
 
-    private Long resourcesDeleted;
+    private Long resourcesDeleted = 0L;
 
-    private Long resourcesExecuted;
+    private Long resourcesExecuted = 0L;
 
     public Batch() {
         super();

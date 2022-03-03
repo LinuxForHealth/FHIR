@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -390,70 +391,92 @@ public class RestAuditLogger {
      */
     private static void logBundleBatch(AuditLogService auditLogSvc, HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime,
         Response.Status responseStatus) throws Exception {
-        
+
         if (requestBundle != null) {
             // We need the requestBundle so we know what the request was for at this point.
             // We don't have a "request" field otherwise
-            for (Entry bundleEntry : requestBundle.getEntry()) {
-                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-                long readCount = 0;
-                long createCount = 0;
-                long updateCount = 0;
-                long deleteCount = 0;
-                long executeCount = 0;
-                HTTPVerb requestMethod;
+            Iterator<Bundle.Entry> iter = requestBundle.getEntry().iterator();
+            for (Entry responseEntry : responseBundle.getEntry()) {
+                Bundle.Entry requestEntry = iter.next();
 
-                populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
-                if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
-                    requestMethod = bundleEntry.getRequest().getMethod();
-                    boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
-                                            || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
+                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+
+                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus); 
+                if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
+                    boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
+                                            || requestEntry.getRequest().getUrl().getValue().contains("/%24");
+                    String action = "E";
+                    HTTPVerb requestMethod = requestEntry.getRequest().getMethod();
                     switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                     case GET:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            readCount++;
+                            action = "R";
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesRead(1)
+                                .build());
                         }
                         break;
                     case POST:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            createCount++;
+                            action = "C";
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesCreated(1)
+                                .build());
                         }
                         break;
                     case PUT:
-                        updateCount++;
+                        action = "U";
+                        entry.getContext()
+                            .setBatch(Batch.builder()
+                            .resourcesUpdated(1)
+                            .build());
                         break;
                     case DELETE:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            deleteCount++;
+                            action = "D";
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesDeleted(1)
+                                .build());
                         }
                         break;
                     default:
                         break;
                     }
+                    entry.getContext().setAction(action);
                 }
 
+                // Only for BATCH we want to override the REQUEST URI and Status Code
+                StringBuilder builder = new StringBuilder();
+                builder.append(request.getRequestURI())
+                        .append("/")
+                        .append(responseEntry.getResponse().getLocation().getValue());
                 entry.getContext()
-                .setBatch(Batch.builder()
-                    .resourcesCreated(createCount)
-                    .resourcesRead(readCount)
-                    .resourcesUpdated(updateCount)
-                    .resourcesDeleted(deleteCount)
-                    .resourcesExecuted(executeCount)
-                    .build());
+                    .setApiParameters(
+                        ApiParameters.builder()
+                            .request(builder.toString())
+                            .status(Integer.parseInt(responseEntry.getResponse().getStatus().getValue()))
+                            .build());
 
                 entry.setDescription("FHIR Bundle Batch request");
-        
-                entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
-        
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
-                }
+
                 // @implNote The audit messages can be batched and sent off to the logEntry.
                 // The signature would be updated to AuditEntry... entries
                 // Then a loop and bulk action on Kafka.
