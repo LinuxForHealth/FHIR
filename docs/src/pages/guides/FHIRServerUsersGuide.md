@@ -2762,7 +2762,7 @@ Additionally, before returning resources to the client, the `fhir-smart` compone
 
 When the HTTP header `Prefer: return=minimal` is specified on a search or history request, only minimal resource metadata is retrieved. In those cases, either `user` or `system` SMART scopes must be used, since the resource data necessary to enforce access via `patient` SMART scopes is not available.
 
-For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/Alvearie/health-patterns/tree/main/data-access.
+For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:
