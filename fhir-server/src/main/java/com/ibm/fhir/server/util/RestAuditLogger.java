@@ -396,64 +396,75 @@ public class RestAuditLogger {
             // We don't have a "request" field otherwise
             for (Entry bundleEntry : requestBundle.getEntry()) {
                 AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-                long readCount = 0;
-                long createCount = 0;
-                long updateCount = 0;
-                long deleteCount = 0;
-                long executeCount = 0;
-                HTTPVerb requestMethod;
 
-                populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
+                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
                 if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
-                    requestMethod = bundleEntry.getRequest().getMethod();
                     boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
                                             || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
+                    String action = "E";
+                    HTTPVerb requestMethod = bundleEntry.getRequest().getMethod();
                     switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                     case GET:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            readCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesRead(1)
+                                .build());
                         }
                         break;
                     case POST:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            createCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesCreated(1)
+                                .build());
                         }
                         break;
                     case PUT:
-                        updateCount++;
+                        entry.getContext()
+                            .setBatch(Batch.builder()
+                            .resourcesUpdated(1)
+                            .build());
                         break;
                     case DELETE:
                         if (operation) {
-                            executeCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesExecuted(1)
+                                .build());
                         } else {
-                            deleteCount++;
+                            entry.getContext()
+                                .setBatch(Batch.builder()
+                                .resourcesDeleted(1)
+                                .build());
                         }
                         break;
                     default:
                         break;
                     }
+                    entry.getContext().setAction(action);
                 }
 
+                // Only for BATCH we want to override the REQUEST URI and Status Code
                 entry.getContext()
-                .setBatch(Batch.builder()
-                    .resourcesCreated(createCount)
-                    .resourcesRead(readCount)
-                    .resourcesUpdated(updateCount)
-                    .resourcesDeleted(deleteCount)
-                    .resourcesExecuted(executeCount)
-                    .build());
+                    .setApiParameters(
+                        ApiParameters.builder()
+                            .request(bundleEntry.getRequest().getUrl().getValue())
+                            .status(Integer.parseInt(bundleEntry.getResponse().getStatus().getValue()))
+                            .build());
 
                 entry.setDescription("FHIR Bundle Batch request");
-        
-                entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
-        
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
-                }
+
                 // @implNote The audit messages can be batched and sent off to the logEntry.
                 // The signature would be updated to AuditEntry... entries
                 // Then a loop and bulk action on Kafka.
