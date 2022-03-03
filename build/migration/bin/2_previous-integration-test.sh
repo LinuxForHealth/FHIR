@@ -42,9 +42,9 @@ clean_up(){
     # Remove problematic resources
     fhir_base_url=https://localhost:9443/fhir-server/api/v4
     problem_types=CompartmentDefinition
-    for r in $(curl -k -u fhiruser:change-password "${fhir_base_url}?_type=${problem_types}&_count=1000" | jq -r '.entry[].fullUrl'); do
+    for r in $(curl --fail -k -u fhiruser:change-password "${fhir_base_url}?_type=${problem_types}&_count=1000" | jq -r '.entry[].fullUrl'); do
       echo "erasing ${r}"
-      curl -i -k -u fhiruser:change-password -H "Content-Type: application/json" ${r}'/$erase' -d '
+      curl --fail -i -k -u fhiruser:change-password -H "Content-Type: application/json" ${r}'/$erase' -d '
         {
           "resourceType": "Parameters",
           "parameter": [
