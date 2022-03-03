@@ -391,17 +391,17 @@ public class RestAuditLogger {
      */
     private static void logBundleBatch(AuditLogService auditLogSvc, HttpServletRequest request, Bundle requestBundle, Bundle responseBundle, Date startTime, Date endTime,
         Response.Status responseStatus) throws Exception {
-        
+
         if (requestBundle != null) {
             // We need the requestBundle so we know what the request was for at this point.
             // We don't have a "request" field otherwise
             Iterator<Bundle.Entry> iter = requestBundle.getEntry().iterator();
-            for (Entry bundleEntry : responseBundle.getEntry()) {
+            for (Entry responseEntry : responseBundle.getEntry()) {
                 Bundle.Entry requestEntry = iter.next();
 
                 AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
 
-                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus); 
+                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus); 
                 if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
                     boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
                                             || requestEntry.getRequest().getUrl().getValue().contains("/%24");
@@ -467,12 +467,12 @@ public class RestAuditLogger {
                 StringBuilder builder = new StringBuilder();
                 builder.append(request.getRequestURI())
                         .append("/")
-                        .append(bundleEntry.getResponse().getLocation().getValue());
+                        .append(responseEntry.getResponse().getLocation().getValue());
                 entry.getContext()
                     .setApiParameters(
                         ApiParameters.builder()
                             .request(builder.toString())
-                            .status(Integer.parseInt(bundleEntry.getResponse().getStatus().getValue()))
+                            .status(Integer.parseInt(responseEntry.getResponse().getStatus().getValue()))
                             .build());
 
                 entry.setDescription("FHIR Bundle Batch request");
