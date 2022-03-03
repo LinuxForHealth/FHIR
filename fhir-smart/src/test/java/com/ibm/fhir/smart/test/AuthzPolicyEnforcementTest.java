@@ -68,10 +68,10 @@ import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementTest {
     private static final String PATIENT_ID =     "11111111-1111-1111-1111-111111111111";
-    private static final String OBSERVATION_ID = "11111111-1111-1111-1111-111111111112";
-    private static final String CONDITION_ID =   "11111111-1111-1111-1111-111111111113";
-    private static final String PATIENT_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111114";
-    private static final String OBSERVATION_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111115";
+    private static final String OBSERVATION_ID = "11111111-1111-1111-1111-111111111111";
+    private static final String CONDITION_ID =   "11111111-1111-1111-1111-111111111111";
+    private static final String PATIENT_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111111";
+    private static final String OBSERVATION_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111111";
 
     private static final List<Permission> READ_APPROVED = Arrays.asList(Permission.READ, Permission.ALL);
     private static final List<Permission> WRITE_APPROVED = Arrays.asList(Permission.WRITE, Permission.ALL);

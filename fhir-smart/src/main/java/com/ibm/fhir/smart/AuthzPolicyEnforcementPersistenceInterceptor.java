@@ -748,7 +748,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         if (approvedScopeMap.containsKey(ContextType.PATIENT)) {
-            if (resource != null) {
+            if (resource == null) {
+                // For `patient` scopes, if no resource was retrieved, which happens with history/search
+                // operations with 'Prefer: return=minimal' HTTP header, there is no way to check if the
+                // resource meets the criteria of being in the Patient compartment.
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Unable to determine if " + requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
+                        "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) + " due to resource not retrieved");
+                }
+            } else {
                 if (resource instanceof Provenance) {
                     // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
                     // we want to allow access to if and only if the patient has access to one or more resources that it targets.
@@ -786,14 +794,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
                 // Else, see if the target resource belongs to the Patient compartment of the in-context patient
                 return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
-            } else {
-                // For `patient` scopes, if no resource was retrieved, which happens with history/search
-                // operations with 'Prefer: return=minimal' HTTP header, there is no way to check if the
-                // resource meets the criteria of being in the Patient compartment.
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Unable to determine if " + requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
-                        "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT) + " due to resource not retrieved");
-                }
             }
         }
 
@@ -966,7 +966,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @param entry the bundle entry
      * @return the resource type, or null
      */
-    private String getResourceType(Bundle.Entry entry) {
+    private static String getResourceType(Bundle.Entry entry) {
         Resource resource = entry.getResource();
         if (resource != null) {
             return resource.getClass().getSimpleName();
@@ -984,7 +984,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @param entry the bundle entry
      * @return the resource ID, or null
      */
-    private String getResourceId(Bundle.Entry entry) {
+    private static String getResourceId(Bundle.Entry entry) {
         Resource resource = entry.getResource();
         if (resource != null) {
             return resource.getId();
