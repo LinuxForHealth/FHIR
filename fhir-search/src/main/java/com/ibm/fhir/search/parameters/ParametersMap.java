@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,8 @@ public class ParametersMap {
     private final Map<String, SearchParameter> codeMap;
     private final Map<String, SearchParameter> canonicalMap;
 
+    private final Map<String, SearchParameter> inclusionParamMap;
+
     /**
      * Construct a ParametersMap from a Bundle of SearchParameter
      */
@@ -37,6 +39,10 @@ public class ParametersMap {
         // LinkedHashMaps to preserve insertion order
         codeMap = new LinkedHashMap<>();
         canonicalMap = new LinkedHashMap<>();
+
+        // Inclusion parameters are stored separately because they may be internal-only
+        // i.e. not externally searchable except through compartment search
+        inclusionParamMap = new LinkedHashMap<>();
     }
 
     /**
@@ -82,6 +88,22 @@ public class ParametersMap {
         }
     }
 
+    /**
+     * @param code
+     * @param parameter
+     * @implSpec Any existing parameters will be replaced and a warning will be logged; last insert wins
+     */
+    public void insertInclusionParam(String code, SearchParameter parameter) {
+        Objects.requireNonNull(code, "cannot insert a null code");
+        Objects.requireNonNull(parameter, "cannot insert a null parameter");
+
+        if (inclusionParamMap.containsKey(code)) {
+            SearchParameter previous = inclusionParamMap.get(code);
+            logParamConflict("inclusion criteria '" + code + "'", parameter, ParametersUtil.getCanonicalUrl(parameter), previous);
+        }
+        inclusionParamMap.put(code, parameter);
+    }
+
     private void logParamConflict(String distinguisher, SearchParameter parameter, String canonical, SearchParameter previous) {
         if (previous.getExpression().equals(parameter.getExpression())) {
             if (log.isLoggable(Level.FINE)) {
@@ -99,24 +121,50 @@ public class ParametersMap {
         }
     }
 
-    public void insertAll(ParametersMap map) {
-        for (Entry<String, SearchParameter> entry : map.codeEntries()) {
-            insert(entry.getKey(), entry.getValue());
-        }
-    }
-
+    /**
+     * Get the set of SearchParameter codes that have been added to this map.
+     * @return
+     * @implSpec This does not include any compartment inclusion criteria codes added
+     *      via {@link #insertInclusionParam(String, SearchParameter)};
+     *      use {@link com.ibm.fhir.search.compartment.CompartmentUtil} for those.
+     */
     public Set<String> getCodes() {
         return codeMap.keySet();
     }
 
+    /**
+     * Look up a search parameter that has been added to this map by its code.
+     * @param searchParameterCode
+     * @return null if it doesn't exist
+     */
     public SearchParameter lookupByCode(String searchParameterCode) {
         return codeMap.get(searchParameterCode);
     }
 
+    /**
+     * Look up a search parameter that has been added to this map by its canonical URL.
+     * @param searchParameterCanonical
+     * @return null if it doesn't exist
+     */
     public SearchParameter lookupByCanonical(String searchParameterCanonical) {
         return canonicalMap.get(searchParameterCanonical);
     }
 
+    /**
+     * Get a SearchParameter that has been added to this map as an inclusion parameter by its code.
+     * @param searchParameterCode
+     * @return null if it doesn't exist
+     */
+    public SearchParameter getInclusionParam(String searchParameterCode) {
+        return inclusionParamMap.get(searchParameterCode);
+    }
+
+    /**
+     * @return the set of search parameters added to this map
+     * @implSpec this set does not include SearchParameters added to the map via
+     *      {@link ParametersMap#insertInclusionParam(String, SearchParameter)};
+     *      those can be obtained from {@link ParametersMap#inlcusionValues()}
+     */
     public Collection<SearchParameter> values() {
         // use List to preserve order
         return Collections.unmodifiableList(canonicalMap.entrySet().stream()
@@ -125,16 +173,22 @@ public class ParametersMap {
                 .collect(Collectors.toList()));
     }
 
-    public boolean isEmpty() {
-        return codeMap.isEmpty();
-    }
-
-    public int size() {
-        return codeMap.size();
-    }
-
+    /**
+     * @return the set of search parameters in the map, indexed by code
+     * @implSpec this set does not include SearchParameters added to the map via
+     *      {@link ParametersMap#insertInclusionParam(String, SearchParameter)}
+     */
     public Set<Entry<String, SearchParameter>> codeEntries() {
         return Collections.unmodifiableSet(codeMap.entrySet());
+    }
+
+    /**
+     * @return the set of compartment inclusion criteria parameter values
+     * @implSpec this set may overlap with the set of "normal" SearchParameters
+     *      that can be obtained from {@link #values()}
+     */
+    public Collection<SearchParameter> inclusionValues() {
+        return inclusionParamMap.values();
     }
 
     /**

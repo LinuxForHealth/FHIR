@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,9 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
     // URL and version of search parameter
     private String url;
     private String version;
+
+    // Whether to store the extracted value or not; defaulting to true
+    private boolean isForStoring = true;
 
     /**
      * Protected constructor
@@ -175,4 +178,17 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
      */
     protected abstract int compareToInner(ExtractedParameterValue o);
 
+    /**
+     * @return whether this extracted parameter value is for storing
+     */
+    public boolean isForStoring() {
+        return isForStoring;
+    }
+
+    /**
+     * @param isForStoring whether this extracted parameter value is for storing
+     */
+    public void setForStoring(boolean isForStoring) {
+        this.isForStoring = isForStoring;
+    }
 }

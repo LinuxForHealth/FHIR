@@ -7,6 +7,7 @@
 package com.ibm.fhir.search.location;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Method;
@@ -172,6 +173,7 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         List<Bounding> bounding = handler.generateLocationPositionsFromParameters(ctx.getSearchParameters());
         assertNotNull(bounding);
+        assertFalse(bounding.isEmpty(), "generateLocationPositionsFromParameters came back empty for tenant " + FHIRRequestContext.get().getTenantId());
 
         BoundingBox boundingBox = (BoundingBox) bounding.get(0);
         // At the low latitudes it's going to cover most of the area.

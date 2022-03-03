@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -177,6 +177,8 @@ public class FHIRRequestContext {
 
     /**
      * Returns the FHIRRequestContext on the current thread.
+     * If it doesn't exist yet, this method will create a default instance
+     * and associate that with the current thread before returning it.
      */
     public static FHIRRequestContext get() {
         FHIRRequestContext result = contexts.get();

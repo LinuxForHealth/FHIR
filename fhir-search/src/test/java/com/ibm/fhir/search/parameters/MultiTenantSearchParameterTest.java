@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,7 +37,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     @AfterMethod
     public void cleanup() throws FHIRException {
         // Restore the threadLocal FHIRRequestContext to the default tenant
-        FHIRRequestContext.get().setTenantId("default");
+        FHIRRequestContext.remove();
     }
 
     @Test
@@ -68,8 +68,8 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     public void testGetApplicableSearchParameters3() throws Exception {
         // Looking for built-in and tenant-specific search parameters for "Patient" and "Observation".
 
-        // Use the default tenant since it has some Patient search parameters defined.
-        FHIRRequestContext.get().setTenantId("default");
+        // Use the extended tenant since it has some Patient search parameters defined.
+        FHIRRequestContext.get().setTenantId("extended");
 
         Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
@@ -141,8 +141,8 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
     @Test
     public void testGetApplicableSearchParameters7() throws Exception {
-        // Test filtering of search parameters for Patient (default tenant).
-        FHIRRequestContext.get().setTenantId("default");
+        // Test filtering of search parameters for Patient (extended tenant).
+        FHIRRequestContext.get().setTenantId("extended");
 
         Map<String, SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);

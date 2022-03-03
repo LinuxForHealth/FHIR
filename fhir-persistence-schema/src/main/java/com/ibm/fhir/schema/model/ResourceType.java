@@ -16,6 +16,22 @@ public class ResourceType {
     // the name of the resource type
     private String name;
 
+    /**
+     * Default constructor
+     */
+    public ResourceType() {
+    }
+
+    /**
+     * Public constructor
+     * @param id
+     * @param name
+     */
+    public ResourceType(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return this.name + "[" + this.id + "]";

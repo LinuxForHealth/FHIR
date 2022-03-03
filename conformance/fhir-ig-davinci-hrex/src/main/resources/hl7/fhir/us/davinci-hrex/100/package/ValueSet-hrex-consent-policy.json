@@ -1,0 +1,61 @@
+{
+	"resourceType": "ValueSet",
+	"id": "hrex-consent-policy",
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+			"valueCode": "draft"
+		},
+		{
+			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+			"valueInteger": 0
+		}
+	],
+	"url": "http://hl7.org/fhir/us/davinci-hrex/ValueSet/hrex-consent-policy",
+	"version": "1.0.0",
+	"name": "HRexConsentPolicy",
+	"title": "HRex Consent Policy ValueSet",
+	"status": "draft",
+	"date": "2022-02-24T21:01:30+00:00",
+	"publisher": "HL7 International - Clinical Interoperability Council",
+	"contact": [
+		{
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/cic"
+				}
+			]
+		}
+	],
+	"description": "The set of policy URIs for use in HRex data disclosureconsent assertions",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"compose": {
+		"include": [
+			{
+				"system": "urn:ietf:rfc:3986",
+				"concept": [
+					{
+						"code": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition-hrex-consent.html#regular"
+					},
+					{
+						"code": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition-hrex-consent.html#sensitive"
+					}
+				]
+			}
+		]
+	}
+}

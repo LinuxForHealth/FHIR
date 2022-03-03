@@ -1,18 +1,18 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
  
 package com.ibm.fhir.persistence.blob;
 
-import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerAsyncClient;
 
 /**
  * A blob container managed by the BlobContainerManager
  */
 public class BlobManagedContainer {
-    private final BlobContainerClient client;
+    private final BlobContainerAsyncClient client;
     private final BlobPropertyGroupAdapter properties;
     
     /**
@@ -20,7 +20,7 @@ public class BlobManagedContainer {
      * @param client
      * @param properties
      */
-    protected BlobManagedContainer(BlobContainerClient client, BlobPropertyGroupAdapter properties) {
+    protected BlobManagedContainer(BlobContainerAsyncClient client, BlobPropertyGroupAdapter properties) {
         this.client = client;
         this.properties = properties;
     }
@@ -29,7 +29,7 @@ public class BlobManagedContainer {
      * Get the client
      * @return
      */
-    public BlobContainerClient getClient() {
+    public BlobContainerAsyncClient getClient() {
         return this.client;
     }
 
@@ -39,5 +39,12 @@ public class BlobManagedContainer {
      */
     public BlobPropertyGroupAdapter getProperties() {
         return this.properties;
+    }
+
+    /**
+     * @return the containerName property value
+     */
+    public String getContainerName() {
+        return properties.getContainerName();
     }
 }
