@@ -1,0 +1,77 @@
+{
+	"resourceType": "SearchParameter",
+	"id": "pdex-medicationdispense-patient",
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-patient",
+	"version": "1.0.0",
+	"name": "PdexMedicationDispensePatient",
+	"derivedFrom": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+	"status": "active",
+	"experimental": false,
+	"date": "2020-07-01T21:51:58.017219Z",
+	"publisher": "HL7 International - Financial Management",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Returns dispensed prescriptions for a specific patient.\nNOTE: This Pdex SearchParameter definition extends the usage context of\n[capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n extension to formally express implementer conformance expectations for these elements:\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain.",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"code": "patient",
+	"base": [
+		"MedicationDispense"
+	],
+	"type": "reference",
+	"expression": "MedicationDispense.subject.where(resolve() is Patient)",
+	"xpath": "f:MedicationDispense/f:subject",
+	"xpathUsage": "normal",
+	"target": [
+		"Patient",
+		"Group"
+	],
+	"multipleOr": true,
+	"_multipleOr": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	},
+	"multipleAnd": true,
+	"_multipleAnd": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	}
+}
