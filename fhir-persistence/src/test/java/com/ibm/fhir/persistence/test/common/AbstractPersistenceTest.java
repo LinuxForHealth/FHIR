@@ -62,11 +62,14 @@ public abstract class AbstractPersistenceTest {
     // common logger to make things a little easier on subclass implementations
     protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
 
-    // The common base URI used for all the search/persistence tests
+    // The common base URI used for all the search/persistence tests.
     public static final String BASE = "https://example.com/";
 
     // The persistence layer instance to be used by the tests.
-    protected static FHIRPersistence persistence = null;
+    protected static FHIRPersistence persistence;
+
+    // The search helper to be used by the tests.
+    protected static SearchUtil searchHelper;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
@@ -113,7 +116,7 @@ public abstract class AbstractPersistenceTest {
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -167,7 +170,7 @@ public abstract class AbstractPersistenceTest {
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         // Convert the list here so we don't have to change all the test implementations
-        return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResourceResults()
+        return runQueryTest(searchHelper.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResourceResults()
                 .stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
 
@@ -223,14 +226,14 @@ public abstract class AbstractPersistenceTest {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
+        FHIRSearchContext searchContext = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
 
         return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
     }
 
     protected List<Resource> runCompartmentQueryTest(String compartmentName, Set<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
-        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, queryParms);
+        QueryParameter inclusionCriteria = searchHelper.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         if (inclusionCriteria != null) {
             searchContext.getSearchParameters().add(0, inclusionCriteria);
         }

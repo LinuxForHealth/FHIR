@@ -95,7 +95,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
-import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.spi.operation.FHIROperation;
@@ -348,7 +347,7 @@ public class Capabilities extends FHIRResource {
 
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
-            Map<String, SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceTypeName);
+            Map<String, SearchParameter> searchParameters = getSearchHelper().getSearchParameters(resourceTypeName);
             for (Entry<String, SearchParameter> entry : searchParameters.entrySet()) {
                 String code = entry.getKey();
                 SearchParameter searchParameter = entry.getValue();

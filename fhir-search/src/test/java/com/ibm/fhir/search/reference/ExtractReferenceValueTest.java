@@ -8,36 +8,16 @@ package com.ibm.fhir.search.reference;
 
 import static org.testng.Assert.assertEquals;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Unit tests exercising the ReferenceParameterHandler utility functions
  */
-public class ExtractReferenceValueTest {
+public class ExtractReferenceValueTest extends BaseSearchTest {
     private static final String BASE = "https://example.com/";
-
-    @BeforeClass
-    public void setup() throws FHIRException {
-        // Inject a reasonable uri into the request context - it gets used to
-        // calculate the service base address which is used when processing
-        // reference params
-        FHIRRequestContext context = new FHIRRequestContext("default");
-        context.setOriginalRequestUri(BASE);
-        FHIRRequestContext.set(context);
-    }
-
-    @AfterClass
-    public void tidy() {
-        // clear out the request context so we don't confuse other tests which
-        // have forgotten to set this
-        FHIRRequestContext.remove();
-    }
 
     @Test
     public void testPatientWithSystemUrlPrefix() throws Exception {

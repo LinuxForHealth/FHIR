@@ -59,10 +59,11 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class CareGapsOperationTest {
 
     private CareGapsOperation operation;
+    private SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
@@ -130,7 +131,7 @@ public class CareGapsOperationTest {
             fhirLibraries.stream().forEach(l -> when(mockRegistry.getResource(canonical(l.getUrl(), l.getVersion()).getValue(), Library.class)).thenReturn(l));
 
             Parameters result =
-                    operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("care-gap"), Measure.class, null, null, parameters, resourceHelper);
+                    operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("care-gap"), Measure.class, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);

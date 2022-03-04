@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,10 +85,11 @@ public class Sort {
      * @param resourceType the resource type
      * @param context the search context
      * @param sortParmValue the parameter value
+     * @param searchHelper a SearchUtil instance to retrieve filtered search params
      * @throws Exception an exception
      */
-    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortParmValue) throws Exception {
-        parseSortParameter(resourceType.getSimpleName(), context, sortParmValue);
+    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortParmValue, SearchUtil searchHelper) throws Exception {
+        parseSortParameter(resourceType.getSimpleName(), context, sortParmValue, searchHelper);
     }
 
     /**
@@ -96,9 +97,10 @@ public class Sort {
      * @param resourceTypeName the resource type name
      * @param context the search context
      * @param sortParmValue the parameter value
+     * @param searchHelper a SearchUtil instance to retrieve filtered search params
      * @throws Exception an exception
      */
-    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context, String sortParmValue) throws Exception {
+    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context, String sortParmValue, SearchUtil searchHelper) throws Exception {
 
         for (String sortParmCode : sortParmValue.split(",")) {
             try {
@@ -113,7 +115,7 @@ public class Sort {
 
                 // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
                 // type of search parameter.
-                SearchParameter sortParmProxy = SearchUtil.getSearchParameter(resourceTypeName, sortParmCode);
+                SearchParameter sortParmProxy = searchHelper.getSearchParameter(resourceTypeName, sortParmCode);
                 checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
 
                 SearchConstants.Type sortParmType =

@@ -119,7 +119,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
-            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail due to unsupported parameters");
 
         } catch (FHIROperationException fex) {
@@ -168,7 +168,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
-            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -215,7 +215,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
-            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -262,7 +262,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             // when(mockRegistry.getResource(javastring(fhirHelpers.getUrl()), Library.class)).thenReturn(fhirHelpers);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext(null);
-            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -313,7 +313,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             when(mockRegistry.getResource(canonical.getValue(), Library.class)).thenReturn(modelInfo);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
-            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
         }
     }
 
@@ -335,7 +335,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
-            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
             fail("Missing expected Exception");
         } catch (FHIROperationException fex) {
             assertNotNull(fex.getIssues());
@@ -368,7 +368,7 @@ public class CqlOperationTest extends BaseCqlOperationTest<CqlOperation> {
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
 
             FHIROperationContext ctx = FHIROperationContext.createSystemOperationContext("cql");
-            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper);
+            Parameters result = getOperation().doInvoke(ctx, null, null, null, parameters, resourceHelper, searchHelper);
 
             assertNotNull(result);
             System.out.println(result.toString());

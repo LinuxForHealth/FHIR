@@ -71,9 +71,8 @@ public class InteractionValidationConfigTest {
     void setup() throws FHIRException {
         FHIRConfiguration.setConfigHome("target/test-classes");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
-        SearchUtil.init();
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence);
+        helper = new FHIRRestHelper(persistence, new SearchUtil());
     }
 
     @AfterClass

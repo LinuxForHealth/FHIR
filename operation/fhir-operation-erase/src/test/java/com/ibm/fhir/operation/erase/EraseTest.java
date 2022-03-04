@@ -57,6 +57,7 @@ import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -68,6 +69,7 @@ public class EraseTest {
     private static final Boolean DEBUG = Boolean.FALSE;
 
     private CompartmentUtil compartmentHelper;
+    private SearchUtil searchHelper;
 
     private static final String LONG_STRING =
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
@@ -80,6 +82,7 @@ public class EraseTest {
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
         compartmentHelper = new CompartmentUtil();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
@@ -893,7 +896,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, false));
+        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, false), searchHelper);
         assertNotNull(parmetersReturn);
     }
 
@@ -907,7 +911,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, true));
+        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, true), searchHelper);
         assertNotNull(parmetersReturn);
     }
 
@@ -922,7 +927,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, true));
+        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, true), searchHelper);
         assertNotNull(parmetersReturn);
     }
 
@@ -936,7 +942,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(true, true));
+        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(true, true), searchHelper);
         fail();
     }
 
@@ -951,7 +958,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, true));
+        Parameters parmetersReturn = operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, true), searchHelper);
         assertNotNull(parmetersReturn);
     }
 
@@ -1009,7 +1017,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, false, true));
+        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, false, true), searchHelper);
     }
 
     @Test
@@ -1139,7 +1148,8 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, false, false, true, false));
+        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, false, false, true, false), searchHelper);
     }
 
     @Test(expectedExceptions = {com.ibm.fhir.exception.FHIROperationException.class})
@@ -1154,6 +1164,7 @@ public class EraseTest {
         String logicalId = UUID.randomUUID().toString();
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
         EraseOperation operation = new EraseOperation();
-        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters, new MockFHIRResourceHelpers(false, false, false, false, true));
+        operation.doInvoke(operationContext, resourceType, logicalId, "1", parameters,
+                new MockFHIRResourceHelpers(false, false, false, false, true), searchHelper);
     }
 }

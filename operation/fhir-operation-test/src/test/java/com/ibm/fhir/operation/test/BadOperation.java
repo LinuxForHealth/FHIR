@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -28,11 +29,11 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
  * @author lmsurpre
  */
 public class BadOperation extends AbstractOperation {
-    
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("operationdefinition-bad.json");){
-            return FHIRParser.parser(Format.JSON).parse(in);              
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             throw new RuntimeException("Unable to read operationdefinition-bad.json", e);
         }
@@ -40,7 +41,7 @@ public class BadOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
         // do nothing
         return null;
     }

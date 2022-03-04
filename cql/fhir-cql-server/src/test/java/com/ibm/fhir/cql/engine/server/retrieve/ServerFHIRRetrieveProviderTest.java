@@ -51,10 +51,11 @@ public class ServerFHIRRetrieveProviderTest {
     private ServerFHIRTerminologyProvider termProvider;
     private ServerFHIRRetrieveProvider provider;
     private FHIRResourceHelpers helpers;
+    private SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
@@ -62,7 +63,7 @@ public class ServerFHIRRetrieveProviderTest {
         helpers = mock(FHIRResourceHelpers.class);
         termProvider = mock(ServerFHIRTerminologyProvider.class);
 
-        SearchParameterResolver resolver = new SearchParameterResolver();
+        SearchParameterResolver resolver = new SearchParameterResolver(searchHelper);
 
         provider = new ServerFHIRRetrieveProvider(helpers, resolver);
         provider.setTerminologyProvider(termProvider);

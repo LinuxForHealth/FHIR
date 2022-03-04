@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,6 @@ import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This unit test class contains methods that test the parsing of sort
@@ -57,7 +56,7 @@ public class SortTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_sort:xxx", Collections.singletonList("birthdate"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
@@ -161,7 +160,7 @@ public class SortTest extends BaseSearchTest {
         String sortQueryParmValue = "_id";
         context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue, searchHelper);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '+');
     }
@@ -173,7 +172,7 @@ public class SortTest extends BaseSearchTest {
         String sortQueryParmValue = "-_id";
         context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue, searchHelper);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '-');
     }
@@ -185,7 +184,7 @@ public class SortTest extends BaseSearchTest {
         String sortQueryParmValue = "-_id";
         context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue, searchHelper);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '-');
     }
@@ -196,7 +195,7 @@ public class SortTest extends BaseSearchTest {
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-component-code2";
         context.setLenient(false);
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue, searchHelper);
     }
 
     @Test(expectedExceptions = {})
@@ -205,7 +204,7 @@ public class SortTest extends BaseSearchTest {
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-component-code2";
         context.setLenient(true);
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue, searchHelper);
 
         assertTrue(context.getSortParameters().isEmpty());
         assertEquals(2, context.getOutcomeIssues().size());

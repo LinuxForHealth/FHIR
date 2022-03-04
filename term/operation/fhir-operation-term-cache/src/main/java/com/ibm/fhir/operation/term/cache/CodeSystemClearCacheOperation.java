@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.term.AbstractTermOperation;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -33,7 +34,7 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class CodeSystemClearCacheOperation extends AbstractTermOperation {
- 
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("operation-codesystem-clear-cache.json")) {
@@ -42,7 +43,7 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
             throw new Error(e);
         }
     }
-    
+
     @Override
     protected Parameters doInvoke(
             FHIROperationContext operationContext,
@@ -50,7 +51,8 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
             String logicalId,
             String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException {
 
         CacheManager.invalidateAll(CodeSystemSupport.ANCESTORS_AND_SELF_CACHE_NAME);
         CacheManager.invalidateAll(CodeSystemSupport.DESCENDANTS_AND_SELF_CACHE_NAME);
@@ -60,7 +62,7 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
                 CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class );
                 clearServerRegistryCache(codeSystem);
             }
-            
+
             OperationOutcome operationOutcome = OperationOutcome.builder().issue(
                 OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.INFORMATION)
@@ -69,7 +71,7 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
                         Coding.builder().code(Code.of("success")).build()
                      ).build()).build()
                 ).build();
-            
+
             if (FHIRRequestContext.get().getReturnPreference() == HTTPReturnPreference.OPERATION_OUTCOME) {
                 return FHIROperationUtil.getOutputParameters(operationOutcome);
             } else {
@@ -78,13 +80,13 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
         } catch( Throwable t ) {
             throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
                     + getName() + "': " + getCausedByMessage(t), t);
-        } 
+        }
     }
-    
+
     private String getCausedByMessage(Throwable throwable) {
         return throwable.getClass().getName() + ": " + throwable.getMessage();
     }
-    
+
     private void clearServerRegistryCache(CodeSystem resource) {
         String dataStoreId = FHIRRequestContext.get().getDataStoreId();
         String url = resource.getUrl().getValue();

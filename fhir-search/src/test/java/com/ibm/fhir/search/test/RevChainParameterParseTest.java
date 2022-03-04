@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,7 +47,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("_has:Observation:subject:code", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -56,7 +56,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -65,7 +65,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Observation", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -74,7 +74,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:extra:_has:Encounter:reason-reference:status", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -83,7 +83,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:BadType:subject:code", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -92,7 +92,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:badSearchParm:code", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -101,7 +101,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:badSearchParm", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -110,7 +110,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:code:code", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -119,7 +119,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:encounter:code", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -128,7 +128,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:code:badModifier", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -137,7 +137,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:code:contains", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -146,7 +146,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:_total", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -155,7 +155,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:encounter:contains.status", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -164,7 +164,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:code.status", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -173,7 +173,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:part-of:Condition.status", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -182,7 +182,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:part-of.status", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -191,7 +191,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:performer", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -200,7 +200,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:encounter:Encounter.diagnosis", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
   @Test
@@ -211,7 +211,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:code=12345";
 
       queryParameters.put("_has:Observation:subject:code", Collections.singletonList("12345"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -251,7 +251,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:code:missing=12345";
 
       queryParameters.put("_has:Observation:subject:code:missing", Collections.singletonList("12345"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -291,7 +291,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:_has:Encounter:reason-reference:location=Location/12345";
 
       queryParameters.put("_has:Observation:subject:_has:Encounter:reason-reference:location", Collections.singletonList("Location/12345"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -346,7 +346,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:performer:Practitioner.given=Sue";
 
       queryParameters.put("_has:Observation:subject:performer:Practitioner.given", Collections.singletonList("Sue"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -397,7 +397,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:performer:Organization.endpoint:Endpoint.name=test";
 
       queryParameters.put("_has:Observation:subject:performer:Organization.endpoint.name", Collections.singletonList("test"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -459,7 +459,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:performer:Practitioner.given:exact=Sue";
 
       queryParameters.put("_has:Observation:subject:performer:Practitioner.given:exact", Collections.singletonList("Sue"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -510,7 +510,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:value-string=12345";
 
       queryParameters.put("_has:Observation:subject:value-string", Collections.singletonList("12345"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -550,7 +550,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:RiskAssessment:subject:probability=50.5";
 
       queryParameters.put("_has:RiskAssessment:subject:probability", Collections.singletonList("50.5"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -598,7 +598,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:RiskAssessment:subject:date=" + now.toString();
 
       queryParameters.put("_has:RiskAssessment:subject:date", Collections.singletonList(now.toString()));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -639,7 +639,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:RiskAssessment:subject:condition=Condition/1";
 
       queryParameters.put("_has:RiskAssessment:subject:condition", Collections.singletonList("Condition/1"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -683,7 +683,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:value-quantity=5.4";
 
       queryParameters.put("_has:Observation:subject:value-quantity", Collections.singletonList("5.4"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -723,7 +723,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Procedure:subject:instantiates-uri=uri";
 
       queryParameters.put("_has:Procedure:subject:instantiates-uri", Collections.singletonList("uri"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);
@@ -763,7 +763,7 @@ public class RevChainParameterParseTest extends BaseSearchTest {
       String queryString = "&_has:Observation:subject:code-value-string=1234$test";
 
       queryParameters.put("_has:Observation:subject:code-value-string", Collections.singletonList("1234$test"));
-      searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+      searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
       assertNotNull(searchContext);
       List<QueryParameter> searchParameters = searchContext.getSearchParameters();
       assertNotNull(searchParameters);

@@ -55,28 +55,29 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
-    
+
     public static final String PARAM_IN_EXPRESSION = "expression";
     public static final String PARAM_IN_PARAMETERS = "parameters";
     public static final String PARAM_IN_SUBJECT = "subject";
     public static final String PARAM_IN_DEBUG= "debug";
     public static final String PARAM_OUT_RETURN = "return";
     public static final String PARAM_OUT_DEBUG_RESULT = "debugResult";
-    
+
     public static final String PARAM_IN_USE_SERVER_DATA = "useServerData";
     public static final String PARAM_IN_DATA = "data";
     public static final String PARAM_IN_PREFETCH_DATA = "prefetchData";
     public static final String PARAM_IN_DATA_ENDPOINT = "dataEndpoint";
     public static final String PARAM_IN_CONTENT_ENDPOINT = "contentEndpoint";
     public static final String PARAM_IN_TERMINOLOGY_ENDPOINT = "terminologyEndpoint";
-    
+
     /**
      * Check if the user provided any currently unsupported operation parameters.
-     * 
+     *
      * @param paramMap
      *            Operation input parameters
      * @throws FHIROperationException
@@ -84,24 +85,24 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
      */
     protected void checkUnsupportedParameters(ParameterMap paramMap) throws FHIROperationException {
         List<Issue> issues = new ArrayList<>();
-        
+
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_USE_SERVER_DATA));
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_DATA));
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_PREFETCH_DATA));
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_DATA_ENDPOINT));
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_CONTENT_ENDPOINT));
         CollectionUtils.addIgnoreNull(issues, checkUnsupportedParameter(paramMap, PARAM_IN_TERMINOLOGY_ENDPOINT));
-        
+
         if( ! issues.isEmpty() ) {
             FHIROperationException ex = new FHIROperationException("Request contains one or more unsupported parameters");
             ex.setIssues(issues);
             throw ex;
         }
     }
-    
+
     /**
      * Check for a single unsupported parameter by name
-     * 
+     *
      * @param paramMap
      *            Operation input parameters
      * @param paramName
@@ -128,7 +129,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Evaluate the requested CQL from the provided Library resource.
-     * 
+     *
      * @param resourceHelper
      *            Resource operation provider for loading related Library resources
      * @param paramMap
@@ -137,34 +138,36 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
      *            Library resource that is the entry point for the evaluation
      * @return Parameters describing the evaluation result
      */
-    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, Library primaryLibrary) {
+    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchUtil searchHelper, Library primaryLibrary) {
         List<Library> libraries = LibraryHelper.loadLibraries(primaryLibrary);
-        return doEvaluation(resourceHelper, paramMap, libraries);
+        return doEvaluation(resourceHelper, paramMap, searchHelper, libraries);
     }
-    
+
     /**
      * Evaluate the requested CQL from the provided Library resource.
-     * 
+     *
      * @param resourceHelper
      *            Resource operation provider for loading related Library resources
      * @param paramMap
      *            Parameters object that describes the operation to perform
      * @param primaryLibrary
      *            Library resource that is the entry point for the evaluation
+     * @param searchHelper
+     *            A helper class for working with FHIR search parameters
      * @param libraries
      *            List of all necessary library resources. The first entry in the list is the primary library.
      * @return Parameters describing the evaluation result
      */
-    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, List<Library> libraries) {
+    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchUtil searchHelper, List<Library> libraries) {
         Library primaryLibrary = libraries.get(0);
         LibraryLoader ll = createLibraryLoader(libraries);
-        
+
         FHIRTypeConverter typeConverter = new FHIRTypeConverterImpl();
         ParameterConverter parameterConverter = new ParameterConverter(typeConverter);
 
         TerminologyProvider termProvider = new ServerFHIRTerminologyProvider(resourceHelper);
 
-        SearchParameterResolver resolver = new SearchParameterResolver();
+        SearchParameterResolver resolver = new SearchParameterResolver(searchHelper);
         ServerFHIRRetrieveProvider retrieveProvider = new ServerFHIRRetrieveProvider(resourceHelper, resolver);
         retrieveProvider.setExpandValueSets(false); // TODO - use server config settings
         retrieveProvider.setTerminologyProvider(termProvider);
@@ -181,33 +184,33 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         Map<String, Object> engineParameters = getCqlParameters(parameterConverter, paramMap);
 
         Set<String> expressions = getCqlExpressionsToEvaluate(paramMap);
-        
+
         DebugMap debugMap = getDebugMap(paramMap);
 
         // TODO - add configuration support for the CQL engine's local time zone
         CqlEngine engine = new CqlEngine(ll, dataProviders, termProvider);
         EvaluationResult evaluationResult = engine.evaluate(vid, expressions, context, engineParameters, debugMap);
-        
+
         Parameters.Builder output = Parameters.builder()
                 .parameter(parameterConverter.toParameter(PARAM_OUT_RETURN, evaluationResult.expressionResults));
-        
+
         if( debugMap != null) {
-            // Need to experiment with how valuable this is right now. There are a couple of issues 
+            // Need to experiment with how valuable this is right now. There are a couple of issues
             // that I noted. Most importantly, I don't think this information will be available when
             // the engine throws an exception (e.g. NPE). Beyond that, the information that is available
             // is not ordered, so it can't be used to track the actual path through the engine. Lastly,
-            // the data captured is incomplete. The best path currently is to use the logging produced 
+            // the data captured is incomplete. The best path currently is to use the logging produced
             // in System.out
             Parameter debugResult = convertDebugResultToParameter(evaluationResult);
             output.parameter(debugResult);
         }
-        
+
         return output.build();
     }
 
     private Parameter convertDebugResultToParameter(EvaluationResult evaluationResult) {
         Parameter.Builder debugResultBuilder = Parameter.builder().name(fhirstring(PARAM_OUT_DEBUG_RESULT));
-        
+
         Parameter debugResultParameter = null;
         DebugResult debugResult = evaluationResult.getDebugResult();
         if( debugResult != null ) {
@@ -215,7 +218,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
             for( Map.Entry<String,DebugLibraryResultEntry> libraryResult : debugResult.getLibraryResults().entrySet() ) {
                 String libraryId = libraryResult.getKey();
                 DebugLibraryResultEntry librayResultEntry = libraryResult.getValue();
-                
+
                 for( Map.Entry<DebugLocator,List<DebugResultEntry>> e : librayResultEntry.getResults().entrySet() ) {
                     DebugLocator dl = e.getKey();
                     //The DebugResultEntry class captures no object state right now, so it is useless
@@ -230,7 +233,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Retrieve subject parameter from the operation input
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return Pair of context name and value
@@ -246,14 +249,14 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Retrieve subject parameter from the operation input
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return Pair of context name and value
      */
     protected Pair<String, Object> getCqlContext(Parameter subjectParam) {
         Pair<String, Object> context = null;
-        
+
         String ref = javastring(((com.ibm.fhir.model.type.String) subjectParam.getValue()));
         String[] parts = ref.split("/");
         if (parts.length >= 2) {
@@ -267,7 +270,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     /**
      * Retrieve CQL parameters data from the operation input. FHIR data types are
      * automatically converted to CQL System data types.
-     * 
+     *
      * @param converter
      *            Converter logic for transforming FHIR data types to CQL
      *            input parameters.
@@ -288,7 +291,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     /**
      * Retrieve CQL parameters data from the operation input. FHIR data types are
      * automatically converted to CQL System data types.
-     * 
+     *
      * @param converter
      *            Converter logic for transforming FHIR data types to CQL
      *            input parameters.
@@ -311,7 +314,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Get the expression names to evaluate in the primary library
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return expression names to evaluate
@@ -320,15 +323,15 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Create a CQL Library loader for the content of the provided FHIR Library resources
-     * 
+     *
      * @param libraries
      *            FHIR Library resources containing CQL and/or ELM content
      * @return CQL Engine LibraryLoader
      */
-    protected LibraryLoader createLibraryLoader(List<Library> libraries) {  
+    protected LibraryLoader createLibraryLoader(List<Library> libraries) {
         FHIRLibraryLibrarySourceProvider sourceProvider = new FHIRLibraryLibrarySourceProvider(libraries);
         CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
-        
+
         Collection<org.cqframework.cql.elm.execution.Library> result = libraries.stream()
                 .flatMap( fl -> LibraryHelper.loadLibrary(translator, fl).stream() )
                 .filter( Objects::nonNull )
@@ -339,7 +342,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     /**
      * Create a CQL DebugMap object based on the configuation in the operation input
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return DebugMap
@@ -354,12 +357,12 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         }
         return debugMap;
     }
-    
+
     /**
      * Construct a FHIROperationExcepiton from the provided exception. This allows commonality
      * of error handling between related operations.
-     * 
-     * @throws FHIROperationException 
+     *
+     * @throws FHIROperationException
      */
     protected void throwOperationException(Exception ex) throws FHIROperationException {
         throw new FHIROperationException("Evaluation failed", ex)

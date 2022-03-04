@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.MemberMatchFactory;
 import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -39,7 +40,8 @@ public class MemberMatchOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper)
+            throws FHIROperationException {
         ConfigurationAdapter config = ConfigurationFactory.factory().getConfigurationAdapter();
 
         if (!config.enabled()) {

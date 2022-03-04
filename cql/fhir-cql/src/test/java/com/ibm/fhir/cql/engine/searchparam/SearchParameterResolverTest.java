@@ -18,15 +18,16 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class SearchParameterResolverTest {
 
     SearchParameterResolver resolver;
+    SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
     public void setUp() {
-        resolver = new SearchParameterResolver();
+        resolver = new SearchParameterResolver(searchHelper);
     }
 
     @Test

@@ -58,7 +58,6 @@ import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.smart.AuthzPolicyEnforcementPersistenceInterceptor;
@@ -79,11 +78,6 @@ public class AuthzPolicyEnforcementTest {
     private Provenance patientProvenance;
     private Provenance observationProvenance;
     private Map<String, Object> properties;
-
-    @BeforeClass
-    public void initializeSearchUtil() {
-        SearchUtil.init();
-    }
 
     @BeforeClass
     public void setup() throws Exception {

@@ -27,6 +27,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -42,7 +43,7 @@ public class ValidateOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId,
-            String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
         try {
             Parameter resourceParameter = getParameter(parameters, "resource");
             if (resourceParameter == null) {
@@ -53,7 +54,7 @@ public class ValidateOperation extends AbstractOperation {
             List<OperationOutcome.Issue> issues;
             Parameter profileParameter = getParameter(parameters, "profile");
             Parameter modeParameter = getParameter(parameters, "mode");
-            
+
             if (profileParameter != null && profileParameter.getValue() != null) {
                 // If the 'profile' parameter is specified, always validate the resource against that profile.
                 Uri profileUri = profileParameter.getValue().as(Uri.class);

@@ -47,16 +47,17 @@ public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
     FHIRClient CLIENT;
 
     RestFHIRRetrieveProvider provider;
+    SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
     public void setUp() throws Exception {
         CLIENT = newClient();
-        RESOLVER = new SearchParameterResolver();
+        RESOLVER = new SearchParameterResolver(searchHelper);
 
         this.provider = new RestFHIRRetrieveProvider(RESOLVER, CLIENT);
     }

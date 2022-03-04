@@ -59,10 +59,11 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class MeasureCollectDataOperationTest {
     private MeasureCollectDataOperation operation;
+    private SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
@@ -128,7 +129,7 @@ public class MeasureCollectDataOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             Parameters result = operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("collect-data"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);

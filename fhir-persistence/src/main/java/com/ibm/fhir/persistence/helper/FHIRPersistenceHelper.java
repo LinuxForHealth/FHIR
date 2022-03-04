@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This class serves as a helper for obtaining the correct persistence implementation to be used by the FHIR REST API
@@ -25,15 +26,17 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceHelper implements PersistenceHelper {
     private static final Logger log = Logger.getLogger(FHIRPersistenceHelper.class.getName());
 
-    protected PropertyGroup fhirConfig = null;
+    protected final PropertyGroup fhirConfig;
+    protected final SearchUtil searchHelper;
 
     // Issue #1366. Keep one instance of each type of persistence factory instead of instantiating it every time
     private final ConcurrentHashMap<String, FHIRPersistenceFactory> persistenceFactoryCache = new ConcurrentHashMap<>();
 
-    public FHIRPersistenceHelper() {
+    public FHIRPersistenceHelper(SearchUtil searchHelper) {
         log.entering(this.getClass().getName(), "FHIRPersistenceHelper ctor");
         try {
-            fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            this.fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            this.searchHelper = searchHelper;
         } catch (Throwable t) {
             String msg = "Unexpected error while retrieving configuration.";
             log.severe(msg + " " + t);
@@ -83,7 +86,7 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
 
             if (factory != null) {
                 // Call the factory and return the implementation instance.
-                return factory.getInstance();
+                return factory.getInstance(searchHelper);
             } else {
                 throw new FHIRPersistenceException(PROPERTY_PERSISTENCE_FACTORY + " is configured incorrectly");
             }

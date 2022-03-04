@@ -28,11 +28,11 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
+    SearchUtil searchHelper = new SearchUtil();
 
     @BeforeClass
     void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
-        SearchUtil.init();
     }
 
     @AfterClass
@@ -45,7 +45,7 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_omitted() throws Exception {
         FHIRRequestContext.get().setTenantId("omitted");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild();
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
 
         Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
@@ -60,7 +60,7 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_empty() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild();
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
 
         Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
@@ -75,7 +75,7 @@ public class CapabilitiesTest {
     void testBuildCapabilityStatement_resources_filtered() throws Exception {
         FHIRRequestContext.get().setTenantId("smart-enabled");
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
-        CapabilitiesChild c = new CapabilitiesChild();
+        CapabilitiesChild c = new CapabilitiesChild(searchHelper);
 
         Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
@@ -117,15 +117,21 @@ public class CapabilitiesTest {
      * that are normally injected by JAX-RS and so this is the only way to set them.
      */
     private static class CapabilitiesChild extends Capabilities {
-        public CapabilitiesChild() throws Exception {
+        public CapabilitiesChild(SearchUtil searchHelper) throws Exception {
             super();
             this.context = new MockServletContext();
+            this.searchHelper = searchHelper;
         }
 
         @Override
         public Response capabilities(String mode) {
             httpServletRequest = new MockHttpServletRequest();
             return super.capabilities(mode);
+        }
+
+        @Override
+        protected SearchUtil getSearchHelper() {
+            return searchHelper;
         }
     }
 }

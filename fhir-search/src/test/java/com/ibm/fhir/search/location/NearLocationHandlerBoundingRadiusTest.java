@@ -33,7 +33,7 @@ public class NearLocationHandlerBoundingRadiusTest extends BaseSearchTest {
     public void testLocationBoundaryPositionsFromParameters() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("near", Collections.singletonList("-90.0|0.0|1.0|mi_us"));
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
+        FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, queryParms, true, true);
         NearLocationHandler handler = new NearLocationHandler();
         handler.setBounding(true);
         List<Bounding> bounding = handler.generateLocationPositionsFromParameters(ctx.getSearchParameters());

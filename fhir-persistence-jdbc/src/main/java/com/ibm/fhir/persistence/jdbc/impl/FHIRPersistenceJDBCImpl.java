@@ -156,7 +156,6 @@ import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
-import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -221,6 +220,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // When set, use this interface to persist the payload object. Can be null.
     private final FHIRPayloadPersistence payloadPersistence;
 
+    // A helper for processing search requests
+    private final SearchUtil searchHelper;
+
     // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
     private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
 
@@ -234,13 +236,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence) throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence, SearchUtil searchHelper) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
 
         // The cache holding ids (private to the current tenant).
         this.cache = cache;
         this.payloadPersistence = payloadPersistence;
+        this.searchHelper = searchHelper;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         if (fhirConfig == null) {
@@ -309,6 +312,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         this.cache = cache;
         this.payloadPersistence = null;
+        this.searchHelper = new SearchUtil();
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -1425,9 +1429,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
-     * Note that if the resource has been erased or was not fetched on purpose, ResourceResult.resource 
+     * Note that if the resource has been erased or was not fetched on purpose, ResourceResult.resource
      * will be null and the caller will need to take this into account
-     * 
+     *
      * @param resourceDao
      * @param resourceDTOList
      * @param resourceType
@@ -1478,16 +1482,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * result to the given resourceResults list. The resourceResults list will contain
      * exactly one entry per resourceDTOList, even if the payload fetch returns nothing
      * for one or more entries.
-     * 
+     *
      * @param resourceResults
      * @param resourceDTOList
      * @param resourceType
      * @param elements
      * @param includeResourceData
      */
-    private void fetchPayloadsForDTOList(List<ResourceResult<? extends Resource>> resourceResults, 
+    private void fetchPayloadsForDTOList(List<ResourceResult<? extends Resource>> resourceResults,
             List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
-            Class<? extends Resource> resourceType, List<String> elements, boolean includeResourceData) 
+            Class<? extends Resource> resourceType, List<String> elements, boolean includeResourceData)
             throws FHIRPersistenceException {
         // Our offloading API supports async, so the first task is to dispatch
         // all of our requests and then wait for everything to come back. We could
@@ -1506,7 +1510,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 rowResourceTypeName = resourceType.getSimpleName();
                 resourceTypeId = getResourceTypeId(resourceType);
             }
-            
+
             // If a specific version of a resource has been deleted using $erase, it
             // is possible for the result here to be null.
             CompletableFuture<ResourceResult<? extends Resource>> cf;
@@ -1528,7 +1532,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             futures.add(cf);
         }
 
-        // Now collect all the responses. This would be better (slightly faster) if it were 
+        // Now collect all the responses. This would be better (slightly faster) if it were
         // a fully reactive solution, but for now it's OK - we still benefit from the fetches
         // being initiated concurrently
         log.fine("Collecting async payload responses");
@@ -1597,7 +1601,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try {
             if (fhirResource != null) {
 
-                map = SearchUtil.extractParameterValues(fhirResource);
+                map = searchHelper.extractParameterValues(fhirResource);
 
                 for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
                     SearchParameter sp = entry.getKey();
@@ -1668,7 +1672,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                                 // Alternatively, we could pull the search parameter from the FHIRRegistry so we can use versioned references.
                                 // However, that would bypass search parameter filtering and so we favor the SeachUtil method here instead.
-                                SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
+                                SearchParameter compSP = searchHelper.getSearchParameter(p.getResourceType(), component.getDefinition());
                                 JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
                                 FHIRPathNode node = nodes.iterator().next();
                                 if (nodes.size() > 1 ) {
@@ -2336,7 +2340,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             result = null;
         }
-    
+
         return result;
     }
 
@@ -2759,10 +2763,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             } catch (ExecutionException e) {
                 log.warning("Payload persistence failed for: " + ppr.toString());
                 throw new FHIRPersistenceException("storePayload failed", e);
-                
+
             }
         }
-        
+
         // NOTE: we do not clear the payloadPersistenceResponses list here on purpose. We want to keep
         // the list intact until the transaction actually commits, just in case there's a rollback, in which
         // case the rollback handling will attempt to call delete for all of the records in the list.

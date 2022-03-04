@@ -21,6 +21,7 @@ import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -33,8 +34,8 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
 
     @Override
     public Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        
+        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
+
         Measure measure = null;
         try {
             SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.MEASURE.getValue(), logicalId, true, false, null);
@@ -42,7 +43,7 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
         } catch (Exception ex) {
             throw new FHIROperationException("Failed to read resource", ex);
         }
-        
+
         int numLibraries = (measure.getLibrary() != null) ? measure.getLibrary().size() : 0;
         if (numLibraries != 1) {
             throw new IllegalArgumentException(String.format("Unexpected number of libraries '%d' referenced by measure '%s'", numLibraries, measure.getId()));

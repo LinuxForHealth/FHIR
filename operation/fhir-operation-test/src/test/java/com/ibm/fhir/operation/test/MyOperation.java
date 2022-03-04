@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,12 +19,12 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Integer;
-import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -35,8 +35,8 @@ public class MyOperation extends AbstractOperation {
     protected OperationDefinition buildOperationDefinition() {
         OperationDefinition.Builder operationDefinitionBuilder =  OperationDefinition.builder()
                 .url(Uri.of("http://ibm.com/fhir/example/my-operation"))
-                .version(string("4.1.0"))
-                .name(String.of("My Operation"))
+                .version("4.1.0")
+                .name("My Operation")
                 .status(PublicationStatus.DRAFT)
                 .kind(OperationKind.OPERATION)
                 .code(Code.of("hello"))
@@ -79,8 +79,8 @@ public class MyOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, java.lang.String logicalId, java.lang.String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
-        throws FHIROperationException {
+    protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, String logicalId, String versionId,
+            Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
         try {
             if (parameters.getParameter().isEmpty()) {
                 return null;

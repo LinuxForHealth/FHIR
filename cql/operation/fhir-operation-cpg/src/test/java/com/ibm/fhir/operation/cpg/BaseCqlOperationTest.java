@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.opencds.cqf.cql.engine.runtime.Date;
 import org.opencds.cqf.cql.engine.runtime.Interval;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.model.resource.Resource;
@@ -28,12 +27,9 @@ public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
     protected java.util.Date start;
     protected java.util.Date end;
 
-    protected abstract OT getOperation();
+    protected SearchUtil searchHelper = new SearchUtil();
 
-    @BeforeClass
-    public void initializeSearchUtil() {
-        SearchUtil.init();
-    }
+    protected abstract OT getOperation();
 
     @BeforeMethod
     public void setup() {

@@ -42,6 +42,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -59,7 +60,7 @@ public class CqlOperation extends AbstractCqlOperation {
     private static final Logger LOG = Logger.getLogger(CqlOperation.class.getName());
 
     /**
-     * Data container for grouped input parameters library.url, library.name. The 
+     * Data container for grouped input parameters library.url, library.name. The
      * version is parsed from the library.url if present. Alias is part of the
      * FHIR RelatedArtifact DataType, so it is included as an attribute, but is
      * not currently used.
@@ -68,24 +69,24 @@ public class CqlOperation extends AbstractCqlOperation {
         public IncludeLibraryDetail() {
             // No Operation
         }
-        
+
         public IncludeLibraryDetail(String url, String name, String version, String alias) {
             this.url = url;
             this.name = name;
             this.version = version;
             this.alias = alias;
         }
-        
+
         String url = null;
         String name = null;
         String version = null;
         String alias = null;
-        
+
         public boolean isValid() {
             return (name != null);
         }
     }
-    
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("OperationDefinition-cpg-cql.json")) {
@@ -97,15 +98,15 @@ public class CqlOperation extends AbstractCqlOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-        String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
-        throws FHIROperationException {
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException {
 
         Parameters result = null;
 
         ParameterMap paramMap = new ParameterMap(parameters);
-        
+
         checkUnsupportedParameters(paramMap);
-        
+
         try {
             Library primaryLibrary = null;
             if (operationContext.getType().equals(FHIROperationContext.Type.SYSTEM)) {
@@ -120,8 +121,8 @@ public class CqlOperation extends AbstractCqlOperation {
                 throw new UnsupportedOperationException("This operation must be invoked in the system context");
             }
 
-            result = doEvaluation(resourceHelper, paramMap, primaryLibrary);
-            
+            result = doEvaluation(resourceHelper, paramMap, searchHelper, primaryLibrary);
+
         } catch (IllegalArgumentException | CqlTranslationException iex) {
             throw new FHIROperationException(iex.getMessage(), iex)
                 .withIssue(Issue.builder()
@@ -140,7 +141,7 @@ public class CqlOperation extends AbstractCqlOperation {
 
     /**
      * Create a Library resource matching the provided input parameters.
-     * 
+     *
      * @param context
      *            CQL execution context (e.g. Patient)
      * @param expression
@@ -170,13 +171,13 @@ public class CqlOperation extends AbstractCqlOperation {
         if (includes != null) {
             for( Parameter includeParameter : includes ) {
                 IncludeLibraryDetail includeDetail = getIncludeDetail(includeParameter);
-                
-                // if we resolved a library add it as an include 
+
+                // if we resolved a library add it as an include
                 if ( includeDetail.isValid() ) {
                     builder.relatedArtifact( relatedArtifact( RelatedArtifactType.DEPENDS_ON, includeDetail.url ) );
-                    
+
                     content.includes(includeDetail.name, includeDetail.version, includeDetail.alias);
-                    
+
                     if( includeDetail.name.equals("FHIRHelpers") ) {
                         userSpecifiedFhirHelpers = true;
                     }
@@ -185,8 +186,8 @@ public class CqlOperation extends AbstractCqlOperation {
                 }
             }
         }
-        
-        if( !userSpecifiedFhirHelpers ) { 
+
+        if( !userSpecifiedFhirHelpers ) {
             content.include("FHIRHelpers", fhirVersion);
             //content.append(String.format("include \"FHIRHelpers\" version '%s'\n", fhirVersion));
             // Intentionally no related artifact here. It will get picked up automatically by the FhirLibrarySourceProvider
@@ -198,7 +199,7 @@ public class CqlOperation extends AbstractCqlOperation {
         }
 
         content.expression(DEFAULT_DEFINE_NAME, ((com.ibm.fhir.model.type.String) expression.getValue()).getValue());
-        
+
         String contentCql = content.build();
         System.out.println(contentCql);
         if( LOG.isLoggable(Level.FINE) ) {
@@ -212,13 +213,13 @@ public class CqlOperation extends AbstractCqlOperation {
 
     /**
      * Convert FHIR Parameter resource into corresponding IncludeLibraryDetail DTO
-     * 
+     *
      * @param includeParameter FHIR Parameter resource
      * @return IncludeLibraryDetail
      */
     protected IncludeLibraryDetail getIncludeDetail(Parameter includeParameter) {
         IncludeLibraryDetail includeDetail = new IncludeLibraryDetail();
-        
+
         // each element should consist of a url and an optional name to use as the alias within the library
         for (Parameter part : includeParameter.getPart()) {
             String paramName = javastring(part.getName());
@@ -231,7 +232,7 @@ public class CqlOperation extends AbstractCqlOperation {
                 } else {
                     throw new IllegalArgumentException(String.format("No Library resource matching %s found in registry", includeDetail.url));
                 }
-                
+
             } else if (paramName.equals(PARAM_IN_LIBRARY_NAME)) {
                 includeDetail.alias = ((com.ibm.fhir.model.type.String) part.getValue()).getValue();
             } else {

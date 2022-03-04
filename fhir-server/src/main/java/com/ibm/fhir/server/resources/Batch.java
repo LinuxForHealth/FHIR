@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,6 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
-
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -86,7 +85,7 @@ public class Batch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             responseBundle = helper.doBundle(inputBundle, updateOnlyIfModified);
             status = Status.OK;
             return Response.ok(responseBundle).build();

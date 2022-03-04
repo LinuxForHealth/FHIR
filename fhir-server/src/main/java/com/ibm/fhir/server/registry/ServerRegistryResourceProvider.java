@@ -49,13 +49,11 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
     public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
 
     private final PersistenceHelper persistenceHelper;
+    private final SearchUtil searchHelper;
 
-    public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper) {
-        try {
-            this.persistenceHelper = Objects.requireNonNull(persistenceHelper);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+    public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper, SearchUtil searchHelper) {
+        this.persistenceHelper = Objects.requireNonNull(persistenceHelper);
+        this.searchHelper = Objects.requireNonNull(searchHelper);
     }
 
     @Override
@@ -119,7 +117,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
 
             transactionHelper.begin();
 
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, Collections.singletonMap("url", Collections.singletonList(url)));
+            FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, Collections.singletonMap("url", Collections.singletonList(url)));
             searchContext.setPageSize(1000);
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
@@ -158,7 +156,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
 
             transactionHelper.begin();
 
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
             searchContext.setPageSize(1000);
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);

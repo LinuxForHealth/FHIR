@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.search.util.SearchUtil;
 
 public abstract class AbstractOperation implements FHIROperation {
     protected final OperationDefinition definition;
@@ -51,10 +52,12 @@ public abstract class AbstractOperation implements FHIROperation {
             Class<? extends Resource> resourceType,
             String logicalId, String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException {
+
         validateOperationContext(operationContext, resourceType, parameters);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
-        Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper);
+        Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper, searchHelper);
         validateOutputParameters(operationContext, result);
         return result;
     }
@@ -77,7 +80,8 @@ public abstract class AbstractOperation implements FHIROperation {
             Class<? extends Resource> resourceType,
             String logicalId, String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException;
+            FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException;
 
     protected Parameters.Parameter getParameter(Parameters parameters, String name) {
         for (Parameters.Parameter parameter : parameters.getParameter()) {

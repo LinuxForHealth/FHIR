@@ -49,7 +49,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testInvalidComparmentName() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        SearchUtil.parseCompartmentQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters);
+        searchHelper.parseCompartmentQueryParameters("bogusCompartmentName", "1", Observation.class, queryParameters);
     }
 
     /**
@@ -58,7 +58,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testInvalidResource() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        SearchUtil.parseCompartmentQueryParameters("Patient", "1", Device.class, queryParameters);
+        searchHelper.parseCompartmentQueryParameters("Patient", "1", Device.class, queryParameters);
     }
 
     /**
@@ -72,7 +72,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         String compartmentName = "Patient";
         String compartmentLogicalId = "11";
         Class<? extends Resource> resourceType = Condition.class;
-        FHIRSearchContext context = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -113,7 +113,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         String compartmentName = "RelatedPerson";
         String compartmentLogicalId = "22";
         Class<? extends Resource> resourceType = CommunicationRequest.class;
-        FHIRSearchContext context = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -138,7 +138,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     /**
      * This method tests parsing compartment related query parms together with non-compartment related query parms..
      * Based on the compartment and resource type, multiple inclusion criteria is expectedExceptions to be returned by
-     * SearchUtil.parseQueryParameters().
+     * searchHelper.parseQueryParameters().
      */
     @Test(dataProvider = "config")
     public void testCompartmentWithQueryParms(boolean useStoredCompartmentParam) throws Exception {
@@ -153,7 +153,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-        FHIRSearchContext context = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -203,7 +203,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         String queryString = "fakeParameter=fakeValue";
         queryParameters.put("fakeParameter", Collections.singletonList("fakeValue"));
-        FHIRSearchContext context = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters);
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
@@ -230,7 +230,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpectedExceptions query parameter 'fakeParameter'");
 
         try {
-            SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, false, true);
+            searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, false, true);
             fail("expectedExceptions parseQueryParameters to throw due to strict mode but it didn't.");
         } catch (Exception e) {
             assertTrue(e instanceof FHIRSearchException);
@@ -239,7 +239,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
     /**
      * This method tests parsing null compartment related query parms together with non-compartment related query parms.
-     * SearchUtil.parseQueryParameters() should ignore the null compartment related parms and successfully process the
+     * searchHelper.parseQueryParameters() should ignore the null compartment related parms and successfully process the
      * non-compartment parms.
      */
     @Test(dataProvider = "config")
@@ -253,7 +253,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         queryParameters.put("category", Collections.singletonList("vital-signs"));
         queryParameters.put("value-quantity", Collections.singletonList("eq185|http://unitsofmeasure.org|[lb_av]"));
-        FHIRSearchContext context = SearchUtil.parseCompartmentQueryParameters(null, null, resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseCompartmentQueryParameters(null, null, resourceType, queryParameters);
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.ExpansionParameters;
@@ -34,7 +35,8 @@ public class ExpandOperation extends AbstractTermOperation {
             String logicalId,
             String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException {
         try {
             ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
             if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {

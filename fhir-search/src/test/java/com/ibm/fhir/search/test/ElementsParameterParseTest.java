@@ -40,7 +40,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Collections.singletonList("_id"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         String queryString = "&_elements=_id";
 
         queryParameters.put("_elements", Collections.singletonList("bogus"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertTrue(context.getElementsParameters() == null || context.getElementsParameters().size() == 0);
 
@@ -65,7 +65,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Collections.singletonList("bogus"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+        searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Collections.singletonList("id,contact,bogus,name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(3, context.getElementsParameters().size());
@@ -93,7 +93,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Collections.singletonList("id,contact,bogus,name"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+        searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Arrays.asList("id","contact","bogus","name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(1, context.getElementsParameters().size());
@@ -118,7 +118,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Arrays.asList("id","contact","bogus","name"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+        searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         String queryString = "&_elements=name";
 
         queryParameters.put("_elements", Collections.singletonList("name"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
         assertEquals(1, context.getElementsParameters().size());
@@ -144,7 +144,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_elements", Collections.singletonList("name,photo,identifier"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getElementsParameters());
 

@@ -40,6 +40,8 @@ public abstract class BaseSearchTest {
 
     public static final boolean DEBUG = false;
 
+    protected static SearchUtil searchHelper;
+
     @BeforeClass
     public void configureLogging() throws Exception {
         final InputStream inputStream = BaseSearchTest.class.getResourceAsStream("/logging.unitTest.properties");
@@ -67,7 +69,7 @@ public abstract class BaseSearchTest {
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @AfterMethod

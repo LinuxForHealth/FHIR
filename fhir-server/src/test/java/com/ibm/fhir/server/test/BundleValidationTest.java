@@ -39,6 +39,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class BundleValidationTest {
@@ -49,7 +50,7 @@ public class BundleValidationTest {
     @BeforeClass
     void setup() throws FHIRException {
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence);
+        helper = new FHIRRestHelper(persistence, new SearchUtil());
     }
 
     /**
@@ -664,7 +665,7 @@ public class BundleValidationTest {
                         .build())
                     .build())
                 .build();
-        
+
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);

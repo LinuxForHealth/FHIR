@@ -12,9 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhirinteger;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
 import static com.ibm.fhir.cql.helpers.ModelHelper.relatedArtifact;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
@@ -22,6 +19,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +45,7 @@ import com.ibm.fhir.model.type.code.ParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -52,34 +53,36 @@ public abstract class BaseDataRequirementsOperationTest {
 
     public static final String URL_BASE = "http://test.com/fhir/";
 
+    protected SearchUtil searchHelper = new SearchUtil();
+
     public abstract AbstractDataRequirementsOperation getOperation();
 
     public Parameters runTest(FHIROperationContext context, Class<? extends Resource> resource, Function<Library,String> fId, Function<Library, Parameters> fParams) throws Exception {
-    
+
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
             staticRegistry.when(FHIRRegistry::getInstance).thenReturn(mockRegistry);
-            
+
             FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-            
+
             Library primaryLibrary = initializeLibraries(mockRegistry, resourceHelper);
-    
-            Parameters outParameters = getOperation().doInvoke(context, resource, fId.apply(primaryLibrary), null, fParams.apply(primaryLibrary), resourceHelper);
+
+            Parameters outParameters = getOperation().doInvoke(context, resource, fId.apply(primaryLibrary), null, fParams.apply(primaryLibrary), resourceHelper, searchHelper);
             assertNotNull(outParameters);
-            
+
             ParameterMap outMap = new ParameterMap(outParameters);
             Library module = (Library) outMap.getSingletonParameter(LibraryDataRequirementsOperation.PARAM_OUT_RETURN).getResource();
             assertNotNull(module);
-            
+
             assertEquals( module.getType().getCoding().get(0).getCode().getValue(), Constants.LIBRARY_TYPE_MODEL_DEFINITION, "type" );
             assertTrue( module.getRelatedArtifact().size() >= 4, "relatedArtifacts" );
             assertEquals( module.getParameter().size(), 4, "parameters");
             assertEquals( module.getDataRequirement().size(), 2, "dataRequirements");
-            
+
             return outParameters;
         }
     }
-    
+
     protected Library initializeLibraries(FHIRRegistry mockRegistry, FHIRResourceHelpers resourceHelper) throws Exception {
         return initializeLibraries(mockRegistry, resourceHelper, true);
     }
@@ -93,16 +96,16 @@ public abstract class BaseDataRequirementsOperationTest {
                 .context("Patient")
                 .expression("BirthDate", "Patient.birthDate")
                 .build();
-    
+
         Library modelInfo = getFHIRModelInfo();
         Library fhirHelpers = getFHIRHelpers();
         Library sde = getSupplementalDataElementsLibrary();
         Library primaryLibrary = getPrimaryLibrary(cql, modelInfo, fhirHelpers, sde);
         List<Library> fhirLibraries = Arrays.asList(primaryLibrary, getSupplementalDataElementsLibrary(), getFHIRHelpers(), getFHIRModelInfo());
-    
+
         if (exists) {
             when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
-            
+
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
         }
         return primaryLibrary;
@@ -117,7 +120,7 @@ public abstract class BaseDataRequirementsOperationTest {
             .parameter( ParameterDefinition.builder().name(fhircode("Patient")).min(fhirinteger(0)).max(fhirstring("1")).type(FHIRAllTypes.PATIENT).use(ParameterUse.OUT).build() )
             .parameter( ParameterDefinition.builder().name(fhircode("BirthDate")).min(fhirinteger(0)).max(fhirstring("1")).type(FHIRAllTypes.DATE).use(ParameterUse.OUT).build() )
             .dataRequirement( DataRequirement.builder().type( FHIRAllTypes.PATIENT ).profile(canonical("http://hl7.org/fhir/StructureDefinition/Patient")).build() );
-        
+
         Library primaryLibrary = builder.build();
         return primaryLibrary;
     }
@@ -128,9 +131,9 @@ public abstract class BaseDataRequirementsOperationTest {
                 .using("FHIR", Constants.FHIR_VERSION)
                 .context("Patient")
                 .expression("ToString(Code code)", "code.value");
-        
+
         String cql = cqlBuilder.build();
-        
+
         return getTemplateLibrary("FHIRHelpers", Constants.FHIR_VERSION, cql)
                 .relatedArtifact( relatedArtifact( RelatedArtifactType.DEPENDS_ON, URL_BASE + "FHIR-ModelInfo", Constants.FHIR_VERSION) )
                 .build();
@@ -148,9 +151,9 @@ public abstract class BaseDataRequirementsOperationTest {
                 .include("FHIRHelpers", Constants.FHIR_VERSION)
                 .context("Patient")
                 .expression("SDE Payer", "[Coverage: type in \"Payer\"] Payer\n return { code: Payer.type, period, Payer.period }");
-        
+
         String cql = cqlBuilder.build();
-        
+
         return getTemplateLibrary("SupplementalDataElements", "2.0.0", cql)
                 .parameter( ParameterDefinition.builder().name(fhircode("Patient")).min(fhirinteger(0)).max(fhirstring("1")).type(FHIRAllTypes.PATIENT).use(ParameterUse.OUT).build() )
                 .parameter( ParameterDefinition.builder().name(fhircode("SDE Payer")).min(fhirinteger(0)).max(fhirstring("1")).type(FHIRAllTypes.ANY).use(ParameterUse.OUT).build() )
@@ -159,7 +162,7 @@ public abstract class BaseDataRequirementsOperationTest {
                 .dataRequirement( DataRequirement.builder().type( FHIRAllTypes.PATIENT ).profile(canonical("http://hl7.org/fhir/StructureDefinition/Patient")).build() )
                 .dataRequirement( DataRequirement.builder().type( FHIRAllTypes.COVERAGE ).profile(canonical("http://hl7.org/fhir/StructureDefinition/Coverage")).build() )
                 .build();
-    
+
     }
 
     protected Library.Builder getTemplateLibrary(String cql) {
@@ -176,7 +179,7 @@ public abstract class BaseDataRequirementsOperationTest {
                 .name(fhirstring(name))
                 .version(fhirstring(version))
                 .url(fhiruri(URL_BASE + "Library/" + name))
-    
+
                 .status(PublicationStatus.ACTIVE);
         if( cql != null ) {
             builder.type(LibraryHelper.getLogicLibraryConcept())

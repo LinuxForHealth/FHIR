@@ -85,6 +85,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     private final CompartmentUtil compartmentHelper = new CompartmentUtil();
+    private final SearchUtil searchHelper = new SearchUtil();
 
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
@@ -379,7 +380,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                         }
 
                         // Build the Patient compartment inclusion criteria search parameter
-                        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(PATIENT, patientIdFromToken, event.getFhirResourceType());
+                        QueryParameter inclusionCriteria = searchHelper.buildInclusionCriteria(PATIENT, patientIdFromToken, event.getFhirResourceType());
 
                         // Add the inclusion criteria parameter to the front of the search parameter list
                         searchContext.getSearchParameters().add(0, inclusionCriteria);
@@ -771,7 +772,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             for (String searchParmCode : inclusionCriteria) {
                 try {
-                    SearchParameter inclusionParm = SearchUtil.getSearchParameter(resourceType, searchParmCode);
+                    SearchParameter inclusionParm = searchHelper.getSearchParameter(resourceType, searchParmCode);
                     if (inclusionParm != null & inclusionParm.getExpression() != null) {
                         String expression = inclusionParm.getExpression().getValue();
                         Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);

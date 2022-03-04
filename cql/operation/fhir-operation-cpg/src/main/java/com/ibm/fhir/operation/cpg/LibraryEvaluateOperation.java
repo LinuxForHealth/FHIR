@@ -31,6 +31,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -49,13 +50,13 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-        String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
-        throws FHIROperationException {
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper,
+            SearchUtil searchHelper) throws FHIROperationException {
 
         Parameters result = null;
 
         ParameterMap paramMap = new ParameterMap(parameters);
-        
+
         checkUnsupportedParameters(paramMap);
 
         try {
@@ -73,8 +74,8 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
             if (primaryLibrary == null) {
                 throw new IllegalArgumentException("failed to resolve library");
-            } else {          
-                result = doEvaluation(resourceHelper, paramMap, primaryLibrary);
+            } else {
+                result = doEvaluation(resourceHelper, paramMap, searchHelper, primaryLibrary);
             }
 
         } catch (FHIROperationException fex) {
@@ -89,7 +90,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
         return result;
     }
-    
+
     @Override
     protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
         Set<String> expressions = null;
@@ -101,5 +102,5 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
         }
         return expressions;
     }
-    
+
 }

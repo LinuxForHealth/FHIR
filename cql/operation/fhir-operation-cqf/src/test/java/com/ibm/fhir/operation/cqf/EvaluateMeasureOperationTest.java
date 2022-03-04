@@ -65,10 +65,11 @@ import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 public class EvaluateMeasureOperationTest {
 
     private EvaluateMeasureOperation operation;
+    private SearchUtil searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        SearchUtil.init();
+        searchHelper = new SearchUtil();
     }
 
     @BeforeMethod
@@ -134,7 +135,7 @@ public class EvaluateMeasureOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             Parameters result = operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
-                Measure.class, null, null, parameters, resourceHelper);
+                Measure.class, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -190,7 +191,7 @@ public class EvaluateMeasureOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT VALID\"");
@@ -233,7 +234,7 @@ public class EvaluateMeasureOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT_VALID\"");
@@ -276,7 +277,7 @@ public class EvaluateMeasureOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
             assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"https://iamnothere.com/Measure/NOT_VALID|1.0\"");
@@ -317,7 +318,7 @@ public class EvaluateMeasureOperationTest {
             when(mockRegistry.getResource(measureURL, Measure.class)).thenReturn( measure );
 
             operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("evaluate-measure"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
             assertTrue(fex.getMessage().startsWith("Measures utilizing CQL SHALL reference one and only one CQL library"), fex.getMessage());

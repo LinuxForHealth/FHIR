@@ -83,12 +83,13 @@ public class FHIRSwaggerGenerator {
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = true;
     private static final List<String> DATA_EXPORT_TYPES = Arrays.asList("Patient", "Group");
-    
+
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 
     private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+    private static final SearchUtil searchHelper = new SearchUtil();
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
@@ -170,12 +171,12 @@ public class FHIRSwaggerGenerator {
 
                     JsonObjectBuilder parameters = factory.createObjectBuilder();
                     generateParameters(parameters, filter);
-                    
+
                     // Generate export parameters if valid for the model class
                     if (DATA_EXPORT_TYPES.contains(resourceModelClass.getSimpleName()) && filter.acceptOperation("export")) {
                         generateExportParameters(parameters);
                         generateDefinition(Parameters.class, definitions);
- 
+
                         // generate definition for all inner classes inside the top level resources.
                         for (String innerClassName : FHIROpenApiGenerator.getAllResourceInnerClasses()) {
                             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
@@ -185,7 +186,7 @@ public class FHIRSwaggerGenerator {
                             }
                         }
                     }
-                    
+
                     JsonObject parametersObject = parameters.build();
                     if (!parametersObject.isEmpty()) {
                         swagger.add("parameters", parametersObject);
@@ -518,25 +519,25 @@ public class FHIRSwaggerGenerator {
 
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
-        APIConnectAdapter.addApiConnectStuff(swagger); 
+        APIConnectAdapter.addApiConnectStuff(swagger);
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
 
         // FHIR _history interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
-        
+
         generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "get", false);
         // add post call
         generateExportPathItem(path, "Other", "Export data from the FHIR server", false, "post", false);
         paths.add("/$export", path);
-        
+
         // Add bulkdata-status
         path = factory.createObjectBuilder();
-        
+
         generateBulkDataStatusPathItem(path);
         paths.add("/$bulkdata-status", path);
-       
+
         swagger.add("paths", paths);
 
         generateDefinition(Parameters.class, definitions);
@@ -616,7 +617,7 @@ public class FHIRSwaggerGenerator {
             parameters.add("vidParam", vid);
         }
         if (filter.acceptOperation("search")) {
-            for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+            for (Entry<String, SearchParameter> entry : searchHelper.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
                 SearchParameter searchParameter = entry.getValue();
 
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
@@ -640,7 +641,7 @@ public class FHIRSwaggerGenerator {
             id.add("required", true);
             id.add("type", "string");
             parameters.add("idParam", id);
-            for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
+            for (Entry<String, SearchParameter> entry : searchHelper.getSearchParameters(Resource.class.getSimpleName()).entrySet()) {
                 SearchParameter searchParameter = entry.getValue();
 
                 JsonObjectBuilder parameter = factory.createObjectBuilder();
@@ -724,10 +725,10 @@ public class FHIRSwaggerGenerator {
         outputFormat.add("description", "The format for the requested bulk data files to be generated");
         outputFormat.add("in", "query");
         outputFormat.add("required", false);
-        outputFormat.add("type", "string");     
-        
+        outputFormat.add("type", "string");
+
         parameters.add("_outputFormatParam", outputFormat);
-        
+
         // add _since=<timestamp>
         JsonObjectBuilder since = factory.createObjectBuilder();
         since.add("name", "_since");
@@ -735,9 +736,9 @@ public class FHIRSwaggerGenerator {
         since.add("in", "query");
         since.add("required", false);
         since.add("type", "string");
-        
+
         parameters.add("_sinceParam", since);
-        
+
         JsonObjectBuilder type = factory.createObjectBuilder();
         type.add("name", "_type");
         type.add("description", "Limit which resource types are returned");
@@ -835,7 +836,7 @@ public class FHIRSwaggerGenerator {
             if (modelClass.getSimpleName().equals("Group"))
                 pathStringBuilder.append("/{id}");
             pathStringBuilder.append("/$export");
-            
+
             paths.add(pathStringBuilder.toString(), pathObject);
         }
 
@@ -1122,7 +1123,7 @@ public class FHIRSwaggerGenerator {
     }
 
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
-        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
+        for (Entry<String, SearchParameter> entry : searchHelper.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
             SearchParameter searchParameter = entry.getValue();
 
             JsonObjectBuilder parameter = factory.createObjectBuilder();
@@ -1190,7 +1191,7 @@ public class FHIRSwaggerGenerator {
     }
 
     private static void generateSearchFormParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
-        for (Entry<String, SearchParameter> entry : SearchUtil.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
+        for (Entry<String, SearchParameter> entry : searchHelper.getSearchParameters(modelClass.getSimpleName()).entrySet()) {
             SearchParameter searchParameter = entry.getValue();
 
             JsonObjectBuilder parameter = factory.createObjectBuilder();
@@ -1387,7 +1388,7 @@ public class FHIRSwaggerGenerator {
      * Common method used for both the general export function and the Patient or Group specific function.
      * Expected tag parameter is set to "other" for non resource specific generation.  Tags "Patient" or "Group" for resource specific generation.
      * HttpMethod parameter is "get" or "post".
-     *  
+     *
      * @param path
      * @param tag
      * @param summary
@@ -1402,7 +1403,7 @@ public class FHIRSwaggerGenerator {
 
         httpMethodBuilder.add("tags", tags);
         httpMethodBuilder.add("summary", summary);
-        
+
         String operationId = httpMethod + "Export";
         if (resourceSpecific) {
             operationId = operationId + tag;
@@ -1421,7 +1422,7 @@ public class FHIRSwaggerGenerator {
             JsonArrayBuilder consumes = factory.createArrayBuilder();
             consumes.add(FHIRMediaType.APPLICATION_FHIR_JSON);
             httpMethodBuilder.add("consumes", consumes);
-            
+
             // Generate POST Parameters
             JsonObjectBuilder body = factory.createObjectBuilder();
             body.add("name", "body");
@@ -1429,42 +1430,42 @@ public class FHIRSwaggerGenerator {
             body.add("in", "body");
             body.add("required", true);
             JsonObjectBuilder schema = factory.createObjectBuilder();
-            schema.add("$ref", "#/definitions/Parameters");     
+            schema.add("$ref", "#/definitions/Parameters");
             body.add("schema", schema);
-            
+
             parameters.add(body);
        } else {
             // Generate GET parameters
             JsonObjectBuilder outputFormatParameter = factory.createObjectBuilder();
             outputFormatParameter.add("$ref", "#/parameters/_outputFormatParam");
             parameters.add(outputFormatParameter);
-            
+
             JsonObjectBuilder sinceParameter = factory.createObjectBuilder();
             sinceParameter.add("$ref", "#/parameters/_sinceParam");
             parameters.add(sinceParameter);
-            
+
             JsonObjectBuilder typeParameter = factory.createObjectBuilder();
             typeParameter.add("$ref", "#/parameters/_typeParam");
             parameters.add(typeParameter);
         }
-        
+
         JsonArrayBuilder produces = factory.createArrayBuilder();
         produces.add(FHIRMediaType.APPLICATION_NDJSON);
         httpMethodBuilder.add("produces", produces);
-        
+
         httpMethodBuilder.add("parameters", parameters);
-        
+
         JsonObjectBuilder responses = factory.createObjectBuilder();
 
         JsonObjectBuilder response = factory.createObjectBuilder();
         response.add("description", "Export job is initiated");
-        
+
         // Add Response headers
         JsonObjectBuilder headers = factory.createObjectBuilder();
         JsonObjectBuilder contentLocation = factory.createObjectBuilder();
         contentLocation.add("description", "The polling location");
         contentLocation.add("type", "string");
-        
+
         headers.add("Content-Location", contentLocation);
         response.add("headers", headers);
 
@@ -1475,7 +1476,7 @@ public class FHIRSwaggerGenerator {
     }
 
     /**
-     *  
+     *
      * @param path
      */
     private static void generateBulkDataStatusPathItem(JsonObjectBuilder path) {
@@ -1498,7 +1499,7 @@ public class FHIRSwaggerGenerator {
         jobParameter.add("required", true);
         jobParameter.add("type", "string");
         parameters.add(jobParameter);
-               
+
         httpMethodBuilder.add("parameters", parameters);
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
@@ -1511,7 +1512,7 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder response = factory.createObjectBuilder();
         response.add("description", "Export job is queued and not yet complete");
         responses.add("202", response);
-        
+
         // Add 200 completed
         response = factory.createObjectBuilder();
         response.add("description", "Export job completed");
@@ -1523,7 +1524,7 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder transactionTime = factory.createObjectBuilder();
         transactionTime.add("type", "string");
         properties.add("transactionTime", transactionTime);
-        
+
         JsonObjectBuilder request = factory.createObjectBuilder();
         request.add("type", "string");
         properties.add("request", request);
@@ -1531,13 +1532,13 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder requiresAccessToken = factory.createObjectBuilder();
         requiresAccessToken.add("type", "boolean");
         properties.add("requiresAccessToken", requiresAccessToken);
-        
+
         JsonObjectBuilder output = factory.createObjectBuilder();
         output.add("type", "array");
         JsonObjectBuilder items = factory.createObjectBuilder();
         items.add("type", "object");
         JsonObjectBuilder itemProperties = factory.createObjectBuilder();
-        
+
         JsonObjectBuilder outputArrayEntryTypeProperty = factory.createObjectBuilder();
         outputArrayEntryTypeProperty.add("type", "string");
         itemProperties.add("type", outputArrayEntryTypeProperty);
@@ -1545,15 +1546,15 @@ public class FHIRSwaggerGenerator {
         JsonObjectBuilder outputArrayEntryUrlProperty = factory.createObjectBuilder();
         outputArrayEntryUrlProperty.add("type", "string");
         itemProperties.add("url", outputArrayEntryUrlProperty);
-        
+
         JsonObjectBuilder outputArrayEntryCountProperty = factory.createObjectBuilder();
         outputArrayEntryCountProperty.add("type", "integer");
         itemProperties.add("count", outputArrayEntryCountProperty);
-        
+
         items.add("properties", itemProperties);
         output.add("items", items);
         properties.add("output", output);
-        
+
         schema.add("properties", properties);
         response.add("schema", schema);
         responses.add("200", response);
@@ -1564,7 +1565,7 @@ public class FHIRSwaggerGenerator {
 
     /**
      * Generates the $everything path for a Patient resource
-     *  
+     *
      * @param path
      * @param addIdParam
      */
@@ -1578,14 +1579,14 @@ public class FHIRSwaggerGenerator {
         JsonArrayBuilder parameters = factory.createArrayBuilder();
 
         if (addIdParam) {
-            httpMethodBuilder.add("summary", "Return all the information related to a given patient");       
+            httpMethodBuilder.add("summary", "Return all the information related to a given patient");
             httpMethodBuilder.add("operationId", "everythingPatient");
-            
+
             JsonObjectBuilder idParameter = factory.createObjectBuilder();
             idParameter.add("$ref", "#/parameters/idParam");
             parameters.add(idParameter);
         } else {
-            httpMethodBuilder.add("summary", "Return all the information related to one or more patients");       
+            httpMethodBuilder.add("summary", "Return all the information related to one or more patients");
             httpMethodBuilder.add("operationId", "everythingAllPatients");
         }
 
@@ -1613,13 +1614,13 @@ public class FHIRSwaggerGenerator {
         type.add("type", "string");
 
         parameters.add(type);
-            
+
         httpMethodBuilder.add("parameters", parameters);
 
         JsonArrayBuilder produces = factory.createArrayBuilder();
         produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
         httpMethodBuilder.add("produces", produces);
-        
+
         JsonObjectBuilder responses = factory.createObjectBuilder();
 
         JsonObjectBuilder response = factory.createObjectBuilder();

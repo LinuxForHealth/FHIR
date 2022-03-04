@@ -48,7 +48,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_sort", Collections.singletonList("-birthdate"));
 
-        FHIRSearchContext _ctx = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext _ctx = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(_ctx);
         assertEquals(_ctx.getSortParameters().get(0).getDirection().value(), '-');
     }
@@ -63,7 +63,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_sort", Collections.singletonList("birthdate"));
 
-        FHIRSearchContext _ctx = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext _ctx = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(_ctx);
         assertEquals(_ctx.getSortParameters().get(0).getDirection().value(), '+');
     }
@@ -79,7 +79,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_sort", Collections.singletonList("birthdateXX"));
 
-        FHIRSearchContext _ctx = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext _ctx = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(_ctx);
     }
 
@@ -95,7 +95,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In lenient mode, invalid search parameters should be ignored
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(searchContext);
         assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
 
@@ -112,7 +112,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // In strict mode (lenient=false), the search should throw a FHIRSearchException
         queryParameters.put("_sort", Collections.singletonList("bogusSortParm"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+        searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
     }
 
     /**
@@ -127,7 +127,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String queryString = "&_sort=" + sortParmCode;
 
         queryParameters.put("_sort", Collections.singletonList(sortParmCode));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
 
         // Do sort parameter validation
@@ -160,7 +160,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String queryString = "&_sort=" + direction.value() + sortParmCode;
 
         queryParameters.put("_sort", Collections.singletonList(direction.value() + sortParmCode));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -191,7 +191,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String sortParmCode = "birthdate";
 
         queryParameters.put("_sort", Collections.singletonList(sortParmCode));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -236,7 +236,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_sort", Collections.singletonList(sortParmCode));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
 
         // Do sort parameter validation
         assertNotNull(searchContext);
@@ -292,7 +292,7 @@ public class SortParameterParseTest extends BaseSearchTest {
                 directionDesc.value() + sortParmCode3 + "," + directionDesc.value() + sortParmCode4 + "," + sortParmCode5));
         queryParameters.put(searchParmName, Collections.singletonList(searchParmValue));
 
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
 
         assertNotNull(searchContext);
         assertNotNull(searchContext.getSortParameters());

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("organization:identifier.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -57,7 +57,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("badParm.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -66,7 +66,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("general-practitioner:Practitioner.badParm", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -75,7 +75,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("name.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -84,7 +84,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("general-practitioner:Condition.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -93,7 +93,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("general-practitioner.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -102,7 +102,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("link:Patient.general-practitioner", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -111,7 +111,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("organization:Organization.name:badModifier", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -120,7 +120,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("organization:Organization.name:type", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -129,7 +129,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("organization:Organization._total", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&general-practitioner:Organization.active=true";
 
         queryParameters.put("general-practitioner:Organization.active", Collections.singletonList("true"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -180,7 +180,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&general-practitioner:Organization.active:missing=true";
 
         queryParameters.put("general-practitioner:Organization.active:missing", Collections.singletonList("true"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -220,7 +220,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&link:Patient.organization:Organization.name=xxx";
 
         queryParameters.put("link:Patient.organization:Organization.name", Collections.singletonList("xxx"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -271,7 +271,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&investigation:RiskAssessment.probability=50.5";
 
         queryParameters.put("investigation:RiskAssessment.probability", Collections.singletonList("50.5"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -319,7 +319,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&investigation:RiskAssessment.date=" + now.toString();
 
         queryParameters.put("investigation:RiskAssessment.date", Collections.singletonList(now.toString()));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -360,7 +360,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&investigation:RiskAssessment.encounter=Encounter/1";
 
         queryParameters.put("investigation:RiskAssessment.encounter", Collections.singletonList("Encounter/1"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -404,7 +404,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&finding-ref:Observation.value-quantity=5.4";
 
         queryParameters.put("finding-ref:Observation.value-quantity", Collections.singletonList("5.4"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -444,7 +444,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&part-of:Procedure.instantiates-uri=uri";
 
         queryParameters.put("part-of:Procedure.instantiates-uri", Collections.singletonList("uri"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -484,7 +484,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         String queryString = "&finding-ref:Observation.code-value-string=1234$test";
 
         queryParameters.put("finding-ref:Observation.code-value-string", Collections.singletonList("1234$test"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
@@ -529,7 +529,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("organization:identifier.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -539,7 +539,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient,Observation"));
         queryParameters.put("organization:Organization.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -549,7 +549,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("general-practitioner:Practitioner.badParm", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -559,7 +559,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("name.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -569,7 +569,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Condition,Observation"));
         queryParameters.put("subject:Condition.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -579,7 +579,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Condition,Observation"));
         queryParameters.put("subject.name", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -589,7 +589,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Condition,Observation"));
         queryParameters.put("subject:Patient.general-practitioner", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -599,7 +599,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("organization:Organization.name:badModifier", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -609,7 +609,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("organization:Organization.name:type", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)
@@ -619,7 +619,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("organization:Organization._total", Collections.singletonList("xxx"));
-        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchHelper.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test
@@ -631,7 +631,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Patient"));
         queryParameters.put("general-practitioner:Organization.active", Collections.singletonList("true"));
-        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(searchContext);
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         assertNotNull(searchParameters);
