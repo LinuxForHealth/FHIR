@@ -26,6 +26,7 @@ import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -219,7 +220,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext)
+    public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext)
         throws FHIRPersistenceException {
         return null;
     }
