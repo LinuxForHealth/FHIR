@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
-import java.io.BufferedReader;
+import static com.ibm.fhir.model.type.String.string;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.StringReader;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,11 +68,12 @@ public class FileProvider implements Provider {
      * sizes, 1K to 1G and see how it performs while reading.
      */
     private static final long READ_BLOCK_OPT = 524288L;
+
     private static final byte[] NDJSON_LINESEPERATOR = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     private String source = null;
     private long parseFailures = 0l;
-    @SuppressWarnings("unused")
+
     private ImportTransientUserData transientUserData = null;
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
@@ -104,6 +108,7 @@ public class FileProvider implements Provider {
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         resources = new ArrayList<>();
+        long line = numOfLinesToSkip;
         try {
             try (RandomAccessFile raf = new RandomAccessFile(Paths.get(getFilePath(workItem)).toFile(), "r")) {
                 raf.seek(this.transientUserData.getCurrentBytes());
@@ -125,7 +130,19 @@ public class FileProvider implements Provider {
                         } catch (FHIRParserException e) {
                             // Log and skip the invalid FHIR resource.
                             parseFailures++;
-                            logger.log(Level.INFO, "readResources: Failed to parse line " + (numOfLinesToSkip + chunkRead) + " of [" + source + "].", e);
+                            String msg = "readResources: " + "Failed to parse line " + line + " of [" + source + "].";
+
+                            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+                            String out = adapter.getOperationOutcomeProvider(source);
+                            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(source)
+                                    && !StorageType.HTTPS.equals(adapter.getStorageProviderStorageType(out));
+                            if (collectImportOperationOutcomes) {
+                                FHIRGenerator.generator(Format.JSON)
+                                    .generate(generateException(line, msg),
+                                            transientUserData.getBufferStreamForImportError());
+                                transientUserData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
+                            logger.log(Level.WARNING, msg);
                         }
 
                         // With small resources the 50 at a time gets really expensive.
@@ -137,6 +154,7 @@ public class FileProvider implements Provider {
                             resourceStr = null;
                             continueRead = false;
                         }
+                        line++;
                     }
                     // The Channel enables us to skip the future seek.
                     this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
@@ -151,10 +169,12 @@ public class FileProvider implements Provider {
      * This specialized class enables a BufferedReader.readLine like implementation
      * without the buffering as there is a local file with direct read and seek.
      */
-    private static class CountInputStreamReader extends InputStreamReader {
+    public static class CountInputStreamReader extends InputStreamReader {
         // Implies CR
         private static final int LF = '\n';
         private static final long MAX_LENGTH_PER_LINE = 2147483648l;
+
+        private ByteBuffer buf = ByteBuffer.allocate(4);
 
         private long length = 0;
 
@@ -188,6 +208,8 @@ public class FileProvider implements Provider {
                     length++;
                     read = false;
                 } else {
+
+                    System.out.println(Character.isSupplementaryCodePoint(r));
                     builder.append((char) r);
                     length++;
                     // We only need to account for line length here.
@@ -204,6 +226,31 @@ public class FileProvider implements Provider {
         public long getLength() {
             return length;
         }
+    }
+
+    /**
+     * Generate an operation outcome
+     * 
+     * @param lineNumber
+     * @param msg
+     * @return
+     */
+    private OperationOutcome generateException(long lineNumber, String msg) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.EXCEPTION)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string(msg))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+        return OperationOutcome.builder()
+                .issue(Arrays.asList(issue))
+                .build();
     }
 
     @Override
