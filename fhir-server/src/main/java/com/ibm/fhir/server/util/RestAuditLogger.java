@@ -463,12 +463,7 @@ public class RestAuditLogger {
                     entry.getContext().setAction(action);
                 }
 
-                String loc = null;
-                if (responseEntry.getResponse() != null && responseEntry.getResponse().getLocation() != null) {
-                    loc = responseEntry.getResponse().getLocation().getValue();
-                } else { 
-                    loc = requestEntry.getRequest().getUrl().getValue();
-                }
+                String loc = requestEntry.getRequest().getUrl().getValue();
 
                 // Only for BATCH we want to override the REQUEST URI and Status Code
                 StringBuilder builder = new StringBuilder();
