@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,6 +42,7 @@ public class FHIRPersistenceEvent {
      * This property is of type String and contains the resource id associated with an
      * update, read, vread, history, or delete operation.
      * For update and delete it may be null (i.e. for conditional updates/deletes)
+     * For whole-system history, this property will be null.
      * For other operations, this property will be null.
      */
     public static final String PROPNAME_RESOURCE_ID = "RESOURCE_ID";
@@ -63,6 +64,14 @@ public class FHIRPersistenceEvent {
      * For other operations, this property will be null.
      */
     public static final String PROPNAME_SEARCH_CONTEXT_IMPL = "SEARCH_CONTEXT_IMPL";
+
+    /**
+     * This property is of type FHIRSystemHistoryContext and is the system history context
+     * associated with a system history request, but it may be null.
+     * For other operations, this property will be null.
+     */
+    public static final String PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL = "SYSTEM_HISTORY_CONTEXT_IMPL";
+
 
     private Resource fhirResource;
     private Resource prevFhirResource = null;
@@ -149,7 +158,7 @@ public class FHIRPersistenceEvent {
 
     /**
      * Returns the resource id associated with the FHIR REST API request that triggered the
-     * interceptor invocation.   This will be non-null for a read, vread, history, or non-conditional update/delete operation.
+     * interceptor invocation.   This will be non-null for a read, vread, non-whole-system history, or non-conditional update/delete operation.
      */
     public String getFhirResourceId() {
         return (String) getProperty(PROPNAME_RESOURCE_ID);
@@ -206,4 +215,11 @@ public class FHIRPersistenceEvent {
         return (FHIRSearchContext) getProperty(PROPNAME_SEARCH_CONTEXT_IMPL);
     }
 
+    /**
+     * Returns the FHIRSystemHistoryContext instance currently being used by the FHIR REST API layer
+     * to process the current request.
+     */
+    public FHIRSystemHistoryContext getSystemHistoryContextImpl() {
+        return (FHIRSystemHistoryContext) getProperty(PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL);
+    }
 }

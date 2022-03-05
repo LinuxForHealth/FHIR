@@ -1,0 +1,58 @@
+{
+	"resourceType": "Provenance",
+	"id": "1000016",
+	"meta": {
+		"versionId": "1",
+		"lastUpdated": "2020-10-09T15:26:23.217+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"1000016\" Version \"1\" Updated \"2020-10-09 03:26:23+0000\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-pdex-provenance.html\">Provenance</a></p></div><p><b>target</b>: <a href=\"DocumentReference-123456.html\">DocumentReference/123456</a></p><p><b>recorded</b>: Oct 9, 2020, 3:26:23 PM</p><h3>Agents</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Who</b></td></tr><tr><td>*</td><td>Transmitter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU3.1/CodeSystem-us-core-provenance-participant-type.html\">US Core Provenance Participant Type Extension Codes</a>#transmitter)</span></td><td><a href=\"Organization-ProviderOrg1.html\">Organization/ProviderOrg1</a> \"Provider 1\"</td></tr></table><h3>Entities</h3><table class=\"grid\"><tr><td>-</td><td><b>Extension</b></td><td><b>Role</b></td><td><b>What</b></td></tr><tr><td>*</td><td></td><td>source</td><td><span>: No reference available</span></td></tr></table></div>"
+	},
+	"target": [
+		{
+			"reference": "DocumentReference/123456"
+		}
+	],
+	"recorded": "2020-10-09T15:26:23.217+00:00",
+	"agent": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type",
+						"code": "transmitter",
+						"display": "Transmitter"
+					}
+				]
+			},
+			"who": {
+				"reference": "Organization/ProviderOrg1"
+			}
+		}
+	],
+	"entity": [
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/ProvenanceSourceFrom",
+					"valueCodeableConcept": {
+						"coding": [
+							{
+								"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenancePayerDataSource",
+								"code": "unstructured"
+							}
+						]
+					}
+				}
+			],
+			"role": "source",
+			"what": {
+				"display": "No reference available"
+			}
+		}
+	]
+}

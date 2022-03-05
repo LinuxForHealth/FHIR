@@ -50,10 +50,13 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -67,6 +70,8 @@ public class AuthzPolicyEnforcementTest {
     private static final String PATIENT_ID =     "11111111-1111-1111-1111-111111111111";
     private static final String OBSERVATION_ID = "11111111-1111-1111-1111-111111111111";
     private static final String CONDITION_ID =   "11111111-1111-1111-1111-111111111111";
+    private static final String PATIENT_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111111";
+    private static final String OBSERVATION_PROVENANCE_ID =   "11111111-1111-1111-1111-111111111111";
 
     private static final List<Permission> READ_APPROVED = Arrays.asList(Permission.READ, Permission.ALL);
     private static final List<Permission> WRITE_APPROVED = Arrays.asList(Permission.WRITE, Permission.ALL);
@@ -97,6 +102,7 @@ public class AuthzPolicyEnforcementTest {
                 .build();
 
         patientProvenance = provenanceBase.toBuilder()
+                .id(PATIENT_PROVENANCE_ID)
                 .target(Reference.builder()
                     .reference(string("Patient/" + PATIENT_ID))
                     .build())
@@ -112,6 +118,7 @@ public class AuthzPolicyEnforcementTest {
                 .build();
 
         observationProvenance = provenanceBase.toBuilder()
+                .id(OBSERVATION_PROVENANCE_ID)
                 .target(Reference.builder()
                     .reference(string("Observation/" + OBSERVATION_ID))
                     .build())
@@ -120,8 +127,9 @@ public class AuthzPolicyEnforcementTest {
 
         condition = TestUtil.getMinimalResource(Condition.class);
         condition = condition.toBuilder()
+                .id(CONDITION_ID)
                 .subject(Reference.builder()
-                    .reference(string("Patient/" + CONDITION_ID + "/_history/1"))
+                    .reference(string("Patient/" + PATIENT_ID + "/_history/1"))
                     .build())
                 .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
@@ -617,6 +625,143 @@ public class AuthzPolicyEnforcementTest {
         }
     }
 
+    @Test
+    public void testBeforeHistory() throws FHIRPersistenceInterceptorException {
+
+        // Valid system-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Resource]' is not granted by any of the provided scopes: [patient/*.read]");
+        }
+
+        // Valid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Valid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/Patient.read system/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level history with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContextImpl systemHistoryContext = new FHIRSystemHistoryContextImpl();
+            systemHistoryContext.addResourceType("Patient");
+            systemHistoryContext.addResourceType("Observation");
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Patient, Observation]' is not granted by any of the provided scopes: [patient/Patient.read, patient/Observation.read]");
+        }
+
+        // Valid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Valid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System history interaction was not allowed but should have been", e);
+        }
+
+        // Invalid type-level history
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Observation.read", PATIENT_ID));
+            FHIRSystemHistoryContext systemHistoryContext = new FHIRSystemHistoryContextImpl();
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.remove(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeHistory(event);
+            fail("System history interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(1, e.getIssues().size());
+            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Read permission for system history of '[Observation]' is not granted by any of the provided scopes: [patient/Observation.read]");
+        }
+    }
+
     @Test(dataProvider = "scopeStringProvider")
     public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
@@ -652,6 +797,51 @@ public class AuthzPolicyEnforcementTest {
             Bundle historyBundle = Bundle.builder()
                     .type(BundleType.HISTORY)
                     .entry(Bundle.Entry.builder().resource(condition).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
+            interceptor.afterHistory(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
+        }
+    }
+
+    @Test(dataProvider = "scopeStringPreferReturnMinimalProvider")
+    public void testHistoryPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
+
+        // Simulate when 'Prefer: return=minimal' HTTP header is used by only setting fullUrl and not resource in bundle
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            Bundle historyBundle = Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Patient/" + PATIENT_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
+            interceptor.afterHistory(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            Bundle historyBundle = Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Observation/" + OBSERVATION_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
+            interceptor.afterHistory(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            Bundle historyBundle = Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Condition/" + CONDITION_ID)).build())
                     .build();
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
             interceptor.afterHistory(event);
@@ -740,6 +930,98 @@ public class AuthzPolicyEnforcementTest {
                     .type(BundleType.SEARCHSET)
                     .entry(Bundle.Entry.builder().resource(observation).build())
                     .entry(Bundle.Entry.builder().resource(observationProvenance).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        }
+    }
+
+    @Test(dataProvider = "scopeStringPreferReturnMinimalProvider")
+    public void testSearchPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
+
+        // Simulate when 'Prefer: return=minimal' HTTP header is used by only setting fullUrl and not resource in bundle
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Patient/" + PATIENT_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Observation/" + OBSERVATION_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Condition/" + CONDITION_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Patient/" + PATIENT_ID)).build())
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Observation/" + OBSERVATION_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                    && shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                    && shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Patient/" + PATIENT_ID)).build())
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Provenance/" + PATIENT_PROVENANCE_ID)).build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
+            interceptor.afterSearch(event);
+
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission)
+                && shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
+        }
+
+        try {
+            Bundle searchBundle = Bundle.builder()
+                    .type(BundleType.SEARCHSET)
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Observation/" + OBSERVATION_ID)).build())
+                    .entry(Bundle.Entry.builder().fullUrl(Uri.of("Provenance/" + OBSERVATION_PROVENANCE_ID)).build())
                     .build();
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(searchBundle, properties);
             interceptor.afterSearch(event);
@@ -998,6 +1280,39 @@ public class AuthzPolicyEnforcementTest {
             {"system/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
             {"system/Patient.read", CONTEXT_IDS, patient, Permission.READ},
             {"system/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
+
+            {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
+        };
+    }
+
+    @DataProvider(name = "scopeStringPreferReturnMinimalProvider")
+    public static Object[][] scopeStringPreferReturnMinimal() {
+        final Set<ResourceType.Value> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
+
+        final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
+
+        return new Object[][] {
+            //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+            {"patient/*.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            {"patient/*.read", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            {"patient/*.write", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            {"patient/Observation.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
+
+            {"user/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
+            {"user/*.read", CONTEXT_IDS, all_resources, Permission.READ},
+            {"user/*.write", CONTEXT_IDS, all_resources, Permission.WRITE},
+            {"user/Patient.* user/Provenance.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
+            {"user/Observation.* user/Provenance.*", CONTEXT_IDS, union(observation, provenance), Permission.ALL},
+
+            {"system/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
+            {"system/*.read", CONTEXT_IDS, all_resources, Permission.READ},
+            {"system/*.write", CONTEXT_IDS, all_resources, Permission.WRITE},
+            {"system/Patient.* system/Provenance.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
+            {"system/Observation.* system/Provenance.*", CONTEXT_IDS, union(observation, provenance), Permission.ALL},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
         };

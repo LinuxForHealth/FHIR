@@ -1,0 +1,50 @@
+{
+	"resourceType": "Provenance",
+	"id": "1000001",
+	"meta": {
+		"versionId": "1",
+		"lastUpdated": "2020-07-09T15:26:23.217+00:00",
+		"profile": [
+			"http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>id</b>: 1000001</p><p><b>meta</b>: </p><p><b>target</b>: <a href=\"Bundle-2000002.html\">Generated Summary: id: 2000002; type: searchset; timestamp: Jul 16, 2020, 8:26:23 PM; 2</a></p><p><b>recorded</b>: Jul 9, 2020, 3:26:23 PM</p><h3>Agents</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Who</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType transmitter}\">Transmitter</span></td><td><a href=\"Organization-2.html\">Generated Summary: id: 2; language: en-US; National Provider Identifier: 345678, Payer ID: 901234; active; name: Payer 1</a></td></tr></table></div>"
+	},
+	"extension": [
+		{
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/ProvenanceSourceFrom",
+			"valueCodeableConcept": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenancePayerDataSource",
+						"code": "hl7v2adt"
+					}
+				]
+			}
+		}
+	],
+	"target": [
+		{
+			"reference": "Bundle/2000002"
+		}
+	],
+	"recorded": "2020-07-09T15:26:23.217+00:00",
+	"agent": [
+		{
+			"type": {
+				"coding": [
+					{
+						"system": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType",
+						"code": "transmitter",
+						"display": "Transmitter"
+					}
+				]
+			},
+			"who": {
+				"reference": "Practitioner/2"
+			}
+		}
+	]
+}

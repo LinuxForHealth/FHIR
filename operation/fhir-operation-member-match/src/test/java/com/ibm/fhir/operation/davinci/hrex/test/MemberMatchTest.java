@@ -80,6 +80,7 @@ import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -1745,7 +1746,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext)
+        public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext)
             throws FHIRPersistenceException {
             throw new AssertionError("Unused");
         }

@@ -1,0 +1,358 @@
+{
+	"index-version": 1,
+	"files": [
+		{
+			"filename": "ig-r4.json",
+			"resourceType": "ImplementationGuide",
+			"id": "hl7.fhir.us.davinci-pdex",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ImplementationGuide-hl7.fhir.us.davinci-pdex.json",
+			"resourceType": "ImplementationGuide",
+			"id": "hl7.fhir.us.davinci-pdex",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ImplementationGuide/hl7.fhir.us.davinci-pdex",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "StructureDefinition-hrex-coverage.json",
+			"resourceType": "StructureDefinition",
+			"id": "hrex-coverage",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/hrex-coverage",
+			"version": "2.0.0-ballot",
+			"kind": "resource",
+			"type": "Coverage"
+		},
+		{
+			"filename": "StructureDefinition-pdex-device.json",
+			"resourceType": "StructureDefinition",
+			"id": "pdex-device",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-device",
+			"version": "2.0.0-ballot",
+			"kind": "resource",
+			"type": "Device"
+		},
+		{
+			"filename": "StructureDefinition-pdex-medicationdispense.json",
+			"resourceType": "StructureDefinition",
+			"id": "pdex-medicationdispense",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-medicationdispense",
+			"version": "2.0.0-ballot",
+			"kind": "resource",
+			"type": "MedicationDispense"
+		},
+		{
+			"filename": "StructureDefinition-pdex-priorauthorization.json",
+			"resourceType": "StructureDefinition",
+			"id": "pdex-priorauthorization",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-priorauthorization",
+			"version": "2.0.0-ballot",
+			"kind": "resource",
+			"type": "ExplanationOfBenefit"
+		},
+		{
+			"filename": "StructureDefinition-pdex-provenance.json",
+			"resourceType": "StructureDefinition",
+			"id": "pdex-provenance",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/pdex-provenance",
+			"version": "2.0.0-ballot",
+			"kind": "resource",
+			"type": "Provenance"
+		},
+		{
+			"filename": "StructureDefinition-DispenseRefill.json",
+			"resourceType": "StructureDefinition",
+			"id": "DispenseRefill",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/DispenseRefill",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "StructureDefinition-extension-levelOfServiceCode.json",
+			"resourceType": "StructureDefinition",
+			"id": "extension-levelOfServiceCode",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-levelOfServiceCode",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "StructureDefinition-PriorAuthorizationUtilization.json",
+			"resourceType": "StructureDefinition",
+			"id": "PriorAuthorizationUtilization",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/PriorAuthorizationUtilization",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "StructureDefinition-ProvenanceSourceFrom.json",
+			"resourceType": "StructureDefinition",
+			"id": "ProvenanceSourceFrom",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/ProvenanceSourceFrom",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "StructureDefinition-extension-reviewAction.json",
+			"resourceType": "StructureDefinition",
+			"id": "extension-reviewAction",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-reviewAction",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "StructureDefinition-extension-reviewActionCode.json",
+			"resourceType": "StructureDefinition",
+			"id": "extension-reviewActionCode",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/StructureDefinition/extension-reviewActionCode",
+			"version": "2.0.0-ballot",
+			"kind": "complex-type",
+			"type": "Extension"
+		},
+		{
+			"filename": "ValueSet-FDANationalDrugCode.json",
+			"resourceType": "ValueSet",
+			"id": "FDANationalDrugCode",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/FDANationalDrugCode",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexAdjudication.json",
+			"resourceType": "ValueSet",
+			"id": "PDexAdjudication",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudication",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexAdjudicationCategoryDiscriminator.json",
+			"resourceType": "ValueSet",
+			"id": "PDexAdjudicationCategoryDiscriminator",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexAdjudicationCategoryDiscriminator",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexPAInstitutionalProcedureCodes.json",
+			"resourceType": "ValueSet",
+			"id": "PDexPAInstitutionalProcedureCodes",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPAInstitutionalProcedureCodes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexPayerBenefitPaymentStatus.json",
+			"resourceType": "ValueSet",
+			"id": "PDexPayerBenefitPaymentStatus",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPayerBenefitPaymentStatus",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexPriorAuthInstitutionalProcedureCodes.json",
+			"resourceType": "ValueSet",
+			"id": "PDexPriorAuthInstitutionalProcedureCodes",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexPriorAuthInstitutionalProcedureCodes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PDexSupportingInfoType.json",
+			"resourceType": "ValueSet",
+			"id": "PDexSupportingInfoType",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PDexSupportingInfoType",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-PriorAuthorizationAmounts.json",
+			"resourceType": "ValueSet",
+			"id": "PriorAuthorizationAmounts",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/PriorAuthorizationAmounts",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-ProvenanceAgentType.json",
+			"resourceType": "ValueSet",
+			"id": "ProvenanceAgentType",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenanceAgentType",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-ProvenancePayerSourceFormat.json",
+			"resourceType": "ValueSet",
+			"id": "ProvenancePayerSourceFormat",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/ProvenancePayerSourceFormat",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-X12278ReviewDecisionReasonCode.json",
+			"resourceType": "ValueSet",
+			"id": "X12278ReviewDecisionReasonCode",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/X12278ReviewDecisionReasonCode",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "ValueSet-X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes.json",
+			"resourceType": "ValueSet",
+			"id": "X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/ValueSet/X12ClaimAdjustmentReasonCodesCMSRemittanceAdviceRemarkCodes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-CMSHCPCSCodes.json",
+			"resourceType": "CodeSystem",
+			"id": "CMSHCPCSCodes",
+			"url": "http://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-CMSHIPPSCodes.json",
+			"resourceType": "CodeSystem",
+			"id": "CMSHIPPSCodes",
+			"url": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/ProspMedicareFeeSvcPmtGen/HIPPSCodes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-CMSRemittanceAdviceRemarkCodes.json",
+			"resourceType": "CodeSystem",
+			"id": "CMSRemittanceAdviceRemarkCodes",
+			"url": "https://x12.org/codes/remittance-advice-remark-codes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-IdentifierTypeCS.json",
+			"resourceType": "CodeSystem",
+			"id": "IdentifierTypeCS",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PDexAdjudicationCS.json",
+			"resourceType": "CodeSystem",
+			"id": "PDexAdjudicationCS",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationCS",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PDexAdjudicationDiscriminator.json",
+			"resourceType": "CodeSystem",
+			"id": "PDexAdjudicationDiscriminator",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexAdjudicationDiscriminator",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PDexIdentifierType.json",
+			"resourceType": "CodeSystem",
+			"id": "PDexIdentifierType",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexIdentifierType",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PDexPayerAdjudicationStatus.json",
+			"resourceType": "CodeSystem",
+			"id": "PDexPayerAdjudicationStatus",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexPayerAdjudicationStatus",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PDexSupportingInfoType.json",
+			"resourceType": "CodeSystem",
+			"id": "PDexSupportingInfoType",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PDexSupportingInfoType",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-PriorAuthorizationValueCodes.json",
+			"resourceType": "CodeSystem",
+			"id": "PriorAuthorizationValueCodes",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/PriorAuthorizationValueCodes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-ProvenanceAgentRoleType.json",
+			"resourceType": "CodeSystem",
+			"id": "ProvenanceAgentRoleType",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenanceAgentRoleType",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-ProvenancePayerDataSource.json",
+			"resourceType": "CodeSystem",
+			"id": "ProvenancePayerDataSource",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/ProvenancePayerDataSource",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "CodeSystem-X12ClaimAdjustmentReasonCodes.json",
+			"resourceType": "CodeSystem",
+			"id": "X12ClaimAdjustmentReasonCodes",
+			"url": "https://x12.org/codes/claim-adjustment-reason-codes",
+			"version": "2.0.0-ballot"
+		},
+		{
+			"filename": "OperationDefinition-patient-everything-pdex.json",
+			"resourceType": "OperationDefinition",
+			"id": "patient-everything-pdex",
+			"url": "http://hl7.org/fhir/OperationDefinition/patient-everything-pdex",
+			"version": "2.0.0-ballot",
+			"kind": "operation",
+			"type": "true"
+		},
+		{
+			"filename": "CapabilityStatement-pdex-server.json",
+			"resourceType": "CapabilityStatement",
+			"id": "pdex-server",
+			"url": "http://hl7.org/fhir/us/core/CapabilityStatement/pdex-server",
+			"version": "2.0.0-ballot",
+			"kind": "requirements"
+		},
+		{
+			"filename": "SearchParameter-explanationofbenefit-identifier.json",
+			"resourceType": "SearchParameter",
+			"id": "explanationofbenefit-identifier",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/explanationofbenefit-identifier",
+			"version": "2.0.0-ballot",
+			"type": "token"
+		},
+		{
+			"filename": "SearchParameter-explanationofbenefit-patient.json",
+			"resourceType": "SearchParameter",
+			"id": "explanationofbenefit-patient",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/explanationofbenefit-patient",
+			"version": "2.0.0-ballot",
+			"type": "reference"
+		},
+		{
+			"filename": "SearchParameter-explanationofbenefit-service-date.json",
+			"resourceType": "SearchParameter",
+			"id": "explanationofbenefit-service-date",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/explanationofbenefit-service-date",
+			"version": "2.0.0-ballot",
+			"type": "date"
+		},
+		{
+			"filename": "SearchParameter-explanationofbenefit-type.json",
+			"resourceType": "SearchParameter",
+			"id": "explanationofbenefit-type",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/explanationofbenefit-type",
+			"version": "2.0.0-ballot",
+			"type": "token"
+		},
+		{
+			"filename": "SearchParameter-pdex-medicationdispense-patient.json",
+			"resourceType": "SearchParameter",
+			"id": "pdex-medicationdispense-patient",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-patient",
+			"version": "2.0.0-ballot",
+			"type": "reference"
+		},
+		{
+			"filename": "SearchParameter-pdex-medicationdispense-status.json",
+			"resourceType": "SearchParameter",
+			"id": "pdex-medicationdispense-status",
+			"url": "http://hl7.org/fhir/us/davinci-pdex/SearchParameter/pdex-medicationdispense-status",
+			"version": "2.0.0-ballot",
+			"type": "token"
+		}
+	]
+}
