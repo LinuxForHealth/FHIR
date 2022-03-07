@@ -51,12 +51,12 @@ import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -139,7 +139,7 @@ public class EverythingOperation extends AbstractOperation {
         "RiskAssessment",
         "SupplyRequest"));
 
-    private final CompartmentUtil compartmentHelper = new CompartmentUtil();
+    private final CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
@@ -149,7 +149,7 @@ public class EverythingOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId,
-            String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper)
+            String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper)
             throws FHIROperationException {
         LOG.entering(this.getClass().getName(), "doInvoke");
 
@@ -478,7 +478,7 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters,
-            List<String> extraResources, SearchUtil searchHelper) throws Exception {
+            List<String> extraResources, SearchHelper searchHelper) throws Exception {
         // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
         // from search parameters only if the request does not have a _type parameter or it does have a
         // _type parameter that includes these
@@ -762,7 +762,7 @@ public class EverythingOperation extends AbstractOperation {
 
     private void addSearchParameterIfNotExcluded(String compartmentMemberType, String code,
             ResourceType.Value subResourceType, MultivaluedMap<String, String> searchParameters,
-            List<String> allowedIncludes, List<String> extraResources, SearchUtil searchHelper)
+            List<String> allowedIncludes, List<String> extraResources, SearchHelper searchHelper)
             throws Exception {
         // Need to make sure the search parameter has not been excluded
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();

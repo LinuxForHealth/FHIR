@@ -21,18 +21,18 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Tests associated with the FHIRPersistenceHelper class.
  */
 public class FHIRPersistenceHelperTest {
-    SearchUtil searchHelper;
+    SearchHelper searchHelper;
 
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @Test

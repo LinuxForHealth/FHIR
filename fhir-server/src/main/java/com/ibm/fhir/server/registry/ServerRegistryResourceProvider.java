@@ -40,7 +40,7 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.AbstractRegistryResourceProvider;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class ServerRegistryResourceProvider extends AbstractRegistryResourceProvider {
     public static final Logger log = Logger.getLogger(ServerRegistryResourceProvider.class.getName());
@@ -49,9 +49,9 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
     public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
 
     private final PersistenceHelper persistenceHelper;
-    private final SearchUtil searchHelper;
+    private final SearchHelper searchHelper;
 
-    public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper, SearchUtil searchHelper) {
+    public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper, SearchHelper searchHelper) {
         this.persistenceHelper = Objects.requireNonNull(persistenceHelper);
         this.searchHelper = Objects.requireNonNull(searchHelper);
     }

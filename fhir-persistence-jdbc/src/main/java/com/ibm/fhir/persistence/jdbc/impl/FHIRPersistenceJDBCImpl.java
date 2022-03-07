@@ -163,7 +163,7 @@ import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -171,7 +171,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * The JDBC implementation of the FHIRPersistence interface,
@@ -221,7 +221,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private final FHIRPayloadPersistence payloadPersistence;
 
     // A helper for processing search requests
-    private final SearchUtil searchHelper;
+    private final SearchHelper searchHelper;
 
     // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
     private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
@@ -236,7 +236,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence, SearchUtil searchHelper) throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence, SearchHelper searchHelper) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -312,7 +312,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         this.cache = cache;
         this.payloadPersistence = null;
-        this.searchHelper = new SearchUtil();
+        this.searchHelper = new SearchHelper();
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -643,7 +643,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
             // For PostgreSQL search queries we need to set some options to ensure better plans
-            connectionStrategy.applySearchOptimizerOptions(connection, SearchUtil.isCompartmentSearch(searchContext));
+            connectionStrategy.applySearchOptimizerOptions(connection, SearchHelper.isCompartmentSearch(searchContext));
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             ResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
@@ -694,7 +694,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                         break;
                     case TEXT:
-                        summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                        summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                         break;
                     case DATA:
                         summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -1079,7 +1079,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                     break;
                 case TEXT:
-                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                     break;
                 case DATA:
                     summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -1306,7 +1306,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                     break;
                 case TEXT:
-                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                     break;
                 case DATA:
                     summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -1718,7 +1718,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                         }
                                         ExtractedParameterValue componentParam = parameters.get(0);
                                         // override the component parameter name with the composite parameter name
-                                        componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
+                                        componentParam.setName(SearchHelper.makeCompositeSubCode(code, componentParam.getName()));
                                         componentParam.setUrl(url);
                                         componentParam.setVersion(version);
                                         p.addComponent(componentParam);
@@ -1905,7 +1905,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Augment the given allParameters list with ibm-internal parameters that represent the relationship
      * between the fhirResource and its compartments. These parameter values are subsequently used
      * to improve the performance of compartment-based FHIR search queries. See
-     * {@link CompartmentUtil#makeCompartmentParamName(String)} for details on how the
+     * {@link CompartmentHelper#makeCompartmentParamName(String)} for details on how the
      * parameter name is composed for each relationship.
      * @param allParameters
      * @param resourceType
@@ -1930,7 +1930,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ReferenceValue rv = ((ReferenceParmVal) epv).getRefValue();
             if (rv != null && rv.getType() == ReferenceType.LITERAL_RELATIVE
                     && epv.getCompartments().contains(rv.getTargetResourceType())) {
-                String internalCompartmentParamName = CompartmentUtil.makeCompartmentParamName(rv.getTargetResourceType());
+                String internalCompartmentParamName = CompartmentHelper.makeCompartmentParamName(rv.getTargetResourceType());
 
                 if (epv.isForStoring()) {
                     // create a copy of the extracted parameter value but with the new internal compartment parameter name
@@ -1960,7 +1960,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Augment the given allParameters list with ibm-internal parameters that represent the relationship
      * between the url and version parameters. These parameter values are subsequently used in
-     * canonical reference searches. See {@link CompartmentUtil#makeCompartmentParamName(String)} for
+     * canonical reference searches. See {@link CompartmentHelper#makeCompartmentParamName(String)} for
      * details on how the parameter name is composed.
      * @param allParameters
      */
@@ -1990,7 +1990,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // url
             StringParmVal up = new StringParmVal();
             up.setResourceType(cp.getResourceType());
-            up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            up.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
             up.setUrl(cp.getUrl());
             up.setVersion(cp.getVersion());
             up.setValueString(urlParm.getValueString());
@@ -1999,7 +1999,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // version
             StringParmVal vp = new StringParmVal();
             vp.setResourceType(cp.getResourceType());
-            vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            vp.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
             vp.setUrl(cp.getUrl());
             vp.setVersion(cp.getVersion());
             vp.setValueString(versionParm != null ? versionParm.getValueCode() : null);

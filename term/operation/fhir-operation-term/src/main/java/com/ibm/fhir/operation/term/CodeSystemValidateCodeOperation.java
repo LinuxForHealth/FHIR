@@ -16,7 +16,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.service.ValidationOutcome;
@@ -37,7 +37,7 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException {
+            SearchHelper searchHelper) throws FHIROperationException {
         try {
             CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code", false);

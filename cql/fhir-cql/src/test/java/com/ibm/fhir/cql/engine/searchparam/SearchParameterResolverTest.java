@@ -13,16 +13,16 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.SearchParamType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class SearchParameterResolverTest {
 
     SearchParameterResolver resolver;
-    SearchUtil searchHelper;
+    SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

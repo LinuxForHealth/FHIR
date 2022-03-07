@@ -22,13 +22,13 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Utility to do some extra testing related to the processing of search parameters
  */
 public class SearchParamTest {
-    protected static SearchUtil searchHelper = new SearchUtil();
+    protected static SearchHelper searchHelper = new SearchHelper();
 
     @Test
     public void testIdParamParsing() throws Exception {

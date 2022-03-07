@@ -26,7 +26,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.term.AbstractTermOperation;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -52,7 +52,7 @@ public class CodeSystemClearCacheOperation extends AbstractTermOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException {
+            SearchHelper searchHelper) throws FHIROperationException {
 
         CacheManager.invalidateAll(CodeSystemSupport.ANCESTORS_AND_SELF_CACHE_NAME);
         CacheManager.invalidateAll(CodeSystemSupport.DESCENDANTS_AND_SELF_CACHE_NAME);

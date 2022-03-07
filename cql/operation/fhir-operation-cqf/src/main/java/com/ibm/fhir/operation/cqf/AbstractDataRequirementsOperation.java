@@ -24,7 +24,7 @@ import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -104,5 +104,5 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
         String logicalId, String versionId,
         Parameters parameters,
         FHIRResourceHelpers resourceHelper,
-        SearchUtil searchHelper) throws FHIROperationException;
+        SearchHelper searchHelper) throws FHIROperationException;
 }

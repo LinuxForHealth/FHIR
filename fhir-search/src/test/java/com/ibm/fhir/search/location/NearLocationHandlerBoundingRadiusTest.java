@@ -22,7 +22,7 @@ import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
 import com.ibm.fhir.search.location.bounding.BoundingType;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Test the BoundingRadius with NearLocationHandler

@@ -28,11 +28,11 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
- * This class supplements SearchUtil with compartment-specific utilities. <br>
- * The compartments are defined using FHIR R4 CompartmentDefinitions. <br>
- * The R4 CompartmentDefintions and boundaries are defined at https://hl7.org/fhir/R4/compartmentdefinition.html <br>
+ * A helper class with methods for working with HL7 FHIR compartments.<br>
+ * The compartments are defined by the CompartmentDefinition resources in FHIRRegistry.<br>
+ * The R4 CompartmentDefintions and boundaries are defined at https://hl7.org/fhir/R4/compartmentdefinition.html<br>
  * <br>
- * CompartmentDefintion:
+ * Default CompartmentDefintion:
  * <ul>
  * <li>Patient - https://hl7.org/fhir/R4/compartmentdefinition-patient.json</li>
  * <li>Encounter - https://hl7.org/fhir/R4/compartmentdefinition-encounter.json</li>
@@ -41,8 +41,8 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * <li>Device - https://hl7.org/fhir/R4/compartmentdefinition-device.json</li>
  * </ul>
  */
-public class CompartmentUtil {
-    private static final Logger LOG = Logger.getLogger(CompartmentUtil.class.getName());
+public class CompartmentHelper {
+    private static final Logger LOG = Logger.getLogger(CompartmentHelper.class.getName());
 
     // The URL of the compartment subtype extension...useful for defining new compartments
     public static final String CUSTOM_COMPARTMENT_TYPE_EXT = FHIRConstants.EXT_BASE + "custom-compartment-type";
@@ -57,7 +57,7 @@ public class CompartmentUtil {
     // Map of Inclusion resource type to ResourceCompartmentCache
     private final Map<String, ResourceCompartmentCache> resourceCompartmentMap = new HashMap<>();
 
-    public CompartmentUtil() {
+    public CompartmentHelper() {
         // make one pass over the CompartmentDefinitions to build both maps
         buildMaps(compartmentMap, resourceCompartmentMap);
 

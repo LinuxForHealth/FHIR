@@ -20,18 +20,12 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
- * Tests the ParametersUtil through the searchHelper.
+ * Tests the ParametersHelper through the SearchHelper.
  */
-public class ParametersSearchUtilTest extends BaseSearchTest {
-    public static final boolean DEBUG = false;
-
-    CompartmentUtil compartmentHelper = new CompartmentUtil();
-    ParametersUtil parametersHelper = new ParametersUtil(compartmentHelper);
-
+public class SearchHelperParametersTest extends BaseSearchTest {
     @Test
     public void testGetSearchParameters1Default() throws Exception {
         // Simple test looking only for built-in search parameters for Observation.class.
@@ -41,10 +35,6 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         assertNotNull(result);
         assertFalse(result.isEmpty());
         printSearchParameters("testGetSearchParameters1", result);
-
-        if (DEBUG) {
-            parametersHelper.print(System.out);
-        }
 
         assertEquals(44, result.size());
     }

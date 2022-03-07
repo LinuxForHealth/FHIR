@@ -25,7 +25,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 
 @Dependent
 public class PatientExportPartitionMapper implements PartitionMapper {
@@ -36,7 +36,7 @@ public class PatientExportPartitionMapper implements PartitionMapper {
     @Inject
     JobContext jobCtx;
 
-    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+    private static final CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     public PatientExportPartitionMapper() {
         // No Operation

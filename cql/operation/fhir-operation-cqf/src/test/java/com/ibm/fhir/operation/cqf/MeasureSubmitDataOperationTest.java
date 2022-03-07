@@ -42,17 +42,17 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class MeasureSubmitDataOperationTest {
     MeasureSubmitDataOperation op;
-    SearchUtil searchHelper;
+    SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

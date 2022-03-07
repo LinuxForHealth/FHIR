@@ -123,7 +123,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
@@ -177,14 +177,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             .optionalEnd().toFormatter();
 
     private final FHIRPersistence persistence;
-    private final SearchUtil searchHelper;
+    private final SearchHelper searchHelper;
 
     // Used for correlating requests within a bundle.
     private String bundleRequestCorrelationId = null;
 
     private final FHIRValidator validator = FHIRValidator.validator(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_VALIDATION_FAIL_FAST, Boolean.FALSE));
 
-    public FHIRRestHelper(FHIRPersistence persistence, SearchUtil searchHelper) {
+    public FHIRRestHelper(FHIRPersistence persistence, SearchHelper searchHelper) {
         this.persistence = persistence;
         this.searchHelper = searchHelper;
     }
@@ -2423,7 +2423,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRSearchContext searchContext = (FHIRSearchContext) context;
             summaryParameter = searchContext.getSummaryParameter();
             try {
-                selfUri = SearchUtil.buildSearchSelfUri(requestUri, searchContext);
+                selfUri = SearchHelper.buildSearchSelfUri(requestUri, searchContext);
             } catch (Exception e) {
                 log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
             }

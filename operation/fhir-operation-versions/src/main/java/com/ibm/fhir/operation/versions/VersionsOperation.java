@@ -25,7 +25,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -62,7 +62,7 @@ public class VersionsOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper)
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper)
             throws FHIROperationException {
         try {
             List<String> versions = Arrays.asList("4.0");

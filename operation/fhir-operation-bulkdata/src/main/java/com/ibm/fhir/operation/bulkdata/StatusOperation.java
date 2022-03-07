@@ -19,7 +19,7 @@ import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -51,7 +51,7 @@ public class StatusOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper)
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper)
             throws FHIROperationException {
         COMMON.checkEnabled();
         if (logicalId == null && versionId == null && resourceType == null) {

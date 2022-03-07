@@ -39,7 +39,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
 
@@ -47,11 +47,11 @@ public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
     FHIRClient CLIENT;
 
     RestFHIRRetrieveProvider provider;
-    SearchUtil searchHelper;
+    SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

@@ -30,7 +30,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 
@@ -51,7 +51,7 @@ public class EraseRestImpl implements EraseRest {
     // For the errors this list aggregates the issues across the inputs.
     private List<OperationOutcome.Issue> issues = new ArrayList<>();
 
-    private final CompartmentUtil compartmentHelper;
+    private final CompartmentHelper compartmentHelper;
 
     /**
      * create the Erase Rest instance.
@@ -63,7 +63,7 @@ public class EraseRestImpl implements EraseRest {
      * @param logicalId
      */
     public EraseRestImpl(String method, SecurityContext ctx, Parameters parameters, Class<? extends Resource> rt, String logicalId,
-            CompartmentUtil compartmentHelper) {
+            CompartmentHelper compartmentHelper) {
         supportedMethod = "POST".equals(method);
         this.ctx = ctx;
         this.parameters = parameters;

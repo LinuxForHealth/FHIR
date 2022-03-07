@@ -12,7 +12,7 @@ import com.ibm.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCTenantCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Factory which serves up instances of the JDBC persistence implementation.
@@ -23,7 +23,7 @@ public class FHIRPersistenceJDBCFactory implements FHIRPersistenceFactory {
     private final FHIRPersistenceJDBCTenantCache tenantCache = new FHIRPersistenceJDBCTenantCache();
 
     @Override
-    public FHIRPersistence getInstance(SearchUtil searchHelper) throws FHIRPersistenceException {
+    public FHIRPersistence getInstance(SearchHelper searchHelper) throws FHIRPersistenceException {
         try {
             // each request gets a new instance of the FHIRPersistenceJDBCImpl, sharing
             // the common (tenant-aware) cache object

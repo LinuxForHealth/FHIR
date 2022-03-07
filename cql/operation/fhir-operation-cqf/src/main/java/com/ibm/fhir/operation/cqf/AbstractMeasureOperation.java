@@ -41,7 +41,7 @@ import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -71,7 +71,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      * @param termProvider Terminology Provider
      * @return Retrieve provider configured as appropriate for the environment
      */
-    public RetrieveProvider getRetrieveProvider(FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, SearchUtil searchHelper) {
+    public RetrieveProvider getRetrieveProvider(FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, SearchHelper searchHelper) {
         SearchParameterResolver resolver = new SearchParameterResolver(searchHelper);
         ServerFHIRRetrieveProvider retrieveProvider = new ServerFHIRRetrieveProvider(resourceHelper, resolver);
         retrieveProvider.setExpandValueSets(false); // TODO - use server config settings

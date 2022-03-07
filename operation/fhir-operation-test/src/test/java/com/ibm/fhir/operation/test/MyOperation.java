@@ -24,7 +24,7 @@ import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -80,7 +80,7 @@ public class MyOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext context, Class<? extends Resource> resourceType, String logicalId, String versionId,
-            Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
+            Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
         try {
             if (parameters.getParameter().isEmpty()) {
                 return null;

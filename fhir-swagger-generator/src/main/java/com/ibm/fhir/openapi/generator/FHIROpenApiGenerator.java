@@ -91,9 +91,9 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.swagger.generator.APIConnectAdapter;
 
 import jakarta.json.Json;
@@ -144,8 +144,8 @@ public class FHIROpenApiGenerator {
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
     private static List<String> classNamesList = null;
 
-    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
-    private static final SearchUtil searchHelper = new SearchUtil();
+    private static final CompartmentHelper compartmentHelper = new CompartmentHelper();
+    private static final SearchHelper searchHelper = new SearchHelper();
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
@@ -2116,7 +2116,7 @@ public class FHIROpenApiGenerator {
     public static void addExamples(Class<?> modelClass, JsonObjectBuilder definition) throws IOException {
         if (!Modifier.isAbstract(modelClass.getModifiers())) {
             // Change this from "complete-mock" to "minimal" to reduce the size of the generated definition
-            Reader example = ExamplesUtil.resourceReader("json/ibm/minimal/" + modelClass.getSimpleName() + "-1.json");
+            Reader example = ExamplesUtil.resourceReader("json/ibm/complete-mock/" + modelClass.getSimpleName() + "-1.json");
             JsonReader jsonReader = Json.createReader(example);
             definition.add("example", jsonReader.readObject());
         }

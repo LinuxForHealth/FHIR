@@ -62,7 +62,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 
@@ -109,7 +109,7 @@ public class FHIRResource {
     @Context
     protected SecurityContext securityContext;
 
-    protected SearchUtil searchHelper;
+    protected SearchHelper searchHelper;
 
     protected PropertyGroup fhirConfig = null;
 
@@ -391,10 +391,10 @@ public class FHIRResource {
     /**
      * Retrieves the shared persistence helper object from the servlet context.
      */
-    protected SearchUtil getSearchHelper() {
+    protected SearchHelper getSearchHelper() {
         if (searchHelper == null) {
             searchHelper =
-                    (SearchUtil) context.getAttribute(SearchUtil.class.getName());
+                    (SearchHelper) context.getAttribute(SearchHelper.class.getName());
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: "
                         + persistenceHelper);

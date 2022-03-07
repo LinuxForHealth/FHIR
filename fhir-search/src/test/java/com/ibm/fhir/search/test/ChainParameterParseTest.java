@@ -34,7 +34,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This TestNG test class contains methods that test the parsing of chain search parameters
@@ -168,7 +168,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -208,7 +208,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -259,7 +259,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -299,7 +299,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -348,7 +348,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -392,7 +392,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -432,7 +432,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -472,7 +472,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Observation", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Observation", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -518,7 +518,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/ClinicalImpression", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -659,7 +659,7 @@ public class ChainParameterParseTest extends BaseSearchTest {
         assertFalse(nextParameter.isReverseChained());
         assertFalse(nextParameter.isInclusionCriteria());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 

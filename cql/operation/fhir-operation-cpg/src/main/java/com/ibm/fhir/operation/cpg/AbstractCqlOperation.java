@@ -55,7 +55,7 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -138,7 +138,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
      *            Library resource that is the entry point for the evaluation
      * @return Parameters describing the evaluation result
      */
-    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchUtil searchHelper, Library primaryLibrary) {
+    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchHelper searchHelper, Library primaryLibrary) {
         List<Library> libraries = LibraryHelper.loadLibraries(primaryLibrary);
         return doEvaluation(resourceHelper, paramMap, searchHelper, libraries);
     }
@@ -158,7 +158,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
      *            List of all necessary library resources. The first entry in the list is the primary library.
      * @return Parameters describing the evaluation result
      */
-    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchUtil searchHelper, List<Library> libraries) {
+    protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, SearchHelper searchHelper, List<Library> libraries) {
         Library primaryLibrary = libraries.get(0);
         LibraryLoader ll = createLibraryLoader(libraries);
 

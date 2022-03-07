@@ -43,7 +43,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class ServerFHIRRetrieveProviderTest {
@@ -51,11 +51,11 @@ public class ServerFHIRRetrieveProviderTest {
     private ServerFHIRTerminologyProvider termProvider;
     private ServerFHIRRetrieveProvider provider;
     private FHIRResourceHelpers helpers;
-    private SearchUtil searchHelper;
+    private SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

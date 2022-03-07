@@ -20,7 +20,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -44,7 +44,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException;
+            SearchHelper searchHelper) throws FHIROperationException;
 
     protected <T extends Resource> T getResource(
             FHIROperationContext operationContext,

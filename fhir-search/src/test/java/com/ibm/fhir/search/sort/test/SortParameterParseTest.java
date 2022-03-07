@@ -30,7 +30,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This unit test class contains methods that test the parsing of sort
@@ -100,7 +100,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertTrue(searchContext.getSortParameters() == null || searchContext.getSortParameters().isEmpty());
 
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpected " + queryString);
         assertEquals(2, searchContext.getOutcomeIssues().size());
     }
@@ -143,7 +143,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertTrue(searchContext.getSearchParameters().isEmpty());
 
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertTrue(selfUri.contains(queryString), selfUri + " does not contain expected " + queryString);
     }
 
@@ -176,7 +176,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertTrue(searchContext.getSearchParameters().isEmpty());
 
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertTrue(selfUri.contains(queryString), selfUri + " does not contain expected " + queryString);
     }
 
@@ -207,7 +207,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertTrue(searchContext.getSearchParameters().isEmpty());
 
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         // The server adds the implicit sort direction and so we just look for the parameter instead of the full
         // queryString
         assertTrue(selfUri.contains(sortParmCode), selfUri + " does not contain expected sort parameter 'birthdate'");
@@ -258,7 +258,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         assertEquals(parmValue.getValueString(), searchParmValue);
 
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertTrue(selfUri.contains(queryStringPart1), selfUri + " does not contain expected " + queryStringPart1);
         assertTrue(selfUri.contains(queryStringPart2), selfUri + " does not contain expected " + queryStringPart2);
     }
@@ -337,7 +337,7 @@ public class SortParameterParseTest extends BaseSearchTest {
 
         // Check the component parts and build up the QueryString parts
         String selfUri =
-                SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
+                SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertTrue(selfUri.contains("status"), selfUri + " does not contain expected status");
         assertTrue(selfUri.contains("-value-date"), selfUri + " does not contain expected -value-date ");
         assertTrue(selfUri.contains("-value-string"), selfUri + " does not contain expected -value-string");

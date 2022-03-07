@@ -56,7 +56,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.notification.kafka.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.server.notification.websocket.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.server.notifications.nats.FHIRNotificationNATSPublisher;
@@ -132,8 +132,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing SearchUtil...");
             // Set the shared SearchUtil
-            SearchUtil searchHelper = new SearchUtil();
-            event.getServletContext().setAttribute(SearchUtil.class.getName(), searchHelper);
+            SearchHelper searchHelper = new SearchHelper();
+            event.getServletContext().setAttribute(SearchHelper.class.getName(), searchHelper);
             log.fine("Set shared search helper on servlet context.");
 
             log.fine("Initializing FHIROperationRegistry...");

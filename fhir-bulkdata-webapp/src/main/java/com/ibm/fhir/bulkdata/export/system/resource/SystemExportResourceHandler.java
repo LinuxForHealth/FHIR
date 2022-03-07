@@ -19,7 +19,7 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * System Export Resource Handler
@@ -32,10 +32,10 @@ public class SystemExportResourceHandler {
 
     protected Class<? extends Resource> resourceType;
 
-    protected final SearchUtil searchHelper;
+    protected final SearchHelper searchHelper;
 
     public SystemExportResourceHandler() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     public void fillChunkData(String exportFormat, ExportTransientUserData chunkData, List<? extends Resource> resources) throws Exception {
@@ -84,7 +84,7 @@ public class SystemExportResourceHandler {
     /**
      * get the underlying search helper for working with FHIR search parameters
      */
-    public SearchUtil getSearchHelper() {
+    public SearchHelper getSearchHelper() {
         return searchHelper;
     }
 }

@@ -10,7 +10,7 @@ import javax.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -20,7 +20,7 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  * for Persistence Layers or specific behaviors, the EraseFactory enables the single location to make that decision.
  */
 public class EraseRestFactory {
-    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
+    private static final CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     private EraseRestFactory() {
         // No Operation

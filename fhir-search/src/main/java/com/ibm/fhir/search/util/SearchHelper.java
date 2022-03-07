@@ -64,15 +64,15 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
+import com.ibm.fhir.search.parameters.ParametersHelper;
 import com.ibm.fhir.search.parameters.ParametersMap;
-import com.ibm.fhir.search.parameters.ParametersUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.sort.Sort;
@@ -82,14 +82,10 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
- * Search utilities for the IBM FHIR Server.<br>
- * This class must be initialized via {@link SearchUtil#init()} before it can be used.
- *
- * @implNote Initialization is *not* thread safe, so care must be taken to avoid calling initialization
- * while other threads are using the class.
+ * A helper class with methods for working with HL7 FHIR search.
  */
-public class SearchUtil {
-    private static final String CLASSNAME = SearchUtil.class.getName();
+public class SearchHelper {
+    private static final String CLASSNAME = SearchHelper.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     // Logging Strings
@@ -135,12 +131,12 @@ public class SearchUtil {
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
 
-    private final CompartmentUtil compartmentHelper;
-    private final ParametersUtil parametersHelper;
+    private final CompartmentHelper compartmentHelper;
+    private final ParametersHelper parametersHelper;
 
-    public SearchUtil() {
-        compartmentHelper = new CompartmentUtil();
-        parametersHelper = new ParametersUtil(compartmentHelper);
+    public SearchHelper() {
+        compartmentHelper = new CompartmentHelper();
+        parametersHelper = new ParametersHelper(compartmentHelper);
     }
 
     /**
@@ -805,7 +801,7 @@ public class SearchUtil {
                     for (int i=0; i<compTypes.size(); i++) {
                         Type componentType = compTypes.get(i);
                         final String compositeSubParamCode = compCodes.get(i);
-                        final String compositeParamCode = SearchUtil.makeCompositeSubCode(parameterCode, compositeSubParamCode);
+                        final String compositeParamCode = SearchHelper.makeCompositeSubCode(parameterCode, compositeSubParamCode);
                         queryParameterValue.addComponent(new QueryParameter(componentType, compositeParamCode, null, null));
                     }
                 }
@@ -846,7 +842,7 @@ public class SearchUtil {
                     // exactly one. Override the parameter code (parameter_name) so that it uniquely
                     // referenced the correct sub-parameter for this composite
                     final String compositeSubParamCode = compCodes.get(i);
-                    final String compositeParamName = SearchUtil.makeCompositeSubCode(compositeParamCode, compositeSubParamCode);
+                    final String compositeParamName = SearchHelper.makeCompositeSubCode(compositeParamCode, compositeSubParamCode);
                     QueryParameter parameter = new QueryParameter(compTypes.get(i), compositeParamName, null, null, values);
                     parameterValue.addComponent(parameter);
                 }
@@ -970,19 +966,19 @@ public class SearchUtil {
                             typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                         }
                         typeParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 2]));
-                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchHelper.makeCompositeSubCode(ofTypeParmName,
                             SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE), null, null, Collections.singletonList(typeParameterValue));
                         parameterValue.addComponent(typeParameter);
 
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 1]));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchHelper.makeCompositeSubCode(ofTypeParmName,
                             SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     } else {
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(v));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchHelper.makeCompositeSubCode(ofTypeParmName,
                             SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     }
@@ -1272,7 +1268,7 @@ public class SearchUtil {
                 // results in faster queries because only a single parameter is used to represent the
                 // compartment membership.
                 compartmentHelper.checkValidCompartmentAndResource(compartmentName, resourceType);
-                inclusionCriteria = Collections.singletonList(CompartmentUtil.makeCompartmentParamName(compartmentName));
+                inclusionCriteria = Collections.singletonList(CompartmentHelper.makeCompartmentParamName(compartmentName));
             } else {
                 // pre #1708 behavior
                 inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);

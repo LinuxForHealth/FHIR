@@ -51,7 +51,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
@@ -87,7 +87,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setTenantId("profileValidationConfigTest");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence, new SearchUtil());
+        helper = new FHIRRestHelper(persistence, new SearchHelper());
     }
 
     @AfterClass

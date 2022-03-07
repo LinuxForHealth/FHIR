@@ -67,7 +67,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
@@ -104,11 +104,11 @@ public class ChunkWriter extends AbstractItemWriter {
     @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
     private String resourceType;
 
-    private SearchUtil searchHelper;
+    private SearchHelper searchHelper;
 
     public ChunkWriter() {
         super();
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @Override

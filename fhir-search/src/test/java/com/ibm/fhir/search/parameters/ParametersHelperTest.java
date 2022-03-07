@@ -23,22 +23,22 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
- * Tests ParametersUtil
+ * Tests ParametersHelper
  */
-public class ParametersUtilTest extends BaseSearchTest {
+public class ParametersHelperTest extends BaseSearchTest {
     public static final boolean DEBUG = false;
 
-    CompartmentUtil compartmentHelper = new CompartmentUtil();
-    ParametersUtil parametersHelper = new ParametersUtil(compartmentHelper);
+    CompartmentHelper compartmentHelper = new CompartmentHelper();
+    ParametersHelper parametersHelper = new ParametersHelper(compartmentHelper);
 
     @Test
     public void testGetAllSearchParameters() throws IOException {
         // Tests JSON
-        Set<SearchParameter> params = ParametersUtil.getAllSearchParameters();
+        Set<SearchParameter> params = ParametersHelper.getAllSearchParameters();
         assertNotNull(params);
         // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true, UTF_8);) {
@@ -83,13 +83,13 @@ public class ParametersUtilTest extends BaseSearchTest {
     @Test(enabled = false)
     public void testCheckAndWarnForIssueWithCodeAndName() {
         // Issue 202 : added warning and corresponding test.
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null, null);
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null, "");
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("", null);
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("", "");
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_code");
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName(null, null);
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName(null, "");
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName("", null);
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName("", "");
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName("_code", "_code");
 
         // This is the one line that should produce a log message (level=FINE)
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_notcode");
+        ParametersHelper.checkAndWarnForIssueWithCodeAndName("_code", "_notcode");
     }
 }

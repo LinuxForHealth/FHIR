@@ -24,14 +24,14 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 /**
  * CompartmentUtil is tested in this class.
  */
-public class CompartmentUtilTest extends BaseSearchTest {
-    CompartmentUtil compartmentHelper = new CompartmentUtil();
+public class CompartmentHelperTest extends BaseSearchTest {
+    CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     @Test()
     public void testBuildCompartmentMap() {
         Map<String, CompartmentCache> cache = new HashMap<>();
         Map<String, ResourceCompartmentCache> resourceCompartmentCache = new HashMap<>();
-        compartmentHelper.buildMaps(cache, resourceCompartmentCache);
+        CompartmentHelper.buildMaps(cache, resourceCompartmentCache);
 
         // There should be 5 compartment definitions.
         // Detailed behavior of the individual cache are tested in the CompartmentCache.

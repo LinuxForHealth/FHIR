@@ -17,7 +17,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This class serves as a helper for obtaining the correct persistence implementation to be used by the FHIR REST API
@@ -27,12 +27,12 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
     private static final Logger log = Logger.getLogger(FHIRPersistenceHelper.class.getName());
 
     protected final PropertyGroup fhirConfig;
-    protected final SearchUtil searchHelper;
+    protected final SearchHelper searchHelper;
 
     // Issue #1366. Keep one instance of each type of persistence factory instead of instantiating it every time
     private final ConcurrentHashMap<String, FHIRPersistenceFactory> persistenceFactoryCache = new ConcurrentHashMap<>();
 
-    public FHIRPersistenceHelper(SearchUtil searchHelper) {
+    public FHIRPersistenceHelper(SearchHelper searchHelper) {
         log.entering(this.getClass().getName(), "FHIRPersistenceHelper ctor");
         try {
             this.fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();

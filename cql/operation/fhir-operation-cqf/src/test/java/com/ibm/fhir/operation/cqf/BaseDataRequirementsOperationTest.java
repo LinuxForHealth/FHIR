@@ -45,7 +45,7 @@ import com.ibm.fhir.model.type.code.ParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -53,7 +53,7 @@ public abstract class BaseDataRequirementsOperationTest {
 
     public static final String URL_BASE = "http://test.com/fhir/";
 
-    protected SearchUtil searchHelper = new SearchUtil();
+    protected SearchHelper searchHelper = new SearchHelper();
 
     public abstract AbstractDataRequirementsOperation getOperation();
 

@@ -42,7 +42,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -99,7 +99,7 @@ public class CqlOperation extends AbstractCqlOperation {
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException {
+            SearchHelper searchHelper) throws FHIROperationException {
 
         Parameters result = null;
 

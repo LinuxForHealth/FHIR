@@ -18,7 +18,7 @@ import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
 
@@ -27,7 +27,7 @@ public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
     protected java.util.Date start;
     protected java.util.Date end;
 
-    protected SearchUtil searchHelper = new SearchUtil();
+    protected SearchHelper searchHelper = new SearchHelper();
 
     protected abstract OT getOperation();
 

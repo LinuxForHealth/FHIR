@@ -64,7 +64,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
@@ -103,11 +103,11 @@ public class FHIRRestHelperTest {
                 .build())
             .build();
 
-    private SearchUtil searchHelper;
+    private SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     /**

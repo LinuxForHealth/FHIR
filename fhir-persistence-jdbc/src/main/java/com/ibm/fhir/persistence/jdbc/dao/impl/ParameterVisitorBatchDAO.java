@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Batch insert into the parameter values tables. Avoids having to create one stored procedure
@@ -249,7 +249,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 systemStrings.setInt(1, parameterNameId);
                 if (value != null) {
                     systemStrings.setString(2, value);
-                    systemStrings.setString(3, SearchUtil.normalizeForSearch(value));
+                    systemStrings.setString(3, SearchHelper.normalizeForSearch(value));
                 }
                 else {
                     systemStrings.setNull(2, Types.VARCHAR);
@@ -285,7 +285,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         insert.setInt(1, parameterNameId);
         if (value != null) {
             insert.setString(2, value);
-            insert.setString(3, SearchUtil.normalizeForSearch(value));
+            insert.setString(3, SearchHelper.normalizeForSearch(value));
         } else {
             insert.setNull(2, Types.VARCHAR);
             insert.setNull(3, Types.VARCHAR);

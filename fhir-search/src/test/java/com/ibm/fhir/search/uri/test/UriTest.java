@@ -22,7 +22,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Test class for the URI Builder
@@ -56,7 +56,7 @@ public class UriTest {
         ctx.setPageSize(10);
         ctx.setSearchParameters(searchParameters);
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx),
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx),
             incoming);
     }
 
@@ -87,7 +87,7 @@ public class UriTest {
         ctx.setPageSize(10);
         ctx.setSearchParameters(searchParameters);
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx),
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx),
             incoming);
     }
 
@@ -105,7 +105,7 @@ public class UriTest {
         inclusionParameter.getValues().add(value);
         ctx.setSearchParameters(Collections.singletonList(inclusionParameter));
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class UriTest {
         QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
         ctx.setSearchParameters(Collections.singletonList(queryParameter));
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class UriTest {
         ctx.setPageSize(10);
         ctx.setTotalParameter(TotalValueSet.NONE);
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class UriTest {
         QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
         ctx.setSearchParameters(Collections.singletonList(queryParameter));
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
     @Test
@@ -169,7 +169,7 @@ public class UriTest {
         QueryParameter queryParameter = new QueryParameter(Type.DATE, "date", null, null, Collections.singletonList(paramVal));
         ctx.setSearchParameters(Collections.singletonList(queryParameter));
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 
     @Test
@@ -192,6 +192,6 @@ public class UriTest {
         QueryParameter queryParameter2 = new QueryParameter(Type.DATE, "date2", null, null, Arrays.asList(paramVal2));
         ctx.setSearchParameters(Arrays.asList(queryParameter1, queryParameter2));
 
-        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+        assertEquals(SearchHelper.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
 }

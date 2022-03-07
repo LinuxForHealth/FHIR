@@ -18,7 +18,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -33,7 +33,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
 
     @Override
     public Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
 
         Library library = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {

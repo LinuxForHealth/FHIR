@@ -16,13 +16,13 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.path.FHIRPathNode;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Tests parameter extraction
  */
 public class ExtractorRequestProcessor implements IExampleProcessor {
-    private static SearchUtil searchHelper = new SearchUtil();
+    private static SearchHelper searchHelper = new SearchHelper();
 
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {

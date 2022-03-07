@@ -55,7 +55,7 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * <a href="https://www.hl7.org/fhir/r4/location.html#positional">FHIR
@@ -77,7 +77,7 @@ public class JDBCSearchNearTest {
     protected Location savedResource;
 
     protected static FHIRPersistence persistence;
-    protected static SearchUtil searchHelper;
+    protected static SearchHelper searchHelper;
 
     @BeforeClass
     public void startup() throws Exception {
@@ -85,7 +85,7 @@ public class JDBCSearchNearTest {
                 new FileInputStream("../fhir-persistence/src/test/resources/logging.unitTest.properties"));
 
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
         FHIRRequestContext.get().setTenantId("default");
 
         testProps = TestUtil.readTestProperties("test.jdbc.properties");

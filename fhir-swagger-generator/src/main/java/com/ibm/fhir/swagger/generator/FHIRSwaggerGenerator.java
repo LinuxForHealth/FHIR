@@ -46,9 +46,9 @@ import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 import com.ibm.fhir.openapi.generator.FHIROpenApiGenerator;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -88,8 +88,8 @@ public class FHIRSwaggerGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
     public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 
-    private static final CompartmentUtil compartmentHelper = new CompartmentUtil();
-    private static final SearchUtil searchHelper = new SearchUtil();
+    private static final CompartmentHelper compartmentHelper = new CompartmentHelper();
+    private static final SearchHelper searchHelper = new SearchHelper();
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);

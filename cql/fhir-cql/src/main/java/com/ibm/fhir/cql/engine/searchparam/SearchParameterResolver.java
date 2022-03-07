@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,13 +17,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class SearchParameterResolver {
 
-    private final SearchUtil searchHelper;
+    private final SearchHelper searchHelper;
 
-    public SearchParameterResolver(SearchUtil searchHelper) {
+    public SearchParameterResolver(SearchHelper searchHelper) {
         this.searchHelper = searchHelper;
     }
 

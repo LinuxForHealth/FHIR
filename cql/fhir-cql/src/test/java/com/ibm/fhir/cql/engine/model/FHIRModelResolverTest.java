@@ -51,7 +51,7 @@ import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.TestReportActionResult;
 import com.ibm.fhir.model.type.code.TestReportResult;
 import com.ibm.fhir.model.type.code.TestReportStatus;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 
 public class FHIRModelResolverTest {
 
@@ -224,7 +224,7 @@ public class FHIRModelResolverTest {
         excludes.add("Schedule");
         excludes.add("AuditEvent");
 
-        CompartmentUtil compartmentHelper = new CompartmentUtil();
+        CompartmentHelper compartmentHelper = new CompartmentHelper();
         String contextType = "Patient";
         for( String resourceType : compartmentHelper.getCompartmentResourceTypes(contextType) ) {
             if( ! excludes.contains(resourceType) ) {

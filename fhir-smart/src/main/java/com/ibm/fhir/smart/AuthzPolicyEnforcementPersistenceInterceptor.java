@@ -50,13 +50,13 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -84,8 +84,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
-    private final CompartmentUtil compartmentHelper = new CompartmentUtil();
-    private final SearchUtil searchHelper = new SearchUtil();
+    private final CompartmentHelper compartmentHelper = new CompartmentHelper();
+    private final SearchHelper searchHelper = new SearchHelper();
 
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {

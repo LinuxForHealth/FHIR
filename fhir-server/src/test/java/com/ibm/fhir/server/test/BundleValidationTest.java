@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class BundleValidationTest {
@@ -50,7 +50,7 @@ public class BundleValidationTest {
     @BeforeClass
     void setup() throws FHIRException {
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence, new SearchUtil());
+        helper = new FHIRRestHelper(persistence, new SearchHelper());
     }
 
     /**

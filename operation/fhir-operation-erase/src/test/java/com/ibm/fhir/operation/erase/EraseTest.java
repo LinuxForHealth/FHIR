@@ -56,8 +56,8 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
 /**
@@ -68,8 +68,8 @@ public class EraseTest {
     // if not specified, then it's the default.
     private static final Boolean DEBUG = Boolean.FALSE;
 
-    private CompartmentUtil compartmentHelper;
-    private SearchUtil searchHelper;
+    private CompartmentHelper compartmentHelper;
+    private SearchHelper searchHelper;
 
     private static final String LONG_STRING =
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
@@ -81,8 +81,8 @@ public class EraseTest {
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
-        compartmentHelper = new CompartmentUtil();
-        searchHelper = new SearchUtil();
+        compartmentHelper = new CompartmentHelper();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

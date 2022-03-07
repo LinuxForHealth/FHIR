@@ -37,7 +37,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This TestNG test class contains methods that test the parsing of search result inclusion parameters (_include and
@@ -75,7 +75,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -104,7 +104,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals(searchContext.getIncludeParameters().size(), 1);
         assertEquals(searchContext.getIncludeParameters().get(0), incParm);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -126,7 +126,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals(searchContext.getIncludeParameters().size(), 1);
         assertEquals(searchContext.getIncludeParameters().get(0), incParm);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -159,7 +159,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -193,7 +193,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -227,7 +227,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -260,7 +260,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Organization", incParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -283,7 +283,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertTrue(incParm.isCanonical());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Measure", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Measure", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -310,7 +310,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(includeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -333,7 +333,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -369,7 +369,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Practitioner", incParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -400,7 +400,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertFalse(searchContext.hasIncludeParameters());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -428,7 +428,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals(searchContext.getRevIncludeParameters().size(), 1);
         assertEquals(searchContext.getRevIncludeParameters().get(0), revIncParm);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -451,7 +451,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals(searchContext.getRevIncludeParameters().size(), 1);
         assertEquals(searchContext.getRevIncludeParameters().get(0), revIncParm);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -474,7 +474,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -508,7 +508,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -542,7 +542,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -576,7 +576,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -610,7 +610,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Organization", revIncParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -634,7 +634,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertTrue(revIncParm.isCanonical());
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Library", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Library", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -656,7 +656,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Organization", revIncParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Organization", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Organization", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -706,7 +706,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedRevIncludeParms.contains(revIncludeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Medication", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Medication", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
 
@@ -726,7 +726,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertFalse(searchContext.hasIncludeParameters());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.equals("http://example.com/Patient?_count=10&_page=1"));
     }
 
@@ -747,7 +747,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("RelatedPerson", incParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.equals("http://example.com/Patient?_count=10&_include=" + incParm.getJoinResourceType() +
             ":" + incParm.getSearchParameter() + ":" + incParm.getSearchParameterTargetType() + "&_page=1"));
     }
@@ -783,7 +783,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));
@@ -819,7 +819,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));
@@ -838,7 +838,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertFalse(searchContext.hasIncludeParameters());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Condition", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Condition", searchContext);
         assertTrue(selfUri.equals("http://example.com/Condition?_count=10&_page=1"));
     }
 
@@ -859,7 +859,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Encounter", incParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Encounter", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Encounter", searchContext);
         assertTrue(selfUri.equals("http://example.com/Encounter?_count=10&_revinclude=" + incParm.getJoinResourceType() +
             ":" + incParm.getSearchParameter() + ":" + incParm.getSearchParameterTargetType() + "&_page=1"));
     }
@@ -889,7 +889,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));
@@ -932,7 +932,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));
@@ -990,7 +990,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedRevIncludeParms.contains(includeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));
@@ -1032,7 +1032,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -1066,7 +1066,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -1100,7 +1100,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("organization", incParm.getSearchParameter());
         assertEquals("Organization", incParm.getSearchParameterTargetType());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString));
         assertFalse(selfUri.contains(invalidQueryString));
     }
@@ -1140,7 +1140,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(incParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
         assertTrue(selfUri.contains(validQueryString3));
@@ -1165,7 +1165,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertEquals("Organization", incParm.getSearchParameterTargetType());
         assertFalse(searchContext.hasRevIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -1192,7 +1192,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(incParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
     }
@@ -1224,7 +1224,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(incParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
         assertTrue(selfUri.contains(validQueryString3));
@@ -1254,7 +1254,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(includeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
         assertTrue(selfUri.contains(validQueryString3));
@@ -1280,7 +1280,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertFalse(revIncParm.isUserSpecifiedTargetType());
         assertFalse(searchContext.hasIncludeParameters());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Organization", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Organization", searchContext);
         assertTrue(selfUri.contains(queryString));
     }
 
@@ -1309,7 +1309,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(includeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Practitioner", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Practitioner", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
         assertTrue(selfUri.contains(validQueryString3));
@@ -1338,7 +1338,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedIncludeParms.contains(includeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Practitioner", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Practitioner", searchContext);
         assertTrue(selfUri.contains(validQueryString1));
         assertTrue(selfUri.contains(validQueryString2));
     }
@@ -1395,7 +1395,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
             assertTrue(expectedRevIncludeParms.contains(revIncludeParm));
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Medication", searchContext);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/Medication", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
         assertTrue(selfUri.contains(include3));

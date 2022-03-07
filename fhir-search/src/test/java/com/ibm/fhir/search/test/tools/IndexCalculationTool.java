@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,12 +28,10 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.ParametersUtil;
+import com.ibm.fhir.search.parameters.ParametersHelper;
 
 /**
- * 
- * @author pbastide
- *
+ * A standalone program for extracting and printing search parameter values
  */
 public class IndexCalculationTool {
 
@@ -52,20 +50,20 @@ public class IndexCalculationTool {
      * @throws IOException
      */
     public static void main(String[] args) throws FHIRGeneratorException, IOException {
-        try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream(ParametersUtil.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE)) {
+        try (InputStream stream = ParametersHelper.class.getClassLoader().getResourceAsStream(ParametersHelper.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE)) {
             if (stream == null) {
-                System.out.println(String.format(ParametersUtil.ERROR_EXCEPTION, ParametersUtil.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE));
+                System.out.println(String.format(ParametersHelper.ERROR_EXCEPTION, ParametersHelper.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE));
             }
             Set<String> sets = process(stream);
             process(sets);
         }
 
-        
+
     }
 
     /**
      * simple output method.
-     * 
+     *
      * @param params
      * @param out
      * @throws FHIRGeneratorException
@@ -90,7 +88,7 @@ public class IndexCalculationTool {
 
         try {
             // The code is agnostic to format.
-            Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);  
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
 
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(bundle);
@@ -103,25 +101,25 @@ public class IndexCalculationTool {
                     searchExpressions.add(expr.trim());
                     count++;
                 }
-                
+
             }
             System.out.println("Total Expressions: " + count);
             System.out.println("Total Unique Expressions: " + searchExpressions.size());
         } catch (FHIRException fe) {
             // This exception is highly unlikely, but still possible.
-            System.out.println(String.format(ParametersUtil.ERROR_EXCEPTION, ParametersUtil.FROM_STEAM));
+            System.out.println(String.format(ParametersHelper.ERROR_EXCEPTION, ParametersHelper.FROM_STEAM));
         }
 
         return Collections.unmodifiableSet(searchExpressions);
     }
 
     private static void process(Set<String> uniques) {
-        
+
         List<String> sorted = uniques.stream().sorted().collect(Collectors.toList());
-        
+
         for(String uniq : sorted) {
             System.out.println(uniq);
         }
     }
-    
+
 }

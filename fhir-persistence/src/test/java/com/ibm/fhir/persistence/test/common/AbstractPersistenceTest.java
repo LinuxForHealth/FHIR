@@ -42,7 +42,7 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This is a common abstract base class for all persistence-related tests.
@@ -69,7 +69,7 @@ public abstract class AbstractPersistenceTest {
     protected static FHIRPersistence persistence;
 
     // The search helper to be used by the tests.
-    protected static SearchUtil searchHelper;
+    protected static SearchHelper searchHelper;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
@@ -116,7 +116,7 @@ public abstract class AbstractPersistenceTest {
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -180,12 +180,12 @@ public abstract class AbstractPersistenceTest {
         for (String key : queryParms.keySet()) {
 
             expectedCount++;
-            if (!SearchUtil.isSearchResultParameter(key) && !SearchUtil.isGeneralParameter(key)) {
+            if (!SearchHelper.isSearchResultParameter(key) && !SearchHelper.isGeneralParameter(key)) {
                 String paramName = key;
-                if (SearchUtil.isReverseChainedParameter(key)) {
+                if (SearchHelper.isReverseChainedParameter(key)) {
                     // ignore the reference type and just verify the reference param is there
                     paramName = key.split(":")[2];
-                } else if (SearchUtil.isChainedParameter(key)) {
+                } else if (SearchHelper.isChainedParameter(key)) {
                     // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }

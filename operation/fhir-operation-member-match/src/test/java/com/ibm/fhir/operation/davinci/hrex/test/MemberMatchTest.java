@@ -84,7 +84,7 @@ import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -116,12 +116,12 @@ public class MemberMatchTest {
 
     private static final Uri DATA_ABSENT_URI = Uri.builder().extension(DATA_ABSENT).build();
 
-    private SearchUtil searchHelper;
+    private SearchHelper searchHelper;
 
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     public void createContext(String tenant) throws FHIRException {

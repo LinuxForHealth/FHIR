@@ -25,7 +25,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -44,7 +44,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchUtil searchHelper) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
 
         // This approach is modeled directly on the cqf-ruler implementation. It seems to me that
         // running the measure in order to get the data requirements is a cop out and duplication

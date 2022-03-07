@@ -36,7 +36,7 @@ import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 
@@ -50,10 +50,10 @@ public class BulkDataExportUtil {
                                                     .map(Class::getSimpleName)
                                                     .collect(Collectors.toSet());
 
-    private final CompartmentUtil compartmentHelper;
+    private final CompartmentHelper compartmentHelper;
 
     public BulkDataExportUtil() {
-        compartmentHelper = new CompartmentUtil();
+        compartmentHelper = new CompartmentHelper();
     }
 
     /**

@@ -29,15 +29,15 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
- * Utilities for working with search parameters.
+ * A helper class with methods for working with HL7 FHIR search parameters.
  */
-public class ParametersUtil {
+public class ParametersHelper {
 
-    private static final String CLASSNAME = ParametersUtil.class.getName();
+    private static final String CLASSNAME = ParametersHelper.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
@@ -69,10 +69,10 @@ public class ParametersUtil {
 
     private static final String MISSING_EXPRESSION = "/NONE/";
 
-    private CompartmentUtil compartmentHelper;
+    private CompartmentHelper compartmentHelper;
     private Map<String, Map<String, ParametersMap>> searchParameters;
 
-    public ParametersUtil(CompartmentUtil compartmentHelper) {
+    public ParametersHelper(CompartmentHelper compartmentHelper) {
         this.compartmentHelper = compartmentHelper;
         searchParameters = buildSearchParameterMaps();
     }

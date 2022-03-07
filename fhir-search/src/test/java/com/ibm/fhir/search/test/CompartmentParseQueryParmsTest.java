@@ -33,7 +33,7 @@ import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This TestNG test class contains methods that test the parsing of compartment related search data in the SearchUtil
@@ -183,7 +183,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             assertEquals(searchParm.getValues().size(), 1);
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
                 + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains(queryStringPart1), selfUri + " does not contain expectedExceptions " + queryStringPart1);
         assertTrue(selfUri.contains(queryStringPart2), selfUri + " does not contain expectedExceptions " + queryStringPart2);
@@ -225,7 +225,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         }
         assertEquals(useStoredCompartmentParam ? 1 : 2, parmCount);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
                 + resourceType.getSimpleName(), context);
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpectedExceptions query parameter 'fakeParameter'");
 
@@ -267,7 +267,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             assertNull(searchParm.getNextParameter());
         }
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains(queryStringPart1), selfUri + " does not contain expectedExceptions " + queryStringPart1);
         assertTrue(selfUri.contains(queryStringPart2), selfUri + " does not contain expectedExceptions " + queryStringPart2);
     }

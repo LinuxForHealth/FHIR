@@ -53,17 +53,17 @@ import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.MeasureReportType;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class MeasureCollectDataOperationTest {
     private MeasureCollectDataOperation operation;
-    private SearchUtil searchHelper;
+    private SearchHelper searchHelper;
 
     @BeforeClass
     public void initializeSearchUtil() {
-        searchHelper = new SearchUtil();
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod

@@ -21,7 +21,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.SortParameter;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This class implements the _sort URL processing into internal SortParameters.
@@ -88,7 +88,7 @@ public class Sort {
      * @param searchHelper a SearchUtil instance to retrieve filtered search params
      * @throws Exception an exception
      */
-    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortParmValue, SearchUtil searchHelper) throws Exception {
+    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortParmValue, SearchHelper searchHelper) throws Exception {
         parseSortParameter(resourceType.getSimpleName(), context, sortParmValue, searchHelper);
     }
 
@@ -100,7 +100,7 @@ public class Sort {
      * @param searchHelper a SearchUtil instance to retrieve filtered search params
      * @throws Exception an exception
      */
-    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context, String sortParmValue, SearchUtil searchHelper) throws Exception {
+    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context, String sortParmValue, SearchHelper searchHelper) throws Exception {
 
         for (String sortParmCode : sortParmValue.split(",")) {
             try {

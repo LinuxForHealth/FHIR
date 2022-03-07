@@ -21,7 +21,7 @@ import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public abstract class AbstractOperation implements FHIROperation {
     protected final OperationDefinition definition;
@@ -53,7 +53,7 @@ public abstract class AbstractOperation implements FHIROperation {
             String logicalId, String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException {
+            SearchHelper searchHelper) throws FHIROperationException {
 
         validateOperationContext(operationContext, resourceType, parameters);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
@@ -81,7 +81,7 @@ public abstract class AbstractOperation implements FHIROperation {
             String logicalId, String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper,
-            SearchUtil searchHelper) throws FHIROperationException;
+            SearchHelper searchHelper) throws FHIROperationException;
 
     protected Parameters.Parameter getParameter(Parameters parameters, String name) {
         for (Parameters.Parameter parameter : parameters.getParameter()) {

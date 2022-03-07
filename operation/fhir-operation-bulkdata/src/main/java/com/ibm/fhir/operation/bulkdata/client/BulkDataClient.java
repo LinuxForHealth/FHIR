@@ -65,7 +65,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 
 /**
  * BulkData Client to connect to the other server.
@@ -127,7 +127,7 @@ public class BulkDataClient {
     private String incomingUrl = null;
     private String baseUri = null;
     private ConfigurationAdapter adapter = null;
-    private CompartmentUtil compartmentHelper = null;
+    private CompartmentHelper compartmentHelper = null;
 
     /**
      *
@@ -144,7 +144,7 @@ public class BulkDataClient {
         this.incomingUrl = incomingUrl;
         this.baseUri = baseUri;
         this.adapter = adapter;
-        this.compartmentHelper = new CompartmentUtil();
+        this.compartmentHelper = new CompartmentHelper();
     }
 
     /**

@@ -9,7 +9,7 @@ package com.ibm.fhir.persistence.test;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 
 /**
@@ -27,7 +27,7 @@ public class MockExceptionPersistenceFactory implements FHIRPersistenceFactory {
     }
 
     @Override
-    public FHIRPersistence getInstance(SearchUtil searchHelper) throws FHIRPersistenceException {
+    public FHIRPersistence getInstance(SearchHelper searchHelper) throws FHIRPersistenceException {
         return null;
     }
 }

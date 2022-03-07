@@ -24,11 +24,11 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.resources.Capabilities;
 
 public class CapabilitiesTest {
-    SearchUtil searchHelper = new SearchUtil();
+    SearchHelper searchHelper = new SearchHelper();
 
     @BeforeClass
     void setup() {
@@ -117,7 +117,7 @@ public class CapabilitiesTest {
      * that are normally injected by JAX-RS and so this is the only way to set them.
      */
     private static class CapabilitiesChild extends Capabilities {
-        public CapabilitiesChild(SearchUtil searchHelper) throws Exception {
+        public CapabilitiesChild(SearchHelper searchHelper) throws Exception {
             super();
             this.context = new MockServletContext();
             this.searchHelper = searchHelper;
@@ -130,7 +130,7 @@ public class CapabilitiesTest {
         }
 
         @Override
-        protected SearchUtil getSearchHelper() {
+        protected SearchHelper getSearchHelper() {
             return searchHelper;
         }
     }

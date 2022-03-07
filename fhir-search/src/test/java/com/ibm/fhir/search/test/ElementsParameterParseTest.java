@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This testng test class contains methods that test the parsing of the search result _elements parameter in the
@@ -54,7 +54,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertNotNull(context);
         assertTrue(context.getElementsParameters() == null || context.getElementsParameters().size() == 0);
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertFalse(selfUri.contains(queryString), selfUri + " contains unexpected " + queryString);
         assertEquals(2, context.getOutcomeIssues().size());
     }
@@ -79,7 +79,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertNotNull(context.getElementsParameters());
         assertEquals(3, context.getElementsParameters().size());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("id"), selfUri + " does not contain expected elements param 'id'");
         assertTrue(selfUri.contains("contact"), selfUri + " does not contain expected elements param 'contact'");
         assertTrue(selfUri.contains("name"), selfUri + " does not contain expected elements param 'name'");
@@ -107,7 +107,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertNotNull(context.getElementsParameters());
         assertEquals(1, context.getElementsParameters().size());
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("id"), selfUri + " does not contain expected elements param 'id'");
         assertEquals(1, context.getOutcomeIssues().size());
     }
@@ -134,7 +134,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertEquals(1, context.getElementsParameters().size());
         assertEquals("name", context.getElementsParameters().get(0));
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains(queryString), selfUri + " does not contain expected " + queryString);
     }
 
@@ -153,7 +153,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertTrue(context.getElementsParameters().contains("photo"));
         assertTrue(context.getElementsParameters().contains("identifier"));
 
-        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
+        String selfUri = SearchHelper.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("name"), selfUri + " does not contain expected elements param 'name'");
         assertTrue(selfUri.contains("photo"), selfUri + " does not contain expected elements param 'photo'");
         assertTrue(selfUri.contains("identifier"), selfUri + " does not contain expected elements param 'identifier'");
