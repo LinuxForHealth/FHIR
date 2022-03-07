@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This class contains a collection of search result sorting related tests that will be run against
@@ -238,7 +237,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("1"));
         queryParameters.put("_count", Collections.singletonList("0"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
@@ -254,7 +253,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("0"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
@@ -274,7 +273,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("0"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertFalse(result.isSuccess());
@@ -294,7 +293,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("4"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
@@ -314,7 +313,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("4"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertFalse(result.isSuccess());
@@ -335,7 +334,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("4"));
         queryParameters.put("_total", Collections.singletonList("none"));
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Basic.class, queryParameters);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(false);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         // Since _total=none, the search will not be able to determine that page 4 is too big,

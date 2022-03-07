@@ -42,7 +42,7 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * This is a common abstract base class for all persistence-related tests.
@@ -62,11 +62,14 @@ public abstract class AbstractPersistenceTest {
     // common logger to make things a little easier on subclass implementations
     protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
 
-    // The common base URI used for all the search/persistence tests
+    // The common base URI used for all the search/persistence tests.
     public static final String BASE = "https://example.com/";
 
     // The persistence layer instance to be used by the tests.
-    protected static FHIRPersistence persistence = null;
+    protected static FHIRPersistence persistence;
+
+    // The search helper to be used by the tests.
+    protected static SearchHelper searchHelper;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
     protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
@@ -113,15 +116,13 @@ public abstract class AbstractPersistenceTest {
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
+        searchHelper = new SearchHelper();
     }
 
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
         context.setOriginalRequestUri(BASE);
 
         FHIRRequestContext.set(context);
@@ -169,7 +170,7 @@ public abstract class AbstractPersistenceTest {
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         // Convert the list here so we don't have to change all the test implementations
-        return runQueryTest(SearchUtil.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResourceResults()
+        return runQueryTest(searchHelper.parseQueryParameters(resourceType, queryParms), resourceType, queryParms, maxPageSize).getResourceResults()
                 .stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
 
@@ -179,12 +180,12 @@ public abstract class AbstractPersistenceTest {
         for (String key : queryParms.keySet()) {
 
             expectedCount++;
-            if (!SearchUtil.isSearchResultParameter(key) && !SearchUtil.isGeneralParameter(key)) {
+            if (!SearchHelper.isSearchResultParameter(key) && !SearchHelper.isGeneralParameter(key)) {
                 String paramName = key;
-                if (SearchUtil.isReverseChainedParameter(key)) {
+                if (SearchHelper.isReverseChainedParameter(key)) {
                     // ignore the reference type and just verify the reference param is there
                     paramName = key.split(":")[2];
-                } else if (SearchUtil.isChainedParameter(key)) {
+                } else if (SearchHelper.isChainedParameter(key)) {
                     // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }
@@ -225,14 +226,14 @@ public abstract class AbstractPersistenceTest {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
+        FHIRSearchContext searchContext = searchHelper.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
 
         return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
     }
 
     protected List<Resource> runCompartmentQueryTest(String compartmentName, Set<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
-        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, queryParms);
+        QueryParameter inclusionCriteria = searchHelper.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         if (inclusionCriteria != null) {
             searchContext.getSearchParameters().add(0, inclusionCriteria);
         }
@@ -250,7 +251,7 @@ public abstract class AbstractPersistenceTest {
         assertNotNull(result.getResourceResults());
         return result.getResourceResults().stream().map(x -> x.getResource()).collect(Collectors.toList());
     }
-    
+
     /**
      * Creates and returns a copy of the passed resource with the {@code Resource.id}
      * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
@@ -295,7 +296,7 @@ public abstract class AbstractPersistenceTest {
             throw new FHIRPersistenceResourceNotFoundException("Resource '"
                     + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
         }
-        
+
         // Note we don't want to compare the version we just read with the version of
         // the given resource because we want the following delete method to perform
         // this check for us.

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -63,7 +63,7 @@ import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
@@ -170,7 +170,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             if (!REFERENCE.equals(searchParamType) && !URI.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, canonical);
             }
-            
+
             StringParmVal p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
@@ -184,7 +184,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 // Parse the canonical value into a uri and a version and then create as a composite
                 // parameter to correlate uri and version (even if version is null).
                 CanonicalValue canonicalValue = CanonicalSupport.createCanonicalValueFrom(canonical.getValue());
-                
+
                 // Composite for uri + version
                 CompositeParmVal cp = new CompositeParmVal();
                 cp.setResourceType(resourceType);
@@ -195,7 +195,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 // uri
                 StringParmVal up = new StringParmVal();
                 up.setResourceType(cp.getResourceType());
-                up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+                up.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
                 up.setUrl(cp.getUrl());
                 up.setVersion(cp.getVersion());
                 up.setValueString(canonicalValue.getUri());
@@ -204,7 +204,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 // version
                 StringParmVal vp = new StringParmVal();
                 vp.setResourceType(cp.getResourceType());
-                vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+                vp.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
                 vp.setUrl(cp.getUrl());
                 vp.setVersion(cp.getVersion());
                 vp.setValueString(canonicalValue.getVersion());
@@ -228,12 +228,12 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setUrl(searchParamUrl);
             p.setVersion(searchParamVersion);
             String system = ModelSupport.getSystem(code);
-            
+
             // See SearchUtil#parseQueryParameterValuesString.
             if (system == null) {
                 // Can't find an explicit system, so see if there's an implicit one
                 // attached to the code as an (IBM-defined) extension.
-                system = SearchUtil.findImplicitSystem(code.getExtension());
+                system = SearchHelper.findImplicitSystem(code.getExtension());
             }
 
             // Assume Code values are always case-sensitive, regardless of system
@@ -367,7 +367,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             } else if (TOKEN.equals(searchParamType)) {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
-                p.setValueCode(SearchUtil.normalizeForSearch(value.getValue()));
+                p.setValueCode(SearchHelper.normalizeForSearch(value.getValue()));
                 p.setName(searchParamCode);
                 p.setUrl(searchParamUrl);
                 p.setVersion(searchParamVersion);
@@ -501,7 +501,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
             p.setUrl(searchParamUrl);
             p.setVersion(searchParamVersion);
-            p.setValueCode(SearchUtil.normalizeForSearch(codeableConcept.getText().getValue()));
+            p.setValueCode(SearchHelper.normalizeForSearch(codeableConcept.getText().getValue()));
             result.add(p);
         }
         return false;
@@ -527,7 +527,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
                 p.setUrl(searchParamUrl);
                 p.setVersion(searchParamVersion);
-                p.setValueCode(SearchUtil.normalizeForSearch(coding.getDisplay().getValue()));
+                p.setValueCode(SearchHelper.normalizeForSearch(coding.getDisplay().getValue()));
                 result.add(p);
             }
         }
@@ -814,7 +814,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         // type
                         p = new TokenParmVal();
                         p.setResourceType(cp.getResourceType());
-                        p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+                        p.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
                         p.setUrl(cp.getUrl());
                         p.setVersion(cp.getVersion());
                         setTokenValues(p, typeCoding.getSystem(), typeCoding.getCode().getValue(), !FORCE_CASE_SENSITIVE);
@@ -823,7 +823,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         // value
                         p = new TokenParmVal();
                         p.setResourceType(cp.getResourceType());
-                        p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+                        p.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
                         p.setUrl(cp.getUrl());
                         p.setVersion(cp.getVersion());
                         p.setValueCode(identifier.getValue().getValue());
@@ -983,7 +983,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * Configure the system and code values in the parameter. If the system
      * is non-null, determine if it's case-sensitive. If it's non-null and
      * not case-sensitive, normalize the value.
-     * 
+     *
      * If forceCaseSensitive is true, the registry check to determine
      * case-sensitivity is bypassed and case-sensitive behavior is enabled.
      *
@@ -1004,12 +1004,12 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             }
             p.setValueSystem(system.getValue());
         }
-        p.setValueCode(caseSensitive ? code : SearchUtil.normalizeForSearch(code));
+        p.setValueCode(caseSensitive ? code : SearchHelper.normalizeForSearch(code));
     }
-    
+
     /**
      * Build a ReferenceParmVal from a reference value and type.
-     * 
+     *
      * @param reference
      * @param type
      * @return

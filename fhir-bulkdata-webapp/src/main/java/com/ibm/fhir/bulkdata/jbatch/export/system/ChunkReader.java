@@ -55,7 +55,6 @@ import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Bulk Export for System - ChunkReader.
@@ -140,7 +139,7 @@ public class ChunkReader extends AbstractItemReader {
         searchParametersForResoureTypes = BulkDataUtils.getSearchParametersFromTypeFilters(ctx.getFhirTypeFilters());
         resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
 
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(handler.getSearchHelper());
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 
         List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
@@ -209,7 +208,7 @@ public class ChunkReader extends AbstractItemReader {
 
         queryParameters.put(SearchConstants.SORT, Arrays.asList(SearchConstants.LAST_UPDATED));
 
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext searchContext = handler.getSearchHelper().parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
         List<? extends Resource> resources = null;
@@ -226,7 +225,7 @@ public class ChunkReader extends AbstractItemReader {
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, resourceType).getResourceResults();
             resources = ResourceResult.toResourceList(resourceResults);
-            
+
             if (isDoDuplicationCheck) {
                 resources = resources.stream()
                         // the add returns false if the id already exists, which filters it out of the collection

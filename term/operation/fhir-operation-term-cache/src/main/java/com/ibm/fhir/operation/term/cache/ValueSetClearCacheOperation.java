@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,13 +24,14 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.term.AbstractTermOperation;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class ValueSetClearCacheOperation extends AbstractTermOperation {
-    
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("operation-valueset-clear-cache.json")) {
@@ -39,7 +40,7 @@ public class ValueSetClearCacheOperation extends AbstractTermOperation {
             throw new Error(e);
         }
     }
-    
+
     @Override
     protected Parameters doInvoke(
             FHIROperationContext operationContext,
@@ -47,12 +48,13 @@ public class ValueSetClearCacheOperation extends AbstractTermOperation {
             String logicalId,
             String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper,
+            SearchHelper searchHelper) throws FHIROperationException {
 
         try {
             ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
             ValueSetSupport.clearCache(valueSet);
-            
+
             OperationOutcome operationOutcome = OperationOutcome.builder().issue(
                 OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.INFORMATION)
@@ -61,7 +63,7 @@ public class ValueSetClearCacheOperation extends AbstractTermOperation {
                         Coding.builder().code(Code.of("success")).build()
                      ).build()).build()
                 ).build();
-            
+
             if (FHIRRequestContext.get().getReturnPreference() == HTTPReturnPreference.OPERATION_OUTCOME) {
                 return FHIROperationUtil.getOutputParameters(operationOutcome);
             } else {
@@ -70,9 +72,9 @@ public class ValueSetClearCacheOperation extends AbstractTermOperation {
         } catch( Throwable t ) {
             throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
                     + getName() + "': " + getCausedByMessage(t), t);
-        } 
+        }
     }
-    
+
     private String getCausedByMessage(Throwable throwable) {
         return throwable.getClass().getName() + ": " + throwable.getMessage();
     }

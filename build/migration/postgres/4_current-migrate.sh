@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -70,15 +70,15 @@ java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-sche
     --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
-    --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent \
+    --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES} \
     --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
-    --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
+    --prop resourceTypes=${TENANT1_REFERENCE_RESOURCE_TYPES} \
     --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
-    --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
+    --prop resourceTypes=${TENANT1_STUDY1_RESOURCE_TYPES} \
     --update-schema
 
 # Reset to Original Directory

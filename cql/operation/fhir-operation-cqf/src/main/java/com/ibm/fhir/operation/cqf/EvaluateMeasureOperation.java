@@ -25,6 +25,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -44,7 +45,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
 
         ParameterMap paramMap = new ParameterMap(parameters);
 
@@ -69,7 +70,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         } else if (practitioner != null) {
             subjectOrPractitionerId = practitioner;
         }
-        
+
         MeasureReportType reportType = getReportType(paramMap, subject);
 
         ZoneOffset zoneOffset = getZoneOffset(paramMap);
@@ -77,7 +78,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         TerminologyProvider termProvider = getTerminologyProvider(resourceHelper);
 
-        RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
+        RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider, searchHelper);
 
         Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
 
@@ -91,7 +92,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
      * logic is defined as first use the provided code value, second use
      * INDIVIDUAL if a subject is provided, and, last, use SUMMARY if
      * neither a code or subject is available.
-     * 
+     *
      * @param paramMap
      *            operation input
      * @param subject
@@ -100,7 +101,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
      */
     public MeasureReportType getReportType(ParameterMap paramMap, String subject) {
         MeasureReportType reportType = null;
-        
+
         Parameter pReportType = paramMap.getOptionalSingletonParameter(PARAM_IN_REPORT_TYPE);
         if (pReportType != null) {
             Code code = (Code) pReportType.getValue();
@@ -117,7 +118,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
     /**
      * Retrieve the subject parameter from operation input
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return subject parameter or null if not found.
@@ -133,7 +134,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
     /**
      * Retrieve the practitioner parameter from operation input
-     * 
+     *
      * @param paramMap
      *            operation input
      * @return practitioner parameter or null if not found.

@@ -6,6 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -27,7 +31,10 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
     private String version;
 
     // Whether to store the extracted value or not; defaulting to true
-    private boolean isForStoring = true;
+    private boolean forStoring = true;
+
+    // Whether the extracted value is used an inclusion criteria for one or more compartment
+    private Set<String> compartments = new HashSet<>();
 
     /**
      * Protected constructor
@@ -182,13 +189,38 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
      * @return whether this extracted parameter value is for storing
      */
     public boolean isForStoring() {
-        return isForStoring;
+        return forStoring;
     }
 
     /**
      * @param isForStoring whether this extracted parameter value is for storing
      */
     public void setForStoring(boolean isForStoring) {
-        this.isForStoring = isForStoring;
+        this.forStoring = isForStoring;
+    }
+
+    /**
+     * @return whether this extracted value is an inclusion criteria for one or more compartment
+     */
+    public boolean isCompartmentInclusionParam() {
+        return !compartments.isEmpty();
+    }
+
+    /**
+     * @return the potential compartments this parameter value could target if this is a compartment
+     *      inclusion criteria parameter; otherwise empty
+     */
+    public Set<String> getCompartments() {
+        return compartments;
+    }
+
+    /**
+     * @param compartments
+     *      the potential compartments this parameter value could target if this is a compartment
+     *      inclusion criteria parameter; never null
+     */
+    public void setCompartments(Set<String> compartments) {
+        Objects.requireNonNull(compartments);
+        this.compartments = compartments;
     }
 }

@@ -41,6 +41,7 @@ import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -54,7 +55,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
     /**
      * Create the terminology provider that will be used to access terminology data
      * during operation evaluation.
-     * 
+     *
      * @return Terminology Provider
      */
     public TerminologyProvider getTerminologyProvider(FHIRResourceHelpers resourceHelpers) {
@@ -65,13 +66,13 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
     /**
      * Create the retrieve provider that will be used to perform data retrieval during
      * the operation evaluation.
-     * 
-     * @param resourceHelper FHIR Resource Helpers 
+     *
+     * @param resourceHelper FHIR Resource Helpers
      * @param termProvider Terminology Provider
      * @return Retrieve provider configured as appropriate for the environment
      */
-    public RetrieveProvider getRetrieveProvider(FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider) {
-        SearchParameterResolver resolver = new SearchParameterResolver();
+    public RetrieveProvider getRetrieveProvider(FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, SearchHelper searchHelper) {
+        SearchParameterResolver resolver = new SearchParameterResolver(searchHelper);
         ServerFHIRRetrieveProvider retrieveProvider = new ServerFHIRRetrieveProvider(resourceHelper, resolver);
         retrieveProvider.setExpandValueSets(false); // TODO - use server config settings
         retrieveProvider.setTerminologyProvider(termProvider);
@@ -81,8 +82,8 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
 
     /**
      * Given a FHIR Measure resource, evaluate the measure and return
-     * a report of the results. 
-     * 
+     * a report of the results.
+     *
      * @param resourceHelpers
      *            Resource helpers for data access operations
      * @param measure
@@ -109,7 +110,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
     public MeasureReport.Builder doMeasureEvaluation(FHIRResourceHelpers resourceHelpers, Measure measure, ZoneOffset zoneOffset, Interval measurementPeriod, String subjectOrPractitionerId,
         MeasureReportType reportType,
         TerminologyProvider termProvider, Map<String, DataProvider> dataProviders) throws FHIROperationException {
-   
+
         String primaryLibraryId = MeasureHelper.getPrimaryLibraryId(measure);
 
         Library primaryLibrary = OperationHelper.loadLibraryByReference(resourceHelpers, primaryLibraryId);
@@ -147,7 +148,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      * This includes the periodStart, periodEnd, and those specified in the
      * CQL that is evaluated, . The default implementation uses the zone
      * offset of the server performing the evaluation.
-     * 
+     *
      * @param paramMap
      *            Operation input parameters
      * @return timezone offset that will be applied to dates without TimeZone specified
@@ -174,7 +175,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      * contain timezone information. The start and end DateTime
      * objects will be calculated based on the <code>zoneOffset</code>
      * that is provided.
-     * 
+     *
      * @param paramMap
      *            Operation input parameters
      * @param zoneOffset

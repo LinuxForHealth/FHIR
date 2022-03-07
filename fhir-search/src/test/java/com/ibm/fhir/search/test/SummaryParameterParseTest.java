@@ -21,14 +21,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This testng test class contains methods that test the parsing of the search result _summary parameter in the
  * SearchUtil class.
- *
- * @author Albert Wang
- *
  */
 public class SummaryParameterParseTest extends BaseSearchTest {
 
@@ -38,7 +34,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_summary", Arrays.asList("true"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
         assertEquals(context.getSummaryParameter(), SummaryValueSet.TRUE);
@@ -50,7 +46,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_summary", Arrays.asList("data","true"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getSummaryParameter());
         assertEquals(context.getSummaryParameter(), SummaryValueSet.DATA);
@@ -64,7 +60,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_summary", Arrays.asList("data","true"));
         try {
-            SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+            searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_summary' is specified multiple times");
@@ -79,7 +75,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(resourceType, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(resourceType, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getSummaryParameter());
     }
@@ -92,7 +88,7 @@ public class SummaryParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_summary", Arrays.asList("invalid"));
         try {
-            SearchUtil.parseQueryParameters(resourceType, queryParameters, false, true);
+            searchHelper.parseQueryParameters(resourceType, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_summary'.");

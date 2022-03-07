@@ -50,13 +50,13 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
@@ -83,6 +83,9 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private static final String REQUEST_NOT_PERMITTED = "Requested interaction is not permitted by any of the passed scopes.";
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+    private final CompartmentHelper compartmentHelper = new CompartmentHelper();
+    private final SearchHelper searchHelper = new SearchHelper();
 
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
@@ -203,7 +206,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         case RESOURCE_TYPE: // Patient/$export
             // Either way, the set resourceTypes to export are those from the Patient compartment
             try {
-                List<String> compartmentResourceMembers = CompartmentUtil.getCompartmentResourceTypes(PATIENT);
+                List<String> compartmentResourceMembers = compartmentHelper.getCompartmentResourceTypes(PATIENT);
                 if (typesParam.isPresent() && typesParam.get().getValue() != null) {
                     String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
                     for (String requestedType : Arrays.asList(typesString.split(","))) {
@@ -400,7 +403,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             } else {
                 // Not compartment search - validate and convert to Patient compartment search if the resource type can be in the Patient compartment
                 try {
-                    if (CompartmentUtil.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
+                    if (compartmentHelper.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
                         // Special case for the List resource because we want to enable searches for Formulary Coverage Plan lists
                         if ("List".equals(event.getFhirResourceType())) {
                             // In this case, we will rely on the afterSearch logic to prevent unauthorized access to patient-scoped Lists
@@ -408,7 +411,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                         }
 
                         // Build the Patient compartment inclusion criteria search parameter
-                        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(PATIENT, patientIdFromToken, event.getFhirResourceType());
+                        QueryParameter inclusionCriteria = searchHelper.buildInclusionCriteria(PATIENT, patientIdFromToken, event.getFhirResourceType());
 
                         // Add the inclusion criteria parameter to the front of the search parameter list
                         searchContext.getSearchParameters().add(0, inclusionCriteria);
@@ -822,20 +825,19 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         try {
-            if (!CompartmentUtil.getCompartmentResourceTypes(compartment).contains(resourceType)) {
+            if (!compartmentHelper.getCompartmentResourceTypes(compartment).contains(resourceType)) {
                 // If the resource type is not applicable for the patient compartment, allow it
                 // TODO: this may be overly broad...how do we appropriately scope user access to non-Patient resources?
                 return true;
             }
 
-            List<String> inclusionCriteria = CompartmentUtil
-                    .getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
+            List<String> inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
 
             EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(resource);
 
             for (String searchParmCode : inclusionCriteria) {
                 try {
-                    SearchParameter inclusionParm = SearchUtil.getSearchParameter(resourceType, searchParmCode);
+                    SearchParameter inclusionParm = searchHelper.getSearchParameter(resourceType, searchParmCode);
                     if (inclusionParm != null & inclusionParm.getExpression() != null) {
                         String expression = inclusionParm.getExpression().getValue();
                         Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);

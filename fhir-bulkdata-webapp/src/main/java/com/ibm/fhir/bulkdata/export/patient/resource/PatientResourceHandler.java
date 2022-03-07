@@ -33,7 +33,6 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * The PatientResourceHandler controls the population of the Patient Resources (Or Group member Resources into the TransientData object)
@@ -116,10 +115,10 @@ public class PatientResourceHandler extends SystemExportResourceHandler {
             if (Patient.class.isAssignableFrom(resourceType)) {
                 String patientIdQueryParameterValue = patientIds.stream().collect(Collectors.joining(","));
                 queryParameters.put(SearchConstants.ID, Arrays.asList(patientIdQueryParameterValue));
-                searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+                searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
             } else {
-                searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
-                QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria("Patient", patientIds, resourceType.getSimpleName());
+                searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
+                QueryParameter inclusionCriteria = searchHelper.buildInclusionCriteria("Patient", patientIds, resourceType.getSimpleName());
                 searchContext.getSearchParameters().add(0, inclusionCriteria);
             }
             searchContext.setPageSize(pageSize);

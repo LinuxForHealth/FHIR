@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,6 +38,7 @@ public class FHIRConstants {
     public static final String UPDATE_IF_MODIFIED_HEADER = "X-FHIR-UPDATE-IF-MODIFIED";
 
     public static final String EXT_BASE = "http://ibm.com/fhir/extension/";
+    public static final String TAG_BASE = "http://ibm.com/fhir/tag/";
 
     /**
      * General parameter names that can be used with any FHIR interaction.

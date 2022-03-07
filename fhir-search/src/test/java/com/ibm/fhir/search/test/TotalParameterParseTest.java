@@ -21,14 +21,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This testng test class contains methods that test the parsing of the _total parameter in the
  * SearchUtil class.
- *
- * @author tbieste
- *
  */
 public class TotalParameterParseTest extends BaseSearchTest {
 
@@ -36,7 +32,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
     public void testTotalNotSpecified() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Patient.class, queryParameters);
         assertNotNull(context);
         assertNull(context.getTotalParameter());
     }
@@ -46,7 +42,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_total", Arrays.asList("estimate"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Patient.class, queryParameters);
         assertNotNull(context);
         assertEquals(context.getTotalParameter(), TotalValueSet.ESTIMATE);
     }
@@ -56,7 +52,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_total", Arrays.asList("invalid"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getTotalParameter());
     }
@@ -68,7 +64,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_total", Arrays.asList("invalid"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "An error occurred while parsing parameter '_total'.");
@@ -82,7 +78,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_total", Arrays.asList("none", "accurate"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertEquals(context.getTotalParameter(), TotalValueSet.NONE);
     }
@@ -94,7 +90,7 @@ public class TotalParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_total", Arrays.asList("none", "accurate"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_total' is specified multiple times");

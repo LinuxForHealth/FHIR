@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,6 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This Servlet Context Listener provides a hook to the BatchRuntime.
@@ -48,9 +47,6 @@ public class JobControlContextListener implements ServletContextListener {
         log.fine("Initializing FHIRRegistry...");
         FHIRRegistry.getInstance();
         FHIRRegistry.init();
-
-        log.fine("Initializing SearchUtil...");
-        SearchUtil.init();
 
         try {
             @SuppressWarnings("unused")

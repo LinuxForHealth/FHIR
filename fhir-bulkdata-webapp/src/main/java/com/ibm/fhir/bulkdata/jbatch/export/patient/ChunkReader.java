@@ -58,7 +58,6 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Bulk Export for Patient - ChunkReader.
@@ -135,7 +134,7 @@ public class ChunkReader extends AbstractItemReader {
 
         pageSize = adapter.getCorePageSize();
 
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(handler.getSearchHelper());
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 
         List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
@@ -191,7 +190,7 @@ public class ChunkReader extends AbstractItemReader {
             queryParameters.put(SearchConstants.ELEMENTS, Collections.singletonList("id"));
         }
 
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        FHIRSearchContext searchContext = handler.getSearchHelper().parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
 

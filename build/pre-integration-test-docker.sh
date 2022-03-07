@@ -12,6 +12,8 @@ echo "Preparing environment for fhir-server integration tests..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
+. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
+
 # Set the working directory
 cd ${DIR}/docker
 

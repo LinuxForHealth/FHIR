@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -44,7 +45,7 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
         Parameters parameters = Parameters.builder().parameter(p).build();
 
         ParameterMap paramMap = new ParameterMap(parameters);
-        
+
         Pair<String, Object> context = op.getCqlContext(paramMap);
         assertEquals(context.getKey(), "Patient");
         assertEquals(context.getValue(), "123");
@@ -86,7 +87,7 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
 
             @Override
             protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-                Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+                    Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
                 throw new FHIROperationException("You should not have reached this point");
             }
 

@@ -18,7 +18,6 @@ import java.util.Set;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
@@ -103,10 +102,16 @@ public class SearchConstants {
     public static final String VERSION = "version";
 
     public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
-    public static final String DO_NOT_STORE_EXT_URL = FHIRConstants.EXT_BASE + "do-not-store";
-    public static final Extension DO_NOT_STORE_EXT = Extension.builder()
-            .url(SearchConstants.DO_NOT_STORE_EXT_URL)
-            .value(true)
+    public static final String COMPARTMENT_EXT_URL = FHIRConstants.EXT_BASE + "compartment-inclusion";
+
+    public static final Uri TAG_SYSTEM_SEARCH_PARAM_FLAG = Uri.of(FHIRConstants.TAG_BASE + "search-param-flag");
+    public static final Coding TAG_DO_NOT_STORE = Coding.builder()
+            .system(TAG_SYSTEM_SEARCH_PARAM_FLAG)
+            .code(Code.of("do-not-store"))
+            .build();
+    public static final Coding TAG_COMPARTMENT_INCLUSION_PARAM = Coding.builder()
+            .system(TAG_SYSTEM_SEARCH_PARAM_FLAG)
+            .code(Code.of("compartment-inclusion-param"))
             .build();
 
     // Extracted search parameter suffix for :identifier modifier

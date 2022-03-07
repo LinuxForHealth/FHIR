@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,12 +15,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Resource Compartment Cache is a localized class to cache the compartment information for
- * a specific resource type
+ * Information about a specific resource type and which compartments it can be within.
  */
 public class ResourceCompartmentCache {
 
-    // Map of parameter name to a set of compartment names
+    /**
+     * Map from parameter name to a set of compartment names
+     */
     private Map<String, Set<java.lang.String>> paramCompartmentMap = new HashMap<>();
 
     /**

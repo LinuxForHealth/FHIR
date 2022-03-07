@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
@@ -35,7 +36,7 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
     /**
      * Perform the data requirements operation for the provided list of Library
      * resources.
-     * 
+     *
      * @param fhirLibraries
      *            List of library resources.
      * @return Library data requirements
@@ -43,38 +44,38 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
     protected Parameters doDataRequirements(List<Library> fhirLibraries) {
         return doDataRequirements(fhirLibraries, null);
     }
-    
+
     /**
      * Perform the data requirements operation for the provided list of Library
      * resources.
-     * 
+     *
      * @param fhirLibraries
      *            List of library resources.
      * @param additionalRelated
-     *            Supplier of additional RelatedArtifacts that should be 
+     *            Supplier of additional RelatedArtifacts that should be
      *            addeded to the generated data requirements.
-     *            
+     *
      * @return Library data requirements
      */
     protected Parameters doDataRequirements(List<Library> fhirLibraries, Supplier<List<RelatedArtifact>> additionalRelated) {
         Library.Builder result = Library.builder()
                 .status(PublicationStatus.UNKNOWN)
                 .type( concept(Constants.LIBRARY_TYPE_MODEL_DEFINITION) );
-        
+
         Collection<RelatedArtifact> related = new ArrayList<>();
         Collection<ParameterDefinition> libParams = new ArrayList<>();
         Collection<DataRequirement> dataReqs = new ArrayList<>();
-        
+
         if( additionalRelated != null ) {
             related.addAll( additionalRelated.get() );
         }
-        
-        for( Library l : fhirLibraries ) { 
+
+        for( Library l : fhirLibraries ) {
             related.addAll( l.getRelatedArtifact().stream().filter( r -> r.getType().equals(RelatedArtifactType.DEPENDS_ON) ).collect(Collectors.toList()) );
             libParams.addAll( l.getParameter() );
             dataReqs.addAll( l.getDataRequirement() );
         }
-        
+
         if( related.size() > 0 ) {
             // deduplication by resource
             result.relatedArtifact( related.stream()
@@ -92,15 +93,16 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
             result.dataRequirement( dataReqs.stream()
                 .collect( Collectors.toSet() ) );
         }
-                
+
         return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, result.build());
     }
-    
+
     @Override
     public abstract Parameters doInvoke(
         FHIROperationContext operationContext,
         Class<? extends Resource> resourceType,
         String logicalId, String versionId,
         Parameters parameters,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException;
+        FHIRResourceHelpers resourceHelper,
+        SearchHelper searchHelper) throws FHIROperationException;
 }

@@ -24,7 +24,7 @@ run_migrate(){
     popd > /dev/null
 
     if [ ! -z "${migration}" ] && [ -f "${WORKSPACE}/fhir/build/migration/${migration}/4_current-migrate.sh" ]
-    then 
+    then
         echo "Running [${migration}] migration"
         bash ${WORKSPACE}/fhir/build/migration/${migration}/4_current-migrate.sh
     fi
@@ -37,6 +37,9 @@ pushd $(pwd) > /dev/null
 
 # Change to the migration/bin directory
 cd "fhir/"
+
+# Set the tenant1 datastore environment variables
+. ${WORKSPACE}/fhir/build/common/set_tenant1_datastore_vars.sh
 
 run_migrate "${1}"
 

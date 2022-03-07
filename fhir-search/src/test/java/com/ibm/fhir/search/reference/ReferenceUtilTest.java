@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.search.reference;
 
+import static com.ibm.fhir.config.FHIRConfiguration.DEFAULT_TENANT_ID;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -14,6 +15,7 @@ import static org.testng.Assert.assertNull;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
@@ -196,9 +198,9 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrl() throws FHIRSearchException {
+    public void testGetServiceBaseUrl() throws FHIRException {
         final String fullUrl = "https://localhost:9443/fhir-server/api/v4/Observation/17546b5a5a9-872ecfe4-cb5e-4f8c-a381-5b13df536f87";
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         context.setOriginalRequestUri(fullUrl);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
@@ -206,9 +208,9 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrl2() throws FHIRSearchException {
+    public void testGetServiceBaseUrl2() throws FHIRException {
         final String fullUrl = "https://localhost:9443/fhir-server/api/v4/Observation/";
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         context.setOriginalRequestUri(fullUrl);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
@@ -216,9 +218,9 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrl3() throws FHIRSearchException {
+    public void testGetServiceBaseUrl3() throws FHIRException {
         final String fullUrl = "https://localhost:9443/fhir-server/api/v4/Observation";
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         context.setOriginalRequestUri(fullUrl);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
@@ -226,9 +228,9 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrl4() throws FHIRSearchException {
+    public void testGetServiceBaseUrl4() throws FHIRException {
         final String fullUrl = "https://localhost:9443/fhir-server/api/v4/";
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         context.setOriginalRequestUri(fullUrl);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
@@ -236,9 +238,9 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrl5() throws FHIRSearchException {
+    public void testGetServiceBaseUrl5() throws FHIRException {
         final String fullUrl = "https://localhost:9443/fhir-server/api/v4";
-        FHIRRequestContext context = new FHIRRequestContext();
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         context.setOriginalRequestUri(fullUrl);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
@@ -248,8 +250,8 @@ public class ReferenceUtilTest {
     }
 
     @Test
-    public void testGetServiceBaseUrlNoOriginal() throws FHIRSearchException {
-        FHIRRequestContext context = new FHIRRequestContext();
+    public void testGetServiceBaseUrlNoOriginal() throws FHIRException {
+        FHIRRequestContext context = new FHIRRequestContext(DEFAULT_TENANT_ID);
         FHIRRequestContext.set(context);
         final String serviceBaseUrl = ReferenceUtil.getServiceBaseUrl();
         assertNull(serviceBaseUrl);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -194,8 +194,15 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param reason should include the reason?
      * @param reasonMsg the string to provide
      */
-    private void eraseResource(String resourceType, String logicalId, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
-        Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg, Optional.empty()), FHIRMediaType.APPLICATION_FHIR_JSON);
+    private void eraseResource(String resourceType, String logicalId, boolean error, String msg,
+            boolean patient, boolean reason, String reasonMsg) {
+        Parameters requestBody = generateParameters(patient, reason, reasonMsg, Optional.empty());
+        if (DEBUG) {
+            System.out.println("Invoking $erase on '" + resourceType + "/" + logicalId +
+                    "' with the following: " + requestBody);
+        }
+
+        Entity<Parameters> entity = Entity.entity(requestBody, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         Response r = getWebTarget()
             .path("/" + resourceType + "/" + logicalId + "/$erase")

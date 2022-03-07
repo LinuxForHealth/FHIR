@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -32,7 +33,7 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
 
     @Override
     public Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
 
         Library library = null;
         if (operationContext.getType().equals(FHIROperationContext.Type.INSTANCE)) {
@@ -45,36 +46,36 @@ public class LibraryDataRequirementsOperation extends AbstractDataRequirementsOp
         } else if (operationContext.getType().equals(FHIROperationContext.Type.SYSTEM)) {
             ParameterMap paramMap = new ParameterMap(parameters);
             Parameter p = paramMap.getSingletonParameter(PARAM_IN_TARGET);
-            
+
             String target = ((com.ibm.fhir.model.type.String) p.getValue()).getValue();
-            
+
             //The meaning of the target parameter is somewhat ambiguous in the base spec. I talked with the spec
             //author and the intention was for target to be a library ID. The operation should probably have been
             //defined instance level instead of system level. Things have improved in the QM IG, so I'm not going
             //to spend a lot of time trying to finagle this into something less confusing here. It can be improved
             //when we implement the IGs.
             //https://chat.fhir.org/#narrow/stream/179220-cql/topic/Library.20data-requirements.20operation
-            
+
             String [] parts = target.split("/");
-            
+
             logicalId = target;
             String targetType = ResourceType.LIBRARY.getValue();
             if( parts.length > 1 ) {
                 targetType = parts[ parts.length - 2 ];
                 logicalId = parts[ parts.length - 1 ];
             }
-            
+
             try {
                 SingleResourceResult<?> readResult = resourceHelper.doRead(targetType, logicalId, true, false, null);
                 if( readResult.getResource() instanceof Library ) {
                     library = (Library) readResult.getResource();
-                } else { 
+                } else {
                     throw new IllegalStateException("The target parameter must be a Library resource");
                 }
             } catch (Exception ex) {
                 throw new FHIROperationException("Failed to read resource", ex);
             }
-        } else { 
+        } else {
             throw new IllegalStateException("Unsupported context " + operationContext.getType().toString());
         }
 
