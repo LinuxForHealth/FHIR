@@ -2092,7 +2092,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no `_count` parameter is specified.|
 |`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
 |`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
-|`fhirServer/core/ifNoneMatchReturnsNotModified`|boolean|When If-None-Match is specified, overrides the standard return status "412 Precondition Failed" to be "304 Not Modified". Useful in transaction bundles for clients not wanting the bundle to fail when a conflict is found.|
+|`fhirServer/core/ifNoneMatchReturnsNotModified`|boolean|When `If-None-Match: *` is specified for PUT requests, overrides the standard return status "412 Precondition Failed" to be "304 Not Modified". Useful in transaction bundles for clients not wanting the bundle to fail when a conflict is found.|
 |`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
 |`fhirServer/core/externalBaseUrl`|string|The base URL that is embedded in the Search bundle response, as of version 4.9.0. Note that the base URL must not include a path segment that matches any FHIR resource type name (case-sensitive). For example, "https://example.com" or "https://example.com/my/patient/api" are fine, but "https://example.com/my/Patient/api" is not.|
 |`fhirServer/validation/failFast`|boolean|Indicates whether validation should fail fast on create and update interactions|
@@ -2760,7 +2760,9 @@ This component uses the IBM FHIR Server's PersistenceInterceptor feature to auto
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 
-For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/Alvearie/health-patterns/tree/main/data-access.
+When the HTTP header `Prefer: return=minimal` is specified on a search or history request, only minimal resource metadata is retrieved. In those cases, either `user` or `system` SMART scopes must be used, since the resource data necessary to enforce access via `patient` SMART scopes is not available.
+
+For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:

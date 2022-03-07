@@ -1,0 +1,94 @@
+{
+	"resourceType": "CodeSystem",
+	"id": "IdentifierTypeCS",
+	"text": {
+		"status": "empty",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+	},
+	"url": "http://hl7.org/fhir/us/davinci-pdex/CodeSystem/IdentifierTypeCS",
+	"version": "1.0.0",
+	"name": "IdentifierTypeCS",
+	"title": "Identifier Type",
+	"status": "active",
+	"date": "2020-12-01T21:37:51+00:00",
+	"contact": [
+		{
+			"name": "Mark Scrimshire (mark.scrimshire@onyxhealth.io)",
+			"telecom": [
+				{
+					"system": "email",
+					"value": "mailto:mark@ekivemark.com0"
+				}
+			]
+		},
+		{
+			"name": "HL7 International - Financial Management",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/fm"
+				}
+			]
+		}
+	],
+	"description": "Identifier Type",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"content": "complete",
+	"count": 9,
+	"concept": [
+		{
+			"code": "tax",
+			"display": "Tax ID Number",
+			"definition": "Tax ID Number"
+		},
+		{
+			"code": "npi",
+			"display": "National Provider Identifier",
+			"definition": "National Provider Identifier"
+		},
+		{
+			"code": "clia",
+			"display": "CLIA",
+			"definition": "CLIA"
+		},
+		{
+			"code": "payerid",
+			"display": "Payer ID",
+			"definition": "Payer ID"
+		},
+		{
+			"code": "mb",
+			"display": "Member ID",
+			"definition": "Member ID"
+		},
+		{
+			"code": "mr",
+			"display": "Medical Record Number",
+			"definition": "Medical Record Number"
+		},
+		{
+			"code": "pt",
+			"display": "Patient Account Number",
+			"definition": "Patient Account Number"
+		},
+		{
+			"code": "um",
+			"display": "Unique Member ID",
+			"definition": "Unique Member ID"
+		},
+		{
+			"code": "cn",
+			"display": "Claim Number",
+			"definition": "Claim Number"
+		}
+	]
+}
