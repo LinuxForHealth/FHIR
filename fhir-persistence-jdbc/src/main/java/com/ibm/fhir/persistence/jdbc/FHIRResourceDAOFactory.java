@@ -11,6 +11,7 @@ import java.sql.Connection;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -51,7 +52,7 @@ public class FHIRResourceDAOFactory {
     public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
         FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi)
         throws IllegalArgumentException, FHIRPersistenceException {
-        ResourceDAO resourceDAO = null;
+        final ResourceDAO resourceDAO;
 
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
@@ -62,8 +63,11 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case POSTGRESQL:
+        case CITUS:
             resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
         }
         return resourceDAO;
     }
@@ -81,8 +85,8 @@ public class FHIRResourceDAOFactory {
     public static ReindexResourceDAO getReindexResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
         FHIRPersistenceJDBCCache cache, ParameterDAO parameterDao) {
 
-        IDatabaseTranslator translator = null;
-        ReindexResourceDAO result = null;
+        final IDatabaseTranslator translator;
+        final ReindexResourceDAO result;
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
 
         switch (flavor.getType()) {
@@ -95,9 +99,12 @@ public class FHIRResourceDAOFactory {
             result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
+        case CITUS:
             translator = new PostgresTranslator();
             result = new PostgresReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
             break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
         }
         return result;
     }
@@ -122,7 +129,7 @@ public class FHIRResourceDAOFactory {
      */
     public static ResourceDAO getResourceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
         FHIRPersistenceJDBCCache cache) throws IllegalArgumentException, FHIRPersistenceException {
-        ResourceDAO resourceDAO = null;
+        final ResourceDAO resourceDAO;
 
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
@@ -133,8 +140,11 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
+        case CITUS:
             resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
         }
         return resourceDAO;
     }
@@ -151,7 +161,7 @@ public class FHIRResourceDAOFactory {
     public static ResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
         FHIRPersistenceJDBCCache cache) {
 
-        ResourceReferenceDAO rrd = null;
+        final ResourceReferenceDAO rrd;
         switch (flavor.getType()) {
         case DB2:
             rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName, cache.getParameterNameCache());
@@ -162,6 +172,11 @@ public class FHIRResourceDAOFactory {
         case POSTGRESQL:
             rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
             break;
+        case CITUS:
+            rrd = new PostgresResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
+            break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
         }
         return rrd;
     }
@@ -174,7 +189,7 @@ public class FHIRResourceDAOFactory {
      * @return
      */
     public static FhirSequenceDAO getSequenceDAO(Connection connection, FHIRDbFlavor flavor) {
-        FhirSequenceDAO result = null;
+        final FhirSequenceDAO result;
         switch (flavor.getType()) {
         case DB2:
             // Derby syntax also works for Db2
@@ -184,8 +199,11 @@ public class FHIRResourceDAOFactory {
             result = new com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl(connection);
             break;
         case POSTGRESQL:
+        case CITUS:
             result = new com.ibm.fhir.persistence.jdbc.postgres.FhirSequenceDAOImpl(connection);
             break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
         }
         return result;
     }

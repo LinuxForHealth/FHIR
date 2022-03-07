@@ -117,6 +117,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 pnd = new DerbyParameterNamesDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
+            case CITUS:
                 pnd = new PostgresParameterNamesDAO(connection, getSchemaName());
                 break;
             default:
@@ -154,6 +155,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 csd = new DerbyCodeSystemDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
+            case CITUS:
                 csd = new PostgresCodeSystemDAO(connection, getSchemaName());
                 break;
             default:

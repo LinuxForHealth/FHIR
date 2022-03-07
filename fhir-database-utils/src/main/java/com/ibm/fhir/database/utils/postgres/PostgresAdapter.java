@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -28,7 +29,6 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
@@ -39,7 +39,6 @@ import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
-import com.ibm.fhir.database.utils.tenant.DropViewDAO;
 
 /**
  * A PostgreSql database target
@@ -98,7 +97,8 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionRules distributionRules) {
 
         // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {

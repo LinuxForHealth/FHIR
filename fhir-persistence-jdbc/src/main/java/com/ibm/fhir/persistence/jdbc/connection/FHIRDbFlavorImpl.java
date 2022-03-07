@@ -34,4 +34,9 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
     public DbType getType() {
         return this.type;
     }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return this.type == DbType.POSTGRESQL || this.type == DbType.CITUS;
+    }
 }

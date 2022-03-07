@@ -79,9 +79,11 @@ public interface IDatabaseAdapter {
      * @param tablespaceName
      * @param withs
      * @param checkConstraints
+     * @param distributionRules
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
-            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints);
+            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionRules distributionRules);
 
     /**
      * Add a new column to an existing table

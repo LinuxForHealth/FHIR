@@ -223,4 +223,9 @@ public class DerbyTranslator implements IDatabaseTranslator {
         return result.toString();
     }
 
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return false;
+    }
+
 }

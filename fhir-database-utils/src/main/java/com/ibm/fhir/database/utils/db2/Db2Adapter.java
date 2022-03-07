@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -72,7 +73,8 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionRules distributionRules) {
 
         // With DB2 we can implement support for multi-tenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column

@@ -15,7 +15,6 @@ import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Checks to see if any of the tables exist in the target database.
@@ -73,6 +72,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
     public Boolean run(IDatabaseTranslator translator, Connection c) {
         switch (translator.getType()) {
         case POSTGRESQL:
+        case CITUS:
             return checkPostgres(translator, c);
         case DB2:
             return checkDb2(translator, c);
@@ -163,7 +163,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
             ps.setString(i++, schemaName);
 
             for (String deprecatedTable : DEPRECATED_TABLES) {
-                if (translator.getType() == DbType.POSTGRESQL) {
+                if (translator.isFamilyPostgreSQL()) {
                     ps.setString(i++, deprecatedTable.toLowerCase());
                 } else {
                     ps.setString(i++, deprecatedTable);

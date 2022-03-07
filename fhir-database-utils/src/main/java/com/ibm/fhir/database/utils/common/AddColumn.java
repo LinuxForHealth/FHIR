@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 
 /**
@@ -46,14 +45,22 @@ public class AddColumn implements IDatabaseStatement {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
 
         // DatabaseTypeAdapter is needed to find the correct data type for the column.
-        IDatabaseTypeAdapter dbAdapter = null;
-        String driveClassName = translator.getDriverClassName();
-        if (driveClassName.contains(DbType.DB2.value())) {
+        final IDatabaseTypeAdapter dbAdapter;
+        switch (translator.getType()) {
+        case DB2:
             dbAdapter = new Db2Adapter();
-        } else if (driveClassName.contains(DbType.DERBY.value())) {
+            break;
+        case DERBY:
             dbAdapter = new DerbyAdapter();
-        } else if (driveClassName.contains(DbType.POSTGRESQL.value())) {
+            break;
+        case POSTGRESQL:
             dbAdapter = new PostgresAdapter();
+            break;
+        case CITUS:
+            dbAdapter = new PostgresAdapter();
+            break;
+        default:
+            throw new IllegalArgumentException("Unsupported database type: " + translator.getType().name());
         }
 
         String ddl = "ALTER TABLE " + qname + " ADD COLUMN " + columnDef(column, dbAdapter);

@@ -606,6 +606,7 @@ public class Main {
                 setupDerbyRepository();
                 break;
             case POSTGRESQL:
+            case CITUS:
                 setupPostgresRepository();
                 break;
             }
@@ -810,7 +811,7 @@ public class Main {
                         .map(FHIRResourceType.Value::value)
                         .collect(Collectors.toSet());
 
-                if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {
+                if (adapter.getTranslator().isFamilyPostgreSQL()) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT
                     MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(schemaName, resourceTypes);
                     adapter.runStatement(mrt);

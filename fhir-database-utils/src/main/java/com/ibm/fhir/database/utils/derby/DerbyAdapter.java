@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -79,7 +80,8 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionRules distributionRules) {
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");

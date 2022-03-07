@@ -98,6 +98,7 @@ import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -193,8 +194,8 @@ public class Main {
 
     // Indicates if the feature is enabled for the DbType
     public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
-    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
-    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL, DbType.CITUS);
+    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL, DbType.CITUS);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -496,6 +497,7 @@ public class Main {
             logger.info("No database specific artifacts");
             break;
         case POSTGRESQL:
+        case CITUS:
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
             break;
         default:
@@ -518,15 +520,24 @@ public class Main {
             final String targetSchemaName = schema.getSchemaName();
             IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
             try (ITransaction tx = transactionProvider.getTransaction()) {
-                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);
+                CreateWholeSchemaVersion.createTableIfNeeded(targetSchemaName, adapter);                
             }
 
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
+                if (this.dbType == DbType.CITUS) {
+                    // First version with Citus support is V0026 and we can't upgrade
+                    // from before that
+                    int currentSchemaVersion = svm.getVersionForSchema();
+                    if (currentSchemaVersion >= 0 && currentSchemaVersion < FhirSchemaVersion.V0026.vid()) {
+                        throw new IllegalStateException("Cannot upgrade Citus databases with schema version < V0026");
+                    }
+                }
+
                 // Build/update the FHIR-related tables as well as the stored procedures
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
                 boolean isNewDb = updateSchema(pdm);
 
@@ -595,7 +606,7 @@ public class Main {
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildOAuthSchemaModel(pdm);
                 updateSchema(pdm);
 
@@ -641,7 +652,7 @@ public class Main {
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildJavaBatchSchemaModel(pdm);
                 updateSchema(pdm);
 
@@ -743,7 +754,7 @@ public class Main {
      * Typically used during development.
      */
     protected void dropSchema() {
-        PhysicalDataModel pdm = new PhysicalDataModel();
+        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         buildCommonModel(pdm, dropFhirSchema, dropOauthSchema, dropJavaBatchSchema);
 
         // Dropping the schema in PostgreSQL can fail with an out of shared memory error
@@ -872,7 +883,7 @@ public class Main {
         }
 
         // Build/update the tables as well as the stored procedures
-        PhysicalDataModel pdm = new PhysicalDataModel();
+        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         // Since this is a stored procedure, we need the model.
         // We must pass in true to flag to the underlying layer that the
         // Procedures need to be generated.
@@ -936,7 +947,7 @@ public class Main {
         final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
 
@@ -958,7 +969,7 @@ public class Main {
         final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildOAuthSchemaModel(pdm);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
 
@@ -978,7 +989,7 @@ public class Main {
         final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildJavaBatchSchemaModel(pdm);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
             } catch (DataAccessException x) {
@@ -1212,7 +1223,7 @@ public class Main {
 
             // Build/update the tables as well as the stored procedures
             FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), isMultitenant());
-            PhysicalDataModel pdm = new PhysicalDataModel();
+            PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
             gen.buildSchema(pdm);
 
             // Get the data model to create the table partitions. This is threaded, so transactions are
@@ -1345,7 +1356,7 @@ public class Main {
                 // It's crucial we use the correct schema for each particular tenant, which
                 // is why we have to build the PhysicalDataModel separately for each tenant
                 FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), isMultitenant());
-                PhysicalDataModel pdm = new PhysicalDataModel();
+                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 gen.buildSchema(pdm);
 
                 Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -1563,7 +1574,7 @@ public class Main {
 
         // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
         FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
-        PhysicalDataModel pdm = new PhysicalDataModel();
+        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
         // Detach the tenant partition from each of the data tables
@@ -1582,7 +1593,7 @@ public class Main {
 
         TenantInfo tenantInfo = getTenantInfo();
         FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), isMultitenant());
-        PhysicalDataModel pdm = new PhysicalDataModel();
+        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         gen.buildSchema(pdm);
 
         dropDetachedPartitionTables(pdm, tenantInfo);
@@ -2088,6 +2099,8 @@ public class Main {
                 case POSTGRESQL:
                     translator = new PostgresTranslator();
                     break;
+                case CITUS:
+                    translator = new CitusTranslator();
                 case DB2:
                 default:
                     break;
@@ -2468,16 +2481,16 @@ public class Main {
     }
 
     /**
-     * updates the vacuum settings for postgres.
+     * updates the vacuum settings for postgres/citus.
      */
     public void updateVacuumSettings() {
-        if (dbType != DbType.POSTGRESQL) {
+        if (dbType != DbType.POSTGRESQL && dbType != DbType.CITUS) {
             logger.severe("Updating the vacuum settings is only supported on postgres and the setting is for '" + dbType + "'");
             return;
         }
 
         // Create the Physical Data Model
-        PhysicalDataModel pdm = new PhysicalDataModel();
+        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
         buildCommonModel(pdm, true, false, false);
 
         // Setup the Connection Pool
@@ -2496,6 +2509,14 @@ public class Main {
                 runSingleTable(adapter, pdm, schema.getSchemaName(), tbl.getObjectName());
             }
         }
+    }
+
+    /**
+     * Citus is a distributed implementation of PostgreSQL
+     * @return
+     */
+    private boolean isDistributed() {
+        return this.dbType == DbType.CITUS;
     }
 
     /**
@@ -2553,6 +2574,7 @@ public class Main {
         final ISizeCollector collector;
         switch (dbType) {
         case POSTGRESQL:
+        case CITUS: // assume for now this works for Citus
             collector = new PostgresSizeCollector(model);
             break;
         case DB2:

@@ -369,7 +369,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
 
         if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_DB2, erasedResourceGroupId);
-        } else if (DbType.POSTGRESQL.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
+        } else if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_POSTGRES, erasedResourceGroupId);
         } else {
             // Uses the Native Java to execute a Resource Erase

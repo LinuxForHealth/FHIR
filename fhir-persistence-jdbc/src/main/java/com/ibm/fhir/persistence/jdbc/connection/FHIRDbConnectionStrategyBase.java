@@ -195,6 +195,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
 
         switch (this.flavor.getType()) {
         case POSTGRESQL:
+        case CITUS:
             // PostgreSQL needs optimizer options set to address search performance issues
             // as described in issue 1911
             final String pgName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/" + FHIRConfiguration.PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS;

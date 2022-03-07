@@ -82,7 +82,7 @@ public class Menu {
         MI_TENANT_KEY(TENANT_KEY, "tenantKey", "the tenant-key in the queries"),
         MI_TENANT_KEY_FILE(TENANT_KEY_FILE, "tenant-key-file-location", "sets the tenant key file location"),
         MI_LIST_TENANTS(LIST_TENANTS, "", "fetches list of tenants and current status"),
-        MI_DB_TYPE(DB_TYPE, "dbType" , "Either derby, postgresql, db2"),
+        MI_DB_TYPE(DB_TYPE, "dbType" , "Either derby, postgresql, db2, citus"),
         MI_DELETE_TENANT_META(DELETE_TENANT_META, "tenantName", "deletes tenant metadata given the tenantName"),
         MI_DROP_DETACHED(DROP_DETACHED, "tenantName", "(phase 2) drops the detached tenant partition tables given the tenantName"),
         MI_FREEZE_TENANT(FREEZE_TENANT, "", "Changes the tenant state to frozen, and subsequently (Db2 only)"),

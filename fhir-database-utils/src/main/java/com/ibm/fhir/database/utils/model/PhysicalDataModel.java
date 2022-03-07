@@ -51,11 +51,14 @@ public class PhysicalDataModel implements IDataModel {
     // Common models that we rely on (e.g. for FK constraints)
     private final List<PhysicalDataModel> federatedModels = new ArrayList<>();
 
+    // Is this model configured to operate with a distributed (sharded) database?
+    private final boolean distributed;
+
     /**
      * Default constructor. No federated models
      */
-    public PhysicalDataModel() {
-        // No Op
+    public PhysicalDataModel(boolean distributed) {
+        this.distributed = distributed;
     }
 
     /**
@@ -63,7 +66,19 @@ public class PhysicalDataModel implements IDataModel {
      * @param federatedModels
      */
     public PhysicalDataModel(PhysicalDataModel... federatedModels) {
-        this.federatedModels.addAll(Arrays.asList(federatedModels));
+        boolean dist = false;
+        if (federatedModels != null) {
+            this.federatedModels.addAll(Arrays.asList(federatedModels));
+    
+            // If any of the federated models are distributed, then assume we must be
+            for (PhysicalDataModel dm: federatedModels) {
+                if (dm.isDistributed()) {
+                    dist = true;
+                    break;
+                }
+            }
+        }
+        this.distributed = dist;
     }
 
     /**
@@ -542,5 +557,10 @@ public class PhysicalDataModel implements IDataModel {
      */
     public void dropTenantTablespace(IDatabaseAdapter adapter, int tenantId) {
         adapter.dropTenantTablespace(tenantId);
+    }
+
+    @Override
+    public boolean isDistributed() {
+        return this.distributed;
     }
 }

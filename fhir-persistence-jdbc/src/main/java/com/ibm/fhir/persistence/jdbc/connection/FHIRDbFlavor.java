@@ -26,4 +26,10 @@ public interface FHIRDbFlavor {
      * @return
      */
     public DbType getType();
+
+    /**
+     * Is the dbType from the PostgreSQL family?
+     * @return
+     */
+    public boolean isFamilyPostgreSQL();
 }

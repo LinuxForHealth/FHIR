@@ -70,6 +70,7 @@ public class SchemaVersionsManager {
                 final UpdateSchemaVersion cmd;
                 switch (this.translator.getType()) {
                 case POSTGRESQL:
+                case CITUS:
                     cmd = new UpdateSchemaVersionPostgresql(schemaName, versionId);
                     break;
                 default:

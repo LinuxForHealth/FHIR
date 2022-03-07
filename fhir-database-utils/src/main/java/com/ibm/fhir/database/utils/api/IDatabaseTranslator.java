@@ -197,6 +197,12 @@ public interface IDatabaseTranslator {
     DbType getType();
 
     /**
+     * True if the database type is part of the PostgreSQL family (POSTGRESQL, CITUS)
+     * @return
+     */
+    boolean isFamilyPostgreSQL();
+
+    /**
      * The name of the "DUAL" table...that special table giving us one row/column.
      * @return the name of the "DUAL" table for the database, or null if not supported
      */

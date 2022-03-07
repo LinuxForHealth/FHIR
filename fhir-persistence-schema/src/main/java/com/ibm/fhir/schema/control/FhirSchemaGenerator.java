@@ -540,7 +540,7 @@ public class FhirSchemaGenerator {
         final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
@@ -558,6 +558,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(addWiths()) // add table tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -641,7 +642,7 @@ public class FhirSchemaGenerator {
         final String tableName = COMMON_CANONICAL_VALUES;
         final String unqCanonicalUrl = "UNQ_" + tableName + "_URL";
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(CANONICAL_ID, false)
                 .addVarcharColumn(URL, CANONICAL_URL_BYTES, false)
@@ -650,6 +651,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(URL) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally NOP
@@ -679,7 +681,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes (Original Table at V0014)
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
@@ -693,6 +695,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -727,7 +730,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0014
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -739,6 +742,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -770,7 +774,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0016
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -782,6 +786,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -819,6 +824,9 @@ public class FhirSchemaGenerator {
             With.with("autovacuum_vacuum_cost_limit", "2000")    // V0019
             );
 
+        // Note that for now, we elect to not distribute/shard this table because doing so
+        // would interfere with the queries supporting the history API which are based on
+        // index range scans across a contiguous range of records
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
@@ -867,7 +875,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -881,6 +889,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -913,7 +922,7 @@ public class FhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -929,6 +938,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -959,7 +969,7 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -974,6 +984,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -1015,6 +1026,7 @@ public class FhirSchemaGenerator {
      */
     protected void addResourceTypes(PhysicalDataModel model) {
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
@@ -1023,6 +1035,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionReference() // V0026 supporting for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally a NOP
@@ -1092,6 +1105,7 @@ public class FhirSchemaGenerator {
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
 
         parameterNamesTable = Table.builder(schemaName, PARAMETER_NAMES)
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,              false)
                 .addVarcharColumn(    PARAMETER_NAME,         255, false)
@@ -1100,6 +1114,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionReference() // V0026 treat this as a reference table
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally a NOP
@@ -1128,7 +1143,7 @@ public class FhirSchemaGenerator {
      */
     protected void addCodeSystems(PhysicalDataModel model) {
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
-                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
@@ -1137,6 +1152,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionReference() // V0026 treat this as a reference table
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
@@ -1174,13 +1190,16 @@ public class FhirSchemaGenerator {
      * the token_value represents its logical_id. This approach simplifies query writing when
      * following references.
      *
+     * If sharding is supported, this table is distributed by token_value which unfortunately
+     * means that it cannot be the target of any foreign key constraint (which needs to use
+     * the primary key COMMON_TOKEN_VALUE_ID).
      * @param pdm
      * @return the table definition
      */
     public void addCommonTokenValues(PhysicalDataModel pdm) {
         final String tableName = COMMON_TOKEN_VALUES;
         commonTokenValuesTable = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
                 .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
@@ -1192,6 +1211,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(TOKEN_VALUE) // V0026 shard using token_value
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally a NOP
@@ -1222,7 +1242,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
@@ -1236,6 +1256,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(addWiths()) // table tuning
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones

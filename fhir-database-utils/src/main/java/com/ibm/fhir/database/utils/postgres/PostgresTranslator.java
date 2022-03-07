@@ -274,4 +274,9 @@ public class PostgresTranslator implements IDatabaseTranslator {
         // it's Short.MAX_VALUE
         return Optional.of(Integer.valueOf(32767));
     }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return true;
+    }
 }

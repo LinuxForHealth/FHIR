@@ -19,11 +19,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
-
 import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -59,6 +54,11 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
@@ -124,7 +124,7 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, DERBYNETWORK, POSTGRESQL, PARSE
+        DB2, DERBY, DERBYNETWORK, POSTGRESQL, CITUS, PARSE
     }
 
     private Operation mode = Operation.DB2;
@@ -226,6 +226,9 @@ public class Main {
             case "--postgresql":
                 this.mode = Operation.POSTGRESQL;
                 break;
+            case "--citus":
+                this.mode = Operation.CITUS;
+                break;
             case "--parse":
                 this.mode = Operation.PARSE;
                 break;
@@ -303,6 +306,7 @@ public class Main {
             processDerbyNetwork();
             break;
         case POSTGRESQL:
+        case CITUS:
             processPostgreSql();
             break;
         case PARSE:

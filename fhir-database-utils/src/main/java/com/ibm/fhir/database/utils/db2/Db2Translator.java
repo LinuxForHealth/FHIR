@@ -300,4 +300,9 @@ public class Db2Translator implements IDatabaseTranslator {
         // Maximum number of host variable references in a dynamic SQL statement    32,767
         return Optional.of(Integer.valueOf(32767));
     }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return false;
+    }
 }

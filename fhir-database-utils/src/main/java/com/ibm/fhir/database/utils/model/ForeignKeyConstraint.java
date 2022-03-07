@@ -111,4 +111,20 @@ public class ForeignKeyConstraint extends Constraint {
     public void apply(String schemaName, String name, String tenantColumnName, IDatabaseAdapter target) {
         target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, columns, enforced);
     }
+
+    /**
+     * Return true if the list of columns includes the column name, ignoring case
+     * @param distributionColumnName
+     * @return
+     */
+    public boolean includesColumn(String columnName) {
+        // Linear search is OK because the list is very small and probably 
+        // will be cheaper than maintaining both a list and set of values
+        for (String cn: this.columns) {
+            if (cn.equalsIgnoreCase(columnName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

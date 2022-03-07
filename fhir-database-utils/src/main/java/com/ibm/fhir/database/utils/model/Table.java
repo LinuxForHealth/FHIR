@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
@@ -47,6 +48,9 @@ public class Table extends BaseObject {
     // The column to use when making this table multi-tenant (if supported by the the target)
     private final String tenantColumnName;
 
+    // The rules to distribute the table in a distributed RDBMS implementation (Citus)
+    private final DistributionRules distributionRules;
+
     // The With parameters on the table
     private final List<With> withs;
     
@@ -72,11 +76,14 @@ public class Table extends BaseObject {
      * @param migrations
      * @param withs
      * @param checkConstraints
+     * @param distributionRules
      */
-    public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk,
+    public Table(String schemaName, String name, int version, String tenantColumnName, 
+            Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
-            Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints) {
+            Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionRules distributionRules) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
@@ -88,6 +95,7 @@ public class Table extends BaseObject {
         this.tablespace = tablespace;
         this.withs = withs;
         this.checkConstraints.addAll(checkConstraints);
+        this.distributionRules = distributionRules;
 
         // Adds all dependencies which aren't null.
         // The only circumstances where it is null is when it is self referencial (an FK on itself).
@@ -125,7 +133,8 @@ public class Table extends BaseObject {
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
         target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
-            this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints);
+            this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
+            this.distributionRules);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
@@ -241,6 +250,12 @@ public class Table extends BaseObject {
         // Check constraints added to the table
         private List<CheckConstraint> checkConstraints = new ArrayList<>();
 
+        // The column to use for distribution when sharding
+        private String distributionColumnName;
+
+        // Should this table be treated as a reference (replicated) table when sharding is enabled
+        private boolean distributionReference = false;
+
         /**
          * Private constructor to force creation through factory method
          * @param schemaName
@@ -267,6 +282,25 @@ public class Table extends BaseObject {
          */
         public Builder setTablespace(Tablespace ts) {
             this.tablespace = ts;
+            return this;
+        }
+
+        /**
+         * Setter for the distributionColumnName
+         * @param cn
+         * @return
+         */
+        public Builder setDistributionColumnName(String cn) {
+            this.distributionColumnName = cn;
+            return this;
+        }
+
+        /**
+         * Set the distributionReference to true
+         * @return
+         */
+        public Builder setDistributionReference() {
+            this.distributionReference = true;
             return this;
         }
 
@@ -689,15 +723,65 @@ public class Table extends BaseObject {
 
             // Check the FK references are valid
             List<IDatabaseObject> allDependencies = new ArrayList<>();
+            // The list of FK constraints we are able to apply
+            List<ForeignKeyConstraint> enabledFKConstraints = new ArrayList<>();
             allDependencies.addAll(this.dependencies);
-            for (ForeignKeyConstraint c: this.fkConstraints.values()) {
 
+            // Set up the distribution rules for the table if the target model supports distribution
+            final DistributionRules distributionRules;
+            if (dataModel.isDistributed() && (this.distributionReference || this.distributionColumnName != null)) {
+                distributionRules = new DistributionRules(distributionColumnName, distributionReference);
+            } else {
+                distributionRules = null;
+            }
+
+            // Filter the foreign key constraints to those allowed for the model. Distribution (e.g. Citus) adds
+            // certain restrictions on which foreign keys are supported, so we have no choice but to ignore them
+            for (ForeignKeyConstraint c: this.fkConstraints.values()) {
                 Table target = dataModel.findTable(c.getTargetSchema(), c.getTargetTable());
                 if (target == null && !c.isSelf()) {
                     String targetName = DataDefinitionUtil.getQualifiedName(c.getTargetSchema(), c.getTargetTable());
                     throw new IllegalArgumentException("Invalid foreign key constraint " + c.getConstraintName() + ": target table does not exist: " + targetName);
                 }
-                allDependencies.add(target);
+
+                if (!dataModel.isDistributed()) {
+                    // ignore any distribution configuration because the target database is a plain RDBMS
+                    allDependencies.add(target);
+                    enabledFKConstraints.add(c);
+                } else {
+                    // Make sure that FK references adhere to the restrictions imposed by distribution (replication or sharding)
+                    if (distributionRules == null) {
+                        // this table is not distributed, so we can handle the FK relationship as long
+                        // as the target isn't sharded (replicated is OK)
+                        if (target.distributionRules == null || target.distributionRules.isReferenceTable()) {
+                            allDependencies.add(target);
+                            enabledFKConstraints.add(c);                        
+                        }
+                    } else if (distributionRules.isReferenceTable()) {
+                        // This table is a reference (replicated) table. We can create FK relationships
+                        // to other tables non-distributed and replicated tables
+                        if (target.distributionRules == null || target.distributionRules.isReferenceTable()) {
+                            allDependencies.add(target);
+                            enabledFKConstraints.add(c);
+                        }
+                    } else if (target.distributionRules != null) {
+                        // This table is sharded. We can only create FK relationships to the target if
+                        // the target is replicated, or has a matching sharding configuration
+                        if (target.distributionRules.isReferenceTable()) {
+                            // the target is replicated, so we can create a FK relationship to it
+                            allDependencies.add(target);
+                            enabledFKConstraints.add(c);
+                        } else if (target.distributionRules.getDistributionColumn() != null
+                                && target.distributionRules.getDistributionColumn().equalsIgnoreCase(this.distributionColumnName)
+                                && c.includesColumn(this.distributionColumnName)) {
+                            // Both tables are sharded. We can only support FK relationships if the source and target
+                            // are "co-located" which means they must share the same distribution column which is also part of
+                            // the foreign key
+                            allDependencies.add(target);
+                            enabledFKConstraints.add(c);
+                        }
+                    }
+                }
             }
 
             if (this.tablespace != null) {
@@ -707,8 +791,7 @@ public class Table extends BaseObject {
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints);
-
+                    enabledFKConstraints, this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionRules);
         }
 
         /**

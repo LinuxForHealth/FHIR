@@ -84,6 +84,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         switch (translator.getType()) {
         case POSTGRESQL:
+        case CITUS:
         case DERBY:
             checkDataTables(translator, c);
             checkShouldThrowException();
@@ -172,7 +173,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
         for (String deprecatedTable : UnusedTableRemovalNeedsV0021Migration.DEPRECATED_TABLES) {
             if (adapter.doesTableExist(schemaName, deprecatedTable)) {
                 String table = schemaName + "." + deprecatedTable;
-                if (translator.getType() == DbType.POSTGRESQL) {
+                if (translator.isFamilyPostgreSQL()) {
                     table = schemaName.toLowerCase() + "." + deprecatedTable;
                 }
 
@@ -210,7 +211,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
         // Run across both tables
         for (String tablePrefix : tables) {
             // Drop the View for the Table
-            if (translator.getType() == DbType.POSTGRESQL) {
+            if (translator.isFamilyPostgreSQL()) {
                 runDropTableResourceGroup(translator, c, schemaName.toLowerCase(), tablePrefix.toLowerCase(), VALUE_TYPES_LOWER);
             } else {
                 runDropTableResourceGroup(translator, c, schemaName, tablePrefix, VALUE_TYPES);
@@ -227,7 +228,7 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
         // and logs print warnings saying the tables don't exist. That's OK.
         for (String deprecatedTable : UnusedTableRemovalNeedsV0021Migration.DEPRECATED_TABLES) {
             String table = prefix + deprecatedTable;
-            if (translator.getType() == DbType.POSTGRESQL) {
+            if (translator.isFamilyPostgreSQL()) {
                 adapter.dropTable(schemaName.toLowerCase(), table.toLowerCase());
             } else {
                 adapter.dropTable(schemaName, table);

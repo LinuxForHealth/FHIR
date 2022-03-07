@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Drop the primary key constraint on a table
@@ -47,7 +46,7 @@ public class DropPrimaryKey implements IDatabaseStatement {
         // ought to be doing this via an adapter, which hides the differences between databases
         final String qname = DataDefinitionUtil.getQualifiedName(this.schemaName, this.tableName);
         final String ddl;
-        if (translator.getType() == DbType.POSTGRESQL) {
+        if (translator.isFamilyPostgreSQL()) {
             // There could be some schemas built between releases which don't have the ROW_ID PK
             // so for PostgreSQL we need to check if the constraint exists otherwise the whole
             // transaction fails.

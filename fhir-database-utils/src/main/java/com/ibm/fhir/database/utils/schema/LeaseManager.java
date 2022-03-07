@@ -237,6 +237,7 @@ public class LeaseManager implements ILeaseManager {
         final GetLease result;
         switch (this.translator.getType()) {
         case POSTGRESQL:
+        case CITUS:
             result = new GetLeasePostgresql(adminSchema, schemaName, config.getHost(), leaseId, leaseUntil);
             break;
         default:

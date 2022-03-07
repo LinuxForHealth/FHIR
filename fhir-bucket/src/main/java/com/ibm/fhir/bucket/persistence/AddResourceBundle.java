@@ -20,7 +20,6 @@ import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -76,7 +75,7 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
         int version = 1;
         final String resourceBundles = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundles");
         final String dml;
-        if (translator.getType() == DbType.POSTGRESQL) {
+        if (translator.isFamilyPostgreSQL()) {
             // For PostgresSQL, make sure we don't break the current transaction
             // if the statement fails...annoying
             dml = "INSERT INTO " + resourceBundles + "("

@@ -2753,6 +2753,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             case DERBY:
                 return "CAST(NULL AS BLOB) AS DATA";
             case POSTGRESQL:
+            case CITUS:
                 return "NULL::TEXT AS DATA";
             default:
                 throw new IllegalStateException("Database type not supported: " + translator.getType().name());

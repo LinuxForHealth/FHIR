@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.citus.CitusAdapter;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.LogFormatter;
@@ -105,6 +106,7 @@ public final class CommonUtil {
         case DERBY:
             return new DerbyPropertyAdapter(props);
         case POSTGRESQL:
+        case CITUS:
             return new PostgresPropertyAdapter(props);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
@@ -119,6 +121,8 @@ public final class CommonUtil {
             return new DerbyAdapter(target);
         case POSTGRESQL:
             return new PostgresAdapter(target);
+        case CITUS:
+            return new CitusAdapter(target);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -132,6 +136,8 @@ public final class CommonUtil {
             return new DerbyAdapter(connectionProvider);
         case POSTGRESQL:
             return new PostgresAdapter(connectionProvider);
+        case CITUS:
+            return new CitusAdapter(connectionProvider);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }

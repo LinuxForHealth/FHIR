@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.With;
 
 /**
@@ -60,7 +59,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        if (translator.getType() == DbType.POSTGRESQL) {
+        if (translator.isFamilyPostgreSQL()) {
             boolean isScaleFactor = true;
             boolean isVacuumThreshold = true;
             boolean isVacuumCostLimit = true;

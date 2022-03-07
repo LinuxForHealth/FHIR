@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -62,7 +61,7 @@ public class MergeResourceTypes implements IDatabaseStatement {
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch
             for (String resourceType: resourceTypes) {
-                if (translator.getType() == DbType.POSTGRESQL) {
+                if (translator.isFamilyPostgreSQL()) {
                     ps.setString(1, resourceType);
                 } else {
                     ps.setString(1, resourceType);

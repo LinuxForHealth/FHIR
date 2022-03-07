@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -221,6 +222,9 @@ public class Main {
                     break;
                 case POSTGRESQL:
                     translator = new PostgresTranslator();
+                    break;
+                case CITUS:
+                    translator = new CitusTranslator();
                     break;
                 case DB2:
                 default:

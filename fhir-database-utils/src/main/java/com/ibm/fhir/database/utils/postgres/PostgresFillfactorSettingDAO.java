@@ -10,14 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.With;
 
 /**
@@ -55,7 +51,7 @@ public class PostgresFillfactorSettingDAO implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        if (translator.getType() == DbType.POSTGRESQL) {
+        if (translator.isFamilyPostgreSQL()) {
             // assume we need to set it unless it's been configured already
             boolean isFillfactor = true;
             LOG.fine(() -> "Checking the table fillfactor settings");

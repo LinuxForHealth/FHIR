@@ -201,7 +201,7 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -214,6 +214,7 @@ public class FhirResourceTableGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 // Add indexes to avoid dead lock issue of derby, and improve Db2 performance
                 // Derby requires all columns used in where clause to be indexed, otherwise whole table lock will be
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
@@ -336,7 +337,7 @@ public class FhirResourceTableGroup {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0024.vid())
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(          RESOURCE_ID,                     false)
@@ -352,6 +353,7 @@ public class FhirResourceTableGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0024.vid()) {
@@ -420,7 +422,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -437,6 +439,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -509,7 +512,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -524,6 +527,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -588,7 +592,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_profiles (*) ---- (0|1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(          CANONICAL_ID,    false)
                 .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
@@ -601,6 +605,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -636,7 +641,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -647,6 +652,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -679,7 +685,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -690,6 +696,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -784,7 +791,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -800,6 +807,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -850,7 +858,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -866,6 +874,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -924,7 +933,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -940,6 +949,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -996,7 +1006,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -1017,6 +1027,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1053,7 +1064,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final int lib = LOGICAL_ID_BYTES;
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres vacuum changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
@@ -1064,6 +1075,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1096,7 +1108,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // model with a foreign key to avoid order of insertion issues
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
-                .setVersion(FhirSchemaVersion.V0020.vid()) // V0020: Updated to support Postgres fillfactor changes
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
@@ -1109,6 +1121,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_RESOURCE_ID) // V0026 support for sharding
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
