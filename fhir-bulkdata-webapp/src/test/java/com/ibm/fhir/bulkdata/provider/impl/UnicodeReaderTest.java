@@ -39,8 +39,8 @@ public class UnicodeReaderTest {
         
         List<String> outLines = new ArrayList<>();
         try (ByteArrayInputStream bais = new ByteArrayInputStream(out.getBytes());
-        FileProvider.CountInputStreamReader cisr = new FileProvider.CountInputStreamReader(bais)){
-            String r = cisr.readLine();
+                FileProvider.CountInputStreamReader cisr = new FileProvider.CountInputStreamReader(bais)){
+            String r = cisr.read();
             while(r != null) {
                 outLines.add(r);
                 r = cisr.readLine();
@@ -51,16 +51,19 @@ public class UnicodeReaderTest {
         String outBlob = outLines.stream().collect(Collectors.joining("\n"));
         System.out.println(outBlob.getBytes().length);
         
+        //outLines.stream().forEachOrdered(e -> System.out.println(e));
+        
         byte[] ou = outBlob.getBytes();
         byte[] in = inBlob.toString().getBytes();
         for (int i = 0; i < in.length; i++) {
             if (ou.length < in.length && i == ou.length) {
                 System.out.println(i + " " + in[i-1]);
-            } else if (ou[i] != in[i]) {
+            } else if (ou[i] != in[i] && i == outBlob.length()) {
                 System.out.println(i);
-                
+                System.out.println(Integer.toHexString((int)inBlob.charAt(i)) + " " + Integer.toHexString((int)outBlob.charAt(i)));
             }
         }
+        
         
 
         for (int i = 0; i < inBlob.length(); i++) {
@@ -69,7 +72,6 @@ public class UnicodeReaderTest {
             } else if (outBlob.charAt(i) != inBlob.charAt(i)) {
                 System.out.println(i + " | " + (int)inBlob.charAt(i) + " | " + (int)outBlob.charAt(i));
                 System.out.println(Integer.toHexString((int)inBlob.charAt(i)) + " " + Integer.toHexString((int)outBlob.charAt(i)));
-                
             }
         }
         

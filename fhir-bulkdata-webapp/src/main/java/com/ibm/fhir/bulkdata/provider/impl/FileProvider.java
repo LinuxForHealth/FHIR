@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkdata.provider.impl;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.StringReader;
-import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -114,8 +115,9 @@ public class FileProvider implements Provider {
                 raf.seek(this.transientUserData.getCurrentBytes());
 
                 try (InputStream in = Channels.newInputStream(raf.getChannel());
-                        BufferedInputStream bis = new BufferedInputStream(in);
-                        CountInputStreamReader reader = new CountInputStreamReader(bis)) {
+                        BufferedInputStream sourceBuffer = new BufferedInputStream(in);
+                        CountInputStreamReader counter = new CountInputStreamReader(sourceBuffer);
+                        BufferedReader reader = new BufferedReader(counter);) {
 
                     int chunkRead = 0;
 
@@ -148,7 +150,7 @@ public class FileProvider implements Provider {
                         // With small resources the 50 at a time gets really expensive.
                         // so we have a READ_BLOCK_OPT to get at least a decent segment to
                         // insert into the db.
-                        if (chunkRead < maxRead || reader.getLength() < READ_BLOCK_OPT) {
+                        if (chunkRead < maxRead || counter.getLength() < READ_BLOCK_OPT) {
                             resourceStr = reader.readLine();
                         } else {
                             resourceStr = null;
@@ -157,7 +159,7 @@ public class FileProvider implements Provider {
                         line++;
                     }
                     // The Channel enables us to skip the future seek.
-                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
+                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + counter.getLength());
                 }
             }
         } catch (Exception e) {
@@ -170,11 +172,7 @@ public class FileProvider implements Provider {
      * without the buffering as there is a local file with direct read and seek.
      */
     public static class CountInputStreamReader extends InputStreamReader {
-        // Implies CR
-        private static final int LF = '\n';
         private static final long MAX_LENGTH_PER_LINE = 2147483648l;
-
-        private ByteBuffer buf = ByteBuffer.allocate(4);
 
         private long length = 0;
 
@@ -183,48 +181,46 @@ public class FileProvider implements Provider {
         }
 
         /**
-         * Read the line
-         * @return
-         * @throws IOException
-         */
-        public String readLine() throws IOException {
-            int r = this.read();
-            if (r == -1) {
-                // End-of-stream
-                return null;
-            }
-            boolean read = true;
-            StringBuilder builder = new StringBuilder();
-            int lineLength = 0;
-
-            // Protect against attacks with a max line length (and max size we support in the db).
-            // MAX_LENGTH_PER_LINE is intentionally hit and does not throw IOEXCEPTION when exceeded.
-            // The reason is the FHIRParser marks this as an invalid line downstream.
-            while (read && lineLength < MAX_LENGTH_PER_LINE) {
-                if (r == -1) {
-                    read = false;
-                } else if (r == LF) {
-                    // \n  case
-                    length++;
-                    read = false;
-                } else {
-
-                    System.out.println(Character.isSupplementaryCodePoint(r));
-                    builder.append((char) r);
-                    length++;
-                    // We only need to account for line length here.
-                    lineLength++;
-                    r = this.read();
-                }
-            }
-            return builder.toString();
-        }
-
-        /**
          * @return the length of the resources returned in the reader
          */
         public long getLength() {
             return length;
+        }
+
+        @Override
+        public int read() throws IOException {
+            int r = super.read(); 
+            if (r != -1) { 
+                length++;
+            }
+            return r;
+        }
+
+        @Override
+        public int read(char[] cbuf, int offset, int length) throws IOException {
+            int r = super.read(cbuf, offset, length);
+            if (r != -1) {
+                length += r;
+            }
+            return r;
+        }
+
+        @Override
+        public int read(CharBuffer target) throws IOException {
+            int r = super.read(target);
+            if (r != -1) {
+                length += r;
+            }
+            return r;
+        }
+
+        @Override
+        public int read(char[] cbuf) throws IOException {
+            int r = super.read(cbuf);
+            if (r != -1) {
+                length += r;
+            }
+            return r;
         }
     }
 
