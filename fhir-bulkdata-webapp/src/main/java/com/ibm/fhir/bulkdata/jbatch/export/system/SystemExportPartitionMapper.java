@@ -8,9 +8,7 @@ package com.ibm.fhir.bulkdata.jbatch.export.system;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.batch.api.partition.PartitionMapper;
@@ -25,19 +23,15 @@ import javax.inject.Inject;
 
 import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.ResourceResult;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.HistorySortOrder;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
  * Generates the {@link PartitionPlan} describing how the system export work is
@@ -72,37 +66,27 @@ public class SystemExportPartitionMapper implements PartitionMapper {
         // We know these are real resource types.
         List<String> resourceTypes = Arrays.asList(ctx.getFhirResourceTypes().split("\\s*,\\s*"));
 
+        // Note we're already running inside a transaction (started by the JavaBatch framework)
+        // so this txn will just wrap it...the commit won't happen until the checkpoint
+        SystemExportResourceHandler handler = new SystemExportResourceHandler();
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(handler.getSearchHelper());
+        FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+        txn.begin();
+
         // Check resourceType needs to be processed
         List<String> target = new ArrayList<>();
-        SystemExportResourceHandler handler = new SystemExportResourceHandler();
-        for (String resourceType : resourceTypes) {
-            FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(handler.getSearchHelper());
-            FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-            Map<String, List<String>> queryParameters = new HashMap<>();
-            Class<? extends Resource> rt = ModelSupport.getResourceType(resourceType);
-            FHIRSearchContext searchContext = handler.getSearchHelper().parseQueryParameters(rt, queryParameters);
-            searchContext.setPageSize(1);
-            searchContext.setPageNumber(1);
-
-            // Note we're already running inside a transaction (started by the JavaBatch framework)
-            // so this txn will just wrap it...the commit won't happen until the checkpoint
-            FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-            txn.begin();
-            try {
-                
-                // Execute the search query to obtain the page of resources
-                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-                @SuppressWarnings("unused")
-                List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, rt).getResourceResults();
-                resourceResults = null;
+        try {
+            for (String resourceType : resourceTypes) {
+                List<ResourceChangeLogRecord> resourceResults = fhirPersistence.changes(1, null, null, null, Arrays.asList(resourceType), false, HistorySortOrder.NONE);
 
                 // Early Exit Logic
-                if (searchContext.getTotalCount() != 0) {
+                if (!resourceResults.isEmpty()) {
                     target.add(resourceType);
                 }
-            } finally {
-                txn.end();
             }
+        } finally {
+            txn.end();
         }
 
         PartitionPlanImpl pp = new PartitionPlanImpl();
