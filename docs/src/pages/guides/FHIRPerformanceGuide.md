@@ -277,16 +277,6 @@ The values for PARAMETER_NAMES and RESOURCE_TYPES are supposed to be fully cache
 
 Resources are assigned to various compartments using expressions with multiple terms. In the IBM FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the IBM FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
 
-To enable this optimization, set the `fhirServer/search/useStoredCompartmentParam` configuration parameter to `true` in the fhir-server-config.json file:
-
-``` json
-        "search": {
-            "useStoredCompartmentParam": true
-        },
-```
-
-Enabling this optimization is recommended. See the IBM FHIR Server release notes for more details.
-
 ## 3.6. Usage of Server Resource Provider
 
 The IBM FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.

@@ -1205,18 +1205,6 @@ public class SearchHelper {
     }
 
     /**
-     * Check the configuration to see if the flag enabling the compartment search
-     * optimization. Defaults to false so the behavior won't change unless it
-     * is explicitly enabled in fhir-server-config. This is important, because
-     * existing data must be reindexed (see $reindex custom operation) to
-     * generate values for the ibm-internal compartment relationship params.
-     * @return
-     */
-    public static boolean useStoredCompartmentParam() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, true);
-    }
-
-    /**
      * @param compartmentName
      * @param compartmentLogicalId
      * @param resourceType
@@ -1260,19 +1248,10 @@ public class SearchHelper {
         if (compartmentName != null && compartmentLogicalIds != null && !compartmentLogicalIds.isEmpty()) {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
             // compartmentLogicalId.
-            // The query parsers will OR these parameters to achieve the compartment search.
             List<String> inclusionCriteria;
 
-            if (useStoredCompartmentParam()) {
-                // issue #1708. When enabled, use the ibm-internal-... compartment parameter. This
-                // results in faster queries because only a single parameter is used to represent the
-                // compartment membership.
-                compartmentHelper.checkValidCompartmentAndResource(compartmentName, resourceType);
-                inclusionCriteria = Collections.singletonList(CompartmentHelper.makeCompartmentParamName(compartmentName));
-            } else {
-                // pre #1708 behavior
-                inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);
-            }
+            compartmentHelper.checkValidCompartmentAndResource(compartmentName, resourceType);
+            inclusionCriteria = Collections.singletonList(CompartmentHelper.makeCompartmentParamName(compartmentName));
 
             for (String criteria : inclusionCriteria) {
                 QueryParameter parameter  = new QueryParameter(Type.REFERENCE, criteria, null, null, true);

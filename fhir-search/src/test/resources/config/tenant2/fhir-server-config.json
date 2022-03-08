@@ -1,9 +1,6 @@
 {
     "__comment": "FHIR Server configuration",
     "fhirServer": {
-        "search": {
-            "useStoredCompartmentParam": false
-        },
         "core": {
             "defaultPageSize": 5000
         }
