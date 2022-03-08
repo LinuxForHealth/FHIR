@@ -155,13 +155,21 @@ public class CompartmentHelper {
     }
 
     /**
+     * @param compartment
+     * @return whether the passed string matches the name of a configured CompartmentDefinition
+     */
+    public boolean isCompartmentType(final String compartment) {
+        return compartmentMap.containsKey(compartment);
+    }
+
+    /**
      * checks that the compartment is valid and throws an exception if not
      *
      * @param compartment
      * @throws FHIRSearchException
      */
     public void checkValidCompartment(final String compartment) throws FHIRSearchException {
-        if (!compartmentMap.containsKey(compartment)) {
+        if (!isCompartmentType(compartment)) {
             String msg = String.format(INVALID_COMPARTMENT, compartment);
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
@@ -192,7 +200,8 @@ public class CompartmentHelper {
      *   ...
      * </pre>
      * @param resourceType the resource type name
-     * @return a map of parameter name to set of compartment names
+     * @return a map from parameter name to the set of compartment names
+     *      for which that parameter is an inclusion criteria
      */
     public Map<String, Set<java.lang.String>> getCompartmentParamsForResourceType(java.lang.String resourceType) {
         ResourceCompartmentCache rcc = resourceCompartmentMap.get(resourceType);
