@@ -208,22 +208,6 @@ Search parameters are handled like a single configuration properly; providing a 
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
-### 3.2.3 Compartment Search Performance
-
-The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/main/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/main/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
-
-```
-    {
-        "fhirServer": {
-            "search": {
-                "useStoredCompartmentParam": true
-            }
-        }
-    }
-```
-
-Note that this parameter only enables or disables the compartment search query optimization feature. The compartment membership values are always computed and stored during ingestion or reindexing, regardless of the setting of this value. After the reindex operation is complete, it is recommended to set `useStoredCompartmentParam` to true. No reindex is required if this value is subsequently set to false.
-
 ## 3.3 Persistence layer configuration
 The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
@@ -2194,7 +2178,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|If true then the bounding area is a radius, else the bounding area is a box.|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|True, compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/search/enableLegacyWholeSystemSearchParams`|boolean|True, searches specifying whole-system search parameters `_profile`, `_tag`, and `_security` run against legacy search index data, else those searches run against new search index data. This property can be set to `true` before a reindex operation is run, and after migrating to IBM FHIR Server version 4.9.0, to allow searches to work while the reindex operation is in progress. After the reindex has completed successfully, the property should be set to `false` or removed from the configuration. |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
 |`fhirServer/bulkdata/core/api/url`|string|The URL to access the FHIR server hosting the batch web application |
@@ -2338,7 +2321,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/search/useBoundingRadius`|false|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|true|
 |`fhirServer/search/enableLegacyWholeSystemSearchParams`|false|
 |`fhirServer/security/cors`|true|
 |`fhirServer/security/basic/enabled`|false|
@@ -2498,7 +2480,6 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
 |`fhirServer/search/useBoundingRadius`|Y|Y|
-|`fhirServer/search/useStoredCompartmentParam`|Y|Y|
 |`fhirServer/search/enableLegacyWholeSystemSearchParams`|Y|Y|
 |`fhirServer/security/cors`|Y|Y|
 |`fhirServer/security/basic/enabled`|Y|Y|
