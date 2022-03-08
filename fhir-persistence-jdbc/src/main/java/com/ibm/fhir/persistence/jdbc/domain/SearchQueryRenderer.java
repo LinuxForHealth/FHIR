@@ -98,7 +98,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.sort.Sort.Direction;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
@@ -628,9 +628,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     if (system != null) {
                         boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(system);
                         normalizedCode = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                                            code : SearchUtil.normalizeForSearch(code));
+                                            code : SearchHelper.normalizeForSearch(code));
                     } else {
-                        normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
+                        normalizedCode = SqlParameterEncoder.encode(SearchHelper.normalizeForSearch(code));
                     }
                 }
 
@@ -646,7 +646,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                         // common_token_value_ids matching the value-code, allowing a similar optimization
                         Set<Long> ctvs = new HashSet<>();
                         fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(code));
-                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code)));
+                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchHelper.normalizeForSearch(code)));
                         addCommonTokenValueIdFilter(where, paramAlias, ctvs);
                     } else {
                         Long commonTokenValueId = identityCache.getCommonTokenValueId(system, normalizedCode);
@@ -665,7 +665,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                                     .replace("+", "++")
                                     .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
                                     .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
-                            where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
+                            where.bind(SearchHelper.normalizeForSearch(textSearchString)).escape("+");
 
                         } else {
                             where.bind(normalizedCode);
@@ -848,7 +848,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
                     String searchValue = PERCENT_WILDCARD + tempSearchValue + PERCENT_WILDCARD;
-                    searchValue = SearchUtil.normalizeForSearch(searchValue);
+                    searchValue = SearchHelper.normalizeForSearch(searchValue);
                     whereFragment.col(paramAlias, STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
                 } else {
                     // If there is not a CONTAINS modifier on the query parm, construct
@@ -873,7 +873,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                         }
                     } else {
                         // Simple STARTS WITH
-                        searchValue = SearchUtil.normalizeForSearch(searchValue);
+                        searchValue = SearchHelper.normalizeForSearch(searchValue);
                         logger.fine("LIKE: " + searchValue);
                         whereFragment.col(paramAlias, STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
                     }
@@ -913,7 +913,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 // case-insensitive, accent-insensitive search.
                 // Build this piece: pX.str_value_lcase {operator} search-attribute-value
                 String searchValue = SqlParameterEncoder.encode(value.getValueString());
-                searchValue = SearchUtil.normalizeForSearch(searchValue);
+                searchValue = SearchHelper.normalizeForSearch(searchValue);
                 whereFragment.col(paramAlias, STR_VALUE_LCASE).operator(operator).bind(searchValue);
                 addEscapeIfRequired(whereFragment, operator);
             }
@@ -1372,7 +1372,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 // Normalize code if code system is not case-sensitive. Otherwise leave code as is.
                 codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
                 final String searchValue = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                        value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
+                        value.getValueCode() : SearchHelper.normalizeForSearch(value.getValueCode()));
 
                 // We have a code-system and a code so we must have a common_token_value if the tuple exists
                 Long commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), searchValue);
@@ -1380,7 +1380,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             } else {
                 // No code system specified, search against both normalized code and unmodified code.
                 // Build equivalent of: pX.token_value IN (search-attribute-value, normalized-search-sttribute-value)
-                final String normalizedValue = SearchUtil.normalizeForSearch(value.getValueCode());
+                final String normalizedValue = SearchHelper.normalizeForSearch(value.getValueCode());
                 Set<Long> ctvs = new HashSet<>();
                 fetchCommonTokenValues(ctvs, value.getValueCode());
                 fetchCommonTokenValues(ctvs, normalizedValue);
@@ -1564,13 +1564,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+            final String sourceUriCode = SearchHelper.makeCompositeSubCode(inclusionParm.getSearchParameter() +
                 CANONICAL_SUFFIX, CANONICAL_COMPONENT_URI);
-            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+            final String sourceVersionCode = SearchHelper.makeCompositeSubCode(inclusionParm.getSearchParameter() +
                 CANONICAL_SUFFIX, CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetUriCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetVersionCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
             select.from(joinStrValues, alias(paramAlias))
                 .innerJoin(targetStrValues, alias(nextParamAlias),
@@ -1654,13 +1654,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+            final String sourceUriCode = SearchHelper.makeCompositeSubCode(inclusionParm.getSearchParameter() +
                 CANONICAL_SUFFIX, CANONICAL_COMPONENT_URI);
-            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+            final String sourceVersionCode = SearchHelper.makeCompositeSubCode(inclusionParm.getSearchParameter() +
                 CANONICAL_SUFFIX, CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetUriCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetVersionCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
             query.from()
                 .innerJoin(joinStrValues, alias(paramAlias),
@@ -1906,7 +1906,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 QueryParameterValue uriParameterValue = new QueryParameterValue();
                 uriParameterValue.setValueString(canonicalValue.getUri());
                 QueryParameter uriParameter = new QueryParameter(Type.URI,
-                    SearchUtil.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_URI),
+                    SearchHelper.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_URI),
                     null, null, Collections.singletonList(uriParameterValue));
                 compositeValue.addComponent(uriParameter);
 
@@ -1915,7 +1915,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     QueryParameterValue versionParameterValue = new QueryParameterValue();
                     versionParameterValue.setValueString(canonicalValue.getVersion());
                     QueryParameter versionParameter = new QueryParameter(Type.URI,
-                        SearchUtil.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_VERSION),
+                        SearchHelper.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_VERSION),
                         null, null, Collections.singletonList(versionParameterValue));
                     compositeValue.addComponent(versionParameter);
                 }
@@ -2050,13 +2050,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+            final String sourceUriCode = SearchHelper.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+            final String sourceVersionCode = SearchHelper.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetUriCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetVersionCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
             currentSubQuery.from()
                 .innerJoin(sourceStrValues, alias(paramAlias),
@@ -2196,13 +2196,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+            final String sourceUriCode = SearchHelper.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
+            final String sourceVersionCode = SearchHelper.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetUriCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+            final String targetVersionCode = SearchHelper.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
                 CANONICAL_COMPONENT_VERSION);
             currentSubQuery.from()
                 .innerJoin(refStrValues, alias(paramAlias),

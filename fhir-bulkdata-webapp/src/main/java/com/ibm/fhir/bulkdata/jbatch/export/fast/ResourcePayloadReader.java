@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -267,7 +267,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // to the collector (and then analyzer)
         stepCtx.setTransientUserData(new TransientUserData());
 
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(null);
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         resourceType = ModelSupport.getResourceType(fhirResourceType);
 

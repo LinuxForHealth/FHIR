@@ -22,14 +22,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This testng test class contains methods that test the parsing of the search result _type parameter in the
  * SearchUtil class.
- *
- * @author tbieste
- *
  */
 public class TypeParameterParseTest extends BaseSearchTest {
 
@@ -38,7 +34,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Arrays.asList("Patient"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getSearchResourceTypes());
         assertEquals(context.getSearchResourceTypes().size(), 1);
@@ -50,7 +46,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Collections.singletonList("Patient,Practitioner"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters);
         assertNotNull(context);
         assertNotNull(context.getSearchResourceTypes());
         assertEquals(context.getSearchResourceTypes().size(), 2);
@@ -63,7 +59,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Arrays.asList("Patient"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Patient.class, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getSearchResourceTypes());
     }
@@ -75,7 +71,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Arrays.asList("Patient"));
         try {
-            SearchUtil.parseQueryParameters(Patient.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "_type search parameter is only supported with system search");
@@ -89,7 +85,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Arrays.asList("Patient", "Practitioner"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getSearchResourceTypes());
         assertEquals(context.getSearchResourceTypes().size(), 1);
@@ -103,7 +99,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Arrays.asList("Patient", "Practitioner"));
         try {
-            SearchUtil.parseQueryParameters(Resource.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "Search parameter '_type' is specified multiple times");
@@ -117,7 +113,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Collections.singletonList("invalid,Practitioner"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getSearchResourceTypes());
         assertEquals(context.getSearchResourceTypes().size(), 1);
@@ -131,7 +127,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("invalid,Practitioner"));
         try {
-            SearchUtil.parseQueryParameters(Resource.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "_type search parameter has invalid resource type: invalid");
@@ -145,7 +141,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Collections.singletonList("Resource"));
-        FHIRSearchContext context = SearchUtil.parseQueryParameters(Resource.class, queryParameters, true, true);
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
         assertNotNull(context);
         assertNull(context.getSearchResourceTypes());
     }
@@ -157,7 +153,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
 
         queryParameters.put("_type", Collections.singletonList("Resource"));
         try {
-            SearchUtil.parseQueryParameters(Resource.class, queryParameters, false, true);
+            searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
             assertEquals(ex.getMessage(), "_type search parameter has invalid resource type: Resource");

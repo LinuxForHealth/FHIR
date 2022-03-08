@@ -29,19 +29,15 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 
 /**
- * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
- * which overwrites the behaviors of the buildInSearchParameters.
- *
- * <br>
- * Call {@link #init()} before using the class in order to avoid a slight performance hit on first use.
+ * A helper class with methods for working with HL7 FHIR search parameters.
  */
-public final class ParametersUtil {
+public class ParametersHelper {
 
-    private static final String CLASSNAME = ParametersUtil.class.getName();
+    private static final String CLASSNAME = ParametersHelper.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
@@ -71,20 +67,14 @@ public final class ParametersUtil {
     private static final String COMMA = ",";
     private static final String EQUALS = "=";
 
-    private static final Map<String, Map<String, ParametersMap>> searchParameters = buildSearchParameterMaps();
-
     private static final String MISSING_EXPRESSION = "/NONE/";
 
-    private ParametersUtil() {
-        // No Operation
-    }
+    private CompartmentHelper compartmentHelper;
+    private Map<String, Map<String, ParametersMap>> searchParameters;
 
-    /**
-     * Loads the class in the classloader to initialize static members.
-     * Call this before using the class in order to avoid a slight performance hit on first use.
-     */
-    public static void init() {
-        // No Operation
+    public ParametersHelper(CompartmentHelper compartmentHelper) {
+        this.compartmentHelper = compartmentHelper;
+        searchParameters = buildSearchParameterMaps();
     }
 
     /**
@@ -93,7 +83,7 @@ public final class ParametersUtil {
      *
      * @return a tenant-keyed map of maps from resourceType to ParametersMap
      */
-    private static Map<String, Map<String, ParametersMap>> buildSearchParameterMaps() {
+    private Map<String, Map<String, ParametersMap>> buildSearchParameterMaps() {
         HashMap<String, Map<String, ParametersMap>> result = new HashMap<>();
 
         FHIRConfiguration config = FHIRConfiguration.getInstance();
@@ -134,7 +124,7 @@ public final class ParametersUtil {
         return result;
     }
 
-    private static Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
+    private Map<String, ParametersMap> computeTenantSPs(PropertyGroup rsrcsGroup) throws Exception {
         Map<String, ParametersMap> paramMapsByType = new HashMap<>();
 
         // The set of resourceTypes with implicit or explicit wildcard (* = *) entries.
@@ -182,7 +172,7 @@ public final class ParametersUtil {
         return Collections.unmodifiableMap(paramMapsByType);
     }
 
-    private static ParametersMap getExplicitParams(Set<String> resourceTypesWithWildcardParams,
+    private ParametersMap getExplicitParams(Set<String> resourceTypesWithWildcardParams,
             PropertyEntry rsrcsEntry) throws Exception {
         ParametersMap paramMap = new ParametersMap();
         String resourceType = rsrcsEntry.getName();
@@ -195,7 +185,7 @@ public final class ParametersUtil {
                 List<PropertyEntry> spEntries = spGroup.getProperties();
                 if (spEntries != null && !spEntries.isEmpty()) {
 
-                    Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
+                    Map<String, Set<String>> compartmentParamToCompartment = compartmentHelper.getCompartmentParamsForResourceType(resourceType);
 
                     for (PropertyEntry spEntry : spEntries) {
                         String code = spEntry.getName();
@@ -226,7 +216,7 @@ public final class ParametersUtil {
         return paramMap;
     }
 
-    private static void addWildcardAndCompartmentParams(Map<String, ParametersMap> paramMapsByType,
+    private void addWildcardAndCompartmentParams(Map<String, ParametersMap> paramMapsByType,
             Set<String> resourceTypesWithWildcardParams, Map<String, Set<String>> configuredCodes) {
 
         for (SearchParameter sp : getAllSearchParameters()) {
@@ -256,7 +246,7 @@ public final class ParametersUtil {
                 }
 
                 // If this param is an inclusion criteria for one or more compartments
-                Map<String, Set<String>> compartmentParamToCompartment = CompartmentUtil.getCompartmentParamsForResourceType(resourceType.getValue());
+                Map<String, Set<String>> compartmentParamToCompartment = compartmentHelper.getCompartmentParamsForResourceType(resourceType.getValue());
                 if (compartmentParamToCompartment.containsKey(code)) {
                     ParametersMap paramMap = paramMapsByType.get(resourceType.getValue());
                     if (paramMap == null) {
@@ -297,7 +287,7 @@ public final class ParametersUtil {
      * @param tenantId
      * @return a set of ParametersMaps, organized by resource type; never null
      */
-    public static Map<String, ParametersMap> getTenantSPs(String tenantId) {
+    public Map<String, ParametersMap> getTenantSPs(String tenantId) {
         if (searchParameters.containsKey(tenantId)) {
             return searchParameters.get(tenantId);
         } else {
@@ -353,7 +343,7 @@ public final class ParametersUtil {
      *
      * @param out
      */
-    public static void print(PrintStream out) {
+    public void print(PrintStream out) {
         for (String tenant : searchParameters.keySet()) {
             out.println(SearchConstants.LOG_BOUNDARY);
             out.println("- TENANT " + tenant);
@@ -366,7 +356,7 @@ public final class ParametersUtil {
      * @param out
      * @param searchParamsMap
      */
-    private static void print(PrintStream out, Map<String, ParametersMap> searchParamsMap) {
+    private void print(PrintStream out, Map<String, ParametersMap> searchParamsMap) {
         Set<String> keys = searchParamsMap.keySet();
         out.println(SearchConstants.LOG_BOUNDARY);
         out.println(LOG_HEADER);

@@ -123,7 +123,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.rest.FHIRRestInteraction;
@@ -176,15 +176,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             .appendPattern(", dd-MMM-yy HH:mm:ss")
             .optionalEnd().toFormatter();
 
-    private FHIRPersistence persistence = null;
+    private final FHIRPersistence persistence;
+    private final SearchHelper searchHelper;
 
     // Used for correlating requests within a bundle.
     private String bundleRequestCorrelationId = null;
 
     private final FHIRValidator validator = FHIRValidator.validator(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_VALIDATION_FAIL_FAST, Boolean.FALSE));
 
-    public FHIRRestHelper(FHIRPersistence persistence) {
+    public FHIRRestHelper(FHIRPersistence persistence, SearchHelper searchHelper) {
         this.persistence = persistence;
+        this.searchHelper = searchHelper;
     }
 
     @Override
@@ -1128,7 +1130,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseReadQueryParameters(resourceType, queryParameters, Interaction.READ.value(),
+                searchContext = searchHelper.parseReadQueryParameters(resourceType, queryParameters, Interaction.READ.value(),
                     HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
@@ -1193,7 +1195,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseReadQueryParameters(resourceType, queryParameters, Interaction.VREAD.value(),
+                searchContext = searchHelper.parseReadQueryParameters(resourceType, queryParameters, Interaction.VREAD.value(),
                     HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
@@ -1354,7 +1356,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (!includeResources) {
                 log.info("Not including resources");
             }
-            FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+            FHIRSearchContext searchContext = searchHelper.parseCompartmentQueryParameters(compartment, compartmentId, resourceType, queryParameters,
                 isLenientHandling, includeResources);
 
             // First, invoke the 'beforeSearch' interceptor methods.
@@ -1455,7 +1457,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + operationContext.toString());
             }
             Parameters result =
-                    operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, this);
+                    operation.invoke(operationContext, resourceType, logicalId, versionId, parameters, this, searchHelper);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE_PARAMETERS, result);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Returned from invocation of operation '" + operationName + "'...");
@@ -2240,10 +2242,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (!Resource.class.getSimpleName().equals(resourceType)) {
                 Class<? extends Resource> resourceTypeClass = ModelSupport.getResourceType(resourceType);
                 for (QueryParameter queryParameter : chainQueryParameters) {
-                    searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
+                    searchParameterMap.put(queryParameter, searchHelper.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
                 }
                 for (QueryParameter queryParameter : logicalIdReferenceQueryParameters) {
-                    searchParameterMap.put(queryParameter, SearchUtil.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
+                    searchParameterMap.put(queryParameter, searchHelper.getSearchParameter(resourceTypeClass, queryParameter.getCode()));
                 }
             }
 
@@ -2302,7 +2304,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         for (QueryParameter queryParameter : queryParameters) {
             SearchParameter searchParameter = searchParameterMap.get(queryParameter);
             if (searchParameter == null) {
-                searchParameter = SearchUtil.getSearchParameter(resource.getClass(), queryParameter.getCode());
+                searchParameter = searchHelper.getSearchParameter(resource.getClass(), queryParameter.getCode());
             }
 
             // For logical ID check, only need to look at search parameters with more than one target resource type
@@ -2421,7 +2423,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRSearchContext searchContext = (FHIRSearchContext) context;
             summaryParameter = searchContext.getSummaryParameter();
             try {
-                selfUri = SearchUtil.buildSearchSelfUri(requestUri, searchContext);
+                selfUri = SearchHelper.buildSearchSelfUri(requestUri, searchContext);
             } catch (Exception e) {
                 log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
             }

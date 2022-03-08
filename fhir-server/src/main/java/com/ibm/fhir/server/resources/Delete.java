@@ -58,7 +58,7 @@ public class Delete extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doDelete(type, id, null);
             status = ior.getStatus();
             return buildResponse(ior);
@@ -103,7 +103,7 @@ public class Delete extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doDelete(type, null, searchQueryString);
             status = ior.getStatus();
             return buildResponse(ior);

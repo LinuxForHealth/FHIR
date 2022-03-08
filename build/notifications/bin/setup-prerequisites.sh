@@ -40,13 +40,14 @@ notifications_build(){
 pushd $(pwd) > /dev/null
 
 if [ -z "${WORKSPACE}" ]
-then 
+then
     echo "The WORKSPACE value is unset"
     exit -1
-fi 
+fi
 
 # Change to the release directory
 cd "${WORKSPACE}"
+. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
 
 required_build
 notifications_build "${1}"
@@ -54,5 +55,5 @@ notifications_build "${1}"
 # Reset to Original Directory
 popd > /dev/null
 
-# EOF 
+# EOF
 ###############################################################################

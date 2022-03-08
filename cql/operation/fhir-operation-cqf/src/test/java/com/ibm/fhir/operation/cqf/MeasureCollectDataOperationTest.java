@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mockito.MockedStatic;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -52,11 +53,18 @@ import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.MeasureReportType;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class MeasureCollectDataOperationTest {
     private MeasureCollectDataOperation operation;
+    private SearchHelper searchHelper;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        searchHelper = new SearchHelper();
+    }
 
     @BeforeMethod
     public void setup() {
@@ -121,7 +129,7 @@ public class MeasureCollectDataOperationTest {
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
 
             Parameters result = operation.doInvoke(FHIROperationContext.createResourceTypeOperationContext("collect-data"),
-                Measure.class, null, null, parameters, resourceHelper);
+                    Measure.class, null, null, parameters, resourceHelper, searchHelper);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);

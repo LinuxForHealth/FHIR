@@ -65,7 +65,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 
 /**
  * BulkData Client to connect to the other server.
@@ -127,6 +127,7 @@ public class BulkDataClient {
     private String incomingUrl = null;
     private String baseUri = null;
     private ConfigurationAdapter adapter = null;
+    private CompartmentHelper compartmentHelper = null;
 
     /**
      *
@@ -143,6 +144,7 @@ public class BulkDataClient {
         this.incomingUrl = incomingUrl;
         this.baseUri = baseUri;
         this.adapter = adapter;
+        this.compartmentHelper = new CompartmentHelper();
     }
 
     /**
@@ -184,14 +186,14 @@ public class BulkDataClient {
         case PATIENT:
             builder.jobXMLName(JobType.EXPORT_PATIENT.value());
             if (resourceType == null || resourceType.isEmpty() ) {
-                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
+                resourceType = String.join(",", compartmentHelper.getCompartmentResourceTypes("Patient"));
             }
             break;
         case GROUP:
             builder.jobXMLName(JobType.EXPORT_GROUP.value());
             builder.fhirPatientGroupId(groupId);
             if (resourceType == null || resourceType.isEmpty()) {
-                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
+                resourceType = String.join(",", compartmentHelper.getCompartmentResourceTypes("Patient"));
             }
             break;
         default:

@@ -26,6 +26,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -50,7 +51,7 @@ public class ExportOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper)
             throws FHIROperationException {
         COMMON.checkEnabled();
         COMMON.checkAllowed(operationContext, false);

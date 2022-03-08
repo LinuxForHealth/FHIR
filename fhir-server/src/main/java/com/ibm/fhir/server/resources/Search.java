@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,7 @@ public class Search extends FHIRResource {
             checkType(type);
 
             queryParameters = uriInfo.getQueryParameters();
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -117,7 +117,7 @@ public class Search extends FHIRResource {
             checkType(type);
 
             queryParameters = uriInfo.getQueryParameters();
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -162,7 +162,7 @@ public class Search extends FHIRResource {
             checkInitComplete();
 
             queryParameters = uriInfo.getQueryParameters();
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();

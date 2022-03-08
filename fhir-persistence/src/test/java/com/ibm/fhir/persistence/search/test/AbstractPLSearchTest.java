@@ -35,7 +35,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * An abstract parent for the persistence layer search tests.
@@ -191,14 +190,14 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      */
     protected boolean searchReturnsResourceResult(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, String expectedLogicalId,
             boolean includesData) throws Exception {
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceTypeToSearch, queryParms);
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceTypeToSearch, queryParms);
         searchContext.setIncludeResourceData(includesData);
         List<ResourceResult<? extends Resource>> resourceResults = runQueryTest(
                 searchContext,
                 resourceTypeToSearch, queryParms, Integer.MAX_VALUE).getResourceResults();
-        
+
         assertNotNull(resourceResults);
-        
+
         // Find the logicalId in the output and check that the includesData matches
         boolean result = false;
         for (ResourceResult<? extends Resource> rr: resourceResults) {

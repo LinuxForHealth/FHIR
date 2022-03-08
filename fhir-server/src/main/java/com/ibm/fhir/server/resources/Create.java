@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,7 +71,7 @@ public class Create extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =

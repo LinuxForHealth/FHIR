@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,7 +67,7 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Tests all valid combinations of search paramter types and data types
@@ -151,10 +151,10 @@ public class ParameterExtractionTest {
         List<ExtractedParameterValue> components = ((CompositeParmVal) params.get(1)).getComponent();
         assertEquals(components.size(), 2, "Number of components");
         assertEquals(((StringParmVal) components.get(0)).getName(),
-            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            SearchHelper.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
         assertEquals(((StringParmVal) components.get(0)).getValueString(), SAMPLE_URI);
         assertEquals(((StringParmVal) components.get(1)).getName(),
-            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            SearchHelper.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
         assertEquals(((StringParmVal) components.get(1)).getValueString(), null);
 
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
@@ -168,12 +168,12 @@ public class ParameterExtractionTest {
         components = ((CompositeParmVal) params.get(1)).getComponent();
         assertEquals(components.size(), 2, "Number of components");
         assertEquals(((StringParmVal) components.get(0)).getName(),
-            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            SearchHelper.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
         assertEquals(((StringParmVal) components.get(0)).getValueString(), SAMPLE_URI);
         assertEquals(((StringParmVal) components.get(1)).getName(),
-            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            SearchHelper.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
         assertEquals(((StringParmVal) components.get(1)).getValueString(), SAMPLE_REF_VERSION);
-        
+
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         canonical = Canonical.of(SAMPLE_URI);
         canonical.accept(parameterBuilder);
@@ -561,11 +561,11 @@ public class ParameterExtractionTest {
         assertEquals(cParmVal.getName(), compositeCode);
         assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
         TokenParmVal tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
-        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+        assertEquals(tokenParmVal.getName(), SearchHelper.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
         assertEquals(tokenParmVal.getValueSystem(), "systema");
         assertEquals(tokenParmVal.getValueCode(), "codea");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
-        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+        assertEquals(tokenParmVal.getName(), SearchHelper.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
         assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
 
@@ -573,11 +573,11 @@ public class ParameterExtractionTest {
         assertEquals(cParmVal.getName(), compositeCode);
         assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
-        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+        assertEquals(tokenParmVal.getName(), SearchHelper.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
         assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "codeb");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
-        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+        assertEquals(tokenParmVal.getName(), SearchHelper.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
         assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
     }

@@ -99,7 +99,7 @@ public class ParametersMap {
 
         if (inclusionParamMap.containsKey(code)) {
             SearchParameter previous = inclusionParamMap.get(code);
-            logParamConflict("inclusion criteria '" + code + "'", parameter, ParametersUtil.getCanonicalUrl(parameter), previous);
+            logParamConflict("inclusion criteria '" + code + "'", parameter, ParametersHelper.getCanonicalUrl(parameter), previous);
         }
         inclusionParamMap.put(code, parameter);
     }
@@ -107,13 +107,13 @@ public class ParametersMap {
     private void logParamConflict(String distinguisher, SearchParameter parameter, String canonical, SearchParameter previous) {
         if (previous.getExpression().equals(parameter.getExpression())) {
             if (log.isLoggable(Level.FINE)) {
-                String thatCanonical = ParametersUtil.getCanonicalUrl(previous);
+                String thatCanonical = ParametersHelper.getCanonicalUrl(previous);
                 log.fine("SearchParameter " + distinguisher + " exists with the same expression"
                         + "; use search parameter filtering to disambiguate.");
                 log.fine("Replacing " + thatCanonical + " with " + canonical);
             }
         } else {
-            String thatCanonical = ParametersUtil.getCanonicalUrl(previous);
+            String thatCanonical = ParametersHelper.getCanonicalUrl(previous);
             log.warning("SearchParameter " + distinguisher + " exists with a different expression" +
                     "; use search parameter filtering to disambiguate.");
             log.warning("Replacing " + thatCanonical + " [" + previous.getExpression().getValue() + "] with "
@@ -126,7 +126,7 @@ public class ParametersMap {
      * @return
      * @implSpec This does not include any compartment inclusion criteria codes added
      *      via {@link #insertInclusionParam(String, SearchParameter)};
-     *      use {@link com.ibm.fhir.search.compartment.CompartmentUtil} for those.
+     *      use {@link com.ibm.fhir.search.compartment.CompartmentHelper} for those.
      */
     public Set<String> getCodes() {
         return codeMap.keySet();

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -34,7 +35,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
     public static final String PARAM_OUT_RESOURCE = "resource";
 
     private FHIRModelResolver resolver = new FHIRModelResolver();
-    
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
         return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/Measure-collect-data", OperationDefinition.class);
@@ -43,22 +44,22 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
 
         // This approach is modeled directly on the cqf-ruler implementation. It seems to me that
         // running the measure in order to get the data requirements is a cop out and duplication
         // of effort.
-        Parameters intermediateOutParams = super.doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper);
+        Parameters intermediateOutParams = super.doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper, searchHelper);
         Parameter returnParam = intermediateOutParams.getParameter().get(0);
         MeasureReport measureReport = (MeasureReport) returnParam.getResource();
-        
+
         Parameters.Builder outParams = Parameters.builder();
         outParams.parameter( Parameter.builder().name(fhirstring(PARAM_OUT_MEASURE_REPORT)).resource(measureReport).build());
-        
+
         if( measureReport.getContained() != null ) {
             for( Resource containedResource : measureReport.getContained() ) {
-                // This is exactly how the cqf-ruler implementation is coded. 
-                // Right now, this is never going to fire based on both the 
+                // This is exactly how the cqf-ruler implementation is coded.
+                // Right now, this is never going to fire based on both the
                 // cqf-ruler and cql-evaluator implementations. This needs to
                 // be discussed with the spec team and revisited as appropriate.
                 if( containedResource instanceof Bundle ) {
@@ -66,10 +67,10 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
                 }
             }
         }
-        
+
         return outParams.build();
     }
-    
+
     protected void addEvaluatedResourcesToParameters( Bundle contained, Parameters.Builder parameters, FHIRResourceHelpers resourceHelper ) throws FHIROperationException {
         Map<String,Resource> resourceMap = new HashMap<>();
         if( contained.getEntry() != null ) {
@@ -78,22 +79,22 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
                     if( ! resourceMap.containsKey(entry.getResource().getId()) ) {
                         parameters.parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RESOURCE)).resource(entry.getResource()).build());
                         resourceMap.put(entry.getResource().getId(), entry.getResource());
-                        
+
                         resolveReferences(entry.getResource(), parameters, resourceMap, resourceHelper);
                     }
                 }
             }
         }
     }
-    
+
     /**
      * Loop through all the data elements of the structure looking for things that are references. Pull
      * in each referenced resource and add it to the output.
-     * 
-     * @throws FHIROperationException 
+     *
+     * @throws FHIROperationException
      */
     protected void resolveReferences(Resource resource, Parameters.Builder parameters, Map<String, Resource> resourceMap, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        
+
         Collection<ElementInfo> elementInfos = ModelSupport.getElementInfo(resource.getClass());
         for( ElementInfo elementInfo : elementInfos ) {
             Set<String> referenceTypes = elementInfo.getReferenceTypes();
@@ -104,7 +105,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
                     if( parts.length == 2 ) {
                         String type = parts[0];
                         String id = parts[1];
-                        
+
                         if( ! resourceMap.containsKey(id) ) {
                             try {
                                 SingleResourceResult<? extends Resource> readResult = resourceHelper.doRead(type, id, /*throwExOnNull=*/true, /*includeDeleted=*/false, /*contextResource=*/null);

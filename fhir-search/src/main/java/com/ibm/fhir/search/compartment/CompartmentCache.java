@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,11 +14,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Compartment Cache is a localized class to cache the compartment information and provide helper methods to add to the
- * cache.
+ * Information about a single compartment type.
  */
 public class CompartmentCache {
 
+    /**
+     * A map from the includable resourceType codes (resourceType name) to their inclusion criteria params
+     */
     private Map<java.lang.String, List<java.lang.String>> codeAndParams = new HashMap<>();
 
     /**
@@ -29,7 +31,7 @@ public class CompartmentCache {
     }
 
     /**
-     * add the code and parameters to the given compartment cache.
+     * Add the code and parameters to the given compartment cache.
      *
      * @param inclusionResourceCode the name of the resource type that can be within the target compartment type
      * @param params the inclusion criteria used to determine whether a resource of type {@code inclusionResourceCode}
@@ -44,7 +46,7 @@ public class CompartmentCache {
     }
 
     /**
-     * gets the resource types (codes) in the compartment
+     * Get the resource types (codes) that can be in a compartment of this type.
      *
      * @return
      */
@@ -53,7 +55,7 @@ public class CompartmentCache {
     }
 
     /**
-     * get parameters by resource type in the compartment cache.
+     * Get parameters by resource type in the compartment cache.
      *
      * @param resourceType
      * @return

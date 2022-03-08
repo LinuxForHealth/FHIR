@@ -69,6 +69,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
@@ -105,8 +106,11 @@ public class ChunkWriter extends AbstractItemWriter {
     @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
     private String resourceType;
 
+    private SearchHelper searchHelper;
+
     public ChunkWriter() {
         super();
+        searchHelper = new SearchHelper();
     }
 
     @Override
@@ -129,7 +133,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
             Set<String> failValidationIds = new HashSet<>();
 
-            FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+            FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(searchHelper);
             FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 
             FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -217,7 +221,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 chunkData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                             }
 
-                            logger.warning("The resource being imported does not match the declared resource - '" + this.resourceType 
+                            logger.warning("The resource being imported does not match the declared resource - '" + this.resourceType
                                 + " '" + assertedResourceType + "/" + fhirResource.getId() + "'");
                         }
                     }
@@ -347,7 +351,7 @@ public class ChunkWriter extends AbstractItemWriter {
      * of this particular execution, and then destroyed.
      *
      * @implNote considered using a shared cache, a few things with that to
-     *           consider: 
+     *           consider:
      *  1 - the shared cache would have to be updated at the end of a transaction (we don't control it).
      *  2 - we would have to use a transaction sync registry to control the synchronization of the cache
      *  3 - Instead, we're doing a read then update.
@@ -454,7 +458,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * Generates ALL_OK along with a line number.
-     * 
+     *
      * @param lineNumber the location in the file.
      * @return
      */
@@ -477,7 +481,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * Generates Warning and Informational along with a line number.
-     * 
+     *
      * @param lineNumber the location in the file.
      * @param issues     to be added
      * @return
@@ -506,7 +510,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * generate exception
-     * 
+     *
      * @param lineNumber the location in the file
      * @param ex         exception to log
      * @return
@@ -532,7 +536,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * generate exception
-     * 
+     *
      * @param lineNumber the location in the file
      * @param id
      * @param assertedResourceType

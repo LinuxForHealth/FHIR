@@ -31,15 +31,15 @@ services:
     command: bash -c "
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
-          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent
+          --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES}
           --update-schema &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
-          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet
+          --prop resourceTypes=${TENANT1_REFERENCE_RESOURCE_TYPES}
           --update-schema &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
-          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet
+          --prop resourceTypes=${TENANT1_STUDY1_RESOURCE_TYPES}
           --update-schema &&
         /opt/ol/wlp/bin/server run"
     healthcheck:

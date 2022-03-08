@@ -62,6 +62,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 
@@ -107,6 +108,8 @@ public class FHIRResource {
 
     @Context
     protected SecurityContext securityContext;
+
+    protected SearchHelper searchHelper;
 
     protected PropertyGroup fhirConfig = null;
 
@@ -225,7 +228,7 @@ public class FHIRResource {
 
     /**
      * Adds the Etag and Last-Modified headers to the specified response object.
-     * 
+     *
      * @param rb
      * @param resource
      * @return
@@ -383,6 +386,21 @@ public class FHIRResource {
             }
         }
         return persistenceHelper;
+    }
+
+    /**
+     * Retrieves the shared persistence helper object from the servlet context.
+     */
+    protected SearchHelper getSearchHelper() {
+        if (searchHelper == null) {
+            searchHelper =
+                    (SearchHelper) context.getAttribute(SearchHelper.class.getName());
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: "
+                        + persistenceHelper);
+            }
+        }
+        return searchHelper;
     }
 
     /**

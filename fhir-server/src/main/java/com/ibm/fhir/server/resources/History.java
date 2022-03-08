@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,7 +55,7 @@ public class History extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -88,7 +88,7 @@ public class History extends FHIRResource {
         try {
             checkInitComplete();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
@@ -122,7 +122,7 @@ public class History extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri(), type);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();

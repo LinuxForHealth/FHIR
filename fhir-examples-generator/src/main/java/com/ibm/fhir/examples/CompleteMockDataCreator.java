@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.AdverseEvent;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
@@ -65,11 +66,13 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Oid;
+import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.SimpleQuantity;
@@ -80,6 +83,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.AddressUse;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
+import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
@@ -92,6 +96,8 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 public class CompleteMockDataCreator extends DataCreatorBase {
     protected final PodamFactory podam;
     private static final String ENGLISH_US = "en-US";
+
+    public static final String CUSTOM_COMPARTMENT_TYPE_EXT = FHIRConstants.EXT_BASE + "custom-compartment-type";
 
     public CompleteMockDataCreator() throws IOException {
         super();
@@ -191,7 +197,9 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         // mea-1: Stratifier SHALL be either a single criteria or a set of criteria components
                         builder instanceof Measure.Group.Stratifier.Builder && method.getName().equals("component") ||
                         // cpl-3: Provide a reference or detail, not both
-                        builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail")) {
+                        builder instanceof CarePlan.Activity.Builder && method.getName().equals("detail") ||
+                        // per-1: If present, start SHALL have a lower or equal value than end
+                        builder instanceof Period.Builder && method.getName().equals("start")) {
 
                         continue;
                     }
@@ -231,11 +239,11 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof Age.Builder && method.getName().equals("system")) {
                         argument = Uri.of("http://unitsofmeasure.org");
                     }
-                    // md-1:  Max must be postive int or *
+                    // md-1: Max must be postive int or *
                     else if (builder instanceof MessageDefinition.Focus.Builder && method.getName().equals("max")) {
                         argument = string("*");
                     }
-                    // ras-2:  probability is decimal implies (probability as decimal) <= 100
+                    // ras-2: Probability is decimal implies (probability as decimal) <= 100
                     else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
                         argument = Decimal.of(Math.random() * 100);
                     }
@@ -541,6 +549,15 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                         // trd-1 has prevented us from including a timing element, but we're good with any other type
                         enumConstant = TriggerType.Value.DATA_MODIFIED;
                     }
+                }
+
+                // hack to avoid accidentally overriding one of the built-in compartment defintions
+                if (code instanceof CompartmentType.Builder) {
+                    code.extension(Extension.builder()
+                        .url(CUSTOM_COMPARTMENT_TYPE_EXT)
+                        .value(Code.of("Bogus"))
+                        .build());
+                    return;
                 }
 
                 String enumValue = (String) clazz.getMethod("value").invoke(enumConstant);

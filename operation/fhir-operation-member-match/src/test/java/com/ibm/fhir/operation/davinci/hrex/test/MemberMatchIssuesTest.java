@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 public class MemberMatchIssuesTest {
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
     /*

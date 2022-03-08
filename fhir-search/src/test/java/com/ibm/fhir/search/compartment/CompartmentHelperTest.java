@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,19 +24,14 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 /**
  * CompartmentUtil is tested in this class.
  */
-public class CompartmentUtilTest extends BaseSearchTest {
-
-    @Test()
-    public void testInit() {
-        CompartmentUtil.init();
-        assertTrue(true);
-    }
+public class CompartmentHelperTest extends BaseSearchTest {
+    CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     @Test()
     public void testBuildCompartmentMap() {
         Map<String, CompartmentCache> cache = new HashMap<>();
         Map<String, ResourceCompartmentCache> resourceCompartmentCache = new HashMap<>();
-        CompartmentUtil.buildMaps(cache, resourceCompartmentCache);
+        CompartmentHelper.buildMaps(cache, resourceCompartmentCache);
 
         // There should be 5 compartment definitions.
         // Detailed behavior of the individual cache are tested in the CompartmentCache.
@@ -47,7 +42,7 @@ public class CompartmentUtilTest extends BaseSearchTest {
     @Test
     public void testGetCompartmentResourceTypeExists() throws FHIRSearchException {
         // The Compartment Does not Exist Exists
-        List<String> results = CompartmentUtil.getCompartmentResourceTypes("Patient");
+        List<String> results = compartmentHelper.getCompartmentResourceTypes("Patient");
         assertNotNull(results);
         assertFalse(results.isEmpty());
     }
@@ -55,51 +50,51 @@ public class CompartmentUtilTest extends BaseSearchTest {
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGetCompartmentResourceTypeDoesNotExist() throws FHIRSearchException {
         // The Compartment Does not Exist Exists
-        CompartmentUtil.getCompartmentResourceTypes("FredF");
+        compartmentHelper.getCompartmentResourceTypes("FredF");
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testCheckInvalidCompartment() throws FHIRSearchException {
         // Check invalid null value passed in
-        CompartmentUtil.checkValidCompartment(null);
+        compartmentHelper.checkValidCompartment(null);
     }
 
     @Test()
     public void testCheckValidCompartmentAndResource() throws FHIRSearchException {
         // Test valid check.
-        CompartmentUtil.checkValidCompartmentAndResource("Patient", "CommunicationRequest");
+        compartmentHelper.checkValidCompartmentAndResource("Patient", "CommunicationRequest");
         assertTrue(true);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testCheckInvalidCompartmentAndResourceNull() throws FHIRSearchException {
         // Test valid check. Null
-        CompartmentUtil.checkValidCompartmentAndResource("Patient", null);
+        compartmentHelper.checkValidCompartmentAndResource("Patient", null);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testCheckInvalidCompartmentAndResourceEmpty() throws FHIRSearchException {
         // Test valid check. Null
-        CompartmentUtil.checkValidCompartmentAndResource("Patient", "");
+        compartmentHelper.checkValidCompartmentAndResource("Patient", "");
 
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testCheckInvalidCompartmentAndResourceNotExist() throws FHIRSearchException {
         // Test valid check. Null
-        CompartmentUtil.checkValidCompartmentAndResource("Patient", "FrenchFood");
+        compartmentHelper.checkValidCompartmentAndResource("Patient", "FrenchFood");
     }
 
     @Test()
     public void testGetCompartmentResourceTypeInclusionCriteria() throws FHIRSearchException {
-        List<String> results = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria("Patient", "CommunicationRequest");
+        List<String> results = compartmentHelper.getCompartmentResourceTypeInclusionCriteria("Patient", "CommunicationRequest");
         assertNotNull(results);
         assertFalse(results.isEmpty());
     }
 
     @Test()
     public void testParamListForExplanationOfBenefit() {
-        Map<String, Set<java.lang.String>> pmap = CompartmentUtil.getCompartmentParamsForResourceType("ExplanationOfBenefit");
+        Map<String, Set<java.lang.String>> pmap = compartmentHelper.getCompartmentParamsForResourceType("ExplanationOfBenefit");
         assertNotNull(pmap);
 
         // EOB may belong to Patient, Encounter, Practitioner, RelatedPerson and Device compartments
@@ -120,7 +115,7 @@ public class CompartmentUtilTest extends BaseSearchTest {
 
     @Test()
     public void testParamListForInvalidResource() {
-        Map<String, Set<java.lang.String>> pmap = CompartmentUtil.getCompartmentParamsForResourceType("not-a-resource");
+        Map<String, Set<java.lang.String>> pmap = compartmentHelper.getCompartmentParamsForResourceType("not-a-resource");
         assertNotNull(pmap);
         assertTrue(pmap.isEmpty());
     }

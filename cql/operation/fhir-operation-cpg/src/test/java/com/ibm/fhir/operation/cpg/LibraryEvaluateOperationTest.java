@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -98,7 +98,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001", ValueSet.class)).thenReturn(valueset(codesystem, encounterCode));
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1002", ValueSet.class)).thenReturn(valueset(codesystem, procedureCode));
 
-            Parameters result = getOperation().doEvaluation(resourceHelper, paramMap, fhirLibraries);
+            Parameters result = getOperation().doEvaluation(resourceHelper, paramMap, searchHelper, fhirLibraries);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -151,7 +151,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.101.12.1001", ValueSet.class)).thenReturn(valueset(codesystem, encounterCode));
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1002", ValueSet.class)).thenReturn(valueset(codesystem, procedureCode));
 
-            Parameters result = getOperation().doEvaluation(resourceHelper, paramMap, fhirLibraries);
+            Parameters result = getOperation().doEvaluation(resourceHelper, paramMap, searchHelper, fhirLibraries);
             assertNotNull(result);
 
             ParameterMap resultMap = new ParameterMap(result);
@@ -161,7 +161,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
             assertEquals(retParams.getPart().size(), 5);
         }
     }
-    
+
     @Test
     public void testDoEvaluationUnsupportedParameters() throws Exception {
         Patient patient = (Patient) TestHelper.getTestResource("Patient.json");
@@ -188,15 +188,15 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
 
         Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring("subject")).value(fhirstring("Patient/" + patient.getId())).build();
         Parameters.Parameter pLibrary = Parameters.Parameter.builder().name(fhirstring("library")).value(primaryLibrary.getUrl()).build();
-        
+
         Parameter pUseServerData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_USE_SERVER_DATA)).value(fhirboolean(true)).build();
-        
+
         Bundle data = Bundle.builder().type(BundleType.COLLECTION).build();
         Parameter pData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_DATA)).resource(data).build();
-        
+
         Parameters prefetchData = Parameters.builder().parameter(Parameter.builder().name("key").value("key-value").build()).build();
         Parameter pPrefetchData = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_PREFETCH_DATA)).resource(prefetchData).build();
-        
+
         Endpoint endpoint = Endpoint.builder()
                 .status(EndpointStatus.ACTIVE)
                 .connectionType(Coding.builder()
@@ -208,7 +208,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         Parameter pDataEndpoint = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_DATA_ENDPOINT)).resource(endpoint).build();
         Parameter pContentEndpoint = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_CONTENT_ENDPOINT)).resource(endpoint).build();
         Parameter pTerminologyEndpoint = Parameter.builder().name(fhirstring(CqlOperation.PARAM_IN_TERMINOLOGY_ENDPOINT)).resource(endpoint).build();
-        
+
         Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary, pUseServerData, pData, pPrefetchData, pDataEndpoint, pContentEndpoint, pTerminologyEndpoint).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
@@ -225,7 +225,7 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
             when(mockRegistry.getResource("http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113883.3.464.1003.125.12.1002", ValueSet.class)).thenReturn(valueset(codesystem, procedureCode));
 
             FHIROperationContext ctx = FHIROperationContext.createResourceTypeOperationContext("evaluate");
-            getOperation().doInvoke(ctx, Library.class, primaryLibrary.getId(), null, parameters, resourceHelper);
+            getOperation().doInvoke(ctx, Library.class, primaryLibrary.getId(), null, parameters, resourceHelper, searchHelper);
         } catch (FHIROperationException fex) {
             assertNotNull(fex.getIssues());
             assertEquals(fex.getIssues().size(), 6);

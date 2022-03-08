@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.search.test.ExtractorValidator.Builder;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Extract Parameter Values Test
@@ -57,9 +56,9 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
             Map<SearchParameter, List<FHIRPathNode>> output;
             if (skip) {
-                output = SearchUtil.extractParameterValues(res, false);
+                output = searchHelper.extractParameterValues(res, false);
             } else {
-                output = SearchUtil.extractParameterValues(res);
+                output = searchHelper.extractParameterValues(res);
             }
             validator.validate(output);
         } catch (Exception e) {
