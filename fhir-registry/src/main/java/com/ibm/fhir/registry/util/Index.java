@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,16 +23,16 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.StructureDefinition;
+
 import jakarta.json.spi.JsonProvider;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 import jakarta.json.stream.JsonParser;
 import jakarta.json.stream.JsonParser.Event;
 import jakarta.json.stream.JsonParserFactory;
-
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.resource.StructureDefinition;
 
 public class Index {
     private static final Logger log = Logger.getLogger(Index.class.getName());
@@ -199,7 +199,9 @@ public class Index {
         generator.write("resourceType", entry.getResourceType());
         generator.write("id", entry.getId());
         generator.write("url", entry.getUrl());
-        generator.write("version", entry.getVersion());
+        if (entry.getVersion() != null) {
+            generator.write("version", entry.getVersion());
+        }
         if (entry.getKind() != null) {
             generator.write("kind", entry.getKind());
         }

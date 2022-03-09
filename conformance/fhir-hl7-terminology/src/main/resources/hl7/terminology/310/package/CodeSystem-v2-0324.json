@@ -1,0 +1,211 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0324",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0324",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.197"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "LocationCharacteristic",
+    "title": "locationCharacteristic",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying an identifier code to show which characteristic is being communicated with the segment.  Used in HL7 Version 2.x messaging in the Location Characteristic (LCH) segment.",
+    "purpose": "Underlying Master Code System for V2 table 0324 (Location Characteristic ID)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0324",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3040",
+            "code": "SMK",
+            "display": "Smoking",
+            "definition": "Smoking",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3041",
+            "code": "LIC",
+            "display": "Licensed",
+            "definition": "Licensed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3042",
+            "code": "IMP",
+            "display": "Implant: can be used for radiation implant patients",
+            "definition": "Implant: can be used for radiation implant patients",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3043",
+            "code": "SHA",
+            "display": "Shadow: a temporary holding location that does not physically exist",
+            "definition": "Shadow: a temporary holding location that does not physically exist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3044",
+            "code": "INF",
+            "display": "Infectious disease: this location can be used for isolation",
+            "definition": "Infectious disease: this location can be used for isolation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3045",
+            "code": "PRL",
+            "display": "Privacy level: indicating the level of private versus non-private room",
+            "definition": "Privacy level: indicating the level of private versus non-private room",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3046",
+            "code": "LCR",
+            "display": "Level of care",
+            "definition": "Level of care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3047",
+            "code": "OVR",
+            "display": "Overflow",
+            "definition": "Overflow",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3048",
+            "code": "STF",
+            "display": "Bed is staffed",
+            "definition": "Bed is staffed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3049",
+            "code": "SET",
+            "display": "Bed is set up",
+            "definition": "Bed is set up",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3050",
+            "code": "GEN",
+            "display": "Gender of patient(s)",
+            "definition": "Gender of patient(s)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3051",
+            "code": "TEA",
+            "display": "Teaching location",
+            "definition": "Teaching location",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

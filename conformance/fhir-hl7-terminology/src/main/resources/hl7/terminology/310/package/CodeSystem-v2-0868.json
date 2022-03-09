@@ -1,0 +1,175 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0868",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0868",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.409"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TelecommunicationExpirationReason",
+    "title": "telecommunicationExpirationReason",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the reason this contact number/email was marked as \"ended\".  Used in HL7 Version 2.x messaging in the XTN segment.",
+    "purpose": "Underlying Master Code System for V2 table 0868 (Telecommunication Expiration Reason)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0868",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6497",
+            "code": "M",
+            "display": "Moved",
+            "definition": "Moved",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The individual associated with the telecommunication address has moved and is no longer reachable at the address."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The individual associated with the telecommunication address has moved and is no longer reachable at the address."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6498",
+            "code": "E",
+            "display": "Added in error",
+            "definition": "Added in error",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The telecommunication address was incorrect and should never have been associated with the individual."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The telecommunication address was incorrect and should never have been associated with the individual."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6499",
+            "code": "R",
+            "display": "On request",
+            "definition": "On request",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The associated individual requested that the telecommunication address be removed from their record (though it may still be correct)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The associated individual requested that the telecommunication address be removed from their record (though it may still be correct)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6500",
+            "code": "C",
+            "display": "Corrected",
+            "definition": "Corrected",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The telecommunication address has been replaced with a corrected version."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The telecommunication address has been replaced with a corrected version."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6501",
+            "code": "N",
+            "display": "No longer in service",
+            "definition": "No longer in service",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The telecommunication address is no longer connected or available"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The telecommunication address is no longer connected or available"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

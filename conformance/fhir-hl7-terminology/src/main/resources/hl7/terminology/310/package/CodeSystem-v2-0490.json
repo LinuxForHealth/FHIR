@@ -1,0 +1,231 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0490",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0490",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.314"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SpecimenRejectReason",
+    "title": "specimenRejectReason",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of reasons a specimen may be rejected for a specified observation/result/analysis.  Used in HL7 Version 2.x messaging in the SPM segment.",
+    "purpose": "Underlying Master Code System for V2 table 0490 (Specimen Reject Reason)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0490",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5303",
+            "code": "EX",
+            "display": "Expired",
+            "definition": "Expired",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5304",
+            "code": "QS",
+            "display": "Quantity not sufficient",
+            "definition": "Quantity not sufficient",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5305",
+            "code": "RB",
+            "display": "Broken container",
+            "definition": "Broken container",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5306",
+            "code": "RC",
+            "display": "Clotting",
+            "definition": "Clotting",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5307",
+            "code": "RD",
+            "display": "Missing collection date",
+            "definition": "Missing collection date",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5308",
+            "code": "RA",
+            "display": "Missing patient ID number",
+            "definition": "Missing patient ID number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5309",
+            "code": "RE",
+            "display": "Missing patient name",
+            "definition": "Missing patient name",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5310",
+            "code": "RH",
+            "display": "Hemolysis",
+            "definition": "Hemolysis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5311",
+            "code": "RI",
+            "display": "Identification problem",
+            "definition": "Identification problem",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5312",
+            "code": "RM",
+            "display": "Labeling",
+            "definition": "Labeling",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5313",
+            "code": "RN",
+            "display": "Contamination",
+            "definition": "Contamination",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5314",
+            "code": "RP",
+            "display": "Missing phlebotomist ID",
+            "definition": "Missing phlebotomist ID",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5315",
+            "code": "RR",
+            "display": "Improper storage",
+            "definition": "Improper storage",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5316",
+            "code": "RS",
+            "display": "Name misspelling",
+            "definition": "Name misspelling",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

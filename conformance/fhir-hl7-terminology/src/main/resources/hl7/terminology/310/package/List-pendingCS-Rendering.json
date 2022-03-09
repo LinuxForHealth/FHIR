@@ -1,0 +1,41 @@
+{
+    "resourceType": "List",
+    "id": "pendingCS-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Pending Code Systems Rendering Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/conceptdomains",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/hl7TermMaintInfra",
+                "type": "CodeSystem"
+            }
+        }
+    ]
+}

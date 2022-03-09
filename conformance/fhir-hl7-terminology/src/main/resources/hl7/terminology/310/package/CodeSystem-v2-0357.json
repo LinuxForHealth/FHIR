@@ -1,0 +1,517 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0357",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0357",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.217"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "MessageErrorCondition",
+    "title": "messageErrorCondition",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the HL7 (communications) error code.  Used in the ERR segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0357 (Message Error Condition Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0357",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3570",
+            "code": "0",
+            "display": "Message accepted",
+            "definition": "Message accepted",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nachricht akzeptiert"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Success. Optional, as the AA conveys success. Used for systems that must always return a status code."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Success. Optional, as the AA conveys success. Used for systems that must always return a status code."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3571",
+            "code": "100",
+            "display": "Segment sequence error",
+            "definition": "Segment sequence error",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Fehler in der Segmentreihenfolge"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: The message segments were not in the proper order, or required segments are missing."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Error: The message segments were not in the proper order, or required segments are missing."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3572",
+            "code": "101",
+            "display": "Required field missing",
+            "definition": "Required field missing",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "erforderliches Feld leer"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: A required field is missing from a segment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Error: A required field is missing from a segment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3573",
+            "code": "102",
+            "display": "Data type error",
+            "definition": "Data type error",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Datentypfehler"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: The field contained data of the wrong data type, e.g., an NM field contained \"FOO\"."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Error: The field contained data of the wrong data type, e.g., an NM field contained \"FOO\"."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3574",
+            "code": "103",
+            "display": "Table value not found",
+            "definition": "Table value not found",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "fehlender Eintrag in der Tabelle"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: A field of data type ID or IS was compared against the corresponding table, and no match was found."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Error: A field of data type ID or IS was compared against the corresponding table, and no match was found."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3575",
+            "code": "104",
+            "display": "Value too long",
+            "definition": "Value too long",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: a value exceeded the normative length, or the length that the application is able to safely handle."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Error: a value exceeded the normative length, or the length that the application is able to safely handle."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3576",
+            "code": "198",
+            "display": "Non-Conformant Cardinality",
+            "definition": "An error has been encountered related to HL7 message content. Message is not -conformant with the applicable specification’s (base standard, conformance profile or implementation profile)  cardinality.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error: Cardinality is listed as [0..3] and more than 3 of the identified element are present in the message."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "3577",
+            "code": "199",
+            "display": "Other HL7 Error",
+            "definition": "Any other error with the HL7 syntax that is not captured in any of the other error codes in this set.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Error"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "3578",
+            "code": "200",
+            "display": "Unsupported message type",
+            "definition": "Unsupported message type",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nachrichtentyp wird nicht unterstützt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Rejection: The Message Type is not supported."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The Message Type is not supported."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3579",
+            "code": "201",
+            "display": "Unsupported event code",
+            "definition": "Unsupported event code",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Ereignis wird nicht unterstützt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Rejection: The Event Code is not supported."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The Event Code is not supported."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3580",
+            "code": "202",
+            "display": "Unsupported processing id",
+            "definition": "Unsupported processing id",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Processing-ID wird nicht unterstützt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Rejection: The Processing ID is not supported."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The Processing ID is not supported."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3581",
+            "code": "203",
+            "display": "Unsupported version id",
+            "definition": "Unsupported version id",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Version wird nicht unterstützt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Rejection:  The Version ID is not supported."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection:  The Version ID is not supported."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3582",
+            "code": "204",
+            "display": "Unknown key identifier",
+            "definition": "Retained for backwards compatibility only: This situation should be reported in ERR-5 (Application Error Code) using code 101 (Unknown Key Identifier) from code system HL70533.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Schlüsselwert nicht gefunden"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ERR-3 (HL7 Error Code) should be used to convey errors at the structural level and this is an application level error, which should be reported in ERR-5 (Application Error Code)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The ID of the patient, order, etc., was not found. Used for transactions other than additions, e.g., transfer of a non-existent patient."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "B"
+                }
+            ]
+        },
+        {
+            "id": "3583",
+            "code": "205",
+            "display": "Duplicate key identifier",
+            "definition": "Retained for backwards compatibility only: This situation should be reported in ERR-5 (Application Error Code) using code 102 (Duplicate Key Identifier) from code system HL70533.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "doppelter Schlüsselwert"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ERR-3 (HL7 Error Code) should be used to convey errors at the structural level and this is an application level error, which should be reported in ERR-5 (Application Error Code)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The ID of the patient, order, etc., already exists. Used in response to addition transactions (Admit, New Order, etc.)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "B"
+                }
+            ]
+        },
+        {
+            "id": "3584",
+            "code": "206",
+            "display": "Application record locked",
+            "definition": "Retained for backwards compatibility only: This situation should be reported in ERR-5 (Application Error Code) using code 103 (Application record locked) from code system HL70533.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Datensatz durch Applikation gesperrt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ERR-3 (HL7 Error Code) should be used to convey errors at the structural level and this is an application level error, which should be reported in ERR-5 (Application Error Code)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: The transaction could not be performed at the application storage level, e.g., database locked."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "B"
+                }
+            ]
+        },
+        {
+            "id": "3585",
+            "code": "207",
+            "display": "Application error",
+            "definition": "An application level error has occurred and the detail for that error is identified in ERR-5.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "applikationsinterner Fehler"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This value is used when no other value in this list is applicable and there is an application error reported in ERR-5. It is applicable when ERR-3 is required in an implementation guide."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Rejection: A catchall for internal errors not explicitly covered by other codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

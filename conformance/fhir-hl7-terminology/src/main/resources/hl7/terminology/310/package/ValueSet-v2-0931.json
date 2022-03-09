@@ -1,0 +1,51 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0931",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0931",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.454"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSTemperatureUnits",
+    "title": "hl7VS-temperatureUnits",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes specifying  the units of transport temperature.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://unitsofmeasure.org",
+                "concept": [
+                    {
+                        "code": "[degF]",
+                        "display": "Degrees Fahrenheit (note that V2 has erroneously published this for many years without the square brackets)"
+                    },
+                    {
+                        "code": "Cel",
+                        "display": "Degrees Celsius"
+                    }
+                ]
+            }
+        ]
+    }
+}

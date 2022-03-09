@@ -1,0 +1,41 @@
+{
+    "resourceType": "List",
+    "id": "retired-extwcontent-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Retired Code System Fragments Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/v3-HealthcareProviderTaxonomyHIPAA",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0005",
+                "type": "CodeSystem"
+            }
+        }
+    ]
+}

@@ -1,0 +1,171 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0370",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0370",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.228"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "ContainerStatus",
+    "title": "containerStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined  code system of concepts that identify the status of the unique container in which the specimen resides at the time the transaction was initiated.  Used in the Interaction Specimen Container Detail (SAC) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0370 (Container Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0370",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3726",
+            "code": "A",
+            "display": "Archived",
+            "definition": "Archived status is used by one system to inform another that the container was already processed by this system, archived for a longer time period and is re-introduced to the automation system for re-processing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3727",
+            "code": "I",
+            "display": "Identified",
+            "definition": "Identified status is used by one system to inform another that it has received a container. In the exchange between the LAS and LIS the Identified status can be used for reporting of the \"In Lab\" (Specimen Received) status. In some cases this may not be equal to the first event of sample recognition.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3728",
+            "code": "L",
+            "display": "Left Equipment",
+            "definition": "Left Equipment status is used by one system to inform another that the container has been released from that system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3729",
+            "code": "M",
+            "display": "Missing",
+            "definition": "Missing status is used by one system to inform another that the container did not arrive at its next expected location.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3730",
+            "code": "O",
+            "display": "In Process",
+            "definition": "In Process status is used by one system to inform another that the specific container is being processed by the equipment. It is useful as a response to a query about Container Status, when the specific step of the process is not relevant.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3731",
+            "code": "P",
+            "display": "In Position",
+            "definition": "In Position status is used by one system to inform another that the container is in position for specimen transfer (e.g., container removal from track, pipetting, etc.).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3732",
+            "code": "R",
+            "display": "Process Completed",
+            "definition": "Process Completed status is used by one system to inform another that the processing has been completed, but the container has not been released from that system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3733",
+            "code": "U",
+            "display": "Unknown",
+            "definition": "Unknown status is used by one system to inform another that the container has not been identified.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3734",
+            "code": "X",
+            "display": "Container Unavailable",
+            "definition": "Cancelled status is used by one system to inform another that the container is no longer available within the scope of the system (e.g., tube broken or discarded).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

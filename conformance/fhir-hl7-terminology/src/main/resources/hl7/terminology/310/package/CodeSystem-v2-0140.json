@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0140",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0140",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.62"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "MilitaryService",
+    "title": "militaryService",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts which specify the military branch.  This field is defined by CMS or other regulatory agencies.  Used in HL7 Version 2.x messaging in the PD1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0140 (Military Service)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0140",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1590",
+            "code": "USA",
+            "display": "US Army",
+            "definition": "US Army",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1591",
+            "code": "USN",
+            "display": "US Navy",
+            "definition": "US Navy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1592",
+            "code": "USAF",
+            "display": "US Air Force",
+            "definition": "US Air Force",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1593",
+            "code": "USMC",
+            "display": "US Marine Corps",
+            "definition": "US Marine Corps",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1594",
+            "code": "USCG",
+            "display": "US Coast Guard",
+            "definition": "US Coast Guard",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1595",
+            "code": "USPHS",
+            "display": "US Public Health Service",
+            "definition": "US Public Health Service",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1596",
+            "code": "NOAA",
+            "display": "National Oceanic and Atmospheric Administration",
+            "definition": "National Oceanic and Atmospheric Administration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1597",
+            "code": "NATO",
+            "display": "North Atlantic Treaty Organization",
+            "definition": "North Atlantic Treaty Organization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1598",
+            "code": "AUSA",
+            "display": "Australian Army",
+            "definition": "Australian Army",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1599",
+            "code": "AUSN",
+            "display": "Australian Navy",
+            "definition": "Australian Navy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1600",
+            "code": "AUSAF",
+            "display": "Australian Air Force",
+            "definition": "Australian Air Force",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

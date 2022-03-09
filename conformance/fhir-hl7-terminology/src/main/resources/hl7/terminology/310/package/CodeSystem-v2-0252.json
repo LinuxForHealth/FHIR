@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0252",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0252",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.147"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CausalityObservations",
+    "title": "causalityObservations",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to record event observations regarding what may have caused a product related event.  Used in HL7 Version 2.x messaging in the PCR segment.",
+    "purpose": "Underlying Master Code System for V2 table 0252 (Causality Observations)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0252",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2368",
+            "code": "AW",
+            "display": "Abatement of event after product withdrawn",
+            "definition": "Abatement of event after product withdrawn",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2369",
+            "code": "BE",
+            "display": "Event recurred after product reintroduced",
+            "definition": "Event recurred after product reintroduced",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2370",
+            "code": "LI",
+            "display": "Literature reports association of product with event",
+            "definition": "Literature reports association of product with event",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2371",
+            "code": "IN",
+            "display": "Event occurred after product introduced",
+            "definition": "Event occurred after product introduced",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2372",
+            "code": "EX",
+            "display": "Alternative explanations for the event available",
+            "definition": "Alternative explanations for the event available",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2373",
+            "code": "PL",
+            "display": "Effect observed when patient receives placebo",
+            "definition": "Effect observed when patient receives placebo",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2374",
+            "code": "TC",
+            "display": "Toxic levels of product documented in blood or body fluids",
+            "definition": "Toxic levels of product documented in blood or body fluids",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2375",
+            "code": "DR",
+            "display": "Dose response observed",
+            "definition": "Dose response observed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2376",
+            "code": "SE",
+            "display": "Similar events in past for this patient",
+            "definition": "Similar events in past for this patient",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2377",
+            "code": "OE",
+            "display": "Occurrence of event was confirmed by objective evidence",
+            "definition": "Occurrence of event was confirmed by objective evidence",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2378",
+            "code": "OT",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

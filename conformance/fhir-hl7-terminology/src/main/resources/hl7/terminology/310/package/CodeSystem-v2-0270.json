@@ -1,0 +1,231 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0270",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sd"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0270",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.163"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "DocumentType",
+    "title": "documentType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to identify the kind of patient document.  Used in HL7 Version 2.x messaging in the TXA segment.",
+    "purpose": "Underlying Master Code System for V2 table 0270 (Document Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0270",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2631",
+            "code": "AR",
+            "display": "Autopsy report",
+            "definition": "Autopsy report",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2632",
+            "code": "CD",
+            "display": "Cardiodiagnostics",
+            "definition": "Cardiodiagnostics",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2633",
+            "code": "CN",
+            "display": "Consultation",
+            "definition": "Consultation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2634",
+            "code": "DI",
+            "display": "Diagnostic imaging",
+            "definition": "Diagnostic imaging",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2635",
+            "code": "DS",
+            "display": "Discharge summary",
+            "definition": "Discharge summary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2636",
+            "code": "ED",
+            "display": "Emergency department report",
+            "definition": "Emergency department report",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2637",
+            "code": "HP",
+            "display": "History and physical examination",
+            "definition": "History and physical examination",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2638",
+            "code": "OP",
+            "display": "Operative report",
+            "definition": "Operative report",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2639",
+            "code": "PC",
+            "display": "Psychiatric consultation",
+            "definition": "Psychiatric consultation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2640",
+            "code": "PH",
+            "display": "Psychiatric history and physical examination",
+            "definition": "Psychiatric history and physical examination",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2641",
+            "code": "PN",
+            "display": "Procedure note",
+            "definition": "Procedure note",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2642",
+            "code": "PR",
+            "display": "Progress note",
+            "definition": "Progress note",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2643",
+            "code": "SP",
+            "display": "Surgical pathology",
+            "definition": "Surgical pathology",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2644",
+            "code": "TS",
+            "display": "Transfer summary",
+            "definition": "Transfer summary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

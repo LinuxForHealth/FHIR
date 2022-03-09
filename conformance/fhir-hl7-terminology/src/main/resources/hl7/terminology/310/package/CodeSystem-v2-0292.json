@@ -1,0 +1,47 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0292",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://hl7.org/fhir/sid/cvx",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.12.292"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "PHVaccinesAdministeredCVXCDCNIP",
+    "title": "PH_VaccinesAdministeredCVX_CDC_NIP",
+    "status": "retired",
+    "experimental": false,
+    "date": "2020-10-04",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Table of codes specifying the administered vaccines.   The values are maintained by the US Centers of Disease Control.  The code system is maintained by the CDC, and may be found at URL;  https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.12.292 \r\nThe value set is maintained by the CDC and may be found at URL: https://phinvads.cdc.gov/vads/ViewValueSet.action?id=ABDEE003-77C3-48E7-B941-EBF92B6B81FC \r\nPlease reference http://build.fhir.org/ig/HL7/UTG/CodeSystem-CVX for the current CVX code system.",
+    "purpose": "Underlying Master Code System for V2 table 0292 (Vaccines Administered)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0292",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "not-present"
+}

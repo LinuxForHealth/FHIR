@@ -1,0 +1,193 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-AcknowledgementDetailType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-AcknowledgementDetailType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1082"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "AcknowledgementDetailType",
+    "title": "AcknowledgementDetailType",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "HL7 International",
+    "contact": [
+        {
+            "name": "HL7 Modeling & Methodology Work Group"
+        }
+    ],
+    "description": "A code identifying the specific message to be provided.\r\n\r\n*Discussion:* A textual value may be specified as the print name, or for non-coded messages, as the original text.\r\n\r\n*Examples:* 'Required attribute xxx is missing', 'System will be unavailable March 19 from 0100 to 0300'",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired..",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "E",
+            "display": "Error",
+            "definition": "**Definition:**An issue which has prevented, or will prevent (unless a management is provided for the issue by the sender), the successful processing of an interaction. Response interactions which include an issue which is an Error are a 'rejection', indicating that the request was not successfully processed.\r\n\r\n**Example:**Unable to find specified patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19786"
+                }
+            ]
+        },
+        {
+            "code": "I",
+            "display": "Information",
+            "definition": "**Definition:** The message relates to an issue which has no bearing on the successful processing of the request. Information issues cannot be overridden by specifying a management.\r\n\r\n**Example:** A Patient's coverage will expire in 5 days.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19788"
+                }
+            ]
+        },
+        {
+            "code": "W",
+            "display": "Warning",
+            "definition": "**Definition:** The message relates to an issue which cannot prevent the successful processing of a request, but which could result in the processing not having the ideal or intended effect. Managing a warning issue is not required for successful processing, but will suppress the warning from being raised.\r\n\r\n**Example:**\r\n\r\nUnexpected additional repetitions of phone number have been ignored.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19787"
+                }
+            ]
+        },
+        {
+            "code": "ERR",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20071"
+                }
+            ]
+        },
+        {
+            "code": "INFO",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20073"
+                }
+            ]
+        },
+        {
+            "code": "WARN",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20072"
+                }
+            ]
+        }
+    ]
+}

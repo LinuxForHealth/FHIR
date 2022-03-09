@@ -1,0 +1,345 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0191",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0191",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.102"
+        }
+    ],
+    "version": "2.4.0",
+    "name": "TypeOfReferencedData",
+    "title": "typeOfReferencedData",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts declaring the general type of media data that is encoded.  Used in v2.5.1 interfaces and earlier, and replaced with the full set of IANA media types as a standard coding system for this after HL7 version 2.6 (see value set 2.16.840.1.113883.21.425 hl7VS-mimeTypes for HL7 table 0834 built on MIME types).  More information may be found at http://www.iana.org/assignments/media-types/media-types.xhtml",
+    "purpose": "Underlying Master Code System for V2 table 0191 (Type of Referenced Data)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0191",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1908",
+            "code": "AP",
+            "display": "Other application data, typically uninterpreted binary data (HL7 V2.3 and later)",
+            "definition": "Other application data, typically uninterpreted binary data (HL7 V2.3 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "sonstige (binären) Daten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1909",
+            "code": "AU",
+            "display": "Audio data (HL7 V2.3 and later)",
+            "definition": "Audio data (HL7 V2.3 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Audio-Daten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1910",
+            "code": "FT",
+            "display": "Formatted text (HL7 V2.2 only)",
+            "definition": "Formatted text (HL7 V2.2 only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Formatierter Text"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1911",
+            "code": "IM",
+            "display": "Image data (HL7 V2.3 and later)",
+            "definition": "Image data (HL7 V2.3 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Bilddaten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1912",
+            "code": "multipart",
+            "display": "MIME multipart package",
+            "definition": "MIME multipart package",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1913",
+            "code": "NS",
+            "display": "Non-scanned image (HL7 V2.2 only)",
+            "definition": "Non-scanned image (HL7 V2.2 only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nicht über Scanner erzeugtes Bild"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1914",
+            "code": "SD",
+            "display": "Scanned document (HL7 V2.2 only)",
+            "definition": "Scanned document (HL7 V2.2 only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Über Scanner eingelesenes Dokument"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1915",
+            "code": "SI",
+            "display": "Scanned image (HL7 V2.2 only)",
+            "definition": "Scanned image (HL7 V2.2 only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Über Scanner eingelesenes Bild"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1916",
+            "code": "Image",
+            "display": "Image data  (HL7 V2.3 and later)",
+            "definition": "Image data  (HL7 V2.3 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Bilddaten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "1917",
+            "code": "TEXT",
+            "display": "Machine readable text document (HL7 V2.3.1 and later)",
+            "definition": "Machine readable text document (HL7 V2.3.1 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "maschinenlesbares Dokument"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1918",
+            "code": "Audio",
+            "display": "Audio data  (HL7 V2.3 and later)",
+            "definition": "Audio data  (HL7 V2.3 and later)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Audio-Daten"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "1919",
+            "code": "TX",
+            "display": "Machine readable text document (HL7 V2.2 only)",
+            "definition": "Machine readable text document (HL7 V2.2 only)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Maschinenlesbarer Text"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1920",
+            "code": "Application",
+            "display": "Other application data, typically uninterpreted binary data  (HL7 V2.3 and later)",
+            "definition": "Other application data, typically uninterpreted binary data  (HL7 V2.3 and later)",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        }
+    ]
+}

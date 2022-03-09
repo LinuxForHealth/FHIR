@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-fda-FCE",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-fda-FCE",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.3.24.6.2"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "FdaFCE",
+    "title": "Food and Drug Administration Food Canning Establishments",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "FDA Data Standards Council"
+        }
+    ],
+    "description": "Entered erroneously - do not use. The correct OID for this identifier system is 2.16.840.1.113883.4.345.",
+    "content": "not-present"
+}

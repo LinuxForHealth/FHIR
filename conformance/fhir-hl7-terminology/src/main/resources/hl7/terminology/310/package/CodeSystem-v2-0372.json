@@ -1,0 +1,159 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0372",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0372",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.230"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SpecimenComponent",
+    "title": "specimenComponent",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts that identify the specimen component, e.g., supernatant, sediment, etc.  Used in the Interaction Specimen Container Detail (SAC) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0372 (Specimen Component)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0372",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3792",
+            "code": "SUP",
+            "display": "Supernatant",
+            "definition": "Supernatant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3793",
+            "code": "SED",
+            "display": "Sediment",
+            "definition": "Sediment",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3794",
+            "code": "BLD",
+            "display": "Whole blood, homogeneous",
+            "definition": "Whole blood, homogeneous",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3795",
+            "code": "BSEP",
+            "display": "Whole blood, separated",
+            "definition": "Whole blood, separated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3796",
+            "code": "PRP",
+            "display": "Platelet rich plasma",
+            "definition": "Platelet rich plasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3797",
+            "code": "PPP",
+            "display": "Platelet poor plasma",
+            "definition": "Platelet poor plasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3798",
+            "code": "SER",
+            "display": "Serum, NOS (not otherwise specified)",
+            "definition": "Serum, NOS (not otherwise specified)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3799",
+            "code": "PLAS",
+            "display": "Plasma, NOS (not otherwise specified)",
+            "definition": "Plasma, NOS (not otherwise specified)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-iso3166-2",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "urn:iso:std:iso:3166:-2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.0.3166.2"
+        }
+    ],
+    "version": "2013-11",
+    "name": "Iso3166_2",
+    "title": "ISO 3166 Part 2 Country Subdivision Codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "ISO 3166 Maintenance Agency (ISO)",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO), International Standards Organization (ISO)"
+        }
+    ],
+    "description": "Identifies the coding system published in the ISO 3166-2 Standard for Country Subdivision codes. This standard is released periodically, and a new OID will be assigned by ISO for new editions.",
+    "content": "not-present"
+}

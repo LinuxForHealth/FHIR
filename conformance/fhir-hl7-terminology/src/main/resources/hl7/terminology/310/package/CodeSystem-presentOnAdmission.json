@@ -1,0 +1,84 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "presentOnAdmission",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/HospitalAcqCond/Coding",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.301.11"
+        }
+    ],
+    "version": "07/14/2020",
+    "name": "PresentOnAdmission",
+    "title": "CMS Present on Admission (POA) Indicator",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-06-24T00:00:00.000-07:00",
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "contact": [
+        {
+            "name": "Centers for Medicare & Medicaid Services; 7500 Security Boulevard, Baltimore, MD 21244,  USA"
+        },
+        {
+            "name": "Marilu Hue",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "marilu.hue@cms.hhs.gov"
+                }
+            ]
+        },
+        {
+            "name": "James Poyer",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "james.poyer@cms.hhs.gov"
+                }
+            ]
+        }
+    ],
+    "description": "This code system consists of Present on Admission (POA) indicators which are assigned to the principal and secondary diagnoses (as defined in Section II of the Official Guidelines for Coding and Reporting) and the external cause of injury codes to indicate the presence or absence of the diagnosis at the time of inpatient admission.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "The POA Indicator Codes are in the public domain and are free to use without restriction.",
+    "caseSensitive": false,
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "count": 5,
+    "concept": [
+        {
+            "code": "Y",
+            "definition": "Diagnosis was present at time of inpatient admission. CMS will pay the CC/MCC DRG for those selected HACs that are coded as \"Y\" for the POA Indicator."
+        },
+        {
+            "code": "N",
+            "definition": "Diagnosis was not present at time of inpatient admission. CMS will not pay the CC/MCC DRG for those selected HACs that are coded as \"N\" for the POA Indicator."
+        },
+        {
+            "code": "U",
+            "definition": "Documentation insufficient to determine if the condition was present at the time of inpatient admission. CMS will not pay the CC/MCC DRG for those selected HACs that are coded as \"U\" for the POA Indicator."
+        },
+        {
+            "code": "W",
+            "definition": "Clinically undetermined.  Provider unable to clinically determine whether the condition was present at the time of inpatient admission. CMS will pay the CC/MCC DRG for those selected HACs that are coded as \"W\" for the POA Indicator."
+        },
+        {
+            "code": "1",
+            "definition": "Unreported/Not used.  Exempt from POA reporting.  This code is equivalent to a blank on the UB-04, however; it was determined that blanks are undesirable when submitting this data via the 4010A. CMS will not pay the CC/MCC DRG for those selected HACs that are coded as \"1\" for the POA Indicator. The “1” POA Indicator should not be applied to any codes on the HAC list.  For a complete list of codes on the POA exempt list, see  the Official Coding Guidelines for ICD-10-CM."
+        }
+    ]
+}

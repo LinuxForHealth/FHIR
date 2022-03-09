@@ -1,0 +1,722 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-Ethnicity",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-Ethnicity",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.50"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Ethnicity",
+    "title": "Ethnicity",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "In the United States, federal standards for classifying data on ethnicity determine the categories used by federal agencies and exert a strong influence on categorization by state and local agencies and private sector organizations. The federal standards do not conceptually define ethnicity, and they recognize the absence of an anthropological or scientific basis for ethnicity classification. Instead, the federal standards acknowledge that ethnicity is a social-political construct in which an individual's own identification with a particular ethnicity is preferred to observer identification. The standards specify two minimum ethnicity categories: Hispanic or Latino, and Not Hispanic or Latino. The standards define a Hispanic or Latino as a person of \"Mexican, Puerto Rican, Cuban, South or Central America, or other Spanish culture or origin, regardless of race.\" The standards stipulate that ethnicity data need not be limited to the two minimum categories, but any expansion must be collapsible to those categories. In addition, the standards stipulate that an individual can be Hispanic or Latino or can be Not Hispanic or Latino, but cannot be both.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "2135-2",
+            "display": "Hispanic or Latino",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15837"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "2137-8",
+                    "display": "Spaniard",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15838"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "2138-6",
+                            "display": "Andalusian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15839"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2139-4",
+                            "display": "Asturian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15840"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2140-2",
+                            "display": "Castillian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15841"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2141-0",
+                            "display": "Catalonian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15842"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2142-8",
+                            "display": "Belearic Islander",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15843"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2143-6",
+                            "display": "Gallego",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15844"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2144-4",
+                            "display": "Valencian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15845"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2145-1",
+                            "display": "Canarian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15846"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2146-9",
+                            "display": "Spanish Basque",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15847"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "2148-5",
+                    "display": "Mexican",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15848"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "2149-3",
+                            "display": "Mexican American",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15849"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2150-1",
+                            "display": "Mexicano",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15850"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2151-9",
+                            "display": "Chicano",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15851"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2152-7",
+                            "display": "La Raza",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15852"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2153-5",
+                            "display": "Mexican American Indian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15853"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "2155-0",
+                    "display": "Central American",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15854"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "2156-8",
+                            "display": "Costa Rican",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15855"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2157-6",
+                            "display": "Guatemalan",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15856"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2158-4",
+                            "display": "Honduran",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15857"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2159-2",
+                            "display": "Nicaraguan",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15858"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2160-0",
+                            "display": "Panamanian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15859"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2161-8",
+                            "display": "Salvadoran",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15860"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2162-6",
+                            "display": "Central American Indian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15861"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2163-4",
+                            "display": "Canal Zone",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15862"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "2165-9",
+                    "display": "South American",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15863"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "2166-7",
+                            "display": "Argentinean",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15864"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2167-5",
+                            "display": "Bolivian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15865"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2168-3",
+                            "display": "Chilean",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15866"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2169-1",
+                            "display": "Colombian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15867"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2170-9",
+                            "display": "Ecuadorian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15868"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2171-7",
+                            "display": "Paraguayan",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15869"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2172-5",
+                            "display": "Peruvian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15870"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2173-3",
+                            "display": "Uruguayan",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15871"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2174-1",
+                            "display": "Venezuelan",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15872"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2175-8",
+                            "display": "South American Indian",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15873"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "2176-6",
+                            "display": "Criollo",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "15874"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "2178-2",
+                    "display": "Latin American",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15875"
+                        }
+                    ]
+                },
+                {
+                    "code": "2180-8",
+                    "display": "Puerto Rican",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15876"
+                        }
+                    ]
+                },
+                {
+                    "code": "2182-4",
+                    "display": "Cuban",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15877"
+                        }
+                    ]
+                },
+                {
+                    "code": "2184-0",
+                    "display": "Dominican",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "15878"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino",
+            "definition": "Note that this term remains in the table for completeness, even though within HL7, the notion of \"not otherwise coded\" term is deprecated.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15879"
+                }
+            ]
+        }
+    ]
+}

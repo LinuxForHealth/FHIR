@@ -1,0 +1,171 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0240",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0240",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.139"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "EventConsequence",
+    "title": "eventConsequence",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to describe the impact of an event on a patient.  Used in HL7 Version 2.x messaging in the PEO segment.",
+    "purpose": "Underlying Master Code System for V2 table 0240 (Event Consequence)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0240",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2315",
+            "code": "D",
+            "display": "Death",
+            "definition": "Death",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2316",
+            "code": "L",
+            "display": "Life threatening",
+            "definition": "Life threatening",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2317",
+            "code": "H",
+            "display": "Caused hospitalized",
+            "definition": "Caused hospitalized",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2318",
+            "code": "P",
+            "display": "Prolonged hospitalization",
+            "definition": "Prolonged hospitalization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2319",
+            "code": "C",
+            "display": "Congenital anomaly/birth defect",
+            "definition": "Congenital anomaly/birth defect",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2320",
+            "code": "I",
+            "display": "Incapacity which is significant, persistent or permanent",
+            "definition": "Incapacity which is significant, persistent or permanent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2321",
+            "code": "J",
+            "display": "Disability which is significant, persistent or permanent",
+            "definition": "Disability which is significant, persistent or permanent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2322",
+            "code": "R",
+            "display": "Required intervention to prevent permanent impairment/damage",
+            "definition": "Required intervention to prevent permanent impairment/damage",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2323",
+            "code": "O",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

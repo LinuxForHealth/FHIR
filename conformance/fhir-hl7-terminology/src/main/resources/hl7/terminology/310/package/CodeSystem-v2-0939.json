@@ -1,0 +1,449 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0939",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0939",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.442"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CommunicationLocation",
+    "title": "communicationLocation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the communication location.  Used in HL7 Version 2.x messaging in the OMC segment.",
+    "purpose": "Underlying Master Code System for V2 table 0939 (Communication Location)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0939",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6724",
+            "code": "OBR-OBX",
+            "display": "OBX segment following an OBR segment",
+            "definition": "OBX segment following an OBR segment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For responses related to the test order"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For responses related to the test order"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6725",
+            "code": "SPM-OBX",
+            "display": "OBX segment following an SPM segment",
+            "definition": "OBX segment following an SPM segment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For responses related to the specimen"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For responses related to the specimen"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6726",
+            "code": "DG1-3",
+            "display": "Diagnosis Code",
+            "definition": "Diagnosis Code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6727",
+            "code": "NK1-11",
+            "display": "Next of Kin / Associated Parties Job Code/Class",
+            "definition": "Next of Kin / Associated Parties Job Code/Class",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used to convey patient's or next of kin's employment job class code"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Used to convey patient's or next of kin's employment job class code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6728",
+            "code": "NK1-13",
+            "display": "Organization Name - NK1",
+            "definition": "Organization Name - NK1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Next of kin's organization name"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Next of kin's organization name"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6729",
+            "code": "NK1-28",
+            "display": "Ethnic Group",
+            "definition": "Ethnic Group",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Next of kin's ethnicity"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Next of kin's ethnicity"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6730",
+            "code": "NK1-35",
+            "display": "Race",
+            "definition": "Race",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Next of kin's race"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Next of kin's race"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6731",
+            "code": "OBR-16",
+            "display": "Ordering Provider",
+            "definition": "Ordering Provider",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6732",
+            "code": "OBR-13",
+            "display": "Relevant Clinical Information",
+            "definition": "Relevant Clinical Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The purpose varies based on the AOE referencing this field."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The purpose varies based on the AOE referencing this field."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6733",
+            "code": "OBR-49",
+            "display": "Result Handling",
+            "definition": "Result Handling",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This was used for call or fax results back"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This was used for call or fax results back"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6734",
+            "code": "PID-11",
+            "display": "Patient Address",
+            "definition": "Patient Address",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6735",
+            "code": "PID-3",
+            "display": "Patient Identifier List",
+            "definition": "Patient Identifier List",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6736",
+            "code": "PID-5",
+            "display": "Patient Name",
+            "definition": "Patient Name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6737",
+            "code": "PID-6",
+            "display": "Mother's Maiden Name",
+            "definition": "Mother's Maiden Name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6738",
+            "code": "PID-7",
+            "display": "Date/Time of Birth",
+            "definition": "Date/Time of Birth",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Applies to patient"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6739",
+            "code": "PID-13",
+            "display": "Phone Number - Home",
+            "definition": "Phone Number - Home",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "deprecated field as of v2.7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "deprecated field as of v2.7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6740",
+            "code": "PID-14",
+            "display": "Phone Number - Business",
+            "definition": "Phone Number - Business",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "deprecated field as of v2.7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "deprecated field as of v2.7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6741",
+            "code": "PID-40",
+            "display": "Phone Number",
+            "definition": "Phone Number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "New field in V2.7"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "New field in V2.7"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6742",
+            "code": "PRT-5",
+            "display": "Participation Person",
+            "definition": "Participation Person",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6743",
+            "code": "SPM-4",
+            "display": "Specimen Type",
+            "definition": "Specimen Type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6744",
+            "code": "SPM-8",
+            "display": "Specimen Source Site",
+            "definition": "Specimen Source Site",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

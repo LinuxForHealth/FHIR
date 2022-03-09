@@ -1,0 +1,415 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0376",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0376",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.234"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "SpecialHandling",
+    "title": "specialHandling",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts describing how a specimen and/or container needs to be handled from the time of collection through the initiation of testing.  Used in HL7 Version 2.x messaging in the SPM, SAC, PAC and OM4 segments.",
+    "purpose": "Underlying Master Code System for V2 table 0376 (Special Handling Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0376",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3811",
+            "code": "C37",
+            "display": "Body temperature",
+            "definition": "Body temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Critical to keep at body temperature: 36 - 38( C."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Critical to keep at body temperature: 36 - 38( C."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3812",
+            "code": "AMB",
+            "display": "Ambient temperature",
+            "definition": "Ambient temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep at ambient (room) temperature, approximately 22 ( 2 degrees C. Accidental refrigeration or freezing is of little consequence"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep at ambient (room) temperature, approximately 22 ( 2 degrees C. Accidental refrigeration or freezing is of little consequence"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3813",
+            "code": "CAMB",
+            "display": "Critical ambient temperature",
+            "definition": "Critical ambient temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Critical ambient - must not be refrigerated or frozen."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Critical ambient - must not be refrigerated or frozen."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3814",
+            "code": "REF",
+            "display": "Refrigerated temperature",
+            "definition": "Refrigerated temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep at refrigerated temperature: 4-8( C. Accidental warming or freezing is of little consequence"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep at refrigerated temperature: 4-8( C. Accidental warming or freezing is of little consequence"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3815",
+            "code": "CREF",
+            "display": "Critical refrigerated temperature",
+            "definition": "Critical refrigerated temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Critical refrigerated -  must not be allowed to freeze or warm until immediately prior to testing"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Critical refrigerated -  must not be allowed to freeze or warm until immediately prior to testing"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3816",
+            "code": "FRZ",
+            "display": "Frozen temperature",
+            "definition": "Frozen temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep at frozen temperature: -4( C. Accidental thawing is of little consequence"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep at frozen temperature: -4( C. Accidental thawing is of little consequence"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3817",
+            "code": "CFRZ",
+            "display": "Critical frozen temperature",
+            "definition": "Critical frozen temperature",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Critical frozen - must not be allowed to thaw until immediately prior to testing"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Critical frozen - must not be allowed to thaw until immediately prior to testing"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3818",
+            "code": "DFRZ",
+            "display": "Deep frozen",
+            "definition": "Deep frozen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Deep frozen: -16 to -20( C."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Deep frozen: -16 to -20( C."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3819",
+            "code": "UFRZ",
+            "display": "Ultra frozen",
+            "definition": "Ultra frozen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Ultra cold frozen: ~ -75 to -85( C. (ultra cold freezer is typically at temperature of dry ice)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Ultra cold frozen: ~ -75 to -85( C. (ultra cold freezer is typically at temperature of dry ice)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3820",
+            "code": "NTR",
+            "display": "Liquid nitrogen",
+            "definition": "Liquid nitrogen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep in liquid nitrogen."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep in liquid nitrogen."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3821",
+            "code": "PRTL",
+            "display": "Protect from light",
+            "definition": "Protect from light",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Protect from light (e.g., wrap in aluminum foil)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Protect from light (e.g., wrap in aluminum foil)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3822",
+            "code": "CATM",
+            "display": "Protect from air",
+            "definition": "Protect from air",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Critical. Do not expose to atmosphere. Do not uncap."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Critical. Do not expose to atmosphere. Do not uncap."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3823",
+            "code": "DRY",
+            "display": "Dry",
+            "definition": "Dry",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep in a dry environment."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep in a dry environment."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3824",
+            "code": "PSO",
+            "display": "No shock",
+            "definition": "No shock",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Protect from shock."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Protect from shock."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3825",
+            "code": "PSA",
+            "display": "Do not shake",
+            "definition": "Do not shake",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Do not shake."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Do not shake."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3826",
+            "code": "UPR",
+            "display": "Upright",
+            "definition": "Upright",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Keep upright. Do not turn upside down."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Keep upright. Do not turn upside down."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3827",
+            "code": "MTLF",
+            "display": "Metal Free",
+            "definition": "Metal Free",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Container is free of heavy metals including lead."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Container is free of heavy metals including lead."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

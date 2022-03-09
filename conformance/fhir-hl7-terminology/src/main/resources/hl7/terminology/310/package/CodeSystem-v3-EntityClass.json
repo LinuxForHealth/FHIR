@@ -1,0 +1,668 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-EntityClass",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.41"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "EntityClass",
+    "title": "EntityClass",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Classifies the Entity class and all of its subclasses. The terminology is hierarchical. At the top is this HL7-defined domain of high-level categories (such as represented by the Entity subclasses). Each of these terms must be harmonized and is specializable. The value sets beneath are drawn from multiple, frequently external, domains that reflect much more fine-grained typing.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "Name:Class",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#rim-Class",
+            "description": "The formal name for the class clone under this code",
+            "type": "code"
+        },
+        {
+            "code": "appliesTo",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-applies-to",
+            "description": "Haven't a clue!",
+            "type": "string"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ENT",
+            "display": "entity",
+            "definition": "Corresponds to the Entity class",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13922"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Entity"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "HCE",
+                    "display": "health chart entity",
+                    "definition": "A health chart included to serve as a document receiving entity in the management of medical records.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "16755"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "HealthChart"
+                        }
+                    ]
+                },
+                {
+                    "code": "LIV",
+                    "display": "living subject",
+                    "definition": "Anything that essentially has the property of life, independent of current state (a dead human corpse is still essentially a living subject).",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10884"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "LivingSubject"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "NLIV",
+                            "display": "non-person living subject",
+                            "definition": "A subtype of living subject that includes all living things except the species Homo Sapiens.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "11621"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "NonPersonLivingSubject"
+                                }
+                            ],
+                            "concept": [
+                                {
+                                    "code": "ANM",
+                                    "display": "animal",
+                                    "definition": "A living subject from the animal kingdom.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "10885"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Animal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "MIC",
+                                    "display": "microorganism",
+                                    "definition": "All single celled living organisms including protozoa, bacteria, yeast, viruses, etc.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "14028"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Microorganism"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "PLNT",
+                                    "display": "plant",
+                                    "definition": "A living subject from the order of plants.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "10886"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Plant"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PSN",
+                            "display": "person",
+                            "definition": "A living subject of the species homo sapiens.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10887"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "Person"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "MAT",
+                    "display": "material",
+                    "definition": "Any thing that has extension in space and mass, may be of living or non-living origin.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10883"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "Material"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "CHEM",
+                            "display": "chemical substance",
+                            "definition": "A substance that is fully defined by an organic or inorganic chemical formula, includes mixtures of other chemical substances. Refine using, e.g., IUPAC codes.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10888"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "ChemicalSubstance"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "FOOD",
+                            "display": "food",
+                            "definition": "Naturally occurring, processed or manufactured entities that are primarily used as food for humans and animals.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "14027"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "Food"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "MMAT",
+                            "display": "manufactured material",
+                            "definition": "Corresponds to the ManufacturedMaterial class",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "13934"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "ManufacturedMaterial"
+                                }
+                            ],
+                            "concept": [
+                                {
+                                    "code": "CONT",
+                                    "display": "container",
+                                    "definition": "A container of other entities.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "11622"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Container"
+                                        }
+                                    ],
+                                    "concept": [
+                                        {
+                                            "code": "HOLD",
+                                            "display": "holder",
+                                            "definition": "A type of container that can hold other containers or other holders.",
+                                            "property": [
+                                                {
+                                                    "code": "status",
+                                                    "valueCode": "active"
+                                                },
+                                                {
+                                                    "code": "internalId",
+                                                    "valueCode": "14029"
+                                                },
+                                                {
+                                                    "code": "Name:Class",
+                                                    "valueCode": "Holder"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "DEV",
+                                    "display": "device",
+                                    "definition": "A subtype of ManufacturedMaterial used in an activity, without being substantially changed through that activity. The kind of device is identified by the code attribute inherited from Entity.\r\n\r\n*Usage:* This includes durable (reusable) medical equipment as well as disposable equipment.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "11623"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Device"
+                                        }
+                                    ],
+                                    "concept": [
+                                        {
+                                            "code": "CER",
+                                            "display": "certificate representation",
+                                            "definition": "A physical artifact that stores information about the granting of authorization.",
+                                            "property": [
+                                                {
+                                                    "code": "status",
+                                                    "valueCode": "active"
+                                                },
+                                                {
+                                                    "code": "internalId",
+                                                    "valueCode": "16098"
+                                                },
+                                                {
+                                                    "code": "Name:Class",
+                                                    "valueCode": "CertificateRepresentation"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "code": "MODDV",
+                                            "display": "imaging modality",
+                                            "definition": "Class to contain unique attributes of diagnostic imaging equipment.",
+                                            "designation": [
+                                                {
+                                                    "language": "en",
+                                                    "use": {
+                                                        "system": "http://snomed.info/sct",
+                                                        "code": "900000000000013009"
+                                                    },
+                                                    "value": "ImagingModalityEntity"
+                                                }
+                                            ],
+                                            "property": [
+                                                {
+                                                    "code": "status",
+                                                    "valueCode": "active"
+                                                },
+                                                {
+                                                    "code": "internalId",
+                                                    "valueCode": "13939"
+                                                },
+                                                {
+                                                    "code": "Name:Class",
+                                                    "valueCode": "ModalityDevice"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "ORG",
+                    "display": "organization",
+                    "definition": "A social or legal structure formed by human beings.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10889"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "Organization"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "PUB",
+                            "display": "public institution",
+                            "definition": "An agency of the people of a state often assuming some authority over a certain matter. Includes government, governmental agencies, associations.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10891"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "PublicInstitution"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "STATE",
+                            "display": "state",
+                            "definition": "A politically organized body of people bonded by territory, culture, or ethnicity, having sovereignty (to a certain extent) granted by other states (enclosing or neighboring states). This includes countries (nations), provinces (e.g., one of the United States of America or a French departement), counties or municipalities. Refine using, e.g., ISO country codes, FIPS-PUB state codes, etc.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10890"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "State"
+                                }
+                            ],
+                            "concept": [
+                                {
+                                    "code": "NAT",
+                                    "display": "Nation",
+                                    "definition": "A politically organized body of people bonded by territory and known as a nation.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "20093"
+                                        },
+                                        {
+                                            "code": "Name:Class",
+                                            "valueCode": "Nation"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "PLC",
+                    "display": "place",
+                    "definition": "A physical place or site with its containing structure. May be natural or man-made. The geographic position of a place may or may not be constant.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10892"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "Place"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "CITY",
+                            "display": "city or town",
+                            "definition": "The territory of a city, town or other municipality.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "16835"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "City"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "COUNTRY",
+                            "display": "country",
+                            "definition": "The territory of a sovereign nation.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "16836"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "Country"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "COUNTY",
+                            "display": "county or parish",
+                            "definition": "The territory of a county, parish or other division of a state or province.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "16837"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "Parish"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PROVINCE",
+                            "display": "state or province",
+                            "definition": "The territory of a state, province, department or other division of a sovereign country.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "16838"
+                                },
+                                {
+                                    "code": "Name:Class",
+                                    "valueCode": "Province"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "RGRP",
+                    "display": "group",
+                    "definition": "A grouping of resources (personnel, material, or places) to be used for scheduling purposes. May be a pool of like-type resources, a team, or combination of personnel, material and places.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "11630"
+                        },
+                        {
+                            "code": "appliesTo",
+                            "valueString": "Determiner = determined"
+                        },
+                        {
+                            "code": "Name:Class",
+                            "valueCode": "Group"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

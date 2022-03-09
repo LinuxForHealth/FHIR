@@ -1,0 +1,303 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-MessageCondition",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-MessageCondition",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.80"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "MessageCondition",
+    "title": "MessageCondition",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "**Deprecation Comment:** Deprecated as per 11/2008 Harmonization cleanup; internal and obsolete HL7 usage, no longer used.This isn't referenced in the RIM and is a copy of old v2 codes. It's superseded by AcknowledgementDetailCode",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "0",
+            "display": "Message accepted",
+            "definition": "Success. Optional, as in version 2.x the AA conveys success. Used for systems that must always return a status code.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10131"
+                }
+            ]
+        },
+        {
+            "code": "100",
+            "display": "Sequence error",
+            "definition": "The message elements were not in the proper order, or required elements are missing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10132"
+                }
+            ]
+        },
+        {
+            "code": "101",
+            "display": "Missing required element.",
+            "definition": "A required message element is missing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10133"
+                }
+            ]
+        },
+        {
+            "code": "102",
+            "display": "Data type error",
+            "definition": "An element is represented by a data type that is not compatible with that which is allowable.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10134"
+                }
+            ]
+        },
+        {
+            "code": "103",
+            "display": "Table value not found",
+            "definition": "The value received for a common HL7 or user defined table was not found to match allowable table values.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10135"
+                }
+            ]
+        },
+        {
+            "code": "200",
+            "display": "Unsupported message type",
+            "definition": "The message type is not supported.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10136"
+                }
+            ]
+        },
+        {
+            "code": "201",
+            "display": "Unsupported interaction",
+            "definition": "The identified interaction is not supported.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10137"
+                }
+            ]
+        },
+        {
+            "code": "202",
+            "display": "Unsupported ProcessingID",
+            "definition": "The ProcessingID is not supported.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10138"
+                }
+            ]
+        },
+        {
+            "code": "203",
+            "display": "Unsupported VersionID",
+            "definition": "The VersionID is not supported.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10139"
+                }
+            ]
+        },
+        {
+            "code": "204",
+            "display": "Unknown key identifier",
+            "definition": "The identifier for a patient, order, etc. was not found. Occurs for transactions other than additions.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10140"
+                }
+            ]
+        },
+        {
+            "code": "205",
+            "display": "Duplicate key identifier",
+            "definition": "The identifier for a patient, order, etc. already exists. Occurs in response to addition transactions (e.g. new Admit, new Order, etc.).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10141"
+                }
+            ]
+        },
+        {
+            "code": "206",
+            "display": "Application record locked",
+            "definition": "The transaction could not be performed at the application storage level, e.g. database locked.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10142"
+                }
+            ]
+        },
+        {
+            "code": "207",
+            "display": "Application internal error",
+            "definition": "A catchall for internal errors not explicitly covered by other error codes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10143"
+                }
+            ]
+        }
+    ]
+}

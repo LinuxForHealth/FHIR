@@ -1,0 +1,70 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "financialtaskcode",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/financialtaskcode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1390"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "FinancialTaskCodes",
+    "title": "Financial Task Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes Financial Task codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/financial-taskcode",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "cancel",
+            "display": "Cancel",
+            "definition": "Cancel or reverse a resource, such as a claim or preauthorization, which is in-process or complete."
+        },
+        {
+            "code": "poll",
+            "display": "Poll",
+            "definition": "Retrieve selected or all queued resources or messages."
+        },
+        {
+            "code": "release",
+            "display": "Release",
+            "definition": "Release any reserved funds or material obligations associated with a resource. For example, any unused but reserved funds or treatment allowance associated with a preauthorization once treatment is complete."
+        },
+        {
+            "code": "reprocess",
+            "display": "Reprocess",
+            "definition": "Indication that the processing of a resource, such as a claim, for some or all of the required work is now being requested."
+        },
+        {
+            "code": "status",
+            "display": "Status check",
+            "definition": "Check on the processing status of a resource such as the adjudication of a claim."
+        }
+    ]
+}

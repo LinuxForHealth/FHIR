@@ -1,0 +1,80 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0338",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0338",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.220"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSPractitionerIdNumberType",
+    "title": "hl7VS-practitionerIdNumberType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that specify the type of number used for the practitioner identification.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                "version": "2.7.0",
+                "concept": [
+                    {
+                        "code": "CY"
+                    },
+                    {
+                        "code": "DEA"
+                    },
+                    {
+                        "code": "GL"
+                    },
+                    {
+                        "code": "LI"
+                    },
+                    {
+                        "code": "L&I"
+                    },
+                    {
+                        "code": "MCD"
+                    },
+                    {
+                        "code": "MCR"
+                    },
+                    {
+                        "code": "QA"
+                    },
+                    {
+                        "code": "SL"
+                    },
+                    {
+                        "code": "TAX"
+                    },
+                    {
+                        "code": "TRL"
+                    },
+                    {
+                        "code": "UPIN"
+                    }
+                ]
+            }
+        ]
+    }
+}

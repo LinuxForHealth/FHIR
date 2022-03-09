@@ -1,0 +1,107 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0950",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0950",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.450"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "OrderStatusModifier",
+    "title": "orderStatusModifier",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to further define the status identified in ORC-5.  Used in HL7 Version 2 messaging in the ORC segment.",
+    "purpose": "Underlying Master Code System for V2 table 0950 (Order Status Modifier)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0950",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6773",
+            "code": "EOE",
+            "display": "Expiration on event",
+            "definition": "The order status auto-expires when a specified event occurs",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6774",
+            "code": "EOT",
+            "display": "Expiration on time",
+            "definition": "The order status is timed and will auto-expire once the prescribed  time interval has passed",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For example this code would be used to indicate that the order is not currently being worked on but has been placed on a time limited hold awaiting a replacement order. If the hold time expires, default processing will resume."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Filler Applications:\nIn an order replacement setting, sent in recommendation for order replacement message (OML), where ORC-5 = HD, indicating that the hold for a response to the recommendation is timed."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

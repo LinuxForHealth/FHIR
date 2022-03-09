@@ -1,0 +1,54 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-notAllCodes-0347",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-notAllCodes-0347",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.224"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VsStateProvince",
+    "title": "HL7 Value Set for State/Province",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Concepts used to specify a state or province.  Used in Version 2 messaging in the Extended Composite ID with Check Digit (CX), Performing Person Time Stamp (PPN), and Extended Composite ID Number and Name for Persons (XCN) values as well as the Accident (ACC) segment.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "urn:iso:std:iso:3166:-2",
+                "concept": [
+                    {
+                        "code": "CA-AB"
+                    }
+                ]
+            },
+            {
+                "system": "urn:iso:std:iso:3166:-2",
+                "concept": [
+                    {
+                        "code": "US-MI"
+                    }
+                ]
+            }
+        ]
+    }
+}
