@@ -320,6 +320,7 @@ Create a file as the following
             portNumber="${DB_PORT}"
             securityMechanism="15"
             sslConnection="true" />
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
     </dataSource>
 </server>
 ```
@@ -345,7 +346,7 @@ Create a file as the following:
             user="fhirserver"
             password="mypassword"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
     </dataSource>
 </server>
 ```
