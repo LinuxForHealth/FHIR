@@ -9,13 +9,13 @@ package com.ibm.fhir.registry.core.test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.registry.core.Core410ResourceProvider;
+import com.ibm.fhir.core.r4.Core401ResourceProvider;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class CoreResourceProviderTest {
     @Test
-    public void testR4BSpecResourceProvider() {
-        FHIRRegistryResourceProvider provider = new Core410ResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 3528);
+    public void testR4SpecResourceProvider() {
+        FHIRRegistryResourceProvider provider = new Core401ResourceProvider();
+        Assert.assertEquals(provider.getRegistryResources().size(), 11251);
     }
 }
