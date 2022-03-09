@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "specimen-collection",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/129316008\">129316008</a></td><td>Aspiration - action</td></tr><tr><td><a href=\"http://snomed.info/id/129314006\">129314006</a></td><td>Biopsy - action</td></tr><tr><td><a href=\"http://snomed.info/id/129300006\">129300006</a></td><td>Puncture - action</td></tr><tr><td><a href=\"http://snomed.info/id/129304002\">129304002</a></td><td>Excision - action</td></tr><tr><td><a href=\"http://snomed.info/id/129323009\">129323009</a></td><td>Scraping - action</td></tr><tr><td><a href=\"http://snomed.info/id/73416001\">73416001</a></td><td>Urine specimen collection, clean catch</td></tr><tr><td><a href=\"http://snomed.info/id/225113003\">225113003</a></td><td>Timed urine collection</td></tr><tr><td><a href=\"http://snomed.info/id/70777001\">70777001</a></td><td>Urine specimen collection, catheterized</td></tr><tr><td><a href=\"http://snomed.info/id/386089008\">386089008</a></td><td>Collection of coughed sputum</td></tr><tr><td><a href=\"http://snomed.info/id/278450005\">278450005</a></td><td>Finger-prick sampling</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -94,6 +90,181 @@
                     {
                         "code": "278450005",
                         "display": "Finger-prick sampling"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0935adeb-e781-4587-b985-3a3e8e20a7fe",
+        "timestamp": "2021-11-17T05:28:26.285Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129316008",
+                "display": "Aspiration - action",
+                "designation": [
+                    {
+                        "value": "Aspiration - action"
+                    },
+                    {
+                        "value": "Aspiration - action (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129314006",
+                "display": "Biopsy - action",
+                "designation": [
+                    {
+                        "value": "Biopsy - action"
+                    },
+                    {
+                        "value": "Biopsy - action (qualifier value)"
+                    },
+                    {
+                        "value": "BX - Biopsy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129300006",
+                "display": "Puncture - action",
+                "designation": [
+                    {
+                        "value": "Puncture - action"
+                    },
+                    {
+                        "value": "Puncture - action (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129304002",
+                "display": "Excision - action",
+                "designation": [
+                    {
+                        "value": "Excision - action"
+                    },
+                    {
+                        "value": "Excision - action (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129323009",
+                "display": "Scraping - action",
+                "designation": [
+                    {
+                        "value": "Scraping - action"
+                    },
+                    {
+                        "value": "Scraping - action (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "73416001",
+                "display": "Urine specimen collection, clean catch",
+                "designation": [
+                    {
+                        "value": "Urine specimen collection, clean catch"
+                    },
+                    {
+                        "value": "Collection of clean catch urine specimen"
+                    },
+                    {
+                        "value": "Urine specimen collection, clean catch (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "225113003",
+                "display": "Timed urine collection",
+                "designation": [
+                    {
+                        "value": "Timed urine collection"
+                    },
+                    {
+                        "value": "Timed urine collection (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "70777001",
+                "display": "Urine specimen collection, catheterized",
+                "designation": [
+                    {
+                        "value": "Urine specimen collection, catheterized"
+                    },
+                    {
+                        "value": "CSU - Collection of catheter specimen of urine"
+                    },
+                    {
+                        "value": "Collecting catheter specimen of urine"
+                    },
+                    {
+                        "value": "Collection of catheter specimen of urine"
+                    },
+                    {
+                        "value": "Urine specimen collection, catheterized (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "386089008",
+                "display": "Collection of coughed sputum (procedure)",
+                "designation": [
+                    {
+                        "value": "Collection of coughed sputum (procedure)"
+                    },
+                    {
+                        "value": "Collection of coughed sputum"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "278450005",
+                "display": "Finger stick",
+                "designation": [
+                    {
+                        "value": "Finger stick"
+                    },
+                    {
+                        "value": "Finger puncture"
+                    },
+                    {
+                        "value": "Finger-prick sampling"
+                    },
+                    {
+                        "value": "Finger-prick sampling (procedure)"
                     }
                 ]
             }

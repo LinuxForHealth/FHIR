@@ -1,0 +1,79 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0916",
+    "url": "http://terminology.hl7.org/ValueSet/v2-0916",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.440"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSRelevantClincialInformation",
+    "title": "hl7VS-relevantClincialInformation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that specify additional clinical information about the patient or specimen to report the supporting and/or suspected diagnosis and clinical findings on requests for interpreted diagnostic studies.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0916",
+                "version": "2.2.0"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f2968a9a-ea2c-43a6-93c4-9d61e75546ac",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0916|2.2.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0916",
+                "code": "F",
+                "display": "Patient was fasting prior to the procedure."
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0916",
+                "code": "NF",
+                "display": "The patient indicated they did not fast prior to the procedure."
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0916",
+                "code": "NG",
+                "display": "Not Given - Patient was not asked at the time of the procedure."
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0916",
+                "code": "FNA",
+                "display": "Fasting not asked of the patient at time of procedure."
+            }
+        ]
+    }
+}

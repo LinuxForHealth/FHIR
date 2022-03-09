@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "duration-units",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p>\n        This value set includes all common UCUM codes used for Duraction - that it is, all commonly used units which have the same canonical unit as &quot;a&quot; (year)\n      </p>\n      <p> \n        The UCUM codes, UCUM table (regardless of format), and UCUM Specification are copyright © 1999-2009, Regenstrief Institute, Inc. and the Unified Codes for Units of Measures (UCUM) Organization. All rights reserved.\n     </p>\n    \n    </div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "Common UCUM Codes for Duration",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -91,6 +87,110 @@
                     {
                         "code": "a",
                         "display": "years"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:63f08b6d-d78f-44f4-bd11-301ec776076a",
+        "timestamp": "2021-11-17T05:28:34.746Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://unitsofmeasure.org|2.0.1"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "ms",
+                "display": "ms",
+                "designation": [
+                    {
+                        "value": "ms"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "s",
+                "display": "s",
+                "designation": [
+                    {
+                        "value": "s"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "min",
+                "display": "min",
+                "designation": [
+                    {
+                        "value": "min"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "h",
+                "display": "h",
+                "designation": [
+                    {
+                        "value": "h"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "d",
+                "display": "d",
+                "designation": [
+                    {
+                        "value": "d"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "wk",
+                "display": "wk",
+                "designation": [
+                    {
+                        "value": "wk"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "mo",
+                "display": "mo",
+                "designation": [
+                    {
+                        "value": "mo"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "a",
+                "display": "a",
+                "designation": [
+                    {
+                        "value": "a"
                     }
                 ]
             }

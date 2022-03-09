@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-target-disease",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/1857005\">1857005</a></td><td>Gestational rubella syndrome</td></tr><tr><td><a href=\"http://snomed.info/id/397430003\">397430003</a></td><td>Diphtheria due to Corynebacterium diphtheriae</td></tr><tr><td><a href=\"http://snomed.info/id/14189004\">14189004</a></td><td>Measles</td></tr><tr><td><a href=\"http://snomed.info/id/36989005\">36989005</a></td><td>Mumps</td></tr><tr><td><a href=\"http://snomed.info/id/36653000\">36653000</a></td><td>Rubella</td></tr><tr><td><a href=\"http://snomed.info/id/76902006\">76902006</a></td><td>Tetanus</td></tr><tr><td><a href=\"http://snomed.info/id/709410003\">709410003</a></td><td>Haemophilus influenzae type b infection</td></tr><tr><td><a href=\"http://snomed.info/id/27836007\">27836007</a></td><td>Pertussis</td></tr><tr><td><a href=\"http://snomed.info/id/398102009\">398102009</a></td><td>Acute poliomyelitis (disorder)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -81,6 +77,186 @@
                     },
                     {
                         "code": "398102009"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:72eca9b9-f7cc-4501-bb36-51d61b0be123",
+        "timestamp": "2021-11-17T05:28:34.808Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1857005",
+                "display": "Gestational rubella syndrome",
+                "designation": [
+                    {
+                        "value": "Gestational rubella syndrome"
+                    },
+                    {
+                        "value": "Gregg's syndrome"
+                    },
+                    {
+                        "value": "Congenital rubella"
+                    },
+                    {
+                        "value": "Congenital rubella syndrome"
+                    },
+                    {
+                        "value": "Congenital rubella syndrome (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397430003",
+                "display": "Diphtheria due to Corynebacterium diphtheriae",
+                "designation": [
+                    {
+                        "value": "Diphtheria due to Corynebacterium diphtheriae"
+                    },
+                    {
+                        "value": "Diphtheria caused by Corynebacterium diphtheriae (disorder)"
+                    },
+                    {
+                        "value": "Diphtheria caused by Corynebacterium diphtheriae"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "14189004",
+                "display": "Measles",
+                "designation": [
+                    {
+                        "value": "Measles"
+                    },
+                    {
+                        "value": "Rubeola"
+                    },
+                    {
+                        "value": "Morbilli"
+                    },
+                    {
+                        "value": "Measles (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36989005",
+                "display": "Mumps",
+                "designation": [
+                    {
+                        "value": "Mumps"
+                    },
+                    {
+                        "value": "Mumps (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36653000",
+                "display": "Rubella",
+                "designation": [
+                    {
+                        "value": "Rubella"
+                    },
+                    {
+                        "value": "German measles"
+                    },
+                    {
+                        "value": "Rubella (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "76902006",
+                "display": "Tetanus",
+                "designation": [
+                    {
+                        "value": "Tetanus"
+                    },
+                    {
+                        "value": "Tetanus (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "709410003",
+                "display": "Haemophilus influenzae type b infection",
+                "designation": [
+                    {
+                        "value": "Haemophilus influenzae type b infection"
+                    },
+                    {
+                        "value": "Haemophilus influenzae type b infection (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "27836007",
+                "display": "Pertussis",
+                "designation": [
+                    {
+                        "value": "Pertussis"
+                    },
+                    {
+                        "value": "Infection due to Bordetella pertussis"
+                    },
+                    {
+                        "value": "Whooping cough"
+                    },
+                    {
+                        "value": "WC - Whooping cough"
+                    },
+                    {
+                        "value": "Pertussis (disorder)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "398102009",
+                "display": "Acute poliomyelitis (disorder)",
+                "designation": [
+                    {
+                        "value": "Acute poliomyelitis (disorder)"
+                    },
+                    {
+                        "value": "Acute poliomyelitis"
+                    },
+                    {
+                        "value": "Polio"
+                    },
+                    {
+                        "value": "PM - Poliomyelitis"
+                    },
+                    {
+                        "value": "Poliomyelitis"
                     }
                 ]
             }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "bundle-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>BundleType</h2>\n      <div>\n        <p>Indicates the purpose of a bundle - how it is intended to be used.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-bundle-type.html\">\n            <code>http://hl7.org/fhir/bundle-type</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,72 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/bundle-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:62924ee1-bedb-4f44-9697-0158e7bc14a5",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/bundle-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "document",
+                "display": "Document"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "message",
+                "display": "Message"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "transaction",
+                "display": "Transaction"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "transaction-response",
+                "display": "Transaction Response"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "batch",
+                "display": "Batch"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "batch-response",
+                "display": "Batch Response"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "history",
+                "display": "History List"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "searchset",
+                "display": "Search Results"
+            },
+            {
+                "system": "http://hl7.org/fhir/bundle-type",
+                "code": "collection",
+                "display": "Collection"
             }
         ]
     }

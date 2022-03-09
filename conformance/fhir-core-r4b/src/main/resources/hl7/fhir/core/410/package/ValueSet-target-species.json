@@ -1,0 +1,1082 @@
+{
+    "resourceType": "ValueSet",
+    "id": "target-species",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/target-species",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1588"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "TargetSpecies",
+    "title": "TargetSpecies",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A species for which a medicinal product is intended.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/target-species"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:131d7a79-c835-493e-be51-80a3b45f9db2",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 200,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/target-species|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108874",
+                "display": "Dove"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108875",
+                "display": "Quail"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108876",
+                "display": "Snipe"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108877",
+                "display": "Sparrow"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108878",
+                "display": "Starling"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108879",
+                "display": "Swan"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108880",
+                "display": "Turkey hen"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108881",
+                "display": "Turkey cock"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108882",
+                "display": "Turkeys"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108883",
+                "display": "Turkey for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108884",
+                "display": "Poult"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108885",
+                "display": "Turtle dove"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108886",
+                "display": "Bison"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108887",
+                "display": "Buffalo"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108888",
+                "display": "Cows"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108889",
+                "display": "Cow for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108890",
+                "display": "Bull for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108891",
+                "display": "Ox"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108892",
+                "display": "Bullock"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108893",
+                "display": "Cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108894",
+                "display": "Beef cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108895",
+                "display": "Dairy cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108896",
+                "display": "Dry cow"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108897",
+                "display": "Bull"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108898",
+                "display": "Lactating cow"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108899",
+                "display": "All other food producing species"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108900",
+                "display": "All non-food producing species"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108901",
+                "display": "All species  "
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108902",
+                "display": "Carnivores"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108903",
+                "display": "Domestic animals"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108904",
+                "display": "Fur animals"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108905",
+                "display": "Game animals"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108906",
+                "display": "Laboratory animals"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108907",
+                "display": "Major species"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108908",
+                "display": "Minor species"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108909",
+                "display": "Ruminant"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108910",
+                "display": "Ruminant and porcine"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108911",
+                "display": "Small animals"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108912",
+                "display": "Crocodile"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108913",
+                "display": "Frog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108914",
+                "display": "Iguana"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108915",
+                "display": "Lizard"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108916",
+                "display": "Amphibians"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108917",
+                "display": "Reptiles"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108918",
+                "display": "Reptiles for production"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108919",
+                "display": "Snake"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108920",
+                "display": "Tortoise"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108921",
+                "display": "Turtle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108922",
+                "display": "Honey bees"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108923",
+                "display": "Crustacean"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108924",
+                "display": "Spider"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108925",
+                "display": "Indian hen"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108926",
+                "display": "African Goshawk"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108927",
+                "display": "Black Kite"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108928",
+                "display": "Budgerigar"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108929",
+                "display": "Bustard"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108930",
+                "display": "Buzzard"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108931",
+                "display": "Hen"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108932",
+                "display": "Layer hen"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108933",
+                "display": "Cock"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108934",
+                "display": "Broiler"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108935",
+                "display": "Chickens"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108936",
+                "display": "Chicken embryonated eggs"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108937",
+                "display": "Chicken for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108938",
+                "display": "Replacement chick"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108939",
+                "display": "Chick"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108940",
+                "display": "Pullet"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108941",
+                "display": "Cockatiel"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108942",
+                "display": "Cockatoo"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108943",
+                "display": "Common canary"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108944",
+                "display": "Crow"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108945",
+                "display": "Duck"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108946",
+                "display": "Duck broiler"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108947",
+                "display": "Duckling"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108948",
+                "display": "Eagle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108949",
+                "display": "Emu"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108950",
+                "display": "Goose"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108951",
+                "display": "Guinea fowl"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108952",
+                "display": "Kestrel"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108953",
+                "display": "Kite"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108954",
+                "display": "Macaw"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108955",
+                "display": "Ostrich"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108956",
+                "display": "Birds"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108957",
+                "display": "Fowls"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108958",
+                "display": "Finch"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108959",
+                "display": "Galliformes"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108960",
+                "display": "Game birds"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108961",
+                "display": "Pekin duck"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108962",
+                "display": "Ornamental birds"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108963",
+                "display": "Poultry"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108964",
+                "display": "Owl"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108965",
+                "display": "Parakeet"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108966",
+                "display": "Parrot"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108967",
+                "display": "Partridge"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108968",
+                "display": "Peregrine Falcon"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108969",
+                "display": "Pheasants"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108970",
+                "display": "Carrier pigeon"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108971",
+                "display": "Newborn calves"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108972",
+                "display": "Pregnant cow"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108973",
+                "display": "Pregnant heifer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108974",
+                "display": "Pre-ruminant cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108975",
+                "display": "Ruminant cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108976",
+                "display": "Wild cattle"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108977",
+                "display": "Calf"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108978",
+                "display": "Heifers"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108979",
+                "display": "Other Bovids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108980",
+                "display": "Alpaca"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108981",
+                "display": "Camel"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108982",
+                "display": "Llama"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108983",
+                "display": "Other Camelids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108984",
+                "display": "Bitch"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108985",
+                "display": "Bitch for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108986",
+                "display": "Adult male dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108987",
+                "display": "Adult male dog for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108988",
+                "display": "Dogs"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108989",
+                "display": "Lactating bitch"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108990",
+                "display": "Large dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108991",
+                "display": "Medium dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108992",
+                "display": "Pregnant bitch"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108993",
+                "display": "Small dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108994",
+                "display": "Very large dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108995",
+                "display": "Very small dog"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108996",
+                "display": "Puppy"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108997",
+                "display": "Foxes"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108998",
+                "display": "Jackal"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000108999",
+                "display": "Other Canids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109000",
+                "display": "Raccoon dogs"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109001",
+                "display": "Wolf"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109002",
+                "display": "Chamois"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109003",
+                "display": "Other Caprines"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109004",
+                "display": "Adult female goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109005",
+                "display": "Adult male goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109006",
+                "display": "Dry adult female goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109007",
+                "display": "Goats"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109008",
+                "display": "Lactating adult female goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109009",
+                "display": "Pregnant adult female goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109010",
+                "display": "Pre-ruminant goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109011",
+                "display": "Ruminant goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109012",
+                "display": "Wild goat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109013",
+                "display": "Kid"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109014",
+                "display": "Other Ovids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109015",
+                "display": "Ewe"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109016",
+                "display": "Ram"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109017",
+                "display": "Dry ewe"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109018",
+                "display": "Lactating ewe"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109019",
+                "display": "Pregnant ewe"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109020",
+                "display": "Pre-ruminant sheep"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109021",
+                "display": "Ruminant sheep"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109022",
+                "display": "Sheep"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109023",
+                "display": "Sheep for meat production"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109024",
+                "display": "Dairy sheep"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109025",
+                "display": "Wild sheep"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109026",
+                "display": "Lamb"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109027",
+                "display": "Elk"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109028",
+                "display": "Fallow deer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109029",
+                "display": "Moose"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109030",
+                "display": "Antelope"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109031",
+                "display": "Cervid"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109032",
+                "display": "Deer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109033",
+                "display": "Other Deer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109034",
+                "display": "Red deer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109035",
+                "display": "Reindeer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109036",
+                "display": "Roe deer"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109037",
+                "display": "Donkey"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109038",
+                "display": "Mare"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109039",
+                "display": "Gelding"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109040",
+                "display": "Horses"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109041",
+                "display": "Stallion"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109042",
+                "display": "Pony"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109043",
+                "display": "Pregnant mare"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109044",
+                "display": "Non food-producing horse"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109045",
+                "display": "Suckling colt"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109046",
+                "display": "Colt"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109047",
+                "display": "Mule"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109048",
+                "display": "Equid"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109049",
+                "display": "Female equid"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109050",
+                "display": "Other Equids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109051",
+                "display": "Zebra"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109052",
+                "display": "Bobcat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109053",
+                "display": "Adult female cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109054",
+                "display": "Adult female cat for reproduction"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109055",
+                "display": "Adult male cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109056",
+                "display": "Cats"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109057",
+                "display": "Lactating cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109058",
+                "display": "Large cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109059",
+                "display": "Medium cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109060",
+                "display": "Pregnant cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109061",
+                "display": "Small cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109062",
+                "display": "Kitten"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109063",
+                "display": "Cougar"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109064",
+                "display": "Jaguar"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109065",
+                "display": "Leopard"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109066",
+                "display": "Lion"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109067",
+                "display": "Lynx"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109068",
+                "display": "Other Felids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109069",
+                "display": "Tiger"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109070",
+                "display": "Tsushima wild cat"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109071",
+                "display": "Other Leporids"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109072",
+                "display": "Hare"
+            },
+            {
+                "system": "http://hl7.org/fhir/target-species",
+                "code": "100000109073",
+                "display": "Female rabbit for reproduction"
+            }
+        ]
+    }
+}

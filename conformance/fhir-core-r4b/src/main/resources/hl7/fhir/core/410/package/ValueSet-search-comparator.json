@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "search-comparator",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>SearchComparator</h2>\n      <div>\n        <p>What Search Comparator Codes are supported in search.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-search-comparator.html\">\n            <code>http://hl7.org/fhir/search-comparator</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,72 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/search-comparator"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:7eacf00e-89e4-4ff0-8fd8-e76711477816",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/search-comparator|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "eq",
+                "display": "Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "ne",
+                "display": "Not Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "gt",
+                "display": "Greater Than"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "lt",
+                "display": "Less Than"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "ge",
+                "display": "Greater or Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "le",
+                "display": "Less of Equal"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "sa",
+                "display": "Starts After"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "eb",
+                "display": "Ends Before"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-comparator",
+                "code": "ap",
+                "display": "Approximately"
             }
         ]
     }

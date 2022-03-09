@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "item-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>QuestionnaireItemType</h2>\n      <div>\n        <p>Distinguishes groups from questions and display text and indicates data type for questions.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-item-type.html\">\n            <code>http://hl7.org/fhir/item-type</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,113 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/item-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:5f74bff1-d175-4705-a56d-8f824d7c868a",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 17,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/item-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "group",
+                "display": "Group"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "display",
+                "display": "Display"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "abstract": true,
+                "code": "question",
+                "display": "Question"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "boolean",
+                "display": "Boolean"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "decimal",
+                "display": "Decimal"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "integer",
+                "display": "Integer"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "date",
+                "display": "Date"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "dateTime",
+                "display": "Date Time"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "time",
+                "display": "Time"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "string",
+                "display": "String"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "text",
+                "display": "Text"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "url",
+                "display": "Url"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "choice",
+                "display": "Choice"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "open-choice",
+                "display": "Open Choice"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "attachment",
+                "display": "Attachment"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "reference",
+                "display": "Reference"
+            },
+            {
+                "system": "http://hl7.org/fhir/item-type",
+                "code": "quantity",
+                "display": "Quantity"
             }
         ]
     }

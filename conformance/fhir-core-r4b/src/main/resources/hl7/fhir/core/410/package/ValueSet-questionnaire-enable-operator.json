@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "questionnaire-enable-operator",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>QuestionnaireItemOperator</h2>\n      <div>\n        <p>The criteria by which a question is enabled.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-questionnaire-enable-operator.html\">\n            <code>http://hl7.org/fhir/questionnaire-enable-operator</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,62 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/questionnaire-enable-operator"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:058b308e-1684-4ad2-b234-997ad722a61e",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/questionnaire-enable-operator|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": "exists",
+                "display": "Exists"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": "=",
+                "display": "Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": "!=",
+                "display": "Not Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": ">",
+                "display": "Greater Than"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": "<",
+                "display": "Less Than"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": ">=",
+                "display": "Greater or Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/questionnaire-enable-operator",
+                "code": "<=",
+                "display": "Less or Equals"
             }
         ]
     }

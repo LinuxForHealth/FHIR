@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "care-plan-category",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  734163000 (Care plan)</li></ul></div>"
     },
     "extension": [
         {
@@ -59,6 +55,2239 @@
                         "property": "concept",
                         "op": "is-a",
                         "value": "734163000"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:03e57bba-0d67-4886-8491-72913b4f1bc5",
+        "timestamp": "2021-11-17T05:28:21.575Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "734163000",
+                "display": "Care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Care plan (record artifact)"
+                    },
+                    {
+                        "value": "Care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "718347000",
+                "display": "Mental health care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Mental health care plan (record artifact)"
+                    },
+                    {
+                        "value": "Mental health care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735321000",
+                "display": "Surgical inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Surgical inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Surgical inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735322007",
+                "display": "Termination of pregnancy inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Termination of pregnancy inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Termination of pregnancy inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735323002",
+                "display": "Thoracic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Thoracic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Thoracic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735324008",
+                "display": "Treatment escalation plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Treatment escalation plan (record artifact)"
+                    },
+                    {
+                        "value": "Treatment escalation plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735325009",
+                "display": "Unplanned inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Unplanned inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Unplanned inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735326005",
+                "display": "Upper gastrointestinal surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Upper gastrointestinal surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Upper gastrointestinal surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735327001",
+                "display": "Upper gastrointestinal tract endoscopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Upper gastrointestinal tract endoscopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Upper gastrointestinal tract endoscopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735328006",
+                "display": "Urological surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Urological surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Urological surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735329003",
+                "display": "Vascular surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Vascular surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Vascular surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735330008",
+                "display": "Vulnerable adult care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Vulnerable adult care plan (record artifact)"
+                    },
+                    {
+                        "value": "Vulnerable adult care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735984001",
+                "display": "Heart failure self management plan",
+                "designation": [
+                    {
+                        "value": "Heart failure self management plan"
+                    },
+                    {
+                        "value": "Heart failure self management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735985000",
+                "display": "Diabetes self management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Diabetes self management plan (record artifact)"
+                    },
+                    {
+                        "value": "Diabetes self management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "735986004",
+                "display": "Patient written birth plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Patient written birth plan (record artifact)"
+                    },
+                    {
+                        "value": "Patient written birth plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736054002",
+                "display": "Pressure ulcer care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pressure ulcer care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pressure ulcer care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736055001",
+                "display": "Rehabilitation care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Rehabilitation care plan (record artifact)"
+                    },
+                    {
+                        "value": "Rehabilitation care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736056000",
+                "display": "Asthma clinical management plan",
+                "designation": [
+                    {
+                        "value": "Asthma clinical management plan"
+                    },
+                    {
+                        "value": "Asthma clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736057009",
+                "display": "Respiratory disorder inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Respiratory disorder inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Respiratory disorder inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736058004",
+                "display": "Mental health personal health plan",
+                "designation": [
+                    {
+                        "value": "Mental health personal health plan"
+                    },
+                    {
+                        "value": "Mental health personal health plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736059007",
+                "display": "Angina self management plan",
+                "designation": [
+                    {
+                        "value": "Angina self management plan"
+                    },
+                    {
+                        "value": "Angina self management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736234007",
+                "display": "Pediatric community care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pediatric community care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pediatric community care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736235008",
+                "display": "Pediatric inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pediatric inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pediatric inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736241001",
+                "display": "Pediatric outpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pediatric outpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pediatric outpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736245005",
+                "display": "Pediatric community complex care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pediatric community complex care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pediatric community complex care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736246006",
+                "display": "Pediatric surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pediatric surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pediatric surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736248007",
+                "display": "Pain control care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pain control care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pain control care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736249004",
+                "display": "Radiotherapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Radiotherapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Radiotherapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736250004",
+                "display": "Respite care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Respite care plan (record artifact)"
+                    },
+                    {
+                        "value": "Respite care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736251000",
+                "display": "Stroke care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Stroke care plan (record artifact)"
+                    },
+                    {
+                        "value": "Stroke care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736252007",
+                "display": "Cancer care plan",
+                "designation": [
+                    {
+                        "value": "Cancer care plan"
+                    },
+                    {
+                        "value": "Cancer care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736253002",
+                "display": "Mental health crisis plan",
+                "designation": [
+                    {
+                        "value": "Mental health crisis plan"
+                    },
+                    {
+                        "value": "Mental health crisis plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736254008",
+                "display": "Psychiatry care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Psychiatry care plan (record artifact)"
+                    },
+                    {
+                        "value": "Psychiatry care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736271009",
+                "display": "Outpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Outpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Outpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736282001",
+                "display": "Neonatal critical care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Neonatal critical care plan (record artifact)"
+                    },
+                    {
+                        "value": "Neonatal critical care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736283006",
+                "display": "Chronic obstructive pulmonary disease clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Chronic obstructive pulmonary disease clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Chronic obstructive pulmonary disease clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736284000",
+                "display": "Diabetes clinical management plan",
+                "designation": [
+                    {
+                        "value": "Diabetes clinical management plan"
+                    },
+                    {
+                        "value": "Diabetes clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736285004",
+                "display": "Hyperlipidemia clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hyperlipidemia clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Hyperlipidemia clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736286003",
+                "display": "Hypertension clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hypertension clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Hypertension clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736287007",
+                "display": "Hypothyroidism clinical management plan",
+                "designation": [
+                    {
+                        "value": "Hypothyroidism clinical management plan"
+                    },
+                    {
+                        "value": "Hypothyroidism clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736288002",
+                "display": "Transient ischemic attack clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Transient ischemic attack clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Transient ischemic attack clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736336006",
+                "display": "Miscarriage inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Miscarriage inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Miscarriage inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736337002",
+                "display": "Neurosurgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Neurosurgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Neurosurgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736338007",
+                "display": "Ophthalmic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Ophthalmic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Ophthalmic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736339004",
+                "display": "Orthopedic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Orthopedic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Orthopedic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736340002",
+                "display": "Ovarian hyperstimulation syndrome inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Ovarian hyperstimulation syndrome inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Ovarian hyperstimulation syndrome inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736351002",
+                "display": "Breast surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Breast surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Breast surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736352009",
+                "display": "Cardiac surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Cardiac surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Cardiac surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736353004",
+                "display": "Inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736355006",
+                "display": "Gynecology bladder training inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology bladder training inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology bladder training inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736356007",
+                "display": "Gynecology inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736357003",
+                "display": "Minor gynecology surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor gynecology surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor gynecology surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736358008",
+                "display": "Minor ophthalmic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor ophthalmic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor ophthalmic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736359000",
+                "display": "Minor surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736361009",
+                "display": "Minor thoracic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor thoracic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor thoracic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736362002",
+                "display": "Minor urologic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor urologic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor urologic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736363007",
+                "display": "Minor plastic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor plastic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor plastic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736364001",
+                "display": "Minor orthopedic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Minor orthopedic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Minor orthopedic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736365000",
+                "display": "Acute exacerbation of chronic obstructive pulmonary disease care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Acute exacerbation of chronic obstructive pulmonary disease care plan (record artifact)"
+                    },
+                    {
+                        "value": "Acute exacerbation of chronic obstructive pulmonary disease care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736366004",
+                "display": "Advance care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Advance care plan (record artifact)"
+                    },
+                    {
+                        "value": "Advance care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736367008",
+                "display": "Anticipatory care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Anticipatory care plan (record artifact)"
+                    },
+                    {
+                        "value": "Anticipatory care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736368003",
+                "display": "Coronary heart disease care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Coronary heart disease care plan (record artifact)"
+                    },
+                    {
+                        "value": "Coronary heart disease care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736369006",
+                "display": "Day case care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Day case care plan (record artifact)"
+                    },
+                    {
+                        "value": "Day case care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736370007",
+                "display": "Day case surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Day case surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Day case surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736371006",
+                "display": "Dementia care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Dementia care plan (record artifact)"
+                    },
+                    {
+                        "value": "Dementia care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736372004",
+                "display": "Discharge care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Discharge care plan (record artifact)"
+                    },
+                    {
+                        "value": "Discharge care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736373009",
+                "display": "End of life care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "End of life care plan (record artifact)"
+                    },
+                    {
+                        "value": "End of life care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736374003",
+                "display": "Gynecology unplanned inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology unplanned inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology unplanned inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736375002",
+                "display": "Hemodialysis care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hemodialysis care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hemodialysis care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736376001",
+                "display": "Infectious disease care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Infectious disease care plan (record artifact)"
+                    },
+                    {
+                        "value": "Infectious disease care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736377005",
+                "display": "Maternity care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Maternity care plan (record artifact)"
+                    },
+                    {
+                        "value": "Maternity care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736378000",
+                "display": "Medication management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Medication management plan (record artifact)"
+                    },
+                    {
+                        "value": "Medication management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736379008",
+                "display": "Miscarriage care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Miscarriage care plan (record artifact)"
+                    },
+                    {
+                        "value": "Miscarriage care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736381005",
+                "display": "Major surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736382003",
+                "display": "Major head and neck surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major head and neck surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major head and neck surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736383008",
+                "display": "Major neurosurgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major neurosurgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major neurosurgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736384002",
+                "display": "Major orthopedic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major orthopedic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major orthopedic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736385001",
+                "display": "Major plastic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major plastic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major plastic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736386000",
+                "display": "Major vascular surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major vascular surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major vascular surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736387009",
+                "display": "Major urologic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major urologic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major urologic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736389007",
+                "display": "Colorectal surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Colorectal surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Colorectal surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736390003",
+                "display": "Gynecology major surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology major surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology major surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736391004",
+                "display": "Hepatobiliary and pancreatic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hepatobiliary and pancreatic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hepatobiliary and pancreatic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736392006",
+                "display": "Bronchoscopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Bronchoscopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Bronchoscopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736393001",
+                "display": "Colposcopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Colposcopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Colposcopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736394007",
+                "display": "Cystoscopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Cystoscopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Cystoscopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736395008",
+                "display": "Hysteroscopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hysteroscopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hysteroscopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736396009",
+                "display": "Interventional cardiology inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Interventional cardiology inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Interventional cardiology inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736397000",
+                "display": "Lower gastrointestinal tract endoscopy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Lower gastrointestinal tract endoscopy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Lower gastrointestinal tract endoscopy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736399002",
+                "display": "Burn inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Burn inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Burn inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736400009",
+                "display": "Cardiology inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Cardiology inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Cardiology inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736401008",
+                "display": "Chemotherapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Chemotherapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Chemotherapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736402001",
+                "display": "Hip fracture inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hip fracture inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hip fracture inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736403006",
+                "display": "Hyperemesis in pregnancy inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hyperemesis in pregnancy inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hyperemesis in pregnancy inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736453000",
+                "display": "Laryngectomy surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Laryngectomy surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Laryngectomy surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736482004",
+                "display": "Major burn inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Major burn inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Major burn inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736690008",
+                "display": "Dialysis care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Dialysis care plan (record artifact)"
+                    },
+                    {
+                        "value": "Dialysis care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736990006",
+                "display": "Plastic surgery inpatient care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Plastic surgery inpatient care plan (record artifact)"
+                    },
+                    {
+                        "value": "Plastic surgery inpatient care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737426005",
+                "display": "Ankle brachial pressure index management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Ankle brachial pressure index management plan (record artifact)"
+                    },
+                    {
+                        "value": "Ankle brachial pressure index management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737427001",
+                "display": "Clinical management plan",
+                "designation": [
+                    {
+                        "value": "Clinical management plan"
+                    },
+                    {
+                        "value": "Clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737428006",
+                "display": "Arthritis clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Arthritis clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Arthritis clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737429003",
+                "display": "Chronic kidney disease clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Chronic kidney disease clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Chronic kidney disease clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737430008",
+                "display": "Congestive heart failure clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Congestive heart failure clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Congestive heart failure clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737431007",
+                "display": "Coronary heart disease risk clinical management plan",
+                "designation": [
+                    {
+                        "value": "Coronary heart disease risk clinical management plan"
+                    },
+                    {
+                        "value": "Coronary heart disease risk clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737432000",
+                "display": "Hyperglycemia clinical management plan",
+                "designation": [
+                    {
+                        "value": "Hyperglycemia clinical management plan"
+                    },
+                    {
+                        "value": "Hyperglycemia clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737433005",
+                "display": "Hypoglycemia clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hypoglycemia clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Hypoglycemia clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737434004",
+                "display": "Major depressive disorder clinical management plan",
+                "designation": [
+                    {
+                        "value": "Major depressive disorder clinical management plan"
+                    },
+                    {
+                        "value": "Major depressive disorder clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737435003",
+                "display": "Malnutrition clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Malnutrition clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Malnutrition clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737436002",
+                "display": "Hypoglycemia self management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hypoglycemia self management plan (record artifact)"
+                    },
+                    {
+                        "value": "Hypoglycemia self management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737437006",
+                "display": "Hyperglycemia self management plan",
+                "designation": [
+                    {
+                        "value": "Hyperglycemia self management plan"
+                    },
+                    {
+                        "value": "Hyperglycemia self management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737438001",
+                "display": "Myocardial infarction clinical management plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Myocardial infarction clinical management plan (record artifact)"
+                    },
+                    {
+                        "value": "Myocardial infarction clinical management plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737439009",
+                "display": "Seizure disorder clinical management plan",
+                "designation": [
+                    {
+                        "value": "Seizure disorder clinical management plan"
+                    },
+                    {
+                        "value": "Seizure disorder clinical management plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "744980002",
+                "display": "Medical critical care plan",
+                "designation": [
+                    {
+                        "value": "Medical critical care plan"
+                    },
+                    {
+                        "value": "Medical critical care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "763249000",
+                "display": "Mental health care program approach contingency plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Mental health care program approach contingency plan (record artifact)"
+                    },
+                    {
+                        "value": "Mental health care program approach contingency plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "763321009",
+                "display": "Mental health care program approach crisis plan",
+                "designation": [
+                    {
+                        "value": "Mental health care program approach crisis plan"
+                    },
+                    {
+                        "value": "Mental health care program approach crisis plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "770576004",
+                "display": "Prevention of delirium care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Prevention of delirium care plan (record artifact)"
+                    },
+                    {
+                        "value": "Prevention of delirium care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "771082000",
+                "display": "Acute medicine care plan",
+                "designation": [
+                    {
+                        "value": "Acute medicine care plan"
+                    },
+                    {
+                        "value": "Acute medicine care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773130005",
+                "display": "Nursing care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Nursing care plan (record artifact)"
+                    },
+                    {
+                        "value": "Nursing care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773430001",
+                "display": "Obstetric care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Obstetric care plan (record artifact)"
+                    },
+                    {
+                        "value": "Obstetric care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773431002",
+                "display": "Obstetric perinatal care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Obstetric perinatal care plan (record artifact)"
+                    },
+                    {
+                        "value": "Obstetric intrapartum care plan"
+                    },
+                    {
+                        "value": "Obstetric perinatal care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773432009",
+                "display": "Obstetric postnatal care plan",
+                "designation": [
+                    {
+                        "value": "Obstetric postnatal care plan"
+                    },
+                    {
+                        "value": "Obstetric postnatal care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773433004",
+                "display": "Obstetric antenatal care plan",
+                "designation": [
+                    {
+                        "value": "Obstetric antenatal care plan"
+                    },
+                    {
+                        "value": "Obstetric antenatal care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773435006",
+                "display": "Surgical care plan",
+                "designation": [
+                    {
+                        "value": "Surgical care plan"
+                    },
+                    {
+                        "value": "Surgical care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773436007",
+                "display": "Plastic surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Plastic surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Plastic surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773437003",
+                "display": "Trauma surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Trauma surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Trauma surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773438008",
+                "display": "Oral surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Oral surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Oral surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773439000",
+                "display": "Hepatobiliary surgical care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hepatobiliary surgical care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hepatobiliary surgical care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773440003",
+                "display": "Dermatological surgery care plan",
+                "designation": [
+                    {
+                        "value": "Dermatological surgery care plan"
+                    },
+                    {
+                        "value": "Dermatological surgery care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773441004",
+                "display": "Hand surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Hand surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Hand surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773442006",
+                "display": "Podiatric surgery care plan",
+                "designation": [
+                    {
+                        "value": "Podiatric surgery care plan"
+                    },
+                    {
+                        "value": "Podiatric surgery care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773443001",
+                "display": "Ophthalmic surgery care plan",
+                "designation": [
+                    {
+                        "value": "Ophthalmic surgery care plan"
+                    },
+                    {
+                        "value": "Ophthalmic surgery care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773444007",
+                "display": "Pancreatic surgery care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Pancreatic surgery care plan (record artifact)"
+                    },
+                    {
+                        "value": "Pancreatic surgery care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773445008",
+                "display": "Gastrointestinal surgery care plan",
+                "designation": [
+                    {
+                        "value": "Gastrointestinal surgery care plan"
+                    },
+                    {
+                        "value": "Gastrointestinal surgery care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773446009",
+                "display": "Rehabilitation psychiatry care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Rehabilitation psychiatry care plan (record artifact)"
+                    },
+                    {
+                        "value": "Rehabilitation psychiatry care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773447000",
+                "display": "Forensic psychiatry care plan",
+                "designation": [
+                    {
+                        "value": "Forensic psychiatry care plan"
+                    },
+                    {
+                        "value": "Forensic psychiatry care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773448005",
+                "display": "Psychiatric intensive care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Psychiatric intensive care plan (record artifact)"
+                    },
+                    {
+                        "value": "Psychiatric intensive care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773449002",
+                "display": "Old age psychiatry care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Old age psychiatry care plan (record artifact)"
+                    },
+                    {
+                        "value": "Old age psychiatry care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773450002",
+                "display": "Liaison psychiatry care plan",
+                "designation": [
+                    {
+                        "value": "Liaison psychiatry care plan"
+                    },
+                    {
+                        "value": "Liaison psychiatry care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773451003",
+                "display": "Psychotherapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Psychotherapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Psychotherapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773452005",
+                "display": "Psychology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Psychology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Psychology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773506001",
+                "display": "Gynecology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773507005",
+                "display": "Gynecology oncology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gynecology oncology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gynecology oncology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773508000",
+                "display": "Interventional radiology care plan",
+                "designation": [
+                    {
+                        "value": "Interventional radiology care plan"
+                    },
+                    {
+                        "value": "Interventional radiology care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773509008",
+                "display": "Ophthalmology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Ophthalmology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Ophthalmology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773511004",
+                "display": "Occupational therapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Occupational therapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Occupational therapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773512006",
+                "display": "Genitourinary medicine care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Genitourinary medicine care plan (record artifact)"
+                    },
+                    {
+                        "value": "Genitourinary medicine care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773513001",
+                "display": "Physiotherapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Physiotherapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Physiotherapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773514007",
+                "display": "Speech and language therapy care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Speech and language therapy care plan (record artifact)"
+                    },
+                    {
+                        "value": "Speech and language therapy care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773516009",
+                "display": "Head injury rehabilitation care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Head injury rehabilitation care plan (record artifact)"
+                    },
+                    {
+                        "value": "Head injury rehabilitation care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773517000",
+                "display": "Osteopathic manipulative medicine care plan",
+                "designation": [
+                    {
+                        "value": "Osteopathic manipulative medicine care plan"
+                    },
+                    {
+                        "value": "Osteopathic manipulative medicine care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773590002",
+                "display": "Dietetic care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Dietetic care plan (record artifact)"
+                    },
+                    {
+                        "value": "Dietetic care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773591003",
+                "display": "Podiatry care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Podiatry care plan (record artifact)"
+                    },
+                    {
+                        "value": "Podiatry care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773592005",
+                "display": "Occupational health care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Occupational health care plan (record artifact)"
+                    },
+                    {
+                        "value": "Occupational health care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773593000",
+                "display": "Urology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Urology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Urology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773594006",
+                "display": "Orthodontic care plan",
+                "designation": [
+                    {
+                        "value": "Orthodontic care plan"
+                    },
+                    {
+                        "value": "Orthodontic care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773595007",
+                "display": "Respiratory medicine care plan",
+                "designation": [
+                    {
+                        "value": "Respiratory medicine care plan"
+                    },
+                    {
+                        "value": "Respiratory medicine care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773596008",
+                "display": "Care of elderly care plan",
+                "designation": [
+                    {
+                        "value": "Care of elderly care plan"
+                    },
+                    {
+                        "value": "Care of elderly care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773597004",
+                "display": "Orthopedic care plan",
+                "designation": [
+                    {
+                        "value": "Orthopedic care plan"
+                    },
+                    {
+                        "value": "Orthopedic care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773598009",
+                "display": "Gastroenterology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Gastroenterology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Gastroenterology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773599001",
+                "display": "Hemophilia care plan",
+                "designation": [
+                    {
+                        "value": "Hemophilia care plan"
+                    },
+                    {
+                        "value": "Hemophilia care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773976008",
+                "display": "Dermatology care plan",
+                "designation": [
+                    {
+                        "value": "Dermatology care plan"
+                    },
+                    {
+                        "value": "Dermatology care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773977004",
+                "display": "Hepatology care plan",
+                "designation": [
+                    {
+                        "value": "Hepatology care plan"
+                    },
+                    {
+                        "value": "Hepatology care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773978009",
+                "display": "Endocrinology care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Endocrinology care plan (record artifact)"
+                    },
+                    {
+                        "value": "Endocrinology care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773979001",
+                "display": "Prosthetic care plan",
+                "designation": [
+                    {
+                        "value": "Prosthetic care plan"
+                    },
+                    {
+                        "value": "Prosthetic care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773980003",
+                "display": "Orthotic care plan",
+                "designation": [
+                    {
+                        "value": "Orthotic care plan"
+                    },
+                    {
+                        "value": "Orthotic care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773981004",
+                "display": "Palliative care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Palliative care plan (record artifact)"
+                    },
+                    {
+                        "value": "Palliative care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773982006",
+                "display": "Rheumatology care plan",
+                "designation": [
+                    {
+                        "value": "Rheumatology care plan"
+                    },
+                    {
+                        "value": "Rheumatology care plan (record artifact)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "773983001",
+                "display": "ENT (ear, nose, throat) care plan",
+                "designation": [
+                    {
+                        "value": "ENT (ear, nose, throat) care plan"
+                    },
+                    {
+                        "value": "Ear, nose and throat care plan (record artifact)"
+                    },
+                    {
+                        "value": "Ear, nose and throat care plan"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "774202005",
+                "display": "Special care baby care plan (record artifact)",
+                "designation": [
+                    {
+                        "value": "Special care baby care plan (record artifact)"
+                    },
+                    {
+                        "value": "Special care baby care plan"
                     }
                 ]
             }

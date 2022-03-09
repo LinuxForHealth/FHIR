@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "asset-availability",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-asset-availability.html\"><code>http://hl7.org/fhir/asset-availability</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,32 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/asset-availability"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:33b6ec9e-d9c3-486c-8c3c-c23048ef04a0",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 1,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/asset-availability|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/asset-availability",
+                "code": "lease",
+                "display": "Lease"
             }
         ]
     }

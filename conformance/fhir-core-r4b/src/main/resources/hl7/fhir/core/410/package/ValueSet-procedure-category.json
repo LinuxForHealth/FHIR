@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "procedure-category",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/24642003\">24642003</a></td><td>Psychiatry procedure or service</td></tr><tr><td><a href=\"http://snomed.info/id/409063005\">409063005</a></td><td>Counseling</td></tr><tr><td><a href=\"http://snomed.info/id/409073007\">409073007</a></td><td>Education</td></tr><tr><td><a href=\"http://snomed.info/id/387713003\">387713003</a></td><td>Surgical procedure (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/103693007\">103693007</a></td><td>Diagnostic procedure</td></tr><tr><td><a href=\"http://snomed.info/id/46947000\">46947000</a></td><td>Chiropractic manipulation</td></tr><tr><td><a href=\"http://snomed.info/id/410606002\">410606002</a></td><td>Social service procedure (procedure)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -75,6 +71,154 @@
                     },
                     {
                         "code": "410606002"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:169920a4-c340-43ba-8dce-04a256439930",
+        "timestamp": "2021-11-17T05:28:35.394Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "24642003",
+                "display": "Psychiatry procedure or service",
+                "designation": [
+                    {
+                        "value": "Psychiatry procedure or service"
+                    },
+                    {
+                        "value": "Psychiatry procedure or service (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409063005",
+                "display": "Counseling",
+                "designation": [
+                    {
+                        "value": "Counseling"
+                    },
+                    {
+                        "value": "Counseling (procedure)"
+                    },
+                    {
+                        "value": "Psychosocial procedure that involves listening, reflecting, etc. to facilitate recognition of course of action / solution."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409073007",
+                "display": "Education",
+                "designation": [
+                    {
+                        "value": "Education"
+                    },
+                    {
+                        "value": "Educating"
+                    },
+                    {
+                        "value": "Education procedure"
+                    },
+                    {
+                        "value": "Education (procedure)"
+                    },
+                    {
+                        "value": "Instruction"
+                    },
+                    {
+                        "value": "Teaching"
+                    },
+                    {
+                        "value": "Procedure that is synonymous with those activities such as teaching, demonstration, instruction, explanation, and advice that aim to increase knowledge and skills, change behaviors, assist coping and increase adherence to treatment."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "387713003",
+                "display": "Surgical procedure (procedure)",
+                "designation": [
+                    {
+                        "value": "Surgical procedure (procedure)"
+                    },
+                    {
+                        "value": "Surgical procedure"
+                    },
+                    {
+                        "value": "Operation"
+                    },
+                    {
+                        "value": "Surgical procedures"
+                    },
+                    {
+                        "value": "Operative procedure"
+                    },
+                    {
+                        "value": "Planned structural alteration of the body, usually requiring disruption of a body surface (usually skin or mucosa)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "103693007",
+                "display": "Diagnostic procedure",
+                "designation": [
+                    {
+                        "value": "Diagnostic procedure"
+                    },
+                    {
+                        "value": "Diagnostic procedure (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "46947000",
+                "display": "Chiropractic manipulation",
+                "designation": [
+                    {
+                        "value": "Chiropractic manipulation"
+                    },
+                    {
+                        "value": "Chiropractic manipulation (procedure)"
+                    },
+                    {
+                        "value": "A manipulation done by a chiropractor"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "410606002",
+                "display": "Social service procedure (procedure)",
+                "designation": [
+                    {
+                        "value": "Social service procedure (procedure)"
+                    },
+                    {
+                        "value": "Social service procedure"
                     }
                 ]
             }

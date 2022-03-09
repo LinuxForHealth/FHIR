@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "bodystructure-relative-location",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/419161000\">419161000</a></td><td>Unilateral left</td></tr><tr><td><a href=\"http://snomed.info/id/419465000\">419465000</a></td><td>Unilateral right</td></tr><tr><td><a href=\"http://snomed.info/id/51440002\">51440002</a></td><td>Bilateral</td></tr><tr><td><a href=\"http://snomed.info/id/261183002\">261183002</a></td><td>Upper</td></tr><tr><td><a href=\"http://snomed.info/id/261122009\">261122009</a></td><td>Lower</td></tr><tr><td><a href=\"http://snomed.info/id/255561001\">255561001</a></td><td>Medial</td></tr><tr><td><a href=\"http://snomed.info/id/49370004\">49370004</a></td><td>Lateral</td></tr><tr><td><a href=\"http://snomed.info/id/264217000\">264217000</a></td><td>Superior</td></tr><tr><td><a href=\"http://snomed.info/id/261089000\">261089000</a></td><td>Inferior</td></tr><tr><td><a href=\"http://snomed.info/id/255551008\">255551008</a></td><td>Posterior</td></tr><tr><td><a href=\"http://snomed.info/id/351726001\">351726001</a></td><td>Below</td></tr><tr><td><a href=\"http://snomed.info/id/352730000\">352730000</a></td><td>Above</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -102,6 +98,216 @@
                     {
                         "code": "352730000",
                         "display": "Above"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:3cf92c8a-6fa4-484b-aa16-c9532ce54816",
+        "timestamp": "2021-11-17T05:28:35.235Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419161000",
+                "display": "Unilateral left (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Unilateral left (qualifier value)"
+                    },
+                    {
+                        "value": "Unilateral left"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419465000",
+                "display": "Unilateral right (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Unilateral right (qualifier value)"
+                    },
+                    {
+                        "value": "Unilateral right"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "51440002",
+                "display": "Right and left",
+                "designation": [
+                    {
+                        "value": "Right and left"
+                    },
+                    {
+                        "value": "Both"
+                    },
+                    {
+                        "value": "Both sides"
+                    },
+                    {
+                        "value": "Bilateral"
+                    },
+                    {
+                        "value": "Right and left (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261183002",
+                "display": "Upper",
+                "designation": [
+                    {
+                        "value": "Upper"
+                    },
+                    {
+                        "value": "Upper (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261122009",
+                "display": "Lower",
+                "designation": [
+                    {
+                        "value": "Lower"
+                    },
+                    {
+                        "value": "Lower (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255561001",
+                "display": "Medial",
+                "designation": [
+                    {
+                        "value": "Medial"
+                    },
+                    {
+                        "value": "Medial (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "49370004",
+                "display": "Lateral",
+                "designation": [
+                    {
+                        "value": "Lateral"
+                    },
+                    {
+                        "value": "Lateral (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "264217000",
+                "display": "Superior",
+                "designation": [
+                    {
+                        "value": "Superior"
+                    },
+                    {
+                        "value": "Superior (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261089000",
+                "display": "Inferior",
+                "designation": [
+                    {
+                        "value": "Inferior"
+                    },
+                    {
+                        "value": "Inferior (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255551008",
+                "display": "Posterior",
+                "designation": [
+                    {
+                        "value": "Posterior"
+                    },
+                    {
+                        "value": "Posterior (qualifier value)"
+                    },
+                    {
+                        "value": "Back of"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "351726001",
+                "display": "Beneath",
+                "designation": [
+                    {
+                        "value": "Beneath"
+                    },
+                    {
+                        "value": "Infra-"
+                    },
+                    {
+                        "value": "Under"
+                    },
+                    {
+                        "value": "Subjacent"
+                    },
+                    {
+                        "value": "Sub-"
+                    },
+                    {
+                        "value": "Below"
+                    },
+                    {
+                        "value": "Below (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "352730000",
+                "display": "Above",
+                "designation": [
+                    {
+                        "value": "Above"
+                    },
+                    {
+                        "value": "Supra-"
+                    },
+                    {
+                        "value": "Supra- (qualifier value)"
                     }
                 ]
             }

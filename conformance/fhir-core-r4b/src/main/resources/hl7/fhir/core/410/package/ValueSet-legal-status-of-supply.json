@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "legal-status-of-supply",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-legal-status-of-supply.html\"><code>http://hl7.org/fhir/legal-status-of-supply</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -59,6 +55,67 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/legal-status-of-supply"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e880c5ab-f50c-4ea1-bfeb-8a764662ee2d",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/legal-status-of-supply|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072076",
+                "display": "Medicinal product not subject to medical prescription"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072077",
+                "display": "Medicinal product on medical prescription for renewable or non-renewable delivery"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072078",
+                "display": "Medicinal product subject to restricted medical prescription"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072079",
+                "display": "Medicinal product on medical prescription for non-renewable delivery"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072084",
+                "display": "Medicinal product subject to medical prescription"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072085",
+                "display": "Medicinal product subject to special medical prescription"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000072086",
+                "display": "Medicinal product on medical prescription for renewable delivery"
+            },
+            {
+                "system": "http://hl7.org/fhir/legal-status-of-supply",
+                "code": "100000157313",
+                "display": "Medicinal product subject to special and restricted medical prescription"
             }
         ]
     }

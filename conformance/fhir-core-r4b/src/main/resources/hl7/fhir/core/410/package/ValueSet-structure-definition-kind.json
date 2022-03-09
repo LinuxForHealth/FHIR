@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "structure-definition-kind",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>StructureDefinitionKind</h2>\n      <div>\n        <p>Defines the type of structure that a definition is describing.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-structure-definition-kind.html\">\n            <code>http://hl7.org/fhir/structure-definition-kind</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/structure-definition-kind"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4c20bf39-0150-404f-bd9d-ed24774b8f50",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/structure-definition-kind|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/structure-definition-kind",
+                "code": "primitive-type",
+                "display": "Primitive Data Type"
+            },
+            {
+                "system": "http://hl7.org/fhir/structure-definition-kind",
+                "code": "complex-type",
+                "display": "Complex Data Type"
+            },
+            {
+                "system": "http://hl7.org/fhir/structure-definition-kind",
+                "code": "resource",
+                "display": "Resource"
+            },
+            {
+                "system": "http://hl7.org/fhir/structure-definition-kind",
+                "code": "logical",
+                "display": "Logical"
             }
         ]
     }

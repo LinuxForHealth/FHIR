@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "dicm-405-mediatype",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://dicom.nema.org/resources/ontology/DCM\"><code>http://dicom.nema.org/resources/ontology/DCM</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>110030</td><td>USB Disk Emulation</td></tr><tr><td>110031</td><td>Email</td></tr><tr><td>110032</td><td>CD</td></tr><tr><td>110033</td><td>DVD</td></tr><tr><td>110034</td><td>Compact Flash</td></tr><tr><td>110035</td><td>Multi-media Card</td></tr><tr><td>110036</td><td>Secure Digital Card</td></tr><tr><td>110037</td><td>URI</td></tr><tr><td>110010</td><td>Film</td></tr><tr><td>110038</td><td>Paper Document</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -74,6 +70,190 @@
                     },
                     {
                         "code": "110038"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d6052675-f9f9-47dd-a6af-791a2c8cd182",
+        "timestamp": "2021-12-06T18:56:00.517Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+            }
+        ],
+        "contains": [
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "A device that connects using the USB hard drive interface. These may be USB-Sticks, portable hard drives, and other technologies"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110030",
+                "display": "USB Disk Emulation",
+                "designation": [
+                    {
+                        "value": "USB Disk Emulation"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Email and email attachments used as a media for data transport"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110031",
+                "display": "Email",
+                "designation": [
+                    {
+                        "value": "Email"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "CD-R, CD-ROM, and CD-RW media used for data transport"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110032",
+                "display": "CD",
+                "designation": [
+                    {
+                        "value": "CD"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "DVD, DVD-RAM, and other DVD formatted media used for data transport"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110033",
+                "display": "DVD",
+                "designation": [
+                    {
+                        "value": "DVD"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Media that comply with the Compact Flash standard"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110034",
+                "display": "Compact Flash",
+                "designation": [
+                    {
+                        "value": "Compact Flash"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Media that comply with the Multi-media Card standard"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110035",
+                "display": "Multi-media Card",
+                "designation": [
+                    {
+                        "value": "Multi-media Card"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Media that comply with the Secure Digital Card standard"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110036",
+                "display": "Secure Digital Card",
+                "designation": [
+                    {
+                        "value": "Secure Digital Card"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "URI Identifier for network or other resource, see RFC 3968"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110037",
+                "display": "URI",
+                "designation": [
+                    {
+                        "value": "URI"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Film type of output"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110010",
+                "display": "Film",
+                "designation": [
+                    {
+                        "value": "Film"
+                    }
+                ]
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+                        "valueString": "Any paper or similar document"
+                    }
+                ],
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110038",
+                "display": "Paper Document",
+                "designation": [
+                    {
+                        "value": "Paper Document"
                     }
                 ]
             }

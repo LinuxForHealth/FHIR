@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "allergyintolerance-clinical",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-allergyintolerance-clinical.html\"><code>http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -52,6 +48,42 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:eac8bd28-e014-4677-a42c-aafbfa964f2e",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "inactive",
+                "display": "Inactive"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "resolved",
+                "display": "Resolved"
             }
         ]
     }

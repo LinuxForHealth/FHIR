@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "event-capability-mode",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>EventCapabilityMode</h2>\n      <div>\n        <p>The mode of a message capability statement.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-event-capability-mode.html\">\n            <code>http://hl7.org/fhir/event-capability-mode</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,37 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/event-capability-mode"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0dc93ebb-7e3e-49c3-8022-66623aeb4796",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/event-capability-mode|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/event-capability-mode",
+                "code": "sender",
+                "display": "Sender"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-capability-mode",
+                "code": "receiver",
+                "display": "Receiver"
             }
         ]
     }

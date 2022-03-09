@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "contract-security-classification",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-contract-security-classification.html\"><code>http://hl7.org/fhir/contract-security-classification</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,32 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/contract-security-classification"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:9f4181ae-e26f-4847-861f-20cb46af1cbf",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 1,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/contract-security-classification|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/contract-security-classification",
+                "code": "policy",
+                "display": "Policy"
             }
         ]
     }

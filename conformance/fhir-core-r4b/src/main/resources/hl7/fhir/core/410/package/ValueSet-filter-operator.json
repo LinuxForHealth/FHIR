@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "filter-operator",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>FilterOperator</h2>\n      <div>\n        <p>The kind of operation to perform as a part of a property based filter.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-filter-operator.html\">\n            <code>http://hl7.org/fhir/filter-operator</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,72 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/filter-operator"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:74bd86b2-99c0-49f7-861d-9aadf231950c",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/filter-operator|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "=",
+                "display": "Equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "is-a",
+                "display": "Is A (by subsumption)"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "descendent-of",
+                "display": "Descendent Of (by subsumption)"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "is-not-a",
+                "display": "Not (Is A) (by subsumption)"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "regex",
+                "display": "Regular Expression"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "in",
+                "display": "In Set"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "not-in",
+                "display": "Not in Set"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "generalizes",
+                "display": "Generalizes (by Subsumption)"
+            },
+            {
+                "system": "http://hl7.org/fhir/filter-operator",
+                "code": "exists",
+                "display": "Exists"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "goal-priority",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-goal-priority.html\"><code>http://terminology.hl7.org/CodeSystem/goal-priority</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -43,6 +39,42 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/goal-priority"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e95a5e18-c68e-4417-a498-cf5d4198d266",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/goal-priority|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/goal-priority",
+                "code": "high-priority",
+                "display": "High Priority"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/goal-priority",
+                "code": "medium-priority",
+                "display": "Medium Priority"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/goal-priority",
+                "code": "low-priority",
+                "display": "Low Priority"
             }
         ]
     }

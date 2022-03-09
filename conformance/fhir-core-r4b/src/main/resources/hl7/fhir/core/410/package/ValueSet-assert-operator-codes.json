@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "assert-operator-codes",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>AssertionOperatorType</h2>\n      <div>\n        <p>The type of operator to use for assertion.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-assert-operator-codes.html\">\n            <code>http://hl7.org/fhir/assert-operator-codes</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,82 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/assert-operator-codes"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:957cdf1f-899a-4101-a37a-beebc18158cf",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 11,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/assert-operator-codes|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "equals",
+                "display": "equals"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "notEquals",
+                "display": "notEquals"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "in",
+                "display": "in"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "notIn",
+                "display": "notIn"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "greaterThan",
+                "display": "greaterThan"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "lessThan",
+                "display": "lessThan"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "empty",
+                "display": "empty"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "notEmpty",
+                "display": "notEmpty"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "contains",
+                "display": "contains"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "notContains",
+                "display": "notContains"
+            },
+            {
+                "system": "http://hl7.org/fhir/assert-operator-codes",
+                "code": "eval",
+                "display": "evaluate"
             }
         ]
     }

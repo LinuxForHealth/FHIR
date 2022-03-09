@@ -1,0 +1,107 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medicinal-product-name-type",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medicinal-product-name-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1582"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "ProductNameType",
+    "title": "ProductNameType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Type of a name for a Medicinal Product.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:3dd662e7-507b-422d-8c92-97f6ec908887",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/medicinal-product-name-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type",
+                "code": "BAN",
+                "display": "British Approved Name"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type",
+                "code": "INN",
+                "display": "International Non-Proprietary Name"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type",
+                "code": "INNM",
+                "display": "Modified International Non-Proprietary Name"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type",
+                "code": "pINN",
+                "display": "Proposed International Non-Proprietary Name"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-name-type",
+                "code": "rINN",
+                "display": "Recommended International Non-Proprietary Name"
+            }
+        ]
+    }
+}

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "task-intent",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>TaskIntent</h2>\n      <div>\n        <p>Distinguishes whether the task is a proposal, plan or full order.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-task-intent.html\">\n            <code>http://hl7.org/fhir/task-intent</code>\n          </a>\n        </li>\n        <li>Include these codes as defined in \n          <a href=\"codesystem-request-intent.html\">\n            <code>http://hl7.org/fhir/request-intent</code>\n          </a>\n          <table class=\"none\">\n            <tr>\n              <td style=\"white-space:nowrap\">\n                <b>Code</b>\n              </td>\n              <td>\n                <b>Display</b>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-proposal\">proposal</a>\n              </td>\n              <td>Proposal</td>\n              <td>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and without providing an authorization to act.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-plan\">plan</a>\n              </td>\n              <td>Plan</td>\n              <td>The request represents an intention to ensure something occurs without providing an authorization for others to act.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-order\">order</a>\n              </td>\n              <td>Order</td>\n              <td>The request represents a request/demand and authorization for action by a Practitioner.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-original-order\">original-order</a>\n              </td>\n              <td>Original Order</td>\n              <td>The request represents an original authorization for action.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-reflex-order\">reflex-order</a>\n              </td>\n              <td>Reflex Order</td>\n              <td>The request represents an automatically generated supplemental authorization for action based on a parent authorization together with initial results of the action taken against that parent authorization.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-filler-order\">filler-order</a>\n              </td>\n              <td>Filler Order</td>\n              <td>The request represents the view of an authorization instantiated by a fulfilling system representing the details of the fulfiller's intention to act upon a submitted order.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-instance-order\">instance-order</a>\n              </td>\n              <td>Instance Order</td>\n              <td>An order created in fulfillment of a broader order that represents the authorization for a single activity occurrence.  E.g. The administration of a single dose of a drug.</td>\n            </tr>\n            <tr>\n              <td>\n                <a href=\"codesystem-request-intent.html#request-intent-option\">option</a>\n              </td>\n              <td>Option</td>\n              <td>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or other constraints among a set of requests.  Refer to [[[RequestGroup]]] for additional information on how this status is used.</td>\n            </tr>\n          </table>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -88,6 +84,76 @@
                         "code": "option"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d61f2110-3f74-4a8a-a2b1-52192bbdd1c7",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/task-intent|4.3.0-CIBUILD"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/request-intent|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/task-intent",
+                "code": "unknown",
+                "display": "Unknown"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "proposal",
+                "display": "Proposal"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "plan",
+                "display": "Plan"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "order",
+                "display": "Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "original-order",
+                "display": "Original Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "reflex-order",
+                "display": "Reflex Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "filler-order",
+                "display": "Filler Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "instance-order",
+                "display": "Instance Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "option",
+                "display": "Option"
             }
         ]
     }

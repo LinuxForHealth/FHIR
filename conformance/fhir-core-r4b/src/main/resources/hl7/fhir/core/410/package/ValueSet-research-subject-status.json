@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "research-subject-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>ResearchSubjectStatus</h2>\n      <div>\n        <p>Indicates the progression of a study subject through a study.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-research-subject-status.html\">\n            <code>http://hl7.org/fhir/research-subject-status</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,92 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/research-subject-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:44d8d247-3def-4c32-a128-d7f566b487fc",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 13,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/research-subject-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "candidate",
+                "display": "Candidate"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "eligible",
+                "display": "Eligible"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "follow-up",
+                "display": "Follow-up"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "ineligible",
+                "display": "Ineligible"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "not-registered",
+                "display": "Not Registered"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "off-study",
+                "display": "Off-study"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "on-study",
+                "display": "On-study"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "on-study-intervention",
+                "display": "On-study-intervention"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "on-study-observation",
+                "display": "On-study-observation"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "pending-on-study",
+                "display": "Pending on-study"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "potential-candidate",
+                "display": "Potential Candidate"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "screening",
+                "display": "Screening"
+            },
+            {
+                "system": "http://hl7.org/fhir/research-subject-status",
+                "code": "withdrawn",
+                "display": "Withdrawn"
             }
         ]
     }

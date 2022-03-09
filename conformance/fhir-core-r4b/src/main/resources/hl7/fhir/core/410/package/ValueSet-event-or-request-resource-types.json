@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "event-or-request-resource-types",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"valueset-event-resource-types.html\">http://hl7.org/fhir/ValueSet/event-resource-types</a></li><li>Import all the codes that are contained in <a href=\"valueset-request-resource-types.html\">http://hl7.org/fhir/ValueSet/request-resource-types</a></li></ul></div>"
     },
     "extension": [
         {
@@ -25,11 +21,11 @@
         }
     ],
     "version": "4.3.0-CIBUILD",
-    "name": "Event Or Request Resource Types",
-    "title": "EventOrRequestResourceTypes",
+    "name": "EventOrRequestResourceTypes",
+    "title": "Event Or Request Resource Types",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -54,6 +50,382 @@
                 "valueSet": [
                     "http://hl7.org/fhir/ValueSet/request-resource-types"
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0693e9a5-f135-4691-bbc4-0d3052d59d23",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 49,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/ValueSet/event-resource-types|4.3.0-CIBUILD"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/event-resource-types|4.3.0-CIBUILD"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/ValueSet/request-resource-types|4.3.0-CIBUILD"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/request-resource-types|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ChargeItem",
+                "display": "ChargeItem"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ClaimResponse",
+                "display": "ClaimResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ClinicalImpression",
+                "display": "ClinicalImpression"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Communication",
+                "display": "Communication"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Composition",
+                "display": "Composition"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Condition",
+                "display": "Condition"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Consent",
+                "display": "Consent"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Coverage",
+                "display": "Coverage"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "DeviceUseStatement",
+                "display": "DeviceUseStatement"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "DiagnosticReport",
+                "display": "DiagnosticReport"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "DocumentManifest",
+                "display": "DocumentManifest"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "DocumentReference",
+                "display": "DocumentReference"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Encounter",
+                "display": "Encounter"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "EnrollmentResponse",
+                "display": "EnrollmentResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "EpisodeOfCare",
+                "display": "EpisodeOfCare"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ExplanationOfBenefit",
+                "display": "ExplanationOfBenefit"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "FamilyMemberHistory",
+                "display": "FamilyMemberHistory"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "GuidanceResponse",
+                "display": "GuidanceResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ImagingStudy",
+                "display": "ImagingStudy"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Immunization",
+                "display": "Immunization"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "MeasureReport",
+                "display": "MeasureReport"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Media",
+                "display": "Media"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "MedicationAdministration",
+                "display": "MedicationAdministration"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "MedicationDispense",
+                "display": "MedicationDispense"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "MedicationStatement",
+                "display": "MedicationStatement"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Observation",
+                "display": "Observation"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "PaymentNotice",
+                "display": "PaymentNotice"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "PaymentReconciliation",
+                "display": "PaymentReconciliation"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Procedure",
+                "display": "Procedure"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ProcessResponse",
+                "display": "ProcessResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "QuestionnaireResponse",
+                "display": "QuestionnaireResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "RiskAssessment",
+                "display": "RiskAssessment"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "SupplyDelivery",
+                "display": "SupplyDelivery"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Task",
+                "display": "Task"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Appointment",
+                "display": "Appointment"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "AppointmentResponse",
+                "display": "AppointmentResponse"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "CarePlan",
+                "display": "CarePlan"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Claim",
+                "display": "Claim"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "CommunicationRequest",
+                "display": "CommunicationRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Contract",
+                "display": "Contract"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "DeviceRequest",
+                "display": "DeviceRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "EnrollmentRequest",
+                "display": "EnrollmentRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ImmunizationRecommendation",
+                "display": "ImmunizationRecommendation"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "MedicationRequest",
+                "display": "MedicationRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "NutritionOrder",
+                "display": "NutritionOrder"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "ServiceRequest",
+                "display": "ServiceRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "SupplyRequest",
+                "display": "SupplyRequest"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "Task",
+                "display": "Task"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-resource-types",
+                "abstract": false,
+                "inactive": false,
+                "code": "VisionPrescription",
+                "display": "VisionPrescription"
             }
         ]
     }

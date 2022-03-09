@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "request-intent",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-request-intent.html\"><code>http://hl7.org/fhir/request-intent</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "RequestIntent",
     "status": "draft",
     "experimental": true,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,72 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/request-intent"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:89a3c7a1-e756-4e46-a866-955024b884b2",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/request-intent|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "proposal",
+                "display": "Proposal"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "plan",
+                "display": "Plan"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "directive",
+                "display": "Directive"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "order",
+                "display": "Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "original-order",
+                "display": "Original Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "reflex-order",
+                "display": "Reflex Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "filler-order",
+                "display": "Filler Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "instance-order",
+                "display": "Instance Order"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-intent",
+                "code": "option",
+                "display": "Option"
             }
         ]
     }

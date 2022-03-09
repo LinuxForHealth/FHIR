@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "age-units",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p>\n        This value set includes all common UCUM codes used for Age - that it is, all commonly used units which have the same canonical unit as &quot;a&quot; (year)\n      </p>\n      <p> \n        The UCUM codes, UCUM table (regardless of format), and UCUM Specification are copyright © 1999-2009, Regenstrief Institute, Inc. and the Unified Codes for Units of Measures (UCUM) Organization. All rights reserved.\n     </p>\n    \n    </div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "Common UCUM Codes for Age",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -79,6 +75,90 @@
                     {
                         "code": "a",
                         "display": "years"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:22b17aad-f3ca-4957-85ed-183c06dced42",
+        "timestamp": "2021-11-17T05:28:24.684Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://unitsofmeasure.org|2.0.1"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "min",
+                "display": "min",
+                "designation": [
+                    {
+                        "value": "min"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "h",
+                "display": "h",
+                "designation": [
+                    {
+                        "value": "h"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "d",
+                "display": "d",
+                "designation": [
+                    {
+                        "value": "d"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "wk",
+                "display": "wk",
+                "designation": [
+                    {
+                        "value": "wk"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "mo",
+                "display": "mo",
+                "designation": [
+                    {
+                        "value": "mo"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "a",
+                "display": "a",
+                "designation": [
+                    {
+                        "value": "a"
                     }
                 ]
             }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "cited-artifact-classification-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <ul>\n        \n        <li>Include all codes defined in \n          \n          <a href=\"codesystem-cited-artifact-classification-type.html\">\n            \n            <code>http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type</code>\n          \n          </a>\n        \n        </li>\n      \n      </ul>\n    \n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,82 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:20715f5c-14e4-4e08-a0fe-81d051c3fe9a",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 11,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "publication-type",
+                "display": "Publication type"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "mesh-heading",
+                "display": "MeSH heading"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "supplemental-mesh-protocol",
+                "display": "Supplemental MeSH for Protocol"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "supplemental-mesh-disease",
+                "display": "Supplemental MeSH for Disease"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "supplemental-mesh-organism",
+                "display": "Supplemental MeSH for Organism"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "keyword",
+                "display": "Keyword"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "citation-subset",
+                "display": "Citation subset"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "chemical",
+                "display": "Chemical"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "publishing-model",
+                "display": "Publishing Model"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "knowledge-artifact-type",
+                "display": "Knowledge Artifact Type"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type",
+                "code": "coverage",
+                "display": "Coverage"
             }
         ]
     }

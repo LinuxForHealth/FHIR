@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "focus-characteristic-code",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-focus-characteristic-code.html\">\n            <code>http://terminology.hl7.org/CodeSystem/focus-characteristic-code</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,67 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:8cee805f-49d6-4a2d-82ba-6ee5b8f54464",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "citation",
+                "display": "Citation"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "clinical-outcomes-observed",
+                "display": "Observed outcomes are clinical outcomes"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "population",
+                "display": "Population"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "exposure",
+                "display": "Exposure"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "comparator",
+                "display": "Comparator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "outcome",
+                "display": "Outcome"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "medication-exposures",
+                "display": "Medication exposures"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+                "code": "study-type",
+                "display": "Study type"
             }
         ]
     }

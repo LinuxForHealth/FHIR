@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "units-of-time",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://unitsofmeasure.org\"><code>http://unitsofmeasure.org</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td><td><b>中文 (Chinese, zh)</b></td></tr><tr><td>s</td><td>second</td><td>second</td><td>秒</td></tr><tr><td>min</td><td>minute</td><td>minute</td><td>分钟</td></tr><tr><td>h</td><td>hour</td><td>hour</td><td>小时</td></tr><tr><td>d</td><td>day</td><td>day</td><td>天</td></tr><tr><td>wk</td><td>week</td><td>week</td><td>星期</td></tr><tr><td>mo</td><td>month</td><td>month</td><td>月</td></tr><tr><td>a</td><td>year</td><td>year</td><td>年</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "UnitsOfTime",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -175,6 +171,107 @@
                                 "value": "年"
                             }
                         ]
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:6fb756b9-079d-4a93-9206-6e23419b07a6",
+        "timestamp": "2021-12-06T18:55:18.251Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://unitsofmeasure.org|2.0.1"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "s",
+                "display": "秒",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "秒"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "min",
+                "display": "分钟",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "分钟"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "h",
+                "display": "小时",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "小时"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "d",
+                "display": "天",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "天"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "wk",
+                "display": "星期",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "星期"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "mo",
+                "display": "月",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "月"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "a",
+                "display": "年",
+                "designation": [
+                    {
+                        "language": "zh",
+                        "value": "年"
                     }
                 ]
             }

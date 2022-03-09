@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "concept-map-equivalence",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-concept-map-equivalence.html\"><code>http://hl7.org/fhir/concept-map-equivalence</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "ConceptMapEquivalence",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,77 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/concept-map-equivalence"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:834b42cb-9f53-4aa9-8edd-d1e40c3bee44",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/concept-map-equivalence|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "relatedto",
+                "display": "Related To"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "equivalent",
+                "display": "Equivalent"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "equal",
+                "display": "Equal"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "wider",
+                "display": "Wider"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "subsumes",
+                "display": "Subsumes"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "narrower",
+                "display": "Narrower"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "specializes",
+                "display": "Specializes"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "inexact",
+                "display": "Inexact"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "unmatched",
+                "display": "Unmatched"
+            },
+            {
+                "system": "http://hl7.org/fhir/concept-map-equivalence",
+                "code": "disjoint",
+                "display": "Disjoint"
             }
         ]
     }

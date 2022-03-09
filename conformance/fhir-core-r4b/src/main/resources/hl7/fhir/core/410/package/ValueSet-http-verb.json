@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "http-verb",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>HTTPVerb</h2>\n      <div>\n        <p>HTTP verbs (in the HTTP command line). See \n          <a href=\"https://tools.ietf.org/html/rfc7231\">HTTP rfc</a> for details.\n        </p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-http-verb.html\">\n            <code>http://hl7.org/fhir/http-verb</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,57 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/http-verb"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:745b165e-d54f-4046-8b33-622c70775bb6",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/http-verb|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "GET",
+                "display": "GET"
+            },
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "HEAD",
+                "display": "HEAD"
+            },
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "POST",
+                "display": "POST"
+            },
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "PUT",
+                "display": "PUT"
+            },
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "DELETE",
+                "display": "DELETE"
+            },
+            {
+                "system": "http://hl7.org/fhir/http-verb",
+                "code": "PATCH",
+                "display": "PATCH"
             }
         ]
     }

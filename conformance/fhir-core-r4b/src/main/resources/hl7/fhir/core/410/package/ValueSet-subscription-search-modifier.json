@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "subscription-search-modifier",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-subscription-search-modifier.html\"><code>http://terminology.hl7.org/CodeSystem/subscription-search-modifier</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -53,6 +49,102 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:45064889-4933-4485-b92b-7c4081292010",
+        "timestamp": "2022-03-03T22:05:10Z",
+        "total": 15,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "=",
+                "display": "="
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "eq",
+                "display": "Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ne",
+                "display": "Not Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "gt",
+                "display": "Greater Than"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "lt",
+                "display": "Less Than"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ge",
+                "display": "Greater Than or Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "le",
+                "display": "Less Than or Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "sa",
+                "display": "Starts After"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "eb",
+                "display": "Ends Before"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ap",
+                "display": "Approximately"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "above",
+                "display": "Above"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "below",
+                "display": "Below"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "in",
+                "display": "In"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "not-in",
+                "display": "Not In"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "of-type",
+                "display": "Of Type"
             }
         ]
     }

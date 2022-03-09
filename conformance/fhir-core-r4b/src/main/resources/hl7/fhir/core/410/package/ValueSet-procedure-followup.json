@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "procedure-followup",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/18949003\">18949003</a></td><td>Change of dressing</td></tr><tr><td><a href=\"http://snomed.info/id/30549001\">30549001</a></td><td>Removal of suture</td></tr><tr><td><a href=\"http://snomed.info/id/241031001\">241031001</a></td><td>Removal of drain</td></tr><tr><td><a href=\"http://snomed.info/id/35963001\">35963001</a></td><td>Removal of staples</td></tr><tr><td><a href=\"http://snomed.info/id/225164002\">225164002</a></td><td>Removal of ligature</td></tr><tr><td><a href=\"http://snomed.info/id/447346005\">447346005</a></td><td>Cardiopulmonary exercise test (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/229506003\">229506003</a></td><td>Scar tissue massage</td></tr><tr><td><a href=\"http://snomed.info/id/274441001\">274441001</a></td><td>Suction drainage</td></tr><tr><td><a href=\"http://snomed.info/id/394725008\">394725008</a></td><td>Diabetes medication review (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/359825008\">359825008</a></td><td>Cytopathology, review of bronchioalveolar lavage specimen</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -84,6 +80,178 @@
                     },
                     {
                         "code": "359825008"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:14b1193f-21bc-4182-9224-f729d24e6ba0",
+        "timestamp": "2021-11-17T05:28:20.687Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "18949003",
+                "display": "Change of dressing",
+                "designation": [
+                    {
+                        "value": "Change of dressing"
+                    },
+                    {
+                        "value": "Reapplying a fresh dressing"
+                    },
+                    {
+                        "value": "Renewing dressing"
+                    },
+                    {
+                        "value": "Redressing wound"
+                    },
+                    {
+                        "value": "Repeating dressing"
+                    },
+                    {
+                        "value": "Change of dressing (procedure)"
+                    },
+                    {
+                        "value": "Dressing change"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "30549001",
+                "display": "Removal of suture",
+                "designation": [
+                    {
+                        "value": "Removal of suture"
+                    },
+                    {
+                        "value": "Removal of suture (procedure)"
+                    },
+                    {
+                        "value": "ROS - removal of suture"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "241031001",
+                "display": "Removal of drain",
+                "designation": [
+                    {
+                        "value": "Removal of drain"
+                    },
+                    {
+                        "value": "Removal of drain (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "35963001",
+                "display": "Removal of staples",
+                "designation": [
+                    {
+                        "value": "Removal of staples"
+                    },
+                    {
+                        "value": "Removal of staples (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "225164002",
+                "display": "Removal of ligature",
+                "designation": [
+                    {
+                        "value": "Removal of ligature"
+                    },
+                    {
+                        "value": "Removal of ligature (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "447346005",
+                "display": "Cardiopulmonary exercise test (procedure)",
+                "designation": [
+                    {
+                        "value": "Cardiopulmonary exercise test (procedure)"
+                    },
+                    {
+                        "value": "Cardiopulmonary exercise test"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "229506003",
+                "display": "Scar tissue massage",
+                "designation": [
+                    {
+                        "value": "Scar tissue massage"
+                    },
+                    {
+                        "value": "Scar tissue massage (regime/therapy)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "274441001",
+                "display": "Suction drainage",
+                "designation": [
+                    {
+                        "value": "Suction drainage"
+                    },
+                    {
+                        "value": "Suction drainage (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394725008",
+                "display": "Diabetes medication review (procedure)",
+                "designation": [
+                    {
+                        "value": "Diabetes medication review (procedure)"
+                    },
+                    {
+                        "value": "Diabetes medication review"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "359825008",
+                "display": "Cytopathology, review of bronchioalveolar lavage specimen",
+                "designation": [
+                    {
+                        "value": "Cytopathology, review of bronchioalveolar lavage specimen"
+                    },
+                    {
+                        "value": "Cytopathology, review of bronchioalveolar lavage specimen (procedure)"
                     }
                 ]
             }

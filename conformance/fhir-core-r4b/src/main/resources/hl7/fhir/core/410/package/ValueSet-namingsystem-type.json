@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "namingsystem-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>NamingSystemType</h2>\n      <div>\n        <p>Identifies the purpose of the naming system.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-namingsystem-type.html\">\n            <code>http://hl7.org/fhir/namingsystem-type</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,42 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/namingsystem-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:455cdcd7-7df7-4c92-be36-c7398760bc0b",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/namingsystem-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/namingsystem-type",
+                "code": "codesystem",
+                "display": "Code System"
+            },
+            {
+                "system": "http://hl7.org/fhir/namingsystem-type",
+                "code": "identifier",
+                "display": "Identifier"
+            },
+            {
+                "system": "http://hl7.org/fhir/namingsystem-type",
+                "code": "root",
+                "display": "Root"
             }
         ]
     }
