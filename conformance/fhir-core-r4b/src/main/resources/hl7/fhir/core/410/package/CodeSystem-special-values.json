@@ -1,0 +1,78 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "special-values",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/special-values",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1049"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "SpecialValues",
+    "title": "SpecialValues",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28Z",
+    "description": "A set of generally useful codes defined so they can be included in value sets.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/special-values",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "true",
+            "display": "true",
+            "definition": "Boolean true."
+        },
+        {
+            "code": "false",
+            "display": "false",
+            "definition": "Boolean false."
+        },
+        {
+            "code": "trace",
+            "display": "Trace Amount Detected",
+            "definition": "The content is greater than zero, but too small to be quantified."
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "used in formulations (e.g. 'Add 10mg of ingredient X, 50mg of ingredient Y, and sufficient quantity of water to 100mL.' This code would be used to express the quantity of water. )"
+                }
+            ],
+            "code": "sufficient",
+            "display": "Sufficient Quantity",
+            "definition": "The specific quantity is not known, but is known to be non-zero and is not specified because it makes up the bulk of the material."
+        },
+        {
+            "code": "withdrawn",
+            "display": "Value Withdrawn",
+            "definition": "The value is no longer available."
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "The existence of this subject to review"
+                }
+            ],
+            "code": "nil-known",
+            "display": "Nil Known",
+            "definition": "The are no known applicable values in this context."
+        }
+    ]
+}

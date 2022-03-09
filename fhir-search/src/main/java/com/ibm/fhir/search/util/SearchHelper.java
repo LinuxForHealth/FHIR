@@ -1025,7 +1025,7 @@ public class SearchHelper {
                                 "' with modifier ':" + modifier.value() + "' could not be found";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
-                    if (!ValueSetSupport.isExpandable(valueSet)) {
+                    if (!ValueSetSupport.isExpanded(valueSet) && !ValueSetSupport.isExpandable(valueSet)) {
                         String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
                                 "' with modifier ':" + modifier.value() + "' is not expandable";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);

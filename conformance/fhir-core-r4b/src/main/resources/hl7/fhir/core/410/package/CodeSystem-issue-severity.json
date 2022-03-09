@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "issue-severity",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/issue-severity",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.409"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "IssueSeverity",
+    "title": "IssueSeverity",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "How the issue affects the success of the action.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "fatal",
+            "display": "Fatal",
+            "definition": "The issue caused the action to fail and no further checking could be performed."
+        },
+        {
+            "code": "error",
+            "display": "Error",
+            "definition": "The issue is sufficiently important to cause the action to fail."
+        },
+        {
+            "code": "warning",
+            "display": "Warning",
+            "definition": "The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a way that is not as desired."
+        },
+        {
+            "code": "information",
+            "display": "Information",
+            "definition": "The issue has no relation to the degree of success of the action."
+        }
+    ]
+}

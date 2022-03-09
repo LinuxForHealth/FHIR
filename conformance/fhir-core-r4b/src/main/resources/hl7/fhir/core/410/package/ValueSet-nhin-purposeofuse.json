@@ -1,0 +1,46 @@
+{
+    "resourceType": "ValueSet",
+    "id": "nhin-purposeofuse",
+    "meta": {
+        "lastUpdated": "2022-01-01T15:17:18.597Z"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/valueset-map",
+            "valueCanonical": "#map"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/nhin-purposeofuse",
+    "version": "4.3.0-CIBUILD",
+    "name": "NHIN PurposeOfUse",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-01-29",
+    "publisher": "Nationwide Health Information Network (NHIN)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.healthit.gov/sites/default/files/nhin-authorization-framework-production-specification-v2.0-1.pdf"
+                }
+            ]
+        }
+    ],
+    "description": "This value set is suitable for use with the provenance resource. It is derived from, but not compatible with, the HL7 v3 Purpose of use Code system.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://healthit.gov/nhin/purposeofuse"
+            }
+        ]
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "device-action",
+    "meta": {
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        }
+    ],
+    "url": "http://hl7.org/fhir/device-action",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.426"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "ProcedureDeviceActionCodes",
+    "title": "Procedure Device Action Codes",
+    "status": "draft",
+    "experimental": false,
+    "description": "Example value set for Procedure Device Action code (what happened to a device during a procedure.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "implanted",
+            "display": "Implanted",
+            "definition": "The device was implanted in the patient during the procedure."
+        },
+        {
+            "code": "explanted",
+            "display": "Explanted",
+            "definition": "The device was explanted from the patient during the procedure."
+        },
+        {
+            "code": "manipulated",
+            "display": "Manipulated",
+            "definition": "The device remains in the patient, but its location, settings, or functionality was changed."
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 
 /**
- * @author lmsurpre
  * @see https://hl7.org/fhir/r4/search.html#token
  */
 public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
@@ -341,14 +340,39 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_CodeableConcept_above() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|deleted");
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|not-found");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|processing");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:above", "http://hl7.org/fhir/issue-type|not-found");
+
+        // Note:  https://terminology.hl7.org/CodeSystem-v3-ObservationValue.html is the one HL7 CodeSystem I found that is both
+        // hierarchical AND case-insensitive, but unfortunately that one isn't included in FHIR R4B by default
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_below() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|processing");
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|not-found");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|deleted");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:below", "http://hl7.org/fhir/issue-type|not-found");
+    }
+
+    /**
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     */
+    @Test(enabled = false)
+    public void testSearchToken_CodeableConcept_above_poly() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
         assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
         assertSearchDoesntReturnSavedResource("missing-CodeableConcept:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
     }
 
-    @Test
-    public void testSearchToken_CodeableConcept_below() throws Exception {
+    /**
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     */
+    @Test(enabled = false)
+    public void testSearchToken_CodeableConcept_below_poly() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
         assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
         assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
@@ -366,16 +390,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|CODE");
         // system is case-sensitive
-        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
-        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://hl7.org/fhir/issue-type|not-found");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem", "http://hl7.org/fhir/issue-type|NOT-FOUND");
         // system is not case-sensitive
-        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|F");
-        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|f");
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0535|S");
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0535|s");
 
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
         assertSearchDoesntReturnSavedResource("Coding", "http://example.org/codesystem||");
         assertSearchDoesntReturnSavedResource("Coding", "Http://example.org/codesystem|");
-        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://hl7.org/fhir/issue-type|");
 
         // This shouldn't return any results because the Coding has a system
         assertSearchDoesntReturnSavedResource("Coding", "|code");
@@ -460,20 +484,41 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Coding_in() throws Exception {
-        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/issue-type");
         assertSearchDoesntReturnSavedResource("Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
 
     @Test
     public void testSearchToken_Coding_not_in() throws Exception {
-        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/issue-type");
         assertSearchReturnsSavedResource("Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
 
     @Test
     public void testSearchToken_Coding_above() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|deleted");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|not-found");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|processing");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:above", "http://hl7.org/fhir/concept-property-type|code");
+        assertSearchDoesntReturnSavedResource("missing-Coding:above", "http://hl7.org/fhir/issue-type|deleted");
+    }
+
+    @Test
+    public void testSearchToken_Coding_below() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|processing");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|not-found");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:below", "http://hl7.org/fhir/issue-type|deleted");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:above", "http://hl7.org/fhir/concept-property-type|code");
+        assertSearchDoesntReturnSavedResource("missing-Coding:below", "http://hl7.org/fhir/issue-type|processing");
+    }
+
+    /**
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     */
+    @Test(enabled = false)
+    public void testSearchToken_Coding_above_poly() throws Exception {
         assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
         assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
         assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
@@ -481,8 +526,11 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Coding:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
     }
 
-    @Test
-    public void testSearchToken_Coding_below() throws Exception {
+    /**
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     */
+    @Test(enabled = false)
+    public void testSearchToken_Coding_below_poly() throws Exception {
         assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
         assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
         assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
@@ -612,9 +660,9 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Identifier_of_type() throws Exception {
-        // system is not case-sensitive
+        // system is case-sensitive
         assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|code");
-        assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|mr|code");
+        assertSearchDoesntReturnSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|mr|code");
         assertSearchDoesntReturnSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|badcode");
     }
 

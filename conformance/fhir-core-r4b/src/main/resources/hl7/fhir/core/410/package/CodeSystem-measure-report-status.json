@@ -1,0 +1,77 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "measure-report-status",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/measure-report-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.777"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "MeasureReportStatus",
+    "title": "MeasureReportStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The status of the measure report.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "complete",
+            "display": "Complete",
+            "definition": "The report is complete and ready for use."
+        },
+        {
+            "code": "pending",
+            "display": "Pending",
+            "definition": "The report is currently being generated."
+        },
+        {
+            "code": "error",
+            "display": "Error",
+            "definition": "An error occurred attempting to generate the report."
+        }
+    ]
+}

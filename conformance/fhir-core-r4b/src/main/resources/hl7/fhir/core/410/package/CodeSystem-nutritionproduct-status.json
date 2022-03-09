@@ -1,0 +1,77 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "nutritionproduct-status",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/nutritionproduct-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1530"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "NutritionProductStatus",
+    "title": "NutritionProductStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes identifying the lifecycle stage of a product.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/nutritionproduct-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The product can be used."
+        },
+        {
+            "code": "inactive",
+            "display": "Inactive",
+            "definition": "The product is not expected or allowed to be used."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "This electronic record should never have existed, though it is possible that real-world decisions were based on it.  (If real-world activity has occurred, the status should be \"cancelled\" rather than \"entered-in-error\".)."
+        }
+    ]
+}

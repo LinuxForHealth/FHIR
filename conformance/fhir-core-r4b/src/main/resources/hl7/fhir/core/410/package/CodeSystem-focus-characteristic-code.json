@@ -1,0 +1,102 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "focus-characteristic-code",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/focus-characteristic-code",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "FocusCharacteristicCode",
+    "title": "FocusCharacteristicCode",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Evidence focus characteristic code.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/focus-characteristic-code",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "citation",
+            "display": "Citation",
+            "definition": "Used to reference a specific article."
+        },
+        {
+            "code": "clinical-outcomes-observed",
+            "display": "Observed outcomes are clinical outcomes",
+            "definition": "Used to denote a focus on clinical outcomes, ie evidence variable in role of outcome (measured variable) as observed is considered a \"clinical outcome\" (patient-important outcome such as mortality, symptoms, function or quality of life)."
+        },
+        {
+            "code": "population",
+            "display": "Population",
+            "definition": "The population of interest."
+        },
+        {
+            "code": "exposure",
+            "display": "Exposure",
+            "definition": "The exposure of interest, such as an intervention."
+        },
+        {
+            "code": "comparator",
+            "display": "Comparator",
+            "definition": "The comparator (intervention or control state) of interest."
+        },
+        {
+            "code": "outcome",
+            "display": "Outcome",
+            "definition": "the outcome of interest."
+        },
+        {
+            "code": "medication-exposures",
+            "display": "Medication exposures",
+            "definition": "Any medication exposures. A subset of exposures or interventions that are medications."
+        },
+        {
+            "code": "study-type",
+            "display": "Study type",
+            "definition": "Type of research study, such as randomized trial or case-control study."
+        }
+    ]
+}

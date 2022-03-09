@@ -1,0 +1,76 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "insuranceplan-type",
+    "meta": {
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/insuranceplan-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1261"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "InsurancePlanType",
+    "status": "draft",
+    "experimental": false,
+    "description": "This example value set defines a set of codes that can be used to indicate a type of product plan.",
+    "caseSensitive": true,
+    "content": "fragment",
+    "concept": [
+        {
+            "code": "medical",
+            "display": "Medical"
+        },
+        {
+            "code": "dental",
+            "display": "Dental"
+        },
+        {
+            "code": "mental",
+            "display": "Mental Health"
+        },
+        {
+            "code": "subst-ab",
+            "display": "Substance Abuse"
+        },
+        {
+            "code": "vision",
+            "display": "Vision"
+        },
+        {
+            "code": "Drug",
+            "display": "Drug"
+        },
+        {
+            "code": "short-term",
+            "display": "Short Term"
+        },
+        {
+            "code": "long-term",
+            "display": "Long Term Care"
+        },
+        {
+            "code": "hospice",
+            "display": "Hospice"
+        },
+        {
+            "code": "home",
+            "display": "Home Health"
+        }
+    ]
+}
