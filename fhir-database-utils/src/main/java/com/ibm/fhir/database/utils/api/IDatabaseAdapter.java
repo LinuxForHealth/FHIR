@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,6 +86,14 @@ public interface IDatabaseAdapter {
             DistributionRules distributionRules);
 
     /**
+     * Apply any distribution rules configured for the named table
+     * @param schemaName
+     * @param tableName
+     * @param distributionRules
+     */
+    public void applyDistributionRules(String schemaName, String tableName, DistributionRules distributionRules);
+
+    /**
      * Add a new column to an existing table
      * @param schemaName
      * @param tableName
@@ -152,27 +160,29 @@ public interface IDatabaseAdapter {
     public void dropProcedure(String schemaName, String procedureName);
 
     /**
-     *
+     * Create a unique index
      * @param schemaName
      * @param tableName
      * @param indexName
      * @param tenantColumnName
      * @param indexColumns
      * @param includeColumns
+     * @param distributionRules
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, List<String> includeColumns);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionRules distributionRules);
 
     /**
-     *
+     * Create a unique index
      * @param schemaName
      * @param tableName
      * @param indexName
      * @param tenantColumnName
      * @param indexColumns
+     * @param distributionRules
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns);
+            List<OrderedColumnDef> indexColumns, DistributionRules distributionRules);
 
     /**
      *

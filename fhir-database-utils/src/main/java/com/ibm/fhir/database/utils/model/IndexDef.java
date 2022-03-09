@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
@@ -68,13 +69,15 @@ public class IndexDef {
      * Apply this object to the given database target
      * @param tableName
      * @param target
+     * @param distributionRules
      */
-    public void apply(String schemaName, String tableName, String tenantColumnName, IDatabaseAdapter target) {
+    public void apply(String schemaName, String tableName, String tenantColumnName, IDatabaseAdapter target,
+            DistributionRules distributionRules) {
         if (includeColumns != null && includeColumns.size() > 0) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionRules);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionRules);
         }
         else {
             target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);

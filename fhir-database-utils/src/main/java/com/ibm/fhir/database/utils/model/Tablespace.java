@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -95,4 +95,8 @@ public class Tablespace extends DatabaseObject {
         v.visited(this);
     }
 
+    @Override
+    public void applyDistributionRules(IDatabaseAdapter target) {
+        // NOP
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -322,5 +322,10 @@ public abstract class BaseObject implements IDatabaseObject {
     @Override
     public void visit(Consumer<IDatabaseObject> c) {
         c.accept(this);
+    }
+
+    @Override
+    public void applyDistributionRules(IDatabaseAdapter target) {
+        // NOP. Only applies to Table
     }
 }

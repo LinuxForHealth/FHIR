@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,7 +47,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(PostgresAdapter.class.getName());
 
     // Different warning messages we track so that we only have to report them once
-    private enum MessageKey {
+    protected enum MessageKey {
         MULTITENANCY,
         CREATE_VAR,
         CREATE_PERM,
@@ -64,6 +64,9 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         DROP_PERMISSION,
         DROP_VARIABLE
     }
+
+    // Constant for better readability in method calls
+    protected static final boolean USE_SCHEMA_PREFIX = true;
 
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
@@ -112,9 +115,9 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-            List<String> includeColumns) {
+            List<String> includeColumns, DistributionRules distributionRules) {
         // PostgreSql doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionRules);
     }
 
     @Override
@@ -300,10 +303,10 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns) {
+        List<OrderedColumnDef> indexColumns, DistributionRules distributionRules) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, false);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
     }
 
@@ -312,7 +315,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
-        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
     }
 

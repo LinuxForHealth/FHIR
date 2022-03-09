@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,6 +132,17 @@ public class PhysicalDataModel implements IDataModel {
             logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
             obj.apply(target);
         }
+    }
+
+    /**
+     * Make a pass over all the objects again and apply any distribution rules they
+     * may have (e.g. for Citus)
+     * @param target
+     */
+    public void applyDistributionRules(IDatabaseAdapter target) {
+        for (IDatabaseObject obj: allObjects) {
+            obj.applyDistributionRules(target);
+        }        
     }
 
     /**

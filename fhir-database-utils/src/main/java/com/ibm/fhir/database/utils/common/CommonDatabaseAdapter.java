@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -197,7 +198,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns, List<String> includeColumns) {
+        List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionRules distributionRules) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
@@ -205,7 +206,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns) {
+        List<OrderedColumnDef> indexColumns, DistributionRules distributionRules) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -748,4 +749,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // NOP, unless overridden by a subclass (Db2Adapter, for example)
     }
 
+    @Override
+    public void applyDistributionRules(String schemaName, String tableName, DistributionRules distributionRules) {
+        // NOP. Only used for distributed databases like Citus
+    }
 }

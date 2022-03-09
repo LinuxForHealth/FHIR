@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -94,10 +94,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-            List<String> includeColumns) {
+            List<String> includeColumns, DistributionRules distributionRules) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionRules);
     }
 
     @Override

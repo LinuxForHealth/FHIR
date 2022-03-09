@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCE_GROUP_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.ERASED_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
@@ -40,6 +39,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_C
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_PROFILES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_SECURITY;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_SHARDS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_TAGS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
@@ -387,6 +387,7 @@ public class FhirSchemaGenerator {
         addCodeSystems(model);
         addCommonTokenValues(model);
         addResourceTypes(model);
+        addLogicalResourceShards(model);
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
         addLogicalResourceCompartments(model);
@@ -473,7 +474,7 @@ public class FhirSchemaGenerator {
     }
 
     public void buildDatabaseSpecificArtifactsPostgres(PhysicalDataModel model) {
-        // Add stored procedures/functions for postgresql.
+        // Add stored procedures/functions for postgresql and Citus
         // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
         final String ROOT_DIR = "postgres/";
         FunctionDef fd = model.addFunction(this.schemaName,
@@ -513,6 +514,65 @@ public class FhirSchemaGenerator {
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+    }
+
+    /**
+     * @implNote following the current pattern, which is why all this stuff is replicated
+     * @param model
+     */
+    public void buildDatabaseSpecificArtifactsCitus(PhysicalDataModel model) {
+        // Add stored procedures/functions for postgresql and Citus
+        // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
+        final String ROOT_DIR = "postgres/";
+        final String CITUS_ROOT_DIR = "citus/";
+        FunctionDef fd = model.addFunction(this.schemaName,
+                ADD_CODE_SYSTEM,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
+                procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+                ADD_PARAMETER_NAME,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+                ADD_RESOURCE_TYPE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // We currently only support functions with PostgreSQL, although this is really just a procedure
+        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // Use the Citus-specific variant of add_any_resource (supports sharding)
+        fd = model.addFunction(this.schemaName,
+                ADD_ANY_RESOURCE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, CITUS_ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -616,6 +676,48 @@ public class FhirSchemaGenerator {
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
+                    return statements;
+                })
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * Adds a table to support sharding of the logical_id when running
+     * in a distributed RDBMS such as Citus. This table is sharded by
+     * LOGICAL_ID, which means we can use a primary key of
+     * {RESOURCE_TYPE_ID, LOGICAL_ID} which is required to ensure
+     * that we can lock the logical resource to avoid any concurrency
+     * issues. This is only used for distributed implementations. For
+     * the standard non-distributed solution, the locking is done
+     * using LOGICAL_RESOURCES.
+     * @param pdm
+     */
+    public void addLogicalResourceShards(PhysicalDataModel pdm) {
+        final String tableName = LOGICAL_RESOURCE_SHARDS;
+        final String mtId = this.multitenant ? MT_ID : null;
+
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0026.vid()) // V0026: add support for distribution/sharding
+                .setTenantColumnName(mtId)
+                .addIntColumn(RESOURCE_TYPE_ID, false)
+                .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
+                .addPrimaryKey(tableName + "_PK", RESOURCE_TYPE_ID, LOGICAL_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
+                .enableAccessControl(this.sessionVariable)
+                .setDistributionColumnName(LOGICAL_ID) // V0026 support for sharding
+                .addWiths(addWiths()) // add table tuning
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // NOP for now
                     return statements;
                 })
                 .build(pdm);
@@ -1324,16 +1426,14 @@ public class FhirSchemaGenerator {
         // or resource_id values here, because those records may have
         // already been deleted by $erase.
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0023.vid())
+                .setVersion(FhirSchemaVersion.V0026.vid())
                 .setTenantColumnName(mtId)
-                .addBigIntColumn(ERASED_RESOURCE_ID, false)
-                .setIdentityColumn(ERASED_RESOURCE_ID, Generated.ALWAYS)
                 .addBigIntColumn(ERASED_RESOURCE_GROUP_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addIntColumn(VERSION_ID, true)
-                .addPrimaryKey(tableName + "_PK", ERASED_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_GID", ERASED_RESOURCE_GROUP_ID)
+                .setDistributionColumnName(ERASED_RESOURCE_GROUP_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
@@ -1342,6 +1442,8 @@ public class FhirSchemaGenerator {
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Nothing yet
+                    
+                    // TODO migrate to simplified design (no PK, FK)
                     return statements;
                 })
                 .build(pdm);

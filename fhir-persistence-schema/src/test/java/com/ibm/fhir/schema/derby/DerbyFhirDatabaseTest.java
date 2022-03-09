@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -138,7 +138,7 @@ public class DerbyFhirDatabaseTest {
 
                 // Check that we have the correct number of tables. This will need to be updated
                 // whenever tables, views or sequences are added or removed
-                assertEquals(adapter.listSchemaObjects(schemaName).size(), 1918);
+                assertEquals(adapter.listSchemaObjects(schemaName).size(), 1919);
                 c.commit();
             } catch (Throwable t) {
                 c.rollback();

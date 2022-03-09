@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,6 +66,7 @@ public class FhirSchemaConstants {
     public static final int FRAGMENT_BYTES = 16;
 
     // R4 Logical Resources
+    public static final String LOGICAL_RESOURCE_SHARDS = "LOGICAL_RESOURCE_SHARDS";
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
     public static final String REINDEX_TSTAMP = "REINDEX_TSTAMP";
     public static final String REINDEX_TXID = "REINDEX_TXID";

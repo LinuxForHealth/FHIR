@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
@@ -26,20 +27,27 @@ public class CreateIndex extends BaseObject {
     
     // The name of the tenant column when used for multi-tenant databases
     private final String tenantColumnName;
-    
+
+    // The table name the index will be created on
     private final String tableName;
+
+    // Distribution rules if the associated table is distributed
+    private final DistributionRules distributionRules;
 
     /**
      * Protected constructor. Use the Builder to create instance.
      * @param schemaName
      * @param indexName
      * @param version
+     * @distributionRules
      */
-    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName) {
+    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName,
+            DistributionRules distributionRules) {
         super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
         this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
+        this.distributionRules = distributionRules;
     }
     
     /**
@@ -86,7 +94,7 @@ public class CreateIndex extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionRules);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -151,7 +159,12 @@ public class CreateIndex extends BaseObject {
         // Special case to handle a previous defect where indexes were tracked using tableName in version_history
         private String versionTrackingName;
 
-        
+        // Set if the table is distributed
+        private String distributionColumn;
+
+        // Set if the table is a distributed reference type table
+        private boolean distributionReference;
+
         /**
          * @param schemaName the schemaName to set
          */
@@ -182,7 +195,27 @@ public class CreateIndex extends BaseObject {
             this.versionTrackingName = name;
             return this;
         }
-        
+
+        /**
+         * Setter for distributionColumn
+         * @param name
+         * @return
+         */
+        public Builder setDistributionColumn(String name) {
+            this.distributionColumn = name;
+            return this;
+        }
+
+        /**
+         * Setter for distributionReference
+         * @param flag
+         * @return
+         */
+        public Builder setDistributionReference(boolean flag) {
+            this.distributionReference = flag;
+            return this;
+        }
+
         /**
          * @param version the version to set
          */
@@ -190,7 +223,6 @@ public class CreateIndex extends BaseObject {
             this.version = version;
             return this;
         }
-
         
         /**
          * @param unique the unique to set
@@ -236,8 +268,13 @@ public class CreateIndex extends BaseObject {
             if (versionTrackingName == null) {
                 versionTrackingName = this.indexName;
             }
+            DistributionRules distributionRules = null;
+            if (this.distributionReference || this.distributionColumn != null) {
+                distributionRules = new DistributionRules(distributionColumn, distributionReference);
+            }
+            
             return new CreateIndex(schemaName, versionTrackingName, tableName, version,
-                new IndexDef(indexName, indexCols, unique), tenantColumnName);
+                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionRules);
         }
         
         /**

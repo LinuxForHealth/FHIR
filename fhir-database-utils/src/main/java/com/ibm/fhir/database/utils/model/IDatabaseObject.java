@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,6 +48,12 @@ public interface IDatabaseObject {
      * @param vhs the service interface for adding this object to the version history table
      */
     public void applyTx(IDatabaseAdapter target, ITransactionProvider cp, IVersionHistoryService vhs);
+
+    /**
+     * Apply any distribution rules associated with the object (usually a table)
+     * @param target the target database we apply the operation to
+     */
+    public void applyDistributionRules(IDatabaseAdapter target);
 
     /**
      * Apply the change, but only if it has a newer version than we already have

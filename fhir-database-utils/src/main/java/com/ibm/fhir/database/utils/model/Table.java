@@ -138,7 +138,7 @@ public class Table extends BaseObject {
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
-            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
+            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionRules);
         }
 
         // Foreign key constraints
@@ -939,5 +939,12 @@ public class Table extends BaseObject {
         // visit the child objects first when going in reverse
         this.fkConstraints.forEach(fk -> v.visited(this, fk));
         v.visited(this);
+    }
+
+    @Override
+    public void applyDistributionRules(IDatabaseAdapter target) {
+        if (this.distributionRules != null) {
+            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionRules);
+        }
     }
 }

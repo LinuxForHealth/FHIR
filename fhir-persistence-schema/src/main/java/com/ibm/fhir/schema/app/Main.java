@@ -99,6 +99,7 @@ import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
+import com.ibm.fhir.database.utils.citus.ConfigureConnectionDAO;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -336,6 +337,10 @@ public class Main {
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
         this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
+
+//        if (this.dbType == DbType.CITUS) {
+//            connectionPool.setNewConnectionHandler(Main::configureCitusConnection);
+//        }
     }
 
     /**
@@ -497,8 +502,10 @@ public class Main {
             logger.info("No database specific artifacts");
             break;
         case POSTGRESQL:
-        case CITUS:
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+            break;
+        case CITUS:
+            gen.buildDatabaseSpecificArtifactsCitus(pdm);
             break;
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
@@ -709,10 +716,38 @@ public class Main {
                 vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
+        applyDistributionRules(pdm);
         // The physical database objects should now match what was defined in the PhysicalDataModel
 
         return isNewDb;
     }
+
+    /**
+     * Apply any table distribution rules in one transaction
+     * @param pdm
+     */
+    private void applyDistributionRules(PhysicalDataModel pdm) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+                pdm.applyDistributionRules(adapter);
+            } catch (RuntimeException x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * Special case to initialize new connections created by the connection pool
+     * for Citus databases
+     * @param c
+     */
+    private static void configureCitusConnection(Connection c) {
+        logger.info("Citus: Configuring new database connection");
+        ConfigureConnectionDAO dao = new ConfigureConnectionDAO();
+        dao.run(new CitusTranslator(), c);
+     }
 
     /**
      * populates for the given tenantId the RESOURCE_TYPE table.
