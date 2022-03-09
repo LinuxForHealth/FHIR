@@ -45,7 +45,7 @@
         <fhir-model.index>MINIMAL_JSON</fhir-model.index>
         <fhir-validation.index>MINIMAL_JSON</fhir-validation.index>
         <fhir-search.index>MINIMAL_JSON</fhir-search.index>
-        <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
+        <fhir-persistence-jdbc.index>ALL</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>11</java.version>
         <fhir-examples.version>5.0.0-SNAPSHOT</fhir-examples.version>
@@ -67,6 +67,8 @@
         <module>../fhir-path</module>
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
+        <module>../conformance/fhir-hl7-terminology</module>
+        <module>../conformance/fhir-core-r4b</module>
         <module>../conformance/fhir-ig-us-core</module>
         <module>../conformance/fhir-ig-carin-bb</module>
         <module>../conformance/fhir-ig-mcode</module>

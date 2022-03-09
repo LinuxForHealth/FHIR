@@ -1,0 +1,133 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0945",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0945",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.445"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "AutoDilutionType",
+    "title": "auto-DilutionType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of vendor-defined codes that specify the pre‑configured dilution to be applied on the instrument, which can be used instead of a numeric declaration.  Used in Version 2 messaging in the TCD segment.",
+    "purpose": "Underlying Master Code System for V2 table 0945 (Auto-Dilution Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0945",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6754",
+            "code": "X2",
+            "display": "Dilution factor 2",
+            "definition": "Specimen pre-diluted by factor 2 applied on the instrument",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "corresponds to ^1^:^2 in TCD-2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6755",
+            "code": "X5",
+            "display": "Dilution factor 5",
+            "definition": "Specimen pre-diluted by factor 5 applied on the instrument",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "corresponds to ^1^:^5 in TCD-2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6756",
+            "code": "D1",
+            "display": "Dilution factor 1.23",
+            "definition": "Specimen pre-diluted by factor 1.23 applied on the instrument",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "corresponds to ^1^:^1.23 in TCD-2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6757",
+            "code": "D2",
+            "display": "Dilution factor 1.45",
+            "definition": "Specimen pre-diluted by factor 1.45 applied on the instrument",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "corresponds to ^1^:^1.45 in TCD-2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

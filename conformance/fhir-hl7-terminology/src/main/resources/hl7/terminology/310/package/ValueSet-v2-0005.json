@@ -1,0 +1,57 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0005",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0005",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.114222.4.11.6065"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "PHVSRaceHL72x",
+    "title": "PHVS_Race_HL7_2x",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-09-01",
+    "publisher": "U.S. Centers for Disease Control and Prevention (CDC)",
+    "description": "This race value set is based upon CDC check-digit codes, but using the HL7 table 0005. HL7 adopted the CDC Race and Ethnicity codes in HL7 Table 0005 in 2005. This value set has been created for backward compatibility and some historic Implementation guides (E.g. Immunization). Recommend using Race Category value set based upon CDC Race & Ethnicity code system.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "urn:oid:2.16.840.1.113883.6.238",
+                "concept": [
+                    {
+                        "code": "1002-5",
+                        "display": "American Indian or Alaska Native"
+                    },
+                    {
+                        "code": "2028-9",
+                        "display": "Asian"
+                    },
+                    {
+                        "code": "2054-5",
+                        "display": "Black or African American"
+                    },
+                    {
+                        "code": "2076-8",
+                        "display": "Native Hawaiian or Other Pacific Islander"
+                    },
+                    {
+                        "code": "2106-3",
+                        "display": "White"
+                    },
+                    {
+                        "code": "2131-1",
+                        "display": "Other Race"
+                    }
+                ]
+            }
+        ]
+    }
+}

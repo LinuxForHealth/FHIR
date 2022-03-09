@@ -1,0 +1,589 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-HL7DefinedRoseProperty",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-HL7DefinedRoseProperty",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.56"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "HL7DefinedRoseProperty",
+    "title": "HL7DefinedRoseProperty",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "The property Ids that HL7 has defined for customizing Rational Rose.\r\n\r\n**Deprecation Comment:** Deprecated as per 11/2008 Harmonization cleanup; internal and obsolete HL7 usage, no longer used.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ApplicationRoleI",
+            "display": "Application Role",
+            "definition": "Holds the unique identifier of an Application Role (stereotype of class).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10085"
+                }
+            ]
+        },
+        {
+            "code": "Cardinality",
+            "display": "Attribute Cardinality",
+            "definition": "Records the constraints on the cardinality of attributes as documented in the RIM and in MIMs.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10086"
+                }
+            ]
+        },
+        {
+            "code": "DeleteFromMIM",
+            "display": "MIM Delete",
+            "definition": "Used in constructing a Message Information Model to indicate which attributes to omit from the MIM.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10087"
+                }
+            ]
+        },
+        {
+            "code": "DevelopingCommit",
+            "display": "Developing committee",
+            "definition": "Holds the id of the HL7 committee developing the model like \"C00.\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10103"
+                }
+            ]
+        },
+        {
+            "code": "DTsymbol",
+            "display": "Data type symbol",
+            "definition": "Holds the symbol for a defined data type (stereotype of class).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10096"
+                }
+            ]
+        },
+        {
+            "code": "EndState",
+            "display": "End state",
+            "definition": "The HL7 MDF says that leaf level use cases should be connected to a state transition of the subject class. The use case diagram provides the link to the subject class. The modeler must use three properties to identify the state transition -- this property and the two following ones named StartState and StateTransition. The first two are, as their names imply, the names of the starting state and ending state of the transition, and the third is the name of the transition.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10112"
+                }
+            ]
+        },
+        {
+            "code": "HMD",
+            "display": "HMD identifier",
+            "definition": "The identifier of the HMD from which the message structure for the message transferred by an interaction is drawn.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10100"
+                }
+            ]
+        },
+        {
+            "code": "ID",
+            "display": "Identifier",
+            "definition": "Holds the unique identifier of use cases, interactions and storyboards.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10115"
+                }
+            ]
+        },
+        {
+            "code": "InstancedDTsymbo",
+            "display": "Data type instantiated",
+            "definition": "Holds the data type assigned to the generic type parameter when an instantiation of generic type is recorded.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10097"
+                }
+            ]
+        },
+        {
+            "code": "IsPrimitiveDT",
+            "display": "Primitive data type",
+            "definition": "Indicates that a data type definition is for a primitive data type (stereotype of class).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10098"
+                }
+            ]
+        },
+        {
+            "code": "IsReferenceDT",
+            "display": "Reference data type",
+            "definition": "Indicates that the type for a data type component (attribute of a data type stereotype of class) is found by reference.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10099"
+                }
+            ]
+        },
+        {
+            "code": "IsSubjectClass",
+            "display": "Subject class",
+            "definition": "Set true for classes that are subject classes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10094"
+                }
+            ]
+        },
+        {
+            "code": "MandatoryInclusi",
+            "display": "Mandatory",
+            "definition": "Indicates with a value of \"True\" whether the inclusion of an attribute in an HMD and in the messages derived from that HMD is mandatory. The default is not mandatory, and use of mandatory inclusion in the RIM is deprecated.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10088"
+                }
+            ]
+        },
+        {
+            "code": "MayRepeat",
+            "display": "Attribute may repeat",
+            "definition": "Indicates with values of \"True\" or \"False\" whether an attribute may repeat in an HMD. The default is non-repeating.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10089"
+                }
+            ]
+        },
+        {
+            "code": "MIM_id",
+            "display": "MIM Identifier",
+            "definition": "Used in a subject area category that holds a MIM. It provides the unique identifier for the MIM. The first portion of this identifier should be the ModelID of the RIM from which the MIM is derived.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10110"
+                }
+            ]
+        },
+        {
+            "code": "ModelDate",
+            "display": "Model date",
+            "definition": "A text version of the last modified date formatted like \"19970606\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10104"
+                }
+            ]
+        },
+        {
+            "code": "ModelDescription",
+            "display": "Model description",
+            "definition": "Contains the textual description of the model.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10105"
+                }
+            ]
+        },
+        {
+            "code": "ModelID",
+            "display": "Model identifier",
+            "definition": "Holds the unique identifier assigned to this model.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10106"
+                }
+            ]
+        },
+        {
+            "code": "ModelName",
+            "display": "Model name",
+            "definition": "Holds the formal name for the model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10107"
+                }
+            ]
+        },
+        {
+            "code": "ModelVersion",
+            "display": "Model version",
+            "definition": "A text version of the version number like \"V 30-08\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10108"
+                }
+            ]
+        },
+        {
+            "code": "MsgID",
+            "display": "Message type identifier",
+            "definition": "The identifier of the message structure within the HMD (above) that defines the message transferred by an interaction.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10101"
+                }
+            ]
+        },
+        {
+            "code": "Organization",
+            "display": "Developing organization",
+            "definition": "This is the organization defining the model, \"Health\\_Level\\_Seven\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10109"
+                }
+            ]
+        },
+        {
+            "code": "RcvResp",
+            "display": "Receiver responsibility",
+            "definition": "This property holds the identifier of the follow-on interaction, when the receiving application role for an interaction has the responsibility to initiate a follow-on interaction.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10102"
+                }
+            ]
+        },
+        {
+            "code": "RespComm_id",
+            "display": "Responsible committee ID",
+            "definition": "Captures the identifier of the responsible committee for all subject areas and categories.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10111"
+                }
+            ]
+        },
+        {
+            "code": "StartState",
+            "display": "Start state",
+            "definition": "(See description of EndState above).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10113"
+                }
+            ]
+        },
+        {
+            "code": "StateAttribute",
+            "display": "State attribute",
+            "definition": "For classes that are subject classes, this component provides the name of the state attribute for the class. Only one state attribute component may appear for a given class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10095"
+                }
+            ]
+        },
+        {
+            "code": "StateTransition",
+            "display": "State transition",
+            "definition": "(See description of EndState above.)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10114"
+                }
+            ]
+        },
+        {
+            "code": "V23_Datatype",
+            "display": "Version 2 data type",
+            "definition": "This component can document the Version 2.3 datatype for an attribute that is related to or derived from data fields in HL7 Version 2.3.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10092"
+                }
+            ]
+        },
+        {
+            "code": "V23_Fields",
+            "display": "Version 2 Field reference",
+            "definition": "This component provides a reference to the source Version 2.x field for an attribute that is related to or derived from data fields in HL7 Version 2.3 standard. Concatenate multiple values with commas, if multiple references to Version 2.x exist for an attribute.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10093"
+                }
+            ]
+        },
+        {
+            "code": "Vocab_domain",
+            "display": "Vocabulary domain",
+            "definition": "Captures the identifier (name) of the vocabulary domain that constrains the values of coded attributes. This property is captured both for RIM attributes and in MIMs.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10090"
+                }
+            ]
+        },
+        {
+            "code": "Vocab_strength",
+            "display": "Vocabulary strength",
+            "definition": "Captures the strength of encoding for the elements of a coded attribute. This property is captured both for RIM attributes and in MIMs.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10091"
+                }
+            ]
+        },
+        {
+            "code": "zhxID",
+            "display": "History identifier",
+            "definition": "This component tracks the version history of each element of the model. It contains the unique element identifier assigned to each model element. The repository assigns values for this element. Modelers should not change these values or assign new ones, but they may copy them to indicate an element's historic predecessor.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10084"
+                }
+            ]
+        }
+    ]
+}

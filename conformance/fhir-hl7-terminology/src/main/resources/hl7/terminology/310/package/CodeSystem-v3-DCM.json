@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-DCM",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://dicom.nema.org/resources/ontology/DCM",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.2.840.10008.2.16.4"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "DCM",
+    "title": "DICOM Controlled Terminology",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-09-03T00:00:00-04:00",
+    "publisher": "NEMA",
+    "contact": [
+        {
+            "name": "DICOM Standards Committee"
+        }
+    ],
+    "description": "Coded concepts defined in PS 3.16 Digital Imaging and Communications in Medicine (DICOM): Part 16: Content Mapping Resource, Annex D: DICOM Controlled Terminology Definition",
+    "content": "not-present"
+}

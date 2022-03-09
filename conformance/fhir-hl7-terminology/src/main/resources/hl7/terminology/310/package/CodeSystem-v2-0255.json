@@ -1,0 +1,415 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0255",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0255",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.150"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "DurationCategories",
+    "title": "durationCategories",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to classify an observation definition as intended to measure a patient's state at a point in time.  Used in HL7 Version 2.x messaging in the OM1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0255 (Duration Categories)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0255",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2486",
+            "code": "*",
+            "display": "(asterisk) Life of the \"unit\"",
+            "definition": "(asterisk) Life of the \"unit\"",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used for blood products."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Deprecated March 2016; use code LU instead."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2487",
+            "code": "30M",
+            "display": "30 minutes",
+            "definition": "30 minutes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2488",
+            "code": "1H",
+            "display": "1 hour",
+            "definition": "1 hour",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2489",
+            "code": "2H",
+            "display": "2 hours",
+            "definition": "2 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2490",
+            "code": "2.5H",
+            "display": "2 1/2 hours",
+            "definition": "2 1/2 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2491",
+            "code": "3H",
+            "display": "3 hours",
+            "definition": "3 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2492",
+            "code": "4H",
+            "display": "4 hours",
+            "definition": "4 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2493",
+            "code": "5H",
+            "display": "5 hours",
+            "definition": "5 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2494",
+            "code": "6H",
+            "display": "6 hours",
+            "definition": "6 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2495",
+            "code": "7H",
+            "display": "7 hours",
+            "definition": "7 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2496",
+            "code": "8H",
+            "display": "8 hours",
+            "definition": "8 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2497",
+            "code": "12H",
+            "display": "12 hours",
+            "definition": "12 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2498",
+            "code": "24H",
+            "display": "24 hours",
+            "definition": "24 hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2499",
+            "code": "2D",
+            "display": "2 days",
+            "definition": "2 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2500",
+            "code": "3D",
+            "display": "3 days",
+            "definition": "3 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2501",
+            "code": "4D",
+            "display": "4 days",
+            "definition": "4 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2502",
+            "code": "5D",
+            "display": "5 days",
+            "definition": "5 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2503",
+            "code": "6D",
+            "display": "6 days",
+            "definition": "6 days",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2504",
+            "code": "1W",
+            "display": "1 week",
+            "definition": "1 week",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2505",
+            "code": "2W",
+            "display": "2 weeks",
+            "definition": "2 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2506",
+            "code": "3W",
+            "display": "3 weeks",
+            "definition": "3 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2507",
+            "code": "4W",
+            "display": "4 weeks",
+            "definition": "4 weeks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2508",
+            "code": "1L",
+            "display": "1 months (30 days)",
+            "definition": "1 months (30 days)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2509",
+            "code": "2L",
+            "display": "2 months",
+            "definition": "2 months",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2510",
+            "code": "3L",
+            "display": "3 months",
+            "definition": "3 months",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2511",
+            "code": "LU",
+            "display": "Life of the \"unit\"",
+            "definition": "Life of the \"unit\" (for blood products).",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "In a master file update for blood products, no specific duration value can be specified (see OM1-43 “Point Versus Interval” field definition)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2512",
+            "code": "PT",
+            "display": "point in time",
+            "definition": "To identify measures at a point in time.  This is a synonym for \"spot\" or \"random\" as applied to urine measurements.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,513 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-Currency",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-Currency",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1058"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Currency",
+    "title": "Currency",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "The currency unit as defined in ISO 4217.\r\n\r\nCreated prior to ISO ruling on OIDs for ISO code tables defined in ISO standards. Retired. Replaced by 1.0.4217 iso4217.",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ARS",
+            "display": "Argentine Peso",
+            "definition": "Argentine Peso, monetary currency of Argentina",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17389"
+                }
+            ]
+        },
+        {
+            "code": "AUD",
+            "display": "Australian Dollar",
+            "definition": "Australian Dollar, monetary currency of Australia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17390"
+                }
+            ]
+        },
+        {
+            "code": "BRL",
+            "display": "Brazilian Real",
+            "definition": "Brazilian Real, monetary currency of Brazil",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17391"
+                }
+            ]
+        },
+        {
+            "code": "CAD",
+            "display": "Canadian Dollar",
+            "definition": "Canadian Dollar, monetary currency of Canada",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17392"
+                }
+            ]
+        },
+        {
+            "code": "CHF",
+            "display": "Swiss Franc",
+            "definition": "Swiss Franc, monetary currency of Switzerland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17410"
+                }
+            ]
+        },
+        {
+            "code": "CLF",
+            "display": "Unidades de Formento",
+            "definition": "Unidades de Formento, monetary currency of Chile",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17393"
+                }
+            ]
+        },
+        {
+            "code": "CNY",
+            "display": "Yuan Renminbi",
+            "definition": "Yuan Renminbi, monetary currency of China",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17394"
+                }
+            ]
+        },
+        {
+            "code": "DEM",
+            "display": "Deutsche Mark",
+            "definition": "Deutsche Mark, monetary currency of Germany",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17398"
+                }
+            ]
+        },
+        {
+            "code": "ESP",
+            "display": "Spanish Peseta",
+            "definition": "Spanish Peseta, monetary currency of Spain",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17409"
+                }
+            ]
+        },
+        {
+            "code": "EUR",
+            "display": "Euro",
+            "definition": "Euro, monetary currency of European Union",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17395"
+                }
+            ]
+        },
+        {
+            "code": "FIM",
+            "display": "Markka",
+            "definition": "Markka, monetary currency of Finland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17396"
+                }
+            ]
+        },
+        {
+            "code": "FRF",
+            "display": "French Franc",
+            "definition": "French Franc, monetary currency of France",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17397"
+                }
+            ]
+        },
+        {
+            "code": "GBP",
+            "display": "Pound Sterling",
+            "definition": "Pound Sterling, monetary currency of United Kingdom",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17414"
+                }
+            ]
+        },
+        {
+            "code": "ILS",
+            "display": "Shekel",
+            "definition": "Shekel, monetary currency of Israel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17400"
+                }
+            ]
+        },
+        {
+            "code": "INR",
+            "display": "Indian Rupee",
+            "definition": "Indian Rupee, monetary currency of India",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17399"
+                }
+            ]
+        },
+        {
+            "code": "JPY",
+            "display": "Yen",
+            "definition": "Yen, monetary currency of Japan",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17401"
+                }
+            ]
+        },
+        {
+            "code": "KRW",
+            "display": "Won",
+            "definition": "Won, monetary currency of Korea (South)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17402"
+                }
+            ]
+        },
+        {
+            "code": "MXN",
+            "display": "Mexican Nuevo Peso",
+            "definition": "Mexican Nuevo Peso, monetary currency of Mexico",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17403"
+                }
+            ]
+        },
+        {
+            "code": "NLG",
+            "display": "Netherlands Guilder",
+            "definition": "Netherlands Guilder, monetary currency of Netherlands",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17404"
+                }
+            ]
+        },
+        {
+            "code": "NZD",
+            "display": "New Zealand Dollar",
+            "definition": "New Zealand Dollar, monetary currency of New Zealand",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17405"
+                }
+            ]
+        },
+        {
+            "code": "PHP",
+            "display": "Philippine Peso",
+            "definition": "Philippine Peso, monetary currency of Philippines",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17406"
+                }
+            ]
+        },
+        {
+            "code": "RUR",
+            "display": "Russian Ruble",
+            "definition": "Russian Ruble, monetary currency of Russian Federation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17407"
+                }
+            ]
+        },
+        {
+            "code": "THB",
+            "display": "Baht",
+            "definition": "Baht, monetary currency of Thailand",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17412"
+                }
+            ]
+        },
+        {
+            "code": "TRL",
+            "display": "Lira",
+            "definition": "Lira, monetary currency of Turkey",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17413"
+                }
+            ]
+        },
+        {
+            "code": "TWD",
+            "display": "Taiwan Dollar",
+            "definition": "Taiwan Dollar, monetary currency of Taiwan",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17411"
+                }
+            ]
+        },
+        {
+            "code": "USD",
+            "display": "US Dollar",
+            "definition": "US Dollar, monetary currency of United States",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17415"
+                }
+            ]
+        },
+        {
+            "code": "ZAR",
+            "display": "Rand",
+            "definition": "Rand, monetary currency of South Africa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17408"
+                }
+            ]
+        }
+    ]
+}

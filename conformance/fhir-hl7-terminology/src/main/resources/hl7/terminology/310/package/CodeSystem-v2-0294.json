@@ -1,0 +1,403 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0294",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0294",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.183"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "TimeSelectionCriteriaParameterClass",
+    "title": "timeSelectionCriteriaParameterClass",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to describe acceptable start and end times, as well as days of the week, for appointment or resource scheduling.  Used in HL7 Version 2.x messaging in the SCV and APR segments.",
+    "purpose": "Underlying Master Code System for V2 table 0294 (Time Selection Criteria Parameter Class Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0294",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2954",
+            "code": "PREFSTART",
+            "display": "The preferred start time for the appointment request, service or resource.   Any legal time specification in the format HHMM, using 24-hour clock notation",
+            "definition": "The preferred start time for the appointment request, service or resource.   Any legal time specification in the format HHMM, using 24-hour clock notation",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2955",
+            "code": "Prefstart",
+            "display": "An indicator that there is a preferred start time for the appointment request, service or resource.",
+            "definition": "An indicator that there is a preferred start time for the appointment request, service or resource.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify any valid time in the format HHMM, using 24-hour clock notation where HH = hour and MM = minutes"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify any valid time in the format HHMM, using 24-hour clock notation where HH = hour and MM = minutes"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2956",
+            "code": "PREFEND",
+            "display": "The preferred end time for the appointment request, service or resource.  Any legal time specification in the format HHMM, using 24-hour clock notation",
+            "definition": "The preferred end time for the appointment request, service or resource.  Any legal time specification in the format HHMM, using 24-hour clock notation",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2957",
+            "code": "Prefend",
+            "display": "An indicator that there is a preferred end time for the appointment request, service or resource.",
+            "definition": "An indicator that there is a preferred end time for the appointment request, service or resource.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify any valid time in the format HHMM, using 24-hour clock notation where HH = hour and MM = minutes"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify any valid time in the format HHMM, using 24-hour clock notation where HH = hour and MM = minutes"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2958",
+            "code": "MON",
+            "display": "An indicator that Monday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Monday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2959",
+            "code": "Mon",
+            "display": "An indicator that Monday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Monday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2960",
+            "code": "TUE",
+            "display": "An indicator that Tuesday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Tuesday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2961",
+            "code": "Tue",
+            "display": "An indicator that Tuesday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Tuesday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2962",
+            "code": "WED",
+            "display": "An indicator that Wednesday is or is not preferred for the day on which the appointment will occur. OK = Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Wednesday is or is not preferred for the day on which the appointment will occur. OK = Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2963",
+            "code": "Wed",
+            "display": "An indicator that Wednesday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Wednesday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2964",
+            "code": "THU",
+            "display": "An indicator that Thursday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Thursday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2965",
+            "code": "Thu",
+            "display": "An indicator that Thursday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Thursday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2966",
+            "code": "FRI",
+            "display": "An indicator that Friday is or is not preferred for the day on which the appointment will occur.  OK =  Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Friday is or is not preferred for the day on which the appointment will occur.  OK =  Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2967",
+            "code": "Fri",
+            "display": "An indicator that Friday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Friday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2968",
+            "code": "SAT",
+            "display": "An indicator that Saturday is or is not preferred for the day on which the appointment will occur.  OK =  Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Saturday is or is not preferred for the day on which the appointment will occur.  OK =  Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2969",
+            "code": "Sat",
+            "display": "An indicator that Saturday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Saturday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2970",
+            "code": "SUN",
+            "display": "An indicator that Sunday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "definition": "An indicator that Sunday is or is not preferred for the day on which the appointment will occur.  OK = Preferred appointment day NO = Day is not preferred",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2971",
+            "code": "Sun",
+            "display": "An indicator that Sunday is or is not preferred for the day on which the appointment will occur.",
+            "definition": "An indicator that Sunday is or is not preferred for the day on which the appointment will occur.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In component 2, specify OK or NO.<p>OK = Preferred appointment day NO = Day is not preferred"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

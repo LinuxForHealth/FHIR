@@ -1,0 +1,46 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-MultiUseContainerEntityType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-MultiUseContainerEntityType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.16153"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "MultiUseContainerEntityType",
+    "title": "MultiUseContainerEntityType",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "A container intended to contain sufficient material for more than one use. (I.e. Material is intended to be removed from the container at more than one discrete time period.)",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "_MultiUseContainerEntityType"
+                    }
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
+                "concept": [
+                    {
+                        "code": "_MultiUseContainerEntityType"
+                    }
+                ]
+            }
+        ]
+    }
+}

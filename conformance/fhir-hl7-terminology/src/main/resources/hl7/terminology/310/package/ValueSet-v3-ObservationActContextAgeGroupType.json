@@ -1,0 +1,33 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ObservationActContextAgeGroupType",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ObservationActContextAgeGroupType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.80"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ObservationActContextAgeGroupType",
+    "title": "ObservationActContextAgeGroupType",
+    "status": "active",
+    "date": "2010-03-16",
+    "description": "Identifies a type of observation that captures the age of a person in terms of age group concept codes.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "46251-5"
+                    }
+                ]
+            }
+        ]
+    }
+}

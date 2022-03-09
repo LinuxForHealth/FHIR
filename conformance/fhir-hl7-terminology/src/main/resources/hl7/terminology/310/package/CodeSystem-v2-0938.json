@@ -1,0 +1,109 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0938",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0938",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.441"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CollectionEvent",
+    "title": "collectionEvent",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the limit for the collection event or process step.  Used in HL7 Version 2.x messaging in the OMC segment.",
+    "purpose": "Underlying Master Code System for V2 table 0938 (Collection Event/Process Step Limit)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0938",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6722",
+            "code": "ORD",
+            "display": "Placing the order",
+            "definition": "Placing the order",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "At time of placing the order"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "At time of placing the order"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6723",
+            "code": "DRW",
+            "display": "Collecting the specimen",
+            "definition": "Collecting the specimen",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "When the specimen is collected (e.g. fasting status)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "When the specimen is collected (e.g. fasting status)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

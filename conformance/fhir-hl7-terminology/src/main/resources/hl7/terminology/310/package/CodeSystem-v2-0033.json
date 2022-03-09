@@ -1,0 +1,785 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0033",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0033",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.16"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Route",
+    "title": "route",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that indicate a means of administrating a medication dose.  Used in HL7 Version 2 messaging in the RX1 segment (which was withdrawn after version 2.2). As of HL7 version 2.3, it was replaced by 2.16.840.1.113883.18.80 routeOfAdministration and 2.16.840.1.113883.18.83 administrationMethod.  Used in the RX1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0033 (ROUTE)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0033",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "679",
+            "code": "AP",
+            "display": "Apply externally",
+            "definition": "Apply externally",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "externe Applikatione"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "680",
+            "code": "CH",
+            "display": "Chew",
+            "definition": "Chew",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Kautablette"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "681",
+            "code": "DU",
+            "display": "Dust",
+            "definition": "Dust",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Puder"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "682",
+            "code": "EA",
+            "display": "Ear",
+            "definition": "Ear",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Ohr"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "683",
+            "code": "EY",
+            "display": "Eye",
+            "definition": "Eye",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Auge"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "684",
+            "code": "IA",
+            "display": "Intro-arterial",
+            "definition": "Intro-arterial",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intraarteriell"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "685",
+            "code": "ID",
+            "display": "Intra-dermal",
+            "definition": "Intra-dermal",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intradermal"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "686",
+            "code": "IF",
+            "display": "Infiltrate",
+            "definition": "Infiltrate",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "infiltrieren"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "687",
+            "code": "IH",
+            "display": "Inhalation",
+            "definition": "Inhalation",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Inhalation"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "688",
+            "code": "IM",
+            "display": "Intra-muscular",
+            "definition": "Intra-muscular",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intramuskulär"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "689",
+            "code": "IN",
+            "display": "Intra-nasal",
+            "definition": "Intra-nasal",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intranasal"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "690",
+            "code": "IR",
+            "display": "Irrigate",
+            "definition": "Irrigate",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Einlauf"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "691",
+            "code": "IS",
+            "display": "Inserted",
+            "definition": "Inserted",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Implantat"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "692",
+            "code": "IT",
+            "display": "Intrathecal",
+            "definition": "Intrathecal",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intrathekal"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "693",
+            "code": "IV",
+            "display": "Intravenous",
+            "definition": "Intravenous",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intravenös"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "694",
+            "code": "NB",
+            "display": "Nebulized",
+            "definition": "Nebulized",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "vernebelt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "695",
+            "code": "NG",
+            "display": "Nathogasic",
+            "definition": "Nathogasic",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nasogastral"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "696",
+            "code": "PA",
+            "display": "Peri-anally",
+            "definition": "Peri-anally",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "peranal"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "697",
+            "code": "PT",
+            "display": "Paint",
+            "definition": "Paint",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "aufpinseln"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "698",
+            "code": "PU",
+            "display": "IV push",
+            "definition": "IV push",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "intravenöser Bolus"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "699",
+            "code": "RC",
+            "display": "Rectally",
+            "definition": "Rectally",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "rektal"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "700",
+            "code": "SH",
+            "display": "Shampoo",
+            "definition": "Shampoo",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Shampoo"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "701",
+            "code": "SL",
+            "display": "Sublingual",
+            "definition": "Sublingual",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "subligual"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "702",
+            "code": "SO",
+            "display": "Soak",
+            "definition": "Soak",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "drchtränken"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "703",
+            "code": "SS",
+            "display": "IV soluset",
+            "definition": "IV soluset",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Iv-Lösung"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "704",
+            "code": "TP",
+            "display": "Topically",
+            "definition": "Topically",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "topisch"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "705",
+            "code": "WA",
+            "display": "Wash",
+            "definition": "Wash",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "waschen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "706",
+            "code": "WI",
+            "display": "Wipe",
+            "definition": "Wipe",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "wischen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.2"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

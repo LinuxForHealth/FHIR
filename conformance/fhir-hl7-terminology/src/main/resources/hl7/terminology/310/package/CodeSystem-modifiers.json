@@ -1,0 +1,89 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "modifiers",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/modifiers",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1151"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ModifierTypeCodes",
+    "title": "Modifier type Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes sample Modifier type codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/claim-modifiers",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "a",
+            "display": "Repair of prior service or installation",
+            "definition": "Repair of prior service or installation."
+        },
+        {
+            "code": "b",
+            "display": "Temporary service or installation",
+            "definition": "Temporary service or installation."
+        },
+        {
+            "code": "c",
+            "display": "TMJ treatment",
+            "definition": "Treatment associated with TMJ."
+        },
+        {
+            "code": "e",
+            "display": "Implant or associated with an implant",
+            "definition": "Implant or associated with an implant."
+        },
+        {
+            "code": "rooh",
+            "display": "Rush or Outside of office hours",
+            "definition": "A Rush service or service performed outside of normal office hours."
+        },
+        {
+            "code": "x",
+            "display": "None",
+            "definition": "None."
+        }
+    ]
+}

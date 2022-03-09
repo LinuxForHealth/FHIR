@@ -1,0 +1,207 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0247",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0247",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.143"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "StatusOfEvaluation",
+    "title": "statusOfEvaluation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that describes the status of product evaluation.  Used in HL7 Version 2.x messaging in the PCR segment.",
+    "purpose": "Underlying Master Code System for V2 table 0247 (Status of Evaluation)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0247",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2341",
+            "code": "Y",
+            "display": "Evaluation completed",
+            "definition": "Evaluation completed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2342",
+            "code": "P",
+            "display": "Evaluation in progress",
+            "definition": "Evaluation in progress",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2343",
+            "code": "K",
+            "display": "Problem already known, no evaluation necessary",
+            "definition": "Problem already known, no evaluation necessary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2344",
+            "code": "X",
+            "display": "Product not made by company",
+            "definition": "Product not made by company",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2345",
+            "code": "A",
+            "display": "Evaluation anticipated, but not yet begun",
+            "definition": "Evaluation anticipated, but not yet begun",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2346",
+            "code": "D",
+            "display": "Product discarded -- unable to follow up",
+            "definition": "Product discarded -- unable to follow up",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2347",
+            "code": "C",
+            "display": "Product received in condition which made analysis impossible",
+            "definition": "Product received in condition which made analysis impossible",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2348",
+            "code": "I",
+            "display": "Product remains implanted -- unable to follow up",
+            "definition": "Product remains implanted -- unable to follow up",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2349",
+            "code": "U",
+            "display": "Product unavailable for follow up investigation",
+            "definition": "Product unavailable for follow up investigation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2350",
+            "code": "Q",
+            "display": "Product under quarantine -- unable to follow up",
+            "definition": "Product under quarantine -- unable to follow up",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2351",
+            "code": "R",
+            "display": "Product under recall/corrective action",
+            "definition": "Product under recall/corrective action",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2352",
+            "code": "O",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

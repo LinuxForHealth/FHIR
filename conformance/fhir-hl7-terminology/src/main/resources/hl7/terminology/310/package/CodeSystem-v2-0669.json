@@ -1,0 +1,155 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0669",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0669",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.385"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "LoadStatus",
+    "title": "loadStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to define the status of the information provided in a device sterilization or decontamination cycle. Used in HL7 Version 2.x messaging in the SDD segment.",
+    "purpose": "Underlying Master Code System for V2 table 0669 (Load Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0669",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6290",
+            "code": "LLD",
+            "display": "Building a Load",
+            "definition": "Building a Load",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A load is being built"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A load is being built"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6291",
+            "code": "LCP",
+            "display": "Load In Process",
+            "definition": "Load In Process",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The load is running"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The load is running"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6292",
+            "code": "LCC",
+            "display": "Load is Complete",
+            "definition": "Load is Complete",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The load is complete"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The load is complete"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6293",
+            "code": "LCN",
+            "display": "Load Canceled",
+            "definition": "Load Canceled",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The load is canceled"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The load is canceled"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

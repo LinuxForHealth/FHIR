@@ -1,0 +1,42 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0353",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0353",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.229"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSCweStatuses",
+    "title": "hl7VS-cweStatuses",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Concepts that represent an exception identifier code; that is, a code that is not defined in the value set (either model or site-extended).  These are occationsally referred to a 'flavors of null' although this set of concepts is specific to the CWE datatype used in Version 2 messaging, and the codes may be used in the 'identifier' component of the 'triplets' in that datatype.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0353",
+                "version": "2.1.0"
+            }
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0963",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0963",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.213"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "DeviceSafety",
+    "title": "DeviceSafety",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Codes used to identify medical devices safety characteristics. These codes are taken from the [NCI Thesaurus](https://ncit.nci.nih.gov/ncitbrowser/pages/home.jsf) and are provided here as a suggestive example.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ncithesaurus-stage.nci.nih.gov",
+                "version": "2.1.0"
+            }
+        ]
+    }
+}

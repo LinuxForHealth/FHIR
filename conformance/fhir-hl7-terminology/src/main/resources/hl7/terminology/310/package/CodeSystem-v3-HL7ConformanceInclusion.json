@@ -1,0 +1,276 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-HL7ConformanceInclusion",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-HL7ConformanceInclusion",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.55"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "HL7ConformanceInclusion",
+    "title": "HL7ConformanceInclusion",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "These concepts represent theconformance requirments defined for including or valuing an element of an HL7 message. The concepts apply equally to conformance profiles defined for Version 2.x messgaes as defined by the Conformance SIG, and to the conformance columns for Version 3 messages as specified in the HMD.\r\n\r\n**Deprecation Comment:** Deprecated as per 11/2008 Harmonization cleanup; internal and obsolete HL7 usage, no longer used.",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_InclusionNotMandatory",
+            "display": "InclusionNotMandatory",
+            "definition": "The message element is not mandatory, but its appearance may be constrained by one of the non-mandatory concepts.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21081"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "NP",
+                    "display": "Not permitted",
+                    "definition": "This message element may not appear when the message is communicated.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10014"
+                        }
+                    ]
+                },
+                {
+                    "code": "NR",
+                    "display": "Not required",
+                    "definition": "The message element may be populated or used by one system sponsor (or profile), but not by another. Each system sponsor or profile is required to state the ability to accept or send the message element as part of a conformance claim.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10015"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "RE",
+                            "display": "Required may be empty",
+                            "definition": "Pursuant to a profile or vendor conformance claim, the message element must appear every time the message is communicated, but the value may be communicated as null.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10016"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "X",
+                            "display": "Excluded",
+                            "definition": "Pursuant to a profile or vendor conformance claim, this message element may not appear when the message is communicated.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10017"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "RQ",
+                    "display": "Required",
+                    "definition": "The message element must appear every time the message is communicated, but the value may be communicated as null.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10013"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "M",
+            "display": "Mandatory",
+            "definition": "The message element must appear every time the message is communicated and its value must not be null. This condition is subject to the rules of multiplicity and conditionality. If a non-null default value is defined for the element, a null value may be communicated.",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "Required - V2.x"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "R"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10011"
+                }
+            ]
+        },
+        {
+            "code": "R",
+            "display": "Mandatory",
+            "definition": "The message element must appear every time the message is communicated and its value must not be null. This condition is subject to the rules of multiplicity and conditionality. If a non-null default value is defined for the element, a null value may be communicated.",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "Required - V2.x"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "M"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10011"
+                }
+            ]
+        }
+    ]
+}

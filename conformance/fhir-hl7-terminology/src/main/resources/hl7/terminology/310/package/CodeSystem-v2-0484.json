@@ -1,0 +1,171 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0484",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0484",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.309"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "DispenseType",
+    "title": "dispenseType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the type of dispensing event that occurred.  Used in HL7 Version 2.x messaging in the RXD segment.",
+    "purpose": "Underlying Master Code System for V2 table 0484 (Dispense Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0484",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4913",
+            "code": "B",
+            "display": "Trial Quantity Balance",
+            "definition": "Trial Quantity Balance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4914",
+            "code": "C",
+            "display": "Compassionate Fill",
+            "definition": "Compassionate Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4915",
+            "code": "N",
+            "display": "New/Renew - Full Fill",
+            "definition": "New/Renew - Full Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4916",
+            "code": "P",
+            "display": "New/Renew - Part Fill",
+            "definition": "New/Renew - Part Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4917",
+            "code": "Q",
+            "display": "Refill - Part Fill",
+            "definition": "Refill - Part Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4918",
+            "code": "R",
+            "display": "Refill - Full Fill",
+            "definition": "Refill - Full Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4919",
+            "code": "S",
+            "display": "Manufacturer Sample",
+            "definition": "Manufacturer Sample",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4920",
+            "code": "T",
+            "display": "Trial Quantity",
+            "definition": "Trial Quantity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4921",
+            "code": "Z",
+            "display": "Non-Prescription Fill",
+            "definition": "Non-Prescription Fill",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

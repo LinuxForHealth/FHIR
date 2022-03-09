@@ -1,0 +1,428 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-EntityNameUseR2",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-EntityNameUseR2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1120"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "EntityNameUseR2",
+    "title": "EntityNameUseR2",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "HL7 International",
+    "contact": [
+        {
+            "name": "HL7 Modeling and Methodology Workgroup"
+        }
+    ],
+    "description": "**Description:**A set of codes advising a system or user which name in a set of names to select for a given purpose.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "Assumed",
+            "display": "Assumed",
+            "definition": "**Description:**A name that a person has assumed or has been assumed to them.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22772"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "A",
+                    "display": "business name",
+                    "definition": "**Description:**A name used in a Professional or Business context . Examples: Continuing to use a maiden name in a professional context, or using a stage performing name (some of these names are also pseudonyms)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22776"
+                        }
+                    ]
+                },
+                {
+                    "code": "ANON",
+                    "display": "Anonymous",
+                    "definition": "**Description:**Anonymous assigned name (used to protect a persons identity for privacy reasons)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22775"
+                        }
+                    ]
+                },
+                {
+                    "code": "I",
+                    "display": "Indigenous/Tribal",
+                    "definition": "**Description:**e.g . Chief Red Cloud",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22773"
+                        }
+                    ]
+                },
+                {
+                    "code": "P",
+                    "display": "Other/Pseudonym/Alias",
+                    "definition": "**Description:**A non-official name by which the person is sometimes known. (This may also be used to record informal names such as a nickname)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22774"
+                        }
+                    ]
+                },
+                {
+                    "code": "R",
+                    "display": "religious",
+                    "definition": "**Description:**A name assumed as part of a religious vocation . e.g . Sister Mary Francis, Brother John",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22777"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "C",
+            "display": "customary",
+            "definition": "**Description:**Known as/conventional/the one you normally use",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "N"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22769"
+                }
+            ]
+        },
+        {
+            "code": "N",
+            "display": "customary",
+            "definition": "**Description:**Known as/conventional/the one you normally use",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "C"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22769"
+                }
+            ]
+        },
+        {
+            "code": "M",
+            "display": "maiden name",
+            "definition": "**Description:**A name used prior to marriage.Note that marriage naming customs vary greatly around the world. This name use is for use by applications that collect and store maiden names. Though the concept of maiden name is often gender specific, the use of this term is not gender specific. The use of this term does not imply any particular history for a person's name, nor should the maiden name be determined algorithmically",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22780"
+                }
+            ]
+        },
+        {
+            "code": "NameRepresentationUse",
+            "display": "NameRepresentationUse",
+            "definition": "**Description:**Identifies the different representations of a name . The representation may affect how the name is used . (E.g . use of Ideographic for formal communications.)",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22765"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "ABC",
+                    "display": "alphabetic",
+                    "definition": "**Description:**Alphabetic transcription of name in latin alphabet (Japanese: romaji)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22766"
+                        }
+                    ]
+                },
+                {
+                    "code": "IDE",
+                    "display": "ideographic",
+                    "definition": "**Description:**Ideographic representation of name (e.g., Japanese kanji, Chinese characters)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22767"
+                        }
+                    ]
+                },
+                {
+                    "code": "SYL",
+                    "display": "syllabic",
+                    "definition": "**Description:**Syllabic transcription of name (e.g., Japanese kana, Korean hangul)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22768"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "OLD",
+            "display": "no longer in use",
+            "definition": "**Description:**This name is no longer in use (note: Names may also carry valid time ranges . This code is used to cover the situations where it is known that the name is no longer valid, but no particular time range for its use is known)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22778"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "DN",
+                    "display": "do not use",
+                    "definition": "**Description:**This name should no longer be used when interacting with the person (i.e . in addition to no longer being used, the name should not be even mentioned when interacting with the person)Note: applications are not required to compare names labeled \"Do Not Use\" and other names in order to eliminate name parts that are common between the other name and a name labeled \"Do Not Use\".",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22779"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "OR",
+            "display": "official registry name",
+            "definition": "**Description:**The formal name as registered in an official (government) registry, but which name might not be commonly used . May correspond to the concept of legal name",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22770"
+                }
+            ]
+        },
+        {
+            "code": "PHON",
+            "display": "phonetic",
+            "definition": "**Description:**The name as understood by the data enterer, i.e. a close approximation of a phonetic spelling of the name, not based on a phonetic algorithm.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22782"
+                }
+            ]
+        },
+        {
+            "code": "SRCH",
+            "display": "search",
+            "definition": "**Description:**A name intended for use in searching or matching. This is used when the name is incomplete and contains enough details for search matching, but not enough for other uses.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22781"
+                }
+            ]
+        },
+        {
+            "code": "T",
+            "display": "temporary",
+            "definition": "**Description:**A temporary name. Note that a name valid time can provide more detailed information. This may also be used for temporary names assigned at birth or in emergency situations.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22771"
+                }
+            ]
+        }
+    ]
+}

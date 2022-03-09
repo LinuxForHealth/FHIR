@@ -1,0 +1,135 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0208",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0208",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.113"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "QueryResponseStatus",
+    "title": "queryResponseStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts defining precise response status concepts in support of HL7 Version 2 query messaging.  It is commonly used to indicate no data is found that matches the query parameters, but no error.   Used in HL7 Version 2.x messaging in the QAK segment.",
+    "purpose": "Underlying Master Code System for V2 table 0208 (Query Response Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0208",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2126",
+            "code": "OK",
+            "display": "Data found, no errors (this is the default)",
+            "definition": "Data found, no errors (this is the default)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2127",
+            "code": "NF",
+            "display": "No data found, no errors",
+            "definition": "No data found, no errors",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2128",
+            "code": "AE",
+            "display": "Application error",
+            "definition": "Application error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2129",
+            "code": "AR",
+            "display": "Application reject",
+            "definition": "Application reject",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2130",
+            "code": "TM",
+            "display": "Too much data found",
+            "definition": "The response would exceed the maximum length designated in RCP-2 of the query message.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "2131",
+            "code": "PD",
+            "display": "Protected data",
+            "definition": "Data matching the query parameters was found but could not be shared with the querying system for reasons including local policy or legal restrictions.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

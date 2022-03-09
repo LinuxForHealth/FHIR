@@ -1,0 +1,1573 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0254",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0254",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.149"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "KindOfQuantity",
+    "title": "kindOfQuantity",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7 published code system of concepts that describe categories of an underlying kind of property represented by an observation.  These are intended to distinguish concentrations from total amounts, molar concentrations from mass concentrations, partial pressures from colors, and so forth.  These are discussed more fully in the LOINC Users’ Manual.   These defined categories are derived from the approach described in 1995 edition of the IUPAC Silver Book.  These distinctions are used in IUPAC and LOINC standard codes.  Needs review by OO and HTA to determined if this is a value set built on LOINC part codes or some other external vocabulary.",
+    "purpose": "Underlying Master Code System for V2 table 0254 (Kind of Quantity)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0254",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2384",
+            "code": "CACT",
+            "display": "Catalytic Activity",
+            "definition": "Catalytic Activity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2385",
+            "code": "CNC",
+            "display": "Catalytic Concentration",
+            "definition": "Catalytic Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2386",
+            "code": "CCRTO",
+            "display": "Catalytic Concentration Ratio",
+            "definition": "Catalytic Concentration Ratio",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2387",
+            "code": "CCNT",
+            "display": "Catalytic Content",
+            "definition": "Catalytic Content",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2388",
+            "code": "CFR",
+            "display": "Catalytic Fraction",
+            "definition": "Catalytic Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2389",
+            "code": "CRAT",
+            "display": "Catalytic Rate",
+            "definition": "Catalytic Rate",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2390",
+            "code": "CRTO",
+            "display": "Catalytic Ratio",
+            "definition": "Catalytic Ratio",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2391",
+            "code": "ENT",
+            "display": "Entitic",
+            "definition": "Entitic",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2392",
+            "code": "ENTSUB",
+            "display": "Entitic Substance of Amount",
+            "definition": "Entitic Substance of Amount",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2393",
+            "code": "ENTCAT",
+            "display": "Entitic Catalytic Activity",
+            "definition": "Entitic Catalytic Activity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2394",
+            "code": "ENTNUM",
+            "display": "Entitic Number",
+            "definition": "Entitic Number",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2395",
+            "code": "ENTVOL",
+            "display": "Entitic Volume",
+            "definition": "Entitic Volume",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2396",
+            "code": "MASS",
+            "display": "Mass",
+            "definition": "Mass",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2397",
+            "code": "MCNC",
+            "display": "Mass Concentration",
+            "definition": "Mass Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2398",
+            "code": "MCRTO",
+            "display": "Mass Concentration Ratio",
+            "definition": "Mass Concentration Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2399",
+            "code": "MCNT",
+            "display": "Mass Content",
+            "definition": "Mass Content",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2400",
+            "code": "MFR",
+            "display": "Mass Fraction",
+            "definition": "Mass Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2401",
+            "code": "MINC",
+            "display": "Mass Increment",
+            "definition": "Mass Increment",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2402",
+            "code": "MRAT",
+            "display": "Mass Rate",
+            "definition": "Mass Rate",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2403",
+            "code": "MRTO",
+            "display": "Mass Ratio",
+            "definition": "Mass Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2404",
+            "code": "NUM",
+            "display": "Number",
+            "definition": "Number",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2405",
+            "code": "NCNC",
+            "display": "Number Concentration",
+            "definition": "Number Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2406",
+            "code": "NCNT",
+            "display": "Number Content",
+            "definition": "Number Content",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2407",
+            "code": "NFR",
+            "display": "Number Fraction",
+            "definition": "Number Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2408",
+            "code": "NRTO",
+            "display": "Number Ratio",
+            "definition": "Number Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2409",
+            "code": "SUB",
+            "display": "Substance Amount",
+            "definition": "Substance Amount",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2410",
+            "code": "SCNC",
+            "display": "Substance Concentration",
+            "definition": "Substance Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2411",
+            "code": "SCRTO",
+            "display": "Substance Concentration Ratio",
+            "definition": "Substance Concentration Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2412",
+            "code": "SCNT",
+            "display": "Substance Content",
+            "definition": "Substance Content",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2413",
+            "code": "SCNTR",
+            "display": "Substance Content Rate",
+            "definition": "Substance Content Rate",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2414",
+            "code": "SFR",
+            "display": "Substance Fraction",
+            "definition": "Substance Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2415",
+            "code": "SCNCIN",
+            "display": "Substance Concentration Increment",
+            "definition": "Substance Concentration Increment",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2416",
+            "code": "SRAT",
+            "display": "Substance Rate",
+            "definition": "Substance Rate",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2417",
+            "code": "SRTO",
+            "display": "Substance Ratio",
+            "definition": "Substance Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2418",
+            "code": "VOL",
+            "display": "Volume",
+            "definition": "Volume",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2419",
+            "code": "VCNT",
+            "display": "Volume Content",
+            "definition": "Volume Content",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2420",
+            "code": "VFR",
+            "display": "Volume Fraction",
+            "definition": "Volume Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2421",
+            "code": "VRAT",
+            "display": "Volume Rate",
+            "definition": "Volume Rate",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2422",
+            "code": "VRTO",
+            "display": "Volume Ratio",
+            "definition": "Volume Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2423",
+            "code": "ACNC",
+            "display": "Concentration, Arbitrary Substance",
+            "definition": "Concentration, Arbitrary Substance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2424",
+            "code": "RLMCNC",
+            "display": "Relative Mass Concentration",
+            "definition": "Relative Mass Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2425",
+            "code": "RLSCNC",
+            "display": "Relative Substance Concentration",
+            "definition": "Relative Substance Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2426",
+            "code": "THRMCNC",
+            "display": "Threshold Mass Concentration",
+            "definition": "Threshold Mass Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2427",
+            "code": "THRSCNC",
+            "display": "Threshold Substance Concentration",
+            "definition": "Threshold Substance Concentration",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2428",
+            "code": "TIME",
+            "display": "Time (e.g. seconds)",
+            "definition": "Time (e.g. seconds)",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2429",
+            "code": "TMDF",
+            "display": "Time Difference",
+            "definition": "Time Difference",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2430",
+            "code": "TMSTP",
+            "display": "Time Stamp-Date and Time",
+            "definition": "Time Stamp-Date and Time",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2431",
+            "code": "TRTO",
+            "display": "Time Ratio",
+            "definition": "Time Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2432",
+            "code": "RCRLTM",
+            "display": "Reciprocal Relative Time",
+            "definition": "Reciprocal Relative Time",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2433",
+            "code": "RLTM",
+            "display": "Relative Time",
+            "definition": "Relative Time",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2434",
+            "code": "ABS",
+            "display": "Absorbance",
+            "definition": "Absorbance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2435",
+            "code": "ACT",
+            "display": "Activity",
+            "definition": "Activity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2436",
+            "code": "APER",
+            "display": "Appearance",
+            "definition": "Appearance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2437",
+            "code": "ARB",
+            "display": "Arbitrary",
+            "definition": "Arbitrary",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2438",
+            "code": "AREA",
+            "display": "Area",
+            "definition": "Area",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2439",
+            "code": "ASPECT",
+            "display": "Aspect",
+            "definition": "Aspect",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2440",
+            "code": "CLAS",
+            "display": "Class",
+            "definition": "Class",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2441",
+            "code": "CNST",
+            "display": "Constant",
+            "definition": "Constant",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2442",
+            "code": "COEF",
+            "display": "Coefficient",
+            "definition": "Coefficient",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2443",
+            "code": "COLOR",
+            "display": "Color",
+            "definition": "Color",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2444",
+            "code": "CONS",
+            "display": "Consistency",
+            "definition": "Consistency",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2445",
+            "code": "DEN",
+            "display": "Density",
+            "definition": "Density",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2446",
+            "code": "DEV",
+            "display": "Device",
+            "definition": "Device",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2447",
+            "code": "DIFF",
+            "display": "Difference",
+            "definition": "Difference",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2448",
+            "code": "ELAS",
+            "display": "Elasticity",
+            "definition": "Elasticity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2449",
+            "code": "ELPOT",
+            "display": "Electrical Potential (Voltage)",
+            "definition": "Electrical Potential (Voltage)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2450",
+            "code": "ELRAT",
+            "display": "Electrical current (amperage)",
+            "definition": "Electrical current (amperage)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2451",
+            "code": "ELRES",
+            "display": "Electrical Resistance",
+            "definition": "Electrical Resistance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2452",
+            "code": "ENGR",
+            "display": "Energy",
+            "definition": "Energy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2453",
+            "code": "EQL",
+            "display": "Equilibrium",
+            "definition": "Equilibrium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2454",
+            "code": "FORCE",
+            "display": "Mechanical force",
+            "definition": "Mechanical force",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2455",
+            "code": "FREQ",
+            "display": "Frequency",
+            "definition": "Frequency",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2456",
+            "code": "IMP",
+            "display": "Impression/ interpretation of study",
+            "definition": "Impression/ interpretation of study",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2457",
+            "code": "KINV",
+            "display": "Kinematic Viscosity",
+            "definition": "Kinematic Viscosity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2458",
+            "code": "LEN",
+            "display": "Length",
+            "definition": "Length",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2459",
+            "code": "LINC",
+            "display": "Length Increment",
+            "definition": "Length Increment",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2460",
+            "code": "LIQ",
+            "display": "Liquefaction",
+            "definition": "Liquefaction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2461",
+            "code": "MGFLUX",
+            "display": "Magnetic flux",
+            "definition": "Magnetic flux",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2462",
+            "code": "MORPH",
+            "display": "Morphology",
+            "definition": "Morphology",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2463",
+            "code": "MOTIL",
+            "display": "Motility",
+            "definition": "Motility",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2464",
+            "code": "OD",
+            "display": "Optical density",
+            "definition": "Optical density",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2465",
+            "code": "OSMOL",
+            "display": "Osmolality",
+            "definition": "Osmolality",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2466",
+            "code": "PRID",
+            "display": "Presence/Identity/Existence",
+            "definition": "Presence/Identity/Existence",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2467",
+            "code": "PRES",
+            "display": "Pressure (Partial)",
+            "definition": "Pressure (Partial)",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2468",
+            "code": "PWR",
+            "display": "Power (wattage)",
+            "definition": "Power (wattage)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2469",
+            "code": "RANGE",
+            "display": "Ranges",
+            "definition": "Ranges",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2470",
+            "code": "RATIO",
+            "display": "Ratios",
+            "definition": "Ratios",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2471",
+            "code": "RDEN",
+            "display": "Relative Density",
+            "definition": "Relative Density",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2472",
+            "code": "REL",
+            "display": "Relative",
+            "definition": "Relative",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2473",
+            "code": "SATFR",
+            "display": "Saturation Fraction",
+            "definition": "Saturation Fraction",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2474",
+            "code": "SHAPE",
+            "display": "Shape",
+            "definition": "Shape",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2475",
+            "code": "SMELL",
+            "display": "Smell",
+            "definition": "Smell",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2476",
+            "code": "SUSC",
+            "display": "Susceptibility",
+            "definition": "Susceptibility",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2477",
+            "code": "TASTE",
+            "display": "Taste",
+            "definition": "Taste",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2478",
+            "code": "TEMP",
+            "display": "Temperature",
+            "definition": "Temperature",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2479",
+            "code": "TEMPDF",
+            "display": "Temperature Difference",
+            "definition": "Temperature Difference",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2480",
+            "code": "TEMPIN",
+            "display": "Temperature Increment",
+            "definition": "Temperature Increment",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2481",
+            "code": "TITR",
+            "display": "Dilution Factor (Titer)",
+            "definition": "Dilution Factor (Titer)",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2482",
+            "code": "TYPE",
+            "display": "Type",
+            "definition": "Type",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2483",
+            "code": "VEL",
+            "display": "Velocity",
+            "definition": "Velocity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2484",
+            "code": "VELRT",
+            "display": "Velocity Ratio",
+            "definition": "Velocity Ratio",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2485",
+            "code": "VISC",
+            "display": "Viscosity",
+            "definition": "Viscosity",
+            "property": [
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Adopted from the IUPAC Silver Book 1995” to the code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

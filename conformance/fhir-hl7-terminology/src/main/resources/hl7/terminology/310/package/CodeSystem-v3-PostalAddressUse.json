@@ -1,0 +1,302 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-PostalAddressUse",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-PostalAddressUse",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1012"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "PostalAddressUse",
+    "title": "PostalAddressUse",
+    "status": "retired",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "*Deprecation Comment:* This code system was deprecated as of the November 2007 harmonization meeting. The content was folded into AddressUse (2.16.840.1.113883.5.1119), which replaces this code system.",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired..",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_AddressUse",
+            "display": "AddressUse",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21112"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "BAD",
+                    "display": "bad address",
+                    "definition": "A flag indicating that the address is bad, in fact, useless.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10641"
+                        }
+                    ]
+                },
+                {
+                    "code": "H",
+                    "display": "home address",
+                    "definition": "A communication address at a home, attempted contacts for business purposes might intrude privacy and chances are one will contact family or other household members instead of the person one wishes to call. Typically used with urgent cases, or if no other contacts are available.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10628"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "HP",
+                            "display": "primary home",
+                            "definition": "The primary home, to reach a person after business hours.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10629"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "HV",
+                            "display": "vacation home",
+                            "definition": "A vacation home, to reach a person while on vacation.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "10630"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "TMP",
+                    "display": "temporary address",
+                    "definition": "A temporary address, may be good for visit or mailing. Note that an address history can provide more detailed information.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10640"
+                        }
+                    ]
+                },
+                {
+                    "code": "WP",
+                    "display": "work place",
+                    "definition": "An office address. First choice for business related contacts during business hours.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10631"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "DIR",
+                            "display": "Direct",
+                            "definition": "Indicates a work place address or telecommunication address that reaches the individual or organization directly without intermediaries. For phones, often referred to as a 'private line'.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21426"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PUB",
+                            "display": "Public",
+                            "definition": "Indicates a work place address or telecommunication address that is a 'standard' address which may reach a reception service, mail-room, or other intermediary prior to the target entity.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21427"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "BIR",
+                    "display": "birthplace",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "retired"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "12211"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "PHYS",
+            "display": "physical visit address",
+            "definition": "Used primarily to visit an address.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10638"
+                }
+            ]
+        },
+        {
+            "code": "PST",
+            "display": "postal address",
+            "definition": "Used to send mail.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10639"
+                }
+            ]
+        }
+    ]
+}

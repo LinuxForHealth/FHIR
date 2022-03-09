@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "deeds-old",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/deeds-old",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.89"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "DeedsOld",
+    "title": "DEEDS(old)",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "Centers for Disease Control and Prevention"
+        }
+    ],
+    "description": "retired root for DEEDs from earlier work. Superceded.",
+    "content": "not-present"
+}

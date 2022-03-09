@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "mif-conceptRelationshipSymmetry",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/mif-conceptRelationshipSymmetry",
+    "name": "MIFConceptRelationshipSymmetry",
+    "title": "MIF Concept Relationship Symmetry",
+    "status": "draft",
+    "date": "2022-02-23T20:36:09-07:00",
+    "description": "Codes for use in the ext-mif-relationship-symmetry to capture V3 Model Interchange Format (MIF) SupportedConceptRelationship.symmetry values",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "MIF-ConceptRelationshipSymmetry"
+                    }
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "concept": [
+                    {
+                        "code": "MIF-ConceptRelationshipSymmetry"
+                    }
+                ]
+            }
+        ]
+    }
+}

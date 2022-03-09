@@ -1,0 +1,135 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0498",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sd"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0498",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.322"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ConsentStatus",
+    "title": "consentStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-code system of concepts specifying whether the consent has been sought and granted.  Used in HL7 Version 2.x messaging in the TXA and CON segments.",
+    "purpose": "Underlying Master Code System for V2 table 0498 (Consent Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0498",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5494",
+            "code": "A",
+            "display": "Active - Consent has been granted",
+            "definition": "Active - Consent has been granted",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5495",
+            "code": "L",
+            "display": "Limited - Consent has been granted with limitations",
+            "definition": "Limited - Consent has been granted with limitations",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5496",
+            "code": "R",
+            "display": "Refused - Consent has been refused",
+            "definition": "Refused - Consent has been refused",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5497",
+            "code": "P",
+            "display": "Pending - Consent has not yet been sought",
+            "definition": "Pending - Consent has not yet been sought",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5498",
+            "code": "X",
+            "display": "Rescinded - Consent was initially granted, but was subsequently revoked or ended.",
+            "definition": "Rescinded - Consent was initially granted, but was subsequently revoked or ended.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5499",
+            "code": "B",
+            "display": "Bypassed (Consent not sought)",
+            "definition": "Bypassed (Consent not sought)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

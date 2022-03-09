@@ -1,0 +1,38 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "IECColourManagement",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/IECColourManagement",
+    "version": "1.0.0",
+    "name": "IECColourManagement",
+    "title": "IEC 61966-2-1: Colour measurement and management - Part 2-1: Colour management - Default RGB colour space - sRGB",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-01-25T00:00:00-00:00",
+    "publisher": "International Electrotechnical Commission",
+    "contact": [
+        {
+            "name": "International Electrotechnical Commission; 3 rue de Varembé, PO Box 131, CH-1211 Geneva 20, Switzerland",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "secretariat@iecee.org"
+                },
+                {
+                    "system": "phone",
+                    "value": "+41 22 919 02 11"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.iec.ch/homepage"
+                }
+            ]
+        }
+    ],
+    "description": "IEC 61966-2-1:1999 is the official specification of sRGB. It provides viewing environment, encoding, and colorimetric details.\r\n\r\nFor more information, please see https://webstore.iec.ch/publication/6168",
+    "copyright": "All IEC Publications are protected by the publisher's copyright and no part of any IEC Publication can be reproduced or utilized in any form or by any means (graphic, electronic or mechanical including photocopying) without the written permission of the publisher (please see Copyright on IEC Standards in Database Format). For standards using code components, please see the code components EULA.\r\n\r\nFor more information, see https://www.iec.ch/copyright",
+    "content": "not-present"
+}

@@ -1,0 +1,4099 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0396",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "vocab"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0396",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.247"
+        }
+    ],
+    "version": "2.4.0",
+    "name": "CodingSystem",
+    "title": "codingSystem",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the coding system.  This table is maintained outside of the published Version 2 standards, and may be found at http://www.hl7.org/Special/committees/vocab/table_0396/index.cfm.  Used in HL7 Version 2.x messaging in the CWE segment.",
+    "purpose": "Underlying Master Code System for V2 table 0396 (Coding System)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0396",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4023",
+            "code": "General code",
+            "display": "Active",
+            "definition": "Active",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4024",
+            "code": "ALPHAID2012",
+            "display": "German Alpha-ID v2013",
+            "definition": "German Alpha-ID v2012",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4025",
+            "code": "ALPHAID2013",
+            "display": "German Alpha-ID v2013",
+            "definition": "German Alpha-ID v2013",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4026",
+            "code": "ALPHAID2014",
+            "display": "German Alpha-ID v2014",
+            "definition": "German Alpha-ID v2014",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4027",
+            "code": "ALPHAID2015",
+            "display": "German Alpha-ID v2015",
+            "definition": "German Alpha-ID v2015",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4028",
+            "code": "ALPHAID2016",
+            "display": "German Alpha-ID v2016",
+            "definition": "German Alpha-ID v2016",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4029",
+            "code": "ICD10GM2012",
+            "display": "ICD 10 Germany v2012",
+            "definition": "ICD 10 Germany v2012",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4030",
+            "code": "ICD10GM2013",
+            "display": "ICD 10 Germany v2013",
+            "definition": "ICD 10 Germany v2013",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4031",
+            "code": "ICD10GM2014",
+            "display": "ICD 10 Germany v2014",
+            "definition": "ICD 10 Germany v2014",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4032",
+            "code": "ICD10GM2015",
+            "display": "ICD 10 Germany v2015",
+            "definition": "ICD 10 Germany v2015",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4033",
+            "code": "ICD10GM2016",
+            "display": "ICD 10 Germany v2016",
+            "definition": "ICD 10 Germany v2016",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4034",
+            "code": "OPS2012",
+            "display": "OPS Germany v2012",
+            "definition": "OPS Germany v2012",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4035",
+            "code": "OPS2013",
+            "display": "OPS Germany v2013",
+            "definition": "OPS Germany v2013",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4036",
+            "code": "OPS2014",
+            "display": "OPS Germany v2014",
+            "definition": "OPS Germany v2014",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4037",
+            "code": "OPS2015",
+            "display": "OPS Germany v2015",
+            "definition": "OPS Germany v2015",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4038",
+            "code": "OPS2016",
+            "display": "OPS Germany v2016",
+            "definition": "OPS Germany v2016",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4039",
+            "code": "99zzz or L",
+            "display": "Local general code (where z is an alphanumeric character)",
+            "definition": "Local general code (where z is an alphanumeric character)",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4040",
+            "code": "99zzz",
+            "display": "Local general code for a site-defined code system used for a specific set of trading partners.  The 'zzz' SHALL be any printable ASCII string.  Length of the name SHALL not exceed field width, and is subject to local implementation.",
+            "definition": "Local general code for a site-defined code system used for a specific set of trading partners.  The 'zzz' SHALL be any printable ASCII string.  Length of the name SHALL not exceed field width, and is subject to local implementation.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The 'zzz' may be any printable ASCII string of variable length, but the recommendation is to generally use only numbers and uppercase letters, as that is how all of the currently existent table 396 entries have been created for many years.  In addition, there is no explicit length restriction, but it is recommended that the string be kept below a 20 character maximum."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4041",
+            "code": "ACR",
+            "display": "American College of Radiology finding codes",
+            "definition": "American College of Radiology finding codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Index for Radiological Diagnosis Revised, 3rd Edition 1986, American College of Radiology, Reston, VA."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4042",
+            "code": "ACTCODE",
+            "display": "Table of HL7 Version 3 ActCode values",
+            "definition": "Table of HL7 Version 3 ActCode values",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.4 ActCode in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4043",
+            "code": "ACTRELSS",
+            "display": "Used to indicate that the target of the relationship will be a filtered subset of the total related set of targets.\r\nUsed when there is a need to limit the number of components to the first, the last, the next, the total, the average or some other filtere",
+            "definition": "Used to indicate that the target of the relationship will be a filtered subset of the total related set of targets.\r\nUsed when there is a need to limit the number of components to the first, the last, the next, the total, the average or some other filtere",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "V3 coding system.   Download with V3 materials."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4044",
+            "code": "ALPHAID2006",
+            "display": "German Alpha-ID v2006",
+            "definition": "German Alpha-ID v2006",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2006. Alpha-ID."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4045",
+            "code": "ALPHAID2007",
+            "display": "German Alpha-ID v2007",
+            "definition": "German Alpha-ID v2007",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2007. Alpha-ID."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4046",
+            "code": "ALPHAID2008",
+            "display": "German Alpha-ID v2008",
+            "definition": "German Alpha-ID v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2008. Alpha-ID."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4047",
+            "code": "ALPHAID2009",
+            "display": "German Alpha-ID v2009",
+            "definition": "German Alpha-ID v2009",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2009. Alpha-ID."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4048",
+            "code": "ALPHAID2010",
+            "display": "German Alpha-ID v2010",
+            "definition": "German Alpha-ID v2010",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2010. Alpha-ID."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4049",
+            "code": "ALPHAID2011",
+            "display": "German Alpha-ID v2011",
+            "definition": "German Alpha-ID v2011",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "ID of the alphabetical Index ICD-10-GM-2011. Alpha-ID."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4050",
+            "code": "AMTv2",
+            "display": "Australian Medicines Terminology (v2)",
+            "definition": "Australian Medicines Terminology (v2)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The national terminology to identify medicines used in Australia,\r\nusing unique codes to deliver unambiguous, accurate and standardised\r\nnames for both branded (trade) and generic (medicinal) products."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4051",
+            "code": "ANS+",
+            "display": "HL7 set of units of measure",
+            "definition": "HL7 set of units of measure",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "HL7 set of units of measure based upon ANSI X3.50 - 1986, ISO 2988-83, and US customary units / see chapter 7, section 7.4.2.6."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4052",
+            "code": "ART",
+            "display": "WHO Adverse Reaction Terms",
+            "definition": "WHO Adverse Reaction Terms",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WHO Collaborating Centre for International Drug Monitoring, Box 26, S-751 03, Uppsala, Sweden."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4053",
+            "code": "AS4",
+            "display": "ASTM E1238/ E1467 Universal",
+            "definition": "ASTM E1238/ E1467 Universal",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "American Society for Testing & Materials and CPT4 (see Appendix X1 of Specification E1238 and Appendix X2 of Specification E1467)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4054",
+            "code": "AS4E",
+            "display": "AS4 Neurophysiology Codes",
+            "definition": "AS4 Neurophysiology Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ASTM’s diagnostic codes and test result coding/grading systems for clinical neurophysiology. See ASTM Specification E1467, Appendix 2."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4055",
+            "code": "ATC",
+            "display": "American Type Culture Collection",
+            "definition": "American Type Culture Collection",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Reference cultures (microorganisms, tissue cultures, etc.), related biological materials and associated data. American Type Culture Collection, 12301 Parklawn Dr, Rockville MD, 20852. (301) 881-2600."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4056",
+            "code": "C4",
+            "display": "CPT-4",
+            "definition": "CPT-4",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "American Medical Association, P.O. Box 10946, Chicago IL  60610."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4057",
+            "code": "C5",
+            "display": "CPT-5",
+            "definition": "CPT-5",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Not currently being worked on, no proposed release date at this time.  American Medical Association, P.O. Box 10946, Chicago IL  60610."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4058",
+            "code": "CAPECC",
+            "display": "College of American Pathologists Electronic Cancer Checklist",
+            "definition": "College of American Pathologists Electronic Cancer Checklist",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Each code in this system represents a single line in a database template for the College of American Pathologists Electronic Cancer Checklist (CAP eCC).  Each line and its code corresponds to either a question or an answer selection.  The code is in a decimal format of #########.#########, where each \"#\" is an optional number.  The nine digits to the right of the Ckey decimal point make up a namespace identifier, which is specific to the center that created the database entries for the checklist line items with their unique Ckey values.   The namespace identifier for SNOMED Terminology Solutions at the College of American Pathologists is 1000043.  All Ckey values in the 2008 release use namespace 1000043.  The digits to the left of the decimal point are a locally assigned sequential key for the ChecklistTemplateItems table in the local CAP eCC database.  These codes are used to specify questions and answers selected in a CAP eCC template for transmission in an HL7 message, as defined by the NAACCR Pathology Workgroup and the CDC/NPCR Reporting Pathology Protocols II (RPP II) project. SNOMED Terminology Solutions, College of American Pathologists, 325 Waukegan Road, Northfield, Illinois, 60093, snomedsolutions@cap.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4059",
+            "code": "CAS",
+            "display": "Chemical abstract codes",
+            "definition": "Chemical abstract codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "These include unique codes for each unique chemical, including all generic drugs. The codes do not distinguish among different dosing forms. When multiple equivalent CAS numbers exist, use the first one listed in USAN. USAN 1990 and the USP dictionary of drug names, William M. Heller, Ph.D., Executive Editor, United States Pharmacopeial Convention, Inc., 12601 Twinbrook Parkway, Rockville, MD 20852."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4060",
+            "code": "DCL",
+            "display": "DICOM Class Label",
+            "definition": "DICOM Class Label",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4061",
+            "code": "CCC",
+            "display": "Clinical Care Classification system",
+            "definition": "Clinical Care Classification system",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Clinical Care Classification System (formerly Home Health Care Classification system) codes.\nThe Clinical Care Classification (CCC) consists of two terminologies: CCC of Nursing Diagnoses \nand CCC of Nursing Interventions both of which are classified by 21 Care Components.\nVirginia Saba, EdD, RN; Georgetown University School of Nursing; Washington, DC."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4062",
+            "code": "CD2",
+            "display": "CDT-2 Codes",
+            "definition": "CDT-2 Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "American Dental Association’s Current Dental Terminology (CDT-2) code. American Dental Association, 211 E. Chicago Avenue,. Chicago, Illinois 60611."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4063",
+            "code": "CDCA",
+            "display": "CDC Analyte Codes",
+            "definition": "CDC Analyte Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Public Health Practice Program Office, Centers for Disease Control and Prevention, 4770 Buford Highway, Atlanta, GA, 30421. Also available via FTP: ftp.cdc.gov/pub/laboratory _info/CLIA and Gopher: gopher.cdc.gov:70/11/laboratory_info/CLIA"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4064",
+            "code": "DQL",
+            "display": "DICOM Query Label",
+            "definition": "DICOM Query Label",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4065",
+            "code": "CDCEDACUITY",
+            "display": "CDC Emergency Department Acuity",
+            "definition": "CDC Emergency Department Acuity",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Patient Acuity indicates level of care required (Acute, Chronic, Critical)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4066",
+            "code": "cdcgs1vis",
+            "display": "VIS Bar Codes (IIS)",
+            "definition": "VIS Bar Codes (IIS)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The purpose of the barcode on the bottom of the Vaccine Information Statement (VIS) is to provide an opportunity to electronically capture the VIS document type (e.g. influenza, MMR) and the edition date of the VIS, as required by the National Childhood Vaccine Injury Act (NCVIA). For more information, please visit - http://www.cdc.gov/vaccines/pubs/vis/vis-barcodes.htm"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4067",
+            "code": "CDCINDUSTRY2010",
+            "display": "Industry CDC Census 2010",
+            "definition": "Industry CDC Census 2010",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For more information and instructions on using this coding system, see the instruction manual for CDC-Census I&O coding at: http://www.cdc.gov/niosh/topics/coding/"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4068",
+            "code": "CDCM",
+            "display": "CDC Methods/Instruments Codes",
+            "definition": "CDC Methods/Instruments Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Public Health Practice Program Office, Centers for Disease Control and Prevention, 4770 Buford Highway, Atlanta, GA, 30421. Also available via FTP"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4069",
+            "code": "CDCNHSN",
+            "display": "CDC National Healthcare Safety Network Codes",
+            "definition": "CDC National Healthcare Safety Network Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A set of patient safety and healthcare personnel safety vocabulary concepts and associated identifiers maintained as a code system by the CDC's National Healthcare Safety Network."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4070",
+            "code": "CE (obsolete)",
+            "display": "CEN ECG diagnostic codes",
+            "definition": "CEN ECG diagnostic codes",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CEN ECG diagnostic codes - (Obsolete, retained for backwards compatibility only.  See the entry for the MDC coding system.)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4071",
+            "code": "CDCOBS",
+            "display": "CDC BioSense RT observations (Census) - CDC",
+            "definition": "CDC BioSense RT observations (Census) - CDC",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "List of BioSense RT observations (Clinical) used in OBX-3 like Temperature, Bloodpressure and Census related observations."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4072",
+            "code": "CDCOCCUPATION2010",
+            "display": "Occupation CDC Census 2010",
+            "definition": "Occupation CDC Census 2010",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For more information and instructions on using this coding system, see the instruction manual for CDC-Census I&O coding at: http://www.cdc.gov/niosh/topics/coding/"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4073",
+            "code": "CDCODH",
+            "display": "Occupational Data for Health (ODH)",
+            "definition": "Occupational Data for Health (ODH)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Code System Source URL: https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.114222.4.5.327\r\nCode System OID: 2.16.840.1.114222.4.5.327"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4074",
+            "code": "CDCPHINVS",
+            "display": "CDC PHIN Vocabulary Coding System",
+            "definition": "CDC PHIN Vocabulary Coding System",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC Public Health Information Network Vocabulary Service (PHIN VS) coding system concepts are used when the public health concepts are not available in the Standard Development Organization(SDO) Vocabulary like SNOMED CT, LOINC, ICD-9, etc.. The concepts in this coding system will be mapped to SDO Vocabulary when it is available."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4075",
+            "code": "CDCREC",
+            "display": "Race & Ethnicity - CDC",
+            "definition": "Race & Ethnicity - CDC",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The U.S. Centers for Disease Control and Prevention (CDC) has prepared a code set for use in coding race and ethnicity data. This code set is based on current federal standards for classifying data on race and ethnicity, specifically the minimum race and ethnicity categories defined by the U.S. Office of Management and Budget (OMB) and a more detailed set of race and ethnicity categories maintained by the U.S. Bureau of the Census (BC). The main purpose of the code set is to facilitate use of federal standards for classifying data on race and ethnicity when these data are exchanged, stored, retrieved, or analyzed in electronic form. At the same time, the code set can be applied to paper-based record systems to the extent that these systems are used to collect, maintain, and report data on race and ethnicity in accordance with current federal standards."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4076",
+            "code": "CDS",
+            "display": "CDC Surveillance",
+            "definition": "CDC Surveillance",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC Surveillance Codes. For data unique to specific public health surveillance requirements. Epidemiology Program Office, Centers for Disease Control and Prevention, 1600 Clifton Rd, Atlanta, GA, 30333. (404) 639-3661."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4077",
+            "code": "CE",
+            "display": "CEN ECG diagnostic codes",
+            "definition": "CEN ECG diagnostic codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CEN ECG diagnostic codes – (Obsolete, retained for backwards compatibility only.  See the entry for the MDC coding system.)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4078",
+            "code": "Chrom-Loc",
+            "display": "Cytogenetic (chromosome) location",
+            "definition": "Cytogenetic (chromosome) location",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Chromosome location (AKA chromosome locus or cytogenetic location), is the standardized syntax for recording the position of genes and large mutations. It consists of three parts: the Chromosome number (e 1-22, X, Y), an indicator of which arm – either “p” for the  short or “q” for the long, and then a series of numbers separated by dots that indicate the band, sub band and sub-sub band of the locus - e.g. 2p16.3 . There are other conventions for reporting ranges and locations at the end of the chromosomes. The table of these chromosome locations was loaded initially with the all of the locations found in NCBI’s ClinVar variation tables. It will expand as additional sources become available."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4079",
+            "code": "CLINVAR-V",
+            "display": "ClinVar Variant ID",
+            "definition": "ClinVar Variant ID",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ClinVar processes submissions reporting variants found in patient samples, assertions made regarding their clinical significance, information about the submitter, and other supporting data. The alleles described in submissions are mapped to reference sequences, and reported according to the HGVS standard."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4080",
+            "code": "CLP",
+            "display": "CLIP",
+            "definition": "CLIP",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes for radiology reports.  Simon Leeming, Beth Israel Hospital, Boston MA."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4081",
+            "code": "CMSOEC",
+            "display": "OCE Edit Code",
+            "definition": "OCE Edit Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "U.S. Centers for Medicare and Medicaid Services (CMS) Integrated Outpatient Code Editor (I/OCE). The edits that applied to the billing code. The OCE not only identifies individual errors but also indicates what actions should be taken and the reasons why these actions are necessary. In order to accommodate this functionality, the OCE is structured to return lists of edit numbers. This structure facilitates the linkage between the actions being taken, the reasons for the actions and the information on the claim (e.g., a specific diagnosis) that caused the action."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4082",
+            "code": "CMSOMC",
+            "display": "OCE Modifier Code",
+            "definition": "OCE Modifier Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "U.S. Centers for Medicare and Medicaid Services (CMS) Integrated Outpatient Code Editor (I/OCE). The edits that applied to the code modifier. The OCE not only identifies individual errors but also indicates what actions should be taken and the reasons why these actions are necessary. In order to accommodate this functionality, the OCE is structured to return lists of edit numbers. This structure facilitates the linkage between the actions being taken, the reasons for the actions and the information on the claim (e.g., a specific diagnosis) that caused the action."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4083",
+            "code": "FDAUDI",
+            "display": "FDA Unique Device Identifier",
+            "definition": "FDA Unique Device Identifier",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Represents the approved agencies by the FDA that assign UDI Device Identifiers."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4084",
+            "code": "COSMIC-Smpl",
+            "display": "COSMIC – Simple variants",
+            "definition": "COSMIC – Simple variants",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This table includes only simple somatic (cancer) mutations, one per unique mutation ID. The codes is the COSMIC mutation ID, and the name uses Ensembl RefSeqs and the single letter code for p.HGVS.   It carries fields analogous to most of the key fields in ClinVar, but its reference sequences are Ensembl transcript reference sequences with prefixes of ENST; it specifies amino acid changes with the older, HGVS, single letter codes and it carries examples of primary cancers and primary tissues, fields that are not in ClinVar. COSMIC's source table includes multiple records per mutation - one per submission.  The COSMIC-Simple Variants table carries only includes one record per unique mutation- more than 3 million of them. These contents are copyright COSMIC (http://cancer.sanger.ac.uk/cosmic/license) LHC has produced a look up table for these records, and for users to look up particular mutation IDs with permission from COSMIC. However, interested parties must contact COSMIC for permission to download these records."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4085",
+            "code": "COSMIC-Strc",
+            "display": "COSMIC-Structural variants",
+            "definition": "COSMIC-Structural variants",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "COSMIC has divided structural variants into two tables one called structural variants and one called copy number variants, both kinds of which are carried in NCBIs dbVar table."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4086",
+            "code": "CPTM",
+            "display": "CPT Modifier Code",
+            "definition": "CPT Modifier Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Available for the AMA at the address listed for CPT above. These codes are found in Appendix A of CPT 2000 Standard Edition. (CPT 2000 Standard Edition, American Medical Association, Chicago, IL)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4087",
+            "code": "CST",
+            "display": "COSTART",
+            "definition": "COSTART",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International coding system for adverse drug reactions. In the USA, maintained by the FDA, Rockville, MD."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4088",
+            "code": "CVX",
+            "display": "CDC Vaccine Codes",
+            "definition": "CDC Vaccine Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "National Immunization Program, Centers for Disease Control and Prevention, 1660 Clifton Road, Atlanta, GA, 30333"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4089",
+            "code": "dbVar-GL",
+            "display": "dbVar-Germline",
+            "definition": "dbVar-Germline",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "dbVar is NCBI's database of genomic structural variations (including copy number variants) that are larger than 50 contiguous base pairs. It is the complement of dbSNP, which only contains variants occurring in 50 or fewer contiguous base pairs.   It contains insertions, deletions, duplications, inversions, multi-nucleotide substitutions, mobile element insertions, translocations, and complex chromosomal rearrangements."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4090",
+            "code": "dbVar-som",
+            "display": "dbVar-Somatic",
+            "definition": "dbVar-Somatic",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "dbVar is NCBI's database of genomic structural variations (including copy number variants) that are larger than 50 contiguous base pairs. It is the complement of dbSNP, which only contains variants occurring in 50 or fewer contiguous base pairs.   It contains insertions, deletions, duplications, inversions, multi-nucleotide substitutions, mobile element insertions, translocations, and complex chromosomal rearrangements."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4091",
+            "code": "DCM",
+            "display": "DICOM Controlled Terminology",
+            "definition": "DICOM Controlled Terminology",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes defined in DICOM Content Mapping Resource. Digital Imaging and Communications in Medicine (DICOM). NEMA Publication PS-3.16 National Electrical Manufacturers Association (NEMA). Rosslyn, VA, 22209. Available at:"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4092",
+            "code": "E",
+            "display": "EUCLIDES",
+            "definition": "EUCLIDES",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Available from Euclides Foundation International nv, Excelsiorlaan 4A, B-1930 Zaventem, Belgium; Phone: 32 2 720 90 60."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4093",
+            "code": "E5",
+            "display": "Euclides  quantity codes",
+            "definition": "Euclides  quantity codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Available from Euclides Foundation International nv (see above)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4094",
+            "code": "E6",
+            "display": "Euclides Lab method codes",
+            "definition": "Euclides Lab method codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Available from Euclides Foundation International nv, Excelsiorlaan 4A, B-1930 Zaventem, Belgium; Phone: 32 2 720 90 60."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4095",
+            "code": "E7",
+            "display": "Euclides Lab equipment codes",
+            "definition": "Euclides Lab equipment codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Available from Euclides Foundation International nv (see above)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4096",
+            "code": "EDLEVEL",
+            "display": "Education Level",
+            "definition": "Education Level",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.1077 EducationLevel in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4097",
+            "code": "ensembl-G",
+            "display": "Ensembl genomic reference sequence",
+            "definition": "Ensembl genomic reference sequence",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Set of Ensembl genomic reference sequences whose identifiers have a prefix of \"ENSG.\" It only includes genomic sequences associated with genes and uses the whole build plus the chromosome number to identify chromosome reference sequences, rather than a separate set of reference sequence identifier as NCBI does."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4098",
+            "code": "Ensembl-P",
+            "display": "Ensembl protein reference sequence",
+            "definition": "Ensembl protein reference sequence",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Set of Ensembl protein reference sequences. Their identifiers are distinguished by the prefix of \"ENSP,\" and correspond to NCBI's \"NP_\" identifiers."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4099",
+            "code": "ensembl-T",
+            "display": "Ensembl transcript reference sequence",
+            "definition": "Ensembl transcript reference sequence",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Set of reference sequences for transcripts of coding regions. Their identifiers all have a prefix of \"ENST.\" There are parallels for most (if not all) of what is in Ensembl within NCBI. \"ENST\" parallels NCBI's \"NM_\" identifiers. In general, Ensembl takes its reference sequences directly from the build. NCBI adjusts its reference sequences by replacing known \"mutations\" with sequences that better reflect the population \"normal\"."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4100",
+            "code": "ENTITYCODE",
+            "display": "Entity Code",
+            "definition": "Entity Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.1060 EntityCode in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4101",
+            "code": "ENTITYHDLG",
+            "display": "Entity Handling Code",
+            "definition": "Entity Handling Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.42 EntityHandling in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4102",
+            "code": "ENZC",
+            "display": "Enzyme Codes",
+            "definition": "Enzyme Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Enzyme Committee of the International Union of Biochemistry and Molecular Biology. Enzyme Nomenclature: Recommendations on the Nomenclature and Classification of Enzyme-Catalysed Reactions. London: Academic Press, 1992."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4103",
+            "code": "GMDC2009",
+            "display": "German Major Diagnostic Codes v2009",
+            "definition": "German Major Diagnostic Codes v2009",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "German Major Diagnostic Codes version 2009."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4104",
+            "code": "EPASRS",
+            "display": "EPA SRS",
+            "definition": "EPA SRS",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Subset of EPA SRS listing chemicals that are present in ECOTOX, STORET and TRI."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4105",
+            "code": "GS1UDI",
+            "display": "GS1 Unique Device Identifier",
+            "definition": "GS1 Unique Device Identifier",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4106",
+            "code": "FDAUNII",
+            "display": "Unique Ingredient Identifier (UNII)",
+            "definition": "Unique Ingredient Identifier (UNII)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The Unique Ingredient Identifier (UNII) generated from the FDA Substance Registration System (SRS)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4107",
+            "code": "FDDC",
+            "display": "First DataBank Drug Codes",
+            "definition": "First DataBank Drug Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "National Drug Data File. Proprietary product of First DataBank, Inc. (800) 633-3453, or http://www.firstdatabank.com."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4108",
+            "code": "FDDX",
+            "display": "First DataBank Diagnostic Codes",
+            "definition": "First DataBank Diagnostic Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used for drug-diagnosis interaction checking. Proprietary product of First DataBank, Inc. As above for FDDC."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4109",
+            "code": "FDK",
+            "display": "FDA K10",
+            "definition": "FDA K10",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Dept. of Health & Human Services, Food & Drug Administration, Rockville, MD 20857. (device & analyte process codes)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4110",
+            "code": "FIPS5_2",
+            "display": "FIPS 5-2 (State)",
+            "definition": "FIPS 5-2 (State)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes for the Identification of the States, the District of Columbia and the Outlying Areas of the United States, and Associated Areas."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4111",
+            "code": "HIBUDI",
+            "display": "HIBCC Unique Device Identifier",
+            "definition": "HIBCC Unique Device Identifier",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4112",
+            "code": "FIPS55_3",
+            "display": "Populated Places (FIPS 55-3)",
+            "definition": "Populated Places (FIPS 55-3)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes for Named Populated Places, Primary County Divisions, and Other Locational Entities of the United States, Puerto Rico, and the Outlying Areas (without codes)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4113",
+            "code": "FIPS6_4",
+            "display": "FIPS 6-4 (County)",
+            "definition": "FIPS 6-4 (County)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Federal Information Processing Standard (FIPS) 6-4 provides the names and codes that represent the counties and other entities treated as equivalent legal and/or statistical subdivisions of the 50 States, the District of Columbia, and the possessions and freely associated areas of the United States."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4114",
+            "code": "GDRG2004",
+            "display": "G-DRG German DRG Codes v 2004",
+            "definition": "G-DRG German DRG Codes v 2004",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs. The THREE versions, \"2004\" , \"2005\" and \"2006\" are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4115",
+            "code": "GDRG2005",
+            "display": "G-DRG German DRG Codes v 2005",
+            "definition": "G-DRG German DRG Codes v 2005",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs. The THREE versions, \"2004\" , \"2005\" and \"2006\" are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4116",
+            "code": "GDRG2006",
+            "display": "G-DRG German DRG Codes v 2006",
+            "definition": "G-DRG German DRG Codes v 2006",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs. The THREE versions, \"2004\" , \"2005\" and \"2006\" are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4117",
+            "code": "GDRG2007",
+            "display": "G-DRG German DRG Codes v2007",
+            "definition": "G-DRG German DRG Codes v2007",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs 2007."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4118",
+            "code": "GDRG2008",
+            "display": "G-DRG German DRG Codes v2008",
+            "definition": "G-DRG German DRG Codes v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs 2008."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4119",
+            "code": "GDRG2009",
+            "display": "G-DRG German DRG Codes v2008",
+            "definition": "G-DRG German DRG Codes v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Handbook for DRGs 2009."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4120",
+            "code": "GMDC2004",
+            "display": "German Major Diagnostic Codes v 1004",
+            "definition": "German Major Diagnostic Codes v 1004",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Major Diagnostic Codes version \"2004\""
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4121",
+            "code": "GMDC2005",
+            "display": "German Major Diagnostic Codes v2005",
+            "definition": "German Major Diagnostic Codes v2005",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4122",
+            "code": "GMDC2006",
+            "display": "German Major v2006 Diagnostic Codes",
+            "definition": "German Major v2006 Diagnostic Codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4123",
+            "code": "GMDC2007",
+            "display": "German Major Diagnostic Codes v2007",
+            "definition": "German Major Diagnostic Codes v2007",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Major Diagnostic Codes 2007."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4124",
+            "code": "GMDC2008",
+            "display": "German Major Diagnostic Codes v2008",
+            "definition": "German Major Diagnostic Codes v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "German Major Diagnostic Codes v2008."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4125",
+            "code": "HB",
+            "display": "HIBCC",
+            "definition": "HIBCC",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Health Industry Business Communications Council, 5110 N. 40th St., Ste 120, Phoenix, AZ 85018."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4126",
+            "code": "HCPCS",
+            "display": "CMS (formerly HCFA)  Common Procedure Coding System",
+            "definition": "CMS (formerly HCFA)  Common Procedure Coding System",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "HCPCS: contains codes for medical equipment, injectable drugs, transportation services, and other services not found in CPT4.\nhttp://www.cms.hhs.gov/MedHCPCSGenInfo/"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4127",
+            "code": "IBTnnnn",
+            "display": "ISBT 128 codes where nnnn  specifies a specific table within ISBT 128.",
+            "definition": "ISBT 128 codes where nnnn  specifies a specific table within ISBT 128.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "International Society of Blood Transfusion. (specific contact information will be supplied to editor.)<p>The variable suffix (nnnn) identifies a specific table within ISBT 128."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4128",
+            "code": "HCPT",
+            "display": "Health Care Provider Taxonomy",
+            "definition": "Health Care Provider Taxonomy",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Formerly the responsibility of Workgroup 15 (Provider Information) within ANSI ASC X12N, all maintenance is now done by NUCC (turned over in 2001).   Primary distribution is the responsibility of Washington Publishing Company, through its World Wide Web Site http://www.wpc-edi.com.  Requests for new codes or changes may be  done through the same website.  For further information, NUCC may be contacted at: \r\nStephanie Moncada, NUCC Secretary\r\nAmerican Medical Association\r\n515 N. State St.\r\nChicago, IL 60610\r\nEmail: stephanie.moncada@ama-assn.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4129",
+            "code": "ICCUDI",
+            "display": "ICCBBA Unique Device Identifier",
+            "definition": "ICCBBA Unique Device Identifier",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4130",
+            "code": "HGNC-Symb",
+            "display": "HGNC-symb",
+            "definition": "HGNC-symb",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The HGNC gene table carries the GENE ID, gene symbol and full gene name. The GENE ID is specific to the species. The gene symbol and name will be shared by all species with the same gene. \nThe HGNC-Symb table carries only human genes. The code for this coding system is the HGNC gene code, the \"name\" or print string is the HGNC gene symbol. \nMore than 28,000 human gene symbols and names have been assigned so far, but some human genes lack an HGNC code and symbol. These are mostly non protein coding genes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4131",
+            "code": "HGVS.c",
+            "display": "HGVS- Transcript syntax",
+            "definition": "HGVS- Transcript syntax",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Syntax that describes variations (mutations) at the transcript (messenger RNA) level. The transcript syntax statements, which can describe simple and complex variants, are distinguished by a leading \"c.\""
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4132",
+            "code": "HGVS.g",
+            "display": "HGVS- Genomic syntax",
+            "definition": "HGVS- Genomic syntax",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Syntax that describes the variations (mutations) at the genome level (the DNA before it is spliced to remove introns). The genomic syntax statements are distinguished by a leading \"g.\""
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4133",
+            "code": "HGVS.p",
+            "display": "HGVS-Protein syntax",
+            "definition": "HGVS-Protein syntax",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Syntax that specifies the variations (mutations) at the amino acid level, which is induced by underlying DNA variants. The protein change statements are distinguished by a leading \"p.\""
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4134",
+            "code": "HHC",
+            "display": "Home Health Care",
+            "definition": "Home Health Care",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Home Health Care Classification System; Virginia Saba, EdD, RN; Georgetown University School of Nursing; Washington, DC.\nSuperceded by 'CCC' (see above); this entry is retained for backward-compatibility."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4135",
+            "code": "ICD10GM2010",
+            "display": "ICD 10 Germany v2010",
+            "definition": "ICD 10 Germany v2010",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "ICD German modification for 2010"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4136",
+            "code": "HI",
+            "display": "Health Outcomes",
+            "definition": "Health Outcomes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Health Outcomes Institute codes for outcome variables available (with responses) from Stratis Health (formerly Foundation for Health Care Evaluation and Health Outcomes Institute), 2901 Metro Drive, Suite 400, Bloomington, MN, 55425-1525; (612) 854-3306 (voice); (612) 853-8503 (fax); dziegen@winternet.com. See examples in the Implementation Guide."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4137",
+            "code": "ICD10GM2011",
+            "display": "ICD 10 Germany v2011",
+            "definition": "ICD 10 Germany v2011",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "ICD German modification for 2011"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4138",
+            "code": "HL7nnnn",
+            "display": "Health Level Seven defined table of codes, where nnnn is the HL7 table number.  The number is four numeric digits as published in HL7 Version 2 chapter 2C.  For example, HL70001.",
+            "definition": "Health Level Seven defined table of codes, where nnnn is the HL7 table number.  The number is four numeric digits as published in HL7 Version 2 chapter 2C.  For example, HL70001.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The table value HL7nnnn is meant to restrict the value to the characters 'HL7' and four numeric digits e.g. HL70001 is valid, examples of invalid values include HL71, HL701, HL7001."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4139",
+            "code": "HOT",
+            "display": "Japanese Nationwide Medicine Code",
+            "definition": "Japanese Nationwide Medicine Code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4140",
+            "code": "HPC",
+            "display": "CMS (formerly HCFA )Procedure Codes (HCPCS)",
+            "definition": "CMS (formerly HCFA )Procedure Codes (HCPCS)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Health Care Financing Administration (HCFA) Common Procedure Coding System (HCPCS) including modifiers.[1]"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4141",
+            "code": "HSLOC",
+            "display": "Healthcare Service Location",
+            "definition": "Healthcare Service Location",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A comprehensive classification of locations and settings where healthcare services are provided. This code system is based on the NHSN location code system that has been developed over a number of years through CDC's interaction with a variety of healthcare facilities and is intended to serve a variety of reporting needs where coding of healthcare service locations is required."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4142",
+            "code": "I10",
+            "display": "ICD-10",
+            "definition": "ICD-10",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "World Health Publications, Albany, NY."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4143",
+            "code": "I10C",
+            "display": "International Classification of Diseases, 10th  Revision, Clinical Modification (ICD-10-CM)",
+            "definition": "International Classification of Diseases, 10th  Revision, Clinical Modification (ICD-10-CM)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD-10-CM is a clinical modification of the International Statistical Classification of Diseases and Related Health Problems, 10th revision (ICD-10) published by the United States for reporting diagnosis in morbidity settings. Additional information is available at: http://www.cdc.gov/nchs/icd/icd10cm.htm."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4144",
+            "code": "I10G2004",
+            "display": "ICD 10 Germany 2004",
+            "definition": "ICD 10 Germany 2004",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Three code sets exist I10G2004, I10G2005, I10G2006"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4145",
+            "code": "I10G2005",
+            "display": "ICD 10 Germany 2005",
+            "definition": "ICD 10 Germany 2005",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Three code sets exist I10G2004"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4146",
+            "code": "ISOnnnn (deprecated)",
+            "display": "ISO Defined Codes where nnnn is the ISO table number",
+            "definition": "ISO Defined Codes where nnnn is the ISO table number",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "International Standards Organization where nnnn is the ISO table number"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4147",
+            "code": "I10G2006",
+            "display": "ICD 10 Germany 2006",
+            "definition": "ICD 10 Germany 2006",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Three code sets exist I10G2004"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4148",
+            "code": "ISO",
+            "display": "ISO 2955.83 (units of measure) with HL7 extensions",
+            "definition": "ISO 2955.83 (units of measure) with HL7 extensions",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "See chapter 7, section 7.4.2.6"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4149",
+            "code": "I10P",
+            "display": "International Classification of Diseases, 10th  Revision, Procedure Coding System (ICD-10-PCS)",
+            "definition": "International Classification of Diseases, 10th  Revision, Procedure Coding System (ICD-10-PCS)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD-10-PCS is a procedure classification published by the United States for classifying procedures performed in hospital inpatient health care settings. Additional information is available at: http://www.cms.gov/Medicare/Coding/ICD10/2013-ICD-10-PCS-GEMs.html."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4150",
+            "code": "I10P0",
+            "display": "ICD-10 Place of Occurrence",
+            "definition": "ICD-10 Place of Occurrence",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4151",
+            "code": "I9",
+            "display": "ICD9",
+            "definition": "ICD9",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "World Health Publications, Albany, NY."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4152",
+            "code": "I9C",
+            "display": "International Classification of Diseases, 9th  Revision, Clinical Modification (ICD-9-CM)",
+            "definition": "International Classification of Diseases, 9th  Revision, Clinical Modification (ICD-9-CM)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD-9-CM is a clinical modification of the World Health Organization's 9th Revision, International Classification of Diseases (ICD-9). ICD-9-CM is the official system of assigning codes to diagnoses and procedures associated with healthcare utilization in the United States. Additional information is available at: http://www.cms.hhs.gov/ICD9ProviderDiagnosticCodes/08_ICD10.asp."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4153",
+            "code": "I9CDX",
+            "display": "ICD-9CM Diagnosis codes",
+            "definition": "ICD-9CM Diagnosis codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Indicates codes from ICD-9-CM drawn from Volumes 1 and 2, which cover diagnosis codes only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4154",
+            "code": "I9CP",
+            "display": "ICD-9CM Procedure codes",
+            "definition": "ICD-9CM Procedure codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Indicates codes from ICD-9-CM drawn from Volume 3, which covers procedure codes only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4155",
+            "code": "IBT",
+            "display": "ISBT",
+            "definition": "ISBT",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Retained for backward compatibility only as of v 2.5. This code value has been superceded by the individual codes IBTnnnn (where nnnn identifies a specific table in ISBT 128).  Tables commencing with IBT are used in transfusion/transplantation and maintained by ICCBBA, PO Box 11309, San Bernardino, CA"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4156",
+            "code": "IBT0001",
+            "display": "ISBT 128 Standard transfusion/transplantation data items",
+            "definition": "ISBT 128 Standard transfusion/transplantation data items",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ISBT 128 Standard data items used in transfusion/transplantation and maintained by ICCBBA, PO Box 11309, San Bernardino, CA"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4157",
+            "code": "IC2",
+            "display": "ICHPPC-2",
+            "definition": "ICHPPC-2",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Classification of Health Problems in Primary Care, Classification Committee of World Organization of National Colleges, Academies and Academic Associations of General Practitioners (WONCA), 3rd edition. An adaptation of ICD9 intended for use in General Medicine, Oxford University Press."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4158",
+            "code": "ICD10AM",
+            "display": "ICD-10 Australian modification",
+            "definition": "ICD-10 Australian modification",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4159",
+            "code": "ICD10CA",
+            "display": "ICD-10 Canada",
+            "definition": "ICD-10 Canada",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4160",
+            "code": "ICD10GM2007",
+            "display": "ICD 10 Germany v2007",
+            "definition": "ICD 10 Germany v2007",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD German modification for 2007."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4161",
+            "code": "ICD10GM2008",
+            "display": "ICD 10 Germany v2008",
+            "definition": "ICD 10 Germany v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD German modification for 2008."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4162",
+            "code": "ICD10GM2009",
+            "display": "ICD 10 Germany v2009",
+            "definition": "ICD 10 Germany v2009",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICD German modification for 2009."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4163",
+            "code": "ICDO",
+            "display": "International Classification of Diseases for Oncology",
+            "definition": "International Classification of Diseases for Oncology",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Classification of Diseases for Oncology, 2nd Edition. World Health Organization: Geneva, Switzerland, 1990. Order from: College of American Pathologists, 325 Waukegan Road, Northfield, IL, 60093-2750. (847) 446-8800."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4164",
+            "code": "ICDO2",
+            "display": "International Classification of Disease for Oncology Second Edition",
+            "definition": "International Classification of Disease for Oncology Second Edition",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Percy C, VanHolten V, and Muir C, editors. International Classification of Diseases for Oncology. Second Edition. Geneva: World Health Organization; 1990.\r\n\r\nThe ICD-9 neoplasm structure did not include morphology and there was a growing interest by physicians to establish a coding system for morphology.  ICD-O is used in cancer registries (and other related areas) for coding the topography (site) and morphology of a neoplasm. The topography code uses similar categories as ICD-10 for malignant neoplasms allowing greater specificity for the site of non-malignant neoplasms than in ICD-10.  The topography code consists of an alphabetic character (the letter C) followed by two numeric digits, a decimal point, and a numeric digit. The morphology code consists of a 6-digit numeric code which consists of three parts: histologic type (4-digit), behavior code (1-digit), and grading or differentiation (1-digit). ICD-O-2 is used for tumors diagnosed prior to 2001."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4165",
+            "code": "ICDO3",
+            "display": "International Classification of Disease for Oncology Third Edition",
+            "definition": "International Classification of Disease for Oncology Third Edition",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Fritz A, Percy C, Jack A, Shanmugaratnam K, Sobin L, Parkin D, et al, editors. International Classification of Diseases for Oncology. Third Edition. Geneva: World Health Organization; 2000.\r\n\r\nThe ICD-9 neoplasm structure did not include morphology and there was a growing interest by physicians to establish a coding system for morphology.  ICD-O is used in cancer registries (and other related areas) for coding the topography (site) and morphology of a neoplasm. The topography code uses similar categories as ICD-10 for malignant neoplasms allowing greater specificity for the site of non-malignant neoplasms than in ICD-10.  The topography code consists of an alphabetic character (the letter C) followed by two numeric digits, a decimal point, and a numeric digit. The morphology code consists of a 6-digit numeric code which consists of three parts: histologic type, behavior code, and grading or differentiation. In the third edition the morphology codes were revised, especially for leukemias and lymphomas. ICD-O-3 is used for tumors diagnosed in 2001 and later."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4166",
+            "code": "ICF",
+            "display": "International Classification of Functioning, Disability and Health (ICF)",
+            "definition": "International Classification of Functioning, Disability and Health (ICF)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ICF is a classification of those characteristics of health involving functional impairments, activity limitations, or participation restrictions that are often associated with disability. The ICF classification complements the World Health Organization's (WHO) International Classification of Diseases-10th Revision (ICD), which contains information on diagnosis and health condition, but not on functional status. The ICD and ICF constitute the core classifications in the WHO Family of International Classifications (WHO-FIC). Additional information is available at: http://www.cdc.gov/nchs/icd/icf.htm."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4167",
+            "code": "ICS",
+            "display": "ICCS",
+            "definition": "ICCS",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Commission on Professional and Hospital Activities, 1968 Green Road, Ann Arbor, MI 48105."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4168",
+            "code": "ICSD",
+            "display": "International Classification of Sleep Disorders",
+            "definition": "International Classification of Sleep Disorders",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Classification of Sleep Disorders Diagnostic and Coding Manual, 1990, available from American Sleep Disorders Association, 604 Second Street SW, Rochester, MN  55902"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4169",
+            "code": "IHELAW",
+            "display": "IHE Laboratory Analytical Workflow (LAW) Profile Codes.",
+            "definition": "IHE Laboratory Analytical Workflow (LAW) Profile Codes.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The codes are part of the IHE LAW Profile, and it will be published as part of the IHE Laboratory Technical Framework. The technical framework documents can be found with the following link: http://www.ihe.net/Technical_Frameworks/#laboratory"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4170",
+            "code": "ISCN",
+            "display": "International System for Human Cytogenetic Nomenclature (ISCN)",
+            "definition": "International System for Human Cytogenetic Nomenclature (ISCN)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The International System for Human Cytogenetic Nomenclature (ISCN) has served as the central reference for describing the human chromosome complement."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4171",
+            "code": "ISO+",
+            "display": "ISO 2955.83 (units of measure) with HL7 extensions",
+            "definition": "ISO 2955.83 (units of measure) with HL7 extensions",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "See chapter 7, section 7.4.2.6"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4172",
+            "code": "ISO3166_1",
+            "display": "ISO 3166-1 Country Codes",
+            "definition": "ISO 3166-1 Country Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Standards Organization standard 3166 contains 3 parts.  Part 1 contains three tables for codes for countries of the world.  These are 2-character alphabetic, 3-character alphabetic, and numeric codes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4173",
+            "code": "ISO3166_2",
+            "display": "ISO 3166-2 Country subdivisions",
+            "definition": "ISO 3166-2 Country subdivisions",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Standards Organization standard 3166 contains 3 parts.  Part 2 contains a complete breakdown into a relevant level of administrative subdivisions of all countries listed in ISO 3166-1. The code elements used consist of the alpha-2 code element from ISO 3166-1 followed by a separator and a further string of up to three alphanumeric characters e. g. DK-025 for the Danish county Roskilde."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4174",
+            "code": "ISO4217",
+            "display": "ISO4217 Currency Codes",
+            "definition": "ISO4217 Currency Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "ISO's currency codes, which are based on the ISO country codes are published in the standard ISO 4217:2008 Codes for the representation of currencies and funds.  This International Standard specifies the structure for a three-letter alphabetic code and an equivalent three-digit numeric code for the representation of currencies and funds. For those currencies having minor units, it also shows the decimal relationship between such units and the currency itself."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4175",
+            "code": "ISO639",
+            "display": "ISO 639 Language",
+            "definition": "ISO 639 Language",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Standards Organization codes for the representation of names of languages.  ISO 639 provides two sets of language codes, one as a two-character code set (639-1) and another as a three-character code set (639-2) for the representation of names of languages.  ISO 639-3, Codes for the representation of names of languages - Part 3: Alpha-3 code for comprehensive coverage of languages, is a code list that aims to define three-letter identifiers for all known human languages."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4176",
+            "code": "ISOnnnn",
+            "display": "ISO Defined Codes where nnnn is the ISO table number. (deprecated)",
+            "definition": "ISO Defined Codes where nnnn is the ISO table number. (deprecated)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Standards Organization tables.  This has been deprecated since the ISO numbered standards are not the same as tables, and there are no \"ISO table numbers\".  Some standards contains tables of values, and some contain more than one table.  In the future, specific tables of values drawn from ISO standards will have explicit entries here in table 0396.  Use the specific entries for identified tables instead of this one."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4177",
+            "code": "ITIS",
+            "display": "Integrated Taxonomic Information System",
+            "definition": "Integrated Taxonomic Information System",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is a taxonomic hierarchy for living organisms."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4178",
+            "code": "IUPC",
+            "display": "IUPAC/IFCC Component Codes",
+            "definition": "IUPAC/IFCC Component Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes used by IUPAC/IFF to identify the component (analyte) measured. Contact Henrik Olesen, as above for IUPP."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4179",
+            "code": "IUPP",
+            "display": "IUPAC/IFCC Property Codes",
+            "definition": "IUPAC/IFCC Property Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "International Union of Pure and Applied Chemistry/International Federation of Clinical Chemistry. The Silver Book: Compendium of terminology and nomenclature of properties in clinical laboratory sciences. Oxford: Blackwell Scientific Publishers, 1995. Henrik Olesen, M.D., D.M.Sc., Chairperson, Department of Clinical Chemistry, KK76.4.2, Rigshospitalet, University Hospital of Copenhagen, DK-2200, Copenhagen. http://inet.uni-c.dk/~qukb7642/"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4180",
+            "code": "JC10",
+            "display": "JLAC/JSLM, nationwide laboratory code",
+            "definition": "JLAC/JSLM, nationwide laboratory code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: Classification &Coding for Clinical Laboratory. Japanese Society of Laboratory Medicine(JSLM, Old:Japan Society of Clinical Pathology). Version 10, 1997. A multiaxial code  including a analyte code (e.g., Rubella = 5f395), identification code (e.g., virus ab IGG=1431), a specimen code (e.g., serum =023) and a method code (e.g., ELISA = 022)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4181",
+            "code": "JC8",
+            "display": "Japanese Chemistry",
+            "definition": "Japanese Chemistry",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Clinical examination classification code. Japan Association of Clinical Pathology. Version 8, 1990. A multiaxial code  including a subject code (e.g., Rubella = 5f395, identification code (e.g., virus ab IGG), a specimen code (e.g., serum =023) and a method code (e.g., ELISA = 022)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4182",
+            "code": "JJ1017",
+            "display": "Japanese Image Examination Cache",
+            "definition": "Japanese Image Examination Cache",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4183",
+            "code": "L",
+            "display": "Local general code for a site-defined code system used for a specific set of trading partners.  The 'zzz' SHALL be any printable ASCII string.  Length of the name SHALL not exceed field width, and is subject to local implementation.",
+            "definition": "Local general code for a site-defined code system used for a specific set of trading partners.  The 'zzz' SHALL be any printable ASCII string.  Length of the name SHALL not exceed field width, and is subject to local implementation.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The 'zzz' may be any printable ASCII string of variable length, but the recommendation is to generally use only numbers and uppercase letters, as that is how all of the currently existent table 396 entries have been created for many years.  In addition, there is no explicit length restriction, but it is recommended that the string be kept below a 20 character maximum."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4184",
+            "code": "LANGUAL",
+            "display": "LanguaL",
+            "definition": "LanguaL",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "LanguaL stands for \"Langua aLimentaria\" or \"language of food\"  LanguaL is a multilingual thesaural system using facetted classification about food.  Terms reprented in PHIN VADS will be limited to the English language version."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4185",
+            "code": "LB",
+            "display": "Local billing code",
+            "definition": "Local billing code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Local billing codes/names (with extensions if needed)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4186",
+            "code": "LN",
+            "display": "Logical Observation Identifier Names and Codes (LOINC®)",
+            "definition": "Logical Observation Identifier Names and Codes (LOINC®)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Logical Observation Identifiers Names and Codes (LOINC®) provides a set of universal codes and names for identifying laboratory and other clinical observations. One of the main goals of LOINC is to facilitate the exchange and pooling of results for clinical care, outcomes management, and research. LOINC was initiated by Regenstrief Institute research scientists who continue to develop it with the collaboration of the LOINC Committee. The LOINC table, LOINC codes, and LOINC panels and forms file are copyright © 1995-2011, Regenstrief Institute, Inc. and the LOINC Committee and available at no cost (http://loinc.org) under the license at http://loinc.org/terms-of-use.\r\n\r\nThe laboratory portion of the LOINC database contains the usual clinical laboratory categories of chemistry, hematology, serology, microbiology (including parasitology and virology), toxicology; as well as categories for drugs and the cell counts, antibiotic susceptibilities, and more. The clinical portion of the LOINC database includes entries for vital signs, hemodynamics, intake/output, EKG, obstetric ultrasound, cardiac echo, radiology report titles, pulmonary ventilator management, document and section titles, patient assessment instruments (e.g. Glascow Coma Score, PHQ-9 depression scale, CMS-required patient assessment instruments), and other clinical observations."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4187",
+            "code": "LRG-RefSeq",
+            "display": "Locus Reference Genomic (LRG)",
+            "definition": "Locus Reference Genomic (LRG)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "LRG is a manually curated record that contains stable and thus, un-versioned reference sequences designed specifically for reporting sequence variants with clinical implications. \nIt provides a genomic DNA sequence representation of a single gene that is idealized, has a permanent ID (with no versioning), and core content that never changes. Their database includes maps to NCBI, Ensembl and USCS reference sequences."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4188",
+            "code": "MCD",
+            "display": "Medicaid",
+            "definition": "Medicaid",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medicaid billing codes/names."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4189",
+            "code": "MCR",
+            "display": "Medicare",
+            "definition": "Medicare",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medicare billing codes/names."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4190",
+            "code": "MDC",
+            "display": "Medical Device Communication",
+            "definition": "Medical Device Communication",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "EN ISO/IEEE 11073-10101 Health informatics – Point-of-care medical device communication - Nomenclature"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4191",
+            "code": "MDDX",
+            "display": "Medispan Diagnostic Codes",
+            "definition": "Medispan Diagnostic Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Codes Used for drug-diagnosis interaction checking. Proprietary product. Hierarchical drug codes for identifying drugs down to manufacturer and pill size. MediSpan, Inc., 8425 Woodfield Crossing Boulevard, Indianapolis, IN 46240. Tel: (800) 428-4495. URL: http://www.medispan.com/Products/index.aspx?cat=1. As above for MGPI."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4192",
+            "code": "MEDC",
+            "display": "Medical Economics Drug Codes",
+            "definition": "Medical Economics Drug Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Proprietary Codes for identifying drugs. Proprietary product of Medical Economics Data, Inc. (800) 223-0581."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4193",
+            "code": "Medgen-Dis",
+            "display": "NCBI MedGen disease subset",
+            "definition": "NCBI MedGen disease subset",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "MedGen-disease is a subset disease concepts (about 20,000 as of January 2016) taken from the MedGEN table. It includes most known genetic and clinical diseases."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4194",
+            "code": "MEDIATYPE",
+            "display": "MIME Media Type IANA",
+            "definition": "MIME Media Type IANA",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Encoding as defined by MIME (Multipurpose Internet Mail Extensions)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4195",
+            "code": "MEDR",
+            "display": "Medical Dictionary for Drug Regulatory Affairs (MEDDRA)",
+            "definition": "Medical Dictionary for Drug Regulatory Affairs (MEDDRA)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Patrick Revelle, Director MSSO\n12011 Sunset Hills Road, VAR1/7B52\nReston, VA 20190\nPatrick.Revelle@ngc.com\nhttp://www.meddramsso.com/MSSOWeb/index.htm"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4196",
+            "code": "OPS2010",
+            "display": "OPS Germany v2010",
+            "definition": "OPS Germany v2010",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschluessel 2010."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4197",
+            "code": "MEDX",
+            "display": "Medical Economics Diagnostic Codes",
+            "definition": "Medical Economics Diagnostic Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used for drug-diagnosis interaction checking. Proprietary product of Medical Economics Data, Inc. (800) 223-0581."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4198",
+            "code": "OPS2011",
+            "display": "OPS Germany v2011",
+            "definition": "OPS Germany v2011",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschluessel 2011."
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4199",
+            "code": "MGPI",
+            "display": "Medispan GPI",
+            "definition": "Medispan GPI",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medispan hierarchical drug codes for identifying drugs down to manufacturer and pill size. Proprietary product of MediSpan, Inc., 8425 Woodfield Crossing Boulevard, Indianapolis, IN 46240. Tel: (800) 428-4495."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4200",
+            "code": "MVX",
+            "display": "CDC Vaccine Manufacturer Codes",
+            "definition": "CDC Vaccine Manufacturer Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "As above, for CVX"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4201",
+            "code": "NAICS",
+            "display": "Industry (NAICS)",
+            "definition": "Industry (NAICS)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The North American Industry Classification System (NAICS) consists of a set of six digit codes that classify and categorize industries.  It also organizes the categories on a production/process-oriented basis.  This new, uniform, industry-wide classification system has been designed as the index for statistical reporting of all economic activities of the U.S., Canada, and Mexico. Mapping is available between SIC 1987 and NAICS 2002 codes at U.S. Census Bureau website. Mapping is also available between NAICS 2002 and NAICS 2007 at U.S. Census Bureau website"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4202",
+            "code": "NCPDPnnnnsss",
+            "display": "NCPDP code list for data element nnnn [as used in segment sss]",
+            "definition": "NCPDP code list for data element nnnn [as used in segment sss]",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "NCPDP maintain code list associated with the specified Data Element (nnnn) and Segment (sss).  The Segment portion is optional if there is no specialization of the Data Element codes between segments.  Examples:\n   NCPDP1131RES = code set defined for NCPDP data element 1131 as used in the RES segment (Code List Qualifier – Response Code)\n   NCPDP1131STS = code set defined for NCPDP data element 1131 as used in the STS segment (Code List Qualifier – Reject Code)\n   NCPDP9701 = code set defined for NCPDP data element 9701 (Individual Relationship, Coded).  No specialization to a segment exists for this data element.\n\nNational Council for Prescription Drug Programs, 924Ø East Raintree Drive, Scottsdale, AZ  8526Ø.\nPhone: (48Ø) 477-1ØØØ\nFax: (48Ø) 767-1Ø42\ne-mail: ncpdp@ncpdp.org\nwww.ncpdp.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4203",
+            "code": "NDA",
+            "display": "NANDA",
+            "definition": "NANDA",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "North American Nursing Diagnosis Association, Philadelphia, PA."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4204",
+            "code": "NDC",
+            "display": "National drug codes",
+            "definition": "National drug codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "These provide unique codes for each distinct drug, dosing form, manufacturer, and packaging. (Available from the National Drug Code Directory, FDA, Rockville, MD, and other sources.)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4205",
+            "code": "NDFRT",
+            "display": "NDF-RT (Drug Classification)",
+            "definition": "NDF-RT (Drug Classification)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The National Drug File RT (NDF-RT) is published by the US Veterans' Administration (VA). NDF-RT covers clinical drugs used at the VA. The NCI version of NDF-RT is used by NCI to provide automated terminology access to the Food and Drug Administration (FDA) Structured Product Label (SPL) initiative."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4206",
+            "code": "NIC",
+            "display": "Nursing Interventions Classification",
+            "definition": "Nursing Interventions Classification",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Iowa Intervention Project, College of Nursing, University of Iowa, Iowa City, Iowa"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4207",
+            "code": "NIP001",
+            "display": "Source of Information (Immunization)",
+            "definition": "Source of Information (Immunization)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table to be used in HL7 2.x message RXA-9 for documenting the source of information regarding immunization. E.g. From school, provider,public health agency."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4208",
+            "code": "NIP002",
+            "display": "Substance refusal reason",
+            "definition": "Substance refusal reason",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table to be used in HL7 2.x message RXA-18 for substance refusal reason (reasons for not having vaccination). E.g. Religious exemption, parental decision"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4209",
+            "code": "NIP004",
+            "display": "Vaccination - Contraindications, Precautions, and Immunities",
+            "definition": "Vaccination - Contraindications, Precautions, and Immunities",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table for vaccine contraindications and precautions. E.g. Allergy to egg ingestion, thimerosol"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4210",
+            "code": "NIP007",
+            "display": "Vaccinated at location (facility)",
+            "definition": "Vaccinated at location (facility)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table for vaccinated at location (facility). E.g.  Private doctor's office, Public Health Clinic"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4211",
+            "code": "NIP008",
+            "display": "Vaccine purchased with (Type of funding)",
+            "definition": "Vaccine purchased with (Type of funding)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table enumerates the type of funds used for purchasing vaccine. E.g. Public funds, Military funds"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4212",
+            "code": "NIP009",
+            "display": "Reported adverse event previously",
+            "definition": "Reported adverse event previously",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table enumerates the authorities to whom the vaccination related adverse events were previously reported. E.g. To health department, To manufacturer"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4213",
+            "code": "NIP010",
+            "display": "VAERS Report type",
+            "definition": "VAERS Report type",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC National Immunization Program's (NIP) defined table enumerates the type of report used in VAERS (Vaccination Adverse Event Reporting System). E.g. Initial, Follow-up"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4214",
+            "code": "NND",
+            "display": "Notifiable Event (Disease/Condition) Code List",
+            "definition": "Notifiable Event (Disease/Condition) Code List",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "List of notifiable events, which includes infectious and non-infectious disease or conditions. This list includes events that are notifiable at the state and national level."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4215",
+            "code": "NPI",
+            "display": "National Provider Identifier",
+            "definition": "National Provider Identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Health Care Finance Administration, US Dept. of Health and Human Services, 7500 Security Blvd., Baltimore, MD 21244."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4216",
+            "code": "NUBC",
+            "display": "National Uniform Billing Committee Code",
+            "definition": "National Uniform Billing Committee Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "http://www.nubc.org/"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4217",
+            "code": "NULLFL",
+            "display": "Flavors of NULL",
+            "definition": "Flavors of NULL",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "System of coded values for Flavors of Null, as used in HL7 Version 3 standards.  Identical to the HL7 version 3 \r\ncoding system 2.16.840.1.113883.5.1008 NullFlavor"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4218",
+            "code": "O301",
+            "display": "German Procedure Codes",
+            "definition": "German Procedure Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel. Three versions are active."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4219",
+            "code": "O3012004",
+            "display": "OPS Germany 2004",
+            "definition": "OPS Germany 2004",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel. Three versions are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4220",
+            "code": "O3012005",
+            "display": "OPS Germany 2005",
+            "definition": "OPS Germany 2005",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel. Three versions are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "4221",
+            "code": "O3012006",
+            "display": "Ops Germany 2006",
+            "definition": "Ops Germany 2006",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel. Three versions are active"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4222",
+            "code": "OBSMETHOD",
+            "display": "Observation Method Code",
+            "definition": "Observation Method Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.84 ObservationMethod in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4223",
+            "code": "OHA",
+            "display": "Omaha System",
+            "definition": "Omaha System",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Omaha Visiting Nurse Association, Omaha, NB."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4224",
+            "code": "OPS2007",
+            "display": "OPS Germany v2007",
+            "definition": "OPS Germany v2007",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel 2007."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4225",
+            "code": "OPS2008",
+            "display": "OPS Germany v2008",
+            "definition": "OPS Germany v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel 2008."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4226",
+            "code": "OPS2009",
+            "display": "OPS Germany v2008",
+            "definition": "OPS Germany v2008",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Source: OPS Operationen- und Prozedurenschlussel 2009."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4227",
+            "code": "PHDSCSOPT",
+            "display": "Source of Payment Typology",
+            "definition": "Source of Payment Typology",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The Source of Payment Typology was developed and is maintained by the Public Health Data Standards Consortium's Payer Type Subcommittee. The purpose of the Payer Typology Subcommittee is to create and refine a standard to allow consistent reporting of payer data to public health agencies for health care services and research."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4228",
+            "code": "PHINQUESTION",
+            "display": "CDC Public Health Information Network (PHIN) Question",
+            "definition": "CDC Public Health Information Network (PHIN) Question",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CDC Public Health Questions used in HL7 Message as observation identifiers. These question or observation identifiers are used in CDC's message implementation guides and will be passed in HL7 OBX-3 or Observation.Code"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4229",
+            "code": "PLR",
+            "display": "CDC PHLIP Lab result codes that are not covered in SNOMED at the time of this implementation",
+            "definition": "CDC PHLIP Lab result codes that are not covered in SNOMED at the time of this implementation",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "APHL CDC co-sponsored PHLIP"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4230",
+            "code": "PLT",
+            "display": "CDC PHLIP Lab test codes, where LOINC concept is too broad or not yet available, especially as needed for ordering and or lab to lab reporting )",
+            "definition": "CDC PHLIP Lab test codes, where LOINC concept is too broad or not yet available, especially as needed for ordering and or lab to lab reporting )",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "APHL CDC co-sponsored PHLIP"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4231",
+            "code": "X12Dennnn",
+            "display": "ASC X12 Code List nnnn",
+            "definition": "ASC X12 Code List nnnn",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Code list associated with X12 Data Element nnnn.  Example::<p>X12DE738 - code set defined for X12 data element 738 (Measurement Qualifier)<p>The Accredited Standards Committee (ASC) X12<p>http://www.x12.org"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4232",
+            "code": "POS",
+            "display": "POS Codes",
+            "definition": "POS Codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "HCFA Place of Service Codes for Professional Claims (see http://www.cms.hhs.gov/PlaceofServiceCodes/)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4233",
+            "code": "PRTCPTNMODE",
+            "display": "Paticipation Mode Code",
+            "definition": "Paticipation Mode Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.1064 ParticipationMode in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4234",
+            "code": "RC",
+            "display": "Read Classification",
+            "definition": "Read Classification",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The Read Clinical Classification of Medicine, Park View Surgery, 26 Leicester Rd., Loughborough LE11 2AG (includes drug procedure and other codes, as well as diagnostic codes)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4235",
+            "code": "refSeq-G",
+            "display": "NCBI - genomic and chromosome reference sequences",
+            "definition": "NCBI - genomic and chromosome reference sequences",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Subset of NLM Human RefSeqs with prefix of “NG_ or NC_\".\nThose prefixed with \"NC_\" represent the whole genomic RefSeq for individual chromosomes. Those prefixed with \"NG_\" represent genes with all of their introns and flanking regions and other larger or smaller genomic sequences."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4236",
+            "code": "RefSeq-P",
+            "display": "NCBI - protein reference sequence",
+            "definition": "NCBI - protein reference sequence",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Reference sequences for proteins. Not commonly reported because Amino acid changes can be computed directly from DNA changes based on transcript reference sequence. However some fields are interested only in the protein sequence change, and proteins can be sequenced independently of DNA sequencing."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4237",
+            "code": "refSeq-T",
+            "display": "NCBI-transcript reference sequences (RefSeq)",
+            "definition": "NCBI-transcript reference sequences (RefSeq)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Subset of NLM RefSeq records with prefix of \"NM_\" are reference sequences that represent messenger RNA."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4238",
+            "code": "ROLECLASS",
+            "display": "Used initially for contact roles.",
+            "definition": "Used initially for contact roles.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.111 RoleCode in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4239",
+            "code": "ROLECODE",
+            "display": "Participation Mode",
+            "definition": "Participation Mode",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For use in v2.x systems interoperating with V3 systems.  Identical to the code system 2.16.840.1.113883.5.111 RoleCode in the Version 3 vocabulary."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4240",
+            "code": "RSPMODE",
+            "display": "Specifies the mode, immediate versus deferred or queued, by which a receiver should communicate its receiver responsibilities.",
+            "definition": "Specifies the mode, immediate versus deferred or queued, by which a receiver should communicate its receiver responsibilities.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "V3 coding system, available in RIM download materials."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4241",
+            "code": "RXNORM",
+            "display": "RxNorm",
+            "definition": "RxNorm",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "RxNorm provides standard names for clinical drugs (active ingredient + strength + dose form) and for dose forms as administered to a patient. It provides links from clinical drugs, both branded and generic, to their active ingredients, drug components (active ingredient + strength), and related brand names. NDCs (National Drug Codes) for specific drug products (where there are often many NDC codes for a single product) are linked to that product in RxNorm. RxNorm links its names to many of the drug vocabularies commonly used in pharmacy management and drug interaction software, including those of First Databank, Micromedex, MediSpan, and Multum. By providing links between these vocabularies, RxNorm can mediate messages between systems not using the same software and vocabulary.RxNorm is one of a suite of designated standards for use in U.S. Federal Government systems for the electronic exchange of clinical health information."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4242",
+            "code": "RxT-Ingrd",
+            "display": "RxTerms-Ingredients Subset",
+            "definition": "RxTerms-Ingredients Subset",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "RxT-Ingrd is a specialization of the RxNorm database that includes the ingredients in RxTerms except allergens (used for allergy testing), combination ingredients, and inactive ingredients. The subset is designed for identifying drugs that might be the focus of pharmacogenetic testing."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4243",
+            "code": "SCT",
+            "display": "SNOMED Clinical Terms",
+            "definition": "SNOMED Clinical Terms",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "SNOMED-CT concept identifier codes.\nSNOMED International, I325 Waukegan Rd, Northfield, IL, 60093, +1 800-323-4040, mailto:snomed@cap.org  http://www.snomed.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4244",
+            "code": "SCT2",
+            "display": "SNOMED Clinical Terms alphanumeric codes",
+            "definition": "SNOMED Clinical Terms alphanumeric codes",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Used to indicate that the code value is the legacy-style SNOMED alphanumeric codes, rather than the concept identifier codes. \nSNOMED International, I325 Waukegan Rd, Northfield, IL, 60093, +1 800-323-4040, mailto:snomed@cap.org  http://www.snomed.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4245",
+            "code": "SDM",
+            "display": "SNOMED- DICOM Microglossary",
+            "definition": "SNOMED- DICOM Microglossary",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "College of American Pathologists, Skokie, IL, 60077-1034. (formerly designated as 99SDM)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4246",
+            "code": "SIC",
+            "display": "Industry (SIC)",
+            "definition": "Industry (SIC)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Standard Industry Classification - 1987. Use NAICS 2002. This is mainly for mapping and backward compatibility purposes."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4247",
+            "code": "SNM",
+            "display": "Systemized Nomenclature of Medicine (SNOMED)",
+            "definition": "Systemized Nomenclature of Medicine (SNOMED)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Systemized Nomenclature of Medicine, 2nd Edition 1984 Vols 1, 2, College of American Pathologists, Skokie, IL."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4248",
+            "code": "SNM3",
+            "display": "SNOMED International",
+            "definition": "SNOMED International",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "SNOMED International, 1993 Vols 1-4, College of American Pathologists, Skokie, IL, 60077-1034."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4249",
+            "code": "SNT",
+            "display": "SNOMED topology codes (anatomic sites)",
+            "definition": "SNOMED topology codes (anatomic sites)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "College of American Pathologists, 5202 Old Orchard Road, Skokie, IL 60077-1034."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4250",
+            "code": "SOC",
+            "display": "Occupation (SOC 2000)",
+            "definition": "Occupation (SOC 2000)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The 2000 Standard Occupational Classification (SOC) system is used by Federal statistical agencies to classify workers into occupational categories for the purpose of collecting, calculating, or disseminating data."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4251",
+            "code": "UB04FL14",
+            "display": "Priority (Type) of Visit",
+            "definition": "Priority (Type) of Visit",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4252",
+            "code": "UB04FL15",
+            "display": "Point of Origin",
+            "definition": "Point of Origin",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4253",
+            "code": "UB04FL17",
+            "display": "Patient Discharge Status",
+            "definition": "Patient Discharge Status",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4254",
+            "code": "UB04FL31",
+            "display": "Occurrence Code",
+            "definition": "Occurrence Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4255",
+            "code": "UB04FL35",
+            "display": "Occurrence Span",
+            "definition": "Occurrence Span",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4256",
+            "code": "UB04FL39",
+            "display": "Value Code",
+            "definition": "Value Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, published July 2007, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4257",
+            "code": "UB04FL42",
+            "display": "Revenue Code",
+            "definition": "Revenue Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, most current published edition, by theU.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4258",
+            "code": "UB04FL67",
+            "display": "Present on Admission",
+            "definition": "Present on Admission",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Official UB-04 Data Specification Manual, most current published edition, by the U.S. National Uniform Billing Committee (NUBC), and can be found at http://www.nubc.org. This coding system supersedes UB92 and is effective immediately (July, 2007)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "4259",
+            "code": "UC",
+            "display": "UCDS",
+            "definition": "UCDS",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Uniform Clinical Data Systems. Ms. Michael McMullan, Office of Peer Review Health Care Finance Administration, The Meadows East Bldg., 6325 Security Blvd., Baltimore, MD 21207; (301) 966 6851."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4260",
+            "code": "UCUM",
+            "display": "UCUM code set for units of measure(from Regenstrief)",
+            "definition": "UCUM code set for units of measure(from Regenstrief)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Added by motion of VOCABULARY T.C. 20060308 14-0-3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4261",
+            "code": "UMD",
+            "display": "MDNS",
+            "definition": "MDNS",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Universal Medical Device Nomenclature System. ECRI, 5200 Butler Pike, Plymouth Meeting, PA  19462 USA. Phone: 215-825-6000, Fax: 215-834-1275."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4262",
+            "code": "UML",
+            "display": "Unified Medical Language",
+            "definition": "Unified Medical Language",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "National Library of Medicine, 8600 Rockville Pike, Bethesda, MD 20894."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4263",
+            "code": "UPC",
+            "display": "Universal Product Code",
+            "definition": "Universal Product Code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The Uniform Code Council. 8163 Old Yankee Road, Suite J, Dayton, OH  45458; (513) 435 3070"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4264",
+            "code": "UPIN",
+            "display": "UPIN",
+            "definition": "UPIN",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Medicare/CMS 's (formerly HCFA)  universal physician identification numbers, available from Health Care Financing Administration, U.S. Dept. of Health and Human Services, Bureau of Program Operations, 6325 Security Blvd., Meadows East Bldg., Room 300, Baltimore, MD 21207"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4265",
+            "code": "USGSGNIS",
+            "display": "U.S. Board on Geographic Names (USGS - GNIS)",
+            "definition": "U.S. Board on Geographic Names (USGS - GNIS)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "List of populated places(City) from U.S. Geological Survey Geographic Name Information System (USGS GNIS)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4266",
+            "code": "USPS",
+            "display": "United States Postal Service",
+            "definition": "United States Postal Service",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Two Letter State and Possession Abbreviations are listed in  Publication 28, Postal Addressing Standards which can be obtained from Address Information Products, National Address Information Center, 6060 Primacy Parkway, Suite 101, Memphis, Tennessee  38188-0001\n\nQuestions of comments regarding the publication should be addressed to the Office of Address and Customer Information Systems, Customer and Automation Service Department, US Postal Service, 475 Lenfant Plaza SW Rm 7801, Washington, DC  20260-5902"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4267",
+            "code": "VIS",
+            "display": "Clinicians are required to track the Vaccine Information Sheet (VIS) that was shared with the recipient of a vaccination.  This code system contains codes that  identify the document type and the owner of the document.",
+            "definition": "Clinicians are required to track the Vaccine Information Sheet (VIS) that was shared with the recipient of a vaccination.  This code system contains codes that  identify the document type and the owner of the document.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "More information can be found at the CDC Immunization Standards page at http://www.cdc.gov/vaccines/programs/iis/default.htm.  Content may be downloaded from PHINVADS at https://phinvads.cdc.gov/vads/ViewCodeSystem.action?id=2.16.840.1.113883.6.304 and at http://www.cdc.gov/phin/activities/vocabulary.html."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4268",
+            "code": "W1",
+            "display": "WHO record # drug codes (6 digit)",
+            "definition": "WHO record # drug codes (6 digit)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "World Health organization record number code. A unique sequential number is assigned to each unique single component drug and to each multi-component drug. Eight digits are allotted to each such code, six to identify the active agent, and 2 to identify the salt, of single content drugs. Six digits are assigned to each unique combination of drugs in a dispensing unit. The six digit code is identified by W1, the 8 digit code by W2."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4269",
+            "code": "W2",
+            "display": "WHO record # drug codes (8 digit)",
+            "definition": "WHO record # drug codes (8 digit)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "World Health organization record number code. A unique sequential number is assigned to each unique single component drug and to each multi-component drug. Eight digits are allotted to each such code, six to identify the active agent, and 2 to identify the salt, of single content drugs. Six digits are assigned to each unique combination of drugs in a dispensing unit. The six digit code is identified by W1, the 8 digit code by W2."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4270",
+            "code": "W4",
+            "display": "WHO record # code with ASTM extension",
+            "definition": "WHO record # code with ASTM extension",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "With ASTM extensions (see Implementation Guide), the WHO codes can be used to report serum (and other) levels, patient compliance with drug usage instructions, average daily doses and more (see Appendix X1 the Implementation Guide)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4271",
+            "code": "WC",
+            "display": "WHO ATC",
+            "definition": "WHO ATC",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WHO’s ATC codes provide a hierarchical classification of drugs by therapeutic class. They are linked to the record number codes listed above."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4272",
+            "code": "X12DEnnnn",
+            "display": "ASC X12 Code List nnnn",
+            "definition": "ASC X12 Code List nnnn",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Code list associated with X12 Data Element nnnn.  Example:: \n   X12DE738 – code set defined for X12 data element 738 (Measurement Qualifier)\n\nThe Accredited Standards Committee (ASC) X12\n\nwww.x12.org"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,191 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0935",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0935",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.435"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ProcessInterruptionReason",
+    "title": "processInterruptionReason",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the reason for the process interruption.  Used in HL7 Version 2.x messaging in the DON segment.",
+    "purpose": "Underlying Master Code System for V2 table 0935 (Process Interruption Reason)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0935",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6696",
+            "code": "NRG",
+            "display": "No reason given, donor decided to stop without giving a reason",
+            "definition": "No reason given, donor decided to stop without giving a reason",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6697",
+            "code": "PCD",
+            "display": "Phone Call-Donor",
+            "definition": "Phone Call-Donor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6698",
+            "code": "DCW",
+            "display": "Couldn't wait",
+            "definition": "Couldn't wait",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6699",
+            "code": "CFT",
+            "display": "Couldn't follow through with donation (scared)",
+            "definition": "Couldn't follow through with donation (scared)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6700",
+            "code": "DBB",
+            "display": "Bathroom",
+            "definition": "Bathroom",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6701",
+            "code": "DNI",
+            "display": "Phlebotomy Issue",
+            "definition": "Phlebotomy Issue",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6702",
+            "code": "ASC",
+            "display": "Apheresis Software Crash",
+            "definition": "Apheresis Software Crash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6703",
+            "code": "BSC",
+            "display": "Manufacturing Software Crash",
+            "definition": "Manufacturing Software Crash",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6704",
+            "code": "GFE",
+            "display": "General Facility Emergency",
+            "definition": "General Facility Emergency",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Power outage,  natural disaster (tornado, flood, hurricane, etc.), air conditioning failure, etc."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Power outage,  natural disaster (tornado, flood, hurricane, etc.), air conditioning failure, etc."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

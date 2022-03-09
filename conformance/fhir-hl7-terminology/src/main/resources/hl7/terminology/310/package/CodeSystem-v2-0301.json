@@ -1,0 +1,535 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0301",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0301",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.186"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "UniversalIdType",
+    "title": "universalIdType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of types of UID (Universal Identifiers).   Used in HL7 Version 2.x messaging HD and EI datatypes.",
+    "purpose": "Underlying Master Code System for V2 table 0301 (Universal ID Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0301",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2977",
+            "code": "CAP",
+            "display": "College of American Pathologist Accreditation Number",
+            "definition": "Allows for the ability to designate organization identifier as a \"CAP\" assigned number (for labs)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Use to identify assigning authority IDs, when an OID is not available."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "2978",
+            "code": "CLIA",
+            "display": "Clinical Laboratory Improvement Amendments",
+            "definition": "Clinical Laboratory Improvement Amendments. Allows for the ability to designate organization identifier as a \"CLIA\" assigned number (for labs)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Allows for the ability to designate organization identifier as a “CLIA” assigned number (for labs)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2979",
+            "code": "CLIP",
+            "display": "Clinical laboratory Improvement Program",
+            "definition": "Clinical laboratory Improvement Program. Allows for the ability to designate organization identifier as a \"CLIP\" assigned number (for labs).Â  Used by US Department of Defense.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Allows for the ability to designate organization identifier as a “CLIP” assigned number (for labs).  Used by US Department of Defense."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2980",
+            "code": "DNS",
+            "display": "Domain Name System",
+            "definition": "An Internet host name, in accordance with RFC 1035; or an IP address. Either in ASCII or as integers, with periods between components (\"dotted\" notation).",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Internet-Adresse"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "An Internet host name, in accordance with RFC 1035; or an IP address. Either in ASCII or as integers, with periods between components (“dotted” notation)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2981",
+            "code": "EUI64",
+            "display": "IEEE 64-bit Extended Unique Identifier",
+            "definition": "IEEE 64-bit Extended Unique Identifier is comprised of a  24-bit company identifier and a 40-bit instance identifier.  The value shall be formatted as 16 ASCII HEX digits, for example, “AABBCC1122334455”.  The 24-bit company identifier, formally known as Organizationally Unique Identifier (OUI-24), is guaranteed to be globally unique.  The 40-bit extensions are assigned by manufacturers.  This identifier is often used in equipment interfaces (e.g., “MAC” address format for IPv4 & IPv6).  [See http://standards.ieee.org/regauth/oui/tutorials/EUI64.html for a detailed explanation of the format.]",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "IEEE 64-bit Extended Unique Identifier is comprised of a  24-bit company identifier and a 40-bit instance identifier.  The value shall be formatted as 16 ASCII HEX digits, for example, “AABBCC1122334455”.  The 24-bit company identifier, formally known as Organizationally Unique Identifier (OUI-24), is guaranteed to be globally unique.  The 40-bit extensions are assigned by manufacturers.  This identifier is often used in equipment interfaces (e.g., “MAC” address format for IPv4 & IPv6).  [See http://standards.ieee.org/regauth/oui/tutorials/EUI64.htmlfor a detailed explanation of the format.]OUI-24 values are administered by the IEEE Registration Authority."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "OUI-24 values are administered by the IEEE Registration Authority."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2982",
+            "code": "GUID",
+            "display": "globally unique identifier",
+            "definition": "Same as UUID.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "GUID"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Same as UUID. Retained for backward compatibility only as of v2.7; use UUID instead"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v2.7; use UUID instead"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2983",
+            "code": "HCD",
+            "display": "CEN Healthcare Coding Identifier",
+            "definition": "The CEN Healthcare Coding Scheme Designator",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The CEN Healthcare Coding Scheme Designator. Retained for backward compatibility only as of v2.7; does not identify Assigning Authorities"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v2.7; does not identify Assigning Authorities"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2984",
+            "code": "HL7",
+            "display": "HL7 registration schemes",
+            "definition": "HL7 registration schemes",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "für HL7 reserviert"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Retained for backward compatibility only as of v2.7; HL7 assigns ISO OIDs for Assigning Authorities"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v2.7; HL7 assigns ISO OIDs for Assigning Authorities"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2985",
+            "code": "ISO",
+            "display": "ISO Object Identifier",
+            "definition": "An International Standards Organization Object Identifier (OID), in accordance with ISO/IEC 8824.  Formatted as decimal digits separated by periods; recommended limit of 64 characters",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "ISO-ID"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "An International Standards Organization Object Identifier (OID), in accordance with ISO/IEC 8824.  Formatted as decimal digits separated by periods; recommended limit of 64 characters"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2986",
+            "code": "L",
+            "display": "Local",
+            "definition": "These are reserved for locally defined coding schemes.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "reserviert für lokale Tabellen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Locally defined coding entity identifier.Retained for backward compatibility only as of v 2.8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2987",
+            "code": "L,M,N",
+            "display": "Local",
+            "definition": "These are reserved for locally defined coding schemes.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "reserviert für lokale Tabellen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Locally defined coding entity identifier.Retained for backward compatibility only as of v 2.8"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v 2.8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "2988",
+            "code": "M",
+            "display": "Local",
+            "definition": "These are reserved for locally defined coding schemes.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "reserviert für lokale Tabellen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Locally defined coding entity identifier.Retained for backward compatibility only as of v 2.8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2989",
+            "code": "N",
+            "display": "Local",
+            "definition": "These are reserved for locally defined coding schemes.",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "reserviert für lokale Tabellen"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Locally defined coding entity identifier.Retained for backward compatibility only as of v 2.8"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2990",
+            "code": "NPI",
+            "display": "US National Provider Identifier",
+            "definition": "Allows for the ability to designate organization identifier as a \"NPI\" assigned number (lab, any medical provider, can be a person or an organization)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Use to identify assigning authority IDs, when an OID is not available.  Especially important in the CNN datatype. Namespace maintained and published in the US."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "2991",
+            "code": "Random",
+            "display": "Random",
+            "definition": "Usually a base64 encoded string of random bits.<p>Note: Random IDs are typically used for instance identifiers, rather than an identifier of an Assigning Authority that issues instance identifiers",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "beliebig"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Usually a base64 encoded string of random bits.Retained for backward compatibility only as of v2.7; equivalent to a locally defined entity identifier scheme; use L. M, or N instead. Note: Random IDs are typically used for instance identifiers, rather than an identifier of an Assigning Authority that issues instance identifiers"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Retained for backward compatibility only as of v2.7; equivalent to a locally defined entity identifier scheme; use L. M, or N instead."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Retained for backward compatibility only as of v2.7; equivalent to a locally defined entity identifier scheme; use L. M, or N instead."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2992",
+            "code": "URI",
+            "display": "Uniform Resource Identifier",
+            "definition": "Uniform Resource Identifier",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "URI"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2993",
+            "code": "UUID",
+            "display": "Universal Unique Identifier",
+            "definition": "The DCE Universal Unique Identifier, in accordance with RFC 4122. Recommended format is 32 hexadecimal digits separated by hyphens, in the digit grouping 8-4-4-4-12",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "UUID"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The DCE Universal Unique Identifier, in accordance with RFC 4122. Recommended format is 32 hexadecimal digits separated by hyphens, in the digit grouping 8-4-4-4-12"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2994",
+            "code": "x400",
+            "display": "X.400 MHS identifier",
+            "definition": "An X.400 MHS identifier. Recommended format is in accordance with RFC 1649",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "X.400"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Recommended format is in accordance with RFC 1649"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2995",
+            "code": "x500",
+            "display": "X500 directory Name",
+            "definition": "An X.500 directory name",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "X.500 Verzeichnis­name"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}
