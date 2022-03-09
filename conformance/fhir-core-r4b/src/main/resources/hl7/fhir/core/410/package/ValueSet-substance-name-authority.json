@@ -1,0 +1,157 @@
+{
+    "resourceType": "ValueSet",
+    "id": "substance-name-authority",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/substance-name-authority",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1636"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "SubstanceNameAuthority",
+    "title": "SubstanceNameAuthority",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "An authority that officates substance names.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:bfb5ed62-b938-4818-9f25-5fa89119442e",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 15,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/substance-name-authority|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "BAN",
+                "display": "BAN"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "COSING",
+                "display": "COSING"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "Ph.Eur.",
+                "display": "Ph.Eur."
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "FCC",
+                "display": "FCC"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "INCI",
+                "display": "INCI"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "INN",
+                "display": "INN"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "JAN",
+                "display": "JAN"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "JECFA",
+                "display": "JECFA"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "MARTINDALE",
+                "display": "MARTINDALE"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "USAN",
+                "display": "USAN"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "USP",
+                "display": "USP"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "PHF",
+                "display": "PHF"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "HAB",
+                "display": "HAB"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "PhF",
+                "display": "PhF (Pharmacopée française)"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-name-authority",
+                "code": "IUIS",
+                "display": "IUIS"
+            }
+        ]
+    }
+}

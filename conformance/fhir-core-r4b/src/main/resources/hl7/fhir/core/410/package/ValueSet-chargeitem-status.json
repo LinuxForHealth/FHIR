@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "chargeitem-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>ChargeItemStatus</h2>\n      <div>\n        <p>Codes identifying the lifecycle stage of a ChargeItem.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-chargeitem-status.html\">\n            <code>http://hl7.org/fhir/chargeitem-status</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,62 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/chargeitem-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4b4c7de5-9be5-4f1b-8521-7e544a2ea86d",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/chargeitem-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "planned",
+                "display": "Planned"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "billable",
+                "display": "Billable"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "not-billable",
+                "display": "Not billable"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "aborted",
+                "display": "Aborted"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "billed",
+                "display": "Billed"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/chargeitem-status",
+                "code": "unknown",
+                "display": "Unknown"
             }
         ]
     }

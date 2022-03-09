@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "sort-direction",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-sort-direction.html\"><code>http://hl7.org/fhir/sort-direction</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "SortDirection",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,37 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/sort-direction"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:55d0bda8-9e12-47a3-9b4b-aa07042d29fd",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/sort-direction|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/sort-direction",
+                "code": "ascending",
+                "display": "Ascending"
+            },
+            {
+                "system": "http://hl7.org/fhir/sort-direction",
+                "code": "descending",
+                "display": "Descending"
             }
         ]
     }

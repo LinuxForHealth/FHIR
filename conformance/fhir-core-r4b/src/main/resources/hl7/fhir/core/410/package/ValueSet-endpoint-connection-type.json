@@ -2,15 +2,11 @@
     "resourceType": "ValueSet",
     "id": "endpoint-connection-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/valueset-endpoint-connection-type",
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-endpoint-connection-type.html\"><code>http://terminology.hl7.org/CodeSystem/endpoint-connection-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,97 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:b2479868-d9b9-4097-8e0c-5a279e8692b1",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 14,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "ihe-xcpd",
+                "display": "IHE XCPD"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "ihe-xca",
+                "display": "IHE XCA"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "ihe-xdr",
+                "display": "IHE XDR"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "ihe-xds",
+                "display": "IHE XDS"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "ihe-iid",
+                "display": "IHE IID"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "dicom-wado-rs",
+                "display": "DICOM WADO-RS"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "dicom-qido-rs",
+                "display": "DICOM QIDO-RS"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "dicom-stow-rs",
+                "display": "DICOM STOW-RS"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "dicom-wado-uri",
+                "display": "DICOM WADO-URI"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7-fhir-rest",
+                "display": "HL7 FHIR"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7-fhir-msg",
+                "display": "HL7 FHIR Messaging"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7v2-mllp",
+                "display": "HL7 v2 MLLP"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "secure-email",
+                "display": "Secure email"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "direct-project",
+                "display": "Direct Project"
             }
         ]
     }

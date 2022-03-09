@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "encounter-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>EncounterStatus</h2>\n      <div>\n        <p>Current state of the encounter.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-encounter-status.html\">\n            <code>http://hl7.org/fhir/encounter-status</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,72 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/encounter-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a4d432b6-ffc3-4cc0-be96-cb21af54c6c5",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/encounter-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "planned",
+                "display": "Planned"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "arrived",
+                "display": "Arrived"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "triaged",
+                "display": "Triaged"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "in-progress",
+                "display": "In Progress"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "onleave",
+                "display": "On Leave"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "finished",
+                "display": "Finished"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "cancelled",
+                "display": "Cancelled"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/encounter-status",
+                "code": "unknown",
+                "display": "Unknown"
             }
         ]
     }

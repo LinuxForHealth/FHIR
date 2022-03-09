@@ -1,0 +1,581 @@
+{
+    "resourceType": "ValueSet",
+    "id": "disease-status",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/disease-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1664"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "DiseaseStatus",
+    "title": "DiseaseStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The status of a disease or symptom.",
+    "immutable": true,
+    "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "288524001"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:eb12e448-32b7-4f0f-b3f3-21ac82719c75",
+        "timestamp": "2022-01-18T14:35:57.22Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "288524001",
+                "display": "Courses",
+                "designation": [
+                    {
+                        "value": "Courses"
+                    },
+                    {
+                        "value": "Courses (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "7087005",
+                "display": "Intermittent",
+                "designation": [
+                    {
+                        "value": "Intermittent"
+                    },
+                    {
+                        "value": "Intermittent (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "13550009",
+                "display": "Chronic miliary",
+                "designation": [
+                    {
+                        "value": "Chronic miliary"
+                    },
+                    {
+                        "value": "Chronic miliary (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "14803004",
+                "display": "Transitory",
+                "designation": [
+                    {
+                        "value": "Transitory"
+                    },
+                    {
+                        "value": "Transient"
+                    },
+                    {
+                        "value": "Temporary"
+                    },
+                    {
+                        "value": "Transitory (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "18131002",
+                "display": "Acute fulminating",
+                "designation": [
+                    {
+                        "value": "Acute fulminating"
+                    },
+                    {
+                        "value": "Acute fulminating (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "19939008",
+                "display": "Subacute",
+                "designation": [
+                    {
+                        "value": "Subacute"
+                    },
+                    {
+                        "value": "Subacute (qualifier value)"
+                    },
+                    {
+                        "value": "Subacute course"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "21864008",
+                "display": "Seasonal",
+                "designation": [
+                    {
+                        "value": "Seasonal"
+                    },
+                    {
+                        "value": "Seasonal course (qualifier value)"
+                    },
+                    {
+                        "value": "Seasonal course"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "25649003",
+                "display": "Chronic migratory",
+                "designation": [
+                    {
+                        "value": "Chronic migratory"
+                    },
+                    {
+                        "value": "Chronic migratory (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "26593000",
+                "display": "Paroxysmal",
+                "designation": [
+                    {
+                        "value": "Paroxysmal"
+                    },
+                    {
+                        "value": "Paroxysmal (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39196007",
+                "display": "Chronic aggressive",
+                "designation": [
+                    {
+                        "value": "Chronic aggressive"
+                    },
+                    {
+                        "value": "Chronic aggressive (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "44180009",
+                "display": "Cyclic",
+                "designation": [
+                    {
+                        "value": "Cyclic"
+                    },
+                    {
+                        "value": "Cyclic (qualifier value)"
+                    },
+                    {
+                        "value": "Cyclical"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "47501007",
+                "display": "Chronic active",
+                "designation": [
+                    {
+                        "value": "Chronic active"
+                    },
+                    {
+                        "value": "Chronic active (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "50188003",
+                "display": "Chronic granulomatous",
+                "designation": [
+                    {
+                        "value": "Chronic granulomatous"
+                    },
+                    {
+                        "value": "Chronic granulomatous (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "61751001",
+                "display": "Gradual onset",
+                "designation": [
+                    {
+                        "value": "Gradual onset"
+                    },
+                    {
+                        "value": "Gradual onset of"
+                    },
+                    {
+                        "value": "Gradual onset (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "62459000",
+                "display": "Chronic persistent",
+                "designation": [
+                    {
+                        "value": "Chronic persistent"
+                    },
+                    {
+                        "value": "Chronic persistent (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "90734009",
+                "display": "Chronic",
+                "designation": [
+                    {
+                        "value": "Chronic"
+                    },
+                    {
+                        "value": "Chronic (qualifier value)"
+                    },
+                    {
+                        "value": "Chronic course - prolonged duration"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255212004",
+                "display": "Acute-on-chronic",
+                "designation": [
+                    {
+                        "value": "Acute-on-chronic"
+                    },
+                    {
+                        "value": "Acute-on-chronic (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255227004",
+                "display": "Recurrent",
+                "designation": [
+                    {
+                        "value": "Recurrent"
+                    },
+                    {
+                        "value": "Recurrent (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255228009",
+                "display": "Recurrent acute",
+                "designation": [
+                    {
+                        "value": "Recurrent acute"
+                    },
+                    {
+                        "value": "Recurrent acute (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255299009",
+                "display": "Brittle course",
+                "designation": [
+                    {
+                        "value": "Brittle course"
+                    },
+                    {
+                        "value": "Brittle"
+                    },
+                    {
+                        "value": "Brittle course (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255314001",
+                "display": "Progressive",
+                "designation": [
+                    {
+                        "value": "Progressive"
+                    },
+                    {
+                        "value": "Progressive (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255318003",
+                "display": "Relapsing course",
+                "designation": [
+                    {
+                        "value": "Relapsing course"
+                    },
+                    {
+                        "value": "Relapsing course (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255319006",
+                "display": "Remitting",
+                "designation": [
+                    {
+                        "value": "Remitting"
+                    },
+                    {
+                        "value": "Remitting (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255341006",
+                "display": "Fluctuating",
+                "designation": [
+                    {
+                        "value": "Fluctuating"
+                    },
+                    {
+                        "value": "Fluctuating (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "263730007",
+                "display": "Continual",
+                "designation": [
+                    {
+                        "value": "Continual"
+                    },
+                    {
+                        "value": "Continual (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "264498007",
+                "display": "Cyclical relapsing",
+                "designation": [
+                    {
+                        "value": "Cyclical relapsing"
+                    },
+                    {
+                        "value": "Cyclical relapsing (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "278499009",
+                "display": "Episodic",
+                "designation": [
+                    {
+                        "value": "Episodic"
+                    },
+                    {
+                        "value": "Episodic (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "373933003",
+                "display": "Acute onset (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Acute onset (qualifier value)"
+                    },
+                    {
+                        "value": "Acute onset"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "373935005",
+                "display": "Subacute onset (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Subacute onset (qualifier value)"
+                    },
+                    {
+                        "value": "Subacute onset"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "385315009",
+                "display": "Sudden onset",
+                "designation": [
+                    {
+                        "value": "Sudden onset"
+                    },
+                    {
+                        "value": "Sudden onset of"
+                    },
+                    {
+                        "value": "Sudden onset (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "424124008",
+                "display": "Sudden onset AND/OR short duration (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Sudden onset AND/OR short duration (qualifier value)"
+                    },
+                    {
+                        "value": "Sudden onset AND/OR short duration"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "424572001",
+                "display": "Clinical course with short duration (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Clinical course with short duration (qualifier value)"
+                    },
+                    {
+                        "value": "Clinical course with short duration"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "425323003",
+                "display": "Sudden onset AND short duration (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Sudden onset AND short duration (qualifier value)"
+                    },
+                    {
+                        "value": "Sudden onset AND short duration"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "702322003",
+                "display": "Non-progressive",
+                "designation": [
+                    {
+                        "value": "Non-progressive"
+                    },
+                    {
+                        "value": "Non-progressive (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "788800008",
+                "display": "Delayed onset (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Delayed onset (qualifier value)"
+                    },
+                    {
+                        "value": "Delayed onset"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -6,10 +6,7 @@
 
 package com.ibm.fhir.registry.util;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -161,12 +158,12 @@ public final class FHIRRegistryUtil {
         return Collections.unmodifiableList(resources);
     }
 
-    public static List<Entry> readIndex(String indexPath) {
+    public static Set<Entry> readIndex(String indexPath) {
         log.info("Loading index: " + indexPath);
         try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
             if (in == null) {
                 log.log(Level.WARNING, "Index '" + indexPath + "' was not found");
-                return Collections.emptyList();
+                return Collections.emptySet();
             }
             Index index = new Index();
             index.load(in);
@@ -174,6 +171,6 @@ public final class FHIRRegistryUtil {
         } catch (Exception e) {
             log.log(Level.WARNING, "Unexpected error while loading index '" + indexPath + "'", e);
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

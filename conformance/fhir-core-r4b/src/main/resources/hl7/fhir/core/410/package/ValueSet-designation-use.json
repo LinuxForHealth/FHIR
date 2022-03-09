@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "designation-use",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/900000000000003001\">900000000000003001</a></td><td>Fully specified name</td></tr><tr><td><a href=\"http://snomed.info/id/900000000000013009\">900000000000013009</a></td><td>Synonym (core metadata concept)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -58,6 +54,56 @@
                     },
                     {
                         "code": "900000000000013009"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:ec7ca749-2bdf-4494-bd9f-ba563c0cdbee",
+        "timestamp": "2021-11-17T05:28:26.182Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "900000000000003001",
+                "display": "Fully specified name",
+                "designation": [
+                    {
+                        "value": "Fully specified name"
+                    },
+                    {
+                        "value": "Fully specified name (core metadata concept)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "900000000000013009",
+                "display": "Synonym (core metadata concept)",
+                "designation": [
+                    {
+                        "value": "Synonym (core metadata concept)"
+                    },
+                    {
+                        "value": "Synonym"
                     }
                 ]
             }

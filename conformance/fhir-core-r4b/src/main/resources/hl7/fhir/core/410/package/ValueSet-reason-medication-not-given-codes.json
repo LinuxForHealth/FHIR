@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "reason-medication-not-given-codes",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  242990004 (Drug not available for administration)</li><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  182895007 (Drug declined by patient)</li></ul></div>"
     },
     "extension": [
         {
@@ -71,6 +67,87 @@
                         "value": "182895007"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:f394cde6-cc02-4474-b335-81f9a634ebff",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "242990004",
+                "display": "Drug not available for administration"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182895007",
+                "display": "Drug declined by patient"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182896008",
+                "display": "Drug declined by patient - dislikes taste"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182897004",
+                "display": "Drug declined by patient - side effects"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182898009",
+                "display": "Drug declined by patient - inconvenient"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182899001",
+                "display": "Drug declined by patient - problem swallowing"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182900006",
+                "display": "Drug declined by patient - patient beliefs"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182901005",
+                "display": "Drug declined by patient - alternative therapy"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182902003",
+                "display": "Drug declined by patient - cannot pay script"
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182903008",
+                "display": "Drug declined by patient - reason unknown"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "c80-facilitycodes",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/82242000\">82242000</a></td><td>Hospital-children's</td></tr><tr><td><a href=\"http://snomed.info/id/225732001\">225732001</a></td><td>Hospital-community</td></tr><tr><td><a href=\"http://snomed.info/id/79993009\">79993009</a></td><td>Hospital-government</td></tr><tr><td><a href=\"http://snomed.info/id/32074000\">32074000</a></td><td>Hospital-long term care</td></tr><tr><td><a href=\"http://snomed.info/id/4322002\">4322002</a></td><td>Hospital-military field</td></tr><tr><td><a href=\"http://snomed.info/id/224687002\">224687002</a></td><td>Hospital-prison</td></tr><tr><td><a href=\"http://snomed.info/id/62480006\">62480006</a></td><td>Hospital-psychiatric</td></tr><tr><td><a href=\"http://snomed.info/id/80522000\">80522000</a></td><td>Hospital-rehabilitation</td></tr><tr><td><a href=\"http://snomed.info/id/36125001\">36125001</a></td><td>Hospital-trauma center</td></tr><tr><td><a href=\"http://snomed.info/id/48311003\">48311003</a></td><td>Hospital-Veterans' Administration</td></tr><tr><td><a href=\"http://snomed.info/id/284546000\">284546000</a></td><td>Hospice facility</td></tr><tr><td><a href=\"http://snomed.info/id/42665001\">42665001</a></td><td>Nursing home</td></tr><tr><td><a href=\"http://snomed.info/id/45618002\">45618002</a></td><td>Skilled nursing facility</td></tr><tr><td><a href=\"http://snomed.info/id/418518002\">418518002</a></td><td>Dialysis unit--hospital</td></tr><tr><td><a href=\"http://snomed.info/id/73770003\">73770003</a></td><td>Emergency department--hospital</td></tr><tr><td><a href=\"http://snomed.info/id/69362002\">69362002</a></td><td>Hospital ambulatory surgery facility</td></tr><tr><td><a href=\"http://snomed.info/id/52668009\">52668009</a></td><td>Hospital birthing center</td></tr><tr><td><a href=\"http://snomed.info/id/360957003\">360957003</a></td><td>Hospital outpatient allergy clinic</td></tr><tr><td><a href=\"http://snomed.info/id/10206005\">10206005</a></td><td>Hospital outpatient dental clinic</td></tr><tr><td><a href=\"http://snomed.info/id/37550003\">37550003</a></td><td>Hospital outpatient dermatology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/73644007\">73644007</a></td><td>Hospital outpatient endocrinology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/31628002\">31628002</a></td><td>Hospital outpatient family medicine clinic</td></tr><tr><td><a href=\"http://snomed.info/id/58482006\">58482006</a></td><td>Hospital outpatient gastroenterology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/90484001\">90484001</a></td><td>Hospital outpatient general surgery clinic</td></tr><tr><td><a href=\"http://snomed.info/id/1814000\">1814000</a></td><td>Hospital outpatient geriatric health center</td></tr><tr><td><a href=\"http://snomed.info/id/22549003\">22549003</a></td><td>Hospital outpatient gynecology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/56293002\">56293002</a></td><td>Hospital outpatient hematology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/360966004\">360966004</a></td><td>Hospital outpatient immunology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/2849009\">2849009</a></td><td>Hospital outpatient infectious disease clinic</td></tr><tr><td><a href=\"http://snomed.info/id/14866005\">14866005</a></td><td>Hospital outpatient mental health center</td></tr><tr><td><a href=\"http://snomed.info/id/38238005\">38238005</a></td><td>Hospital outpatient neurology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/56189001\">56189001</a></td><td>Hospital outpatient obstetrical clinic</td></tr><tr><td><a href=\"http://snomed.info/id/89972002\">89972002</a></td><td>Hospital outpatient oncology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/78088001\">78088001</a></td><td>Hospital outpatient ophthalmology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/78001009\">78001009</a></td><td>Hospital outpatient orthopedics clinic</td></tr><tr><td><a href=\"http://snomed.info/id/23392004\">23392004</a></td><td>Hospital outpatient otorhinolaryngology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/36293008\">36293008</a></td><td>Hospital outpatient pain clinic</td></tr><tr><td><a href=\"http://snomed.info/id/3729002\">3729002</a></td><td>Hospital outpatient pediatric clinic</td></tr><tr><td><a href=\"http://snomed.info/id/5584006\">5584006</a></td><td>Hospital outpatient peripheral vascular clinic</td></tr><tr><td><a href=\"http://snomed.info/id/37546005\">37546005</a></td><td>Hospital outpatient rehabilitation clinic</td></tr><tr><td><a href=\"http://snomed.info/id/57159002\">57159002</a></td><td>Hospital outpatient respiratory disease clinic</td></tr><tr><td><a href=\"http://snomed.info/id/331006\">331006</a></td><td>Hospital outpatient rheumatology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/50569004\">50569004</a></td><td>Hospital outpatient urology clinic</td></tr><tr><td><a href=\"http://snomed.info/id/79491001\">79491001</a></td><td>Hospital radiology facility</td></tr><tr><td><a href=\"http://snomed.info/id/33022008\">33022008</a></td><td>Hospital-based outpatient clinic or department--OTHER-NOT LISTED</td></tr><tr><td><a href=\"http://snomed.info/id/19602009\">19602009</a></td><td>Fee-for-service private physicians' group office</td></tr><tr><td><a href=\"http://snomed.info/id/39350007\">39350007</a></td><td>Private physicians' group office</td></tr><tr><td><a href=\"http://snomed.info/id/83891005\">83891005</a></td><td>Solo practice private office</td></tr><tr><td><a href=\"http://snomed.info/id/394759007\">394759007</a></td><td>Independent ambulatory care provider site--OTHER--NOT LISTED</td></tr><tr><td><a href=\"http://snomed.info/id/405607001\">405607001</a></td><td>Ambulatory surgery center</td></tr><tr><td><a href=\"http://snomed.info/id/309900005\">309900005</a></td><td>Care of the elderly day hospital</td></tr><tr><td><a href=\"http://snomed.info/id/275576008\">275576008</a></td><td>Elderly assessment clinic</td></tr><tr><td><a href=\"http://snomed.info/id/10531005\">10531005</a></td><td>Free-standing ambulatory surgery facility</td></tr><tr><td><a href=\"http://snomed.info/id/91154008\">91154008</a></td><td>Free-standing birthing center</td></tr><tr><td><a href=\"http://snomed.info/id/41844007\">41844007</a></td><td>Free-standing geriatric health center</td></tr><tr><td><a href=\"http://snomed.info/id/45899008\">45899008</a></td><td>Free-standing laboratory facility</td></tr><tr><td><a href=\"http://snomed.info/id/51563005\">51563005</a></td><td>Free-standing mental health center</td></tr><tr><td><a href=\"http://snomed.info/id/1773006\">1773006</a></td><td>Free-standing radiology facility</td></tr><tr><td><a href=\"http://snomed.info/id/72311000\">72311000</a></td><td>Health maintenance organization</td></tr><tr><td><a href=\"http://snomed.info/id/6827000\">6827000</a></td><td>Local community health center</td></tr><tr><td><a href=\"http://snomed.info/id/309898008\">309898008</a></td><td>Psychogeriatric day hospital</td></tr><tr><td><a href=\"http://snomed.info/id/39913001\">39913001</a></td><td>Residential school infirmary</td></tr><tr><td><a href=\"http://snomed.info/id/77931003\">77931003</a></td><td>Rural health center</td></tr><tr><td><a href=\"http://snomed.info/id/25681007\">25681007</a></td><td>Sexually transmitted disease health center</td></tr><tr><td><a href=\"http://snomed.info/id/20078004\">20078004</a></td><td>Substance abuse treatment center</td></tr><tr><td><a href=\"http://snomed.info/id/46224007\">46224007</a></td><td>Vaccination clinic</td></tr><tr><td><a href=\"http://snomed.info/id/81234003\">81234003</a></td><td>Walk-in clinic</td></tr><tr><td><a href=\"http://snomed.info/id/35971002\">35971002</a></td><td>Ambulatory care site--OTHER--NOT LISTED</td></tr><tr><td><a href=\"http://snomed.info/id/11424001\">11424001</a></td><td>Ambulance-based care</td></tr><tr><td><a href=\"http://snomed.info/id/409519008\">409519008</a></td><td>Contained casualty setting</td></tr><tr><td><a href=\"http://snomed.info/id/901005\">901005</a></td><td>Helicopter-based care</td></tr><tr><td><a href=\"http://snomed.info/id/2081004\">2081004</a></td><td>Hospital ship</td></tr><tr><td><a href=\"http://snomed.info/id/59374000\">59374000</a></td><td>Traveler's aid clinic</td></tr><tr><td><a href=\"http://snomed.info/id/413456002\">413456002</a></td><td>Adult day care center</td></tr><tr><td><a href=\"http://snomed.info/id/413817003\">413817003</a></td><td>Child day care center</td></tr><tr><td><a href=\"http://snomed.info/id/310205006\">310205006</a></td><td>Private residential home</td></tr><tr><td><a href=\"http://snomed.info/id/419955002\">419955002</a></td><td>Residential institution</td></tr><tr><td><a href=\"http://snomed.info/id/272501009\">272501009</a></td><td>Sports facility</td></tr><tr><td><a href=\"http://snomed.info/id/394777002\">394777002</a></td><td>Health encounter site--NOT LISTED</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -360,6 +356,1147 @@
                     {
                         "code": "394777002",
                         "display": "Health encounter site--NOT LISTED"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:51ec4229-51dc-41ee-b805-1aa2710d7c2d",
+        "timestamp": "2021-12-06T18:55:42.548Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "82242000",
+                "display": "Children's hospital",
+                "designation": [
+                    {
+                        "value": "Children's hospital"
+                    },
+                    {
+                        "value": "Children's hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "225732001",
+                "display": "Community hospital",
+                "designation": [
+                    {
+                        "value": "Community hospital"
+                    },
+                    {
+                        "value": "CH - Community hospital"
+                    },
+                    {
+                        "value": "Community hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "79993009",
+                "display": "Government hospital",
+                "designation": [
+                    {
+                        "value": "Government hospital"
+                    },
+                    {
+                        "value": "Government hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "32074000",
+                "display": "Long term care hospital",
+                "designation": [
+                    {
+                        "value": "Long term care hospital"
+                    },
+                    {
+                        "value": "Long term care hospital (environment)"
+                    },
+                    {
+                        "value": "Long stay hospital"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4322002",
+                "display": "Military field hospital",
+                "designation": [
+                    {
+                        "value": "Military field hospital"
+                    },
+                    {
+                        "value": "Military field hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "224687002",
+                "display": "Prison hospital",
+                "designation": [
+                    {
+                        "value": "Prison hospital"
+                    },
+                    {
+                        "value": "Prison hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "62480006",
+                "display": "Psychiatric hospital",
+                "designation": [
+                    {
+                        "value": "Psychiatric hospital"
+                    },
+                    {
+                        "value": "Mental hospital"
+                    },
+                    {
+                        "value": "Psychiatric hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "80522000",
+                "display": "Rehabilitation hospital",
+                "designation": [
+                    {
+                        "value": "Rehabilitation hospital"
+                    },
+                    {
+                        "value": "Rehabilitation hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36125001",
+                "display": "Trauma center",
+                "designation": [
+                    {
+                        "value": "Trauma center"
+                    },
+                    {
+                        "value": "Trauma center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "48311003",
+                "display": "Veteran's administration hospital",
+                "designation": [
+                    {
+                        "value": "Veteran's administration hospital"
+                    },
+                    {
+                        "value": "V.A. hospital"
+                    },
+                    {
+                        "value": "Veteran's administration hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "284546000",
+                "display": "Hospice",
+                "designation": [
+                    {
+                        "value": "Hospice"
+                    },
+                    {
+                        "value": "Hospice (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "42665001",
+                "display": "Nursing home",
+                "designation": [
+                    {
+                        "value": "Nursing home"
+                    },
+                    {
+                        "value": "NH - Nursing home"
+                    },
+                    {
+                        "value": "Nursing home (environment)"
+                    },
+                    {
+                        "value": "Long term care facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "45618002",
+                "display": "Skilled nursing facility",
+                "designation": [
+                    {
+                        "value": "Skilled nursing facility"
+                    },
+                    {
+                        "value": "Skilled nursing facility (environment)"
+                    },
+                    {
+                        "value": "Skilled care facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "418518002",
+                "display": "Dialysis unit (environment)",
+                "designation": [
+                    {
+                        "value": "Dialysis unit (environment)"
+                    },
+                    {
+                        "value": "Dialysis unit"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "73770003",
+                "display": "Hospital-based outpatient emergency care center",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient emergency care center"
+                    },
+                    {
+                        "value": "Hospital-based outpatient emergency room"
+                    },
+                    {
+                        "value": "Hospital-based outpatient emergency care center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "69362002",
+                "display": "Hospital-based ambulatory surgery facility",
+                "designation": [
+                    {
+                        "value": "Hospital-based ambulatory surgery facility"
+                    },
+                    {
+                        "value": "Hospital-based ambulatory surgery facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "52668009",
+                "display": "Hospital-based birthing center",
+                "designation": [
+                    {
+                        "value": "Hospital-based birthing center"
+                    },
+                    {
+                        "value": "Hospital-based birthing center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "360957003",
+                "display": "Hospital-based outpatient allergy clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient allergy clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient allergy clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "10206005",
+                "display": "Hospital-based outpatient dental clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient dental clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient dental health clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient dental clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "37550003",
+                "display": "Hospital-based outpatient dermatology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient dermatology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient dermatology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "73644007",
+                "display": "Hospital-based outpatient endocrinology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient endocrinology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient endocrinology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "31628002",
+                "display": "Hospital-based outpatient family medicine clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient family medicine clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient family medicine clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "58482006",
+                "display": "Hospital-based outpatient gastroenterology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient gastroenterology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient gastroenterology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "90484001",
+                "display": "Hospital-based outpatient general surgery clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient general surgery clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient general surgery clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1814000",
+                "display": "Hospital-based outpatient geriatric clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient geriatric clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient gerontology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient geriatric clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "22549003",
+                "display": "Hospital-based outpatient gynecology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient gynecology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient gynecology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "56293002",
+                "display": "Hospital-based outpatient hematology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient hematology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient hematology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "360966004",
+                "display": "Hospital-based outpatient immunology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient immunology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient immunology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "2849009",
+                "display": "Hospital-based outpatient infectious disease clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient infectious disease clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient infectious disease clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "14866005",
+                "display": "Hospital-based outpatient mental health clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient mental health clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient psychiatric clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient mental health clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38238005",
+                "display": "Hospital-based outpatient neurology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient neurology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient neurology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "56189001",
+                "display": "Hospital-based outpatient obstetrical clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient obstetrical clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient obstetrical clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "89972002",
+                "display": "Hospital-based outpatient oncology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient oncology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient oncology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "78088001",
+                "display": "Hospital-based outpatient ophthalmology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient ophthalmology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient eye clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient ophthalmology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "78001009",
+                "display": "Hospital-based outpatient orthopedics clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient orthopedics clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient orthopedics clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "23392004",
+                "display": "Hospital-based outpatient otorhinolaryngology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient otorhinolaryngology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient ORL clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient otorhinolaryngology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36293008",
+                "display": "Hospital-based outpatient pain clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient pain clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient pain clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "3729002",
+                "display": "Hospital-based outpatient pediatric clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient pediatric clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient pediatric clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "5584006",
+                "display": "Hospital-based outpatient peripheral vascular clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient peripheral vascular clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient peripheral vascular clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "37546005",
+                "display": "Hospital-based outpatient rehabilitation clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient rehabilitation clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient rehabilitation clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "57159002",
+                "display": "Hospital-based outpatient respiratory disease clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient respiratory disease clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient pneumology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient respiratory disease clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "331006",
+                "display": "Hospital-based outpatient rheumatology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient rheumatology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient rheumatology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "50569004",
+                "display": "Hospital-based outpatient urology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient urology clinic"
+                    },
+                    {
+                        "value": "Hospital-based outpatient urology clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "79491001",
+                "display": "Hospital-based radiology facility",
+                "designation": [
+                    {
+                        "value": "Hospital-based radiology facility"
+                    },
+                    {
+                        "value": "Hospital-based radiology facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "33022008",
+                "display": "Hospital-based outpatient department",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient department"
+                    },
+                    {
+                        "value": "Hospital-based outpatient clinic"
+                    },
+                    {
+                        "value": "Hospital outpatients department"
+                    },
+                    {
+                        "value": "OPD - Outpatients department"
+                    },
+                    {
+                        "value": "Hospital-based outpatient department (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "19602009",
+                "display": "Fee-for-service private physicians' group office",
+                "designation": [
+                    {
+                        "value": "Fee-for-service private physicians' group office"
+                    },
+                    {
+                        "value": "Fee-for-service private physicians' group clinic"
+                    },
+                    {
+                        "value": "Fee-for-service private physicians' group office (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39350007",
+                "display": "Private physicians' group office",
+                "designation": [
+                    {
+                        "value": "Private physicians' group office"
+                    },
+                    {
+                        "value": "Medical clinic"
+                    },
+                    {
+                        "value": "Private physicians' group office (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "83891005",
+                "display": "Solo practice private office",
+                "designation": [
+                    {
+                        "value": "Solo practice private office"
+                    },
+                    {
+                        "value": "Doctor's office"
+                    },
+                    {
+                        "value": "Solo practice private office (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394759007",
+                "display": "Independent provider site (environment)",
+                "designation": [
+                    {
+                        "value": "Independent provider site (environment)"
+                    },
+                    {
+                        "value": "Independent provider site"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "405607001",
+                "display": "Ambulatory surgery center (environment)",
+                "designation": [
+                    {
+                        "value": "Ambulatory surgery center (environment)"
+                    },
+                    {
+                        "value": "Ambulatory surgery center"
+                    },
+                    {
+                        "value": "Outpatient surgery center"
+                    },
+                    {
+                        "value": "Same day surgery center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309900005",
+                "display": "Care of the elderly day hospital",
+                "designation": [
+                    {
+                        "value": "Care of the elderly day hospital"
+                    },
+                    {
+                        "value": "Care of the elderly day hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "275576008",
+                "display": "Elderly assessment clinic",
+                "designation": [
+                    {
+                        "value": "Elderly assessment clinic"
+                    },
+                    {
+                        "value": "Elderly assessment clinic (environment)"
+                    },
+                    {
+                        "value": "Geriatric clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "10531005",
+                "display": "Free-standing ambulatory surgery facility",
+                "designation": [
+                    {
+                        "value": "Free-standing ambulatory surgery facility"
+                    },
+                    {
+                        "value": "Free-standing ambulatory surgery facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "91154008",
+                "display": "Free-standing birthing center",
+                "designation": [
+                    {
+                        "value": "Free-standing birthing center"
+                    },
+                    {
+                        "value": "Free-standing birthing center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "41844007",
+                "display": "Free-standing geriatric clinic",
+                "designation": [
+                    {
+                        "value": "Free-standing geriatric clinic"
+                    },
+                    {
+                        "value": "Free-standing gerontology clinic"
+                    },
+                    {
+                        "value": "Free-standing geriatric clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "45899008",
+                "display": "Free-standing laboratory facility",
+                "designation": [
+                    {
+                        "value": "Free-standing laboratory facility"
+                    },
+                    {
+                        "value": "Free-standing laboratory facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "51563005",
+                "display": "Free-standing mental health clinic",
+                "designation": [
+                    {
+                        "value": "Free-standing mental health clinic"
+                    },
+                    {
+                        "value": "Free-standing psychiatric clinic"
+                    },
+                    {
+                        "value": "Free-standing mental health clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1773006",
+                "display": "Free-standing radiology facility",
+                "designation": [
+                    {
+                        "value": "Free-standing radiology facility"
+                    },
+                    {
+                        "value": "Free-standing radiology facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "72311000",
+                "display": "Health maintenance organization",
+                "designation": [
+                    {
+                        "value": "Health maintenance organization"
+                    },
+                    {
+                        "value": "Prepaid healthcare organization"
+                    },
+                    {
+                        "value": "Health maintenance organization (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6827000",
+                "display": "Local community health center",
+                "designation": [
+                    {
+                        "value": "Local community health center"
+                    },
+                    {
+                        "value": "Local community health center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309898008",
+                "display": "Psychogeriatric day hospital",
+                "designation": [
+                    {
+                        "value": "Psychogeriatric day hospital"
+                    },
+                    {
+                        "value": "Psychogeriatric day hospital (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39913001",
+                "display": "Residential school infirmary",
+                "designation": [
+                    {
+                        "value": "Residential school infirmary"
+                    },
+                    {
+                        "value": "Residential school clinic"
+                    },
+                    {
+                        "value": "Residential school infirmary (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "77931003",
+                "display": "Rural health center",
+                "designation": [
+                    {
+                        "value": "Rural health center"
+                    },
+                    {
+                        "value": "Rural health clinic"
+                    },
+                    {
+                        "value": "Rural health center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "25681007",
+                "display": "Sexually transmitted disease clinic",
+                "designation": [
+                    {
+                        "value": "Sexually transmitted disease clinic"
+                    },
+                    {
+                        "value": "Venereal disease clinic"
+                    },
+                    {
+                        "value": "Sexually transmitted disease clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "20078004",
+                "display": "Substance abuse treatment center",
+                "designation": [
+                    {
+                        "value": "Substance abuse treatment center"
+                    },
+                    {
+                        "value": "Drug abuse treatment center"
+                    },
+                    {
+                        "value": "Substance abuse treatment center (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "46224007",
+                "display": "Vaccination clinic",
+                "designation": [
+                    {
+                        "value": "Vaccination clinic"
+                    },
+                    {
+                        "value": "Vaccination clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "81234003",
+                "display": "Walk-in clinic",
+                "designation": [
+                    {
+                        "value": "Walk-in clinic"
+                    },
+                    {
+                        "value": "Walk-in clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "35971002",
+                "display": "Ambulatory care site",
+                "designation": [
+                    {
+                        "value": "Ambulatory care site"
+                    },
+                    {
+                        "value": "Ambulatory care site (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "11424001",
+                "display": "Ambulance-based care",
+                "designation": [
+                    {
+                        "value": "Ambulance-based care"
+                    },
+                    {
+                        "value": "Ambulance-based care (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409519008",
+                "display": "Contained casualty setting (environment)",
+                "designation": [
+                    {
+                        "value": "Contained casualty setting (environment)"
+                    },
+                    {
+                        "value": "Contained casualty setting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "901005",
+                "display": "Helicopter-based care",
+                "designation": [
+                    {
+                        "value": "Helicopter-based care"
+                    },
+                    {
+                        "value": "Helicopter-based care (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "2081004",
+                "display": "Hospital ship",
+                "designation": [
+                    {
+                        "value": "Hospital ship"
+                    },
+                    {
+                        "value": "Hospital ship (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "59374000",
+                "display": "Traveler's aid clinic",
+                "designation": [
+                    {
+                        "value": "Traveler's aid clinic"
+                    },
+                    {
+                        "value": "Traveler's aid clinic (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413456002",
+                "display": "Adult day care center (environment)",
+                "designation": [
+                    {
+                        "value": "Adult day care center (environment)"
+                    },
+                    {
+                        "value": "Adult day care center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413817003",
+                "display": "Child day care center (environment)",
+                "designation": [
+                    {
+                        "value": "Child day care center (environment)"
+                    },
+                    {
+                        "value": "Child day care center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "310205006",
+                "display": "Private residential home",
+                "designation": [
+                    {
+                        "value": "Private residential home"
+                    },
+                    {
+                        "value": "Private residential home (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419955002",
+                "display": "Residential institution (environment)",
+                "designation": [
+                    {
+                        "value": "Residential institution (environment)"
+                    },
+                    {
+                        "value": "Residential institution"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "272501009",
+                "display": "Sports facility",
+                "designation": [
+                    {
+                        "value": "Sports facility"
+                    },
+                    {
+                        "value": "Sports facility (environment)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394777002",
+                "display": "Health encounter sites (environment)",
+                "designation": [
+                    {
+                        "value": "Health encounter sites (environment)"
+                    },
+                    {
+                        "value": "Health encounter sites"
                     }
                 ]
             }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "location-physical-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-location-physical-type.html\"><code>http://terminology.hl7.org/CodeSystem/location-physical-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -52,6 +48,97 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/location-physical-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:57c42c5e-9aaf-4f99-b40b-1a5cf1782dab",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 14,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/location-physical-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "si",
+                "display": "Site"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "wi",
+                "display": "Wing"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "wa",
+                "display": "Ward"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "lvl",
+                "display": "Level"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "co",
+                "display": "Corridor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ro",
+                "display": "Room"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bd",
+                "display": "Bed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ve",
+                "display": "Vehicle"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ho",
+                "display": "House"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ca",
+                "display": "Cabinet"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "rd",
+                "display": "Road"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "area",
+                "display": "Area"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "jdn",
+                "display": "Jurisdiction"
             }
         ]
     }

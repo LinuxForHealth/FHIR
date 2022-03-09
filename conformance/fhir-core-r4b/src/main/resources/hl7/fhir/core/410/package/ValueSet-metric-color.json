@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "metric-color",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>DeviceMetricColor</h2>\n      <div>\n        <p>Describes the typical color of representation.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-metric-color.html\">\n            <code>http://hl7.org/fhir/metric-color</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,67 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/metric-color"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:1b7cc6d2-2b86-4acb-afa4-9d62720bdf88",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/metric-color|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "black",
+                "display": "Color Black"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "red",
+                "display": "Color Red"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "green",
+                "display": "Color Green"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "yellow",
+                "display": "Color Yellow"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "blue",
+                "display": "Color Blue"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "magenta",
+                "display": "Color Magenta"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "cyan",
+                "display": "Color Cyan"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-color",
+                "code": "white",
+                "display": "Color White"
             }
         ]
     }

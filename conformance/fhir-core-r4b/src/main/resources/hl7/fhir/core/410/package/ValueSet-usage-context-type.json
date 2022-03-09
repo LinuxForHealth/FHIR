@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "usage-context-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-usage-context-type.html\"><code>http://terminology.hl7.org/CodeSystem/usage-context-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "UsageContextType",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,72 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/usage-context-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:8c56e3db-9520-4d06-835b-28facae3d8c2",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/usage-context-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "gender",
+                "display": "Gender"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "age",
+                "display": "Age Range"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "focus",
+                "display": "Clinical Focus"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "user",
+                "display": "User Type"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "workflow",
+                "display": "Workflow Setting"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "task",
+                "display": "Workflow Task"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "venue",
+                "display": "Clinical Venue"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "species",
+                "display": "Species"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+                "code": "program",
+                "display": "Program"
             }
         ]
     }

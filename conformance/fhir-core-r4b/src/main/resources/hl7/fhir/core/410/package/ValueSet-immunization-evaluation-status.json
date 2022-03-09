@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-evaluation-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"codesystem-medication-admin-status.html\"><code>http://terminology.hl7.org/CodeSystem/medication-admin-status</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"codesystem-medication-admin-status.html#medication-admin-status-completed\">completed</a></td><td>Completed</td><td>All actions that are implied by the administration have occurred.</td></tr><tr><td><a href=\"codesystem-medication-admin-status.html#medication-admin-status-entered-in-error\">entered-in-error</a></td><td>Entered in Error</td><td>The administration was entered in error and therefore nullified.</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -61,6 +57,37 @@
                         "code": "entered-in-error"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:c6069e7b-2c45-44d8-a033-fc45d76a5f0b",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
             }
         ]
     }

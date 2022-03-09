@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "texture-code",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> version <code>http://snomed.info/sct/731000124108</code><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/228053002\">228053002</a></td><td>Cut-up food</td></tr><tr><td><a href=\"http://snomed.info/id/439091000124107\">439091000124107</a></td><td>Easy to chew food</td></tr><tr><td><a href=\"http://snomed.info/id/228049004\">228049004</a></td><td>Chopped food</td></tr><tr><td><a href=\"http://snomed.info/id/441881000124103\">441881000124103</a></td><td>Ground food</td></tr><tr><td><a href=\"http://snomed.info/id/441761000124103\">441761000124103</a></td><td>Minced food</td></tr><tr><td><a href=\"http://snomed.info/id/441751000124100\">441751000124100</a></td><td>Mashed food</td></tr><tr><td><a href=\"http://snomed.info/id/228059003\">228059003</a></td><td>Soft food</td></tr><tr><td><a href=\"http://snomed.info/id/441791000124106\">441791000124106</a></td><td>Strained food</td></tr><tr><td><a href=\"http://snomed.info/id/228055009\">228055009</a></td><td>Liquidized food</td></tr><tr><td><a href=\"http://snomed.info/id/228056005\">228056005</a></td><td>Lumpy food</td></tr><tr><td><a href=\"http://snomed.info/id/441771000124105\">441771000124105</a></td><td>Moist food</td></tr><tr><td><a href=\"http://snomed.info/id/228057001\">228057001</a></td><td>Semi-solid food</td></tr><tr><td><a href=\"http://snomed.info/id/228058006\">228058006</a></td><td>Single texture food</td></tr><tr><td><a href=\"http://snomed.info/id/228060008\">228060008</a></td><td>Solid food</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -111,6 +107,233 @@
                     {
                         "code": "228060008",
                         "display": "Solid food"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:c9ac4f81-13aa-4986-baa6-e9f1ef157800",
+        "timestamp": "2021-11-17T05:28:36.423Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/731000124108/version/20210901"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228053002",
+                "display": "Cut-up food",
+                "designation": [
+                    {
+                        "value": "Cut-up food"
+                    },
+                    {
+                        "value": "Cut-up food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "439091000124107",
+                "display": "Easy to chew food (substance)",
+                "designation": [
+                    {
+                        "value": "Easy to chew food (substance)"
+                    },
+                    {
+                        "value": "Easy to chew food"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228049004",
+                "display": "Chopped food",
+                "designation": [
+                    {
+                        "value": "Chopped food"
+                    },
+                    {
+                        "value": "Chopped food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441881000124103",
+                "display": "Ground food (substance)",
+                "designation": [
+                    {
+                        "value": "Ground food (substance)"
+                    },
+                    {
+                        "value": "Ground food"
+                    },
+                    {
+                        "value": "Regular table foods ground into a soft, fine texture, using a baby food grinder or food chopper. Crispy or crunchy foods are not acceptable. Minimal chewing is required."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441761000124103",
+                "display": "Minced food (substance)",
+                "designation": [
+                    {
+                        "value": "Minced food (substance)"
+                    },
+                    {
+                        "value": "Minced food"
+                    },
+                    {
+                        "value": "Soft diet of cohesive, consistent textures requiring some chewing. Easily broken up with the flat edge of a fork into 0.5 cm pieces. No coarse textures such as nuts and raw fruits or vegetables."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441751000124100",
+                "display": "Mashed food (substance)",
+                "designation": [
+                    {
+                        "value": "Mashed food (substance)"
+                    },
+                    {
+                        "value": "Mashed food"
+                    },
+                    {
+                        "value": "Foods are soft, tender and moist and need very little chewing. Has been mashed up with a fork before serving."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228059003",
+                "display": "Soft food",
+                "designation": [
+                    {
+                        "value": "Soft food"
+                    },
+                    {
+                        "value": "Soft food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441791000124106",
+                "display": "Strained food (substance)",
+                "designation": [
+                    {
+                        "value": "Strained food (substance)"
+                    },
+                    {
+                        "value": "Strained food"
+                    },
+                    {
+                        "value": "Soft, moist foods pureed and strained to remove lumps and make them smooth in texture."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228055009",
+                "display": "Liquidized food",
+                "designation": [
+                    {
+                        "value": "Liquidized food"
+                    },
+                    {
+                        "value": "Pureed food"
+                    },
+                    {
+                        "value": "Liquidized food (substance)"
+                    },
+                    {
+                        "value": "Blended food"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228056005",
+                "display": "Lumpy food",
+                "designation": [
+                    {
+                        "value": "Lumpy food"
+                    },
+                    {
+                        "value": "Lumpy food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441771000124105",
+                "display": "Moist food (substance)",
+                "designation": [
+                    {
+                        "value": "Moist food (substance)"
+                    },
+                    {
+                        "value": "Moist food"
+                    },
+                    {
+                        "value": "Soft, tender foods that require little chewing. Served with liquids in the form of sauces or gravies. No lumps, grains, mixed consistencies or dry solids."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228057001",
+                "display": "Semi-solid food",
+                "designation": [
+                    {
+                        "value": "Semi-solid food"
+                    },
+                    {
+                        "value": "Semi-solid food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228058006",
+                "display": "Single texture food",
+                "designation": [
+                    {
+                        "value": "Single texture food"
+                    },
+                    {
+                        "value": "Single texture food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "228060008",
+                "display": "Solid food",
+                "designation": [
+                    {
+                        "value": "Solid food"
+                    },
+                    {
+                        "value": "Solid food (substance)"
                     }
                 ]
             }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "service-uscls",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-service-uscls.html\"><code>http://terminology.hl7.org/CodeSystem/ex-USCLS</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,127 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:fc3ffbd5-6415-410f-9e1d-61fe34ecb461",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 20,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-USCLS|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "1101",
+                "display": "Exam, comp, primary"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "1102",
+                "display": "Exam, comp, mixed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "1103",
+                "display": "Exam, comp, permanent"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "1201",
+                "display": "Exam, recall"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "1205",
+                "display": "Exam, emergency"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "2101",
+                "display": "Radiograph, series (12)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "2102",
+                "display": "Radiograph, series (16)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "2141",
+                "display": "Radiograph, bitewing"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "2601",
+                "display": "Radiograph, panoramic"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "11101",
+                "display": "Polishing, 1 unit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "11102",
+                "display": "Polishing, 2 unit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "11103",
+                "display": "Polishing, 3 unit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "11104",
+                "display": "Polishing, 4 unit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "21211",
+                "display": "Amalgam, 1 surface"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "21212",
+                "display": "Amalgam, 2 surface"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "27211",
+                "display": "Crown, PFM"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "67211",
+                "display": "Maryland Bridge"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "99111",
+                "display": "Lab, commercial"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "99333",
+                "display": "Lab, in office"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-USCLS",
+                "code": "99555",
+                "display": "Expense"
             }
         ]
     }

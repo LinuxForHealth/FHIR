@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "udi-entry-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>UDIEntryType</h2>\n      <div>\n        <p>Codes to identify how UDI data was entered.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-udi-entry-type.html\">\n            <code>http://hl7.org/fhir/udi-entry-type</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,57 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/udi-entry-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4737e307-6759-4090-8acf-17a3922c2bb9",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/udi-entry-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "barcode",
+                "display": "Barcode"
+            },
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "rfid",
+                "display": "RFID"
+            },
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "manual",
+                "display": "Manual"
+            },
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "card",
+                "display": "Card"
+            },
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "self-reported",
+                "display": "Self Reported"
+            },
+            {
+                "system": "http://hl7.org/fhir/udi-entry-type",
+                "code": "unknown",
+                "display": "Unknown"
             }
         ]
     }

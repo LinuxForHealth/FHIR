@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "adjudication-error",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-adjudication-error.html\"><code>http://terminology.hl7.org/CodeSystem/adjudication-error</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "AdjudicationError",
     "status": "draft",
     "experimental": true,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "Financial Management",
     "contact": [
         {
@@ -56,6 +52,37 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/adjudication-error"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:18f46d16-4791-4913-ada5-24dc3db4e7f2",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/adjudication-error|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication-error",
+                "code": "a001",
+                "display": "Missing Identifier"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication-error",
+                "code": "a002",
+                "display": "Missing Creation Date"
             }
         ]
     }

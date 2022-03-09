@@ -1,0 +1,84 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0276",
+    "url": "http://terminology.hl7.org/ValueSet/v2-0276",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.181"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSAppointmentReasonCodes",
+    "title": "hl7VS-appointmentReasonCodes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes that describe the kind of appointment or the reason why an appointment has been scheduled.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "version": "2.1.0"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:24e4296c-7776-4040-a1a4-c4051b2ec23c",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0276|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "code": "ROUTINE",
+                "display": "Routine appointment - default if not valued"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "code": "WALKIN",
+                "display": "A previously unscheduled walk-in visit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "code": "CHECKUP",
+                "display": "A routine check-up, such as an annual physical"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "code": "FOLLOWUP",
+                "display": "A follow up visit from a previous appointment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+                "code": "EMERGENCY",
+                "display": "Emergency appointment"
+            }
+        ]
+    }
+}

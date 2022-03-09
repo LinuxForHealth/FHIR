@@ -1,4 +1,4 @@
-All files downloaded from https://build.fhir.org/branches/R4B/definitions.json.zip on 2021-12-08
+Most files downloaded from https://build.fhir.org/branches/R4B/definitions.json.zip on 2021-12-08
 
 ## Steps to update
 
@@ -23,3 +23,14 @@ https://chat.fhir.org/#narrow/stream/179166-implementers/topic/R4B.20missing.20v
 Removed invalid ConceptMap at [Bundle.entry[489].resource.contained[0].group[0].element[0].target[0]]
 This ConceptMap was embedded within http://hl7.org/fhir/ValueSet/nhin-purposeofuse
 java.lang.IllegalArgumentException: Unrecognized element: 'relationship'
+
+
+### expansions.json
+
+expansions.json downloaded separately from https://build.fhir.org/branches/R4B/expansions.json on 2022-03-10
+
+Fixed the following:
+- Missing required element: 'value' [Bundle.entry[90].resource.expansion.contains[0]]
+  - Removed over 5000 instances of a designation that had language "zh-CN" and no value
+  - And over 20 instance of an empty designation {} and many others
+  - And one instance of illegal control char \u0002 "Polish zE\u0002oty"

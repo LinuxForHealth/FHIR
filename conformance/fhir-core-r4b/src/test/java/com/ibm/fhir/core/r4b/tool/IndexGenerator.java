@@ -30,17 +30,16 @@ import com.ibm.fhir.registry.util.Index.Entry;
 
 public class IndexGenerator {
     private static final String VERSION = "R4B";
+    // in case of a duplicate (e.g. between valuesets.json and expansions.json), the last one wins
     private static final List<String> DEFINITIONS = Arrays.asList(
-        // "definitions/" + VERSION + "/conceptmaps.json",
         "definitions/" + VERSION + "/dataelements.json",
         "definitions/" + VERSION + "/extension-definitions.json",
         "definitions/" + VERSION + "/profiles-others.json",
         "definitions/" + VERSION + "/profiles-resources.json",
         "definitions/" + VERSION + "/profiles-types.json",
         "definitions/" + VERSION + "/search-parameters.json",
-        // "definitions/" + VERSION + "/v2-tables.json",
-        // "definitions/" + VERSION + "/v3-codesystems.json",
-        "definitions/" + VERSION + "/valuesets.json");
+        "definitions/" + VERSION + "/valuesets.json",
+        "definitions/" + VERSION + "/expansions.json");
 
     public static void main(String[] args) throws Exception {
         Index index = new Index(1);

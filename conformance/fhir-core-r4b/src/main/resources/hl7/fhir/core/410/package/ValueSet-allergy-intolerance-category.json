@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "allergy-intolerance-category",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>AllergyIntoleranceCategory</h2>\n      <div>\n        <p>Category of an identified substance associated with allergies or intolerances.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-allergy-intolerance-category.html\">\n            <code>http://hl7.org/fhir/allergy-intolerance-category</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/allergy-intolerance-category"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4b2c4518-5a61-4508-a62c-5aff4c6549f5",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/allergy-intolerance-category|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/allergy-intolerance-category",
+                "code": "food",
+                "display": "Food"
+            },
+            {
+                "system": "http://hl7.org/fhir/allergy-intolerance-category",
+                "code": "medication",
+                "display": "Medication"
+            },
+            {
+                "system": "http://hl7.org/fhir/allergy-intolerance-category",
+                "code": "environment",
+                "display": "Environment"
+            },
+            {
+                "system": "http://hl7.org/fhir/allergy-intolerance-category",
+                "code": "biologic",
+                "display": "Biologic"
             }
         ]
     }

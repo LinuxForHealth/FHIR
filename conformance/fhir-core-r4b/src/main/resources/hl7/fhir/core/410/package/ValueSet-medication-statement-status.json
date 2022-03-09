@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "medication-statement-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-medication-statement-status.html\"><code>http://hl7.org/fhir/CodeSystem/medication-statement-status</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -51,6 +47,67 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e07c64ed-3691-4c0c-b6b4-74baad59e1ab",
+        "timestamp": "2022-03-03T22:05:10Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/CodeSystem/medication-statement-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "intended",
+                "display": "Intended"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "stopped",
+                "display": "Stopped"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "on-hold",
+                "display": "On Hold"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "unknown",
+                "display": "Unknown"
+            },
+            {
+                "system": "http://hl7.org/fhir/CodeSystem/medication-statement-status",
+                "code": "not-taken",
+                "display": "Not Taken"
             }
         ]
     }

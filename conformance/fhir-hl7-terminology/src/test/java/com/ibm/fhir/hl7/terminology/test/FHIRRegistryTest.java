@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.hl7.terminology.test;
 
+import static org.testng.Assert.assertNotNull;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,14 +17,14 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public class FHIRRegistryTest {
     @Test
     public void testVersionedResource() {
-        CodeSystem codeSystem = FHIRRegistry.getInstance().getResource("http://terminology.hl7.org/CodeSystem/v2-0391|2.4", CodeSystem.class);
-        Assert.assertNotNull(codeSystem);
+        // a random resource url from the package
+        String url = "http://terminology.hl7.org/CodeSystem/v2-0391";
 
-        codeSystem = FHIRRegistry.getInstance().getResource("http://terminology.hl7.org/CodeSystem/v2-0391|2.6", CodeSystem.class);
-        Assert.assertNotNull(codeSystem);
+        CodeSystem codeSystem = FHIRRegistry.getInstance().getResource(url, CodeSystem.class);
+        assertNotNull(codeSystem);
+        assertNotNull(codeSystem.getVersion().getValue());
 
-        codeSystem = FHIRRegistry.getInstance().getResource("http://terminology.hl7.org/CodeSystem/v2-0391", CodeSystem.class);
+        codeSystem = FHIRRegistry.getInstance().getResource(url + "|" + codeSystem.getVersion().getValue(), CodeSystem.class);
         Assert.assertNotNull(codeSystem);
-        Assert.assertTrue(codeSystem.getUrl().getValue().endsWith("2.6"));
     }
 }

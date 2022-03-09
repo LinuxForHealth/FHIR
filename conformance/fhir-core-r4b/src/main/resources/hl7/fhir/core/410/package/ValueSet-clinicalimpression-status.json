@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "clinicalimpression-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"codesystem-event-status.html\"><code>http://hl7.org/fhir/event-status</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"codesystem-event-status.html#event-status-in-progress\">in-progress</a></td><td>In Progress</td><td>The event is currently occurring.</td></tr><tr><td><a href=\"codesystem-event-status.html#event-status-completed\">completed</a></td><td>Completed</td><td>The event has now concluded.</td></tr><tr><td><a href=\"codesystem-event-status.html#event-status-entered-in-error\">entered-in-error</a></td><td>Entered in Error</td><td>This electronic record should never have existed, though it is possible that real-world decisions were based on it.  (If real-world activity has occurred, the status should be &quot;stopped&quot; rather than &quot;entered-in-error&quot;.).</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -64,6 +60,42 @@
                         "code": "entered-in-error"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f68783f1-9513-4649-8d7d-08f85b7ddfed",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/event-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/event-status",
+                "code": "in-progress",
+                "display": "In Progress"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
             }
         ]
     }

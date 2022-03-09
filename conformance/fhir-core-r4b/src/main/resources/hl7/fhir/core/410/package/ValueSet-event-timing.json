@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "event-timing",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include all codes defined in <a href=\"codesystem-event-timing.html\"><code>http://hl7.org/fhir/event-timing</code></a></li><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html\"><code>http://terminology.hl7.org/CodeSystem/v3-TimingEvent</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-HS\">HS</a></td><td>HS</td><td>event occurs [offset] before the hour of sleep (or trying to)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-WAKE\">WAKE</a></td><td>WAKE</td><td>event occurs [offset] after waking</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-C\">C</a></td><td>C</td><td>event occurs at a meal (from the Latin cibus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-CM\">CM</a></td><td>CM</td><td>event occurs at breakfast (from the Latin cibus matutinus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-CD\">CD</a></td><td>CD</td><td>event occurs at lunch (from the Latin cibus diurnus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-CV\">CV</a></td><td>CV</td><td>event occurs at dinner (from the Latin ante cibus vespertinus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-AC\">AC</a></td><td>AC</td><td>event occurs [offset] before a meal (from the Latin ante cibus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-ACM\">ACM</a></td><td>ACM</td><td>event occurs [offset] before breakfast (from the Latin ante cibus matutinus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-ACD\">ACD</a></td><td>ACD</td><td>event occurs [offset] before lunch (from the Latin ante cibus diurnus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-ACV\">ACV</a></td><td>ACV</td><td>event occurs [offset] before dinner (from the Latin ante cibus vespertinus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-PC\">PC</a></td><td>PC</td><td>event occurs [offset] after a meal (from the Latin post cibus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-PCM\">PCM</a></td><td>PCM</td><td>event occurs [offset] after breakfast (from the Latin post cibus matutinus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-PCD\">PCD</a></td><td>PCD</td><td>event occurs [offset] after lunch (from the Latin post cibus diurnus)</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v3-TimingEvent.html#v3-TimingEvent-PCV\">PCV</a></td><td>PCV</td><td>event occurs [offset] after dinner (from the Latin post cibus vespertinus)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "EventTiming",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -194,6 +190,161 @@
                         "code": "PCV"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:c23a9f57-962e-400d-a4bf-312a8077ac6c",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 26,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/event-timing|4.3.0-CIBUILD"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "MORN",
+                "display": "Morning"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "MORN.early",
+                "display": "Early Morning"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "MORN.late",
+                "display": "Late Morning"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "NOON",
+                "display": "Noon"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "AFT",
+                "display": "Afternoon"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "AFT.early",
+                "display": "Early Afternoon"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "AFT.late",
+                "display": "Late Afternoon"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "EVE",
+                "display": "Evening"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "EVE.early",
+                "display": "Early Evening"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "EVE.late",
+                "display": "Late Evening"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "NIGHT",
+                "display": "Night"
+            },
+            {
+                "system": "http://hl7.org/fhir/event-timing",
+                "code": "PHS",
+                "display": "After Sleep"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "HS",
+                "display": "HS"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "WAKE",
+                "display": "WAKE"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "C",
+                "display": "C"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "CM",
+                "display": "CM"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "CD",
+                "display": "CD"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "CV",
+                "display": "CV"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "AC",
+                "display": "AC"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "ACM",
+                "display": "ACM"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "ACD",
+                "display": "ACD"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "ACV",
+                "display": "ACV"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "PC",
+                "display": "PC"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "PCM",
+                "display": "PCM"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "PCD",
+                "display": "PCD"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-TimingEvent",
+                "code": "PCV",
+                "display": "PCV"
             }
         ]
     }

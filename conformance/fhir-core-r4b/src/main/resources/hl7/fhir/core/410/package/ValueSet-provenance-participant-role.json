@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "provenance-participant-role",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-provenance-participant-role.html\"><code>http://hl7.org/fhir/provenance-participant-role</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -65,6 +61,77 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/provenance-participant-role"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:79e2157d-eddc-4021-aded-dcc0d38781b1",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/provenance-participant-role|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "enterer",
+                "display": "Enterer"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "performer",
+                "display": "Performer"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "author",
+                "display": "Author"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "verifier",
+                "display": "Verifier"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "legal",
+                "display": "Legal Authenticator"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "attester",
+                "display": "Attester"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "informant",
+                "display": "Informant"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "custodian",
+                "display": "Custodian"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "assembler",
+                "display": "Assembler"
+            },
+            {
+                "system": "http://hl7.org/fhir/provenance-participant-role",
+                "code": "composer",
+                "display": "Composer"
             }
         ]
     }

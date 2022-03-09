@@ -1,0 +1,107 @@
+{
+    "resourceType": "ValueSet",
+    "id": "substance-structure-technique",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/substance-structure-technique",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1622"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "StructureTechnique",
+    "title": "StructureTechnique",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The method used to elucidate the structure or characterization of the drug substance.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:132c8660-0f86-4b71-b075-9525643d47a0",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/substance-structure-technique|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique",
+                "code": "X-Ray",
+                "display": "X-ray"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique",
+                "code": "HPLC",
+                "display": "HPLC"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique",
+                "code": "NMR",
+                "display": "NMR"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique",
+                "code": "PeptideMapping",
+                "display": "Peptide mapping"
+            },
+            {
+                "system": "http://hl7.org/fhir/substance-structure-technique",
+                "code": "LigandBindingAssay",
+                "display": "Ligand binding assay"
+            }
+        ]
+    }
+}

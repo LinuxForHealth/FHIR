@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "metric-calibration-state",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>DeviceMetricCalibrationState</h2>\n      <div>\n        <p>Describes the state of a metric calibration.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-metric-calibration-state.html\">\n            <code>http://hl7.org/fhir/metric-calibration-state</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/metric-calibration-state"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:1a0be866-707a-4ccd-b6e9-bca93af83b3c",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/metric-calibration-state|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/metric-calibration-state",
+                "code": "not-calibrated",
+                "display": "Not Calibrated"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-calibration-state",
+                "code": "calibration-required",
+                "display": "Calibration Required"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-calibration-state",
+                "code": "calibrated",
+                "display": "Calibrated"
+            },
+            {
+                "system": "http://hl7.org/fhir/metric-calibration-state",
+                "code": "unspecified",
+                "display": "Unspecified"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "security-role-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"> This valueset contains various security role codes. </div>"
     },
     "extension": [
         {
@@ -292,6 +288,435 @@
                         "code": "110155"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f30675d6-3a0b-4331-a4bf-6b6c81a6bc2e",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 76,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes|0.1.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-RoleClass|3.1.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2.2.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction|2.1.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType|3.1.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/extra-security-role-type|4.3.0-CIBUILD"
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|01"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "AMENDER",
+                "display": "Amender"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "COAUTH",
+                "display": "Co-Author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "CONT",
+                "display": "Contact"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "EVTWIT",
+                "display": "Event Witness"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "PRIMAUTH",
+                "display": "Primary Author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "REVIEWER",
+                "display": "Reviewer"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "SOURCE",
+                "display": "Source"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "TRANS",
+                "display": "Transcriber"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "VALID",
+                "display": "Validator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/contractsignertypecodes",
+                "code": "VERF",
+                "display": "Verifier"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "AFFL",
+                "display": "affiliate"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "AGNT",
+                "display": "agent"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "ASSIGNED",
+                "display": "assigned entity"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "CLAIM",
+                "display": "claimant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "COVPTY",
+                "display": "covered party"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "DEPEN",
+                "display": "dependent"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "ECON",
+                "display": "emergency contact"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "EMP",
+                "display": "employee"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "GUARD",
+                "display": "guardian"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "INVSBJ",
+                "display": "Investigation Subject"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "NAMED",
+                "display": "named insured"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "NOK",
+                "display": "next of kin"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "PAT",
+                "display": "patient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "PROV",
+                "display": "healthcare provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "code": "NOT",
+                "display": "notary public"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CLASSIFIER",
+                "display": "classifier"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CONSENTER",
+                "display": "consenter"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CONSWIT",
+                "display": "consent witness"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "COPART",
+                "display": "co-participant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "DECLASSIFIER",
+                "display": "declassifier"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "DELEGATEE",
+                "display": "delegatee"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "DELEGATOR",
+                "display": "delegator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "DOWNGRDER",
+                "display": "downgrader"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "DPOWATT",
+                "display": "durable power of attorney"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "EXCEST",
+                "display": "executor of estate"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "GRANTEE",
+                "display": "grantee"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "GRANTOR",
+                "display": "grantor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "GT",
+                "display": "Guarantor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "GUADLTM",
+                "display": "guardian ad lidem"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "HPOWATT",
+                "display": "healthcare power of attorney"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "INTPRTER",
+                "display": "interpreter"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "POWATT",
+                "display": "power of attorney"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "RESPRSN",
+                "display": "responsible party"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "SPOWATT",
+                "display": "special power of attorney"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "_CitizenRoleType",
+                "display": "CitizenRoleType"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CAS",
+                "display": "asylum seeker"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CASM",
+                "display": "single minor asylum seeker"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CN",
+                "display": "national"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CNRP",
+                "display": "non-country member without residence permit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CNRPM",
+                "display": "non-country member minor without residence permit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CPCA",
+                "display": "permit card applicant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CRP",
+                "display": "non-country member with residence permit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "CRPM",
+                "display": "non-country member minor with residence permit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code": "AUCG",
+                "display": "caregiver information receiver"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code": "AULR",
+                "display": "legitimate relationship information receiver"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code": "AUTM",
+                "display": "care team information receiver"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code": "AUWA",
+                "display": "work area information receiver"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+                "code": "PROMSK",
+                "display": "authorized provider masking author"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "AUT",
+                "display": "author (originator)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "CST",
+                "display": "custodian"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "INF",
+                "display": "informant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "IRCP",
+                "display": "information recipient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "LA",
+                "display": "legal authenticator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "TRC",
+                "display": "tracker"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "WIT",
+                "display": "witness"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                "code": "authserver",
+                "display": "authorization server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                "code": "datacollector",
+                "display": "data collector"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                "code": "dataprocessor",
+                "display": "data processor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                "code": "datasubject",
+                "display": "data subject"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                "code": "humanuser",
+                "display": "human user"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110150",
+                "display": "Application"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110151",
+                "display": "Application Launcher"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110152",
+                "display": "Destination Role ID"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110153",
+                "display": "Source Role ID"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110154",
+                "display": "Destination Media"
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110155",
+                "display": "Source Media"
             }
         ]
     }

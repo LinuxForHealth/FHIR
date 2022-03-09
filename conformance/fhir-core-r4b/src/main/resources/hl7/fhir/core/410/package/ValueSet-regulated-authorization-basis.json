@@ -1,0 +1,132 @@
+{
+    "resourceType": "ValueSet",
+    "id": "regulated-authorization-basis",
+    "meta": {
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/regulated-authorization-basis",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1642"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "RegulatedAuthorizationBasis",
+    "title": "RegulatedAuthorizationBasis",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A legal or regulatory framework against which an authorization is granted, or other reasons for it.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:1657095f-c909-40b3-afd1-c774df7ee911",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/regulated-authorization-basis|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "Full",
+                "display": "Full application"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "NewSubstance",
+                "display": "New active substance"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "KnownSubstance",
+                "display": "Known active substance"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "SimilarBiological",
+                "display": "Similar biological application"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "Well-establishedUse",
+                "display": "Well-established use application"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "TraditionalUse",
+                "display": "Traditional use registration for herbal medicinal product application"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "Bibliographical",
+                "display": "Bibliographical application (stand-alone)"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "KnownHumanBlood",
+                "display": "Known human blood/plasma derived ancillary medicinal substance"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "TemporaryUse",
+                "display": "Authorisations for temporary use"
+            },
+            {
+                "system": "http://hl7.org/fhir/regulated-authorization-basis",
+                "code": "ParallelTrade",
+                "display": "Parallel traded products"
+            }
+        ]
+    }
+}

@@ -16,10 +16,10 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +42,7 @@ public class Index {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = PROVIDER.createGeneratorFactory(Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true));
 
     private int version = -1;
-    private final List<Entry> entries = new ArrayList<>();
+    private final Set<Entry> entries = new TreeSet<>();
 
     public Index() { }
 
@@ -57,8 +57,8 @@ public class Index {
         return version;
     }
 
-    public List<Entry> getEntries() {
-        return Collections.unmodifiableList(entries);
+    public Set<Entry> getEntries() {
+        return Collections.unmodifiableSet(entries);
     }
 
     public void load(InputStream in) {
@@ -179,7 +179,6 @@ public class Index {
         if (entries.isEmpty()) {
             throw new IllegalStateException("index contains no entries");
         }
-        Collections.sort(entries);
         JsonGenerator generator = GENERATOR_FACTORY.createGenerator(writer);
         generator.writeStartObject();
         generator.write("index-version", version);

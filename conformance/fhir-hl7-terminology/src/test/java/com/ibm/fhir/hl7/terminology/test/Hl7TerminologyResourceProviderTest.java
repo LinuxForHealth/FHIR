@@ -16,6 +16,6 @@ public class Hl7TerminologyResourceProviderTest {
     @Test
     public void testR4BSpecResourceProvider() {
         FHIRRegistryResourceProvider provider = new Hl7Terminology310ResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 3528);
+        Assert.assertEquals(provider.getRegistryResources().size(), 3535);
     }
 }

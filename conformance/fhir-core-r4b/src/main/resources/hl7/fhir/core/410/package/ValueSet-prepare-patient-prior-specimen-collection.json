@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "prepare-patient-prior-specimen-collection",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  703763000 (Precondition value)</li></ul></div>"
     },
     "extension": [
         {
@@ -59,6 +55,1511 @@
                         "property": "concept",
                         "op": "is-a",
                         "value": "703763000"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:da278cd0-936b-49ca-a6cb-aae3fbb58a2a",
+        "timestamp": "2021-11-17T05:28:50.597Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703763000",
+                "display": "Precondition value (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Precondition value (qualifier value)"
+                    },
+                    {
+                        "value": "Precondition value"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "2546009",
+                "display": "Night time",
+                "designation": [
+                    {
+                        "value": "Night time"
+                    },
+                    {
+                        "value": "Nocturnal"
+                    },
+                    {
+                        "value": "Night time (qualifier value)"
+                    },
+                    {
+                        "value": "on - omni nocte"
+                    },
+                    {
+                        "value": "nocte"
+                    },
+                    {
+                        "value": "At night"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "3658006",
+                "display": "Infancy",
+                "designation": [
+                    {
+                        "value": "Infancy"
+                    },
+                    {
+                        "value": "Infantile state"
+                    },
+                    {
+                        "value": "Infancy (qualifier value)"
+                    },
+                    {
+                        "value": "Infancy - period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "41847000",
+                "display": "Adulthood",
+                "designation": [
+                    {
+                        "value": "Adulthood"
+                    },
+                    {
+                        "value": "Maturity"
+                    },
+                    {
+                        "value": "Adulthood (qualifier value)"
+                    },
+                    {
+                        "value": "Adulthood - period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "115499008",
+                "display": "Pre-dialysis",
+                "designation": [
+                    {
+                        "value": "Pre-dialysis"
+                    },
+                    {
+                        "value": "Pre-dialysis (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "115500004",
+                "display": "Post-dialysis",
+                "designation": [
+                    {
+                        "value": "Post-dialysis"
+                    },
+                    {
+                        "value": "Post-dialysis (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255214003",
+                "display": "After exercise",
+                "designation": [
+                    {
+                        "value": "After exercise"
+                    },
+                    {
+                        "value": "After exertion"
+                    },
+                    {
+                        "value": "Following exercise"
+                    },
+                    {
+                        "value": "After exercise (qualifier value)"
+                    },
+                    {
+                        "value": "Post exercise"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255226008",
+                "display": "Random",
+                "designation": [
+                    {
+                        "value": "Random"
+                    },
+                    {
+                        "value": "Random (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255240009",
+                "display": "15 minutes post-dose",
+                "designation": [
+                    {
+                        "value": "15 minutes post-dose"
+                    },
+                    {
+                        "value": "15 minutes post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255241008",
+                "display": "30 minutes post-dose",
+                "designation": [
+                    {
+                        "value": "30 minutes post-dose"
+                    },
+                    {
+                        "value": "30 minutes post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255242001",
+                "display": "1 hour post-dose",
+                "designation": [
+                    {
+                        "value": "1 hour post-dose"
+                    },
+                    {
+                        "value": "1 hour post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255243006",
+                "display": "2 hours post-dose",
+                "designation": [
+                    {
+                        "value": "2 hours post-dose"
+                    },
+                    {
+                        "value": "2 hours post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255244000",
+                "display": "3 hours post-dose",
+                "designation": [
+                    {
+                        "value": "3 hours post-dose"
+                    },
+                    {
+                        "value": "3 hours post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255245004",
+                "display": "4 hours post-dose",
+                "designation": [
+                    {
+                        "value": "4 hours post-dose"
+                    },
+                    {
+                        "value": "4 hours post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255270004",
+                "display": "Overnight",
+                "designation": [
+                    {
+                        "value": "Overnight"
+                    },
+                    {
+                        "value": "Overnight (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255398004",
+                "display": "Childhood",
+                "designation": [
+                    {
+                        "value": "Childhood"
+                    },
+                    {
+                        "value": "Childhood (qualifier value)"
+                    },
+                    {
+                        "value": "Childhood - period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255399007",
+                "display": "Congenital",
+                "designation": [
+                    {
+                        "value": "Congenital"
+                    },
+                    {
+                        "value": "Congenita"
+                    },
+                    {
+                        "value": "Congenital (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255407002",
+                "display": "Neonatal",
+                "designation": [
+                    {
+                        "value": "Neonatal"
+                    },
+                    {
+                        "value": "Neonatal (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255566006",
+                "display": "Post-dose",
+                "designation": [
+                    {
+                        "value": "Post-dose"
+                    },
+                    {
+                        "value": "Post-dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "261829003",
+                "display": "High dose",
+                "designation": [
+                    {
+                        "value": "High dose"
+                    },
+                    {
+                        "value": "High dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "262459003",
+                "display": "Low dose",
+                "designation": [
+                    {
+                        "value": "Low dose"
+                    },
+                    {
+                        "value": "Low dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "263659003",
+                "display": "Adolescence",
+                "designation": [
+                    {
+                        "value": "Adolescence"
+                    },
+                    {
+                        "value": "Adolescence (qualifier value)"
+                    },
+                    {
+                        "value": "Adolescence - period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "263678003",
+                "display": "At rest",
+                "designation": [
+                    {
+                        "value": "At rest"
+                    },
+                    {
+                        "value": "At rest (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "271872005",
+                "display": "Old age",
+                "designation": [
+                    {
+                        "value": "Old age"
+                    },
+                    {
+                        "value": "Old age (qualifier value)"
+                    },
+                    {
+                        "value": "Old age - period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "282032007",
+                "display": "Periods of life",
+                "designation": [
+                    {
+                        "value": "Periods of life"
+                    },
+                    {
+                        "value": "Periods of life (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "303112003",
+                "display": "Fetal period",
+                "designation": [
+                    {
+                        "value": "Fetal period"
+                    },
+                    {
+                        "value": "Fetal period (qualifier value)"
+                    },
+                    {
+                        "value": "Foetal period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "303113008",
+                "display": "Postmortem period",
+                "designation": [
+                    {
+                        "value": "Postmortem period"
+                    },
+                    {
+                        "value": "Postmortem period (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "303114002",
+                "display": "Early neonatal period",
+                "designation": [
+                    {
+                        "value": "Early neonatal period"
+                    },
+                    {
+                        "value": "Early neonatal period (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "303115001",
+                "display": "Late neonatal period",
+                "designation": [
+                    {
+                        "value": "Late neonatal period"
+                    },
+                    {
+                        "value": "Late neonatal period (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "307166007",
+                "display": "Before exercise",
+                "designation": [
+                    {
+                        "value": "Before exercise"
+                    },
+                    {
+                        "value": "Before exercise (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309601007",
+                "display": "Temporal periods relating to exercise",
+                "designation": [
+                    {
+                        "value": "Temporal periods relating to exercise"
+                    },
+                    {
+                        "value": "Temporal periods relating to exercise (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309604004",
+                "display": "During exercise",
+                "designation": [
+                    {
+                        "value": "During exercise"
+                    },
+                    {
+                        "value": "During exercise (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "371578004",
+                "display": "Perinatal period (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Perinatal period (qualifier value)"
+                    },
+                    {
+                        "value": "Perinatal period"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "450426006",
+                "display": "Fetal or neonatal period",
+                "designation": [
+                    {
+                        "value": "Fetal or neonatal period"
+                    },
+                    {
+                        "value": "Fetal or neonatal period (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703760002",
+                "display": "1H post 50 g glucose PO",
+                "designation": [
+                    {
+                        "value": "1H post 50 g glucose PO"
+                    },
+                    {
+                        "value": "One hour after fifty grams of glucose by mouth"
+                    },
+                    {
+                        "value": "One hour after fifty grams of glucose by mouth (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703761003",
+                "display": "2H post 75 g glucose PO",
+                "designation": [
+                    {
+                        "value": "2H post 75 g glucose PO"
+                    },
+                    {
+                        "value": "Two hours after seventy five grams of glucose by mouth (qualifier value)"
+                    },
+                    {
+                        "value": "Two hours after seventy five grams of glucose by mouth"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703762005",
+                "display": "1H post 100 g glucose PO",
+                "designation": [
+                    {
+                        "value": "1H post 100 g glucose PO"
+                    },
+                    {
+                        "value": "One hour after one hundred grams of glucose by mouth (qualifier value)"
+                    },
+                    {
+                        "value": "One hour after one hundred grams of glucose by mouth"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703764006",
+                "display": "At time of peak level (qualifier value)",
+                "designation": [
+                    {
+                        "value": "At time of peak level (qualifier value)"
+                    },
+                    {
+                        "value": "At time of peak level"
+                    },
+                    {
+                        "value": "Near the time of peak substance concentration after administration of a substance."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703765007",
+                "display": "At time of trough level (qualifier value)",
+                "designation": [
+                    {
+                        "value": "At time of trough level (qualifier value)"
+                    },
+                    {
+                        "value": "At time of trough level"
+                    },
+                    {
+                        "value": "Near the time of trough substance concentration after administration of a substance."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703766008",
+                "display": "1H post 75 g glucose PO",
+                "designation": [
+                    {
+                        "value": "1H post 75 g glucose PO"
+                    },
+                    {
+                        "value": "One hour after seventy five grams of glucose by mouth (qualifier value)"
+                    },
+                    {
+                        "value": "One hour after seventy five grams of glucose by mouth"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703767004",
+                "display": "One hour after a meal",
+                "designation": [
+                    {
+                        "value": "One hour after a meal"
+                    },
+                    {
+                        "value": "One hour after a meal (qualifier value)"
+                    },
+                    {
+                        "value": "1H post meal"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703768009",
+                "display": "Two hours after a meal (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Two hours after a meal (qualifier value)"
+                    },
+                    {
+                        "value": "Two hours after a meal"
+                    },
+                    {
+                        "value": "2H post meal"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703769001",
+                "display": "One hour after glucose dose (qualifier value)",
+                "designation": [
+                    {
+                        "value": "One hour after glucose dose (qualifier value)"
+                    },
+                    {
+                        "value": "1H post dose glucose"
+                    },
+                    {
+                        "value": "One hour after glucose dose"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703770000",
+                "display": "Two hours after glucose dose",
+                "designation": [
+                    {
+                        "value": "Two hours after glucose dose"
+                    },
+                    {
+                        "value": "2H post dose glucose"
+                    },
+                    {
+                        "value": "Two hours after glucose dose (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703771001",
+                "display": "pre 100 g glucose PO",
+                "designation": [
+                    {
+                        "value": "pre 100 g glucose PO"
+                    },
+                    {
+                        "value": "Before one hundred grams of glucose by mouth (qualifier value)"
+                    },
+                    {
+                        "value": "Before one hundred grams of glucose by mouth"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703772008",
+                "display": "2H post 100 g glucose PO",
+                "designation": [
+                    {
+                        "value": "2H post 100 g glucose PO"
+                    },
+                    {
+                        "value": "Two hours after one hundred grams of glucose by mouth (qualifier value)"
+                    },
+                    {
+                        "value": "Two hours after one hundred grams of glucose by mouth"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703773003",
+                "display": "Three hours after glucose dose",
+                "designation": [
+                    {
+                        "value": "Three hours after glucose dose"
+                    },
+                    {
+                        "value": "Three hours after glucose dose (qualifier value)"
+                    },
+                    {
+                        "value": "3H post dose glucose"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703774009",
+                "display": "3H post 100 g glucose PO",
+                "designation": [
+                    {
+                        "value": "3H post 100 g glucose PO"
+                    },
+                    {
+                        "value": "Three hours after one hundred grams of glucose by mouth"
+                    },
+                    {
+                        "value": "Three hours after one hundred grams of glucose by mouth (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703775005",
+                "display": "30M post 75 g glucose PO",
+                "designation": [
+                    {
+                        "value": "30M post 75 g glucose PO"
+                    },
+                    {
+                        "value": "Thirty minutes after seventy five grams of glucose by mouth"
+                    },
+                    {
+                        "value": "Thirty minutes after seventy five grams of glucose by mouth (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707707000",
+                "display": "Thirty minutes after resting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Thirty minutes after resting (qualifier value)"
+                    },
+                    {
+                        "value": "Thirty minutes after resting"
+                    },
+                    {
+                        "value": "30M post resting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707708005",
+                "display": "One hour after resting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "One hour after resting (qualifier value)"
+                    },
+                    {
+                        "value": "One hour after resting"
+                    },
+                    {
+                        "value": "1H post resting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707709002",
+                "display": "Ninety minutes after resting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Ninety minutes after resting (qualifier value)"
+                    },
+                    {
+                        "value": "Ninety minutes after resting"
+                    },
+                    {
+                        "value": "90M post resting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707710007",
+                "display": "Twenty minutes after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Twenty minutes after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Twenty minutes after incubation"
+                    },
+                    {
+                        "value": "20M post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707712004",
+                "display": "Thirty minutes after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Thirty minutes after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Thirty minutes after incubation"
+                    },
+                    {
+                        "value": "30M post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707714003",
+                "display": "One hour after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "One hour after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "One hour after incubation"
+                    },
+                    {
+                        "value": "1H post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707715002",
+                "display": "Two hours after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Two hours after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Two hours after incubation"
+                    },
+                    {
+                        "value": "2H post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707716001",
+                "display": "Three hours after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Three hours after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Three hours after incubation"
+                    },
+                    {
+                        "value": "3H post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707717005",
+                "display": "Four hours after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Four hours after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Four hours after incubation"
+                    },
+                    {
+                        "value": "4H post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707718000",
+                "display": "One day after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "One day after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "One day after incubation"
+                    },
+                    {
+                        "value": "1D post incubation"
+                    },
+                    {
+                        "value": "Twenty four hours after incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707719008",
+                "display": "Seven days after incubation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Seven days after incubation (qualifier value)"
+                    },
+                    {
+                        "value": "Seven days after incubation"
+                    },
+                    {
+                        "value": "7D post incubation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707720002",
+                "display": "Two hours after peritoneal dialysis (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Two hours after peritoneal dialysis (qualifier value)"
+                    },
+                    {
+                        "value": "Two hours after peritoneal dialysis"
+                    },
+                    {
+                        "value": "2H post peritoneal dialysis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707721003",
+                "display": "Four hours after peritoneal dialysis (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Four hours after peritoneal dialysis (qualifier value)"
+                    },
+                    {
+                        "value": "Four hours after peritoneal dialysis"
+                    },
+                    {
+                        "value": "4H post peritoneal dialysis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707722005",
+                "display": "Twelve hours after peritoneal dialysis (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Twelve hours after peritoneal dialysis (qualifier value)"
+                    },
+                    {
+                        "value": "Twelve hours after peritoneal dialysis"
+                    },
+                    {
+                        "value": "12H post peritoneal dialysis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707723000",
+                "display": "Twenty four hours after peritoneal dialysis",
+                "designation": [
+                    {
+                        "value": "Twenty four hours after peritoneal dialysis"
+                    },
+                    {
+                        "value": "24H post peritoneal dialysis"
+                    },
+                    {
+                        "value": "One day after peritoneal dialysis (qualifier value)"
+                    },
+                    {
+                        "value": "One day after peritoneal dialysis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707757008",
+                "display": "Thirty minutes after corticotropin dose (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Thirty minutes after corticotropin dose (qualifier value)"
+                    },
+                    {
+                        "value": "30M post dose corticotropin"
+                    },
+                    {
+                        "value": "Thirty minutes after corticotropin dose"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707758003",
+                "display": "1H post dose corticotropin",
+                "designation": [
+                    {
+                        "value": "1H post dose corticotropin"
+                    },
+                    {
+                        "value": "One hour after corticotropin dose (qualifier value)"
+                    },
+                    {
+                        "value": "One hour after corticotropin dose"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707759006",
+                "display": "Fifteen minutes before ornithine dose (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Fifteen minutes before ornithine dose (qualifier value)"
+                    },
+                    {
+                        "value": "15M pre dose ornithine"
+                    },
+                    {
+                        "value": "Fifteen minutes before ornithine dose"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707760001",
+                "display": "After urea dose",
+                "designation": [
+                    {
+                        "value": "After urea dose"
+                    },
+                    {
+                        "value": "After urea dose (qualifier value)"
+                    },
+                    {
+                        "value": "Post dose urea"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707761002",
+                "display": "Pre contrast",
+                "designation": [
+                    {
+                        "value": "Pre contrast"
+                    },
+                    {
+                        "value": "Before contrast"
+                    },
+                    {
+                        "value": "Before contrast medium (qualifier value)"
+                    },
+                    {
+                        "value": "Before contrast medium"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707762009",
+                "display": "Pre washing",
+                "designation": [
+                    {
+                        "value": "Pre washing"
+                    },
+                    {
+                        "value": "Before washing"
+                    },
+                    {
+                        "value": "Before washing (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707763004",
+                "display": "After precipitation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "After precipitation (qualifier value)"
+                    },
+                    {
+                        "value": "After precipitation"
+                    },
+                    {
+                        "value": "Post precipitation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707764005",
+                "display": "Post transfusion reaction",
+                "designation": [
+                    {
+                        "value": "Post transfusion reaction"
+                    },
+                    {
+                        "value": "After transfusion reaction"
+                    },
+                    {
+                        "value": "After transfusion reaction (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707765006",
+                "display": "On ventilator",
+                "designation": [
+                    {
+                        "value": "On ventilator"
+                    },
+                    {
+                        "value": "On ventilator (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707815009",
+                "display": "Immediately after addition of normal plasma (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Immediately after addition of normal plasma (qualifier value)"
+                    },
+                    {
+                        "value": "Immediately after addition of normal plasma"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707816005",
+                "display": "Immediately after addition of protamine sulfate (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Immediately after addition of protamine sulfate (qualifier value)"
+                    },
+                    {
+                        "value": "Immediately after addition of protamine sulfate"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707817001",
+                "display": "On menstrual cycle day 10 (qualifier value)",
+                "designation": [
+                    {
+                        "value": "On menstrual cycle day 10 (qualifier value)"
+                    },
+                    {
+                        "value": "On menstrual cycle day 10"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707818006",
+                "display": "On menstrual cycle day 11 (qualifier value)",
+                "designation": [
+                    {
+                        "value": "On menstrual cycle day 11 (qualifier value)"
+                    },
+                    {
+                        "value": "On menstrual cycle day 11"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707819003",
+                "display": "On menstrual cycle day 21 (qualifier value)",
+                "designation": [
+                    {
+                        "value": "On menstrual cycle day 21 (qualifier value)"
+                    },
+                    {
+                        "value": "On menstrual cycle day 21"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707820009",
+                "display": "On menstrual cycle day 3 (qualifier value)",
+                "designation": [
+                    {
+                        "value": "On menstrual cycle day 3 (qualifier value)"
+                    },
+                    {
+                        "value": "On menstrual cycle day 3"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713152004",
+                "display": "Early childhood (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Early childhood (qualifier value)"
+                    },
+                    {
+                        "value": "Early childhood"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713153009",
+                "display": "Toddler",
+                "designation": [
+                    {
+                        "value": "Toddler"
+                    },
+                    {
+                        "value": "Toddler (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "717830007",
+                "display": "Entire life (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Entire life (qualifier value)"
+                    },
+                    {
+                        "value": "Entire life"
+                    },
+                    {
+                        "value": "Lifelong"
+                    },
+                    {
+                        "value": "Entire period of life between birth and death"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "723238007",
+                "display": "Post hyperemic (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Post hyperemic (qualifier value)"
+                    },
+                    {
+                        "value": "Post hyperemic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "723279008",
+                "display": "Post vasodilatation (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Post vasodilatation (qualifier value)"
+                    },
+                    {
+                        "value": "Post vasodilatation"
+                    },
+                    {
+                        "value": "Post vasodilation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "726054005",
+                "display": "After fasting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "After fasting (qualifier value)"
+                    },
+                    {
+                        "value": "After fasting"
+                    },
+                    {
+                        "value": "Post fasting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "726055006",
+                "display": "After calorie fasting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "After calorie fasting (qualifier value)"
+                    },
+                    {
+                        "value": "After calorie fasting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "726056007",
+                "display": "After fluid fasting (qualifier value)",
+                "designation": [
+                    {
+                        "value": "After fluid fasting (qualifier value)"
+                    },
+                    {
+                        "value": "After fluid fasting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "733986001",
+                "display": "First specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "First specimen (qualifier value)"
+                    },
+                    {
+                        "value": "First specimen"
+                    },
+                    {
+                        "value": "1st specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "733987005",
+                "display": "Second specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Second specimen (qualifier value)"
+                    },
+                    {
+                        "value": "Second specimen"
+                    },
+                    {
+                        "value": "2nd specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "733988000",
+                "display": "Third specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Third specimen (qualifier value)"
+                    },
+                    {
+                        "value": "Third specimen"
+                    },
+                    {
+                        "value": "3rd specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "737382006",
+                "display": "Post addition of known amount of thyroglobulin",
+                "designation": [
+                    {
+                        "value": "Post addition of known amount of thyroglobulin"
+                    },
+                    {
+                        "value": "Post addition of known amount of thyroglobulin (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "739029001",
+                "display": "Four hours specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Four hours specimen (qualifier value)"
+                    },
+                    {
+                        "value": "Four hours specimen"
+                    },
+                    {
+                        "value": "4H specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "739030006",
+                "display": "a.m. peak specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "a.m. peak specimen (qualifier value)"
+                    },
+                    {
+                        "value": "a.m. peak specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "739031005",
+                "display": "p.m. trough specimen (qualifier value)",
+                "designation": [
+                    {
+                        "value": "p.m. trough specimen (qualifier value)"
+                    },
+                    {
+                        "value": "p.m. trough specimen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "762642007",
+                "display": "At time of measurement (qualifier value)",
+                "designation": [
+                    {
+                        "value": "At time of measurement (qualifier value)"
+                    },
+                    {
+                        "value": "At time of measurement"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "762643002",
+                "display": "At time of procedure",
+                "designation": [
+                    {
+                        "value": "At time of procedure"
+                    },
+                    {
+                        "value": "At time of procedure (qualifier value)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "764868004",
+                "display": "Middle age (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Middle age (qualifier value)"
+                    },
+                    {
+                        "value": "Middle age"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "767023003",
+                "display": "Period of life beginning after birth and ending before death (qualifier value)",
+                "designation": [
+                    {
+                        "value": "Period of life beginning after birth and ending before death (qualifier value)"
+                    },
+                    {
+                        "value": "Period of life beginning after birth and ending before death"
+                    },
+                    {
+                        "value": "Period of life between birth and death"
+                    },
+                    {
+                        "value": "Any period of life commencing after birth, but before death."
                     }
                 ]
             }

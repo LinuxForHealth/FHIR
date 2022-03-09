@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "definition-use",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-definition-use.html\"><code>http://terminology.hl7.org/CodeSystem/definition-use</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -57,6 +53,57 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/definition-use"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f9dc0570-533d-43d0-9d57-c0187bf6c4a3",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/definition-use|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "fhir-structure",
+                "display": "FHIR Structure"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "custom-resource",
+                "display": "Custom Resource"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "dam",
+                "display": "Domain Analysis Model"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "wire-format",
+                "display": "Wire Format"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "archetype",
+                "display": "Domain Analysis Model"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/definition-use",
+                "code": "template",
+                "display": "Template"
             }
         ]
     }

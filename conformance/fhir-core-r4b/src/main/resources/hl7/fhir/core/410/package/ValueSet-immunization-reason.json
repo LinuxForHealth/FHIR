@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-reason",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/429060002\">429060002</a></td><td>Procedure to meet occupational requirement</td></tr><tr><td><a href=\"http://snomed.info/id/281657000\">281657000</a></td><td>Travel vaccinations</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -60,6 +56,56 @@
                     },
                     {
                         "code": "281657000"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:5671c89c-4399-441e-81fc-9fdaaf9f2199",
+        "timestamp": "2021-11-17T05:28:38.362Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "429060002",
+                "display": "Procedure to meet occupational requirement",
+                "designation": [
+                    {
+                        "value": "Procedure to meet occupational requirement"
+                    },
+                    {
+                        "value": "Procedure to meet occupational requirement (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "281657000",
+                "display": "Travel vaccinations",
+                "designation": [
+                    {
+                        "value": "Travel vaccinations"
+                    },
+                    {
+                        "value": "Travel vaccinations (procedure)"
                     }
                 ]
             }

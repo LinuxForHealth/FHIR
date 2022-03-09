@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "consent-state-codes",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>ConsentState</h2>\n      <div>\n        <p>Indicates the state of the consent.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-consent-state-codes.html\">\n            <code>http://hl7.org/fhir/consent-state-codes</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,57 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/consent-state-codes"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:66c1940b-02cd-465c-bc0c-728f77461002",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/consent-state-codes|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "draft",
+                "display": "Pending"
+            },
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "proposed",
+                "display": "Proposed"
+            },
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "rejected",
+                "display": "Rejected"
+            },
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "inactive",
+                "display": "Inactive"
+            },
+            {
+                "system": "http://hl7.org/fhir/consent-state-codes",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
             }
         ]
     }
