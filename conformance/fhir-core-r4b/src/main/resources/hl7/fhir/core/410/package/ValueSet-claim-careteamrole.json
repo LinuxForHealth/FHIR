@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "claim-careteamrole",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-claim-careteamrole.html\"><code>http://terminology.hl7.org/CodeSystem/claimcareteamrole</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,47 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a83ba83b-6b57-4d98-bf10-3d04412eea33",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/claimcareteamrole|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                "code": "primary",
+                "display": "Primary provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                "code": "assist",
+                "display": "Assisting Provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                "code": "supervisor",
+                "display": "Supervising Provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claimcareteamrole",
+                "code": "other",
+                "display": "Other"
             }
         ]
     }

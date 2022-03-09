@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "citation-classification-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <ul>\n        \n        <li>Include all codes defined in \n          \n          <a href=\"codesystem-citation-classification-type.html\">\n            \n            <code>http://terminology.hl7.org/CodeSystem/citation-classification-type</code>\n          \n          </a>\n        \n        </li>\n      \n      </ul>\n    \n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,42 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:23eea3a4-c96c-49ae-a3e4-35c49fbbbc66",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/citation-classification-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "citation-source",
+                "display": "Citation Source"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "medline-owner",
+                "display": "MEDLINE Citation Owner"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/citation-classification-type",
+                "code": "fevir-platform-use",
+                "display": "FEvIR Platform Use"
             }
         ]
     }

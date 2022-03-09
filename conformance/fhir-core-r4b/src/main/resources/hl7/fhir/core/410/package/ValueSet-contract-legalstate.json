@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "contract-legalstate",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-contract-legalstate.html\"><code>http://hl7.org/fhir/contract-legalstate</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,102 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/contract-legalstate"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:be83126c-a0be-4c2f-a914-df6f5c63f73a",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 15,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/contract-legalstate|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "amended",
+                "display": "Amended"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "appended",
+                "display": "Appended"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "cancelled",
+                "display": "Cancelled"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "disputed",
+                "display": "Disputed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "executable",
+                "display": "Executable"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "executed",
+                "display": "Executed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "negotiable",
+                "display": "Negotiable"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "offered",
+                "display": "Offered"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "policy",
+                "display": "Policy"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "rejected",
+                "display": "Rejected"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "renewed",
+                "display": "Renewed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "revoked",
+                "display": "Revoked"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "resolved",
+                "display": "Resolved"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-legalstate",
+                "code": "terminated",
+                "display": "Terminated"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "modified-foodtype",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/255620007\">255620007</a></td><td>Foods</td></tr><tr><td><a href=\"http://snomed.info/id/28647000\">28647000</a></td><td>Meat</td></tr><tr><td><a href=\"http://snomed.info/id/22836000\">22836000</a></td><td>Vegetables</td></tr><tr><td><a href=\"http://snomed.info/id/72511004\">72511004</a></td><td>Fruit</td></tr><tr><td><a href=\"http://snomed.info/id/226760005\">226760005</a></td><td>Dairy foods</td></tr><tr><td><a href=\"http://snomed.info/id/226887002\">226887002</a></td><td>Dietary Fats and Oils</td></tr><tr><td><a href=\"http://snomed.info/id/102263004\">102263004</a></td><td>Eggs</td></tr><tr><td><a href=\"http://snomed.info/id/74242007\">74242007</a></td><td>Food Starch</td></tr><tr><td><a href=\"http://snomed.info/id/227415002\">227415002</a></td><td>Fruit Nuts and Seeds</td></tr><tr><td><a href=\"http://snomed.info/id/264331002\">264331002</a></td><td>Grain</td></tr><tr><td><a href=\"http://snomed.info/id/227518002\">227518002</a></td><td>Sauce seasonings and soups</td></tr><tr><td><a href=\"http://snomed.info/id/44027008\">44027008</a></td><td>Seafood</td></tr><tr><td><a href=\"http://snomed.info/id/226529007\">226529007</a></td><td>Starchy food</td></tr><tr><td><a href=\"http://snomed.info/id/227210005\">227210005</a></td><td>Vegetables plus herbs and spices</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -110,6 +106,218 @@
                     {
                         "code": "227210005",
                         "display": "Vegetables plus herbs and spices"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:545180d2-dd54-4f7f-ad50-260ff93aeadd",
+        "timestamp": "2021-11-17T05:28:24.733Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255620007",
+                "display": "Food (substance)",
+                "designation": [
+                    {
+                        "value": "Food (substance)"
+                    },
+                    {
+                        "value": "Food"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "28647000",
+                "display": "Meat",
+                "designation": [
+                    {
+                        "value": "Meat"
+                    },
+                    {
+                        "value": "Meat (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "22836000",
+                "display": "Vegetable",
+                "designation": [
+                    {
+                        "value": "Vegetable"
+                    },
+                    {
+                        "value": "Vegetable (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "72511004",
+                "display": "Fruit",
+                "designation": [
+                    {
+                        "value": "Fruit"
+                    },
+                    {
+                        "value": "Fruit (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "226760005",
+                "display": "Dairy foods",
+                "designation": [
+                    {
+                        "value": "Dairy foods"
+                    },
+                    {
+                        "value": "Milk cheese and egg"
+                    },
+                    {
+                        "value": "Dairy foods (substance)"
+                    },
+                    {
+                        "value": "Dairy products"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "226887002",
+                "display": "Fat and oil",
+                "designation": [
+                    {
+                        "value": "Fat and oil"
+                    },
+                    {
+                        "value": "Fat and oil (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "102263004",
+                "display": "Eggs (edible)",
+                "designation": [
+                    {
+                        "value": "Eggs (edible)"
+                    },
+                    {
+                        "value": "Eggs (edible) (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "74242007",
+                "display": "Food starch",
+                "designation": [
+                    {
+                        "value": "Food starch"
+                    },
+                    {
+                        "value": "Food starch (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "227415002",
+                "display": "Fruit nuts and seeds",
+                "designation": [
+                    {
+                        "value": "Fruit nuts and seeds"
+                    },
+                    {
+                        "value": "Fruit nuts and seeds (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "264331002",
+                "display": "Grain",
+                "designation": [
+                    {
+                        "value": "Grain"
+                    },
+                    {
+                        "value": "Grain (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "227518002",
+                "display": "Sauces seasonings and soups",
+                "designation": [
+                    {
+                        "value": "Sauces seasonings and soups"
+                    },
+                    {
+                        "value": "Sauces seasonings and soups (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "44027008",
+                "display": "Seafood",
+                "designation": [
+                    {
+                        "value": "Seafood"
+                    },
+                    {
+                        "value": "Seafood (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "226529007",
+                "display": "Starchy food",
+                "designation": [
+                    {
+                        "value": "Starchy food"
+                    },
+                    {
+                        "value": "Starchy food (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "227210005",
+                "display": "Vegetables pulses herbs and spices",
+                "designation": [
+                    {
+                        "value": "Vegetables pulses herbs and spices"
+                    },
+                    {
+                        "value": "Vegetables pulses herbs and spices (substance)"
                     }
                 ]
             }

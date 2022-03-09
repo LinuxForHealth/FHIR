@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "quantity-comparator",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-quantity-comparator.html\"><code>http://hl7.org/fhir/quantity-comparator</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "QuantityComparator",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,6 +59,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/quantity-comparator"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0a47782d-c3a2-4221-9abb-943695c29359",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/quantity-comparator|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/quantity-comparator",
+                "code": "<",
+                "display": "Less than"
+            },
+            {
+                "system": "http://hl7.org/fhir/quantity-comparator",
+                "code": "<=",
+                "display": "Less or Equal to"
+            },
+            {
+                "system": "http://hl7.org/fhir/quantity-comparator",
+                "code": ">=",
+                "display": "Greater or Equal to"
+            },
+            {
+                "system": "http://hl7.org/fhir/quantity-comparator",
+                "code": ">",
+                "display": "Greater than"
             }
         ]
     }

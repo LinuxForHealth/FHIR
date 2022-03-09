@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "subscription-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>SubscriptionStatus</h2>\n      <div>\n        <p>The status of a subscription.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-subscription-status.html\">\n            <code>http://hl7.org/fhir/subscription-status</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -33,8 +29,8 @@
         }
     ],
     "version": "4.3.0-CIBUILD",
-    "name": "SubscriptionStatus",
-    "title": "SubscriptionStatus",
+    "name": "SubscriptionStatusCodes",
+    "title": "SubscriptionStatusCodes",
     "status": "draft",
     "experimental": true,
     "date": "2021-01-17T07:06:13+11:00",
@@ -59,6 +55,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/subscription-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:79bf7585-7259-41c9-a1e1-59dddf98994c",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/subscription-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/subscription-status",
+                "code": "requested",
+                "display": "Requested"
+            },
+            {
+                "system": "http://hl7.org/fhir/subscription-status",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://hl7.org/fhir/subscription-status",
+                "code": "error",
+                "display": "Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/subscription-status",
+                "code": "off",
+                "display": "Off"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "distance-units",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <p>\n        This value set includes all common UCUM codes used for distance - that it is, all commonly used units which have the same canonical unit as &quot;m&quot; (meter)\n      </p>\n      <p> \n        The UCUM codes, UCUM table (regardless of format), and UCUM Specification are copyright © 1999-2009, Regenstrief Institute, Inc. and the Unified Codes for Units of Measures (UCUM) Organization. All rights reserved.\n     </p>\n    \n    </div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "Common UCUM Codes for Distance",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -75,6 +71,80 @@
                     {
                         "code": "km",
                         "display": "kilometers"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:07bdbe9d-d90b-47e4-a393-69bdcb5dbe21",
+        "timestamp": "2021-11-17T05:28:26.15Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://unitsofmeasure.org|2.0.1"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "nm",
+                "display": "nm",
+                "designation": [
+                    {
+                        "value": "nm"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "um",
+                "display": "um",
+                "designation": [
+                    {
+                        "value": "um"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "mm",
+                "display": "mm",
+                "designation": [
+                    {
+                        "value": "mm"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "m",
+                "display": "m",
+                "designation": [
+                    {
+                        "value": "m"
+                    }
+                ]
+            },
+            {
+                "system": "http://unitsofmeasure.org",
+                "code": "km",
+                "display": "km",
+                "designation": [
+                    {
+                        "value": "km"
                     }
                 ]
             }

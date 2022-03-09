@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "contact-point-system",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-contact-point-system.html\"><code>http://hl7.org/fhir/contact-point-system</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "ContactPointSystem",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,6 +59,62 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/contact-point-system"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:9baa98c7-535a-4490-9cea-4ec55569a936",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/contact-point-system|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "phone",
+                "display": "Phone"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "fax",
+                "display": "Fax"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "email",
+                "display": "Email"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "pager",
+                "display": "Pager"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "url",
+                "display": "URL"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "sms",
+                "display": "SMS"
+            },
+            {
+                "system": "http://hl7.org/fhir/contact-point-system",
+                "code": "other",
+                "display": "Other"
             }
         ]
     }

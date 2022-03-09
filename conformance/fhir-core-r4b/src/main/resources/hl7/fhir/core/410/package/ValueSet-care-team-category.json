@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "care-team-category",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>This value set includes codes based on the following rules:</p><ul><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA27975-4 (Event-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA27976-2 (Encounter-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA27977-0 (Episode of care-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA27978-8 (Condition-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA28865-6 (Longitudinal care-coordination focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA28866-4 (Home &amp; Community Based Services (HCBS)-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA27980-4 (Clinical research-focused care team)</li><li>Include codes from <a href=\"http://loinc.org\"><code>http://loinc.org</code></a> where concept  is-a  LA28867-2 (Public health-focused care team)</li></ul></div>"
     },
     "extension": [
         {
@@ -121,6 +117,24 @@
                         "value": "LA28867-2"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:36cbffaa-86ca-4ef3-8e1d-7ae6f08b8674",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
             }
         ]
     }

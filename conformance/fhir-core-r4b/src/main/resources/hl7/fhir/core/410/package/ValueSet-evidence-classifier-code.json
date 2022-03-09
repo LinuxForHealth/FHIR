@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "evidence-classifier-code",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-evidence-classifier-code.html\">\n            <code>http://terminology.hl7.org/CodeSystem/evidence-classifier-code</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,182 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:5f53ba37-426c-4fc1-9e83-090041d88834",
+        "timestamp": "2022-03-03T22:05:30Z",
+        "total": 31,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "COVID19Specific",
+                "display": "COVID-19 specific article"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "COVID19Relevant",
+                "display": "COVID-19 relevant (but not specific) article"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "COVID19HumanResearch",
+                "display": "COVID-19 human data in population, exposure, or outcome"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "OriginalResearch",
+                "display": "Article includes original research"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "ResearchSynthesis",
+                "display": "Article includes synthesis of research"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "Guideline",
+                "display": "Article includes guideline"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "ResearchProtocol",
+                "display": "Article provides protocol without results"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "NotResearchNotGuideline",
+                "display": "Article is neither research nor guideline"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "Treatment",
+                "display": "Article about treatment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "PreventionAndControl",
+                "display": "Article about prevention and control"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "Diagnosis",
+                "display": "Article about diagnosis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "PrognosisPrediction",
+                "display": "Article about prognosis or prediction"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsYes",
+                "display": "Rated as yes, affirmative, positive, present, or include"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsNo",
+                "display": "Rated as no, negative, absent, or exclude"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "NotAssessed",
+                "display": "Not rated, not assessed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsRCT",
+                "display": "classified as randomized controlled trial"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsControlledTrial",
+                "display": "classified as nonrandomized controlled trial (experimental)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsComparativeCohort",
+                "display": "classified as comparative cohort study (observational)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsCaseControl",
+                "display": "classified as case-control study"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsUncontrolledSeries",
+                "display": "classified as uncontrolled cohort (case series)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsMixedMethods",
+                "display": "classified as mixed-methods study"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RatedAsOther",
+                "display": "classified as other concept (not elsewhere classified)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "RiskOfBias",
+                "display": "Risk of bias assessment"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "NoBlinding",
+                "display": "No blinding"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "AllocConcealNotStated",
+                "display": "Allocation concealment not stated"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "EarlyTrialTermination",
+                "display": "Early trial termination"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "NoITT",
+                "display": "No intention-to-treat analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "Preprint",
+                "display": "Preprint (not final publication)"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "PreliminaryAnalysis",
+                "display": "Preliminary analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "BaselineImbalance",
+                "display": "Baseline imbalances"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/evidence-classifier-code",
+                "code": "SubgroupAnalysis",
+                "display": "Subgroup analysis"
             }
         ]
     }

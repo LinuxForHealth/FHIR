@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "contract-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-contract-status.html\"><code>http://hl7.org/fhir/contract-status</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,102 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/contract-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a153c73e-b667-413e-a2ac-60138b766eaa",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 15,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/contract-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "amended",
+                "display": "Amended"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "appended",
+                "display": "Appended"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "cancelled",
+                "display": "Cancelled"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "disputed",
+                "display": "Disputed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "executable",
+                "display": "Executable"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "executed",
+                "display": "Executed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "negotiable",
+                "display": "Negotiable"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "offered",
+                "display": "Offered"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "policy",
+                "display": "Policy"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "rejected",
+                "display": "Rejected"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "renewed",
+                "display": "Renewed"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "revoked",
+                "display": "Revoked"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "resolved",
+                "display": "Resolved"
+            },
+            {
+                "system": "http://hl7.org/fhir/contract-status",
+                "code": "terminated",
+                "display": "Terminated"
             }
         ]
     }

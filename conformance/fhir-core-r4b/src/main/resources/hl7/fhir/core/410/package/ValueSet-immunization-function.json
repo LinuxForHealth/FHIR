@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-function",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0443.html\"><code>http://terminology.hl7.org/CodeSystem/v2-0443</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0443.html#v2-0443-OP\">OP</a></td><td>Ordering Provider</td><td>Ordering Provider</td></tr><tr><td><a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-v2-0443.html#v2-0443-AP\">AP</a></td><td>Administering Provider</td><td>Administering Provider</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -64,6 +60,37 @@
                         "code": "AP"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e4573f36-70ea-4e78-b192-5e91e6148088",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v2-0443|2.3.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                "code": "OP",
+                "display": "Ordering Provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                "code": "AP",
+                "display": "Administering Provider"
             }
         ]
     }

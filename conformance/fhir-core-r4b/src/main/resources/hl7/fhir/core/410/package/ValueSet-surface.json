@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "surface",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-surface.html\"><code>http://terminology.hl7.org/CodeSystem/FDI-surface</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,82 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/FDI-surface"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:5235ddc3-3b43-45ff-8725-a0c1a6369fda",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 11,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/FDI-surface|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "M",
+                "display": "Mesial"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "O",
+                "display": "Occlusal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "I",
+                "display": "Incisal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "D",
+                "display": "Distal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "B",
+                "display": "Buccal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "V",
+                "display": "Ventral"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "L",
+                "display": "Lingual"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "MO",
+                "display": "Mesioclusal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "DO",
+                "display": "Distoclusal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "DI",
+                "display": "Distoincisal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/FDI-surface",
+                "code": "MOD",
+                "display": "Mesioclusodistal"
             }
         ]
     }

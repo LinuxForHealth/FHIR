@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "adjudication",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-adjudication.html\"><code>http://terminology.hl7.org/CodeSystem/adjudication</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,67 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/adjudication"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:3d99208b-6d9d-49bf-a048-626a7c140306",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/adjudication|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "submitted",
+                "display": "Submitted Amount"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "copay",
+                "display": "CoPay"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "eligible",
+                "display": "Eligible Amount"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "deductible",
+                "display": "Deductible"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "unallocdeduct",
+                "display": "Unallocated Deductible"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "eligpercent",
+                "display": "Eligible %"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "tax",
+                "display": "Tax"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/adjudication",
+                "code": "benefit",
+                "display": "Benefit Amount"
             }
         ]
     }

@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "list-example-codes",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-list-example-codes.html\"><code>http://terminology.hl7.org/CodeSystem/list-example-use-codes</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -53,6 +49,72 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:45aba139-8e0d-4384-be74-267b2d498dc5",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/list-example-use-codes|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "alerts",
+                "display": "Alerts"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "adverserxns",
+                "display": "Adverse Reactions"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "allergies",
+                "display": "Allergies"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "medications",
+                "display": "Medication List"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "problems",
+                "display": "Problem List"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "worklist",
+                "display": "Worklist"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "waiting",
+                "display": "Waiting List"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "protocols",
+                "display": "Protocols"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-example-use-codes",
+                "code": "plans",
+                "display": "Care Plans"
             }
         ]
     }

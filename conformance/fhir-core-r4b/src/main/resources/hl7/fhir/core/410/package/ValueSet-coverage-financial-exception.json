@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "coverage-financial-exception",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-coverage-financial-exception.html\"><code>http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,37 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:96ae1e4f-1e5d-4d71-95dc-280e0c0af0a1",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception",
+                "code": "retired",
+                "display": "Retired"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-coverage-financial-exception",
+                "code": "foster",
+                "display": "Foster child"
             }
         ]
     }

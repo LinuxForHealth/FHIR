@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "medicationknowledge-package-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-medicationknowledge-package-type.html\"><code>http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -52,6 +48,137 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:bd6641e2-7030-435a-922a-28c114d7203d",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 22,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "amp",
+                "display": "Ampule"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "bag",
+                "display": "Bag"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "blstrpk",
+                "display": "Blister Pack"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "bot",
+                "display": "Bottle"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "box",
+                "display": "Box"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "can",
+                "display": "Can"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "cart",
+                "display": "Cartridge"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "disk",
+                "display": "Disk"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "doset",
+                "display": "Dosette"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "jar",
+                "display": "Jar"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "jug",
+                "display": "Jug"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "minim",
+                "display": "Minim"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "nebamp",
+                "display": "Nebule Amp"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "ovul",
+                "display": "Ovule"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "pch",
+                "display": "Pouch"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "pkt",
+                "display": "Packet"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "sash",
+                "display": "Sashet"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "strip",
+                "display": "Strip"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "tin",
+                "display": "Tin"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "tub",
+                "display": "Tub"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "tube",
+                "display": "Tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationknowledge-package-type",
+                "code": "vial",
+                "display": "Vial"
             }
         ]
     }

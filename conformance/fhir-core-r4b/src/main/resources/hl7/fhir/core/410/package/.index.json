@@ -23982,6 +23982,13 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-action-participant-role.json",
+            "resourceType": "ValueSet",
+            "id": "action-participant-role",
+            "url": "http://terminology.hl7.org/ValueSet/action-participant-role",
+            "version": "0.1.0"
+        },
+        {
             "filename": "ValueSet-action-participant-type.json",
             "resourceType": "ValueSet",
             "id": "action-participant-type",
@@ -24070,6 +24077,13 @@
             "resourceType": "ValueSet",
             "id": "adjudication",
             "url": "http://hl7.org/fhir/ValueSet/adjudication",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-administrable-dose-form.json",
+            "resourceType": "ValueSet",
+            "id": "administrable-dose-form",
+            "url": "http://hl7.org/fhir/ValueSet/administrable-dose-form",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -24252,6 +24266,13 @@
             "resourceType": "ValueSet",
             "id": "animal-species",
             "url": "http://hl7.org/fhir/ValueSet/animal-species",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-animal-tissue-type.json",
+            "resourceType": "ValueSet",
+            "id": "animal-tissue-type",
+            "url": "http://hl7.org/fhir/ValueSet/animal-tissue-type",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -24707,6 +24728,13 @@
             "resourceType": "ValueSet",
             "id": "clinical-findings",
             "url": "http://hl7.org/fhir/ValueSet/clinical-findings",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-clinical-use-definition-category.json",
+            "resourceType": "ValueSet",
+            "id": "clinical-use-definition-category",
+            "url": "http://hl7.org/fhir/ValueSet/clinical-use-definition-category",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -25256,6 +25284,13 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-country.json",
+            "resourceType": "ValueSet",
+            "id": "country",
+            "url": "http://hl7.org/fhir/ValueSet/country",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-coverage-class.json",
             "resourceType": "ValueSet",
             "id": "coverage-class",
@@ -25494,6 +25529,13 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-dicom-cid-29-AcquisitionModality.json",
+            "resourceType": "ValueSet",
+            "id": "dicom-cid-29-AcquisitionModality",
+            "url": "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
+            "version": "20121129"
+        },
+        {
             "filename": "ValueSet-diet-type.json",
             "resourceType": "ValueSet",
             "id": "diet-type",
@@ -25512,6 +25554,20 @@
             "resourceType": "ValueSet",
             "id": "discriminator-type",
             "url": "http://hl7.org/fhir/ValueSet/discriminator-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-disease-status.json",
+            "resourceType": "ValueSet",
+            "id": "disease-status",
+            "url": "http://hl7.org/fhir/ValueSet/disease-status",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-disease-symptom-procedure.json",
+            "resourceType": "ValueSet",
+            "id": "disease-symptom-procedure",
+            "url": "http://hl7.org/fhir/ValueSet/disease-symptom-procedure",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -25904,6 +25960,20 @@
             "resourceType": "ValueSet",
             "id": "feeding-device",
             "url": "http://hl7.org/fhir/ValueSet/feeding-device",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-fhir-element-types.json",
+            "resourceType": "ValueSet",
+            "id": "fhir-element-types",
+            "url": "http://hl7.org/fhir/ValueSet/fhir-element-types",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-fhirpath-types.json",
+            "resourceType": "ValueSet",
+            "id": "fhirpath-types",
+            "url": "http://hl7.org/fhir/ValueSet/fhirpath-types",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -26306,6 +26376,27 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-ingredient-function.json",
+            "resourceType": "ValueSet",
+            "id": "ingredient-function",
+            "url": "http://hl7.org/fhir/ValueSet/ingredient-function",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-ingredient-manufacturer-role.json",
+            "resourceType": "ValueSet",
+            "id": "ingredient-manufacturer-role",
+            "url": "http://hl7.org/fhir/ValueSet/ingredient-manufacturer-role",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-ingredient-role.json",
+            "resourceType": "ValueSet",
+            "id": "ingredient-role",
+            "url": "http://hl7.org/fhir/ValueSet/ingredient-role",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-insuranceplan-applicability.json",
             "resourceType": "ValueSet",
             "id": "insuranceplan-applicability",
@@ -26320,10 +26411,45 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-interactant.json",
+            "resourceType": "ValueSet",
+            "id": "interactant",
+            "url": "http://hl7.org/fhir/ValueSet/interactant",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-interaction-effect.json",
+            "resourceType": "ValueSet",
+            "id": "interaction-effect",
+            "url": "http://hl7.org/fhir/ValueSet/interaction-effect",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-interaction-incidence.json",
+            "resourceType": "ValueSet",
+            "id": "interaction-incidence",
+            "url": "http://hl7.org/fhir/ValueSet/interaction-incidence",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-interaction-management.json",
+            "resourceType": "ValueSet",
+            "id": "interaction-management",
+            "url": "http://hl7.org/fhir/ValueSet/interaction-management",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-interaction-trigger.json",
             "resourceType": "ValueSet",
             "id": "interaction-trigger",
             "url": "http://hl7.org/fhir/ValueSet/interaction-trigger",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-interaction-type.json",
+            "resourceType": "ValueSet",
+            "id": "interaction-type",
+            "url": "http://hl7.org/fhir/ValueSet/interaction-type",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -26831,6 +26957,34 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-medicinal-product-additional-monitoring.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-additional-monitoring",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-additional-monitoring",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-confidentiality.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-confidentiality",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-confidentiality",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-contact-type.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-contact-type",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-contact-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-cross-reference-type.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-cross-reference-type",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-cross-reference-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-medicinal-product-domain.json",
             "resourceType": "ValueSet",
             "id": "medicinal-product-domain",
@@ -26838,10 +26992,38 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-medicinal-product-name-part-type.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-name-part-type",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-name-type.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-name-type",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-name-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-medicinal-product-package-type.json",
             "resourceType": "ValueSet",
             "id": "medicinal-product-package-type",
             "url": "http://hl7.org/fhir/ValueSet/medicinal-product-package-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-pediatric-use.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-pediatric-use",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-pediatric-use",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-medicinal-product-special-measures.json",
+            "resourceType": "ValueSet",
+            "id": "medicinal-product-special-measures",
+            "url": "http://hl7.org/fhir/ValueSet/medicinal-product-special-measures",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -27146,6 +27328,34 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-package-characteristic.json",
+            "resourceType": "ValueSet",
+            "id": "package-characteristic",
+            "url": "http://hl7.org/fhir/ValueSet/package-characteristic",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-package-material.json",
+            "resourceType": "ValueSet",
+            "id": "package-material",
+            "url": "http://hl7.org/fhir/ValueSet/package-material",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-package-type.json",
+            "resourceType": "ValueSet",
+            "id": "package-type",
+            "url": "http://hl7.org/fhir/ValueSet/package-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-packaging-type.json",
+            "resourceType": "ValueSet",
+            "id": "packaging-type",
+            "url": "http://hl7.org/fhir/ValueSet/packaging-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-parent-relationship-codes.json",
             "resourceType": "ValueSet",
             "id": "parent-relationship-codes",
@@ -27318,6 +27528,13 @@
             "resourceType": "ValueSet",
             "id": "product-category",
             "url": "http://hl7.org/fhir/ValueSet/product-category",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-product-intended-use.json",
+            "resourceType": "ValueSet",
+            "id": "product-intended-use",
+            "url": "http://hl7.org/fhir/ValueSet/product-intended-use",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -27556,6 +27773,27 @@
             "resourceType": "ValueSet",
             "id": "referencerange-meaning",
             "url": "http://hl7.org/fhir/ValueSet/referencerange-meaning",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-regulated-authorization-basis.json",
+            "resourceType": "ValueSet",
+            "id": "regulated-authorization-basis",
+            "url": "http://hl7.org/fhir/ValueSet/regulated-authorization-basis",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-regulated-authorization-case-type.json",
+            "resourceType": "ValueSet",
+            "id": "regulated-authorization-case-type",
+            "url": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-regulated-authorization-type.json",
+            "resourceType": "ValueSet",
+            "id": "regulated-authorization-type",
+            "url": "http://hl7.org/fhir/ValueSet/regulated-authorization-type",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -28154,6 +28392,13 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-substance-amount-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-amount-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-amount-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-substance-category.json",
             "resourceType": "ValueSet",
             "id": "substance-category",
@@ -28168,10 +28413,122 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-substance-grade.json",
+            "resourceType": "ValueSet",
+            "id": "substance-grade",
+            "url": "http://hl7.org/fhir/ValueSet/substance-grade",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-name-authority.json",
+            "resourceType": "ValueSet",
+            "id": "substance-name-authority",
+            "url": "http://hl7.org/fhir/ValueSet/substance-name-authority",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-name-domain.json",
+            "resourceType": "ValueSet",
+            "id": "substance-name-domain",
+            "url": "http://hl7.org/fhir/ValueSet/substance-name-domain",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-name-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-name-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-name-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-optical-activity.json",
+            "resourceType": "ValueSet",
+            "id": "substance-optical-activity",
+            "url": "http://hl7.org/fhir/ValueSet/substance-optical-activity",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-relationship-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-relationship-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-relationship-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-representation-format.json",
+            "resourceType": "ValueSet",
+            "id": "substance-representation-format",
+            "url": "http://hl7.org/fhir/ValueSet/substance-representation-format",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-representation-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-representation-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-representation-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-source-material-genus.json",
+            "resourceType": "ValueSet",
+            "id": "substance-source-material-genus",
+            "url": "http://hl7.org/fhir/ValueSet/substance-source-material-genus",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-source-material-part.json",
+            "resourceType": "ValueSet",
+            "id": "substance-source-material-part",
+            "url": "http://hl7.org/fhir/ValueSet/substance-source-material-part",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-source-material-species.json",
+            "resourceType": "ValueSet",
+            "id": "substance-source-material-species",
+            "url": "http://hl7.org/fhir/ValueSet/substance-source-material-species",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-source-material-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-source-material-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-source-material-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-substance-status.json",
             "resourceType": "ValueSet",
             "id": "substance-status",
             "url": "http://hl7.org/fhir/ValueSet/substance-status",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-stereochemistry.json",
+            "resourceType": "ValueSet",
+            "id": "substance-stereochemistry",
+            "url": "http://hl7.org/fhir/ValueSet/substance-stereochemistry",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-structure-technique.json",
+            "resourceType": "ValueSet",
+            "id": "substance-structure-technique",
+            "url": "http://hl7.org/fhir/ValueSet/substance-structure-technique",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-weight-method.json",
+            "resourceType": "ValueSet",
+            "id": "substance-weight-method",
+            "url": "http://hl7.org/fhir/ValueSet/substance-weight-method",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-substance-weight-type.json",
+            "resourceType": "ValueSet",
+            "id": "substance-weight-type",
+            "url": "http://hl7.org/fhir/ValueSet/substance-weight-type",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -28245,6 +28602,13 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-target-species.json",
+            "resourceType": "ValueSet",
+            "id": "target-species",
+            "url": "http://hl7.org/fhir/ValueSet/target-species",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-task-code.json",
             "resourceType": "ValueSet",
             "id": "task-code",
@@ -28291,6 +28655,20 @@
             "resourceType": "ValueSet",
             "id": "texture-code",
             "url": "http://hl7.org/fhir/ValueSet/texture-code",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-therapy-relationship-type.json",
+            "resourceType": "ValueSet",
+            "id": "therapy-relationship-type",
+            "url": "http://hl7.org/fhir/ValueSet/therapy-relationship-type",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-therapy.json",
+            "resourceType": "ValueSet",
+            "id": "therapy",
+            "url": "http://hl7.org/fhir/ValueSet/therapy",
             "version": "4.3.0-CIBUILD"
         },
         {
@@ -28392,6 +28770,34 @@
             "version": "4.3.0-CIBUILD"
         },
         {
+            "filename": "ValueSet-undesirable-effect-classification.json",
+            "resourceType": "ValueSet",
+            "id": "undesirable-effect-classification",
+            "url": "http://hl7.org/fhir/ValueSet/undesirable-effect-classification",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-undesirable-effect-frequency.json",
+            "resourceType": "ValueSet",
+            "id": "undesirable-effect-frequency",
+            "url": "http://hl7.org/fhir/ValueSet/undesirable-effect-frequency",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-undesirable-effect-symptom.json",
+            "resourceType": "ValueSet",
+            "id": "undesirable-effect-symptom",
+            "url": "http://hl7.org/fhir/ValueSet/undesirable-effect-symptom",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-unit-of-presentation.json",
+            "resourceType": "ValueSet",
+            "id": "unit-of-presentation",
+            "url": "http://hl7.org/fhir/ValueSet/unit-of-presentation",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
             "filename": "ValueSet-units-of-time.json",
             "resourceType": "ValueSet",
             "id": "units-of-time",
@@ -28411,6 +28817,160 @@
             "id": "use-context",
             "url": "http://hl7.org/fhir/ValueSet/use-context",
             "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-v2-0003.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0003",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0003",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0092.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0092",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0092",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0116.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0116",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0116",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0276.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0276",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0276",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0371.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0371",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0371",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0487.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0487",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0487",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0493.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0493",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0493",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v2-0916.json",
+            "resourceType": "ValueSet",
+            "id": "v2-0916",
+            "url": "http://terminology.hl7.org/ValueSet/v2-0916",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActCode.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActCode",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActCode",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActConsentDirective.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActConsentDirective",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActConsentDirective",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActEncounterCode.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActEncounterCode",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActIncidentCode.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActIncidentCode",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActPharmacySupplyType.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActPharmacySupplyType",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActPharmacySupplyType",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActPriority.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActPriority",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActPriority",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActReason.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActReason",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActReason",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ActSubstanceAdminSubstitutionCode.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ActSubstanceAdminSubstitutionCode",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-Confidentiality.json",
+            "resourceType": "ValueSet",
+            "id": "v3-Confidentiality",
+            "url": "http://terminology.hl7.org/ValueSet/v3-Confidentiality",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-FamilyMember.json",
+            "resourceType": "ValueSet",
+            "id": "v3-FamilyMember",
+            "url": "http://terminology.hl7.org/ValueSet/v3-FamilyMember",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ParticipationMode.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ParticipationMode",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ParticipationMode",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-PurposeOfUse.json",
+            "resourceType": "ValueSet",
+            "id": "v3-PurposeOfUse",
+            "url": "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-ServiceDeliveryLocationRoleType.json",
+            "resourceType": "ValueSet",
+            "id": "v3-ServiceDeliveryLocationRoleType",
+            "url": "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType",
+            "version": "2.0.0"
+        },
+        {
+            "filename": "ValueSet-v3-SubstanceAdminSubstitutionReason.json",
+            "resourceType": "ValueSet",
+            "id": "v3-SubstanceAdminSubstitutionReason",
+            "url": "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason",
+            "version": "2.0.0"
         },
         {
             "filename": "ValueSet-vaccine-code.json",
@@ -28536,6 +29096,13 @@
             "resourceType": "ValueSet",
             "id": "vision-product",
             "url": "http://hl7.org/fhir/ValueSet/vision-product",
+            "version": "4.3.0-CIBUILD"
+        },
+        {
+            "filename": "ValueSet-warning-type.json",
+            "resourceType": "ValueSet",
+            "id": "warning-type",
+            "url": "http://hl7.org/fhir/ValueSet/warning-type",
             "version": "4.3.0-CIBUILD"
         },
         {

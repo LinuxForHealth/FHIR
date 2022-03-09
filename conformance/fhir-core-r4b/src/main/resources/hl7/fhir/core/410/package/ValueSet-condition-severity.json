@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "condition-severity",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>This value set includes the following SNOMED CT &quot;Severity&quot; concepts:</p>\n      \n      <ul>\n        \n        <li>24484000: Severe</li>\n        \n        <li>6736007: Moderate</li>\n        \n        <li>255604002: Mild</li>\n      \n      </ul>\n      \n      <p>This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement</p>  \n    \n    </div>"
     },
     "extension": [
         {
@@ -54,6 +50,87 @@
                     },
                     {
                         "code": "255604002"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:984f17f6-d77c-447c-9b52-ba6ff5d497bc",
+        "timestamp": "2021-11-17T05:28:20.845Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "24484000",
+                "display": "Severe",
+                "designation": [
+                    {
+                        "value": "Severe"
+                    },
+                    {
+                        "value": "High grade"
+                    },
+                    {
+                        "value": "Gravis"
+                    },
+                    {
+                        "value": "Severely"
+                    },
+                    {
+                        "value": "Severe (severity modifier) (qualifier value)"
+                    },
+                    {
+                        "value": "Severe (severity modifier)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6736007",
+                "display": "Moderate",
+                "designation": [
+                    {
+                        "value": "Moderate"
+                    },
+                    {
+                        "value": "Midgrade"
+                    },
+                    {
+                        "value": "Moderate (severity modifier) (qualifier value)"
+                    },
+                    {
+                        "value": "Moderate (severity modifier)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "255604002",
+                "display": "Mild",
+                "designation": [
+                    {
+                        "value": "Mild"
+                    },
+                    {
+                        "value": "Mild (qualifier value)"
                     }
                 ]
             }

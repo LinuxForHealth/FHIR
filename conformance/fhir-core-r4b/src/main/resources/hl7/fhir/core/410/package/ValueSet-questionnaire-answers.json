@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "questionnaire-answers",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,30 @@
         "include": [
             {
                 "system": "http://snomed.info/sct"
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-toocostly",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:0cf20c34-b9e5-42ef-8207-6b280a7483e3",
+        "timestamp": "2021-11-17T05:28:35.537Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
             }
         ]
     }

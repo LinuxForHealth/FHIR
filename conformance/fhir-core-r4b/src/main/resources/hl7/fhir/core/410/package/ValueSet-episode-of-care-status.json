@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "episode-of-care-status",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>EpisodeOfCareStatus</h2>\n      <div>\n        <p>The status of the episode of care.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-episode-of-care-status.html\">\n            <code>http://hl7.org/fhir/episode-of-care-status</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,62 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/episode-of-care-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d0fd7f44-604d-4878-90ff-4d28d1a74953",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/episode-of-care-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "planned",
+                "display": "Planned"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "waitlist",
+                "display": "Waitlist"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "onhold",
+                "display": "On Hold"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "finished",
+                "display": "Finished"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "cancelled",
+                "display": "Cancelled"
+            },
+            {
+                "system": "http://hl7.org/fhir/episode-of-care-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
             }
         ]
     }

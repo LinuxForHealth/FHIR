@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "request-priority",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-request-priority.html\"><code>http://hl7.org/fhir/request-priority</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "RequestPriority",
     "status": "draft",
     "experimental": true,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,47 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/request-priority"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:5abc2642-0cd3-46c5-9ab5-c3039fec5ca9",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/request-priority|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/request-priority",
+                "code": "routine",
+                "display": "Routine"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-priority",
+                "code": "urgent",
+                "display": "Urgent"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-priority",
+                "code": "asap",
+                "display": "ASAP"
+            },
+            {
+                "system": "http://hl7.org/fhir/request-priority",
+                "code": "stat",
+                "display": "STAT"
             }
         ]
     }

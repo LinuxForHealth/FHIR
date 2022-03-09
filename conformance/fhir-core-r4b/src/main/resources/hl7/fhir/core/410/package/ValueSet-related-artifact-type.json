@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "related-artifact-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-related-artifact-type.html\"><code>http://hl7.org/fhir/related-artifact-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -37,7 +33,7 @@
     "title": "RelatedArtifactType",
     "status": "draft",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -59,6 +55,67 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/related-artifact-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:23d9b3a3-4ac7-48cb-a9b9-8c2e297fb6ed",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 8,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/related-artifact-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "documentation",
+                "display": "Documentation"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "justification",
+                "display": "Justification"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "citation",
+                "display": "Citation"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "predecessor",
+                "display": "Predecessor"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "successor",
+                "display": "Successor"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "derived-from",
+                "display": "Derived From"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "depends-on",
+                "display": "Depends On"
+            },
+            {
+                "system": "http://hl7.org/fhir/related-artifact-type",
+                "code": "composed-of",
+                "display": "Composed Of"
             }
         ]
     }

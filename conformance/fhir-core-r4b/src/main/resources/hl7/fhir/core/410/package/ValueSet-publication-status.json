@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "publication-status",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-publication-status.html\"><code>http://hl7.org/fhir/publication-status</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -41,7 +37,7 @@
     "title": "PublicationStatus",
     "status": "active",
     "experimental": false,
-    "date": "2022-01-01T15:17:18Z",
+    "date": "2022-03-03T22:04:06Z",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,6 +59,131 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/publication-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:27d26ea6-8b8f-4564-85d6-40eef09424a5",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/publication-status|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "extension": [
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "ru"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "черновик"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    },
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "nl"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "ontwerp"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    }
+                ],
+                "system": "http://hl7.org/fhir/publication-status",
+                "code": "draft",
+                "display": "Draft"
+            },
+            {
+                "extension": [
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "ru"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "активный"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    },
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "nl"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "actief"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    }
+                ],
+                "system": "http://hl7.org/fhir/publication-status",
+                "code": "active",
+                "display": "Active"
+            },
+            {
+                "extension": [
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "ru"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "удалён"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    },
+                    {
+                        "extension": [
+                            {
+                                "url": "lang",
+                                "valueCode": "nl"
+                            },
+                            {
+                                "url": "content",
+                                "valueString": "verouderd"
+                            }
+                        ],
+                        "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                    }
+                ],
+                "system": "http://hl7.org/fhir/publication-status",
+                "code": "retired",
+                "display": "Retired"
+            },
+            {
+                "system": "http://hl7.org/fhir/publication-status",
+                "code": "unknown",
+                "display": "Unknown"
             }
         ]
     }

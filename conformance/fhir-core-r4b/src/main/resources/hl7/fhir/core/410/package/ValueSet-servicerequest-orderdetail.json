@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "servicerequest-orderdetail",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/47545007\">47545007</a></td><td>Continuous positive airway pressure ventilation treatment (regime/therapy)</td></tr><tr><td><a href=\"http://snomed.info/id/286812008\">286812008</a></td><td>Pressure controlled ventilation (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/243144002\">243144002</a></td><td>Patient triggered inspiratory assistance (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/243150007\">243150007</a></td><td>Assisted controlled mandatory ventilation (procedure)</td></tr><tr><td><a href=\"http://snomed.info/id/59427005\">59427005</a></td><td>Synchronized intermittent mandatory ventilation (procedure)</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -99,6 +95,80 @@
                                 "value": "SIMV"
                             }
                         ]
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d32353fa-4c3b-413c-801e-a05b3322f51e",
+        "timestamp": "2021-11-17T05:28:21.678Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "47545007",
+                "display": "CPAP",
+                "designation": [
+                    {
+                        "value": "CPAP"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "286812008",
+                "display": "PCV",
+                "designation": [
+                    {
+                        "value": "PCV"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "243144002",
+                "display": "IPPB",
+                "designation": [
+                    {
+                        "value": "IPPB"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "243150007",
+                "display": "ACV",
+                "designation": [
+                    {
+                        "value": "ACV"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "59427005",
+                "display": "SIMV",
+                "designation": [
+                    {
+                        "value": "SIMV"
                     }
                 ]
             }

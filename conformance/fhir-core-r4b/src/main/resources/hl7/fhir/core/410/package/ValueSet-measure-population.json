@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "measure-population",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-measure-population.html\">\n            <code>http://terminology.hl7.org/CodeSystem/measure-population</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,72 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/measure-population"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d5f610e4-9ef3-4df6-a7fe-c8af0d2f44b4",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-population|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "initial-population",
+                "display": "Initial Population"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "numerator",
+                "display": "Numerator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "numerator-exclusion",
+                "display": "Numerator Exclusion"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "denominator",
+                "display": "Denominator"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "denominator-exclusion",
+                "display": "Denominator Exclusion"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "denominator-exception",
+                "display": "Denominator Exception"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "measure-population",
+                "display": "Measure Population"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "measure-population-exclusion",
+                "display": "Measure Population Exclusion"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-population",
+                "code": "measure-observation",
+                "display": "Measure Observation"
             }
         ]
     }

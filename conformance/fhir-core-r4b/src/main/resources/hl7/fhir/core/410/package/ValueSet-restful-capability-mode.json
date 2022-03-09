@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "restful-capability-mode",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>RestfulCapabilityMode</h2>\n      <div>\n        <p>The mode of a RESTful capability statement.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-restful-capability-mode.html\">\n            <code>http://hl7.org/fhir/restful-capability-mode</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,37 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/restful-capability-mode"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:33098a71-6362-491e-8ac9-c5bce4cf8730",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/restful-capability-mode|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/restful-capability-mode",
+                "code": "client",
+                "display": "Client"
+            },
+            {
+                "system": "http://hl7.org/fhir/restful-capability-mode",
+                "code": "server",
+                "display": "Server"
             }
         ]
     }

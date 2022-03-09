@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "specimen-container-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  434711009 (Specimen container)</li></ul></div>"
     },
     "extension": [
         {
@@ -58,6 +54,88 @@
                         "property": "concept",
                         "op": "is-a",
                         "value": "434711009"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:7cf5af8a-4aff-4036-afc6-4a1238224c17",
+        "timestamp": "2021-11-17T05:28:34.95Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "434711009",
+                "display": "Specimen container (physical object)",
+                "designation": [
+                    {
+                        "value": "Specimen container (physical object)"
+                    },
+                    {
+                        "value": "Specimen container"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "434746001",
+                "display": "Specimen vial (physical object)",
+                "designation": [
+                    {
+                        "value": "Specimen vial (physical object)"
+                    },
+                    {
+                        "value": "Specimen vial"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "434822004",
+                "display": "Specimen well (physical object)",
+                "designation": [
+                    {
+                        "value": "Specimen well (physical object)"
+                    },
+                    {
+                        "value": "Specimen well"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713791004",
+                "display": "Breath specimen container (physical object)",
+                "designation": [
+                    {
+                        "value": "Breath specimen container (physical object)"
+                    },
+                    {
+                        "value": "Breath specimen container"
                     }
                 ]
             }

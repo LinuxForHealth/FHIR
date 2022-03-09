@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "reference-handling-policy",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>ReferenceHandlingPolicy</h2>\n      <div>\n        <p>A set of flags that defines how references are supported.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-reference-handling-policy.html\">\n            <code>http://hl7.org/fhir/reference-handling-policy</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,52 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/reference-handling-policy"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:445a72fc-22c2-4bb6-9569-7ffd60660889",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/reference-handling-policy|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/reference-handling-policy",
+                "code": "literal",
+                "display": "Literal References"
+            },
+            {
+                "system": "http://hl7.org/fhir/reference-handling-policy",
+                "code": "logical",
+                "display": "Logical References"
+            },
+            {
+                "system": "http://hl7.org/fhir/reference-handling-policy",
+                "code": "resolves",
+                "display": "Resolves References"
+            },
+            {
+                "system": "http://hl7.org/fhir/reference-handling-policy",
+                "code": "enforced",
+                "display": "Reference Integrity Enforced"
+            },
+            {
+                "system": "http://hl7.org/fhir/reference-handling-policy",
+                "code": "local",
+                "display": "Local References Only"
             }
         ]
     }

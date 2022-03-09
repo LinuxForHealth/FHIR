@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-recommendation-date-criterion",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://loinc.org\"><code>http://loinc.org</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://details.loinc.org/LOINC/30981-5.html\">30981-5</a></td><td>Earliest date to give</td></tr><tr><td><a href=\"http://details.loinc.org/LOINC/30980-7.html\">30980-7</a></td><td>Date vaccine due</td></tr><tr><td><a href=\"http://details.loinc.org/LOINC/59777-3.html\">59777-3</a></td><td>Latest date to give immunization</td></tr><tr><td><a href=\"http://details.loinc.org/LOINC/59778-1.html\">59778-1</a></td><td>Date when overdue for immunization</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -66,6 +62,522 @@
                     },
                     {
                         "code": "59778-1"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:00fc4fad-8491-472c-b546-e1f46aac314d",
+        "timestamp": "2021-11-17T05:28:48.651Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://loinc.org|2.71"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "30981-5",
+                "display": "Earliest date to give",
+                "designation": [
+                    {
+                        "value": "Earliest date to give"
+                    },
+                    {
+                        "value": "Earliest date to give"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "医疗服务对象"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "客户"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病人"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病患"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病号"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "超系统 - 病人 可用数量表示的"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "定量性"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数值型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数量型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "连续数值型标尺 接种"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种记录"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗接种 日子"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "几号 时刻"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随机"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随意"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "瞬间 最早的提供日期"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "最早的供给日期"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Time stamp"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Date and time"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Timestamp"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Point in time"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Random"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quantitative"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "QNT"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quant"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quan"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "VACCINE"
+                    },
+                    {
+                        "language": "it-IT",
+                        "value": "paziente Punto nel tempo (episodio) Vaccinazioni"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Количественный Точка во времени"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Момент"
+                    }
+                ]
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "30980-7",
+                "display": "Date vaccine due",
+                "designation": [
+                    {
+                        "value": "Date vaccine due"
+                    },
+                    {
+                        "value": "Date vaccine due"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "医疗服务对象"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "客户"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病人"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病患"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病号"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "超系统 - 病人 可用数量表示的"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "定量性"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数值型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数量型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "连续数值型标尺 接种"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种记录"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗接种 日子"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "几号 时刻"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随机"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随意"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "瞬间 疫苗到期（预定完成、预计完成、预期完成、截止）日期"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Time stamp"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Date and time"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Timestamp"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Point in time"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Random"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quantitative"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "QNT"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quant"
+                    },
+                    {
+                        "language": "pt-BR",
+                        "value": "Quan"
+                    },
+                    {
+                        "language": "it-IT",
+                        "value": "paziente Punto nel tempo (episodio) Vaccinazioni"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Количественный Точка во времени"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Момент"
+                    }
+                ]
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "59777-3",
+                "display": "Latest date to give immunization",
+                "designation": [
+                    {
+                        "value": "Latest date to give immunization"
+                    },
+                    {
+                        "value": "Latest date to give immunization"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫接种历史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫接种史 医疗服务对象"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "客户"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病人"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病患"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病号"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "超系统 - 病人 可用数量表示的"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "定量性"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数值型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数量型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "连续数值型标尺 接种"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种记录"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗接种 日子"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "几号 时刻"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随机"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随意"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "瞬间 要给予疫苗接种的最近日期"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "要给予免疫接种的最新日期"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "要给予预防接种的最新日期"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "要给予接种的最新日期"
+                    },
+                    {
+                        "language": "it-IT",
+                        "value": "paziente Punto nel tempo (episodio) Vaccinazioni"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Количественный Точка во времени"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Момент"
+                    }
+                ]
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "59778-1",
+                "display": "Date when overdue for immunization",
+                "designation": [
+                    {
+                        "value": "Date when overdue for immunization"
+                    },
+                    {
+                        "value": "Date when overdue for immunization"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫接种历史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种史"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "免疫接种史 免疫接种逾期日期"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗接种过期日期 医疗服务对象"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "客户"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病人"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病患"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "病号"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "超系统 - 病人 可用数量表示的"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "定量性"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数值型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "数量型"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "连续数值型标尺 接种"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "接种记录"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "疫苗接种 日子"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "几号 时刻"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随机"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "随意"
+                    },
+                    {
+                        "language": "zh-CN",
+                        "value": "瞬间"
+                    },
+                    {
+                        "language": "it-IT",
+                        "value": "paziente Punto nel tempo (episodio) Vaccinazioni"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Количественный Точка во времени"
+                    },
+                    {
+                        "language": "ru-RU",
+                        "value": "Момент"
                     }
                 ]
             }

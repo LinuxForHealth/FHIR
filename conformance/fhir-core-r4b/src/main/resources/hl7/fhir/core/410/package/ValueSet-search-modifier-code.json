@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "search-modifier-code",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>SearchModifierCode</h2>\n      <div>\n        <p>A supported modifier for a search parameter.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-search-modifier-code.html\">\n            <code>http://hl7.org/fhir/search-modifier-code</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,87 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/search-modifier-code"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:af678508-6dd1-4cce-84d5-74ea47db885f",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 12,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/search-modifier-code|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "missing",
+                "display": "Missing"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "exact",
+                "display": "Exact"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "contains",
+                "display": "Contains"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "not",
+                "display": "Not"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "text",
+                "display": "Text"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "in",
+                "display": "In"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "not-in",
+                "display": "Not In"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "below",
+                "display": "Below"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "above",
+                "display": "Above"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "type",
+                "display": "Type"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "identifier",
+                "display": "Identifier"
+            },
+            {
+                "system": "http://hl7.org/fhir/search-modifier-code",
+                "code": "ofType",
+                "display": "Of Type"
             }
         ]
     }

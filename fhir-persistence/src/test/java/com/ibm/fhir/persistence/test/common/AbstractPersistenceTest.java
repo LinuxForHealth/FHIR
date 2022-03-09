@@ -126,7 +126,6 @@ public abstract class AbstractPersistenceTest {
         FHIRRequestContext context = FHIRRequestContext.get();
         context.setOriginalRequestUri(BASE);
 
-        FHIRRequestContext.set(context);
         if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }

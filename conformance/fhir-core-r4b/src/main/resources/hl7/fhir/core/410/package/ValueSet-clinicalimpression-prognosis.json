@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "clinicalimpression-prognosis",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include codes from <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  is-a  365858006 (Prognosis/outlook finding)</li></ul></div>"
     },
     "extension": [
         {
@@ -59,6 +55,139 @@
                         "property": "concept",
                         "op": "is-a",
                         "value": "365858006"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:37a00cdf-141d-4b50-9c45-fdc18b78968e",
+        "timestamp": "2021-11-17T05:28:26.892Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "365858006",
+                "display": "Prognosis/outlook finding",
+                "designation": [
+                    {
+                        "value": "Prognosis/outlook finding"
+                    },
+                    {
+                        "value": "Prognosis/outlook finding (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "60484009",
+                "display": "Conditional prognosis",
+                "designation": [
+                    {
+                        "value": "Conditional prognosis"
+                    },
+                    {
+                        "value": "Conditional prognosis (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "65872000",
+                "display": "Fair prognosis",
+                "designation": [
+                    {
+                        "value": "Fair prognosis"
+                    },
+                    {
+                        "value": "Fair prognosis (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "67334001",
+                "display": "Guarded prognosis",
+                "designation": [
+                    {
+                        "value": "Guarded prognosis"
+                    },
+                    {
+                        "value": "Guarded prognosis (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170968001",
+                "display": "Prognosis good",
+                "designation": [
+                    {
+                        "value": "Prognosis good"
+                    },
+                    {
+                        "value": "Prognosis favorable"
+                    },
+                    {
+                        "value": "Prognosis good (finding)"
+                    },
+                    {
+                        "value": "Good prognosis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170969009",
+                "display": "Prognosis bad",
+                "designation": [
+                    {
+                        "value": "Prognosis bad"
+                    },
+                    {
+                        "value": "Prognosis poor"
+                    },
+                    {
+                        "value": "Prognosis bad (finding)"
+                    },
+                    {
+                        "value": "Poor prognosis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170970005",
+                "display": "Prognosis uncertain",
+                "designation": [
+                    {
+                        "value": "Prognosis uncertain"
+                    },
+                    {
+                        "value": "Prognosis uncertain (finding)"
                     }
                 ]
             }

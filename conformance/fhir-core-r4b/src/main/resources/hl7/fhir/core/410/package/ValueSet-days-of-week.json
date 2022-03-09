@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "days-of-week",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <h2>DaysOfWeek</h2>\n      <div>\n        <p>The days of the week.</p>\n\n      </div>\n      <p>This value set includes codes from the following code systems:</p>\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-days-of-week.html\">\n            <code>http://hl7.org/fhir/days-of-week</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -63,6 +59,62 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/days-of-week"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:8e11d08d-76ea-4dbd-89fb-4fddeea4d416",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/days-of-week|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "mon",
+                "display": "Monday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "tue",
+                "display": "Tuesday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "wed",
+                "display": "Wednesday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "thu",
+                "display": "Thursday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "fri",
+                "display": "Friday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "sat",
+                "display": "Saturday"
+            },
+            {
+                "system": "http://hl7.org/fhir/days-of-week",
+                "code": "sun",
+                "display": "Sunday"
             }
         ]
     }

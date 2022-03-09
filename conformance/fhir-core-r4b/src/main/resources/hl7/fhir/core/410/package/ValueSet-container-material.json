@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "container-material",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/32039001\">32039001</a></td><td>glass</td></tr><tr><td><a href=\"http://snomed.info/id/61088005\">61088005</a></td><td>plastic</td></tr><tr><td><a href=\"http://snomed.info/id/425620007\">425620007</a></td><td>metal</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -66,6 +62,75 @@
                     {
                         "code": "425620007",
                         "display": "metal"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f8883344-e55c-4735-9d5b-289bc6d7b39e",
+        "timestamp": "2021-11-17T05:28:48.257Z",
+        "parameter": [
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200131"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "32039001",
+                "display": "Glass",
+                "designation": [
+                    {
+                        "value": "Glass"
+                    },
+                    {
+                        "value": "Glass (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "61088005",
+                "display": "Plastic",
+                "designation": [
+                    {
+                        "value": "Plastic"
+                    },
+                    {
+                        "value": "Plastic compound"
+                    },
+                    {
+                        "value": "Plastic substance"
+                    },
+                    {
+                        "value": "Plastic (substance)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "425620007",
+                "display": "Metal (substance)",
+                "designation": [
+                    {
+                        "value": "Metal (substance)"
+                    },
+                    {
+                        "value": "Metal"
                     }
                 ]
             }

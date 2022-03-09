@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "variable-type",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-variable-type.html\"><code>http://hl7.org/fhir/variable-type</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -59,6 +55,42 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/variable-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:3d250de8-612a-4b65-aa23-a02ebd18ced5",
+        "timestamp": "2022-03-03T22:05:09Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/variable-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "dichotomous",
+                "display": "Dichotomous"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "continuous",
+                "display": "Continuous"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "descriptive",
+                "display": "Descriptive"
             }
         ]
     }

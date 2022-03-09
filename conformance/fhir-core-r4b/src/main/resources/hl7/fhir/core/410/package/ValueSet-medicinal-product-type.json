@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "medicinal-product-type",
     "meta": {
-        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "lastUpdated": "2022-03-04T09:04:06.196+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      <ul>\n        <li>Include all codes defined in \n          <a href=\"codesystem-medicinal-product-type.html\">\n            <code>http://hl7.org/fhir/medicinal-product-type</code>\n          </a>\n        </li>\n      </ul>\n    </div>"
     },
     "extension": [
         {
@@ -59,6 +55,37 @@
         "include": [
             {
                 "system": "http://hl7.org/fhir/medicinal-product-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:0d0afa7c-e369-4df7-865a-794daf4ca340",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/medicinal-product-type|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-type",
+                "code": "MedicinalProduct",
+                "display": "Medicinal Product"
+            },
+            {
+                "system": "http://hl7.org/fhir/medicinal-product-type",
+                "code": "InvestigationalProduct",
+                "display": "Investigational Medicinal Product"
             }
         ]
     }

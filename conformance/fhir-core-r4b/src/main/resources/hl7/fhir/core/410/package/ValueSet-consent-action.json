@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "consent-action",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include all codes defined in <a href=\"codesystem-consent-action.html\"><code>http://terminology.hl7.org/CodeSystem/consentaction</code></a></li></ul></div>"
     },
     "extension": [
         {
@@ -54,6 +50,52 @@
         "include": [
             {
                 "system": "http://terminology.hl7.org/CodeSystem/consentaction"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:27027a65-b4eb-415a-b4da-1ae91bb704aa",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/consentaction|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                "code": "collect",
+                "display": "Collect"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                "code": "access",
+                "display": "Access"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                "code": "use",
+                "display": "Use"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                "code": "disclose",
+                "display": "Disclose"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/consentaction",
+                "code": "correct",
+                "display": "Access and Correct"
             }
         ]
     }

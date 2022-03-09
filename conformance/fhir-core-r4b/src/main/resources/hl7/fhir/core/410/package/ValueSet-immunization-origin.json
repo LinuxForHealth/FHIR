@@ -2,14 +2,10 @@
     "resourceType": "ValueSet",
     "id": "immunization-origin",
     "meta": {
-        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "lastUpdated": "2022-03-03T22:04:06.196Z",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
-    },
-    "text": {
-        "status": "extensions",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><ul><li>Include these codes as defined in <a href=\"codesystem-immunization-origin.html\"><code>http://terminology.hl7.org/CodeSystem/immunization-origin</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-provider\">provider</a></td><td>Other Provider</td><td>The data for the immunization event originated with another provider.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-record\">record</a></td><td>Written Record</td><td>The data for the immunization event originated with a written record for the patient.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-recall\">recall</a></td><td>Parent/Guardian/Patient Recall</td><td>The data for the immunization event originated from the recollection of the patient or parent/guardian of the patient.</td></tr><tr><td><a href=\"codesystem-immunization-origin.html#immunization-origin-school\">school</a></td><td>School Record</td><td>The data for the immunization event originated with a school record for the patient.</td></tr></table></li></ul></div>"
     },
     "extension": [
         {
@@ -71,6 +67,47 @@
                         "display": "School Record"
                     }
                 ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:cf1f5d2b-a627-41b1-993a-20fd2bf945f1",
+        "timestamp": "2022-03-03T22:05:31Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-origin|4.3.0-CIBUILD"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-origin",
+                "code": "provider",
+                "display": "Other Provider"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-origin",
+                "code": "record",
+                "display": "Written Record"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-origin",
+                "code": "recall",
+                "display": "Parent/Guardian/Patient Recall"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-origin",
+                "code": "school",
+                "display": "School Record"
             }
         ]
     }
