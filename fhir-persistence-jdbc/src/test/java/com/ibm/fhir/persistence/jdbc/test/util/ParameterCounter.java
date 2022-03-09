@@ -34,8 +34,7 @@ import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.schema.app.util.CommonUtil;
 
 /**
- * Utility to count the number of parameter values stored in
- * a database
+ * Utility to count the number of parameter values stored in a database
  */
 public class ParameterCounter {
     private static final Logger logger = Logger.getLogger(ParameterCounter.class.getName());

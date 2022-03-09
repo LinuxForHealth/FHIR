@@ -26,6 +26,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
@@ -71,7 +73,7 @@ public abstract class AbstractPersistenceTest {
     protected static SearchHelper searchHelper;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
-    protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
+    protected abstract FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception;
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
     protected void bootstrapDatabase() throws Exception {}
@@ -111,11 +113,11 @@ public abstract class AbstractPersistenceTest {
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         bootstrapDatabase();
-        persistence = getPersistenceImpl();
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
         searchHelper = new SearchHelper();
+        persistence = getPersistenceImpl(new DefaultFHIRConfigProvider(), searchHelper);
     }
 
     @BeforeMethod(alwaysRun = true)
