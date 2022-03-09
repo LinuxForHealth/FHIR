@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.registry.core;
+package com.ibm.fhir.core.r4;
 
 import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
