@@ -1,0 +1,88 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "message-reasons-encounter",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/message-reasons-encounter",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1122"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ExampleMessageReasonCodes",
+    "title": "Example Message Reason Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "FHIR Project",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Example Message Reasons. These are the set of codes that might be used an updating an encounter using admin-update.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/message-reason-encounter",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "admit",
+            "display": "Admit",
+            "definition": "The patient has been admitted."
+        },
+        {
+            "code": "discharge",
+            "display": "Discharge",
+            "definition": "The patient has been discharged."
+        },
+        {
+            "code": "absent",
+            "display": "Absent",
+            "definition": "The patient has temporarily left the institution."
+        },
+        {
+            "code": "return",
+            "display": "Returned",
+            "definition": "The patient has returned from a temporary absence."
+        },
+        {
+            "code": "moved",
+            "display": "Moved",
+            "definition": "The patient has been moved to a new location."
+        },
+        {
+            "code": "edit",
+            "display": "Edit",
+            "definition": "Encounter details have been updated (e.g. to correct a coding error)."
+        }
+    ]
+}

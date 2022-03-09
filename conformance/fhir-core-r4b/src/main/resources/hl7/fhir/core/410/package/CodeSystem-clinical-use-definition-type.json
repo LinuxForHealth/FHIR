@@ -1,0 +1,87 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "clinical-use-definition-type",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/clinical-use-definition-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1563"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "ClinicalUseDefinitionType",
+    "title": "ClinicalUseDefinitionType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Overall defining type of this clinical use definition.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "indication",
+            "display": "Indication",
+            "definition": "A reason for giving the medication."
+        },
+        {
+            "code": "contraindication",
+            "display": "Contraindication",
+            "definition": "A reason for not giving the medication."
+        },
+        {
+            "code": "interaction",
+            "display": "Interaction",
+            "definition": "Interactions between the medication and other substances."
+        },
+        {
+            "code": "undesirable-effect",
+            "display": "Undesirable Effect",
+            "definition": "Side effects or adverse effects associated with the medication."
+        },
+        {
+            "code": "warning",
+            "display": "Warning",
+            "definition": "A general warning or issue that is not specifically one of the other types."
+        }
+    ]
+}

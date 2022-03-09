@@ -1,0 +1,89 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "subscription-error",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/subscription-error",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1438"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "SubscriptionErrorCodes",
+    "title": "Subscription Error Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes to represent subscription error details",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/subscription-error",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "dns-resolution-error",
+            "display": "DNS resolution error",
+            "definition": "DNS resolution error for client rest-hook endpoint."
+        },
+        {
+            "code": "no-response",
+            "display": "No response",
+            "definition": "No response for client rest-hook endpoint."
+        },
+        {
+            "code": "error-response",
+            "display": "Error response",
+            "definition": "Error response from client rest-hook endpoint. Recommended practice: convey the actual HTTP error in an adjacent Coding or in text"
+        }
+    ]
+}

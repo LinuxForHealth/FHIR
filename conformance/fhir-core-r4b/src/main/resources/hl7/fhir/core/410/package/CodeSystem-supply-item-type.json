@@ -1,0 +1,68 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "supply-item-type",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/supply-item-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1194"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "SupplyItemType",
+    "title": "Supply Item Type",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-02-23T20:36:09-07:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value sets refers to a specific supply item.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/supplydelivery-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "medication",
+            "display": "Medication",
+            "definition": "Supply is a kind of medication."
+        },
+        {
+            "code": "device",
+            "display": "Device",
+            "definition": "What is supplied (or requested) is a device."
+        }
+    ]
+}

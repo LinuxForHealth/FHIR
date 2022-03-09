@@ -1,0 +1,48 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "CapabilityStatement-mode",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/restful-capability-mode"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/CapabilityStatement-mode",
+    "version": "4.3.0-CIBUILD",
+    "name": "mode",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-01-01T15:17:18Z",
+    "publisher": "Health Level Seven International (FHIR Infrastructure)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fiwg/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "Mode - restful (server/client) or messaging (sender/receiver)",
+    "code": "mode",
+    "base": [
+        "CapabilityStatement"
+    ],
+    "type": "token",
+    "expression": "CapabilityStatement.rest.mode",
+    "xpath": "f:CapabilityStatement/f:rest/f:mode",
+    "xpathUsage": "normal"
+}

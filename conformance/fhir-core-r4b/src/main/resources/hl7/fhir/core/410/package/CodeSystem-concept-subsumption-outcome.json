@@ -1,0 +1,54 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "concept-subsumption-outcome",
+    "meta": {
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "vocab"
+        }
+    ],
+    "url": "http://hl7.org/fhir/concept-subsumption-outcome",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1239"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "ConceptSubsumptionOutcome",
+    "status": "draft",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "equivalent",
+            "display": "Equivalent",
+            "definition": "The two concepts are equivalent (have the same properties)."
+        },
+        {
+            "code": "subsumes",
+            "display": "Subsumes",
+            "definition": "Coding/code \"A\" subsumes Coding/code \"B\" (e.g. B has all the properties A has, and some of it's own)."
+        },
+        {
+            "code": "subsumed-by",
+            "display": "Subsumed-By",
+            "definition": "Coding/code \"A\" is subsumed by Coding/code \"B\" (e.g. A has all the properties B has, and some of it's own)."
+        },
+        {
+            "code": "not-subsumed",
+            "display": "Not-Subsumed",
+            "definition": "Coding/code \"A\" and Coding/code \"B\" are disjoint (e.g. each has propeties that the other doesn't have)."
+        }
+    ]
+}
