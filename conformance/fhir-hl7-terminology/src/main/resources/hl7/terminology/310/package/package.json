@@ -1,0 +1,23 @@
+{
+  "version": "3.1.0",
+  "tools-version": 3,
+  "type": "IG",
+  "date": "20220223203029",
+  "license": "CC0-1.0",
+  "canonical": "http://terminology.hl7.org",
+  "url": "http://terminology.hl7.org/3.1.0",
+  "title": "HL7 Terminology (THO)",
+  "description": "Defines and exposes all HL7 terminologies managed through the unified terminology governance process (built Wed, Feb 23, 2022 20:30-0700-07:00)",
+  "author": "HL7 International - Vocabulary Work Group",
+  "directories": {
+    "lib": "package",
+    "example": "example"
+  },
+  "name": "hl7.terminology.r4",
+  "fhirVersions": [
+    "4.0.1"
+  ],
+  "dependencies": {
+    "hl7.fhir.r4.core": "4.0.1"
+  }
+}

@@ -1,0 +1,169 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0279",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0279",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.172"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "AllowSubstitution",
+    "title": "allowSubstitution",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to indicate whether the appointment resource may be substituted for another by the entity assigned to fulfill the appointment.  Used in HL7 Version 2.x messaging in the AIS and AIG segments.",
+    "purpose": "Underlying Master Code System for V2 table 0279 (Allow Substitution Codes)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0279",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2701",
+            "code": "CONFIRM",
+            "display": "Contact the Placer Contact Person prior to making any substitutions of this resource",
+            "definition": "Contact the Placer Contact Person prior to making any substitutions of this resource",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2702",
+            "code": "NO",
+            "display": "Substitution of this resource is not allowed",
+            "definition": "Substitution of this resource is not allowed",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2703",
+            "code": "NOTIFY",
+            "display": "Notify the Placer Contact Person, through normal institutional procedures, that a substitution of this resource has been made",
+            "definition": "Notify the Placer Contact Person, through normal institutional procedures, that a substitution of this resource has been made",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2704",
+            "code": "YES",
+            "display": "Substitution of this resource is allowed",
+            "definition": "Substitution of this resource is allowed",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2705",
+            "code": "No",
+            "display": "Substitution of this resource is not allowed",
+            "definition": "Substitution of this resource is not allowed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2706",
+            "code": "Confirm",
+            "display": "Contact the Placer Contact Person prior to making any substitutions of this resource",
+            "definition": "Contact the Placer Contact Person prior to making any substitutions of this resource",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2707",
+            "code": "Notify",
+            "display": "Notify the Placer Contact Person, through normal institutional procedures, that a substitution of this resource has been made",
+            "definition": "Notify the Placer Contact Person, through normal institutional procedures, that a substitution of this resource has been made",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2708",
+            "code": "Yes",
+            "display": "Substitution of this resource is allowed",
+            "definition": "Substitution of this resource is allowed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

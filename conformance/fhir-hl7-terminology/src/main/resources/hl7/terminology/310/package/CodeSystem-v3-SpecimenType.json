@@ -1,0 +1,1946 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-SpecimenType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-SpecimenType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.129"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SpecimenType",
+    "title": "SpecimenType",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_SpecimenEntityType",
+            "display": "SpecimenEntityType",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21283"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "ABS",
+                    "display": "Abcess",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10446"
+                        }
+                    ]
+                },
+                {
+                    "code": "AMN",
+                    "display": "Amniotic fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10447"
+                        }
+                    ]
+                },
+                {
+                    "code": "ASP",
+                    "display": "Aspirate",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10448"
+                        }
+                    ]
+                },
+                {
+                    "code": "BBL",
+                    "display": "Blood bag",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10452"
+                        }
+                    ]
+                },
+                {
+                    "code": "BDY",
+                    "display": "Whole body",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10562"
+                        }
+                    ]
+                },
+                {
+                    "code": "BIFL",
+                    "display": "Bile fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10450"
+                        }
+                    ]
+                },
+                {
+                    "code": "BLD",
+                    "display": "Whole blood",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10561"
+                        }
+                    ]
+                },
+                {
+                    "code": "BLDA",
+                    "display": "Blood arterial",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10451"
+                        }
+                    ]
+                },
+                {
+                    "code": "BLDC",
+                    "display": "Blood capillary",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10453"
+                        }
+                    ]
+                },
+                {
+                    "code": "BLDCO",
+                    "display": "Blood - cord",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10454"
+                        }
+                    ]
+                },
+                {
+                    "code": "BLDV",
+                    "display": "Blood venous",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10456"
+                        }
+                    ]
+                },
+                {
+                    "code": "BON",
+                    "display": "Bone",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10457"
+                        }
+                    ]
+                },
+                {
+                    "code": "BPH",
+                    "display": "Basophils",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10449"
+                        }
+                    ]
+                },
+                {
+                    "code": "BPU",
+                    "display": "Blood product unit",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10455"
+                        }
+                    ]
+                },
+                {
+                    "code": "BRN",
+                    "display": "Burn",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10460"
+                        }
+                    ]
+                },
+                {
+                    "code": "BRO",
+                    "display": "Bronchial",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10459"
+                        }
+                    ]
+                },
+                {
+                    "code": "BRTH",
+                    "display": "Exhaled gas (=breath)",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://snomed.info/sct",
+                                "code": "900000000000013009"
+                            },
+                            "value": "Breath (use EXG)"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "EXG"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10458"
+                        }
+                    ]
+                },
+                {
+                    "code": "EXG",
+                    "display": "Exhaled gas (=breath)",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://snomed.info/sct",
+                                "code": "900000000000013009"
+                            },
+                            "value": "Breath (use EXG)"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "BRTH"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10458"
+                        }
+                    ]
+                },
+                {
+                    "code": "CALC",
+                    "display": "Calculus (=Stone)",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://snomed.info/sct",
+                                "code": "900000000000013009"
+                            },
+                            "value": "Stone (use CALC)"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "STON"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10461"
+                        }
+                    ]
+                },
+                {
+                    "code": "STON",
+                    "display": "Calculus (=Stone)",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://snomed.info/sct",
+                                "code": "900000000000013009"
+                            },
+                            "value": "Stone (use CALC)"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "CALC"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10461"
+                        }
+                    ]
+                },
+                {
+                    "code": "CDM",
+                    "display": "Cardiac muscle",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10462"
+                        }
+                    ]
+                },
+                {
+                    "code": "CNJT",
+                    "display": "Conjunctiva",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10469"
+                        }
+                    ]
+                },
+                {
+                    "code": "CNL",
+                    "display": "Cannula",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10463"
+                        }
+                    ]
+                },
+                {
+                    "code": "COL",
+                    "display": "Colostrum",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10468"
+                        }
+                    ]
+                },
+                {
+                    "code": "CRN",
+                    "display": "Cornea",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10471"
+                        }
+                    ]
+                },
+                {
+                    "code": "CSF",
+                    "display": "Cerebral spinal fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10465"
+                        }
+                    ]
+                },
+                {
+                    "code": "CTP",
+                    "display": "Catheter tip",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10464"
+                        }
+                    ]
+                },
+                {
+                    "code": "CUR",
+                    "display": "Curettage",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10470"
+                        }
+                    ]
+                },
+                {
+                    "code": "CVM",
+                    "display": "Cervical mucus",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10466"
+                        }
+                    ]
+                },
+                {
+                    "code": "CVX",
+                    "display": "Cervix",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10467"
+                        }
+                    ]
+                },
+                {
+                    "code": "CYST",
+                    "display": "Cyst",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10472"
+                        }
+                    ]
+                },
+                {
+                    "code": "DIAF",
+                    "display": "Dialysis fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10473"
+                        }
+                    ]
+                },
+                {
+                    "code": "DOSE",
+                    "display": "Dose med or substance",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10474"
+                        }
+                    ]
+                },
+                {
+                    "code": "DRN",
+                    "display": "Drain",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10475"
+                        }
+                    ]
+                },
+                {
+                    "code": "DUFL",
+                    "display": "Duodenal fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10476"
+                        }
+                    ]
+                },
+                {
+                    "code": "EAR",
+                    "display": "Ear",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10477"
+                        }
+                    ]
+                },
+                {
+                    "code": "EARW",
+                    "display": "Ear wax (cerumen)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10478"
+                        }
+                    ]
+                },
+                {
+                    "code": "ELT",
+                    "display": "Electrode",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10479"
+                        }
+                    ]
+                },
+                {
+                    "code": "ENDC",
+                    "display": "Endocardium",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10480"
+                        }
+                    ]
+                },
+                {
+                    "code": "ENDM",
+                    "display": "Endometrium",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10481"
+                        }
+                    ]
+                },
+                {
+                    "code": "EOS",
+                    "display": "Eosinophils",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10482"
+                        }
+                    ]
+                },
+                {
+                    "code": "EYE",
+                    "display": "Eye",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10484"
+                        }
+                    ]
+                },
+                {
+                    "code": "FIB",
+                    "display": "Fibroblasts",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10485"
+                        }
+                    ]
+                },
+                {
+                    "code": "FIST",
+                    "display": "Fistula",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10487"
+                        }
+                    ]
+                },
+                {
+                    "code": "FLT",
+                    "display": "Filter",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10486"
+                        }
+                    ]
+                },
+                {
+                    "code": "FLU",
+                    "display": "Body fluid, unsp",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10488"
+                        }
+                    ]
+                },
+                {
+                    "code": "FOOD",
+                    "display": "Food sample",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10489"
+                        }
+                    ]
+                },
+                {
+                    "code": "GAS",
+                    "display": "Gas",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10490"
+                        }
+                    ]
+                },
+                {
+                    "code": "GAST",
+                    "display": "Gastric fluid/contents",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10491"
+                        }
+                    ]
+                },
+                {
+                    "code": "GEN",
+                    "display": "Genital",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10492"
+                        }
+                    ]
+                },
+                {
+                    "code": "GENC",
+                    "display": "Genital cervix",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10493"
+                        }
+                    ]
+                },
+                {
+                    "code": "GENF",
+                    "display": "Genital fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10494"
+                        }
+                    ]
+                },
+                {
+                    "code": "GENL",
+                    "display": "Genital lochia",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10495"
+                        }
+                    ]
+                },
+                {
+                    "code": "GENV",
+                    "display": "Genital vaginal",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10496"
+                        }
+                    ]
+                },
+                {
+                    "code": "HAR",
+                    "display": "Hair",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10497"
+                        }
+                    ]
+                },
+                {
+                    "code": "IHG",
+                    "display": "Inhaled Gas",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10498"
+                        }
+                    ]
+                },
+                {
+                    "code": "ISLT",
+                    "display": "Isolate",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10500"
+                        }
+                    ]
+                },
+                {
+                    "code": "IT",
+                    "display": "Intubation tube",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10499"
+                        }
+                    ]
+                },
+                {
+                    "code": "LAM",
+                    "display": "Lamella",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10501"
+                        }
+                    ]
+                },
+                {
+                    "code": "LIQ",
+                    "display": "Liquid NOS",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10506"
+                        }
+                    ]
+                },
+                {
+                    "code": "LN",
+                    "display": "Line",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10503"
+                        }
+                    ]
+                },
+                {
+                    "code": "LNA",
+                    "display": "Line arterial",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10504"
+                        }
+                    ]
+                },
+                {
+                    "code": "LNV",
+                    "display": "Line venous",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10505"
+                        }
+                    ]
+                },
+                {
+                    "code": "LYM",
+                    "display": "Lymphocytes",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10507"
+                        }
+                    ]
+                },
+                {
+                    "code": "MAC",
+                    "display": "Macrophages",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10508"
+                        }
+                    ]
+                },
+                {
+                    "code": "MAR",
+                    "display": "Marrow (bone)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10509"
+                        }
+                    ]
+                },
+                {
+                    "code": "MBLD",
+                    "display": "Menstrual blood",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10511"
+                        }
+                    ]
+                },
+                {
+                    "code": "MEC",
+                    "display": "Meconium",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10510"
+                        }
+                    ]
+                },
+                {
+                    "code": "MILK",
+                    "display": "Breast milk",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10513"
+                        }
+                    ]
+                },
+                {
+                    "code": "MLK",
+                    "display": "Milk",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10512"
+                        }
+                    ]
+                },
+                {
+                    "code": "NAIL",
+                    "display": "Nail",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10514"
+                        }
+                    ]
+                },
+                {
+                    "code": "NOS",
+                    "display": "Nose (nasal passage)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10515"
+                        }
+                    ]
+                },
+                {
+                    "code": "PAFL",
+                    "display": "Pancreatic fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10516"
+                        }
+                    ]
+                },
+                {
+                    "code": "PAT",
+                    "display": "Patient",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10517"
+                        }
+                    ]
+                },
+                {
+                    "code": "PLAS",
+                    "display": "Plasma",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10520"
+                        }
+                    ]
+                },
+                {
+                    "code": "PLB",
+                    "display": "Plasma bag",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10521"
+                        }
+                    ]
+                },
+                {
+                    "code": "PLC",
+                    "display": "Placenta",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10519"
+                        }
+                    ]
+                },
+                {
+                    "code": "PLR",
+                    "display": "Pleural fluid (thoracentesis fld)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10522"
+                        }
+                    ]
+                },
+                {
+                    "code": "PMN",
+                    "display": "Polymorphonuclear neutrophils",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10523"
+                        }
+                    ]
+                },
+                {
+                    "code": "PPP",
+                    "display": "Platelet poor plasma",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10524"
+                        }
+                    ]
+                },
+                {
+                    "code": "PRP",
+                    "display": "Platelet rich plasma",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10525"
+                        }
+                    ]
+                },
+                {
+                    "code": "PRT",
+                    "display": "Peritoneal fluid /ascites",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10518"
+                        }
+                    ]
+                },
+                {
+                    "code": "PUS",
+                    "display": "Pus",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10526"
+                        }
+                    ]
+                },
+                {
+                    "code": "RBC",
+                    "display": "Erythrocytes",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10483"
+                        }
+                    ]
+                },
+                {
+                    "code": "SAL",
+                    "display": "Saliva",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10527"
+                        }
+                    ]
+                },
+                {
+                    "code": "SER",
+                    "display": "Serum",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10530"
+                        }
+                    ]
+                },
+                {
+                    "code": "SKM",
+                    "display": "Skeletal muscle",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10532"
+                        }
+                    ]
+                },
+                {
+                    "code": "SKN",
+                    "display": "Skin",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10531"
+                        }
+                    ]
+                },
+                {
+                    "code": "SMN",
+                    "display": "Seminal fluid",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10528"
+                        }
+                    ]
+                },
+                {
+                    "code": "SMPLS",
+                    "display": "Seminal plasma",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10529"
+                        }
+                    ]
+                },
+                {
+                    "code": "SNV",
+                    "display": "Synovial fluid (Joint fluid)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10539"
+                        }
+                    ]
+                },
+                {
+                    "code": "SPRM",
+                    "display": "Spermatozoa",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10533"
+                        }
+                    ]
+                },
+                {
+                    "code": "SPT",
+                    "display": "Sputum",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10534"
+                        }
+                    ]
+                },
+                {
+                    "code": "SPTC",
+                    "display": "Sputum - coughed",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10535"
+                        }
+                    ]
+                },
+                {
+                    "code": "SPTT",
+                    "display": "Sputum - tracheal aspirate",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10536"
+                        }
+                    ]
+                },
+                {
+                    "code": "STL",
+                    "display": "Stool = Fecal",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10537"
+                        }
+                    ]
+                },
+                {
+                    "code": "SWT",
+                    "display": "Sweat",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10538"
+                        }
+                    ]
+                },
+                {
+                    "code": "TEAR",
+                    "display": "Tears",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10540"
+                        }
+                    ]
+                },
+                {
+                    "code": "THRB",
+                    "display": "Thrombocyte (platelet)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10542"
+                        }
+                    ]
+                },
+                {
+                    "code": "THRT",
+                    "display": "Throat",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10541"
+                        }
+                    ]
+                },
+                {
+                    "code": "TISG",
+                    "display": "Tissue gall bladder",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10544"
+                        }
+                    ]
+                },
+                {
+                    "code": "TISPL",
+                    "display": "Tissue placenta",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10547"
+                        }
+                    ]
+                },
+                {
+                    "code": "TISS",
+                    "display": "Tissue, unspecified",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10543"
+                        }
+                    ]
+                },
+                {
+                    "code": "TISU",
+                    "display": "Tissue ulcer",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10549"
+                        }
+                    ]
+                },
+                {
+                    "code": "TLGI",
+                    "display": "Tissue large intestine",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10545"
+                        }
+                    ]
+                },
+                {
+                    "code": "TLNG",
+                    "display": "Tissue lung",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10546"
+                        }
+                    ]
+                },
+                {
+                    "code": "TSMI",
+                    "display": "Tissue small intestine Tissue ulcer",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10548"
+                        }
+                    ]
+                },
+                {
+                    "code": "TUB",
+                    "display": "Tube, unspecified",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10550"
+                        }
+                    ]
+                },
+                {
+                    "code": "ULC",
+                    "display": "Ulcer",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10551"
+                        }
+                    ]
+                },
+                {
+                    "code": "UMB",
+                    "display": "Umbilical blood",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10552"
+                        }
+                    ]
+                },
+                {
+                    "code": "UMED",
+                    "display": "Unknown medicine",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10553"
+                        }
+                    ]
+                },
+                {
+                    "code": "UR",
+                    "display": "Urine",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10555"
+                        }
+                    ]
+                },
+                {
+                    "code": "URC",
+                    "display": "Urine clean catch",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10556"
+                        }
+                    ]
+                },
+                {
+                    "code": "URNS",
+                    "display": "Urine sediment",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10558"
+                        }
+                    ]
+                },
+                {
+                    "code": "URT",
+                    "display": "Urine catheter",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10557"
+                        }
+                    ]
+                },
+                {
+                    "code": "URTH",
+                    "display": "Urethra",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10554"
+                        }
+                    ]
+                },
+                {
+                    "code": "USUB",
+                    "display": "Unknown substance",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10559"
+                        }
+                    ]
+                },
+                {
+                    "code": "VOM",
+                    "display": "Vomitus",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10560"
+                        }
+                    ]
+                },
+                {
+                    "code": "WAT",
+                    "display": "Water",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10563"
+                        }
+                    ]
+                },
+                {
+                    "code": "WBC",
+                    "display": "Leukocytes",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10502"
+                        }
+                    ]
+                },
+                {
+                    "code": "WICK",
+                    "display": "Wick",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10564"
+                        }
+                    ]
+                },
+                {
+                    "code": "WND",
+                    "display": "Wound",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10565"
+                        }
+                    ]
+                },
+                {
+                    "code": "WNDA",
+                    "display": "Wound abscess",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10566"
+                        }
+                    ]
+                },
+                {
+                    "code": "WNDD",
+                    "display": "Wound drainage",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10568"
+                        }
+                    ]
+                },
+                {
+                    "code": "WNDE",
+                    "display": "Wound exudate",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10567"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

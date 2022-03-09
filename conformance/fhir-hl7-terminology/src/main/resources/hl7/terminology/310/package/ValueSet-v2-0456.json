@@ -1,0 +1,42 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-0456",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-0456",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.476"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSRevenueCode",
+    "title": "hl7VS-revenueCode",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "Value Set of codes specifying a revenue code as specified in the National Uniform Billing Committee (NUBC) UB-04 manual, UB form locator 42, the service line revenue code.  These are claim codes indicating the identifying number for the product or service provided. The UB-04 Data Specifications Manual with the codes is available by subscription from NUBC at http://www.nubc.org/become.html.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0456",
+                "version": "2.1.0"
+            }
+        ]
+    }
+}

@@ -1,0 +1,319 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0532",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0532",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.347"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ExpandedYesNoIndicator",
+    "title": "expandedYes-NoIndicator",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify an expansion on the original Yes/No indicator table by including \"flavors of null\".  It is intended to be applied to fields where the response is not limited to \"yes\" or \"no\".  Used in numerous locations in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0532 (Expanded Yes/no Indicator)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0532",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5638",
+            "code": "Y",
+            "display": "Yes",
+            "definition": "Yes",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Ja"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5639",
+            "code": "N",
+            "display": "No",
+            "definition": "No",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Nein"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5640",
+            "code": "NI",
+            "display": "No Information",
+            "definition": "No Information",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "keine Information"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "No information whatsoever can be inferred from this exceptional value. This is the most general exceptional value. It is also the default exceptional value"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "No information whatsoever can be inferred from this exceptional value. This is the most general exceptional value. It is also the default exceptional value"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5641",
+            "code": "NA",
+            "display": "not applicable",
+            "definition": "not applicable",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht anwendbar"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "No proper value is applicable in this context (e.g., last menstrual period for a male)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "No proper value is applicable in this context (e.g., last menstrual period for a male)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5642",
+            "code": "UNK",
+            "display": "unknown",
+            "definition": "unknown",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "unbekannt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "A proper value is applicable, but not known"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "A proper value is applicable, but not known"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5643",
+            "code": "NASK",
+            "display": "not asked",
+            "definition": "not asked",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht erfragt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This information has not been sought (e.g., patient was not asked"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "This information has not been sought (e.g., patient was not asked"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5644",
+            "code": "ASKU",
+            "display": "asked but unknown",
+            "definition": "asked but unknown",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "gefragt, aber nicht genannt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Information was sought but not found (e.g., patient was asked but didn't know"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Information was sought but not found (e.g., patient was asked but didn't know"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5645",
+            "code": "NAV",
+            "display": "temporarily unavailable",
+            "definition": "temporarily unavailable",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "temporär nicht verfügbar"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Information is not available at this time but it is expected that it will be available later"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Information is not available at this time but it is expected that it will be available later"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5646",
+            "code": "NP",
+            "display": "not present",
+            "definition": "not present",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Obsolete as of v 2.7."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Obsolete as of v 2.7."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

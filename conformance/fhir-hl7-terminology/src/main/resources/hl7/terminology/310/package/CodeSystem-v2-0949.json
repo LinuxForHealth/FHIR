@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0949",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0949",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.449"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "OrderControlCodeReason",
+    "title": "orderControlCodeReason",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that describe reasons for the chosen order control codes. Used in HL7 Version 2 messaging in the ORC segment.",
+    "purpose": "Underlying Master Code System for V2 table 0949 (Order Control Code Reason)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0949",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6769",
+            "code": "CO",
+            "display": "Cost",
+            "definition": "Order changed based on cost",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In an order replacement context, this would accompany proposal of a similar but lower cost order"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6770",
+            "code": "ST",
+            "display": "Specimen Type",
+            "definition": "Incorrect specimen type submitted for the requested test",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Order placer may accept, cancel and replace, or choose other testing."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Recommend testing that can use the submitted specimen type"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6771",
+            "code": "SV",
+            "display": "Specimen Volume",
+            "definition": "Provided specimen volume inadequate for testing",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The question is how to use the available specimen. The Order Placer may choose a different subset of tests."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Recommend a subset of ordered tests appropriate for volume"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6772",
+            "code": "UN",
+            "display": "Unavailable test",
+            "definition": "Requested test not available",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In an order replacement context, an alternative might be proposed."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

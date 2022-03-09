@@ -1,0 +1,1047 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-hl7Realm",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-hl7Realm",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1124"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Hl7Realm",
+    "title": "HL7Realm",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Health Level Seven, Inc."
+        }
+    ],
+    "description": "**Description:** Coded concepts representing Binding Realms (used for Context Binding of terminology in HL7 models) and/or Namespace Realms (used to help ensure unique identification of HL7 artifacts). This code system is partitioned into three sections: Affiliate realms, Binding realms and Namespace realms. All affiliate realm codes may automatically be used as both binding realms and namespace realms. Furthermore, affiliate realms are the only realms that have authority over the creation of binding realms. (Note that 'affiliate' includes the idea of both international affiliates and the HL7 International organization.) All other codes must be associated with an owning affiliate realm and must appear as a specialization of \\_BindingRealm or \\_NamespaceRealm. For affiliates whose concepts align with nations, the country codes from ISO 3166-1 2-character alpha are used for the code when possible so these codes should not be used for other realm types. It is recommended that binding realm and namespace codes submitted by affiliates use the realm code as a prefix to avoid possible collisions with ISO codes. However, tooling does not currently support namepace realm codes greater than 2 characters.\r\n\r\n*Open Issue:* The name of the concept property \"owningAffiliate\" should be changed to better reflect that the property value is the human readable name of the organizational entity that manages the Realm identified by the Realm Code.\r\n\r\n*Open Issue:* In spite of the inability of tooling to process codes longer than 2 characters, there is at least one realm codes ('SOA') that was added that is 3 characters in length.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Other"
+                }
+            ],
+            "code": "OwningAffiliate",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#OwningAffiliate",
+            "description": "Identifies the affiliate responsible for a binding realm or namespace realm code.  Must be specified for all codes that are not specializations of AffiliateRealms. ConceptRelationshipProperties: [relationshipKind: other; isNavigable: false; functionalism: functional; reflexivity: irreflexive; symmetry: antisymetric; connected: false; transitivity: antitransitive; allowedForTargets: all codes from the hl7PublishingSection code system; requiredForSources: all codes which are not equal to ZZ and are not specializations of the abstract code AffiliateRealms; allowedForTargets: all codes which are specializations of the abstract code AffiliateRealms;]",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired..",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "description": "The concept code of a parent concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "BindingRealms",
+            "display": "binding realms",
+            "definition": "**Description:** Concepts that can be used as Binding Realms when creating Binding Statements. These codes are permitted to appear in the InfrastructureRoot.realmCode attribute.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23214"
+                }
+            ]
+        },
+        {
+            "code": "NamespaceRealms",
+            "display": "namespace realms",
+            "definition": "**Description:** Codes that can be used in the \"realm\" portion of HL7 v3 artifact identifiers.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23215"
+                }
+            ]
+        },
+        {
+            "code": "SpecialRealms",
+            "display": "Special Realms",
+            "definition": "**Description:** Realm code for use of Special Realms",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22936"
+                }
+            ]
+        },
+        {
+            "code": "AR",
+            "display": "Argentina",
+            "definition": "**Description:** Realm code for use of Argentina",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22942"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "AT",
+            "display": "Austria",
+            "definition": "**Description:** Realm code for use of Austria",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22943"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "AU",
+            "display": "Australia",
+            "definition": "**Description:** Realm code for use of Australia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22944"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "BR",
+            "display": "Brazil",
+            "definition": "**Description:** Realm code for use of Brazil",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22945"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CA",
+            "display": "Canada",
+            "definition": "**Description:** Realm code for use of Canada",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22946"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CH",
+            "display": "Switzerland",
+            "definition": "**Description:** Realm code for use of Switzerland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22947"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CL",
+            "display": "Chile",
+            "definition": "**Description:** Realm code for use of Chile",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22948"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CN",
+            "display": "China",
+            "definition": "**Description:** Realm code for use of China",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22949"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CO",
+            "display": "Columbia",
+            "definition": "**Description:** Realm code for use of Localized Version",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22977"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "CZ",
+            "display": "Czech Republic",
+            "definition": "**Description:** Realm code for use of Czech Republic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22950"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "DE",
+            "display": "Germany",
+            "definition": "**Description:** Realm code for use of Germany",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22951"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "DK",
+            "display": "Denmark",
+            "definition": "**Description:** Realm code for use of Denmark",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22952"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "ES",
+            "display": "Spain",
+            "definition": "**Description:** Realm code for use of Spain",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22953"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "FI",
+            "display": "Finland",
+            "definition": "**Description:** Realm code for use of Finland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22954"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "FR",
+            "display": "France",
+            "definition": "**Description:** Realm code for use of France",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22955"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "GR",
+            "display": "Greece",
+            "definition": "**Description:** Realm code for use of Greece",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22956"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "HR",
+            "display": "Croatia",
+            "definition": "**Description:** Realm code for use of Croatia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22957"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "IE",
+            "display": "Ireland",
+            "definition": "**Description:** Realm code for use of Ireland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22958"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "IN",
+            "display": "India",
+            "definition": "**Description:** Realm code for use of India",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22959"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "IT",
+            "display": "Italy",
+            "definition": "**Description:** Realm code for use of Italy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22960"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "JP",
+            "display": "Japan",
+            "definition": "**Description:** Realm code for use of Japan",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22961"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "KR",
+            "display": "Korea",
+            "definition": "**Description:** Realm code for use of Korea",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22962"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "LT",
+            "display": "Lithuania",
+            "definition": "**Description:** Realm code for use of Lithuania",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22963"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "MX",
+            "display": "Mexico",
+            "definition": "**Description:** Realm code for use of Mexico",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22964"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "NL",
+            "display": "The Netherlands",
+            "definition": "**Description:** Realm code for use of The Netherlands",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22965"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "NZ",
+            "display": "New Zealand",
+            "definition": "**Description:** Realm code for use of New Zealand",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22966"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "RO",
+            "display": "Romania",
+            "definition": "**Description:** Realm code for use of Romania",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22967"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "RU",
+            "display": "Russian Federation",
+            "definition": "**Description:** Realm code for use of Russian Federation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22968"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "SE",
+            "display": "Sweden",
+            "definition": "**Description:** Realm code for use of Sweden",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22969"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "SG",
+            "display": "Singapore",
+            "definition": "**Description:** Realm code for use of Localized Version",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22978"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "SOA",
+            "display": "Southern Africa",
+            "definition": "**Description:** Realm code for use of Southern Africa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22970"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "TR",
+            "display": "Turkey",
+            "definition": "**Description:** Realm code for use of Turkey",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22971"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "TW",
+            "display": "Taiwan",
+            "definition": "**Description:** Realm code for use of Taiwan",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22972"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "UK",
+            "display": "United Kingdom",
+            "definition": "**Description:** Realm code for use of United Kingdom",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22973"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "US",
+            "display": "United States of America",
+            "definition": "**Description:** Realm code for use of United States of America",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22975"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "UV",
+            "display": "Universal",
+            "definition": "**Description:** Realm code for use of Universal realm or context, used in every instance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22939"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "UY",
+            "display": "Uruguay",
+            "definition": "**Description:** Realm code for use of Uruguay",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22976"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "AffiliateRealms"
+                }
+            ]
+        },
+        {
+            "code": "AffiliateRealms",
+            "display": "Affiliate Realms",
+            "definition": "**Description:** Realm codes for official HL7 organizational bodies. This includes both the HL7 International organization as well as all recognized international affiliates (past and present). These groups have the ability to bind vocabulary and develop artifacts. As well, they have the ability to have \"ownership\" over other binding realms and namespace realms via the owningAffiliate property of those other realm codes.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22941"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BindingRealms"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "NamespaceRealms"
+                }
+            ]
+        },
+        {
+            "code": "C1",
+            "display": "Unclassified Realm",
+            "definition": "**Description:** Realm code for use of Unclassified Realm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "OwningAffiliate",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-hl7Realm",
+                        "code": "UV"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22937"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BindingRealms"
+                }
+            ]
+        },
+        {
+            "code": "GB",
+            "display": "Great Britain",
+            "definition": "**Description:** Realm code for use of Great Britain",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "OwningAffiliate",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-hl7Realm",
+                        "code": "UK"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22974"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BindingRealms"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "NamespaceRealms"
+                }
+            ]
+        },
+        {
+            "code": "R1",
+            "display": "Representative Realm",
+            "definition": "**Description:** Realm code for use of Representative Realm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "OwningAffiliate",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-hl7Realm",
+                        "code": "UV"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22938"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BindingRealms"
+                }
+            ]
+        },
+        {
+            "code": "X1",
+            "display": "Example Realm",
+            "definition": "**Description:** Realm code for use of Example Realm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "OwningAffiliate",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-hl7Realm",
+                        "code": "UV"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22940"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BindingRealms"
+                }
+            ]
+        },
+        {
+            "code": "ZZ",
+            "display": "Localized Version",
+            "definition": "**Description:** An artifact created for local use only. This realm namespace has no owning affiliate. Its use is uncontrolled, i.e. anyone can create artifacts using this realm namespace. Because of this, there is a significant likelihood of artifact identifier collisions. Implementers are encouraged to register their artifacts under an affiliate owned and controlled namespace to avoid such collision problems where possible.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22935"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "NamespaceRealms"
+                }
+            ]
+        }
+    ]
+}

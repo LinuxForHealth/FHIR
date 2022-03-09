@@ -1,0 +1,52 @@
+{
+    "resourceType": "ValueSet",
+    "id": "POAIndicators",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/valueset-steward",
+            "valueContactDetail": {
+                "name": "HL7 Clinical Quality Information Work Group"
+            }
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/POAIndicators",
+    "version": "1.0.0",
+    "name": "PresentOnAdmissionIndicators",
+    "title": "Present on Admission Indicators",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-08-26T00:00:00.000-04:00",
+    "publisher": "HL7 International",
+    "description": "Concepts that describe whether a condition is present when a patient is admitted to a healthcare facility. ",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/HospitalAcqCond/Coding"
+            }
+        ],
+        "exclude": [
+            {
+                "system": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/HospitalAcqCond/Coding",
+                "concept": [
+                    {
+                        "code": "1"
+                    }
+                ]
+            }
+        ]
+    }
+}

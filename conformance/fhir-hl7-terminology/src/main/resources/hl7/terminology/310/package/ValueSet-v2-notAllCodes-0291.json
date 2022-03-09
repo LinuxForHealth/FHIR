@@ -1,0 +1,92 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v2-notAllCodes-0291",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v2-notAllCodes-0291",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.21.193"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Hl7VSSubtypeOfReferencedData",
+    "title": "hl7VS-subtypeOfReferencedData",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/HL7/UTG"
+                }
+            ]
+        }
+    ],
+    "description": "A subset of the IANA media subtypes of binary data that are encoded in an ascii structure or stream.",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0291",
+                "version": "2.4.0",
+                "concept": [
+                    {
+                        "code": "BASIC"
+                    },
+                    {
+                        "code": "…"
+                    },
+                    {
+                        "code": "DICOM"
+                    },
+                    {
+                        "code": "FAX"
+                    },
+                    {
+                        "code": "GIF"
+                    },
+                    {
+                        "code": "HTML"
+                    },
+                    {
+                        "code": "JOT"
+                    },
+                    {
+                        "code": "JPEG"
+                    },
+                    {
+                        "code": "Octet-stream"
+                    },
+                    {
+                        "code": "PICT"
+                    },
+                    {
+                        "code": "PostScript"
+                    },
+                    {
+                        "code": "RTF"
+                    },
+                    {
+                        "code": "SGML"
+                    },
+                    {
+                        "code": "TIFF"
+                    },
+                    {
+                        "code": "XML"
+                    },
+                    {
+                        "code": "x-hl7-cda-level-one"
+                    }
+                ]
+            }
+        ]
+    }
+}

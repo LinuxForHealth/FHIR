@@ -1,0 +1,24 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "PHOccupationCDCCensus2010",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/PHOccupationCDCCensus2010",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.114222.4.5.314"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "PHOccupationCDCCensus2010",
+    "title": "Occupation CDC Census 2010",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "description": "2010 Occupation coding system used by CDC (NIOSH and NCHS) for coding occupation text. Occupation describes a set of activities or tasks that individuals are paid to perform or, if unpaid, define a person's contribution to a household/family business/community.",
+    "content": "not-present"
+}

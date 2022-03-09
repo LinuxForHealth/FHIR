@@ -1,0 +1,5427 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0550",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0550",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.356"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "BodyParts",
+    "title": "bodyParts",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the part of the body.  Used in HL7 Version 2 messaging in the RXR segment.",
+    "purpose": "Underlying Master Code System for V2 table 0550 (Body Parts)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0550",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5700",
+            "code": "JUGE",
+            "display": "Jugular, External",
+            "definition": "Jugular, External",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5701",
+            "code": "ADB",
+            "display": "Abdomen",
+            "definition": "Abdomen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5702",
+            "code": "ACET",
+            "display": "Acetabulum",
+            "definition": "Acetabulum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5703",
+            "code": "ACHIL",
+            "display": "Achilles",
+            "definition": "Achilles",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5704",
+            "code": "ADE",
+            "display": "Adenoids",
+            "definition": "Adenoids",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5705",
+            "code": "ADR",
+            "display": "Adrenal",
+            "definition": "Adrenal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5706",
+            "code": "AMN",
+            "display": "Amniotic fluid",
+            "definition": "Amniotic fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5707",
+            "code": "AMS",
+            "display": "Amniotic Sac",
+            "definition": "Amniotic Sac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5708",
+            "code": "ANAL",
+            "display": "Anal",
+            "definition": "Anal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5709",
+            "code": "ANKL",
+            "display": "Ankle",
+            "definition": "Ankle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5710",
+            "code": "ANTEC",
+            "display": "Antecubital",
+            "definition": "Antecubital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5711",
+            "code": "ANTECF",
+            "display": "Antecubital Fossa",
+            "definition": "Antecubital Fossa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5712",
+            "code": "ANTR",
+            "display": "Antrum",
+            "definition": "Antrum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5713",
+            "code": "ANUS",
+            "display": "Anus",
+            "definition": "Anus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5714",
+            "code": "AORTA",
+            "display": "Aorta",
+            "definition": "Aorta",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5715",
+            "code": "AR",
+            "display": "Aortic Rim",
+            "definition": "Aortic Rim",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5716",
+            "code": "AV",
+            "display": "Aortic Valve",
+            "definition": "Aortic Valve",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5717",
+            "code": "APDX",
+            "display": "Appendix",
+            "definition": "Appendix",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5718",
+            "code": "AREO",
+            "display": "Areola",
+            "definition": "Areola",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5719",
+            "code": "ARM",
+            "display": "Arm",
+            "definition": "Arm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5720",
+            "code": "ARTE",
+            "display": "Artery",
+            "definition": "Artery",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5721",
+            "code": "ASCIT",
+            "display": "Ascites",
+            "definition": "Ascites",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5722",
+            "code": "ASCT",
+            "display": "Ascitic Fluid",
+            "definition": "Ascitic Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5723",
+            "code": "ATR",
+            "display": "Atrium",
+            "definition": "Atrium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5724",
+            "code": "AURI",
+            "display": "Auricular",
+            "definition": "Auricular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5725",
+            "code": "AXI",
+            "display": "Axilla",
+            "definition": "Axilla",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5726",
+            "code": "BACK",
+            "display": "Back",
+            "definition": "Back",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5727",
+            "code": "BARTD",
+            "display": "Bartholin Duct",
+            "definition": "Bartholin Duct",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5728",
+            "code": "BARTG",
+            "display": "Bartholin Gland",
+            "definition": "Bartholin Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5729",
+            "code": "BRTGF",
+            "display": "Bartholin Gland Fluid",
+            "definition": "Bartholin Gland Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5730",
+            "code": "BPH",
+            "display": "Basophils",
+            "definition": "Basophils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5731",
+            "code": "BID",
+            "display": "Bile Duct",
+            "definition": "Bile Duct",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5732",
+            "code": "BIFL",
+            "display": "Bile fluid",
+            "definition": "Bile fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5733",
+            "code": "BLAD",
+            "display": "Bladder",
+            "definition": "Bladder",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5734",
+            "code": "BLOOD",
+            "display": "Blood",
+            "definition": "Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5735",
+            "code": "BLDA",
+            "display": "Blood,  Arterial",
+            "definition": "Blood,  Arterial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5736",
+            "code": "BLDC",
+            "display": "Blood,  Capillary",
+            "definition": "Blood,  Capillary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5737",
+            "code": "BLDV",
+            "display": "Blood,  Venous",
+            "definition": "Blood,  Venous",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5738",
+            "code": "CBLD",
+            "display": "Blood, Cord",
+            "definition": "Blood, Cord",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5739",
+            "code": "BLD",
+            "display": "Blood, Whole",
+            "definition": "Blood, Whole",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5740",
+            "code": "BDY",
+            "display": "Body, Whole",
+            "definition": "Body, Whole",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5741",
+            "code": "BON",
+            "display": "Bone",
+            "definition": "Bone",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5742",
+            "code": "BMAR",
+            "display": "Bone marrow",
+            "definition": "Bone marrow",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5743",
+            "code": "BOWEL",
+            "display": "Bowel",
+            "definition": "Bowel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5744",
+            "code": "BOWLA",
+            "display": "Bowel, Large",
+            "definition": "Bowel, Large",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5745",
+            "code": "BOWSM",
+            "display": "Bowel, Small",
+            "definition": "Bowel, Small",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5746",
+            "code": "BRA",
+            "display": "Brachial",
+            "definition": "Brachial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5747",
+            "code": "BRAIN",
+            "display": "Brain",
+            "definition": "Brain",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5748",
+            "code": "BCYS",
+            "display": "Brain Cyst Fluid",
+            "definition": "Brain Cyst Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5749",
+            "code": "BRST",
+            "display": "Breast",
+            "definition": "Breast",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5750",
+            "code": "BRSTFL",
+            "display": "Breast fluid",
+            "definition": "Breast fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5751",
+            "code": "BRO",
+            "display": "Bronchial",
+            "definition": "Bronchial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5752",
+            "code": "BROCH",
+            "display": "Bronchiole/Bronchiolar",
+            "definition": "Bronchiole/Bronchiolar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5753",
+            "code": "BRONC",
+            "display": "Bronchus/Bronchial",
+            "definition": "Bronchus/Bronchial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5754",
+            "code": "BRV",
+            "display": "Broviac",
+            "definition": "Broviac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5755",
+            "code": "BUCCA",
+            "display": "Buccal",
+            "definition": "Buccal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5756",
+            "code": "BURSA",
+            "display": "Bursa",
+            "definition": "Bursa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5757",
+            "code": "BURSF",
+            "display": "Bursa Fluid",
+            "definition": "Bursa Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5758",
+            "code": "BUTT",
+            "display": "Buttocks",
+            "definition": "Buttocks",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5759",
+            "code": "CALF",
+            "display": "Calf",
+            "definition": "Calf",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5760",
+            "code": "CANAL",
+            "display": "Canal",
+            "definition": "Canal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5761",
+            "code": "CANLI",
+            "display": "Canaliculis",
+            "definition": "Canaliculis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5762",
+            "code": "CNL",
+            "display": "Cannula",
+            "definition": "Cannula",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5763",
+            "code": "CANTH",
+            "display": "Canthus",
+            "definition": "Canthus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5764",
+            "code": "CDM",
+            "display": "Cardiac Muscle",
+            "definition": "Cardiac Muscle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5765",
+            "code": "CARO",
+            "display": "Carotid",
+            "definition": "Carotid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5766",
+            "code": "CARP",
+            "display": "Carpal",
+            "definition": "Carpal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5767",
+            "code": "CAVIT",
+            "display": "Cavity",
+            "definition": "Cavity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5768",
+            "code": "CHE",
+            "display": "Cavity, Chest",
+            "definition": "Cavity, Chest",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5769",
+            "code": "CECUM",
+            "display": "Cecum/Cecal",
+            "definition": "Cecum/Cecal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5770",
+            "code": "CSF",
+            "display": "Cerebral Spinal Fluid",
+            "definition": "Cerebral Spinal Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5771",
+            "code": "CVX",
+            "display": "Cervix",
+            "definition": "Cervix",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5772",
+            "code": "CERVUT",
+            "display": "Cervix/Uterus",
+            "definition": "Cervix/Uterus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5773",
+            "code": "CHEEK",
+            "display": "Cheek",
+            "definition": "Cheek",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5774",
+            "code": "CHES",
+            "display": "Chest",
+            "definition": "Chest",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5775",
+            "code": "CHEST",
+            "display": "Chest Tube",
+            "definition": "Chest Tube",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5776",
+            "code": "CHESTÂ ",
+            "display": "Chest Tube",
+            "definition": "Chest Tube",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5777",
+            "code": "CHIN",
+            "display": "Chin",
+            "definition": "Chin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5778",
+            "code": "CIRCU",
+            "display": "Circumcision Site",
+            "definition": "Circumcision Site",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5779",
+            "code": "CLAVI",
+            "display": "Clavicle/Clavicular",
+            "definition": "Clavicle/Clavicular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5780",
+            "code": "CLITO",
+            "display": "Clitoral",
+            "definition": "Clitoral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5781",
+            "code": "CLIT",
+            "display": "Clitoris",
+            "definition": "Clitoris",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5782",
+            "code": "COCCG",
+            "display": "Coccygeal",
+            "definition": "Coccygeal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5783",
+            "code": "COCCY",
+            "display": "Coccyx",
+            "definition": "Coccyx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5784",
+            "code": "COLON",
+            "display": "Colon",
+            "definition": "Colon",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5785",
+            "code": "COLOS",
+            "display": "Colostomy",
+            "definition": "Colostomy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5786",
+            "code": "COS",
+            "display": "Colostomy Stoma",
+            "definition": "Colostomy Stoma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5787",
+            "code": "CDUCT",
+            "display": "Common Duct",
+            "definition": "Common Duct",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5788",
+            "code": "CONJ",
+            "display": "Conjunctiva",
+            "definition": "Conjunctiva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5789",
+            "code": "CORAL",
+            "display": "Coral",
+            "definition": "Coral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5790",
+            "code": "COR",
+            "display": "Cord",
+            "definition": "Cord",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5791",
+            "code": "CORD",
+            "display": "Cord Blood",
+            "definition": "Cord Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5792",
+            "code": "CORN",
+            "display": "Cornea",
+            "definition": "Cornea",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5793",
+            "code": "CRANE",
+            "display": "Cranium, ethmoid",
+            "definition": "Cranium, ethmoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5794",
+            "code": "CRANF",
+            "display": "Cranium, frontal",
+            "definition": "Cranium, frontal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5795",
+            "code": "CRANO",
+            "display": "Cranium, occipital",
+            "definition": "Cranium, occipital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5796",
+            "code": "CRANP",
+            "display": "Cranium, parietal",
+            "definition": "Cranium, parietal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5797",
+            "code": "CRANS",
+            "display": "Cranium, sphenoid",
+            "definition": "Cranium, sphenoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5798",
+            "code": "CRANT",
+            "display": "Cranium, temporal",
+            "definition": "Cranium, temporal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5799",
+            "code": "CUBIT",
+            "display": "Cubitus",
+            "definition": "Cubitus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5800",
+            "code": "CUFF",
+            "display": "Cuff",
+            "definition": "Cuff",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5801",
+            "code": "CULD",
+            "display": "Cul De Sac",
+            "definition": "Cul De Sac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5802",
+            "code": "CULDO",
+            "display": "Culdocentesis",
+            "definition": "Culdocentesis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5803",
+            "code": "DELT",
+            "display": "Deltoid",
+            "definition": "Deltoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5804",
+            "code": "DENTA",
+            "display": "Dental",
+            "definition": "Dental",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5805",
+            "code": "DEN",
+            "display": "Dental Gingiva",
+            "definition": "Dental Gingiva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5806",
+            "code": "DIAF",
+            "display": "Dialysis Fluid",
+            "definition": "Dialysis Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5807",
+            "code": "DPH",
+            "display": "Diaphragm",
+            "definition": "Diaphragm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5808",
+            "code": "DIGIT",
+            "display": "Digit",
+            "definition": "Digit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5809",
+            "code": "DISC",
+            "display": "Disc",
+            "definition": "Disc",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5810",
+            "code": "DORS",
+            "display": "Dorsum/Dorsal",
+            "definition": "Dorsum/Dorsal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5811",
+            "code": "DUFL",
+            "display": "Duodenal Fluid",
+            "definition": "Duodenal Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5812",
+            "code": "DUODE",
+            "display": "Duodenum/Duodenal",
+            "definition": "Duodenum/Duodenal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5813",
+            "code": "DUR",
+            "display": "Dura",
+            "definition": "Dura",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5814",
+            "code": "EAR",
+            "display": "Ear",
+            "definition": "Ear",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5815",
+            "code": "EARBI",
+            "display": "Ear bone, incus",
+            "definition": "Ear bone, incus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5816",
+            "code": "EARBM",
+            "display": "Ear bone, malleus",
+            "definition": "Ear bone, malleus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5817",
+            "code": "EARBS",
+            "display": "Ear bone,stapes",
+            "definition": "Ear bone,stapes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5818",
+            "code": "EARLO",
+            "display": "Ear Lobe",
+            "definition": "Ear Lobe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5819",
+            "code": "ELBOW",
+            "display": "Elbow",
+            "definition": "Elbow",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5820",
+            "code": "ELBOWJ",
+            "display": "Elbow Joint",
+            "definition": "Elbow Joint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5821",
+            "code": "ENDC",
+            "display": "Endocardium",
+            "definition": "Endocardium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5822",
+            "code": "EC",
+            "display": "Endocervical",
+            "definition": "Endocervical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5823",
+            "code": "EOLPH",
+            "display": "endolpthamitis",
+            "definition": "endolpthamitis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5824",
+            "code": "ENDM",
+            "display": "Endometrium",
+            "definition": "Endometrium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5825",
+            "code": "ET",
+            "display": "Endotracheal",
+            "definition": "Endotracheal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5826",
+            "code": "EUR",
+            "display": "Endourethral",
+            "definition": "Endourethral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5827",
+            "code": "EOS",
+            "display": "Eosinophils",
+            "definition": "Eosinophils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5828",
+            "code": "EPICA",
+            "display": "Epicardial",
+            "definition": "Epicardial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5829",
+            "code": "EPICM",
+            "display": "Epicardium",
+            "definition": "Epicardium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5830",
+            "code": "EPD",
+            "display": "Epididymis",
+            "definition": "Epididymis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5831",
+            "code": "EPIDU",
+            "display": "Epidural",
+            "definition": "Epidural",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5832",
+            "code": "EPIGL",
+            "display": "Epiglottis",
+            "definition": "Epiglottis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5833",
+            "code": "ESOPG",
+            "display": "Esophageal",
+            "definition": "Esophageal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5834",
+            "code": "ESO",
+            "display": "Esophagus",
+            "definition": "Esophagus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5835",
+            "code": "ETHMO",
+            "display": "Ethmoid",
+            "definition": "Ethmoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5836",
+            "code": " ",
+            "display": "External Jugular",
+            "definition": "External Jugular",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5837",
+            "code": "Â ",
+            "display": "External Jugular",
+            "definition": "External Jugular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5838",
+            "code": "EYE",
+            "display": "Eye",
+            "definition": "Eye",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5839",
+            "code": "BROW",
+            "display": "Eyebrow",
+            "definition": "Eyebrow",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5840",
+            "code": "EYELI",
+            "display": "Eyelid",
+            "definition": "Eyelid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5841",
+            "code": "FACE",
+            "display": "Face",
+            "definition": "Face",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5842",
+            "code": "FBINC",
+            "display": "Facial bone, inferior nasal concha",
+            "definition": "Facial bone, inferior nasal concha",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5843",
+            "code": "FBLAC",
+            "display": "Facial bone, lacrimal",
+            "definition": "Facial bone, lacrimal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5844",
+            "code": "FBMAX",
+            "display": "Facial bone, maxilla",
+            "definition": "Facial bone, maxilla",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5845",
+            "code": "FBNAS",
+            "display": "Facial bone, nasal",
+            "definition": "Facial bone, nasal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5846",
+            "code": "FBPAL",
+            "display": "Facial bone, palatine",
+            "definition": "Facial bone, palatine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5847",
+            "code": "FBVOM",
+            "display": "Facial bone, vomer",
+            "definition": "Facial bone, vomer",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5848",
+            "code": "FBZYG",
+            "display": "Facial bone, zygomatic",
+            "definition": "Facial bone, zygomatic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5849",
+            "code": "FALLT",
+            "display": "Fallopian Tube",
+            "definition": "Fallopian Tube",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5850",
+            "code": "FEMOR",
+            "display": "Femoral",
+            "definition": "Femoral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5851",
+            "code": "FMH",
+            "display": "Femoral Head",
+            "definition": "Femoral Head",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5852",
+            "code": "FEMUR",
+            "display": "Femur",
+            "definition": "Femur",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5853",
+            "code": "FET",
+            "display": "Fetus",
+            "definition": "Fetus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5854",
+            "code": "FIBU",
+            "display": "Fibula",
+            "definition": "Fibula",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5855",
+            "code": "FING",
+            "display": "Finger",
+            "definition": "Finger",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5856",
+            "code": "FINGN",
+            "display": "Finger Nail",
+            "definition": "Finger Nail",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5857",
+            "code": "FOL",
+            "display": "Follicle",
+            "definition": "Follicle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5858",
+            "code": "FOOT",
+            "display": "Foot",
+            "definition": "Foot",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5859",
+            "code": "FOREA",
+            "display": "Forearm",
+            "definition": "Forearm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5860",
+            "code": "FOREH",
+            "display": "Forehead",
+            "definition": "Forehead",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5861",
+            "code": "FORES",
+            "display": "Foreskin",
+            "definition": "Foreskin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5862",
+            "code": "FOURC",
+            "display": "Fourchette",
+            "definition": "Fourchette",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5863",
+            "code": "GB",
+            "display": "Gall Bladder",
+            "definition": "Gall Bladder",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5864",
+            "code": "GEN",
+            "display": "Genital",
+            "definition": "Genital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5865",
+            "code": "GVU",
+            "display": "Genital - Vulva",
+            "definition": "Genital - Vulva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5866",
+            "code": "GENC",
+            "display": "Genital Cervix",
+            "definition": "Genital Cervix",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5867",
+            "code": "GL",
+            "display": "Genital Lesion",
+            "definition": "Genital Lesion",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5868",
+            "code": "GENL",
+            "display": "Genital Lochia",
+            "definition": "Genital Lochia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5869",
+            "code": "GLAND",
+            "display": "Gland",
+            "definition": "Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5870",
+            "code": "GLANS",
+            "display": "Glans",
+            "definition": "Glans",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5871",
+            "code": "GLUTE",
+            "display": "Gluteal",
+            "definition": "Gluteal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5872",
+            "code": "GLUT",
+            "display": "Gluteus",
+            "definition": "Gluteus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5873",
+            "code": "GLUTM",
+            "display": "Gluteus Medius",
+            "definition": "Gluteus Medius",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5874",
+            "code": "GROIN",
+            "display": "Groin",
+            "definition": "Groin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5875",
+            "code": "GUM",
+            "display": "Gum",
+            "definition": "Gum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5876",
+            "code": "HAR",
+            "display": "Hair",
+            "definition": "Hair",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5877",
+            "code": "HAL",
+            "display": "Hallux",
+            "definition": "Hallux",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5878",
+            "code": "HAND",
+            "display": "Hand",
+            "definition": "Hand",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5879",
+            "code": "HEAD",
+            "display": "Head",
+            "definition": "Head",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5880",
+            "code": "HART",
+            "display": "Heart",
+            "definition": "Heart",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5881",
+            "code": "HV",
+            "display": "Heart Valve",
+            "definition": "Heart Valve",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5882",
+            "code": "HVB",
+            "display": "Heart Valve, Bicuspid",
+            "definition": "Heart Valve, Bicuspid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5883",
+            "code": "HVT",
+            "display": "Heart Valve, Tricuspid",
+            "definition": "Heart Valve, Tricuspid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5884",
+            "code": "HEEL",
+            "display": "Heel",
+            "definition": "Heel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5885",
+            "code": "HEM",
+            "display": "Hemorrhoid",
+            "definition": "Hemorrhoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5886",
+            "code": "HIP",
+            "display": "Hip",
+            "definition": "Hip",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5887",
+            "code": "HIPJ",
+            "display": "Hip Joint",
+            "definition": "Hip Joint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5888",
+            "code": "HUMER",
+            "display": "Humerus",
+            "definition": "Humerus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5889",
+            "code": "HYMEN",
+            "display": "Hymen",
+            "definition": "Hymen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5890",
+            "code": "ILC",
+            "display": "Ileal Conduit",
+            "definition": "Ileal Conduit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5891",
+            "code": "ILE",
+            "display": "Ileal Loop",
+            "definition": "Ileal Loop",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5892",
+            "code": "ILEOS",
+            "display": "Ileostomy",
+            "definition": "Ileostomy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5893",
+            "code": "ILEUM",
+            "display": "Ileum",
+            "definition": "Ileum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5894",
+            "code": "ILIAC",
+            "display": "Iliac",
+            "definition": "Iliac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5895",
+            "code": "ILCR",
+            "display": "Iliac Crest",
+            "definition": "Iliac Crest",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5896",
+            "code": "ILCON",
+            "display": "Ilical Conduit",
+            "definition": "Ilical Conduit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5897",
+            "code": "INGUI",
+            "display": "Inguinal",
+            "definition": "Inguinal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5898",
+            "code": "JUGI",
+            "display": "Jugular, Internal",
+            "definition": "Jugular, Internal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5899",
+            "code": "INT",
+            "display": "Intestine",
+            "definition": "Intestine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5900",
+            "code": "ICX",
+            "display": "Intracervical",
+            "definition": "Intracervical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5901",
+            "code": "INASA",
+            "display": "Intranasal",
+            "definition": "Intranasal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5902",
+            "code": "INTRU",
+            "display": "Intrauterine",
+            "definition": "Intrauterine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5903",
+            "code": "INTRO",
+            "display": "Introitus",
+            "definition": "Introitus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5904",
+            "code": "ISCHI",
+            "display": "Ischium",
+            "definition": "Ischium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5905",
+            "code": "JAW",
+            "display": "Jaw",
+            "definition": "Jaw",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5906",
+            "code": "KIDN",
+            "display": "Kidney",
+            "definition": "Kidney",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5907",
+            "code": "KIDNÂ ",
+            "display": "Kidney",
+            "definition": "Kidney",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5908",
+            "code": "KNEE",
+            "display": "Knee",
+            "definition": "Knee",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5909",
+            "code": "KNEEF",
+            "display": "Knee Fluid",
+            "definition": "Knee Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5910",
+            "code": "KNEEJ",
+            "display": "Knee Joint",
+            "definition": "Knee Joint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5911",
+            "code": "LABIA",
+            "display": "Labia",
+            "definition": "Labia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5912",
+            "code": "LABMA",
+            "display": "Labia Majora",
+            "definition": "Labia Majora",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5913",
+            "code": "LABMI",
+            "display": "Labia Minora",
+            "definition": "Labia Minora",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5914",
+            "code": "LACRI",
+            "display": "Lacrimal",
+            "definition": "Lacrimal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5915",
+            "code": "LAM",
+            "display": "Lamella",
+            "definition": "Lamella",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5916",
+            "code": "INSTL",
+            "display": "Intestine, Large",
+            "definition": "Intestine, Large",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5917",
+            "code": "LARYN",
+            "display": "Larynx",
+            "definition": "Larynx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5918",
+            "code": "LEG",
+            "display": "Leg",
+            "definition": "Leg",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5919",
+            "code": "LENS",
+            "display": "Lens",
+            "definition": "Lens",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5920",
+            "code": "WBC",
+            "display": "Leukocytes",
+            "definition": "Leukocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5921",
+            "code": "LING",
+            "display": "Lingual",
+            "definition": "Lingual",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5922",
+            "code": "LINGU",
+            "display": "Lingula",
+            "definition": "Lingula",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5923",
+            "code": "LIP",
+            "display": "Lip",
+            "definition": "Lip",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5924",
+            "code": "STOOLL",
+            "display": "Liquid Stool",
+            "definition": "Liquid Stool",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5925",
+            "code": "LIVER",
+            "display": "Liver",
+            "definition": "Liver",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5926",
+            "code": "LOBE",
+            "display": "Lobe",
+            "definition": "Lobe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5927",
+            "code": "LOCH",
+            "display": "Lochia",
+            "definition": "Lochia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5928",
+            "code": "ISH",
+            "display": "Loop, Ishial",
+            "definition": "Loop, Ishial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5929",
+            "code": "LUMBA",
+            "display": "Lumbar",
+            "definition": "Lumbar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5930",
+            "code": "LMN",
+            "display": "Lumen",
+            "definition": "Lumen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5931",
+            "code": "LUNG",
+            "display": "Lung",
+            "definition": "Lung",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5932",
+            "code": "LN",
+            "display": "Lymph Node",
+            "definition": "Lymph Node",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5933",
+            "code": "LNG",
+            "display": "Lymph Node, Groin",
+            "definition": "Lymph Node, Groin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5934",
+            "code": "LYM",
+            "display": "Lymphocytes",
+            "definition": "Lymphocytes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5935",
+            "code": "MAC",
+            "display": "Macrophages",
+            "definition": "Macrophages",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5936",
+            "code": "MALLE",
+            "display": "Malleolus",
+            "definition": "Malleolus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5937",
+            "code": "MANDI",
+            "display": "Mandible/Mandibular",
+            "definition": "Mandible/Mandibular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5938",
+            "code": "MAR",
+            "display": "Marrow",
+            "definition": "Marrow",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5939",
+            "code": "MAST",
+            "display": "Mastoid",
+            "definition": "Mastoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5940",
+            "code": "MAXIL",
+            "display": "Maxilla/Maxillary",
+            "definition": "Maxilla/Maxillary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5941",
+            "code": "MAXS",
+            "display": "Maxillary Sinus",
+            "definition": "Maxillary Sinus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5942",
+            "code": "MEATU",
+            "display": "Meatus",
+            "definition": "Meatus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5943",
+            "code": "MEC",
+            "display": "Meconium",
+            "definition": "Meconium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5944",
+            "code": "MEDST",
+            "display": "Mediastinum",
+            "definition": "Mediastinum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5945",
+            "code": "MEDU",
+            "display": "Medullary",
+            "definition": "Medullary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5946",
+            "code": "MOU",
+            "display": "Membrane",
+            "definition": "Membrane",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5947",
+            "code": "MPB",
+            "display": "Meninges",
+            "definition": "Meninges",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5948",
+            "code": "METAC",
+            "display": "Metacarpal",
+            "definition": "Metacarpal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5949",
+            "code": "METAT",
+            "display": "Metatarsal",
+            "definition": "Metatarsal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5950",
+            "code": "MILK",
+            "display": "Milk, Breast",
+            "definition": "Milk, Breast",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5951",
+            "code": "MITRL",
+            "display": "Mitral Valve",
+            "definition": "Mitral Valve",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5952",
+            "code": "MOLAR",
+            "display": "Molar",
+            "definition": "Molar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5953",
+            "code": "MP",
+            "display": "Mons Pubis",
+            "definition": "Mons Pubis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5954",
+            "code": "MONSU",
+            "display": "Mons Ureteris",
+            "definition": "Mons Ureteris",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5955",
+            "code": "MONSV",
+            "display": "Mons Veneris(Mons Pubis)",
+            "definition": "Mons Veneris(Mons Pubis)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5956",
+            "code": "MOUTH",
+            "display": "Mouth",
+            "definition": "Mouth",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5957",
+            "code": "MRSA2",
+            "display": "Mrsa:",
+            "definition": "Mrsa:",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5958",
+            "code": "MYO",
+            "display": "Myocardium",
+            "definition": "Myocardium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5959",
+            "code": "NAIL",
+            "display": "Nail",
+            "definition": "Nail",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5960",
+            "code": "NAILB",
+            "display": "Nail Bed",
+            "definition": "Nail Bed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5961",
+            "code": "NAILF",
+            "display": "Nail, Finger",
+            "definition": "Nail, Finger",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5962",
+            "code": "NAILT",
+            "display": "Nail, Toe",
+            "definition": "Nail, Toe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5963",
+            "code": "NARES",
+            "display": "Nares",
+            "definition": "Nares",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5964",
+            "code": "NASL",
+            "display": "Nasal",
+            "definition": "Nasal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5965",
+            "code": "NSS",
+            "display": "Nasal Septum",
+            "definition": "Nasal Septum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5966",
+            "code": "NLACR",
+            "display": "Nasolacrimal",
+            "definition": "Nasolacrimal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5967",
+            "code": "NP",
+            "display": "Nasopharyngeal/Nasopharynx",
+            "definition": "Nasopharyngeal/Nasopharynx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5968",
+            "code": "NTRAC",
+            "display": "Nasotracheal",
+            "definition": "Nasotracheal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5969",
+            "code": "NAVEL",
+            "display": "Navel",
+            "definition": "Navel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5970",
+            "code": "NECK",
+            "display": "Neck",
+            "definition": "Neck",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5971",
+            "code": "NERVE",
+            "display": "Nerve",
+            "definition": "Nerve",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5972",
+            "code": "NIPPL",
+            "display": "Nipple",
+            "definition": "Nipple",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5973",
+            "code": "NOS",
+            "display": "Nose (Nasal Passage)",
+            "definition": "Nose (Nasal Passage)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5974",
+            "code": "NOSE",
+            "display": "Nose/Nose(outside)",
+            "definition": "Nose/Nose(outside)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5975",
+            "code": "NOSTR",
+            "display": "Nostril",
+            "definition": "Nostril",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5976",
+            "code": "OCCIP",
+            "display": "Occipital",
+            "definition": "Occipital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5977",
+            "code": "OLECR",
+            "display": "Olecranon",
+            "definition": "Olecranon",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5978",
+            "code": "OMEN",
+            "display": "Omentum",
+            "definition": "Omentum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5979",
+            "code": "ORBIT",
+            "display": "Orbit/Orbital",
+            "definition": "Orbit/Orbital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5980",
+            "code": "ORO",
+            "display": "Oropharynx",
+            "definition": "Oropharynx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5981",
+            "code": "OSCOX",
+            "display": "Os coxa (pelvic girdle)",
+            "definition": "Os coxa (pelvic girdle)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5982",
+            "code": "OVARY",
+            "display": "Ovary",
+            "definition": "Ovary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5983",
+            "code": "PALAT",
+            "display": "Palate",
+            "definition": "Palate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5984",
+            "code": "PLATH",
+            "display": "Palate, Hard",
+            "definition": "Palate, Hard",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5985",
+            "code": "PLATS",
+            "display": "Palate, Soft",
+            "definition": "Palate, Soft",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5986",
+            "code": "PALM",
+            "display": "Palm",
+            "definition": "Palm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5987",
+            "code": "PANCR",
+            "display": "Pancreas",
+            "definition": "Pancreas",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5988",
+            "code": "PAFL",
+            "display": "Pancreatic Fluid",
+            "definition": "Pancreatic Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5989",
+            "code": "PAS",
+            "display": "Parasternal",
+            "definition": "Parasternal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5990",
+            "code": "PARAT",
+            "display": "Paratracheal",
+            "definition": "Paratracheal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5991",
+            "code": "PARIE",
+            "display": "Parietal",
+            "definition": "Parietal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5992",
+            "code": "PARON",
+            "display": "Paronychia",
+            "definition": "Paronychia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5993",
+            "code": "PAROT",
+            "display": "Parotid/Parotid Gland",
+            "definition": "Parotid/Parotid Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5994",
+            "code": "PATEL",
+            "display": "Patella",
+            "definition": "Patella",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5995",
+            "code": "PELV",
+            "display": "Pelvis",
+            "definition": "Pelvis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5996",
+            "code": "PENSH",
+            "display": "Penile Shaft",
+            "definition": "Penile Shaft",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5997",
+            "code": "PENIS",
+            "display": "Penis",
+            "definition": "Penis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5998",
+            "code": "PANAL",
+            "display": "Perianal/Perirectal",
+            "definition": "Perianal/Perirectal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5999",
+            "code": "PERI",
+            "display": "Pericardial Fluid",
+            "definition": "Pericardial Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6000",
+            "code": "PCARD",
+            "display": "Pericardium",
+            "definition": "Pericardium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6001",
+            "code": "PCLIT",
+            "display": "Periclitoral",
+            "definition": "Periclitoral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6002",
+            "code": "PERIH",
+            "display": "Perihepatic",
+            "definition": "Perihepatic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6003",
+            "code": "PNEAL",
+            "display": "Perineal",
+            "definition": "Perineal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6004",
+            "code": "PERIN",
+            "display": "Perineal Abscess",
+            "definition": "Perineal Abscess",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6005",
+            "code": "PNEPH",
+            "display": "Perinephric",
+            "definition": "Perinephric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6006",
+            "code": "PNM",
+            "display": "Perineum",
+            "definition": "Perineum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6007",
+            "code": "PORBI",
+            "display": "Periorbital",
+            "definition": "Periorbital",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6008",
+            "code": "PERRA",
+            "display": "Perirectal",
+            "definition": "Perirectal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6009",
+            "code": "PERIS",
+            "display": "Perisplenic",
+            "definition": "Perisplenic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6010",
+            "code": "PER",
+            "display": "Peritoneal",
+            "definition": "Peritoneal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6011",
+            "code": "PERT",
+            "display": "Peritoneal Fluid",
+            "definition": "Peritoneal Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6012",
+            "code": "PERIT",
+            "display": "Peritoneum",
+            "definition": "Peritoneum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6013",
+            "code": "PTONS",
+            "display": "Peritonsillar",
+            "definition": "Peritonsillar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6014",
+            "code": "PERIU",
+            "display": "Periurethal",
+            "definition": "Periurethal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6015",
+            "code": "PERIV",
+            "display": "Perivesicular",
+            "definition": "Perivesicular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6016",
+            "code": "PHALA",
+            "display": "Phalanyx",
+            "definition": "Phalanyx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6017",
+            "code": "PILO",
+            "display": "Pilonidal",
+            "definition": "Pilonidal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6018",
+            "code": "PINNA",
+            "display": "Pinna",
+            "definition": "Pinna",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6019",
+            "code": "PLC",
+            "display": "Placenta",
+            "definition": "Placenta",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6020",
+            "code": "PLACF",
+            "display": "Placenta (Fetal Side)",
+            "definition": "Placenta (Fetal Side)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6021",
+            "code": "PLACM",
+            "display": "Placenta (Maternal Side)",
+            "definition": "Placenta (Maternal Side)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6022",
+            "code": "PLANT",
+            "display": "Plantar",
+            "definition": "Plantar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6023",
+            "code": "PLEUR",
+            "display": "Pleura",
+            "definition": "Pleura",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6024",
+            "code": "PLEU",
+            "display": "Pleural Fluid",
+            "definition": "Pleural Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6025",
+            "code": "PLR",
+            "display": "Pleural Fluid (Thoracentesis Fld)",
+            "definition": "Pleural Fluid (Thoracentesis Fld)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6026",
+            "code": "POPLI",
+            "display": "Popliteal",
+            "definition": "Popliteal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6027",
+            "code": "PREAU",
+            "display": "Preauricular",
+            "definition": "Preauricular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6028",
+            "code": "PRERE",
+            "display": "Prerenal",
+            "definition": "Prerenal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6029",
+            "code": "PRST",
+            "display": "Prostate Gland",
+            "definition": "Prostate Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6030",
+            "code": "PROS",
+            "display": "Prostatic Fluid",
+            "definition": "Prostatic Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6031",
+            "code": "PUBIC",
+            "display": "Pubic",
+            "definition": "Pubic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6032",
+            "code": "PUL",
+            "display": "Pulmonary Artery",
+            "definition": "Pulmonary Artery",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6033",
+            "code": "RADI",
+            "display": "Radial",
+            "definition": "Radial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6034",
+            "code": "RADIUS",
+            "display": "Radius",
+            "definition": "Radius",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6035",
+            "code": "RECTL",
+            "display": "Rectal",
+            "definition": "Rectal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6036",
+            "code": "RECTU",
+            "display": "Rectum",
+            "definition": "Rectum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6037",
+            "code": "RBC",
+            "display": "Red Blood Cells",
+            "definition": "Red Blood Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6038",
+            "code": "RENL",
+            "display": "Renal",
+            "definition": "Renal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6039",
+            "code": "RNP",
+            "display": "Renal Pelvis",
+            "definition": "Renal Pelvis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6040",
+            "code": "RPERI",
+            "display": "Retroperitoneal",
+            "definition": "Retroperitoneal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6041",
+            "code": "RIB",
+            "display": "Rib",
+            "definition": "Rib",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6042",
+            "code": "SACRA",
+            "display": "Sacral",
+            "definition": "Sacral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6043",
+            "code": "SACRO",
+            "display": "Sacrococcygeal",
+            "definition": "Sacrococcygeal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6044",
+            "code": "SACIL",
+            "display": "Sacroiliac",
+            "definition": "Sacroiliac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6045",
+            "code": "SACRU",
+            "display": "Sacrum",
+            "definition": "Sacrum",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6046",
+            "code": "SALGL",
+            "display": "Salivary Gland",
+            "definition": "Salivary Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6047",
+            "code": "SCALP",
+            "display": "Scalp",
+            "definition": "Scalp",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6048",
+            "code": "SCAPU",
+            "display": "Scapula/Scapular",
+            "definition": "Scapula/Scapular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6049",
+            "code": "SCLER",
+            "display": "Sclera",
+            "definition": "Sclera",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6050",
+            "code": "SCROT",
+            "display": "Scrotum/Scrotal",
+            "definition": "Scrotum/Scrotal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6051",
+            "code": "SEMN",
+            "display": "Semen",
+            "definition": "Semen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6052",
+            "code": "SEM",
+            "display": "Seminal Fluid",
+            "definition": "Seminal Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6053",
+            "code": "SEPTU",
+            "display": "Septum/Septal",
+            "definition": "Septum/Septal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6054",
+            "code": "SEROM",
+            "display": "Seroma",
+            "definition": "Seroma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6055",
+            "code": "SHIN",
+            "display": "Shin",
+            "definition": "Shin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6056",
+            "code": "SHOLJ",
+            "display": "Sholder Joint",
+            "definition": "Sholder Joint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6057",
+            "code": "SHOL",
+            "display": "Shoulder",
+            "definition": "Shoulder",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6058",
+            "code": "SIGMO",
+            "display": "Sigmoid",
+            "definition": "Sigmoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6059",
+            "code": "SINUS",
+            "display": "Sinus",
+            "definition": "Sinus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6060",
+            "code": "SKM",
+            "display": "Skeletal Muscle",
+            "definition": "Skeletal Muscle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6061",
+            "code": "SKENE",
+            "display": "Skene's Gland",
+            "definition": "Skene's Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6062",
+            "code": "SKULL",
+            "display": "Skull",
+            "definition": "Skull",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6063",
+            "code": "INSTS",
+            "display": "Intestine, Small",
+            "definition": "Intestine, Small",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6064",
+            "code": "SOLE",
+            "display": "Sole",
+            "definition": "Sole",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6065",
+            "code": "SPRM",
+            "display": "Spermatozoa",
+            "definition": "Spermatozoa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6066",
+            "code": "SPHEN",
+            "display": "Sphenoid",
+            "definition": "Sphenoid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6067",
+            "code": "SPCOR",
+            "display": "Spinal Cord",
+            "definition": "Spinal Cord",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6068",
+            "code": "SPLN",
+            "display": "Spleen",
+            "definition": "Spleen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6069",
+            "code": "STER",
+            "display": "Sternum/Sternal",
+            "definition": "Sternum/Sternal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6070",
+            "code": "STOM",
+            "display": "Stoma",
+            "definition": "Stoma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6071",
+            "code": "USTOM",
+            "display": "Stoma, Urinary",
+            "definition": "Stoma, Urinary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6072",
+            "code": "STOMA",
+            "display": "Stomach",
+            "definition": "Stomach",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6073",
+            "code": "STUMP",
+            "display": "Stump",
+            "definition": "Stump",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6074",
+            "code": "SCLV",
+            "display": "Sub Clavian",
+            "definition": "Sub Clavian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6075",
+            "code": "SDP",
+            "display": "Subdiaphramatic",
+            "definition": "Subdiaphramatic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6076",
+            "code": "SUB",
+            "display": "Subdural",
+            "definition": "Subdural",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6077",
+            "code": "SUBD",
+            "display": "Subdural Fluid",
+            "definition": "Subdural Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6078",
+            "code": "SGF",
+            "display": "Subgaleal Fluid",
+            "definition": "Subgaleal Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6079",
+            "code": "SUBM",
+            "display": "Submandibular",
+            "definition": "Submandibular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6080",
+            "code": "SUBX",
+            "display": "Submaxillary",
+            "definition": "Submaxillary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6081",
+            "code": "SUBME",
+            "display": "Submental",
+            "definition": "Submental",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6082",
+            "code": "SUBPH",
+            "display": "Subphrenic",
+            "definition": "Subphrenic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6083",
+            "code": "SPX",
+            "display": "Supra Cervical",
+            "definition": "Supra Cervical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6084",
+            "code": "SCLAV",
+            "display": "Supraclavicle/Supraclavicular",
+            "definition": "Supraclavicle/Supraclavicular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6085",
+            "code": "SUPRA",
+            "display": "Suprapubic",
+            "definition": "Suprapubic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6086",
+            "code": "SUPB",
+            "display": "Suprapubic Specimen",
+            "definition": "Suprapubic Specimen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6087",
+            "code": "SWT",
+            "display": "Sweat",
+            "definition": "Sweat",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6088",
+            "code": "SWTG",
+            "display": "Sweat Gland",
+            "definition": "Sweat Gland",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6089",
+            "code": "SYNOL",
+            "display": "Synovial",
+            "definition": "Synovial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6090",
+            "code": "SYN",
+            "display": "Synovial Fluid",
+            "definition": "Synovial Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6091",
+            "code": "SYNOV",
+            "display": "Synovium",
+            "definition": "Synovium",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6092",
+            "code": "TARS",
+            "display": "Tarsal",
+            "definition": "Tarsal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6093",
+            "code": "TDUCT",
+            "display": "Tear Duct",
+            "definition": "Tear Duct",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6094",
+            "code": "TEAR",
+            "display": "Tears",
+            "definition": "Tears",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6095",
+            "code": "TEMPL",
+            "display": "Temple",
+            "definition": "Temple",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6096",
+            "code": "TEMPO",
+            "display": "Temporal",
+            "definition": "Temporal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6097",
+            "code": "TML",
+            "display": "Temporal Lobe",
+            "definition": "Temporal Lobe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6098",
+            "code": "TESTI",
+            "display": "Testicle(Testis)",
+            "definition": "Testicle(Testis)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6099",
+            "code": "THIGH",
+            "display": "Thigh",
+            "definition": "Thigh",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6100",
+            "code": "THORA",
+            "display": "Thorax/Thoracic/Thoracentesis",
+            "definition": "Thorax/Thoracic/Thoracentesis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6101",
+            "code": "THRB",
+            "display": "Throat",
+            "definition": "Throat",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6102",
+            "code": "THUMB",
+            "display": "Thumb",
+            "definition": "Thumb",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6103",
+            "code": "TNL",
+            "display": "Thumbnail",
+            "definition": "Thumbnail",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6104",
+            "code": "THM",
+            "display": "Thymus",
+            "definition": "Thymus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6105",
+            "code": "THYRD",
+            "display": "Thyroid",
+            "definition": "Thyroid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6106",
+            "code": "TIBIA",
+            "display": "Tibia",
+            "definition": "Tibia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6107",
+            "code": "TOE",
+            "display": "Toe",
+            "definition": "Toe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6108",
+            "code": "TOEN",
+            "display": "Toe Nail",
+            "definition": "Toe Nail",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6109",
+            "code": "TONG",
+            "display": "Tongue",
+            "definition": "Tongue",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6110",
+            "code": "TONS",
+            "display": "Tonsil",
+            "definition": "Tonsil",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6111",
+            "code": "TOOTH",
+            "display": "Tooth",
+            "definition": "Tooth",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6112",
+            "code": "TSK",
+            "display": "Tooth Socket",
+            "definition": "Tooth Socket",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6113",
+            "code": "TRCHE",
+            "display": "Trachea/Tracheal",
+            "definition": "Trachea/Tracheal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6114",
+            "code": "TBRON",
+            "display": "Transbronchial",
+            "definition": "Transbronchial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6115",
+            "code": "TCN",
+            "display": "Transcarina Asp",
+            "definition": "Transcarina Asp",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6116",
+            "code": "ULNA",
+            "display": "Ulna/Ulnar",
+            "definition": "Ulna/Ulnar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6117",
+            "code": "UMB",
+            "display": "Umbilical Blood",
+            "definition": "Umbilical Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6118",
+            "code": "UMBL",
+            "display": "Umbilicus/Umbilical",
+            "definition": "Umbilicus/Umbilical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6119",
+            "code": "URET",
+            "display": "Ureter",
+            "definition": "Ureter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6120",
+            "code": "URTH",
+            "display": "Urethra",
+            "definition": "Urethra",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6121",
+            "code": "UTERI",
+            "display": "Uterine",
+            "definition": "Uterine",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6122",
+            "code": "SAC",
+            "display": "Uterine Cul/De/Sac",
+            "definition": "Uterine Cul/De/Sac",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6123",
+            "code": "UTER",
+            "display": "Uterus",
+            "definition": "Uterus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6124",
+            "code": "VAGIN",
+            "display": "Vagina/Vaginal",
+            "definition": "Vagina/Vaginal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6125",
+            "code": "VCUFF",
+            "display": "Vaginal Cuff",
+            "definition": "Vaginal Cuff",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6126",
+            "code": "VGV",
+            "display": "Vaginal Vault",
+            "definition": "Vaginal Vault",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6127",
+            "code": "VAL",
+            "display": "Valve",
+            "definition": "Valve",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6128",
+            "code": "VAS",
+            "display": "Vas Deferens",
+            "definition": "Vas Deferens",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6129",
+            "code": "VASTL",
+            "display": "Vastus Lateralis",
+            "definition": "Vastus Lateralis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6130",
+            "code": "VAULT",
+            "display": "Vault",
+            "definition": "Vault",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6131",
+            "code": "VEIN",
+            "display": "Vein",
+            "definition": "Vein",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6132",
+            "code": "VENTG",
+            "display": "Ventragluteal",
+            "definition": "Ventragluteal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6133",
+            "code": "VCSF",
+            "display": "Ventricular CSF",
+            "definition": "Ventricular CSF",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6134",
+            "code": "VERMI",
+            "display": "Vermis Cerebelli",
+            "definition": "Vermis Cerebelli",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6135",
+            "code": "VERTC",
+            "display": "Vertebra, cervical",
+            "definition": "Vertebra, cervical",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6136",
+            "code": "VERTL",
+            "display": "Vertebra, lumbar",
+            "definition": "Vertebra, lumbar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6137",
+            "code": "VERTT",
+            "display": "Vertebra, thoracic",
+            "definition": "Vertebra, thoracic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6138",
+            "code": "VESI",
+            "display": "Vesicle",
+            "definition": "Vesicle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6139",
+            "code": "VESCL",
+            "display": "Vesicular",
+            "definition": "Vesicular",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6140",
+            "code": "VESFLD",
+            "display": "Vesicular Fluid",
+            "definition": "Vesicular Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6141",
+            "code": "VESTI",
+            "display": "Vestibule(Genital)",
+            "definition": "Vestibule(Genital)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6142",
+            "code": "VITR",
+            "display": "Vitreous Fluid",
+            "definition": "Vitreous Fluid",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6143",
+            "code": "VOC",
+            "display": "Vocal Cord",
+            "definition": "Vocal Cord",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6144",
+            "code": "VULVA",
+            "display": "Vulva",
+            "definition": "Vulva",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6145",
+            "code": "WRIST",
+            "display": "Wrist",
+            "definition": "Wrist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

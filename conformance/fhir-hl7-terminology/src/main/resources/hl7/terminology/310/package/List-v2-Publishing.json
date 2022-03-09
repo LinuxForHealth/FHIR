@@ -1,0 +1,5237 @@
+{
+    "resourceType": "List",
+    "id": "v2-Publishing",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "V2 Publishing Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/v2-tables",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0001",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0001",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0002",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0002",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0003",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0003",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0004",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0004",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/CDCREC",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0005",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0006",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0006",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0007",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0007",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0008",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0008",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0009",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0009",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0012",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0012",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0017",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0017",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0027",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0027",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0033",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0033",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0034",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0034",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0038",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0038",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0048",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0048",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0052",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0052",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0061",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0061",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0062",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0062",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0063",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0063",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0065",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0065",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0066",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0066",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0069",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0069",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0070",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0070",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0074",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0074",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0076",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0076",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0078",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0080",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0080",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0083",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0083",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0085",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0085",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0091",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0091",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0092",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0092",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0098",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0098",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0100",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0100",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0102",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0102",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0103",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0103",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0104",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0104",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0105",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0105",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0106",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0106",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0107",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0107",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0108",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0108",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0109",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0109",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0116",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0116",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0119",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0119",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0121",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0121",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0122",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0122",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0123",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0123",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0124",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0124",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0125",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0126",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0126",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0127",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0127",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0128",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0128",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0130",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0130",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0131",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0131",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0133",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0133",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0135",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0135",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0136",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0137",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0137",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0140",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0140",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0142",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0142",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0144",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0144",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0145",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0145",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0146",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0146",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0147",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0147",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0148",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0148",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0149",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0149",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0150",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0150",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0155",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0155",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0156",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0156",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0157",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0157",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0158",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0158",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0159",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0159",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0160",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0160",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0161",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0161",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0162",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0162",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0163",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0163",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0164",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0164",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0165",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0165",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0166",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0166",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0167",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0167",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0168",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0168",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0169",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0169",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0170",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0170",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0173",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0173",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0174",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0174",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0175",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0175",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0177",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0177",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0178",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0178",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0179",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0179",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0180",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0180",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0181",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0181",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0183",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0183",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0185",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0185",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0187",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0187",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0189",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0189",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0190",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0190",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0191",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0191",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0193",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0193",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0200",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0200",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0201",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0201",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0202",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0202",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0203",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0203",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0204",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0204",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0205",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0205",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0206",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0206",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0207",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0207",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0208",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0208",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0209",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0209",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0210",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0210",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0211",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0211",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0213",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0213",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0214",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0214",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0215",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0215",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0216",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0216",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0217",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0217",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0220",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0220",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0223",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0223",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0224",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0224",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0225",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0225",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0227",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0227",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0228",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0228",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0230",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0230",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0231",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0231",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0232",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0232",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0234",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0234",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0235",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0235",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0236",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0236",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0237",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0237",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0238",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0238",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0239",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0239",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0240",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0240",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0241",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0241",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0242",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0242",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0243",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0243",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0247",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0247",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0248",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0248",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0250",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0250",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0251",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0251",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0252",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0252",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0253",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0253",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0254",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0254",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0255",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0255",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0256",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0256",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0257",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0257",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0258",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0258",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0260",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0260",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0261",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0261",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0262",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0262",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0263",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0263",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0265",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0265",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0267",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0267",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0268",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0268",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0269",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0269",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0270",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0270",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0271",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0271",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0272",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0272",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0273",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0273",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0275",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0275",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0276",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0276",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0277",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0277",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0278",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0278",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0279",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0279",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0280",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0280",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0281",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0281",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0282",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0282",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0283",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0283",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0284",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0284",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0286",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0286",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0287",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0287",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0290",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0290",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0291",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0291",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "http://hl7.org/fhir/sid/cvx",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0292",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0294",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0294",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0298",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0298",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0299",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0299",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0301",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0301",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0305",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0305",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0309",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0309",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0311",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0311",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0315",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0315",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0316",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0316",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0317",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0317",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0321",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0321",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0322",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0322",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0323",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0323",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0324",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0324",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0325",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0325",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0326",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0326",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0329",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0329",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0330",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0330",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0331",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0331",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0332",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0332",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0334",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0334",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0335",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0335",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0336",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0336",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0337",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0337",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0338",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0339",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0339",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0344",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0344",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-notAllCodes-0347",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0350",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0350",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0351",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0351",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0353",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0353",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0354",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0354",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0355",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0355",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0356",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0356",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0357",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0357",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0359",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0359",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0360",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0360",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0364",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0364",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0365",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0365",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0366",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0366",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0367",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0367",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0368",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0368",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0369",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0369",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0370",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0370",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0371",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0371",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0372",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0372",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0373",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0373",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0374",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0374",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0375",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0375",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0376",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0376",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0377",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0377",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0383",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0383",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0384",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0384",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0387",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0387",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0388",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0388",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0389",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0389",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0391",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0391",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0392",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0392",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0393",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0393",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0394",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0394",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0395",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0395",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0396",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0396",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0397",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0397",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0398",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0398",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-notAllCodes-0399",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0401",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0401",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0402",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0402",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0403",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0403",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0404",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0404",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0406",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0406",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0409",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0409",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0415",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0415",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0416",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0416",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0417",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0417",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0418",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0418",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0421",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0421",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0422",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0422",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0423",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0423",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0424",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0424",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0425",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0425",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0426",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0426",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0427",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0427",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0428",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0428",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0429",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0429",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0430",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0430",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0431",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0431",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0432",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0432",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0433",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0433",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0434",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0434",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0435",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0435",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0436",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0436",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0437",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0437",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0438",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0438",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0440",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0440",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0441",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0441",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0442",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0442",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0443",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0443",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0444",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0444",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0445",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0445",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0450",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0450",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0456",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0456",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0457",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0457",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0459",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0460",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0460",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0465",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0465",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0466",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0466",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0468",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0468",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0469",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0469",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0470",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0470",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0472",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0472",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0473",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0473",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0474",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0474",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0475",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0475",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0477",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0477",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0478",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0478",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0480",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0480",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0482",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0482",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0483",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0483",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0484",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0484",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0485",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0485",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0487",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0487",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0488",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0488",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0489",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0489",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0490",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0490",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0491",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0491",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0492",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0492",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0493",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0493",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0494",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0494",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0495",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0495",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0496",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0496",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0497",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0497",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0498",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0498",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0499",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0499",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0500",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0500",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0501",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0501",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0502",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0502",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0503",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0503",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0504",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0504",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0505",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0505",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0506",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0506",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0507",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0507",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0508",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0508",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0510",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0510",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0511",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0511",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0513",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0513",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0514",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0514",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0516",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0516",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0517",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0517",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0518",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0518",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0520",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0520",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0523",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0523",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0524",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0524",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0527",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0527",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0528",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0528",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0529",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0529",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0530",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0530",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0532",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0532",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0534",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0534",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0535",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0535",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0536",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0536",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0538",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0538",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0540",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0540",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0544",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0544",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0547",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0547",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0548",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0548",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0550",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0550",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0553",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0553",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0554",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0554",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0555",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0555",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0556",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0556",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0557",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0557",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0558",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0558",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0559",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0559",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0560",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0561",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0561",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0562",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0562",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0564",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0564",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0565",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0565",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0566",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0566",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0567",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0568",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0569",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0569",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0570",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0570",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0571",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0571",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0572",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0572",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0615",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0615",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0616",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0616",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0617",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0617",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0618",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0618",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0625",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0625",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0634",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0634",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0642",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0642",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0651",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0651",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0653",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0653",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0657",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0657",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0659",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0659",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0667",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0667",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0669",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0669",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0682",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0682",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0702",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0702",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0717",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0717",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0719",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0725",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0728",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0728",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0731",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0731",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0734",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0734",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0739",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0739",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0742",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0742",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0749",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0749",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0755",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0755",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0757",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0757",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0759",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0759",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0761",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0761",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0763",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0763",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0776",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0776",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0778",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0778",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0790",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0790",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0793",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0793",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0806",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0806",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0818",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0818",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0834",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0834",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0868",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0868",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0871",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0871",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0881",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0881",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0882",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0882",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0894",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0894",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0895",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0895",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0904",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0904",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0905",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0905",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0906",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0906",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0907",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0907",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0909",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0909",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0912",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0912",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0914",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0914",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0916",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0916",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0917",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0917",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0918",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0918",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0919",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0919",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0920",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0920",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0921",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0921",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0922",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0922",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0923",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0923",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0924",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0924",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0925",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0925",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0926",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0926",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0927",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0927",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0929",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0930",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0931",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0932",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0933",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0933",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0935",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0935",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0936",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0936",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0937",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0937",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0938",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0938",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0939",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0939",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0940",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0940",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0942",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0942",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0945",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0945",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0946",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0946",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0948",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0948",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0949",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0949",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0950",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0950",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0951",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0951",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0952",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0959",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0961",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0962",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0963",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0970",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0970",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0971",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-0971",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-4000",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v2-4000",
+                "type": "ValueSet"
+            }
+        }
+    ]
+}

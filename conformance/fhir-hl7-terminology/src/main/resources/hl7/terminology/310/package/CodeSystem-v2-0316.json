@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0316",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0316",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.192"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "OrganDonorCodes",
+    "title": "organDonorCodes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying whether the patient wants to donate his/her organs and whether an organ donor card or similar documentation is on file with the healthcare organization.   Used in HL7 Version 2.x messaging in the Patient Visit - Additional Information ( PV2) and Patient Additional Demographic (PD1) segments.",
+    "purpose": "Underlying Master Code System for V2 table 0316 (Organ Donor Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0316",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3016",
+            "code": "Y",
+            "display": "Yes, patient is a documented donor and documentation is on file",
+            "definition": "Yes, patient is a documented donor and documentation is on file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3017",
+            "code": "F",
+            "display": "Yes, patient is a documented donor, but documentation is not on file",
+            "definition": "Yes, patient is a documented donor, but documentation is not on file",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3018",
+            "code": "N",
+            "display": "No, patient has not agreed to be a donor",
+            "definition": "No, patient has not agreed to be a donor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3019",
+            "code": "I",
+            "display": "No, patient is not a documented donor, but information was provided",
+            "definition": "No, patient is not a documented donor, but information was provided",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3020",
+            "code": "R",
+            "display": "Patient leaves organ donation decision to relatives",
+            "definition": "Patient leaves organ donation decision to relatives",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3021",
+            "code": "P",
+            "display": "Patient leaves organ donation decision to a specific person",
+            "definition": "Patient leaves organ donation decision to a specific person",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3022",
+            "code": "U",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

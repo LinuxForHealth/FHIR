@@ -1,0 +1,37 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActRelationshipIsAppendage",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActRelationshipIsAppendage",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19963"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActRelationshipIsAppendage",
+    "title": "ActRelationshipIsAppendage",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "An addendum (source) to an existing service object (target), containing supplemental information. The addendum is itself an original service object linked to the supplemented service object. The supplemented service object remains in place and its content and status are unaltered.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipType",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "APND"
+                    }
+                ]
+            }
+        ]
+    }
+}

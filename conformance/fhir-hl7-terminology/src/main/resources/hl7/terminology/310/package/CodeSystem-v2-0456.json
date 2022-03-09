@@ -1,0 +1,47 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0456",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0456",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.301.3"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "NubcServiceLineRevenueCs",
+    "title": "nubc-ServiceLineRevenue-cs",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying a revenue code as specified in the National Uniform Billing Committee (NUBC) UB-04 manual, UB form locator 42, the service line revenue code.  These are claim codes indicating the identifying number for the product or service provided. The UB-04 Data Specifications Manual with the codes is available by subscription from NUBC at http://www.nubc.org/become.html.  Used in HL7 Version 2.x messaging in the Revenue Code (GP1) value. Updated by NUBC annually; see the coding instructions for more detail.  Note that this content was previously published in HL7 artifacts in violaton of IP restrictions; the content has been removed in version 2.2.0 pending finalization of a republication permission request to AHA/NUBC.",
+    "purpose": "Underlying Master Code System for V2 table 0456 (Revenue code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0456",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "not-present"
+}

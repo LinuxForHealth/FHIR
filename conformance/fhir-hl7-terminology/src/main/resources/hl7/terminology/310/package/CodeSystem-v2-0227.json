@@ -1,0 +1,1113 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0227",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0227",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.12.227"
+        }
+    ],
+    "version": "2.ext.0",
+    "name": "PHManufacturersOfVaccinesMVXCDCNIP",
+    "title": "PH_ManufacturersOfVaccinesMVX_CDC_NIP",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Table of codes specifying the organization that manufactures a vaccine. The values are maintained by the US Centers of Disease Control.  Note that the source of truth for these code values are maintained by the CDC, and the code system may be accessed at URL: https://phinvads.cdc.gov/vads/SearchCodeSystems_search.action?searchOptions.searchText=PH_ManufacturersOfVaccinesMVX_CDC_NIP.  The value set is also maintained by the CDC, and may be accessed at URL: https://phinvads.cdc.gov/vads/SearchValueSets_search.action?searchOptions.searchText=PHVS_ManufacturersOfVaccinesMVX_CDC_NIP",
+    "purpose": "Underlying Master Code System for V2 table 0227 (Manufacturers of Vaccines (code=MVX))",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0227",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "fragment",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2204",
+            "code": "AB",
+            "display": "Abbott Laboratories",
+            "definition": "Abbott Laboratories",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Ross Products Division)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2205",
+            "code": "AD",
+            "display": "Adams Laboratories, Inc.",
+            "definition": "Adams Laboratories, Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2206",
+            "code": "ALP",
+            "display": "Alpha Therapeutic Corporation",
+            "definition": "Alpha Therapeutic Corporation",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2207",
+            "code": "AR",
+            "display": "Armour",
+            "definition": "Armour",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use AVB]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2208",
+            "code": "AVB",
+            "display": "Aventis Behring L.L.C.",
+            "definition": "Aventis Behring L.L.C.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Centeon L.L.C.; includes Armour Pharmaceutical Company) [Inactive--use ZLB] CDC Changes made on: Feb. 28, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2209",
+            "code": "AVI",
+            "display": "Aviron",
+            "definition": "Aviron",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2210",
+            "code": "BA",
+            "display": "Baxter Healthcare Corporation",
+            "definition": "Baxter Healthcare Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BAH]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2211",
+            "code": "BAH",
+            "display": "Baxter Healthcare Corporation",
+            "definition": "Baxter Healthcare Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Hyland Immuno, Immuno International AG, and North American Vaccine, Inc.)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2212",
+            "code": "BAY",
+            "display": "Bayer Corporation",
+            "definition": "Bayer Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Miles, Inc. and Cutter Laboratories)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2213",
+            "code": "BP",
+            "display": "Berna Products",
+            "definition": "Berna Products",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BPC]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2214",
+            "code": "BPC",
+            "display": "Berna Products Corporation",
+            "definition": "Berna Products Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Swiss Serum and Vaccine Institute Berne)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2215",
+            "code": "MIP",
+            "display": "Bioport Corporation",
+            "definition": "Bioport Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Michigan Biologic Products Institute)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2216",
+            "code": "CNJ",
+            "display": "Cangene Corporation",
+            "definition": "Cangene Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: Feb. 28, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2217",
+            "code": "CMP",
+            "display": "Celltech Medeva Pharmaceuticals",
+            "definition": "Celltech Medeva Pharmaceuticals",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use NOV] CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2218",
+            "code": "CEN",
+            "display": "Centeon L.L.C.",
+            "definition": "Centeon L.L.C.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use AVB]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2219",
+            "code": "CHI",
+            "display": "Chiron Corporation",
+            "definition": "Chiron Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use NOV] includes PowderJect Pharmaceuticals, Celltech Medeva Vaccines and Evans Medical Limited CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2220",
+            "code": "CON",
+            "display": "Connaught",
+            "definition": "Connaught",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use PMC]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2221",
+            "code": "DVC",
+            "display": "DynPort Vaccine Company, LLC",
+            "definition": "DynPort Vaccine Company, LLC",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2222",
+            "code": "EVN",
+            "display": "Evans Medical Limited",
+            "definition": "Evans Medical Limited",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use NOV] CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2223",
+            "code": "GEO",
+            "display": "GeoVax Labs, Inc.",
+            "definition": "GeoVax Labs, Inc.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2224",
+            "code": "SKB",
+            "display": "GlaxoSmithKline",
+            "definition": "GlaxoSmithKline",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly SmithKline Beecham; includes SmithKline Beecham and Glaxo Welcome)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2225",
+            "code": "GRE",
+            "display": "Greer Laboratories, Inc.",
+            "definition": "Greer Laboratories, Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2226",
+            "code": "IAG",
+            "display": "Immuno International AG",
+            "definition": "Immuno International AG",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BAH]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2227",
+            "code": "IUS",
+            "display": "Immuno-U.S., Inc.",
+            "definition": "Immuno-U.S., Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2228",
+            "code": "KGC",
+            "display": "Korea Green Cross Corporation",
+            "definition": "Korea Green Cross Corporation",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2229",
+            "code": "LED",
+            "display": "Lederle",
+            "definition": "Lederle",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use WAL]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2230",
+            "code": "MBL",
+            "display": "Massachusetts Biologic Laboratories",
+            "definition": "Massachusetts Biologic Laboratories",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Massachusetts Public Health Biologic Laboratories)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2231",
+            "code": "MA",
+            "display": "Massachusetts Public Health Biologic Laboratories",
+            "definition": "Massachusetts Public Health Biologic Laboratories",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use MBL]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2232",
+            "code": "MED",
+            "display": "MedImmune, Inc.",
+            "definition": "MedImmune, Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2233",
+            "code": "MSD",
+            "display": "Merck & Co., Inc.",
+            "definition": "Merck & Co., Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2234",
+            "code": "IM",
+            "display": "Merieux",
+            "definition": "Merieux",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use PMC]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2235",
+            "code": "MIL",
+            "display": "Miles",
+            "definition": "Miles",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BAY]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2236",
+            "code": "NAB",
+            "display": "NABI",
+            "definition": "NABI",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly North American Biologicals, Inc.)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2237",
+            "code": "NYB",
+            "display": "New York Blood Center",
+            "definition": "New York Blood Center",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2238",
+            "code": "NAV",
+            "display": "North American Vaccine, Inc.",
+            "definition": "North American Vaccine, Inc.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BAH]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2239",
+            "code": "NOV",
+            "display": "Novartis Pharmaceutical Corporation",
+            "definition": "Novartis Pharmaceutical Corporation",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Chiron, PowderJect Pharmaceuticals, Celltech Medeva Vaccines and Evans Limited, Ciba-Geigy Limited and Sandoz Limited)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2240",
+            "code": "NVX",
+            "display": "Novavax, Inc.",
+            "definition": "Novavax, Inc.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2241",
+            "code": "OTC",
+            "display": "Organon Teknika Corporation",
+            "definition": "Organon Teknika Corporation",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2242",
+            "code": "ORT",
+            "display": "Ortho-Clinical Diagnostics",
+            "definition": "Ortho-Clinical Diagnostics",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Ortho Diagnostic Systems, Inc.)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2243",
+            "code": "PD",
+            "display": "Parkedale Pharmaceuticals",
+            "definition": "Parkedale Pharmaceuticals",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Parke-Davis)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2244",
+            "code": "PWJ",
+            "display": "PowderJect Pharmaceuticals",
+            "definition": "PowderJect Pharmaceuticals",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Celltech Medeva Vaccines and Evans Medical Limited) [Inactive--use NOV] CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2245",
+            "code": "PRX",
+            "display": "Praxis Biologics",
+            "definition": "Praxis Biologics",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use WAL]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2246",
+            "code": "PMC",
+            "display": "sanofi pasteur",
+            "definition": "sanofi pasteur",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(formerly Aventis Pasteur, Pasteur Merieux Connaught; includes Connaught Laboratories and Pasteur Merieux) CDC Changes made on: Feb. 28, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2247",
+            "code": "JPN",
+            "display": "The Research Foundation for Microbial Diseases of Osaka University",
+            "definition": "The Research Foundation for Microbial Diseases of Osaka University",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(BIKEN)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2248",
+            "code": "SCL",
+            "display": "Sclavo, Inc.",
+            "definition": "Sclavo, Inc.",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2249",
+            "code": "SOL",
+            "display": "Solvay Pharmaceuticals",
+            "definition": "Solvay Pharmaceuticals",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2250",
+            "code": "SI",
+            "display": "Swiss Serum and Vaccine Inst.",
+            "definition": "Swiss Serum and Vaccine Inst.",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use BPC]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2251",
+            "code": "TAL",
+            "display": "Talecris Biotherapeutics",
+            "definition": "Talecris Biotherapeutics",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Bayer Biologicals) CDC Changes made on: Feb. 28, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2252",
+            "code": "USA",
+            "display": "United States Army Medical Research and Material Command",
+            "definition": "United States Army Medical Research and Material Command",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2253",
+            "code": "VXG",
+            "display": "VaxGen",
+            "definition": "VaxGen",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CDC Changes made on: July 14, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2254",
+            "code": "WA",
+            "display": "Wyeth-Ayerst",
+            "definition": "Wyeth-Ayerst",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "[Inactive--use WAL]"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2255",
+            "code": "WAL",
+            "display": "Wyeth-Ayerst",
+            "definition": "Wyeth-Ayerst",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Wyeth-Lederle Vaccines and Pediatrics, Wyeth Laboratories, Lederle Laboratories, and Praxis Biologics)"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2256",
+            "code": "ZLB",
+            "display": "ZLB Behring",
+            "definition": "ZLB Behring",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "(includes Aventis Behring and Armour Pharmaceutical Company) CDC Changes made on: Feb. 28, 2006"
+                },
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2257",
+            "code": "OTH",
+            "display": "Other manufacturer",
+            "definition": "Other manufacturer",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2258",
+            "code": "UNK",
+            "display": "Unknown manufacturer",
+            "definition": "Unknown manufacturer",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

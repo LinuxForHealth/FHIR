@@ -1,0 +1,321 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0937",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0937",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.440"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ObservationSubtype",
+    "title": "observationSubtype",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the observation sub-type.  Used in HL7 Version 2.x messaging in the OBX segment.",
+    "purpose": "Underlying Master Code System for V2 table 0937 (Observation Sub-Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0937",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6708",
+            "code": "AOE",
+            "display": "Ask at Order Entry",
+            "definition": "Ask at Order Entry",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of QST (Question) - OBX-5 value is answer to an Ask at Order Entry question"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of QST (Question) - OBX-5 value is answer to an Ask at Order Entry question"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6709",
+            "code": "ASC",
+            "display": "Ask at Specimen Collection",
+            "definition": "Ask at Specimen Collection",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of QST (Question)  - OBX-5 value is answer to an Ask at Specimen Collection question"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of QST (Question)  - OBX-5 value is answer to an Ask at Specimen Collection question"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6710",
+            "code": "MCS",
+            "display": "Micro Culture Status",
+            "definition": "Sub-type of RSLT (Result) This term identifies observations that give overall culture outcome, when no specific organism is being named.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Examples are: no growth, normal flora"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6711",
+            "code": "MID",
+            "display": "Micro Isolate Descriptor",
+            "definition": "Sub-type of RSLT (Result) This term identifies any other observations about the isolate.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Examples: catalase positive, hemolytic, etc."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6712",
+            "code": "MIG",
+            "display": "Micro Isolate Growth Quantity",
+            "definition": "Sub-type of RSLT (Result) This term identifies growth levels of an isolate – can be numeric or categorical.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Examples: <10,000 CFU, >100,00 CFU, Few, Moderate, Many, etc."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6713",
+            "code": "MIN",
+            "display": "Micro Isolate Name",
+            "definition": "Sub-type of RSLT (Result) This term identifies observations that name a specific organism either at the species or the genus level.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Examples are: Genus Serratia, Neisseria meningitidis, Escherichia coli O157:H7, but also identification on a culture plate like presumptive Proteus species."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6714",
+            "code": "MIR",
+            "display": "Micro Isolate Related",
+            "definition": "Micro Isolate Related",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - qualifies the result as an isolate."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - qualifies the result as an isolate."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "6715",
+            "code": "MIRM",
+            "display": "Micro Isolate Related Modifier",
+            "definition": "Micro Isolate Related Modifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - result is a modifier of the isolate (e.g., Few, Some, etc.)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - result is a modifier of the isolate (e.g., Few, Some, etc.)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "6716",
+            "code": "MNIR",
+            "display": "Micro Non-Isolate Related",
+            "definition": "Micro Non-Isolate Related",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - qualifies result as microbiology not related to any isolate (e.g., gram stain observations)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - qualifies result as microbiology not related to any isolate (e.g., gram stain observations)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "6717",
+            "code": "MOD",
+            "display": "Micro Other Descriptor",
+            "definition": "Sub-type of RSLT (Result) This term identifies observations that do not fit the culture status, but is not at the isolate level.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6718",
+            "code": "MSS",
+            "display": "Micro Sample Stain",
+            "definition": "Sub-type of RSLT (Result) This term identifies observations on gram stains (and other stains or smears) on the clinical sample.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Examples are: many gram positive rods, acid fast bacteria seen, etc."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6719",
+            "code": "SUP",
+            "display": "Supplemental Result",
+            "definition": "Supplemental Result",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - result coming over is additional material, for example points on a graph, an image, raw instrument data, links to related observations, etc."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - result coming over is additional material, for example points on a graph, an image, raw instrument data, links to related observations, etc."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6720",
+            "code": "SUR",
+            "display": "Susceptibility Related",
+            "definition": "Susceptibility Related",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - result value is for micro susceptibility/sensitivity"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - result value is for micro susceptibility/sensitivity"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6721",
+            "code": "UNSP",
+            "display": "Unspecified",
+            "definition": "Unspecified",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sub-type of RSLT (Result) - result falls outside of the other sub-types."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sub-type of RSLT (Result) - result falls outside of the other sub-types."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

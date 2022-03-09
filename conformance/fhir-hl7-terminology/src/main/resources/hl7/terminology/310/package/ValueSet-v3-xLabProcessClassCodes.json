@@ -1,0 +1,69 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-xLabProcessClassCodes",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "extension": [
+                {
+                    "url": "name",
+                    "valueString": "Name:Class"
+                },
+                {
+                    "url": "value",
+                    "valueString": "LabProcess"
+                }
+            ],
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-assocConceptProp"
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v3-xLabProcessClassCodes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19657"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "XLabProcessClassCodes",
+    "title": "x_LabProcessClassCodes",
+    "status": "active",
+    "date": "2014-03-26",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActClass",
+                "concept": [
+                    {
+                        "code": "ACSN"
+                    },
+                    {
+                        "code": "CONTREG"
+                    },
+                    {
+                        "code": "OBS"
+                    },
+                    {
+                        "code": "PROC"
+                    },
+                    {
+                        "code": "SPCTRT"
+                    },
+                    {
+                        "code": "SPECCOLLECT"
+                    },
+                    {
+                        "code": "STORE"
+                    },
+                    {
+                        "code": "TRNS"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "UPC",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/UPC",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.55"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "UPC",
+    "title": "Universal Product Code",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "description": "Universal Product Code",
+    "content": "not-present"
+}

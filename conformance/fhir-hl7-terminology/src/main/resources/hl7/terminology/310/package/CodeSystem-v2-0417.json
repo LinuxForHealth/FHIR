@@ -1,0 +1,219 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0417",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0417",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.259"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TissueType",
+    "title": "tissueType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which specify a type of tissue removed from a patient during a procedure. Used in HL7 Version 2 messaging in the PR1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0417 (Tissue Type Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0417",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4555",
+            "code": "1",
+            "display": "Insufficient Tissue",
+            "definition": "Insufficient Tissue",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4556",
+            "code": "2",
+            "display": "Not abnormal",
+            "definition": "Not abnormal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4557",
+            "code": "3",
+            "display": "Abnormal-not categorized",
+            "definition": "Abnormal-not categorized",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4558",
+            "code": "4",
+            "display": "Mechanical abnormal",
+            "definition": "Mechanical abnormal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4559",
+            "code": "5",
+            "display": "Growth alteration",
+            "definition": "Growth alteration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4560",
+            "code": "6",
+            "display": "Degeneration & necrosis",
+            "definition": "Degeneration & necrosis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4561",
+            "code": "7",
+            "display": "Non-acute inflammation",
+            "definition": "Non-acute inflammation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4562",
+            "code": "8",
+            "display": "Non-malignant neoplasm",
+            "definition": "Non-malignant neoplasm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4563",
+            "code": "9",
+            "display": "Malignant neoplasm",
+            "definition": "Malignant neoplasm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4564",
+            "code": "0",
+            "display": "No tissue expected",
+            "definition": "No tissue expected",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4565",
+            "code": "B",
+            "display": "Basal cell carcinoma",
+            "definition": "Basal cell carcinoma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4566",
+            "code": "C",
+            "display": "Carcinoma-unspecified type",
+            "definition": "Carcinoma-unspecified type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4567",
+            "code": "G",
+            "display": "Additional tissue required",
+            "definition": "Additional tissue required",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

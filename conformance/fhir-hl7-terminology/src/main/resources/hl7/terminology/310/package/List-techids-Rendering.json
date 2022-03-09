@@ -1,0 +1,533 @@
+{
+    "resourceType": "List",
+    "id": "techids-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Code System Identification Records Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "NamingSystem/apdrg",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-WC",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/IMO",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CCC",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CCDD",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-cci",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CDT",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CDCNHSN",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CDCREC",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CMSPlaceofServiceCodes",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CMSRxHCC",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/cmshcc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CPT",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/SOPT",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/CVX",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-DCM",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/GMDN",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/gtin",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/GTR",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hc-aic",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hc-aigc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hc-aign",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/ca-hc-din",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hc-npn",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/hcpcs-Level-II",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hgnc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-hgvs",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/hsloc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/ib",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icd-o-3",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icd10-CA",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icd10CM",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icd10PCS",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icd9cm",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icnp",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/icpc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/IECColourManagement",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/ietf3066",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/ISCN",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/iso3166-1edition2",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-loinc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-mdc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/mdr",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/MEDRT",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/MeSH",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/nanda-i",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-nciThesaurus",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/MVX",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPBrandGenericIndicator",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPCompoundCode",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPDispensedAsWrittenOrProductSelectionCode",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPPharmacyType",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPPrescriptionOriginCode",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPProviderIdentificationNumber",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/NCPDPRejectCode",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-ndc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/nic",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/noc",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-nuccProviderCodes",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/oms",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/opinions",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/pclocd",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/PHOccupationalDataForHealthODH",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/presentOnAdmission",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/RARC",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-rxNorm",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/RadLex",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-scptype",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-sctemp",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-scpqual",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-snomed-CT",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/v3-ucum",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/APRDRG",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/iso3166-1edition2alpha2",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/iso3166-1edition2alpha3",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/iso3166-2",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/nubc-UB92",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/PHIndustryCDCCensus2010",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/PHOccupationCDCCensus2010",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/POS",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/sic",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/standardBillingUnit",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/TNM",
+                "type": "NamingSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "NamingSystem/X12.3",
+                "type": "NamingSystem"
+            }
+        }
+    ]
+}

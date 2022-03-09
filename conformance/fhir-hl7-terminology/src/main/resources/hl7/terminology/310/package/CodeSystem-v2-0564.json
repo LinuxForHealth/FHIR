@@ -1,0 +1,155 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0564",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0564",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.366"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "AdjustmentCategory",
+    "title": "adjustmentCategory",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify the category of adjustment and is used to assist in determining which table is used for Adjustment Reason.  Used in the Adjustment (ADJ) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0564 (Adjustment Category Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0564",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6207",
+            "code": "EA",
+            "display": "Edit/Adjudication Response",
+            "definition": "Edit/Adjudication Response",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6208",
+            "code": "IN",
+            "display": "Information",
+            "definition": "Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6209",
+            "code": "PA",
+            "display": "Provider Adjustment",
+            "definition": "Provider Adjustment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Provider adjustment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Provider adjustment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6210",
+            "code": "PR",
+            "display": "Processing Result",
+            "definition": "Processing Result",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Payer adjustment"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

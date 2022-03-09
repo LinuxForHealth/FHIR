@@ -1,0 +1,161 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0513",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0513",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.335"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "BloodProductTransfusionDispositionStatus",
+    "title": "bloodProductTransfusion-dispositionStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify the current status of the specified blood product as indicated by the placer.  For example, the placer may return the blood product to the transfusion service unused because an IV could not be started. The blood component may have been entered, but the line was clogged and could not be used, in which case the component must be wasted. A final status would indicate that the product has actually been \"transfused.\"  Used in the Blood Product Transfusion/Disposition (BTX) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0513 (Blood Product Transfusion/Disposition Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0513",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5560",
+            "code": "RA",
+            "display": "Returned unused and unlinked",
+            "definition": "Blood product was returned unused, because it is no longer needed.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5561",
+            "code": "RL",
+            "display": "Returned unused but linked",
+            "definition": "Blood product was returned unused, because it is not currently needed, but should remain linked to the patient for future use.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5562",
+            "code": "WA",
+            "display": "Wasted",
+            "definition": "The blood product is no longer viable.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5563",
+            "code": "TI",
+            "display": "Transfusion Interrupted",
+            "definition": "Transfusion of the blood product was interrupted and considered ended; a reason for interruption is usually also reported.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This is not expected to be an end state; transfusion will either be ended or restarted."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "5564",
+            "code": "TR",
+            "display": "Transfusion Ended with Reactions",
+            "definition": "The blood product has been transfused and it caused an adverse reaction.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5565",
+            "code": "TS",
+            "display": "Transfusion Started",
+            "definition": "Transfusion of the blood product has been started and is in progress",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This code may be used for restart if interrupted as well."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "5566",
+            "code": "TX",
+            "display": "Transfusion Ended",
+            "definition": "The blood product has been transfused with a normal end to the transfusion.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

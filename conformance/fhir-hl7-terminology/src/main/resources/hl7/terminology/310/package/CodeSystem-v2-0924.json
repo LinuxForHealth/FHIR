@@ -1,0 +1,163 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0924",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0924",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.430"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CumulativeDosageLimitUom",
+    "title": "cumulativeDosageLimitUom",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the unit of measure (UoM) for the cumulative dosage limit.  Used in HL7 Version 2.x messaging in the CDO segment.",
+    "purpose": "Underlying Master Code System for V2 table 0924 (Cumulative Dosage Limit UoM)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0924",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6647",
+            "code": "A",
+            "display": "Annual",
+            "definition": "Annual",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6648",
+            "code": "D",
+            "display": "Per Day",
+            "definition": "Per Day",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6649",
+            "code": "M",
+            "display": "Per Month",
+            "definition": "Per Month",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6650",
+            "code": "O",
+            "display": "Duration of the Order",
+            "definition": "Duration of the Order",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Not from UCUM"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Not from UCUM"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6651",
+            "code": "PL",
+            "display": "Patients Lifetime",
+            "definition": "Patients Lifetime",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Not from UCUM"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Not from UCUM"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6652",
+            "code": "WK",
+            "display": "Per Week",
+            "definition": "Per Week",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

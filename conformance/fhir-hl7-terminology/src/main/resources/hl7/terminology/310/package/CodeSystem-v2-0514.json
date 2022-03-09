@@ -1,0 +1,291 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0514",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0514",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.336"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TransfusionAdverseReaction",
+    "title": "transfusionAdverseReaction",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify the type of adverse reaction that the recipient of the blood product experienced.  Used in the Blood Product Transfusion/Disposition (BTX) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0514 (Transfusion Adverse Reaction)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0514",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5567",
+            "code": "ABOINC",
+            "display": "ABO Incompatible Transfusion Reaction",
+            "definition": "ABO Incompatible Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5568",
+            "code": "ACUTHEHTR",
+            "display": "Acute Hemolytic Transfusion Reaction",
+            "definition": "Acute Hemolytic Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5569",
+            "code": "ALLERGIC1",
+            "display": "Allergic Reaction - First",
+            "definition": "Allergic Reaction - First",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5570",
+            "code": "ALLERGIC2",
+            "display": "Allergic Reaction - Recurrent",
+            "definition": "Allergic Reaction - Recurrent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5571",
+            "code": "ALLERGICR",
+            "display": "Allergic Reaction - Repeating",
+            "definition": "Allergic Reaction - Repeating",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5572",
+            "code": "ANAPHYLAC",
+            "display": "Anaphylactic Reaction",
+            "definition": "Anaphylactic Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5573",
+            "code": "BACTCONTAM",
+            "display": "Reaction to Bacterial Contamination",
+            "definition": "Reaction to Bacterial Contamination",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5574",
+            "code": "DELAYEDHTR",
+            "display": "Delayed Hemolytic Transfusion Reaction",
+            "definition": "Delayed Hemolytic Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5575",
+            "code": "DELAYEDSTR",
+            "display": "Delayed Serological Transfusion Reaction",
+            "definition": "Delayed Serological Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5576",
+            "code": "GVHD",
+            "display": "Graft vs Host Disease - Transfusion - Associated",
+            "definition": "Graft vs Host Disease - Transfusion - Associated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5577",
+            "code": "HYPOTENS",
+            "display": "Non-hemolytic Hypotensive Reaction",
+            "definition": "Non-hemolytic Hypotensive Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5578",
+            "code": "NONHTR1",
+            "display": "Non-Hemolytic Fever Chill Transfusion Reaction - First",
+            "definition": "Non-Hemolytic Fever Chill Transfusion Reaction - First",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5579",
+            "code": "NONHTR2",
+            "display": "Non-Hemolytic Fever Chill Transfusion Reaction - Recurrent",
+            "definition": "Non-Hemolytic Fever Chill Transfusion Reaction - Recurrent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5580",
+            "code": "NONHTRREC",
+            "display": "Non-Hemolytic Fever Chill Transfusion Reaction - Repeating",
+            "definition": "Non-Hemolytic Fever Chill Transfusion Reaction - Repeating",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5581",
+            "code": "NONIMMUNE",
+            "display": "Non-Immune Hemolysis",
+            "definition": "Non-Immune Hemolysis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5582",
+            "code": "NONSPEC",
+            "display": "Non-Specific, Non-Hemolytic Transfusion Reaction",
+            "definition": "Non-Specific, Non-Hemolytic Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5583",
+            "code": "NORXN",
+            "display": "No Evidence of Transfusion Reaction",
+            "definition": "No Evidence of Transfusion Reaction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5584",
+            "code": "PTP",
+            "display": "Posttransfusion Purpura",
+            "definition": "Posttransfusion Purpura",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5585",
+            "code": "VOLOVER",
+            "display": "Symptoms most likely due to volume overload",
+            "definition": "Symptoms most likely due to volume overload",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

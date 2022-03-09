@@ -1,0 +1,567 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0488",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0488",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.312"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SpecimenCollectionMethod",
+    "title": "specimenCollectionMethod",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the specimen collection method.  Used in HL7 Version 2.x messaging in the SPM segment.",
+    "purpose": "Underlying Master Code System for V2 table 0488 (Specimen Collection Method)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0488",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5250",
+            "code": "FNA",
+            "display": "Aspiration, Fine Needle",
+            "definition": "Aspiration, Fine Needle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5251",
+            "code": "PNA",
+            "display": "Arterial puncture",
+            "definition": "Arterial puncture",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5252",
+            "code": "BIO",
+            "display": "Biopsy",
+            "definition": "Biopsy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5253",
+            "code": "BCAE",
+            "display": "Blood Culture, Aerobic Bottle",
+            "definition": "Blood Culture, Aerobic Bottle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5254",
+            "code": "BCAN",
+            "display": "Blood Culture, Anaerobic Bottle",
+            "definition": "Blood Culture, Anaerobic Bottle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5255",
+            "code": "BCPD",
+            "display": "Blood Culture, Pediatric Bottle",
+            "definition": "Blood Culture, Pediatric Bottle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5256",
+            "code": "CAP",
+            "display": "Capillary Specimen",
+            "definition": "Capillary Specimen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5257",
+            "code": "CATH",
+            "display": "Catheterized",
+            "definition": "Catheterized",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5258",
+            "code": "EPLA",
+            "display": "Environmental, Plate",
+            "definition": "Environmental, Plate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5259",
+            "code": "ESWA",
+            "display": "Environmental, Swab",
+            "definition": "Environmental, Swab",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5260",
+            "code": "LNA",
+            "display": "Line, Arterial",
+            "definition": "Line, Arterial",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5261",
+            "code": "CVP",
+            "display": "Line, CVP",
+            "definition": "Line, CVP",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5262",
+            "code": "LNV",
+            "display": "Line, Venous",
+            "definition": "Line, Venous",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5263",
+            "code": "MARTL",
+            "display": "Martin-Lewis Agar",
+            "definition": "Martin-Lewis Agar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5264",
+            "code": "ML11",
+            "display": "Mod. Martin-Lewis Agar",
+            "definition": "Mod. Martin-Lewis Agar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5265",
+            "code": "PACE",
+            "display": "Pace, Gen-Probe",
+            "definition": "Pace, Gen-Probe",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5266",
+            "code": "PIN",
+            "display": "Pinworm Prep",
+            "definition": "Pinworm Prep",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5267",
+            "code": "KOFFP",
+            "display": "Plate, Cough",
+            "definition": "Plate, Cough",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5268",
+            "code": "MLP",
+            "display": "Plate, Martin-Lewis",
+            "definition": "Plate, Martin-Lewis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5269",
+            "code": "NYP",
+            "display": "Plate, New York City",
+            "definition": "Plate, New York City",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5270",
+            "code": "TMP",
+            "display": "Plate, Thayer-Martin",
+            "definition": "Plate, Thayer-Martin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5271",
+            "code": "ANP",
+            "display": "Plates, Anaerobic",
+            "definition": "Plates, Anaerobic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5272",
+            "code": "BAP",
+            "display": "Plates, Blood Agar",
+            "definition": "Plates, Blood Agar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5273",
+            "code": "PRIME",
+            "display": "Pump Prime",
+            "definition": "Pump Prime",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5274",
+            "code": "PUMP",
+            "display": "Pump Specimen",
+            "definition": "Pump Specimen",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5275",
+            "code": "QC5",
+            "display": "Quality Control For Micro",
+            "definition": "Quality Control For Micro",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5276",
+            "code": "SCLP",
+            "display": "Scalp, Fetal Vein",
+            "definition": "Scalp, Fetal Vein",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5277",
+            "code": "SCRAPS",
+            "display": "Scrapings",
+            "definition": "Scrapings",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5278",
+            "code": "SHA",
+            "display": "Shaving",
+            "definition": "Shaving",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5279",
+            "code": "SWA",
+            "display": "Swab",
+            "definition": "Swab",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5280",
+            "code": "SWD",
+            "display": "Swab, Dacron tipped",
+            "definition": "Swab, Dacron tipped",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5281",
+            "code": "WOOD",
+            "display": "Swab, Wooden Shaft",
+            "definition": "Swab, Wooden Shaft",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5282",
+            "code": "TMOT",
+            "display": "Transport Media,",
+            "definition": "Transport Media,",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5283",
+            "code": "TMAN",
+            "display": "Transport Media, Anaerobic",
+            "definition": "Transport Media, Anaerobic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5284",
+            "code": "TMCH",
+            "display": "Transport Media, Chalamydia",
+            "definition": "Transport Media, Chalamydia",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5285",
+            "code": "TMM4",
+            "display": "Transport Media, M4",
+            "definition": "Transport Media, M4",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5286",
+            "code": "TMMY",
+            "display": "Transport Media, Mycoplasma",
+            "definition": "Transport Media, Mycoplasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5287",
+            "code": "TMPV",
+            "display": "Transport Media, PVA",
+            "definition": "Transport Media, PVA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5288",
+            "code": "TMSC",
+            "display": "Transport Media, Stool Culture",
+            "definition": "Transport Media, Stool Culture",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5289",
+            "code": "TMUP",
+            "display": "Transport Media, Ureaplasma",
+            "definition": "Transport Media, Ureaplasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5290",
+            "code": "TMVI",
+            "display": "Transport Media, Viral",
+            "definition": "Transport Media, Viral",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5291",
+            "code": "VENIP",
+            "display": "Venipuncture",
+            "definition": "Venipuncture",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

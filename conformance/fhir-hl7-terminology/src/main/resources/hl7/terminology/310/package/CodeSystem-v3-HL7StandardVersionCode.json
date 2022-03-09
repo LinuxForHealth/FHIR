@@ -1,0 +1,484 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-HL7StandardVersionCode",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-HL7StandardVersionCode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1097"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "HL7StandardVersionCode",
+    "title": "HL7StandardVersionCode",
+    "status": "active",
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "This code system holds version codes for the Version 3 standards. Values are to be determined by HL7 and added with each new version of the HL7 Standard.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired..",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "Ballot2008Jan",
+            "display": "Ballot 2008 January",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in January 2008.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22927"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2008May",
+            "display": "Ballot 2008 May",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in May 2008.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22928"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2008Sep",
+            "display": "Ballot 2008 September",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in September 2008.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22929"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2009Jan",
+            "display": "Ballot 2009 January",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in January 2009.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22930"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2009May",
+            "display": "Ballot 2009 May",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in May 2009.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22931"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2009Sep",
+            "display": "Ballot 2009 September",
+            "definition": "The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in September 2009.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22932"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2010Jan",
+            "display": "Ballot 2010 Jan",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in January 2010.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23280"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2010May",
+            "display": "Ballot 2010 May",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in May 2010.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23281"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2010Sep",
+            "display": "Ballot 2010 Sep",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in September 2010.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23282"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2011Jan",
+            "display": "Ballot 2011 Jan",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in January 2011.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23283"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2011May",
+            "display": "Ballot 2011 May",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in May 2011.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23284"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2011Sep",
+            "display": "Ballot 2011 Sep",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in September 2011.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23285"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2012Jan",
+            "display": "Ballot 2012 Jan",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in January 2012.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23286"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2012May",
+            "display": "Ballot 2012 May",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in May 2012.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23287"
+                }
+            ]
+        },
+        {
+            "code": "Ballot2012Sep",
+            "display": "Ballot 2012 Sep",
+            "definition": "**Definition:** The complete set of normative, DSTU, proposed (under ballot) and draft artifacts as published in the ballot whose ballot cycle ended in September 2012.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23288"
+                }
+            ]
+        },
+        {
+            "code": "V3-2003-12",
+            "display": "HL7 Version V3-2003-12",
+            "definition": "The consistent set of messaging artefacts as published or contained in repositories in December of 2003, based on the latest version of any V3 models or artefacts (RIM, Datatypes, CMETS, Common Messages, Vocabularies) as available in December of 2003. Note: This versioncode does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20835"
+                }
+            ]
+        },
+        {
+            "code": "V3-2005N",
+            "display": "2005 Normative Edition",
+            "definition": "**Description:**The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2004, based on the latest version of any V3 models or artifacts (RIM, Datatypes, CMETS, Common Messages, Vocabularies) as published under the title of Normative Edition 2005. Note: This versioncode does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22714"
+                }
+            ]
+        },
+        {
+            "code": "V3-2006N",
+            "display": "2006 Normative Edition",
+            "definition": "**Description:**The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2005, based on the latest version of any V3 models or artifacts (RIM, Datatypes, CMETS, Common Messages, Vocabularies) as published under the title of Normative Edition 2006. Note: This versioncode does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22715"
+                }
+            ]
+        },
+        {
+            "code": "V3-2008N",
+            "display": "2008 Normative Edition",
+            "definition": "**Definition:** The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2007, based on the latest version of any V3 models or artifacts (RIM, Data Types, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2008. Note: This version code does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23289"
+                }
+            ]
+        },
+        {
+            "code": "V3-2009N",
+            "display": "2009 Normative Edition",
+            "definition": "**Description:** The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2008, based on the latest version of any V3 models or artifacts (RIM, Data Types, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2009. Note: This version code does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23290"
+                }
+            ]
+        },
+        {
+            "code": "V3-2010N",
+            "display": "2010 Normative Edition",
+            "definition": "**Definition:** The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2009, based on the latest version of any V3 models or artifacts (RIM, Data Types, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2010. Note: This version code does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23291"
+                }
+            ]
+        },
+        {
+            "code": "V3-2011N",
+            "display": "2011 Normative Edition",
+            "definition": "**Definition:** The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2010, based on the latest version of any V3 models or artifacts (RIM, Data Types, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2011. Note: This version code does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23292"
+                }
+            ]
+        },
+        {
+            "code": "V3-2012N",
+            "display": "2012 Normative Edition",
+            "definition": "**Definition:** The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2011, based on the latest version of any V3 models or artifacts (RIM, Data Types, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2012. Note: This version code does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23293"
+                }
+            ]
+        },
+        {
+            "code": "V3PR1",
+            "display": "Version3 Pre-release #1",
+            "definition": "Includes all material published as part of the ballot package released for vote in July-August 2003.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20075"
+                }
+            ]
+        },
+        {
+            "code": "V3-2007N",
+            "display": "2007 Normative Edition",
+            "definition": "**Description:**The consistent set of normative and DSTU messaging artifacts as published or contained in repositories in December of 2006, based on the latest version of any V3 models or artifacts (RIM, Datatypes, CMETS, Common Messages, Vocabularies) published under the title of Normative Edition 2007. Note: This versioncode does not cover the version of the XML ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22716"
+                }
+            ]
+        }
+    ]
+}

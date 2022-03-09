@@ -1,0 +1,63 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-HL7FormatCodes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-HL7FormatCodes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.19752"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "HL7FormatCodes",
+    "title": "HL7 ValueSet of Format Codes for use with Document Sharing",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-10-01",
+    "publisher": "Health Level Seven, Inc. (HL7)",
+    "contact": [
+        {
+            "name": "HL7",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The HL7-FormatCodes value set is defined to be the set of FormatCode(s) defined by implementation guides published by HL7 and other SDOs. The use of a formatCode from the FormatCodes value set specifies the technical format that a document conforms to. The formatCode is a further specialization more detailed than the mime-type. The formatCode provides sufficient information to allow any potential document content consumer to know if it can process and/or display the content of the document based on the document encoding, structure and template conformance indicated by the formatCode. The set of formatCodes is intended to be extensible. The Content Logical Description is defined intentionally to permit formatCodes defined by other Standards Development Organizations to be added by inclusion of additional formatCode Code Systems.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "http://unstats.un.org/unsd/methods/m49/m49.htm",
+                    "code": "001"
+                }
+            ]
+        }
+    ],
+    "immutable": false,
+    "copyright": "HL7 http://www.hl7.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ihe.net/fhir/ihe.formatcode.fhir/CodeSystem/formatcode",
+                "filter": [
+                    {
+                        "property": "notSelectable",
+                        "op": "=",
+                        "value": "false"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-HL7DocumentFormatCodes"
+            }
+        ]
+    }
+}
