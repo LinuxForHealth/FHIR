@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,11 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 
 import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigProvider;
@@ -59,6 +54,11 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
@@ -434,7 +434,8 @@ public class Main {
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(),
+                    new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource

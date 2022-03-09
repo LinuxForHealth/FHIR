@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, configProvider, cache, searchHelper);
     }
 
     @Override

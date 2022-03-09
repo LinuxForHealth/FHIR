@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,7 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            
+
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
@@ -54,7 +54,7 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, configProvider, cache, searchHelper);
     }
 
     @Override

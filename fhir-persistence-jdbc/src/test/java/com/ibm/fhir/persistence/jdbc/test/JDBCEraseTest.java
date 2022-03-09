@@ -58,7 +58,7 @@ public class JDBCEraseTest extends AbstractEraseTest {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, configProvider, cache, searchHelper);
     }
 
     @Override
