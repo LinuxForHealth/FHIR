@@ -1,0 +1,97 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "contributor-summary-type",
+    "meta": {
+        "lastUpdated": "2022-01-02T02:17:18.597+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/contributor-summary-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "ContributorSummaryType",
+    "title": "ContributorSummaryType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Used to code author list statement, contributorship statement, and such.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/contributor-summary-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "author-string",
+            "display": "Author string",
+            "definition": "Display of the author list as a complete string."
+        },
+        {
+            "code": "contributorship-list",
+            "display": "Contributorship list",
+            "definition": "Display of the list of contributors as a complete string."
+        },
+        {
+            "code": "contributorship-statement",
+            "display": "Contributorship statement",
+            "definition": "Compiled summary of contributions."
+        },
+        {
+            "code": "acknowledgement-list",
+            "display": "Acknowledgment list",
+            "definition": "Display of the list of acknowledged parties as a complete string."
+        },
+        {
+            "code": "acknowledgment-statement",
+            "display": "Acknowledgment statement",
+            "definition": "Statement of acknowledgment of contributions beyond those compiled for formal contributorship statements."
+        },
+        {
+            "code": "funding-statement",
+            "display": "Funding statement",
+            "definition": "Statement of financial support for the creation of the cited artifact."
+        },
+        {
+            "code": "competing-interests-statement",
+            "display": "Competing interests statement",
+            "definition": "Statement of completing interests related to the creation of the cited artifact. Also called conflicts of interest or declaration of interests."
+        }
+    ]
+}

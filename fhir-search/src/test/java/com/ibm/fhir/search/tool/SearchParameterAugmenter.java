@@ -86,7 +86,7 @@ public class SearchParameterAugmenter {
                                 "' already has an implicity system extension and it doesn't match '" + system + "'");
                     }
 
-                    Path path = Paths.get("../fhir-registry/src/main/resources/hl7/fhir/core/package/SearchParameter-"
+                    Path path = Paths.get("../conformance/fhir-core-r4b/src/main/resources/hl7/fhir/core/410/package/SearchParameter-"
                             + searchParameter.getId() + ".json");
                     BufferedWriter writer = Files.newBufferedWriter(path, Charset.forName("UTF-8"));
                     generator.generate(searchParameter, writer);

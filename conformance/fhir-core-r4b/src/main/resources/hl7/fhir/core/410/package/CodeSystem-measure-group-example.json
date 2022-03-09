@@ -1,0 +1,49 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "measure-group-example",
+    "meta": {
+        "lastUpdated": "2022-01-01T15:17:18.597Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/measure-group-example",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-CIBUILD",
+    "name": "MeasureGroupExample",
+    "title": "MeasureGroupExample",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "Clinical Quality Information Workgroup",
+    "description": "Example Measure Groups for the Measure Resource.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/measure-group-example",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "primary-rate",
+            "display": "Primary Rate",
+            "definition": "Primary Measure Group."
+        },
+        {
+            "code": "secondary-rate",
+            "display": "Secondary Rate",
+            "definition": "Secondary Measure Group"
+        }
+    ]
+}
