@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
@@ -21,6 +22,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchCompositeTest;
+import com.ibm.fhir.search.util.SearchHelper;
 
 
 public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
@@ -43,18 +45,18 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            
+
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, configProvider, cache, searchHelper);
     }
 
     @Override

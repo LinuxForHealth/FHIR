@@ -283,15 +283,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Constructor for use when running standalone, outside of any web container. The
      * IConnectionProvider should be a pooling implementation which supports an
-     * ITransactionProvider. Uses the default adapter for reading FHIR configurations,
-     * which works OK for unit-tests.
+     * ITransactionProvider. Uses the default adapter for reading FHIR configurations
+     * and a new SearchHelper instance, which works OK for unit-tests.
      *
      * @param configProps
      * @param cp
+     * @param cache
      * @throws Exception
      */
     public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRPersistenceJDBCCache cache) throws Exception {
-        this(configProps, cp, new DefaultFHIRConfigProvider(), cache);
+        this(configProps, cp, new DefaultFHIRConfigProvider(), cache, new SearchHelper());
     }
 
     /**
@@ -308,15 +309,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param configProps
      * @param cp
      * @param configProvider adapter to provide access to FHIR configuration
+     * @param cache
+     * @param searchHelper
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) throws Exception {
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider,
+            FHIRPersistenceJDBCCache cache, SearchHelper searchHelper) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider, FHIRConfigProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
         this.cache = cache;
         this.payloadPersistence = null;
-        this.searchHelper = new SearchHelper();
+        this.searchHelper = searchHelper;
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container

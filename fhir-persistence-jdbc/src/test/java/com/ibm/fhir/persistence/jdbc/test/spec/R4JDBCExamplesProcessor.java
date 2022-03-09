@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Reads R4 example resources and performs a sequence of persistance
@@ -46,15 +47,18 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     // supplier of FHIRPersistenceContext for history operations
     private final Supplier<FHIRPersistenceContext> historyContextSupplier;
 
+    // a shared searchHelper to use while processing resources
+    private final SearchHelper searchHelper;
+
     private Properties configProps;
     private IConnectionProvider cp;
     private String tenantName;
     private String tenantKey;
     private ITransactionProvider transactionProvider;
-    
+
     // Adapter used by the persistence layer to access certain fhir-server-config properties
     private final FHIRConfigProvider configProvider;
-    
+
     private final FHIRPersistenceJDBCCache cache;
 
     /**
@@ -73,6 +77,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         this.historyContextSupplier = historyContextSupplier;
         this.configProvider = configProvider;
         this.cache = cache;
+        this.searchHelper = new SearchHelper();
 
         // The sequence of operations we want to apply to each resource
         operations.add(new CreateOperation());
@@ -85,7 +90,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         operations.add(new DeleteOperation());
         operations.add(new DeleteOperation());
         operations.add(new HistoryOperation(4)); // create+update+update+delete = 4 versions
-        
+
         // Use a custom configuration provider so that we can support passing the tenant key
         // without having to create a fhir-server-configuration.json file
     }
@@ -99,12 +104,14 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
      * @param configProvider
      */
     public R4JDBCExamplesProcessor(FHIRPersistence persistence, Supplier<FHIRPersistenceContext> persistenceContextSupplier,
-            Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
+            Supplier<FHIRPersistenceContext> historyContextSupplier, Collection<ITestResourceOperation> operations,
+            FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
         this.persistence = persistence;
         this.persistenceContextSupplier = persistenceContextSupplier;
         this.historyContextSupplier = historyContextSupplier;
         this.configProvider = configProvider;
         this.cache = cache;
+        this.searchHelper = new SearchHelper();
 
         // The sequence of operations we want to apply to each resource
         this.operations.addAll(operations);
@@ -119,9 +126,11 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
      * @param tenantKey
      * @param transactionProvider
      * @param configProvider
+     * @param cache
      */
     public R4JDBCExamplesProcessor(Collection<ITestResourceOperation> operations,
-            Properties configProps, IConnectionProvider cp, String tenantName, String tenantKey, ITransactionProvider transactionProvider, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
+            Properties configProps, IConnectionProvider cp, String tenantName, String tenantKey,
+            ITransactionProvider transactionProvider, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) {
         this.persistence = null;
         this.persistenceContextSupplier = null;
         this.historyContextSupplier = null;
@@ -132,6 +141,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         this.transactionProvider = transactionProvider;
         this.configProvider = configProvider;
         this.cache = cache;
+        this.searchHelper = new SearchHelper();
 
         // The sequence of operations we want to apply to each resource
         this.operations.addAll(operations);
@@ -149,13 +159,13 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
             // can configure itself for this tenant
             if (this.tenantName != null && this.tenantKey != null) {
                 FHIRRequestContext rc = FHIRRequestContext.get();
-                
+
                 // tenantKey is accessed by the persistence layer using the
                 // TenantKeyStrategy implementation
                 rc.setTenantId(this.tenantName);
             }
 
-            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp, configProvider, this.cache);
+            tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp, configProvider, this.cache, searchHelper);
 
             context = new TestContext(tmpPersistence,
                     () -> createPersistenceContext(),
@@ -190,7 +200,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
             }
         }
     }
-    
+
     /**
      * Create a new {@link FHIRPersistenceContext} for the test
      * @return
