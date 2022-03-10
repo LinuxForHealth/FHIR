@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -24,6 +25,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractEraseTest;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * JDBC test implementation of the Erase DAO provided by the persistence layer
@@ -54,7 +56,7 @@ public class JDBCEraseTest extends AbstractEraseTest {
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
