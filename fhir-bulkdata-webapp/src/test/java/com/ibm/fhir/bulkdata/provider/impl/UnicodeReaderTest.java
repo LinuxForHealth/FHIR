@@ -6,18 +6,38 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
+import static org.testng.Assert.assertEquals;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
 /**
- * 
+ * Tests the FileProvider and S3Provider CountingStream with a variety of single and multibyte characters.
  */
 public class UnicodeReaderTest {
+    public void test(InputStream in, List<String> outLines) throws IOException {
+        try (BufferedInputStream sourceBuffer = new BufferedInputStream(in);
+                FileProvider.CountingStream counter = new FileProvider.CountingStream(sourceBuffer)) {
+            int r = counter.read();
+            while (r != -1) {
+                if (counter.eol()) {
+                    outLines.add(counter.getLine());
+                    counter.resetLine();
+                }
+                r = counter.read();
+            }
+        }
+    }
+
     @Test
     public void testUnicode() throws IOException {
         List<String> lines = new ArrayList<>();
@@ -28,61 +48,71 @@ public class UnicodeReaderTest {
             line.append(Character.toChars(codePoint));
             if (count++ % 32 == 0) {
                 inBlob.append(line.toString())
-                    .append("\n");
-                lines.add(line.toString());
+                        .append("\n");
+                lines.add(Base64.getEncoder().encodeToString(line.toString().getBytes()));
                 line = new StringBuilder();
             }
         }
         String out = inBlob.toString();
-        System.out.println(out.getBytes().length);
-        
-        
-        List<String> outLines = new ArrayList<>();
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(out.getBytes());
-                FileProvider.CountInputStreamReader cisr = new FileProvider.CountInputStreamReader(bais)){
-            String r = cisr.read();
-            while(r != null) {
-                outLines.add(r);
-                r = cisr.readLine();
-            }
-        }
-        
-        //System.out.println(outLines);
-        String outBlob = outLines.stream().collect(Collectors.joining("\n"));
-        System.out.println(outBlob.getBytes().length);
-        
-        //outLines.stream().forEachOrdered(e -> System.out.println(e));
-        
-        byte[] ou = outBlob.getBytes();
-        byte[] in = inBlob.toString().getBytes();
-        for (int i = 0; i < in.length; i++) {
-            if (ou.length < in.length && i == ou.length) {
-                System.out.println(i + " " + in[i-1]);
-            } else if (ou[i] != in[i] && i == outBlob.length()) {
-                System.out.println(i);
-                System.out.println(Integer.toHexString((int)inBlob.charAt(i)) + " " + Integer.toHexString((int)outBlob.charAt(i)));
-            }
-        }
-        
-        
 
-        for (int i = 0; i < inBlob.length(); i++) {
-            if (outBlob.length() < inBlob.length() && i == outBlob.length()) {
-                System.out.println(i + " " + inBlob.charAt(i));
-            } else if (outBlob.charAt(i) != inBlob.charAt(i)) {
-                System.out.println(i + " | " + (int)inBlob.charAt(i) + " | " + (int)outBlob.charAt(i));
-                System.out.println(Integer.toHexString((int)inBlob.charAt(i)) + " " + Integer.toHexString((int)outBlob.charAt(i)));
+        List<String> outLines = new ArrayList<>();
+        test(new ByteArrayInputStream(out.getBytes()), outLines);
+        List<String> outBlob = outLines.stream().map(m -> Base64.getEncoder().encodeToString(m.getBytes()))
+                .collect(Collectors.toList());
+
+        count = 0;
+        for (String in : lines) {
+            if (!outBlob.contains(in)) {
+                System.out.println(in);
+                System.out.println(outBlob.get(0));
+                count++;
             }
         }
-        
-        
+        assertEquals(count, 0, "The actual count is not zero, this indicates a bad byte read: " + count);
     }
     
-    @Test
-    public void testInt() {
+    public void testForS3Stream(InputStream in, List<String> outLines) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (BufferedInputStream sourceBuffer = new BufferedInputStream(in);
+                S3Provider.CountingStream counter = new S3Provider.CountingStream(out, sourceBuffer)) {
+            String x = counter.readLine();
+            while (x != null) {
+                outLines.add(counter.getLine());
+                x = counter.readLine();
+            }
+        }
+    }
 
-        //int x = Character.codePointOf("U+1FB00");
-        System.out.println("\u1FA00".getBytes().length);
-        System.out.println("\u1FA00".getBytes().length);
+    @Test
+    public void testUnicodeS3() throws IOException {
+        List<String> lines = new ArrayList<>();
+        int count = 0;
+        StringBuilder inBlob = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+        for (int codePoint = 32; codePoint <= 0x1F64F; codePoint++) {
+            line.append(Character.toChars(codePoint));
+            if (count++ % 32 == 0) {
+                inBlob.append(line.toString())
+                        .append("\n");
+                lines.add(Base64.getEncoder().encodeToString(line.toString().getBytes()));
+                line = new StringBuilder();
+            }
+        }
+        String out = inBlob.toString();
+
+        List<String> outLines = new ArrayList<>();
+        test(new ByteArrayInputStream(out.getBytes()), outLines);
+        List<String> outBlob = outLines.stream().map(m -> Base64.getEncoder().encodeToString(m.getBytes()))
+                .collect(Collectors.toList());
+
+        count = 0;
+        for (String in : lines) {
+            if (!outBlob.contains(in)) {
+                System.out.println(in);
+                System.out.println(outBlob.get(0));
+                count++;
+            }
+        }
+        assertEquals(count, 0, "The actual count is not zero, this indicates a bad byte read: " + count);
     }
 }

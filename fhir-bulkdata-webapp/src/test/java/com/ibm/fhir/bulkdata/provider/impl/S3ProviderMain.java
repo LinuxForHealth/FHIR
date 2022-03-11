@@ -16,6 +16,8 @@ import com.ibm.fhir.exception.FHIRException;
 
 /**
  * Run the logic directly against an S3 instance and bucket
+ * example: r4_AllergyIntolerance.ndjson
+ * example: patient-large.ndjson
  */
 public class S3ProviderMain {
 
@@ -41,15 +43,18 @@ public class S3ProviderMain {
             .build();
 
         S3Provider provider = new S3Provider();
-        long size = provider.getSize(client, "fhirbulkdata", "r4_AllergyIntolerance.ndjson");
+        long size = provider.getSize(client, "fhirbulkdata", "patient-large.ndjson");
         System.out.println("Size: " + size);
 
         ImportTransientUserData transientUserData = ImportTransientUserData.Builder.builder()
                 .build();
         transientUserData.setImportFileSize(size);
         provider.registerTransient(transientUserData);
-        provider.readFromObjectStoreWithLowMaxRange(client, "fhirbulkdata", "r4_AllergyIntolerance.ndjson");
-
-        System.out.println(provider.getResources().size());
+        while (transientUserData.getCurrentBytes() < (size - 1)) {
+            System.out.println("- PREREAD - bytes " + transientUserData.getCurrentBytes());
+            provider.readFromObjectStoreWithLowMaxRange(client, "fhirbulkdata", "patient-large.ndjson");
+            System.out.println(provider.getResources().size());
+            System.out.println("- POSTREAD - bytes " + transientUserData.getCurrentBytes());
+        }
     }
 }

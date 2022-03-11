@@ -9,16 +9,14 @@ package com.ibm.fhir.bulkdata.provider.impl;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.io.StringReader;
-import java.nio.CharBuffer;
+import java.io.UnsupportedEncodingException;
 import java.nio.channels.Channels;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,17 +57,6 @@ public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
 
-    /**
-     * @implNote
-     * The READ_BLOCK is intentionally sized at 512K. 
-     * From experimentation this block was useful and had light downward pressure
-     * on the JVM, small block get pushed into the memory as Resources.
-     * 
-     * If you are testing this block you have to drive a fairly wide range of Resource
-     * sizes, 1K to 1G and see how it performs while reading.
-     */
-    private static final long READ_BLOCK_OPT = 524288L;
-
     private static final byte[] NDJSON_LINESEPERATOR = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     private String source = null;
@@ -80,6 +67,8 @@ public class FileProvider implements Provider {
     private String fhirResourceType = null;
     private String fileName = null;
     private String exportPathPrefix = null;
+    // Aggregated number of bytes read from the File
+    private long length = 0;
 
     private ExportTransientUserData chunkData = null;
 
@@ -106,6 +95,21 @@ public class FileProvider implements Provider {
         }
     }
 
+    private String readLine(CountingStream counter) throws IOException {
+        String result;
+        int r = counter.read();
+        while(r != -1) {
+            if (counter.eol()) {
+                length += counter.getLength();
+                result = counter.getLine();
+                counter.resetLine();
+                return result;
+            }
+            r = counter.read();
+        }
+        return counter.getLine();
+    }
+
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         resources = new ArrayList<>();
@@ -116,15 +120,17 @@ public class FileProvider implements Provider {
 
                 try (InputStream in = Channels.newInputStream(raf.getChannel());
                         BufferedInputStream sourceBuffer = new BufferedInputStream(in);
-                        CountInputStreamReader counter = new CountInputStreamReader(sourceBuffer);
-                        BufferedReader reader = new BufferedReader(counter);) {
+                        CountingStream counter = new CountingStream(sourceBuffer);) {
 
                     int chunkRead = 0;
 
-                    String resourceStr = reader.readLine();
+                    String resourceStr = readLine(counter);
+
                     boolean continueRead = true;
-                    while (continueRead && resourceStr != null) {
+
+                    while (continueRead && resourceStr != null && length < this.transientUserData.getImportFileSize()) {
                         chunkRead++;
+
                         try (StringReader stringReader = new StringReader(resourceStr)){
                             resources.add(
                                         FHIRParser.parser(Format.JSON)
@@ -147,11 +153,8 @@ public class FileProvider implements Provider {
                             logger.log(Level.WARNING, msg);
                         }
 
-                        // With small resources the 50 at a time gets really expensive.
-                        // so we have a READ_BLOCK_OPT to get at least a decent segment to
-                        // insert into the db.
-                        if (chunkRead < maxRead || counter.getLength() < READ_BLOCK_OPT) {
-                            resourceStr = reader.readLine();
+                        if (chunkRead < maxRead) {
+                            resourceStr = readLine(counter);
                         } else {
                             resourceStr = null;
                             continueRead = false;
@@ -159,7 +162,7 @@ public class FileProvider implements Provider {
                         line++;
                     }
                     // The Channel enables us to skip the future seek.
-                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + counter.getLength());
+                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + length);
                 }
             }
         } catch (Exception e) {
@@ -168,16 +171,28 @@ public class FileProvider implements Provider {
     }
 
     /**
-     * This specialized class enables a BufferedReader.readLine like implementation
+     * This specialized delegate that facilitates reading of resources into bytes
      * without the buffering as there is a local file with direct read and seek.
      */
-    public static class CountInputStreamReader extends InputStreamReader {
+    public static class CountingStream extends InputStream {
+        private static int LF = '\n';
         private static final long MAX_LENGTH_PER_LINE = 2147483648l;
 
+        // 256kb block
+        private ByteArrayOutputStream out = new ByteArrayOutputStream(256000);
+        private boolean eol = false;
         private long length = 0;
 
-        public CountInputStreamReader(InputStream in) {
-            super(in);
+        private InputStream delegate;
+
+        public CountingStream(InputStream in) {
+            this.delegate = in;
+        }
+
+        public void resetLine() {
+            length = 0;
+            eol = false;
+            out.reset();
         }
 
         /**
@@ -187,40 +202,42 @@ public class FileProvider implements Provider {
             return length;
         }
 
+        /**
+         * Gets the String representing the line of bytes.
+         * 
+         * @return
+         * @throws UnsupportedEncodingException
+         */
+        public String getLine() throws UnsupportedEncodingException {
+            String str = new String(out.toByteArray(), "UTF-8");
+            if (str.isEmpty()) {
+                str = null;
+            }
+            return str;
+        }
+
+        public boolean eol() {
+            return eol;
+        }
+
         @Override
         public int read() throws IOException {
-            int r = super.read(); 
-            if (r != -1) { 
+            int r = delegate.read();
+            if (r == -1) {
+                return -1;
+            }
+            byte b = (byte) r;
+            if (LF == (int) b) {
                 length++;
+                eol = true;
+            } else {
+                length++;
+                if (length == MAX_LENGTH_PER_LINE) {
+                    throw new IOException("Current Line in NDJSON exceeds limit " + MAX_LENGTH_PER_LINE);
+                }
+                out.write(b);
             }
-            return r;
-        }
-
-        @Override
-        public int read(char[] cbuf, int offset, int length) throws IOException {
-            int r = super.read(cbuf, offset, length);
-            if (r != -1) {
-                length += r;
-            }
-            return r;
-        }
-
-        @Override
-        public int read(CharBuffer target) throws IOException {
-            int r = super.read(target);
-            if (r != -1) {
-                length += r;
-            }
-            return r;
-        }
-
-        @Override
-        public int read(char[] cbuf) throws IOException {
-            int r = super.read(cbuf);
-            if (r != -1) {
-                length += r;
-            }
-            return r;
+            return b;
         }
     }
 

@@ -6,12 +6,15 @@
 
 package com.ibm.fhir.bulkdata.provider.impl;
 
+import static com.ibm.fhir.model.type.String.string;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,13 +37,21 @@ import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.client.S3ClientGenerator;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
  * S3Provider for ibm-cos and aws-s3
@@ -48,6 +59,7 @@ import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 public class S3Provider implements Provider {
 
     private static final Logger LOG = Logger.getLogger(S3Provider.class.getName());
+    private static final byte[] NDJSON_LINESEPERATOR = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     private static final long COS_PART_MINIMALSIZE = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
     
@@ -68,10 +80,10 @@ public class S3Provider implements Provider {
 
     private long executionId = -1;
 
+    private String source = null;
     private String cosBucketPathPrefix = null;
     private String fhirResourceType = null;
 
-    private static final long READ_BLOCK_OPT = 524288L;
     private int maxRead = ConfigurationFactory.getInstance().getImportNumberOfFhirResourcesPerRead(null);
 
     /**
@@ -88,6 +100,7 @@ public class S3Provider implements Provider {
      * @throws FHIRException
      */
     public S3Provider(String source) throws FHIRException {
+        this.source = source;
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
 
         boolean useFhirServerTrustStore = adapter.shouldCoreCosUseServerTruststore();
@@ -269,112 +282,119 @@ public class S3Provider implements Provider {
         // number of bytes read.
         long numberOfBytesRead = 0l;
         int totalReads = 0;
+        int mux = 0;
 
-        // Parse/End of Line
-        boolean lastParseFailed = false;
-        FHIRParserException fpe = null;
-        StringBuilder cache = new StringBuilder();
-        String temp = null;
+        // The cached FHIRParserException
+        FHIRParserException fpeDownstream = null;
 
+        // Closed when the Scope is out. The size is double the read window.
+        // The backing array is allocated at creation.
+        ByteArrayOutputStream cacheOut = new ByteArrayOutputStream(512000);
         boolean complete = false;
         while (!complete) {
-            // Condition: The optimized block and the number of Resources read
-            // exceed the minimum thresholds and the maximum size of a single resource
-            if (numberOfBytesRead > READ_BLOCK_OPT && tempResources.size() >= maxRead) {
-                break;
-            }
-
-            // Condition: The optimized block is exceeded and the number of resources is
-            // only one so we want to threshold a maximum number of resources
-            // 512K * 5 segments (we don't want to repeat too much work) = 2.6M
-            if (numberOfBytesRead > 2621440 && tempResources.size() >= 1) {
-                break;
-            }
-
-            // Condition: The maximum read block is exceeded and we have at least one Resource
-            // 2147483648 / (256*1024*1024) = 8192 (we
-            if (totalReads == 8193) {
-                throw new FHIRException("Too Long a Line");
-            }
-
             // Condition: At the end of the file... and it should never be more than the file Size
             // however, in rare circumstances the person may have 'grown' or added to the file
             // while operating on the $import and we want to defensively end rather than an exact match
             // Early exit from the loop...
             long start = this.transientUserData.getCurrentBytes();
             if (this.transientUserData.getImportFileSize() <= start) {
+                complete = true; // NOP
                 break;
             }
 
             // Condition: Window would exceed the maximum File Size
             // Prune the end to -1 off the maximum.
-            // The following is 256K window. 256 is used so we only drain a portion of the inputstream.
+            // The following is 256K window. 256K is used so we only drain a portion of the inputstream.
             // and not the whole file's input stream.
-            long end = start + 268435456L;
+            long end = start + 256000;
             if (end >= this.transientUserData.getImportFileSize()) {
                 end = this.transientUserData.getImportFileSize() - 1;
                 complete = true; // We still need to process the bytes.
             }
 
-            // Set the start and end of the S3 Object inputstream that we are going to retrieve
+            // Request the start and end of the S3ObjectInputStream that's going to be retrieved
             GetObjectRequest req = new GetObjectRequest(b, workItem)
-                    .withRange(start, end);
+                                            .withRange(start, end);
 
+            if (LOG.isLoggable(Level.FINE)) {
+                // Useful when debugging edge of the stream problems
+                LOG.fine("S3ObjectInputStream --- " + start + " " + end);
+            }
+
+            boolean parsedWithIssue = false;
             try (S3Object obj = c.getObject(req);
                     S3ObjectInputStream in = obj.getObjectContent();
-                    CountInputStreamReader reader = new CountInputStreamReader(in)) {
-                // The interior block allows a drain operation to be executed.
+                    BufferedInputStream buffer = new BufferedInputStream(in);
+                    CountingStream reader = new CountingStream(cacheOut, in)) {
+
+                // The interior block allows a drain operation to be executed finally.
                 // as a best practice we want to drain the remainder of the input
-                // this drain should be 0-256K.
+                // this drain should be at worst 255K (-1 for new line character)
                 try {
-                    int chunkRead = 0;
-                    boolean continueRead = true;
                     String resourceStr = reader.readLine();
-                    while (continueRead && resourceStr != null) {
-                        chunkRead++;
-
-                        try (StringReader stringReader = new StringReader(cache.toString() + resourceStr)) {
-                            tempResources.add(FHIRParser.parser(Format.JSON).parse(stringReader));
-                            lastParseFailed = false;
-                            cache = new StringBuilder();
-                        } catch (FHIRParserException fpeTemp) {
-                            // Log and skip the invalid FHIR resource.
-                            lastParseFailed = true;
-                            fpe = fpeTemp;
-                            temp = resourceStr;
-                        }
-
-                        resourceStr = reader.readLine();
-                        // Condition: last read in this block...
-                        if (resourceStr == null && lastParseFailed) {
-                            // Not yet a failure
-                            fpe = null;
-                            cache.append(temp);
-                        } else if (lastParseFailed) {
-                            // It failed on the nearly last one
-                            parseFailures++;
-                            LOG.log(Level.INFO, "readResources: Failed to parse line " + chunkRead + " of [" + workItem + "].", fpe);
-                            fpe = null;
-                        }
-
-                        this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.getLength());
+                    // The first line is a large resource
+                    if (resourceStr == null) {
+                        this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + reader.length);
+                        reader.length = 0;
+                        mux++;
                     }
-                    totalReads += chunkRead;
+
+                    while (resourceStr != null && totalReads < maxRead) {
+                        try (StringReader stringReader = new StringReader(resourceStr)) {
+                            tempResources.add(FHIRParser.parser(Format.JSON).parse(stringReader));
+                        } catch (FHIRParserException fpe) {
+                            // Log and skip the invalid FHIR resource.
+                            parseFailures++;
+                            parsedWithIssue = true;
+                            fpeDownstream = fpe;
+                        }
+
+                        long priorLineLength = reader.length;
+                        reader.length = 0;
+                        resourceStr = reader.readLine();
+
+                        if (!parsedWithIssue) {
+                            this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + priorLineLength);
+                            numberOfBytesRead += reader.length;
+                            totalReads++;
+                        } else if ((parsedWithIssue && resourceStr != null)
+                                || (parsedWithIssue && 
+                                        (this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes() + priorLineLength))) { 
+                            // This is potentially end of bad line
+                            // -or-
+                            // This is the last line failing to parse
+                            long line = this.transientUserData.getNumOfProcessedResources() + totalReads;
+                            LOG.log(Level.SEVERE, "readResources: Failed to parse line " + totalReads + " of [" + workItem + "].", fpeDownstream);
+                            String msg = "readResources: " + "Failed to parse line " + line + " of [" + workItem + "].";
+
+                            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+                            String out = adapter.getOperationOutcomeProvider(source);
+                            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(source)
+                                    && !StorageType.HTTPS.equals(adapter.getStorageProviderStorageType(out));
+                            if (collectImportOperationOutcomes) {
+                                FHIRGenerator.generator(Format.JSON)
+                                    .generate(generateException(line, msg),
+                                            transientUserData.getBufferStreamForImportError());
+                                transientUserData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
+                            }
+                        }
+                    }
                 } catch (Exception ex) {
                     LOG.warning("readFhirResourceFromObjectStore: Error proccesing file [" + workItem + "] - " + ex.getMessage());
                     // Throw exception to fail the job, the job can be continued from the current checkpoint after the
                     // problem is solved.
+                    throw new FHIRException("Unable to read from S3 during processing", ex);
+                } finally {
                     try {
                         reader.drain();
                     } catch (Exception s3e) {
                         LOG.fine(() -> "Error while draining the stream, this is benign");
                         LOG.throwing("S3Provider", "readFromObjectStoreWithLowMaxRange", s3e);
                     }
-                    throw new FHIRException("Unable to read from S3 during processing", ex);
                 }
 
                 // Increment if the last line fails
-                if (lastParseFailed && this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes()) {
+                if (this.transientUserData.getImportFileSize() <= this.transientUserData.getCurrentBytes()) {
                     parseFailures++;
                 }
             } catch (FHIRException fe) {
@@ -383,6 +403,36 @@ public class S3Provider implements Provider {
                 throw new FHIRException("Unable to read from S3 File", e);
             }
 
+            // Condition: The optimized block and the number of Resources read
+            // exceed the minimum thresholds or the maximum size of a single resource
+            if (tempResources.size() >= maxRead) {
+                LOG.fine("TempResourceSize " + tempResources.size());
+                complete = true;
+            }
+
+            // Condition: The optimized block is exceeded and the number of resources is
+            // only one so we want to threshold a maximum number of resources
+            // 512K * 5 segments (we don't want to repeat too much work) = 2.6M
+            if (numberOfBytesRead > 2621440 && tempResources.size() >= 1) {
+                complete = true;
+            }
+
+            // Condition: The maximum read block is exceeded and we have at least one Resource
+            // 2147483648 / (256*1024*1024) = 8192 Reads
+            if (mux == 8193) {
+                throw new FHIRException("Too Long a Line");
+            }
+
+            // We've read more than one window
+            if (mux > 1 && tempResources.size() >=1) {
+                break;
+            }
+        }
+
+        // Condition: There is no complete resource to read.
+        if (totalReads == 0) {
+            LOG.warning("File grew since the start");
+            this.transientUserData.setCurrentBytes(this.transientUserData.getImportFileSize());
         }
 
         // Add the accumulated resources
@@ -390,88 +440,45 @@ public class S3Provider implements Provider {
     }
 
     /**
-     * This specialized class enables a BufferedReader.readLine like implementation
-     * with buffering.
-     *
-     * @implNote this is intentionally protected so we can run S3ProviderMain tests.
+     * This class is a counting stream delegate to facilitate specific S3 behavior.
      */
-    protected static class CountInputStreamReader extends InputStreamReader {
-        private static final char CR = '\r';
-        private static final char LF = '\n';
-
+    public static class CountingStream extends InputStream {
+        private static int LF = '\n';
         private static final long MAX_LENGTH_PER_LINE = 2147483648l;
 
+        // 256kb block
+        private ByteArrayOutputStream out;
         private long length = 0;
 
-        // We buffer 256K characters
-        private char[] buffer = new char[268435456];
-        private int bufferIdx = 0;
-        private int bufferSize = 0;
+        private InputStream delegate;
 
-        public CountInputStreamReader(InputStream in) {
-            super(in);
+        /**
+         * 
+         * @param out ByteArrayOutputStream caches the data cross reads
+         * @param in InputStream is generally the S3InputStream
+         */
+        public CountingStream(ByteArrayOutputStream out, InputStream in) {
+            this.out = out;
+            this.delegate = in;
         }
 
         /**
-         * Read the line
+         * Gets the String representing the line of bytes.
+         * 
          * @return
-         * @throws IOException
-         * @throws FHIRException
+         * @throws UnsupportedEncodingException
          */
-        public String readLine() throws IOException, FHIRException {
-            StringBuilder builder = new StringBuilder();
-
-            // Read while we are able and it must be under 2G
-            boolean read = true;
-            int lineLength = 0;
-            while (read && lineLength < MAX_LENGTH_PER_LINE) {
-                // Determine if we need to reset the buffer
-                if (bufferIdx == 0 || bufferIdx == bufferSize) {
-                    bufferSize = super.read(buffer);
-                    bufferIdx = 0;
-                }
-
-                if (bufferSize == -1) {
-                    // Empty Line
-                    if (builder.length() == 0) {
-                        return null;
-                    }
-                    // End of Line... End of Read.
-                    read = false;
-                } else {
-                    // We have data in the buffer
-                    for (;bufferIdx < bufferSize && read; bufferIdx++) {
-                        char ch = buffer[bufferIdx];
-                        if (ch == CR) {
-                            // \r case - We're stripping out the CR early on
-                            length++;
-                        } else if (ch == LF) {
-                            // \n case
-                            length++;
-                            read = false;
-                        } else {
-                            builder.append(buffer[bufferIdx]);
-                            length++;
-                            // We only need to account for line length here.
-                            lineLength++;
-                        }
-                    }
-                }
+        public String getLine() throws UnsupportedEncodingException {
+            String str = new String(out.toByteArray(), "UTF-8");
+            if (str.isEmpty()) {
+                str = null;
             }
-
-            if (lineLength == MAX_LENGTH_PER_LINE) {
-                // Should we throw a custom exception Line Too Long
-                throw new FHIRException("Too Long a Line");
-            }
-
-            return builder.toString();
+            return str;
         }
 
-        /**
-         * @return the length of the resources returned in the reader
-         */
-        public long getLength() {
-            return length;
+        @Override
+        public int read() throws IOException {
+            return delegate.read();
         }
 
         /**
@@ -479,9 +486,41 @@ public class S3Provider implements Provider {
          * @throws IOException
          */
         public void drain() throws IOException {
-            int l = super.read(buffer);
+            int l = delegate.read();
             while (l != -1) {
-                l = super.read(buffer);
+                l = delegate.read();
+            }
+        }
+
+        /**
+         * 
+         * @param counter
+         * @return
+         * @throws IOException
+         */
+        public String readLine() throws IOException {
+            int r = read();
+            if (r == -1) {
+                return null;
+            } else {
+                String result = null;
+                while (r != -1) {
+                    byte b = (byte) r;
+                    if (LF == (int) b) {
+                        length++;
+                        r = -1;
+                        result = getLine();
+                        out.reset();
+                    } else {
+                        length++;
+                        if (length == MAX_LENGTH_PER_LINE) {
+                            throw new IOException("Current Line in NDJSON exceeds limit " + MAX_LENGTH_PER_LINE);
+                        }
+                        out.write(b);
+                        r = read();
+                    }
+                }
+                return result;
             }
         }
     }
@@ -669,5 +708,30 @@ public class S3Provider implements Provider {
                 throw new FHIRException("Error creating a file operation outcome during $import '" + fn + "'");
             }
         }
+    }
+    
+    /**
+     * Generate an operation outcome
+     * 
+     * @param lineNumber
+     * @param msg
+     * @return
+     */
+    private OperationOutcome generateException(long lineNumber, String msg) {
+        Issue issue = Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.EXCEPTION)
+                .details(
+                        CodeableConcept.builder()
+                                .text(string(msg))
+                                .build())
+                .extension(Extension.builder()
+                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .value(Long.toString(lineNumber))
+                        .build())
+                .build();
+        return OperationOutcome.builder()
+                .issue(Arrays.asList(issue))
+                .build();
     }
 }
