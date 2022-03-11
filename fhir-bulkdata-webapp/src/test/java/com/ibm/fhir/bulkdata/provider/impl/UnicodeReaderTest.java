@@ -41,7 +41,7 @@ public class UnicodeReaderTest {
     @Test
     public void testUnicode() throws IOException {
         String os = System.getProperty("os.name").toUpperCase();
-        if (!os.startsWith("WIN")) {
+        if (os.startsWith("WIN")) {
             return;
         }
         List<String> lines = new ArrayList<>();
@@ -90,7 +90,7 @@ public class UnicodeReaderTest {
     @Test
     public void testUnicodeS3() throws IOException {
         String os = System.getProperty("os.name").toUpperCase();
-        if (!os.startsWith("WIN")) {
+        if (os.startsWith("WIN")) {
             return;
         }
         List<String> lines = new ArrayList<>();
