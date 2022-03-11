@@ -407,58 +407,61 @@ public class RestAuditLogger {
                                             || requestEntry.getRequest().getUrl().getValue().contains("/%24");
                     String action = "E";
                     HTTPVerb requestMethod = requestEntry.getRequest().getMethod();
-                    switch (HTTPVerb.Value.from(requestMethod.getValue())) {
-                    case GET:
-                        if (operation) {
+                    // Avoids counting successful changes when there is a failure by the client or the server
+                    if (Response.Status.Family.SUCCESSFUL.equals(Response.Status.Family.familyOf(responseStatus.getStatusCode()))) {
+                        switch (HTTPVerb.Value.from(requestMethod.getValue())) {
+                        case GET:
+                            if (operation) {
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesExecuted(1)
+                                    .build());
+                            } else {
+                                action = "R";
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesRead(1)
+                                    .build());
+                            }
+                            break;
+                        case POST:
+                            if (operation) {
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesExecuted(1)
+                                    .build());
+                            } else {
+                                action = "C";
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesCreated(1)
+                                    .build());
+                            }
+                            break;
+                        case PUT:
+                            action = "U";
                             entry.getContext()
                                 .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
+                                .resourcesUpdated(1)
                                 .build());
-                        } else {
-                            action = "R";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesRead(1)
-                                .build());
+                            break;
+                        case DELETE:
+                            if (operation) {
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesExecuted(1)
+                                    .build());
+                            } else {
+                                action = "D";
+                                entry.getContext()
+                                    .setBatch(Batch.builder()
+                                    .resourcesDeleted(1)
+                                    .build());
+                            }
+                            break;
+                        default:
+                            break;
                         }
-                        break;
-                    case POST:
-                        if (operation) {
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
-                                .build());
-                        } else {
-                            action = "C";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesCreated(1)
-                                .build());
-                        }
-                        break;
-                    case PUT:
-                        action = "U";
-                        entry.getContext()
-                            .setBatch(Batch.builder()
-                            .resourcesUpdated(1)
-                            .build());
-                        break;
-                    case DELETE:
-                        if (operation) {
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
-                                .build());
-                        } else {
-                            action = "D";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesDeleted(1)
-                                .build());
-                        }
-                        break;
-                    default:
-                        break;
                     }
                     entry.getContext().setAction(action);
                 }
