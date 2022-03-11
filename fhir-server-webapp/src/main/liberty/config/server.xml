@@ -54,7 +54,7 @@
         
         To send the trace messages to standard out, set TRACE_FILE to "stdout".
     -->
-    <variable name="TRACE_SPEC" defaultValue="*=info"/>
+    <variable name="TRACE_SPEC" defaultValue="*=info:com.ibm.fhir.bulkdata.*=FINE"/>
     <variable name="TRACE_FILE" defaultValue="trace.log"/>
     <variable name="TRACE_FORMAT" defaultValue="BASIC"/>
     <variable name="WLP_LOGGING_CONSOLE_LOGLEVEL" defaultValue="INFO"/>
