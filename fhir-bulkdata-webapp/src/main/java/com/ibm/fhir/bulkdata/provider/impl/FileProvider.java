@@ -114,6 +114,9 @@ public class FileProvider implements Provider {
                     CountingStream counter = new CountingStream(sourceBuffer)) {
 
                 String resourceStr = counter.readLine();
+                if (resourceStr == null || resourceStr.isEmpty()) {
+                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + 1);
+                }
 
                 int chunkRead = 0;
                 while (resourceStr != null && chunkRead < maxRead) {
