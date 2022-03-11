@@ -77,7 +77,7 @@ public class FileProvider implements Provider {
     private ConfigurationAdapter configuration = ConfigurationFactory.getInstance();
     private int maxRead = configuration.getImportNumberOfFhirResourcesPerRead(null);
 
-    public FileProvider(String source) throws Exception {
+    public FileProvider(String source) {
         this.source = source;
     }
 
@@ -87,9 +87,13 @@ public class FileProvider implements Provider {
 
     @Override
     public long getSize(String workItem) throws FHIRException {
-        // This may be error prone as the file itself may be compressed or on a compressed volume.
+        return getSizeWithAbsolute(getFilePath(workItem), workItem);
+    }
+
+    public long getSizeWithAbsolute(String absolutePath, String workItem) throws FHIRException {
+     // This may be error prone as the file itself may be compressed or on a compressed volume.
         try {
-            return Files.size(new File(getFilePath(workItem)).toPath());
+            return Files.size(new File(absolutePath).toPath());
         } catch (IOException e) {
             throw new FHIRException("Files size is not computable '" + workItem + "'", e);
         }
@@ -112,15 +116,20 @@ public class FileProvider implements Provider {
 
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
+        readResourcesWithAbsolute(numOfLinesToSkip, getFilePath(workItem));
+    }
+
+    public void readResourcesWithAbsolute(long numOfLinesToSkip, String absolutePath) throws FHIRException {
         resources = new ArrayList<>();
+        length = 0;
         long line = numOfLinesToSkip;
         try {
-            try (RandomAccessFile raf = new RandomAccessFile(Paths.get(getFilePath(workItem)).toFile(), "r")) {
+            try (RandomAccessFile raf = new RandomAccessFile(Paths.get(absolutePath).toFile(), "r")) {
                 raf.seek(this.transientUserData.getCurrentBytes());
 
                 try (InputStream in = Channels.newInputStream(raf.getChannel());
                         BufferedInputStream sourceBuffer = new BufferedInputStream(in);
-                        CountingStream counter = new CountingStream(sourceBuffer);) {
+                        CountingStream counter = new CountingStream(sourceBuffer)) {
 
                     int chunkRead = 0;
 
@@ -128,7 +137,7 @@ public class FileProvider implements Provider {
 
                     boolean continueRead = true;
 
-                    while (continueRead && resourceStr != null && length < this.transientUserData.getImportFileSize()) {
+                    while (continueRead && resourceStr != null && !(length > this.transientUserData.getImportFileSize())) {
                         chunkRead++;
 
                         try (StringReader stringReader = new StringReader(resourceStr)){
@@ -163,6 +172,7 @@ public class FileProvider implements Provider {
                     }
                     // The Channel enables us to skip the future seek.
                     this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + length);
+                    length = 0;
                 }
             }
         } catch (Exception e) {
