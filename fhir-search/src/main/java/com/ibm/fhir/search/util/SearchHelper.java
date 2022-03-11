@@ -2252,7 +2252,8 @@ public class SearchHelper {
      * @throws FHIRSearchException
      */
     @SuppressWarnings("unused")
-    public static void checkInclusionIterateParameters(String resourceType, FHIRSearchContext context, boolean lenient) throws FHIRSearchException {
+    public static void checkInclusionIterateParameters(String resourceType, FHIRSearchContext context, boolean lenient)
+            throws FHIRSearchException {
         // Get the valid target types. If max number of iterations allowed is just 1, then that includes
         // base resource type and types in non-iterative _include and _revinclude parameters. If max number
         // of iterations allowed is more than 1, then that also includes types in iterative _include and
@@ -2323,6 +2324,14 @@ public class SearchHelper {
         // Remove invalid inclusion parameters
         context.getIncludeParameters().removeAll(invalidIncludeParameters);
         context.getRevIncludeParameters().removeAll(invalidRevIncludeParameters);
+    }
+
+    /**
+     * @param resourceType
+     * @return whether the passed resourceType has its own CompartmentDefinition
+     */
+    public boolean isCompartmentType(String resourceType) {
+        return compartmentHelper.isCompartmentType(resourceType);
     }
 
     /**

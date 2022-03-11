@@ -274,7 +274,9 @@ For example, the fhir-server-config snippet from above would have a correspondin
              password="change-password"
              currentSchema="fhirdata"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" 
+            connectionTimeout="60s" maxIdleTime="2m" 
+            numConnectionsPerThreadLocal="1"/>
     </dataSource>
 </server>
 ```
@@ -448,7 +450,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             currentSchema="DB2INST1"
             driverType="4"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" 
+            connectionTimeout="60s" maxIdleTime="2m" 
+            numConnectionsPerThreadLocal="1"/>
     </dataSource>
 
     <!-- ============================================================== -->
@@ -465,7 +469,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             currentSchema="DB2INST1"
             driverType="4"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" 
+            connectionTimeout="60s" maxIdleTime="2m" 
+            numConnectionsPerThreadLocal="1"/>
     </dataSource>
 </server>
 ```

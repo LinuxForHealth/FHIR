@@ -202,7 +202,7 @@ For each compartment type, the rules for determining if a resource is a member o
 
 For example, for the `Patient` compartment, to determine if an `Observation` is a member, the inclusion criteria search parameters are `subject` and `performer`. If the `Observation` resource fields associated with these search parameters reference a `Patient` resource, the `Observation` resource is a member of that `Patient` compartment.
 
-As of version 5.0.0, compartment membership is always evaluated during ingestion, even if the search parameters that define compartment membership have been filtered out in fhir-server-config.json.
+As of IBM FHIR Server 4.11.0, compartment membership is always evaluated during ingestion, even if the search parameters that define compartment membership have been filtered out in fhir-server-config.json.
 However, in cases where the inclusion criteria parameters have been overridden, it is still possible for server config to affect compartment membership.
 
 ##  2 Re-index

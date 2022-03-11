@@ -12,7 +12,7 @@
              password="change-password"
              currentSchema="fhirdata"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
     </dataSource>
 
     <!-- The default bulkdata.xml config includes a batchPersistence element that

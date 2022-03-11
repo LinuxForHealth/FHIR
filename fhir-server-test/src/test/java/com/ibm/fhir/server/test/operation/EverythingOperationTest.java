@@ -86,11 +86,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     }
 
     /**
-     * Create a Bundle of 895 resources of various kinds representing a patient's history and save the
-     * resource types and IDs of the created resources to eventually ensure that all resources are included
-     * in an $everything invocation.
-     *
-     * @throws Exception
+     * Create a Bundle of 901 resources of various kinds (with 895 targeting the Patient) representing a
+     * patient's history and save the resource types and IDs of the created resources to eventually ensure
+     * that all resources are included in an $everything invocation.
      */
     @Test(groups = { "fhir-operation" })
     public void testCreatePatientWithEverything() throws Exception {
@@ -130,10 +128,11 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         // but keep the original so we can delete all created resources
         Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
 
-        // Ensure that the 895 resources are accounted for in the returning search set bundle
+        // Ensure that the 896 resources are accounted for in the returning search set bundle
+        // (the Patient resource and the 895 that reference it)
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 896);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
@@ -185,7 +184,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // Count is ignored
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 896);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -210,7 +209,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // The number of companies was reduced as the scope was narrowed down to a decade
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 372);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })

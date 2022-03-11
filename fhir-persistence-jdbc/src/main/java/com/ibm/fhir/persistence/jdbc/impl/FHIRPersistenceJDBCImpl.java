@@ -1835,7 +1835,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Augment the extracted parameter list with special values we use to represent compartment relationships.
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
-                addCompartmentParams(allParameters, fhirResource.getClass().getSimpleName());
+                addCompartmentParams(allParameters, fhirResource.getClass().getSimpleName(), fhirResource.getId());
 
                 // If this is a definitional resource, augment the extracted parameter list with a composite
                 // parameter that will be used for canonical searches. It will contain the url and version
@@ -1908,9 +1908,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * {@link CompartmentHelper#makeCompartmentParamName(String)} for details on how the
      * parameter name is composed for each relationship.
      * @param allParameters
-     * @param resourceType
+     * @param resourceType the resource type of the resource we are extracting parameter values from
+     * @param resourceId the resource id of the resource we are extracting parameter values from
      */
-    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, String resourceType) {
+    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, String resourceType, String resourceId) {
         if (log.isLoggable(Level.FINE)) {
             log.fine("Processing compartment parameters for resourceType: " + resourceType);
         }
@@ -1952,6 +1953,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     epv.setForStoring(true);
                 }
             }
+        }
+
+        // as of https://github.com/IBM/FHIR/issues/3091 we flag a resource as a member of its own compartment
+        if (searchHelper.isCompartmentType(resourceType)) {
+            ReferenceParmVal pv = new ReferenceParmVal();
+            pv.setName(CompartmentHelper.makeCompartmentParamName(resourceType));
+            pv.setResourceType(resourceType);
+            pv.setCompartments(Collections.singleton(resourceType));
+            pv.setRefValue(new ReferenceValue(resourceType, resourceId, ReferenceType.LITERAL_RELATIVE, null));
+
+            compartmentMemberships.add(pv);
         }
 
         allParameters.addAll(compartmentMemberships);

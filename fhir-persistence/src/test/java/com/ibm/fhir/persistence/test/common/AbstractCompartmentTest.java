@@ -28,6 +28,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
  * This class contains a collection of tests that will be run against
@@ -62,8 +63,8 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     public void createResources() throws Exception {
         checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         FHIRModelConfig.setCheckReferenceTypes(false);
-        Observation.Builder observationBuilder = ((Observation) TestUtil.getMinimalResource(Observation.class)).toBuilder();
-        Observation.Builder observation2Builder = ((Observation) TestUtil.getMinimalResource(Observation.class)).toBuilder();
+        Observation.Builder observationBuilder = TestUtil.getMinimalResource(Observation.class).toBuilder();
+        Observation.Builder observation2Builder = TestUtil.getMinimalResource(Observation.class).toBuilder();
 
         Patient patient = TestUtil.getMinimalResource(Patient.class);
         savedPatient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
@@ -144,42 +145,93 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     @Test
     public void testPatientCompartment() throws Exception {
         List<Resource> results = runCompartmentQueryTest("Patient", savedPatient.getId(),
-                                    Observation.class, "_id", savedObservation.getId());
+                Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testPatientCompartmentViaLogicalId() throws Exception {
         List<Resource> results = runCompartmentQueryTest("Patient", savedPatient.getId(),
-                                    Observation.class, "_id", savedObservation2.getId());
+                Observation.class, "_id", savedObservation2.getId());
         assertEquals(0, results.size());
+    }
+
+    /**
+     * Per https://github.com/IBM/FHIR/issues/3091 a Patient resource should be in its own compartment
+     */
+    @Test
+    public void testPatientCompartmentIdentity() throws Exception {
+        List<Resource> results = runCompartmentQueryTest("Patient", savedPatient.getId(),
+                Patient.class, "_id", savedPatient.getId());
+        assertEquals(1, results.size());
     }
 
     @Test
     public void testDeviceCompartment() throws Exception {
         List<Resource> results = runCompartmentQueryTest("Device", savedDevice.getId(),
-                                    Observation.class, "_id", savedObservation.getId());
+                Observation.class, "_id", savedObservation.getId());
+        assertEquals(1, results.size());
+    }
+
+    /**
+     * Per https://github.com/IBM/FHIR/issues/3091 a Device resource should be in its own compartment.
+     * However, Device is the one compartment definition where this resource type isn't valid for its own compartment.
+     */
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testDeviceCompartmentIdentity() throws Exception {
+        List<Resource> results = runCompartmentQueryTest("Device", savedDevice.getId(),
+                Device.class, "_id", savedDevice.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testEncounterCompartment() throws Exception {
         List<Resource> results = runCompartmentQueryTest("Encounter", savedEncounter.getId(),
-                                    Observation.class, "_id", savedObservation.getId());
+                Observation.class, "_id", savedObservation.getId());
+        assertEquals(1, results.size());
+    }
+
+    /**
+     * Per https://github.com/IBM/FHIR/issues/3091 an Encounter resource should be in its own compartment
+     */
+    @Test
+    public void testEncounterCompartmentIdentity() throws Exception {
+        List<Resource> results = runCompartmentQueryTest("Encounter", savedEncounter.getId(),
+                Encounter.class, "_id", savedEncounter.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testPractitionerCompartment() throws Exception {
         List<Resource> results = runCompartmentQueryTest("Practitioner", savedPractitioner.getId(),
-                                    Observation.class, "_id", savedObservation.getId());
+                Observation.class, "_id", savedObservation.getId());
+        assertEquals(1, results.size());
+    }
+
+    /**
+     * Per https://github.com/IBM/FHIR/issues/3091 a Practitioner resource should be in its own compartment
+     */
+    @Test
+    public void testPractitionerCompartmentIdentity() throws Exception {
+        List<Resource> results = runCompartmentQueryTest("Practitioner", savedPractitioner.getId(),
+                Practitioner.class, "_id", savedPractitioner.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testRelatedPersonCompartment() throws Exception {
         List<Resource> results = runCompartmentQueryTest("RelatedPerson", savedRelatedPerson.getId(),
-                                    Observation.class, "_id", savedObservation.getId());
+                Observation.class, "_id", savedObservation.getId());
+        assertEquals(1, results.size());
+    }
+
+    /**
+     * Per https://github.com/IBM/FHIR/issues/3091 a Practitioner resource should be in its own compartment
+     */
+    @Test
+    public void testRelatedPersonCompartmentIdentity() throws Exception {
+        List<Resource> results = runCompartmentQueryTest("RelatedPerson", savedRelatedPerson.getId(),
+                RelatedPerson.class, "_id", savedRelatedPerson.getId());
         assertEquals(1, results.size());
     }
 }
