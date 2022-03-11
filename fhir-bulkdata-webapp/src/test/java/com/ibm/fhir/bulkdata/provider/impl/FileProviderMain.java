@@ -22,9 +22,10 @@ public class FileProviderMain {
      * @throws FHIRException
      */
     public static void main(String[] args) throws FHIRException {
+        String file = "/patient-large.ndjson";
 
         FileProvider provider = new FileProvider("default");
-        long size = provider.getSizeWithAbsolute(args[0] + "/r4_AllergyIntolerance.ndjson", "r4_AllergyIntolerance.ndjson");
+        long size = provider.getSizeWithAbsolute(args[0] + file, file);
         System.out.println("Size: " + size);
 
         ImportTransientUserData transientUserData = ImportTransientUserData.Builder.builder()
@@ -34,7 +35,7 @@ public class FileProviderMain {
         int total = 0;
         while (transientUserData.getCurrentBytes() < (size - 1)) {
             System.out.println("- PREREAD - bytes " + transientUserData.getCurrentBytes());
-            provider.readResourcesWithAbsolute(size, args[0] + "/r4_AllergyIntolerance.ndjson");
+            provider.readResourcesWithAbsolute(size, args[0] + file);
             System.out.println(provider.getResources().size());
             total += provider.getResources().size();
             System.out.println("- POSTREAD - bytes " + transientUserData.getCurrentBytes());

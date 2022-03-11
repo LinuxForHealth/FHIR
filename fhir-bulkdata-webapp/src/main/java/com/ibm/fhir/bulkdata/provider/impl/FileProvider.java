@@ -67,8 +67,6 @@ public class FileProvider implements Provider {
     private String fhirResourceType = null;
     private String fileName = null;
     private String exportPathPrefix = null;
-    // Aggregated number of bytes read from the File
-    private long length = 0;
 
     private ExportTransientUserData chunkData = null;
 
@@ -99,21 +97,6 @@ public class FileProvider implements Provider {
         }
     }
 
-    private String readLine(CountingStream counter) throws IOException {
-        String result;
-        int r = counter.read();
-        while(r != -1) {
-            if (counter.eol()) {
-                length += counter.getLength();
-                result = counter.getLine();
-                counter.resetLine();
-                return result;
-            }
-            r = counter.read();
-        }
-        return counter.getLine();
-    }
-
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         readResourcesWithAbsolute(numOfLinesToSkip, getFilePath(workItem));
@@ -121,59 +104,51 @@ public class FileProvider implements Provider {
 
     public void readResourcesWithAbsolute(long numOfLinesToSkip, String absolutePath) throws FHIRException {
         resources = new ArrayList<>();
-        length = 0;
+
         long line = numOfLinesToSkip;
-        try {
-            try (RandomAccessFile raf = new RandomAccessFile(Paths.get(absolutePath).toFile(), "r")) {
-                raf.seek(this.transientUserData.getCurrentBytes());
+        try (RandomAccessFile raf = new RandomAccessFile(Paths.get(absolutePath).toFile(), "r")) {
+            raf.seek(this.transientUserData.getCurrentBytes());
 
-                try (InputStream in = Channels.newInputStream(raf.getChannel());
-                        BufferedInputStream sourceBuffer = new BufferedInputStream(in);
-                        CountingStream counter = new CountingStream(sourceBuffer)) {
+            try (InputStream in = Channels.newInputStream(raf.getChannel());
+                    BufferedInputStream sourceBuffer = new BufferedInputStream(in);
+                    CountingStream counter = new CountingStream(sourceBuffer)) {
 
-                    int chunkRead = 0;
+                String resourceStr = counter.readLine();
 
-                    String resourceStr = readLine(counter);
+                int chunkRead = 0;
+                while (resourceStr != null && chunkRead < maxRead) {
+                    chunkRead++;
 
-                    boolean continueRead = true;
+                    try (StringReader stringReader = new StringReader(resourceStr)) {
+                        resources.add(FHIRParser.parser(Format.JSON).parse(stringReader));
+                    } catch (FHIRParserException e) {
+                        // Log and skip the invalid FHIR resource.
+                        parseFailures++;
+                        String msg = "readResources: " + "Failed to parse line " + line + " of [" + source + "].";
 
-                    while (continueRead && resourceStr != null && !(length > this.transientUserData.getImportFileSize())) {
-                        chunkRead++;
-
-                        try (StringReader stringReader = new StringReader(resourceStr)){
-                            resources.add(
-                                        FHIRParser.parser(Format.JSON)
-                                                    .parse(stringReader));
-                        } catch (FHIRParserException e) {
-                            // Log and skip the invalid FHIR resource.
-                            parseFailures++;
-                            String msg = "readResources: " + "Failed to parse line " + line + " of [" + source + "].";
-
-                            ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-                            String out = adapter.getOperationOutcomeProvider(source);
-                            boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(source)
-                                    && !StorageType.HTTPS.equals(adapter.getStorageProviderStorageType(out));
-                            if (collectImportOperationOutcomes) {
-                                FHIRGenerator.generator(Format.JSON)
+                        ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
+                        String out = adapter.getOperationOutcomeProvider(source);
+                        boolean collectImportOperationOutcomes = adapter
+                                .shouldStorageProviderCollectOperationOutcomes(source)
+                                && !StorageType.HTTPS.equals(adapter.getStorageProviderStorageType(out));
+                        if (collectImportOperationOutcomes) {
+                            FHIRGenerator.generator(Format.JSON)
                                     .generate(generateException(line, msg),
                                             transientUserData.getBufferStreamForImportError());
-                                transientUserData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
-                            }
-                            logger.log(Level.WARNING, msg);
+                            transientUserData.getBufferStreamForImportError().write(NDJSON_LINESEPERATOR);
                         }
-
-                        if (chunkRead < maxRead) {
-                            resourceStr = readLine(counter);
-                        } else {
-                            resourceStr = null;
-                            continueRead = false;
-                        }
-                        line++;
+                        logger.log(Level.WARNING, msg);
                     }
-                    // The Channel enables us to skip the future seek.
-                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + length);
-                    length = 0;
+
+                    this.transientUserData.setCurrentBytes(this.transientUserData.getCurrentBytes() + counter.length);
+                    counter.length = 0;
+                    counter.out.reset();
+
+                    resourceStr = counter.readLine();
+
+                    line++;
                 }
+
             }
         } catch (Exception e) {
             throw new FHIRException("Unable to read from Local File", e);
@@ -195,14 +170,20 @@ public class FileProvider implements Provider {
 
         private InputStream delegate;
 
+        /**
+         * ctor
+         * @param in
+         */
         public CountingStream(InputStream in) {
             this.delegate = in;
         }
 
+        /**
+         * reset the line
+         */
         public void resetLine() {
-            length = 0;
-            eol = false;
             out.reset();
+            eol = false;
         }
 
         /**
@@ -228,6 +209,26 @@ public class FileProvider implements Provider {
 
         public boolean eol() {
             return eol;
+        }
+
+        /**
+         * Returns the line that is aggregated up until a new line character
+         * @return
+         * @throws IOException
+         */
+        public String readLine() throws IOException {
+            int r = read();
+            while (r != -1) {
+                if (eol()) {
+                    eol = false;
+                    return getLine();
+                }
+                r = read();
+            }
+            if (r == -1 && length > 0) {
+                return getLine();
+            }
+            return getLine();
         }
 
         @Override
