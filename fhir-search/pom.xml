@@ -28,6 +28,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <!-- Not strictly required but, without it, you won't have any search parameters or compartment definitions -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-core-r4b</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
