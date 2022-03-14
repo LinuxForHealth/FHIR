@@ -17,6 +17,6 @@ public class CoreResourceProviderTest {
     @Test
     public void testR4BSpecResourceProvider() {
         FHIRRegistryResourceProvider provider = new Core410ResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 3696);
+        Assert.assertEquals(provider.getRegistryResources().size(), 3698);
     }
 }

@@ -278,3 +278,10 @@ http://terminology.hl7.org/ValueSet/v3-Confidentiality|2.0.0|2.0.0
 http://terminology.hl7.org/ValueSet/v3-PurposeOfUse
 http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType
 ```
+
+3. Other CodeSystems used by existing IBM FHIR Server tests
+
+```
+http://terminology.hl7.org/CodeSystem/v3-IdentifierScope
+http://terminology.hl7.org/CodeSystem/v3-ObservationValue
+```
