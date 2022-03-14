@@ -98,7 +98,6 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         updateDigestWithParmValKey(param);
         updateDigestWithString(param.getValueSystem());
         updateDigestWithString(param.getValueCode());
-        updateDigestWithString(param.getVersion());
     }
 
     @Override
@@ -173,6 +172,7 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         if (value != null) {
             ByteBuffer bb = ByteBuffer.allocate(Double.SIZE);
             bb.putDouble(value.doubleValue());
+            bb.flip();
             digest.update(bb);
         }
         digest.update(DELIMITER);
@@ -186,6 +186,7 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         if (value != null) {
             ByteBuffer bb = ByteBuffer.allocate(Integer.SIZE);
             bb.putInt(value.intValue());
+            bb.flip();
             digest.update(bb);
         }
         digest.update(DELIMITER);
@@ -199,6 +200,7 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         if (value != null) {
             ByteBuffer bb = ByteBuffer.allocate(Double.SIZE);
             bb.putDouble(value.doubleValue());
+            bb.flip();
             digest.update(bb);
         }
         digest.update(DELIMITER);
@@ -212,6 +214,7 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         if (value != null) {
             ByteBuffer bb = ByteBuffer.allocate(Long.SIZE);
             bb.putLong(value.getTime());
+            bb.flip();
             digest.update(bb);
         }
         digest.update(DELIMITER);
