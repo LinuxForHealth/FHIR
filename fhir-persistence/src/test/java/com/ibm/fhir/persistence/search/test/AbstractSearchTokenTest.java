@@ -345,8 +345,8 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:above", "http://hl7.org/fhir/issue-type|processing");
         assertSearchDoesntReturnSavedResource("missing-CodeableConcept:above", "http://hl7.org/fhir/issue-type|not-found");
 
-        // Note:  https://terminology.hl7.org/CodeSystem-v3-ObservationValue.html is the one HL7 CodeSystem I found that is both
-        // hierarchical AND case-insensitive, but unfortunately that one isn't included in FHIR R4B by default
+        // Note:  https://terminology.hl7.org/CodeSystem-v3-ObservationValue.html is the one HL7 CodeSystem I found
+        // that is both hierarchical AND case-insensitive
     }
 
     @Test
