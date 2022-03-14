@@ -69,6 +69,26 @@ public class ParameterHashTest {
     }
 
     @Test
+    public void testTokenParams() throws Exception {
+        TokenParmVal p1 = new TokenParmVal();
+        p1.setResourceType("Patient");
+        p1.setName("code2");
+        p1.setUrl("url2");
+        p1.setVersion("1");
+        p1.setValueSystem("valueSystem2");
+        p1.setValueCode("valueCode2");
+
+        ParameterHashVisitor visitor1 = new ParameterHashVisitor();
+        p1.accept(visitor1);
+
+        // Make sure that the hash changes when changing the version
+        p1.setVersion("2");
+        ParameterHashVisitor visitor2 = new ParameterHashVisitor();
+        p1.accept(visitor2);
+        assertNotEquals(visitor1.getBase64Hash(), visitor2.getBase64Hash());
+    }
+
+    @Test
     public void testNullValues() throws Exception {
         // Create two number param values, one with null low, and one with null high
         BigDecimal value = new BigDecimal(5);
