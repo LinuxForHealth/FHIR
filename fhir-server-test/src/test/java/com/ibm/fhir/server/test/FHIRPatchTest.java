@@ -1019,7 +1019,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Response response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
-        assertResponse(response, Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
         assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
@@ -1052,7 +1052,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .method("PATCH", patchEntity, Response.class);
-        assertResponse(response, Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
         assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
