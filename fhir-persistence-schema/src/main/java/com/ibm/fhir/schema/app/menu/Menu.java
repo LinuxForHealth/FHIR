@@ -32,6 +32,7 @@ public class Menu {
     public static final String DROP_DETACHED = "--drop-detached";
     public static final String FREEZE_TENANT = "--freeze-tenant";
     public static final String DROP_TENANT = "--drop-tenant";
+    public static final String DROP_SPLIT_TRANSACTION = "--drop-split-transaction";
     public static final String REFRESH_TENANTS = "--refresh-tenants";
     public static final String ALLOCATE_TENANT = "--allocate-tenant";
     public static final String CONFIRM_DROP = "--confirm-drop";

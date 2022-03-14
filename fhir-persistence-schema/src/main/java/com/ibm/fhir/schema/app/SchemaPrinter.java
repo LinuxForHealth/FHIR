@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -174,7 +175,8 @@ public class SchemaPrinter {
 
         JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         javaBatchSchemaGenerator.buildJavaBatchSchema(model);
-        model.apply(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        model.apply(adapter, context);
     }
     
     public void processApplyGrants() {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.ConnectionProviderTarget;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
@@ -224,7 +225,8 @@ public class DerbyMaster implements AutoCloseable {
      * @param pdm the data model we want to create
      */
     public void createSchema(IConnectionProvider pool, IVersionHistoryService vhs, PhysicalDataModel pdm) {
-        runWithAdapter(pool, target -> pdm.applyWithHistory(target, vhs));
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        runWithAdapter(pool, target -> pdm.applyWithHistory(target, context, vhs));
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Modify an existing sequence to start with a higher value
@@ -39,13 +40,13 @@ public class AlterSequenceStartWith extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.alterSequenceRestartWith(getSchemaName(), getObjectName(), startWith, this.cache, this.incrementBy);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override

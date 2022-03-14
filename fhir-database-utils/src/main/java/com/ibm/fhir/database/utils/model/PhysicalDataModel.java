@@ -20,8 +20,10 @@ import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.task.api.ITaskCollector;
 
@@ -112,37 +114,46 @@ public class PhysicalDataModel implements IDataModel {
      * time it takes to provision a schema.
      * @param tc collects and manages the object creation tasks and their dependencies
      * @param target the target database adapter
+     * @param context to control how the schema is built
      * @param tp
      * @param vhs
      */
-    public void collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void collect(ITaskCollector tc, IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         for (IDatabaseObject obj: allObjects) {
-            obj.collect(tc, target, tp, vhs);
+            obj.collect(tc, target, context, tp, vhs);
         }
     }
 
     /**
      * Apply the entire model to the target in order
      * @param target
+     * @param context
      */
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
             logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(target);
+            obj.apply(target, context);
         }
     }
 
     /**
-     * Make a pass over all the objects again and apply any distribution rules they
+     * Make a pass over all the objects and apply any distribution rules they
      * may have (e.g. for Citus)
      * @param target
      */
     public void applyDistributionRules(IDatabaseAdapter target) {
+
+        // make a first pass to apply reference rules
         for (IDatabaseObject obj: allObjects) {
-            obj.applyDistributionRules(target);
-        }        
+            obj.applyDistributionRules(target, 0);
+        }
+        
+        // and another pass to apply sharding rules
+        for (IDatabaseObject obj: allObjects) {
+            obj.applyDistributionRules(target, 1);
+        }
     }
 
     /**
@@ -151,12 +162,12 @@ public class PhysicalDataModel implements IDataModel {
      * @param target
      * @param vhs
      */
-    public void applyWithHistory(IDatabaseAdapter target, IVersionHistoryService vhs) {
+    public void applyWithHistory(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
             logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
-            obj.applyVersion(target, vhs);
+            obj.applyVersion(target, context, vhs);
         }
     }
 
@@ -164,13 +175,13 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the procedures in the order in which they were added to the model
      * @param adapter
      */
-    public void applyProcedures(IDatabaseAdapter adapter) {
+    public void applyProcedures(IDatabaseAdapter adapter, SchemaApplyContext context) {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
             obj.drop(adapter);
-            obj.apply(adapter);
+            obj.apply(adapter, context);
         }
     }
 
@@ -178,12 +189,12 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the functions in the order in which they were added to the model
      * @param adapter
      */
-    public void applyFunctions(IDatabaseAdapter adapter) {
+    public void applyFunctions(IDatabaseAdapter adapter, SchemaApplyContext context) {
         int total = functions.size();
         int count = 1;
         for (FunctionDef obj: functions) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(adapter);
+            obj.apply(adapter, context);
         }
     }
 
@@ -215,6 +226,43 @@ public class PhysicalDataModel implements IDataModel {
             }
         }
 
+    }
+    
+    /**
+     * Split the drop in multiple (smaller) transactions, which can be helpful to
+     * reduce memory utilization in some scenarios
+     * @param target
+     * @param transactionProvider
+     * @param tagGroup
+     * @param tag
+     */
+    public void dropSplitTransaction(IDatabaseAdapter target, ITransactionProvider transactionProvider, String tagGroup, String tag) {
+        
+        ArrayList<IDatabaseObject> copy = new ArrayList<>();
+        copy.addAll(allObjects);
+
+        int total = allObjects.size();
+        int count = 1;
+        for (int i=total-1; i>=0; i--) {
+            IDatabaseObject obj = copy.get(i);
+
+            // Each object (which often represents a group of tables) will be dropped
+            // in its own transaction...so clearly this needs to be an idempotent
+            // operation
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try {
+                    if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                        logger.info(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
+                        obj.drop(target);
+                    } else {
+                        logger.info(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
     }
 
     /**

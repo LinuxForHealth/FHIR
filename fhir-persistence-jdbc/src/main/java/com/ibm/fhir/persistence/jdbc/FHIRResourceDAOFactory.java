@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,8 @@ import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.citus.CitusResourceDAO;
+import com.ibm.fhir.persistence.jdbc.citus.CitusResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
@@ -63,8 +65,10 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         case POSTGRESQL:
-        case CITUS:
             resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+            break;
+        case CITUS:
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -140,8 +144,10 @@ public class FHIRResourceDAOFactory {
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         case POSTGRESQL:
-        case CITUS:
             resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd);
+            break;
+        case CITUS:
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -173,7 +179,7 @@ public class FHIRResourceDAOFactory {
             rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
             break;
         case CITUS:
-            rrd = new PostgresResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
+            rrd = new CitusResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache());
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());

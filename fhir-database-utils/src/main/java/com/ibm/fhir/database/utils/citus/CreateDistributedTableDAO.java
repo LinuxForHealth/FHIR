@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.citus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -18,6 +19,8 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * DAO to add a new tenant key record
  */
 public class CreateDistributedTableDAO implements IDatabaseStatement {
+    private static final Logger logger = Logger.getLogger(CreateDistributedTableDAO.class.getName());
+
     private final String schemaName;
     private final String tableName;
     private final String distributionKey;
@@ -55,6 +58,7 @@ public class CreateDistributedTableDAO implements IDatabaseStatement {
         } catch (SQLException x) {
             // Translate the exception into something a little more meaningful
             // for this database type and application
+            logger.severe("Call failed: " + sql.toString());
             throw translator.translate(x);
         }
     }

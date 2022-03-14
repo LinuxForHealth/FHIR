@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * A collection of {@link IDatabaseObject} which are applied in order within one transaction
@@ -59,12 +60,12 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
+    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
 
         // Apply each member of our group to the target if it is a new version.
         // Version tracking is done at the individual level, not the group.
         for (IDatabaseObject obj: this.group) {
-            obj.applyVersion(target, vhs);
+            obj.applyVersion(target, context, vhs);
         }
     }
 
@@ -86,18 +87,18 @@ public class ObjectGroup extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing
         for (IDatabaseObject obj: this.group) {
-            obj.apply(target);
+            obj.apply(target, context);
         }
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing
         for (IDatabaseObject obj: this.group) {
-            obj.apply(priorVersion, target);
+            obj.apply(priorVersion, target, context);
         }
     }
 
@@ -132,6 +133,13 @@ public class ObjectGroup extends BaseObject {
         // Visit each sub-object in reverse order of creation
         for (int i=group.size()-1; i>=0; i--) {
             group.get(i).visit(v);
+        }
+    }
+
+    @Override
+    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+        for (IDatabaseObject obj: this.group) {
+            obj.applyDistributionRules(target, pass);
         }
     }
 }

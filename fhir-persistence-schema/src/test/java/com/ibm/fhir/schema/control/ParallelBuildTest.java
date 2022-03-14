@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
@@ -45,7 +45,8 @@ public class ParallelBuildTest {
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.collect(collector, adapter, new TransactionProviderTest(), vhs);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        model.collect(collector, adapter, context, new TransactionProviderTest(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();

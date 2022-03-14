@@ -56,6 +56,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
@@ -786,7 +787,8 @@ public class Main {
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(this.createSchemaThreads);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
-        pdm.collect(collector, adapter, this.transactionProvider, vhs);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.collect(collector, adapter, context, this.transactionProvider, vhs);
 
         // FHIR in the hole!
         logger.info("Starting schema updates");

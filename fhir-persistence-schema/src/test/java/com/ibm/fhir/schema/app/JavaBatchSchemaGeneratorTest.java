@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020,2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,6 +45,7 @@ import java.util.concurrent.Executor;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
@@ -89,9 +90,10 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(adapter, context);
+        pdm.applyFunctions(adapter, context);
+        pdm.applyProcedures(adapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -120,8 +122,9 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(adapter, context);
+        pdm.applyFunctions(adapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -151,9 +154,10 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(adapter, context);
+        pdm.applyFunctions(adapter, context);
+        pdm.applyProcedures(adapter, context);
 
         pdm.visit(new ConfirmTagsVisitor());
 

@@ -119,6 +119,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
+import com.ibm.fhir.persistence.jdbc.connection.SetMultiShardModifyModeAction;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
@@ -156,7 +157,6 @@ import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
-import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -353,7 +353,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // reads/searches.
         result = new CreateTempTablesAction(result);
 
-        // For PostgreSQL
+        // For Citus SET LOCAL citus.multi_shard_modify_mode TO 'sequential'
+        result = new SetMultiShardModifyModeAction(result);
+
         return result;
     }
 

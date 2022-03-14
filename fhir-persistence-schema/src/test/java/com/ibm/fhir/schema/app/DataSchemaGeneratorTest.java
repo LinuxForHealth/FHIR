@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.schema.app;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -37,9 +38,10 @@ public class DataSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         FhirSchemaGenerator generator = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, true);
         generator.buildSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(adapter, context);
+        pdm.applyFunctions(adapter, context);
+        pdm.applyProcedures(adapter, context);
 
         pdm.visit(new ConfirmTagsVisitor());
     }

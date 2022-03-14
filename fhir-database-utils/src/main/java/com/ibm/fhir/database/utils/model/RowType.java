@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Represents the ROW type used to pass parameters to the add_resource stored procedures
@@ -25,16 +26,16 @@ public class RowType extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.createRowType(getSchemaName(), getObjectName(), columns);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
             throw new UnsupportedOperationException("Upgrading row types is not supported");
         }
-        apply(target);
+        apply(target, context);
     }
 
     @Override

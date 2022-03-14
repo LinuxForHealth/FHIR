@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
@@ -31,15 +32,17 @@ public interface IDatabaseObject {
      * Apply the DDL for this object to the target database
      * @param priorVersion
      * @param target the database target
+     * @param context context to control the schema apply process
      */
-    public void apply(IDatabaseAdapter target);
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context);
 
     /**
      * Apply migration logic to bring the target database to the current level of this object
      * @param priorVersion
      * @param target the database target
+     * @param context to control the schema apply process
      */
-    public void apply(Integer priorVersion, IDatabaseAdapter target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context);
 
     /**
      * Apply the DDL, but within its own transaction
@@ -47,21 +50,23 @@ public interface IDatabaseObject {
      * @param cp of thread-specific transactions
      * @param vhs the service interface for adding this object to the version history table
      */
-    public void applyTx(IDatabaseAdapter target, ITransactionProvider cp, IVersionHistoryService vhs);
+    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider cp, IVersionHistoryService vhs);
 
     /**
      * Apply any distribution rules associated with the object (usually a table)
      * @param target the target database we apply the operation to
+     * @param pass multiple pass number
      */
-    public void applyDistributionRules(IDatabaseAdapter target);
+    public void applyDistributionRules(IDatabaseAdapter target, int pass);
 
     /**
      * Apply the change, but only if it has a newer version than we already have
      * recorded in the database
      * @param target
+     * @param context
      * @param vhs the service used to manage the version history table
      */
-    public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs);
+    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs);
 
     /**
      * DROP this object from the target database
@@ -105,7 +110,7 @@ public interface IDatabaseObject {
      * @param tp
      * @param vhs
      */
-    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs);
+    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs);
 
     /**
      * Return the qualified name for this object (e.g. schema.name).

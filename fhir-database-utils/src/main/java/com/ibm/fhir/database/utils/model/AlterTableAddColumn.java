@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,11 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Add new columns to an existing table. This alter will change the version history of the underlying table.
@@ -62,7 +62,7 @@ public class AlterTableAddColumn extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         // To keep things simple, just add each column in its own statement
         for (ColumnBase c: columns) {
             target.alterTableAddColumn(getSchemaName(), getObjectName(), c);
@@ -70,8 +70,8 @@ public class AlterTableAddColumn extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override

@@ -22,6 +22,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_BATCH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_OAUTH;
+import static com.ibm.fhir.schema.app.menu.Menu.DROP_SPLIT_TRANSACTION;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
@@ -94,6 +95,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ILeaseManagerConfig;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -136,6 +138,7 @@ import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.menu.Menu;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
+import com.ibm.fhir.schema.control.AddForeignKey;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
 import com.ibm.fhir.schema.control.DisableForeignKey;
@@ -283,6 +286,9 @@ public class Main {
     // Include detail output in the report (default is no)
     private boolean showDbSizeDetail = false;
 
+    // Split drops into multiple transactions?
+    private boolean dropSplitTransaction = false;
+
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
     private TenantKeyFileUtil tenantKeyFileUtil = new TenantKeyFileUtil();
@@ -386,7 +392,9 @@ public class Main {
      */
     protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
         logger.info("Collecting model update tasks");
-        pdm.collect(collector, adapter, this.transactionProvider, vhs);
+        // If using a distributed RDBMS (Citus) then skip the initial FK creation
+        SchemaApplyContext context = SchemaApplyContext.builder().setIncludeForeignKeys(!isDistributed()).build();
+        pdm.collect(collector, adapter, context, this.transactionProvider, vhs);
 
         // FHIR in the hole!
         logger.info("Starting model updates");
@@ -716,14 +724,17 @@ public class Main {
                 vhs.getVersion(schema.getSchemaName(), DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
-        applyDistributionRules(pdm);
+        if (isDistributed()) {
+            applyDistributionRules(pdm);
+        }
         // The physical database objects should now match what was defined in the PhysicalDataModel
 
         return isNewDb;
     }
 
     /**
-     * Apply any table distribution rules in one transaction
+     * Apply any table distribution rules in one transaction and then add all the
+     * FK constraints that are needed
      * @param pdm
      */
     private void applyDistributionRules(PhysicalDataModel pdm) {
@@ -736,6 +747,21 @@ public class Main {
                 throw x;
             }
         }
+
+        // Now that all the tables have been distributed, it should be safe
+        // to apply the FK constraints
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                final String tenantColumnName = isMultitenant() ? "mt_id" : null;
+                IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+                AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
+                pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+            } catch (RuntimeException x) {
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
     }
 
     /**
@@ -830,7 +856,15 @@ public class Main {
                     if (dropFhirSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
                         final String schemaName = schema.getSchemaName();
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                        if (this.dropSplitTransaction) {
+                            // important that we use an adapter connected with the connection pool
+                            // (which is connected to the transaction provider)
+                            IDatabaseAdapter txAdapter = getDbAdapter(dbType, connectionPool);
+                            pdm.dropSplitTransaction(txAdapter, this.transactionProvider, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                        } else {
+                            // old fashioned drop where we do everything in one (big) transaction
+                            pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                        }
                         CreateWholeSchemaVersion.dropTable(schemaName, adapter);
                         if (!checkSchemaIsEmpty(adapter, schemaName)) {
                             throw new DataAccessException("Schema '" + schemaName + "' not empty after drop");
@@ -930,8 +964,9 @@ public class Main {
             try (Connection c = connectionPool.getConnection();) {
                 try {
                     IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-                    pdm.applyProcedures(adapter);
-                    pdm.applyFunctions(adapter);
+                    SchemaApplyContext context = SchemaApplyContext.getDefault();
+                    pdm.applyProcedures(adapter, context);
+                    pdm.applyFunctions(adapter, context);
 
                     // Because we're replacing the procedures, we should also check if
                     // we need to apply the associated privileges
@@ -2020,6 +2055,9 @@ public class Main {
                     schema.setOauthSchemaName(args[nextIdx]);
                     i++;
                 }
+                break;
+            case DROP_SPLIT_TRANSACTION:
+                this.dropSplitTransaction = true;
                 break;
             case POOL_SIZE:
                 if (++i < args.length) {

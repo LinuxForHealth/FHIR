@@ -48,7 +48,7 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
  * the stored procedure (or function, in this case)
  */
 public class PostgresResourceDAO extends ResourceDAOImpl {
-    private static final String CLASSNAME = PostgresResourceDAO.class.getSimpleName();
+    private static final String CLASSNAME = PostgresResourceDAO.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";

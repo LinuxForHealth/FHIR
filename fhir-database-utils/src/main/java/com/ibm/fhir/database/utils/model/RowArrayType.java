@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
@@ -35,16 +36,16 @@ public class RowArrayType extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.createArrType(getSchemaName(), getObjectName(), rowTypeName, arraySize);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
             throw new UnsupportedOperationException("Upgrading row array types is not supported");
         }
-        apply(target);
+        apply(target, context);
     }
 
     @Override

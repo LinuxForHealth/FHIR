@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Modify the CACHE property of an AS IDENTITY column (changes
@@ -44,13 +45,13 @@ public class AlterTableIdentityCache extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.alterTableColumnIdentityCache(getSchemaName(), getObjectName(), this.columnName, this.cache);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override

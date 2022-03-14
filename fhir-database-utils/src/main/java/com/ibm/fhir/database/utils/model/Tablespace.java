@@ -12,6 +12,7 @@ import java.util.List;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
@@ -34,7 +35,7 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         if (this.extentSizeKB > 0) {
             target.createTablespace(getName(), this.extentSizeKB);
         }
@@ -45,11 +46,11 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         if (priorVersion != null && priorVersion > 0) {
             throw new UnsupportedOperationException("Modifying tablespaces is not supported");
         }
-        apply(target);
+        apply(target, context);
     }
 
     @Override
@@ -58,10 +59,10 @@ public class Tablespace extends DatabaseObject {
     }
 
     @Override
-    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // no dependencies, so no need to recurse down
         List<ITaskGroup> children = null;
-        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, tp, vhs), children);
+        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, context, tp, vhs), children);
     }
 
     @Override
@@ -93,10 +94,5 @@ public class Tablespace extends DatabaseObject {
     @Override
     public void visitReverse(DataModelVisitor v) {
         v.visited(this);
-    }
-
-    @Override
-    public void applyDistributionRules(IDatabaseAdapter target) {
-        // NOP
     }
 }

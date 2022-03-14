@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.model;
 import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Adds a session variable to the database
@@ -20,12 +21,12 @@ public class SessionVariableDef extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.createIntVariable(getSchemaName(), getObjectName());
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         target.createIntVariable(getSchemaName(), getObjectName());
     }
 

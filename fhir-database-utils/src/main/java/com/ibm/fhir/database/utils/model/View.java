@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 
 /**
@@ -47,13 +48,13 @@ public class View extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.createOrReplaceView(getSchemaName(), getObjectName(), this.selectClause);
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override

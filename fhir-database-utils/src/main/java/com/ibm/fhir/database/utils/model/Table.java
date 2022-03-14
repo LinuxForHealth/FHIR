@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
@@ -130,7 +131,7 @@ public class Table extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
         target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
             this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
@@ -141,9 +142,11 @@ public class Table extends BaseObject {
             idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionRules);
         }
 
-        // Foreign key constraints
-        for (ForeignKeyConstraint fkc: this.fkConstraints) {
-            fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
+        if (context.isIncludeForeignKeys()) {
+            // Foreign key constraints
+            for (ForeignKeyConstraint fkc: this.fkConstraints) {
+                fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
+            }
         }
 
         // Apply tenant access control if required
@@ -160,9 +163,9 @@ public class Table extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
         if (priorVersion == null || priorVersion == 0) {
-            apply(target);
+            apply(target, context);
         } else if (this.getVersion() > priorVersion) {
             for (Migration step : migrations) {
                 step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
@@ -942,9 +945,15 @@ public class Table extends BaseObject {
     }
 
     @Override
-    public void applyDistributionRules(IDatabaseAdapter target) {
+    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+        // make sure all the reference tables are distributed first before
+        // we attempt to shard anything
         if (this.distributionRules != null) {
-            target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionRules);
+            if (pass == 0 && this.distributionRules.isReferenceTable()) {
+                target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionRules);
+            } else if (pass == 1 && this.distributionRules.isDistributedTable()) {
+                target.applyDistributionRules(getSchemaName(), getObjectName(), this.distributionRules);
+            }
         }
     }
 }

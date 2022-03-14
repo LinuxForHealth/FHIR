@@ -99,9 +99,10 @@
     -- check to see if it was us who actually created the record
     IF v_logical_resource_id = t_logical_resource_id
     THEN
-      -- create the corresponding entry in the global logical_resources table (which is distributed by
-      -- logical_resource_id). Because we created the logical_resource_shards record, we can
-      -- be certain the logical_resources record doesn't yet exist
+      -- the record was created by this call, so now create the corresponding entry in the 
+      -- global logical_resources table (which is distributed by logical_resource_id). 
+      -- Because we created the logical_resource_shards record, we can be certain the 
+      -- logical_resources record doesn't yet exist
       INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash)
            VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated, p_parameter_hash_b64);
 
@@ -112,14 +113,14 @@
     ELSE
       -- use the record created elsewhere
       v_logical_resource_id := t_logical_resource_id;
+
+      -- find the current parameter hash and deletion values from the logical_resources table
+      SELECT parameter_hash, is_deleted
+        INTO o_current_parameter_hash, v_currently_deleted
+        FROM {{SCHEMA_NAME}}.logical_resources
+       WHERE logical_resource_id = v_logical_resource_id;
     END IF;
   END IF;
-
-  -- find the current parameter hash and deletion values from the logical_resources table
-  SELECT parameter_hash, is_deleted
-    INTO o_current_parameter_hash, v_currently_deleted;
-    FROM {{SCHEMA_NAME}}.logical_resources
-   WHERE logical_resource_id = v_logical_resource_id;
 
   -- Remember everying is locked at the logical resource level, so we are thread-safe here
   IF v_new_resource = 0 THEN

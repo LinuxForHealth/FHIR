@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DistributionRules;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
@@ -92,7 +93,7 @@ public class CreateIndex extends BaseObject {
 
     
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         long start = System.nanoTime();
         indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionRules);
         
@@ -104,8 +105,8 @@ public class CreateIndex extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, IDatabaseAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override

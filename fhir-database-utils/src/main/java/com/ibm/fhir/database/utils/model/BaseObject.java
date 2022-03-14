@@ -24,6 +24,7 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.LockException;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.task.api.ITaskCollector;
@@ -186,24 +187,24 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final ITransactionProvider tp, final IVersionHistoryService vhs) {
+    public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final SchemaApplyContext context, final ITransactionProvider tp, final IVersionHistoryService vhs) {
         // Make sure that anything we depend on gets processed first
         List<ITaskGroup> children = null;
         if (!this.dependencies.isEmpty()) {
             children = new ArrayList<>(this.dependencies.size());
             for (IDatabaseObject obj: dependencies) {
-                children.add(obj.collect(tc, target, tp, vhs));
+                children.add(obj.collect(tc, target, context, tp, vhs));
             }
         }
 
         // create a new task group representing this node, pointing to any dependencies
         // we collected above. We need to use the type and name for the task group, to
         // ensure we allow for the different namespaces (e.g. procedures vs tables).
-        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, tp, vhs), children);
+        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, context, tp, vhs), children);
     }
 
     @Override
-    public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
         // being executed from a thread-pool. DB2 has some issues with deadlocks
         // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
@@ -212,7 +213,7 @@ public abstract class BaseObject implements IDatabaseObject {
         while (remainingAttempts-- > 0) {
             try (ITransaction tx = tp.getTransaction()) {
                 try {
-                    applyVersion(target, vhs);
+                    applyVersion(target, context, vhs);
                     remainingAttempts = 0; // exit the retry loop
                 }
                 catch (LockException x) {
@@ -249,21 +250,15 @@ public abstract class BaseObject implements IDatabaseObject {
         }
     }
 
-    /**
-     * Apply the change, but only if it has a newer version than we already have
-     * recorded in the database
-     * @param target
-     * @param vhs the service used to manage the version history table
-     */
     @Override
-    public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
+    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         // Only for Procedures do we skip the Version History Service check, and apply.
         if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)
                     || getObjectType() == DatabaseObjectType.PROCEDURE) {
             logger.fine("Applying change [v" + version + "]: " + this.getTypeNameVersion());
 
             // Apply this change to the target database
-            apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target);
+            apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target, context);
 
             // Check if the PROCEDURE is this exact version (Applies to FunctionDef and ProcedureDef)
             if (DatabaseObjectType.PROCEDURE.equals(getObjectType())
@@ -325,7 +320,7 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyDistributionRules(IDatabaseAdapter target) {
+    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
         // NOP. Only applies to Table
     }
 }

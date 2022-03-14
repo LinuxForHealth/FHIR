@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.api.LockException;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 
 /**
@@ -141,7 +142,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
     }
 
     @Override
-    public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void applyTx(IDatabaseAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
         // being executed from a thread-pool. DB2 has some issues with deadlocks
         // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
@@ -150,7 +151,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
         while (remainingAttempts-- > 0) {
             try (ITransaction tx = tp.getTransaction()) {
                 try {
-                    applyVersion(target, vhs);
+                    applyVersion(target, context, vhs);
                     remainingAttempts = 0; // exit the retry loop
                 }
                 catch (LockException x) {
@@ -192,13 +193,13 @@ public abstract class DatabaseObject implements IDatabaseObject {
      * @param vhs the service used to manage the version history table
      */
     @Override
-    public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
+    public void applyVersion(IDatabaseAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         // TODO find a better way to track database-level type stuff (not schema-specific)
         if (vhs.applies("__DATABASE__", getObjectType().name(), getObjectName(), version)) {
             logger.info("Applying change [v" + version + "]: "+ this.getTypeNameVersion());
 
             // Apply this change to the target database
-            apply(vhs.getVersion("__DATABASE__", getObjectType().name(), getObjectName()), target);
+            apply(vhs.getVersion("__DATABASE__", getObjectType().name(), getObjectName()), target, context);
 
             // call back to the version history service to add the new version to the table
             // being used to track the change history
@@ -214,5 +215,10 @@ public abstract class DatabaseObject implements IDatabaseObject {
     @Override
     public void visit(Consumer<IDatabaseObject> c) {
         c.accept(this);
+    }
+
+    @Override
+    public void applyDistributionRules(IDatabaseAdapter target, int pass) {
+        // NOP
     }
 }
