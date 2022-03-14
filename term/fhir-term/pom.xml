@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-hl7-terminology</artifactId>
+            <artifactId>fhir-core-r4b</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
