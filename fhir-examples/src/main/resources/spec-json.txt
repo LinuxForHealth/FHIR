@@ -1428,11 +1428,11 @@ OK         json/spec/linkage.profile.json
 PARSE      json/spec/lipidprofile-questionnaire.json
 OK         json/spec/lipidprofile.profile.json
 OK         json/spec/list-example-allergies.json
-OK         json/spec/list-example-double-cousin-relationship-pedigree.json
+VALIDATION json/spec/list-example-double-cousin-relationship-pedigree.json
 OK         json/spec/list-example-empty.json
 OK         json/spec/list-example-familyhistory-f201-roel.json
-OK         json/spec/list-example-familyhistory-genetics-profile-annie.json
-OK         json/spec/list-example-familyhistory-genetics-profile.json
+VALIDATION json/spec/list-example-familyhistory-genetics-profile-annie.json
+VALIDATION json/spec/list-example-familyhistory-genetics-profile.json
 OK         json/spec/list-example-long.json
 OK         json/spec/list-example-medlist.json
 OK         json/spec/list-example-simple-empty.json
