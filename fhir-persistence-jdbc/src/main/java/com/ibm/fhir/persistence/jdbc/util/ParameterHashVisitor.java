@@ -98,6 +98,7 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         updateDigestWithParmValKey(param);
         updateDigestWithString(param.getValueSystem());
         updateDigestWithString(param.getValueCode());
+        updateDigestWithString(param.getVersion());
     }
 
     @Override
