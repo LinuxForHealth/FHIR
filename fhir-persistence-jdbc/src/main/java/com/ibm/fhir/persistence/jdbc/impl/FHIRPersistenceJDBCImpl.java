@@ -1460,14 +1460,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // Check to make sure we got a Resource if we asked for it and expect there to be one
-            for (ResourceResult<? extends Resource> resourceResult: resourceResults) {
-                if (resourceResult.getResource() == null && includeResourceData && !resourceResult.isDeleted()) {
-                    String resourceTypeName = resourceResult.getResourceTypeName();
-                    if (resourceTypeName == null) {
-                        resourceTypeName = resourceType.getSimpleName();
+            if (includeResourceData) {
+                for (ResourceResult<? extends Resource> resourceResult: resourceResults) {
+                    if (resourceResult.getResource() == null && !resourceResult.isDeleted()) {
+                        String resourceTypeName = resourceResult.getResourceTypeName();
+                        if (resourceTypeName == null) {
+                            resourceTypeName = resourceType.getSimpleName();
+                        }
+                        throw new FHIRPersistenceException("convertResourceDTO returned no resource for '"
+                                + resourceTypeName + "/" + resourceResult.getLogicalId() + "'");
                     }
-                    throw new FHIRPersistenceException("convertResourceDTO returned no resource for '"
-                            + resourceTypeName + "/" + resourceResult.getLogicalId() + "'");
                 }
             }
 
@@ -2269,6 +2271,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
         Objects.requireNonNull(resourceDTO, "resourceDTO must be not null");
         T resource;
+        boolean treatErasedAsDeleted = false;
 
         if (includeData) {
             // original impl - the resource, if any, was read from the RDBMS
@@ -2288,11 +2291,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     }
                 }
             } else {
-                // Queries may return a NULL for the DATA column if the resource has been erased
-                // or the query was asked not to fetch DATA in the first place
+                // Queries may return a NULL for the DATA column if the resource has been erased.
                 resource = null;
+                treatErasedAsDeleted = true;
             }
         } else {
+            // Because we never selected the data column, we don't know if this resource
+            // version has been erased or not. The only thing we can do is return a null
+            // resource.
             resource = null;
         }
 
@@ -2312,6 +2318,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         builder.resource(resource); // can be null
         builder.version(resourceDTO.getVersionId());
         builder.lastUpdated(resourceDTO.getLastUpdated().toInstant());
+
+        // If we encounter a resource version that was erased, its data column will be
+        // null so we can't parse a resource value. We need to treat it as a deleted
+        // resource because otherwise the REST layer will expect the resource value to
+        // be present
+        if (treatErasedAsDeleted && !resourceDTO.isDeleted()) {
+            builder.deleted(true);
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
         return builder.build();
