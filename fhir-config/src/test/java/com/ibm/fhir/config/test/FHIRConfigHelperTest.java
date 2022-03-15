@@ -388,4 +388,34 @@ public class FHIRConfigHelperTest {
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         assertNull(dsPG);
     }
+
+    /**
+     * Look up the payload persistence configuration for default/default
+     * and check that the payload type field is found
+     * @throws Exception
+     */
+    @Test
+    public void testPayloadLookup() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("default"));
+        final String datastoreId = "default";
+        String dsPropertyName = FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD + "/" + datastoreId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        assertNotNull(dsPG);
+        String type = dsPG.getStringProperty("type");
+        assertEquals(type, "azure.blob");
+    }
+
+    /**
+     * Check that we do not fall back to the default tenant config when
+     * reading payload persistence configuration.
+     * @throws Exception
+     */
+    @Test
+    public void testPayloadNoFallback() throws Exception {
+        FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
+        final String datastoreId = "default";
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        assertNull(dsPG);
+    }
 }
