@@ -2582,7 +2582,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (searchContext != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
         }
-        if (searchContext != null) {
+        if (systemHistoryContext != null) {
             props.put(FHIRPersistenceEvent.PROPNAME_SYSTEM_HISTORY_CONTEXT_IMPL, systemHistoryContext);
         }
         return props;
