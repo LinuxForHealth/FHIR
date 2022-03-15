@@ -9,11 +9,18 @@ package com.ibm.fhir.persistence.util;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
+import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Resource.Builder;
@@ -31,6 +38,8 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+
+import org.owasp.encoder.Encode;
 
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
@@ -107,15 +116,27 @@ public class FHIRPersistenceUtil {
                         context.setCount(resourceCount);
                     }
                 } else if ("_type".equals(name)) {
+                    if (values.isEmpty()) {
+                        continue;
+                    }
+
+                    PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                    ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
+                    Set<String> typesSupportingHistory = config.getSupportedResourceTypes(Interaction.HISTORY);
+                    
                     for (String v: values) {
-                        String[] resourceTypes = v.split(",");
+                        List<String> resourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
                         for (String resourceType: resourceTypes) {
-                            if (ModelSupport.isResourceType(resourceType)) {
-                                context.addResourceType(resourceType);
-                            } else {
-                                String msg = "Invalid resource type name";
+                            if (!ModelSupport.isConcreteResourceType(resourceType)) {
+                                String msg = "_type parameter has invalid resource type: " + Encode.forHtml(resourceType);
                                 throw new FHIRPersistenceException(msg)
                                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                            } else if (!typesSupportingHistory.contains(resourceType)) {
+                                String msg = "history interaction is not supported for _type parameter value: " + Encode.forHtml(resourceType);
+                                throw new FHIRPersistenceException(msg)
+                                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.NOT_SUPPORTED));
+                            } else {
+                                context.addResourceType(resourceType);
                             }
                         }
                     }

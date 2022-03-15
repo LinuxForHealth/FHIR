@@ -13,9 +13,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -115,7 +115,7 @@ public class BulkDataImportUtil {
         List<Input> inputs = new ArrayList<>();
 
         try {
-            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+            Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'input')");
 
             Iterator<FHIRPathNode> iter = result.iterator();
@@ -158,8 +158,6 @@ public class BulkDataImportUtil {
             throw buildExceptionWithIssue("$import invalid parameters with expression in 'input'", e, IssueType.INVALID);
         } catch (FHIROperationException opEx) {
             throw opEx;
-        } catch (FHIRException e) {
-            throw buildExceptionWithIssue("Unable to retrieve server configuration", e, IssueType.INVALID);
         }
 
         if (inputs.isEmpty()) {

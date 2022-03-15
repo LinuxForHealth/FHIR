@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
@@ -33,6 +34,7 @@ import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
+
 
 @Dependent
 public class PatientExportPartitionMapper implements PartitionMapper {
@@ -59,9 +61,9 @@ public class PatientExportPartitionMapper implements PartitionMapper {
 
         // By default we're in the Patient Compartment, if we have a valid context
         // which has a resourceType specified, it's valid as the operation has already checked.
-        List<String> resourceTypes = compartmentHelper.getCompartmentResourceTypes("Patient");
+        Set<String> resourceTypes = compartmentHelper.getCompartmentResourceTypes("Patient");
         if (ctx.getFhirResourceTypes() != null ) {
-            resourceTypes = Arrays.asList(ctx.getFhirResourceTypes().split("\\s*,\\s*"));
+            resourceTypes = Set.of(ctx.getFhirResourceTypes().split("\\s*,\\s*"));
         }
 
         // Register the context to get the right configuration.

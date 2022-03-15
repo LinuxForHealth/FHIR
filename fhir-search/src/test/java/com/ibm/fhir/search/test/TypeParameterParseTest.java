@@ -81,28 +81,42 @@ public class TypeParameterParseTest extends BaseSearchTest {
     }
 
     @Test
-    public void testTypeMultipleParams_lenient() throws Exception {
+    public void testTypeMultipleParams() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_type", Arrays.asList("Patient", "Practitioner"));
         FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
         assertNotNull(context);
         assertNotNull(context.getSearchResourceTypes());
-        assertEquals(context.getSearchResourceTypes().size(), 1);
+        assertEquals(context.getSearchResourceTypes().size(), 2);
         assertTrue(context.getSearchResourceTypes().contains("Patient"));
+        assertTrue(context.getSearchResourceTypes().contains("Practitioner"));
     }
 
     @Test
-    public void testTypeMultipleParams_strict() throws Exception {
+    public void testTypeMultipleParams_oneInvalid_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+
+        queryParameters.put("_type", Arrays.asList("Patient", "Bogus", "Practitioner"));
+        FHIRSearchContext context = searchHelper.parseQueryParameters(Resource.class, queryParameters, true, true);
+        assertNotNull(context);
+        assertNotNull(context.getSearchResourceTypes());
+        assertEquals(context.getSearchResourceTypes().size(), 2);
+        assertTrue(context.getSearchResourceTypes().contains("Patient"));
+        assertTrue(context.getSearchResourceTypes().contains("Practitioner"));
+    }
+
+    @Test
+    public void testTypeMultipleParams_oneInvalid_strict() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();
         boolean isExceptionThrown = false;
 
-        queryParameters.put("_type", Arrays.asList("Patient", "Practitioner"));
+        queryParameters.put("_type", Arrays.asList("Patient", "Bogus", "Practitioner"));
         try {
             searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
-            assertEquals(ex.getMessage(), "Search parameter '_type' is specified multiple times");
+            assertEquals(ex.getMessage(), "_type parameter has invalid resource type: Bogus");
 
         }
         assertTrue(isExceptionThrown);
@@ -130,7 +144,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
             searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
-            assertEquals(ex.getMessage(), "_type search parameter has invalid resource type: invalid");
+            assertEquals(ex.getMessage(), "_type parameter has invalid resource type: invalid");
 
         }
         assertTrue(isExceptionThrown);
@@ -156,7 +170,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
             searchHelper.parseQueryParameters(Resource.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
-            assertEquals(ex.getMessage(), "_type search parameter has invalid resource type: Resource");
+            assertEquals(ex.getMessage(), "_type parameter has invalid resource type: Resource");
 
         }
         assertTrue(isExceptionThrown);

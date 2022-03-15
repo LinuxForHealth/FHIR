@@ -24,7 +24,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -399,18 +401,10 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypes = new ArrayList<>(compartmentHelper.getCompartmentResourceTypes(PATIENT));
 
         try {
-            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
-            // Examine the resource types to see if they support SEARCH
-            for (String resourceType: supportedResourceTypes) {
-                try {
-                    resourceHelper.validateInteraction(FHIRResourceHelpers.Interaction.SEARCH, resourceType);
-                } catch (FHIROperationException e) {
-                    if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Removing resourceType " + resourceType + " because it does not support SEARCH");
-                    }
-                    supportedResourceTypes.remove(resourceType);
-                }
-            }
+            PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup);
+            Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.SEARCH);
+            
             if (LOG.isLoggable(Level.FINE)) {
                 StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
                 resourceTypeBuilder.append("supportedResourceTypes are: ");
@@ -421,12 +415,10 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.fine(resourceTypeBuilder.toString());
             }
 
-            // Need to have this if check to support server config files that do not specify resources
-            if (!supportedResourceTypes.isEmpty()) {
-                resourceTypes.retainAll(supportedResourceTypes);
-            }
+            resourceTypes.retainAll(supportedResourceTypes);
         } catch (Exception e) {
-            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported resource types of the $everything operation.", e);
+            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list "
+                    + "of supported resource types of the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }

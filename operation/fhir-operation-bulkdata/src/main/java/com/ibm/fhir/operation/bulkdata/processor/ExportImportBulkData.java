@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata.processor;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 
@@ -43,7 +44,7 @@ public interface ExportImportBulkData {
      * @throws FHIROperationException
      */
     public Parameters export(String logicalId, OperationConstants.ExportType exportType, MediaType outputFormat,
-            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext) throws FHIROperationException;
+            Instant since, Set<String> types, List<String> typeFilters, FHIROperationContext operationContext) throws FHIROperationException;
 
     /**
      * Pattern: POST [Base]/$import
