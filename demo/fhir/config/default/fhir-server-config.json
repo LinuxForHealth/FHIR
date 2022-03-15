@@ -2,7 +2,7 @@
   "__comment": "config for internal fhir-server deployments",
   "fhirServer": {
     "core": {
-      "conditionalDeleteMaxNumber": 1,
+      "conditionalDeleteMaxNumber": 100,
       "defaultPrettyPrint": true,
       "serverRegistryResourceProviderEnabled": false,
       "ifNoneMatchReturnsNotModified": true
@@ -289,11 +289,6 @@
         "__comment": "Configuration properties common to all persistence layer implementations",
         "updateCreateEnabled": true
       },
-      "jdbc": {
-        "enableCodeSystemsCache": true,
-        "enableParameterNamesCache": true,
-        "enableResourceTypesCache": true
-      },
       "datasources": {
         "default": {
           "type": "postgresql",
@@ -326,6 +321,15 @@
           "type": "file",
           "fileBase": "/output/bulkdata/out"
         }
+      }
+    },
+    "operations": {
+      "erase": {
+        "enabled": true,
+        "allowedRoles": [
+            "FHIROperationAdmin",
+            "FHIRUsers"
+        ]
       }
     }
   }
