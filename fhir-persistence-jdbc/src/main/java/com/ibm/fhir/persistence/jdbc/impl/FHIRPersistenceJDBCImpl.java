@@ -744,8 +744,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
                     List<ResourceResult<? extends Resource>> includeResult = this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null, searchContext.isIncludeResourceData());
                     // erased version referenced via a versioned reference will be missing the resource
-                    // data field, so we need to filter those out here
-                    includeResult = includeResult.stream().filter(rr -> rr.getResource() != null).collect(Collectors.toList());
+                    // data field, so we need to filter those out here if resource data is being requested
+                    if (searchContext.isIncludeResourceData()) {
+                        includeResult = includeResult.stream().filter(rr -> rr.getResource() != null).collect(Collectors.toList());
+                    }
                     resourceResults.addAll(includeResult);
                 }
             }
