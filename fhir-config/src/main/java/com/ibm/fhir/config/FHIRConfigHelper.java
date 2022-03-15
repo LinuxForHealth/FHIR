@@ -83,9 +83,10 @@ public class FHIRConfigHelper {
         // let's try to find it in the default config.
         if (result == null && !FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId)) {
             try {
-                if (propertyName.startsWith(FHIRConfiguration.PROPERTY_DATASOURCES)) {
-                    // Issue #639. Prevent datasource lookups from falling back to 
-                    // the default datasource which breaks tenant isolation.
+                if (propertyName.startsWith(FHIRConfiguration.PROPERTY_DATASOURCES)
+                        || propertyName.startsWith(FHIRConfiguration.PROPERTY_PERSISTENCE_PAYLOAD)) {
+                    // Issue #639 and #3416. Prevent datasource/payload lookups from falling back to 
+                    // the default configuration which breaks tenant isolation.
                     result = null;
                 } else {
                     // Non-datasource property, which we allow to fall back to default
