@@ -94,7 +94,7 @@ public class Patch extends FHIRResource {
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Status.METHOD_NOT_ALLOWED;
+            status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());

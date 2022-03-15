@@ -634,8 +634,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 currentVersion = srr.getVersion();
 
                 // Since 1869, this check is performed before entering the persistence layer
-                // Check that the resource exists, unless the updateCreate feature is enabled
-                if (srr.getResource() == null && !persistence.isUpdateCreateEnabled()) {
+                // Check that the resource exists, unless the updateCreate feature is enabled and this is not a patch
+                if (srr.getResource() == null && (!persistence.isUpdateCreateEnabled() || (patch != null))) {
                     String msg = "Resource '" + type + "/" + id + "' not found.";
                     log.log(Level.SEVERE, msg);
                     throw new FHIRPersistenceResourceNotFoundException(msg);
