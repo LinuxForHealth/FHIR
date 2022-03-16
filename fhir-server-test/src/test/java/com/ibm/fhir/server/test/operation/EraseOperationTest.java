@@ -812,7 +812,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
                 .get(Response.class);
         assertEquals(searchResponse.getStatus(), 200);
         searchBundle = searchResponse.readEntity(Bundle.class);
-        System.out.println(searchBundle);
         entries = searchBundle.getEntry();
         assertEquals(entries.size(), 1);
         assertEquals(entries.get(0).getResource().getId(), conditionId); // the condition
