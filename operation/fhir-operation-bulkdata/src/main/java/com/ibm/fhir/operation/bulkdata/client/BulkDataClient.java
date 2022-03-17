@@ -181,6 +181,7 @@ public class BulkDataClient {
             break;
         case GROUP:
             builder.jobXMLName(JobType.EXPORT_GROUP.value());
+            builder.fhirPatientGroupId(groupId);
             break;
         default:
             // We have two implementations for system export, but the "fast" version
@@ -475,11 +476,6 @@ public class BulkDataClient {
         }
 
         if (httpStatus == 500) {
-            // if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected
-            // request/response.")) {
-            // throw export.buildOperationException("Invalid job id sent to $bulkdata-status",
-            // IssueType.INVALID);
-            // }
             throw export.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 

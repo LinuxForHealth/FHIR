@@ -11,7 +11,7 @@
 
 # note: any edits to this file should also be made in build/pre-integration-test.ps1
 
-export TENANT1_PROFILE_RESOURCE_TYPES=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent
+export TENANT1_PROFILE_RESOURCE_TYPES=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,AllergyIntolerance,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet,Encounter,Condition,MedicationRequest,Coverage,ServiceRequest,CarePlan,CareTeam,Claim,DiagnosticReport,ExplanationOfBenefit,Immunization,Procedure,Medication,Provenance,Consent
 
 export TENANT1_REFERENCE_RESOURCE_TYPES=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CompartmentDefinition,CodeSystem,ValueSet
 

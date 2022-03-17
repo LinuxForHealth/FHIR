@@ -22,7 +22,6 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -34,6 +33,7 @@ import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
+import com.ibm.fhir.search.util.SearchHelper;
 
 
 @Dependent
@@ -45,10 +45,12 @@ public class PatientExportPartitionMapper implements PartitionMapper {
     @Inject
     JobContext jobCtx;
 
+    SearchHelper searchHelper;
+
     private static final CompartmentHelper compartmentHelper = new CompartmentHelper();
 
     public PatientExportPartitionMapper() {
-        // No Operation
+        searchHelper = new SearchHelper();
     }
 
     @Override
@@ -72,8 +74,7 @@ public class PatientExportPartitionMapper implements PartitionMapper {
 
         // Note we're already running inside a transaction (started by the JavaBatch framework)
         // so this txn will just wrap it...the commit won't happen until the checkpoint
-        SystemExportResourceHandler handler = new SystemExportResourceHandler();
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(handler.getSearchHelper());
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper(searchHelper);
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
@@ -82,7 +83,8 @@ public class PatientExportPartitionMapper implements PartitionMapper {
         List<String> target = new ArrayList<>();
         try {
             for (String resourceType : resourceTypes) {
-                List<ResourceChangeLogRecord> resourceResults = fhirPersistence.changes(1, null, null, null, Arrays.asList(resourceType), false, HistorySortOrder.NONE);
+                List<ResourceChangeLogRecord> resourceResults = fhirPersistence.changes(1, null, null, null, 
+                        Arrays.asList(resourceType), false, HistorySortOrder.NONE);
 
                 // Early Exit Logic
                 if (!resourceResults.isEmpty()) {

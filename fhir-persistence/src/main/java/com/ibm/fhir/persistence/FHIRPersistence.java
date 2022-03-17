@@ -84,6 +84,7 @@ public interface FHIRPersistence {
      * This must be checked by the {@link FHIRPersistence} implementation, which should throw a
      * FHIRPersistenceVersionIdMismatchException is there is a mismatch (likely an indication
      * of concurrent changes to the resource).
+     * 
      * @param <T>
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType the resource type of the Resource instance to be deleted
@@ -126,7 +127,8 @@ public interface FHIRPersistence {
     boolean isTransactional();
 
     /**
-     * Returns an OperationOutcome indicating the current status of the persistence store / backend
+     * Returns an OperationOutcome indicating the current status of the persistence store / backend.
+     * 
      * @return An OperationOutcome with a list of 0 or more OperationalOutcomeIssue indicating the status of the underlying datastore
      * @throws FHIRPersistenceException
      */
@@ -135,6 +137,7 @@ public interface FHIRPersistence {
     /**
      * Read the resources for each of the change log records in the list, aligning
      * the entries in the returned list to match the entries in the records list.
+     * 
      * @param records
      * @return a list of Resources with the same number of entries as the given records list
      */
@@ -143,11 +146,15 @@ public interface FHIRPersistence {
     /**
      * Returns a FHIRPersistenceTransaction object associated with the persistence layer implementation in use.
      * This can then be used to control transactional boundaries.
+     * 
+     * @return
      */
     FHIRPersistenceTransaction getTransaction();
 
     /**
      * Returns true iff the persistence layer implementation supports the "delete" operation.
+     * 
+     * @return
      */
     default boolean isDeleteSupported() {
         return false;
@@ -156,6 +163,7 @@ public interface FHIRPersistence {
     /**
      * Returns true iff the persistence layer implementation supports update/create and it has been
      * configured in the persistence config.
+     * 
      * @return
      */
     default boolean isUpdateCreateEnabled() {
@@ -170,7 +178,8 @@ public interface FHIRPersistence {
     String generateResourceId();
 
     /**
-     * Returns true iff the persistence layer implementation supports the "reindex" special operation
+     * Returns true iff the persistence layer implementation supports the "reindex" special operation.
+     * 
      * @return
      */
     default boolean isReindexSupported() {
@@ -179,7 +188,8 @@ public interface FHIRPersistence {
 
     /**
      * Returns true iff the persistence layer implementation supports offloading and this has been
-     * configured for the tenant/datasource
+     * configured for the tenant/datasource.
+     * 
      * @return
      */
     default boolean isOffloadingSupported() {
@@ -190,6 +200,7 @@ public interface FHIRPersistence {
      * Initiates reindexing for either a specified list of index IDs,
      * or a randomly chosen resource. The number of resources processed is returned.
      * This can be used by a controller to continue processing until everything is complete.
+     *
      * @param context the FHIRPersistenceContext instance associated with the current request.
      * @param operationOutcomeResult accumulate issues in this {@link OperationOutcome.Builder}
      * @param tstamp only reindex resources with a reindex_tstamp less than this
@@ -221,7 +232,9 @@ public interface FHIRPersistence {
         Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
 
     /**
-     * Returns true iff the persistence layer implementation supports the "changes" special operation
+     * Returns true iff the persistence layer implementation supports the "changes"
+     * special operation.
+     * 
      * @return
      */
     default boolean isChangesSupported() {
@@ -229,7 +242,8 @@ public interface FHIRPersistence {
     }
 
     /**
-     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table
+     * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table.
+     * 
      * @param resourceCount the max number of resource change records to fetch
      * @param sinceLastModified filter records with record.lastUpdate >= sinceLastModified. Optional.
      * @param beforeLastModified filter records with record.lastUpdate <= beforeLastModified. Optional.
@@ -240,11 +254,14 @@ public interface FHIRPersistence {
      * @return a list containing up to resourceCount elements describing resources which have changed
      * @throws FHIRPersistenceException
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames, boolean excludeTransactionTimeoutWindow, 
-            HistorySortOrder historySortOrder) throws FHIRPersistenceException;
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified, 
+        java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames, 
+        boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
+        throws FHIRPersistenceException;
 
     /**
-     * Erases part or a whole of a resource in the data layer
+     * Erases part or a whole of a resource in the data layer.
+     * 
      * @param eraseDto the details of the user input
      * @return a record indicating the success or partial success of the erase
      * @throws FHIRPersistenceException
@@ -255,6 +272,7 @@ public interface FHIRPersistence {
 
     /**
      * Retrieves a list of index IDs available for reindexing.
+     * 
      * @param count the maximum nuber of index IDs to retrieve
      * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
      * @param afterIndexId retrieve index IDs starting after this specified index ID, or null to start with first index ID
@@ -262,7 +280,8 @@ public interface FHIRPersistence {
      * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
+    List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName)
+        throws FHIRPersistenceException;
 
     /**
      * Offload payload storage to another provider. If result is not null, the returned
@@ -271,6 +290,7 @@ public interface FHIRPersistence {
      * be stored in the traditional manner (e.g. in the RDBMS). A {@link Future} is used
      * because the offloading storage operation may be asynchronous. This Future must be
      * resolved prior to the transaction commit.
+     * 
      * @param resource
      * @param logicalId
      * @param newVersionNumber
@@ -278,5 +298,6 @@ public interface FHIRPersistence {
      * @return
      * @throws FHIRPersistenceException
      */
-    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, String resourcePayloadKey) throws FHIRPersistenceException;
+    PayloadPersistenceResponse storePayload(Resource resource, String logicalId, int newVersionNumber, 
+        String resourcePayloadKey) throws FHIRPersistenceException;
 }
