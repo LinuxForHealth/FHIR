@@ -29,12 +29,12 @@ java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
   --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES} \
-  --update-schema
+  --update-schema --force
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
   --prop resourceTypes=${TENANT1_REFERENCE_RESOURCE_TYPES} \
-  --update-schema
+  --update-schema --force
 java -jar ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
   --prop resourceTypes=${TENANT1_STUDY1_RESOURCE_TYPES} \
-  --update-schema
+  --update-schema --force

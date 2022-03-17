@@ -187,10 +187,8 @@ public class EverythingOperation extends AbstractOperation {
             throw exceptionWithIssue;
         }
 
-        Entry patientEntry = buildPatientEntry(operationContext, patient);
         int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
-        allEntries.add(patientEntry);
         List<String> resourceIds = new ArrayList<String>();
         // Look up which extra resources should be returned
         List<String> extraResources = new ArrayList<String>();
@@ -202,18 +200,6 @@ public class EverythingOperation extends AbstractOperation {
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
                 IssueType.EXCEPTION, e);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;
-        }
-
-        // Patient is not part of its own compartment at this time.  If that behavior changes, remove these next lines
-        List<Entry> entryList = new ArrayList<Entry>(1);
-        entryList.add(patientEntry);
-        try {
-            readsOfAdditionalAssociatedResources(PATIENT, entryList, allEntries, resourceIds, resourceHelper, extraResources);
-        } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                    + "related resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
@@ -433,26 +419,6 @@ public class EverythingOperation extends AbstractOperation {
             LOG.fine(resourceTypeBuilder.toString());
         }
         return resourceTypes;
-    }
-
-    /**
-     * Builds an {@link Entry} out of the given {@link Patient} resource including its fullURL
-     *
-     * @param operationContext the {@link FHIROperationContext} to get the base URI
-     * @param patient the patient to wrap
-     * @return the entry with URL
-     */
-    private Entry buildPatientEntry(FHIROperationContext operationContext, Patient patient) {
-        Uri patientURL = uri(operationContext, PATIENT + "/" + patient.getId());
-        Entry patientEntry = Entry.builder()
-                .resource(patient)
-                .fullUrl(patientURL)
-                .search(Search.builder()
-                    .mode(SearchEntryMode.MATCH)
-                    .score(Decimal.of("1"))
-                    .build())
-                .build();
-        return patientEntry;
     }
 
     /**

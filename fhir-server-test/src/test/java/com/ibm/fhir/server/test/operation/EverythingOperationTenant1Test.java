@@ -131,11 +131,10 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         // but keep the original so we can delete all created resources
         Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
 
-        // Ensure that the 6 resources are accounted for in the returning search set bundle
-        // (the Patient resource and the 5 that reference it)
+        // Ensure that the 5 resources are accounted for in the returning search set bundle
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 6);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
@@ -187,7 +186,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // Count is ignored
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 6);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -208,7 +207,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request()
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "Patient,CareTeam,CarePlan").request()
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .header("X-FHIR-DSID", "profile")
                 .get(Response.class);
@@ -216,7 +215,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // We get five because there are 4 resources associated to the patient
+        // We get five because there are 4 Organization resources linked to from the patient (no CareTeam or CarePlans)
         assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
     }
 
