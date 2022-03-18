@@ -12,7 +12,6 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,7 +41,7 @@ public class CompartmentHelperTest extends BaseSearchTest {
     @Test
     public void testGetCompartmentResourceTypeExists() throws FHIRSearchException {
         // The Compartment Does not Exist Exists
-        List<String> results = compartmentHelper.getCompartmentResourceTypes("Patient");
+        Set<String> results = compartmentHelper.getCompartmentResourceTypes("Patient");
         assertNotNull(results);
         assertFalse(results.isEmpty());
     }
@@ -87,7 +86,7 @@ public class CompartmentHelperTest extends BaseSearchTest {
 
     @Test()
     public void testGetCompartmentResourceTypeInclusionCriteria() throws FHIRSearchException {
-        List<String> results = compartmentHelper.getCompartmentResourceTypeInclusionCriteria("Patient", "CommunicationRequest");
+        Set<String> results = compartmentHelper.getCompartmentResourceTypeInclusionCriteria("Patient", "CommunicationRequest");
         assertNotNull(results);
         assertFalse(results.isEmpty());
     }

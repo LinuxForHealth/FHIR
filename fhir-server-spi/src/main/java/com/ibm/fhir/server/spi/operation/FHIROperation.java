@@ -15,6 +15,12 @@ import com.ibm.fhir.search.util.SearchHelper;
 public interface FHIROperation {
     String getName();
 
+    /**
+     * Invoke the operation.
+     *
+     * @throws FHIROperationException
+     *     if input or output parameters fail validation or an exception occurs
+     */
     Parameters invoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
         FHIRResourceHelpers resourceHelpers, SearchHelper searchHelper) throws FHIROperationException;
 

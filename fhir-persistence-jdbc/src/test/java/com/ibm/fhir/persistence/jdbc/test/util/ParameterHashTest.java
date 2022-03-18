@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
@@ -66,6 +68,96 @@ public class ParameterHashTest {
 
         // Check hashes
         assertEquals(hash1, hash2);
+    }
+
+    @Test
+    public void testReferenceParams() throws Exception {
+        ReferenceValue rv1 = ReferenceUtil.createReferenceValueFrom("Patient/patient1/_history/1", "Patient", ReferenceUtil.getBaseUrl(null));
+        ReferenceParmVal p1 = new ReferenceParmVal();
+        p1.setName("subject");
+        p1.setRefValue(rv1);
+
+        ParameterHashVisitor visitor1 = new ParameterHashVisitor();
+        p1.accept(visitor1);
+
+        // Make sure that the hash changes when changing the reference version
+        ReferenceValue rv2 = ReferenceUtil.createReferenceValueFrom("Patient/patient1/_history/2", "Patient", ReferenceUtil.getBaseUrl(null));
+        p1.setRefValue(rv2);
+        
+        ParameterHashVisitor visitor2 = new ParameterHashVisitor();
+        p1.accept(visitor2);
+        assertNotEquals(visitor1.getBase64Hash(), visitor2.getBase64Hash());
+    }
+
+    @Test
+    public void testDateParams() throws Exception {
+        DateParmVal p1 = new DateParmVal();
+        p1.setName("date");
+        p1.setValueDateStart(Timestamp.from(Instant.now()));
+        p1.setValueDateEnd(Timestamp.from(Instant.now()));
+        ParameterHashVisitor visitor1 = new ParameterHashVisitor();
+        p1.accept(visitor1);
+
+        // Modify the parameter with a different start date and check the hash changes
+        p1.setValueDateStart(Timestamp.from(Instant.now().plusMillis(1000)));
+        ParameterHashVisitor visitor2 = new ParameterHashVisitor();
+        p1.accept(visitor2);
+        assertNotEquals(visitor1.getBase64Hash(), visitor2.getBase64Hash());
+
+        // Now check it changes again when we change the date end value
+        p1.setValueDateEnd(Timestamp.from(Instant.now().plusMillis(1000)));
+        ParameterHashVisitor visitor3 = new ParameterHashVisitor();
+        p1.accept(visitor3);
+        assertNotEquals(visitor2.getBase64Hash(), visitor3.getBase64Hash());
+    }
+
+    @Test
+    public void testLocationParams() throws Exception {
+        LocationParmVal p1 = new LocationParmVal();
+        p1.setValueLatitude(0.1);
+        p1.setValueLongitude(1.1);
+        ParameterHashVisitor visitor1 = new ParameterHashVisitor();
+        p1.accept(visitor1);
+
+        // Modify latitude and check the signature changes
+        p1.setValueLatitude(0.2);
+        ParameterHashVisitor visitor2 = new ParameterHashVisitor();
+        p1.accept(visitor2);
+        assertNotEquals(visitor1.getBase64Hash(), visitor2.getBase64Hash());
+
+        // Modify longitude and check the signature changes
+        p1.setValueLongitude(1.2);
+        ParameterHashVisitor visitor3 = new ParameterHashVisitor();
+        p1.accept(visitor3);
+        assertNotEquals(visitor2.getBase64Hash(), visitor3.getBase64Hash());
+    }
+
+    @Test
+    public void testNumberParams() throws Exception {
+        NumberParmVal p1 = new NumberParmVal();
+        p1.setValueNumber(BigDecimal.valueOf(10));
+        p1.setValueNumberLow(BigDecimal.valueOf(5));
+        p1.setValueNumberHigh(BigDecimal.valueOf(100));
+        ParameterHashVisitor visitor1 = new ParameterHashVisitor();
+        p1.accept(visitor1);
+
+        // Modify number and check the signature changes
+        p1.setValueNumber(BigDecimal.valueOf(11));
+        ParameterHashVisitor visitor2 = new ParameterHashVisitor();
+        p1.accept(visitor2);
+        assertNotEquals(visitor1.getBase64Hash(), visitor2.getBase64Hash());
+
+        // Modify number low and check the signature changes
+        p1.setValueNumberLow(BigDecimal.valueOf(6));
+        ParameterHashVisitor visitor3 = new ParameterHashVisitor();
+        p1.accept(visitor3);
+        assertNotEquals(visitor2.getBase64Hash(), visitor3.getBase64Hash());
+
+        // Modify number high and check the signature changes
+        p1.setValueNumberHigh(BigDecimal.valueOf(101));
+        ParameterHashVisitor visitor4 = new ParameterHashVisitor();
+        p1.accept(visitor4);
+        assertNotEquals(visitor3.getBase64Hash(), visitor4.getBase64Hash());
     }
 
     @Test

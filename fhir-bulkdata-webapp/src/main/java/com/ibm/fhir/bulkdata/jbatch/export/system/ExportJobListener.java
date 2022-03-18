@@ -104,7 +104,7 @@ public class ExportJobListener implements JobListener {
             jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
 
             // log the simple metrics.
-            logger.info(" ---- FHIR resources exported in " + jobProcessingSeconds + "seconds ----");
+            logger.info(" ---- FHIR resources exported in " + jobProcessingSeconds + " seconds ----");
             logger.info("ResourceType \t| Exported");
             int totalExportedFhirResources = 0;
             List<String> resourceTypeSummaries = new ArrayList<>();

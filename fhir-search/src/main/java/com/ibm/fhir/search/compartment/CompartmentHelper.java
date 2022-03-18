@@ -66,7 +66,7 @@ public class CompartmentHelper {
             if (LOG.isLoggable(Level.FINER)) {
                 for (Entry<String, CompartmentCache> entry : compartmentMap.entrySet()) {
                     CompartmentCache cc = entry.getValue();
-                    Map<String, List<String>> paramsByResourceType = cc.getResourceTypesInCompartment().stream()
+                    Map<String, Set<String>> paramsByResourceType = cc.getResourceTypesInCompartment().stream()
                         .collect(Collectors.toMap(t -> t, t -> cc.getParametersByResourceTypeInCompartment(t)));
                     LOG.finer(entry.getKey() + ": " + paramsByResourceType);
                 }
@@ -136,7 +136,7 @@ public class CompartmentHelper {
      * @return
      * @throws FHIRSearchException
      */
-    public List<String> getCompartmentResourceTypes(final String compartment) throws FHIRSearchException {
+    public Set<String> getCompartmentResourceTypes(final String compartment) throws FHIRSearchException {
         checkValidCompartment(compartment);
         return compartmentMap.get(compartment).getResourceTypesInCompartment();
     }
@@ -149,7 +149,7 @@ public class CompartmentHelper {
      * @return
      * @throws FHIRSearchException if the passed resourceType does not exist within the passed compartment
      */
-    public List<String> getCompartmentResourceTypeInclusionCriteria(final String compartment, final String resourceType) throws FHIRSearchException {
+    public Set<String> getCompartmentResourceTypeInclusionCriteria(final String compartment, final String resourceType) throws FHIRSearchException {
         checkValidCompartmentAndResource(compartment, resourceType);
         return compartmentMap.get(compartment).getParametersByResourceTypeInCompartment(resourceType);
     }

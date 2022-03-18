@@ -24,7 +24,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -185,10 +187,8 @@ public class EverythingOperation extends AbstractOperation {
             throw exceptionWithIssue;
         }
 
-        Entry patientEntry = buildPatientEntry(operationContext, patient);
         int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
-        allEntries.add(patientEntry);
         List<String> resourceIds = new ArrayList<String>();
         // Look up which extra resources should be returned
         List<String> extraResources = new ArrayList<String>();
@@ -200,18 +200,6 @@ public class EverythingOperation extends AbstractOperation {
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
                 IssueType.EXCEPTION, e);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;
-        }
-
-        // Patient is not part of its own compartment at this time.  If that behavior changes, remove these next lines
-        List<Entry> entryList = new ArrayList<Entry>(1);
-        entryList.add(patientEntry);
-        try {
-            readsOfAdditionalAssociatedResources(PATIENT, entryList, allEntries, resourceIds, resourceHelper, extraResources);
-        } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                    + "related resources of type '" + PATIENT + "' for patient " + logicalId, IssueType.EXCEPTION, e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
@@ -399,18 +387,10 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypes = new ArrayList<>(compartmentHelper.getCompartmentResourceTypes(PATIENT));
 
         try {
-            List<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
-            // Examine the resource types to see if they support SEARCH
-            for (String resourceType: supportedResourceTypes) {
-                try {
-                    resourceHelper.validateInteraction(FHIRResourceHelpers.Interaction.SEARCH, resourceType);
-                } catch (FHIROperationException e) {
-                    if (LOG.isLoggable(Level.FINE)) {
-                        LOG.fine("Removing resourceType " + resourceType + " because it does not support SEARCH");
-                    }
-                    supportedResourceTypes.remove(resourceType);
-                }
-            }
+            PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup);
+            Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.SEARCH);
+            
             if (LOG.isLoggable(Level.FINE)) {
                 StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
                 resourceTypeBuilder.append("supportedResourceTypes are: ");
@@ -421,12 +401,10 @@ public class EverythingOperation extends AbstractOperation {
                 LOG.fine(resourceTypeBuilder.toString());
             }
 
-            // Need to have this if check to support server config files that do not specify resources
-            if (!supportedResourceTypes.isEmpty()) {
-                resourceTypes.retainAll(supportedResourceTypes);
-            }
+            resourceTypes.retainAll(supportedResourceTypes);
         } catch (Exception e) {
-            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported resource types of the $everything operation.", e);
+            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list "
+                    + "of supported resource types of the $everything operation.", e);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
@@ -441,26 +419,6 @@ public class EverythingOperation extends AbstractOperation {
             LOG.fine(resourceTypeBuilder.toString());
         }
         return resourceTypes;
-    }
-
-    /**
-     * Builds an {@link Entry} out of the given {@link Patient} resource including its fullURL
-     *
-     * @param operationContext the {@link FHIROperationContext} to get the base URI
-     * @param patient the patient to wrap
-     * @return the entry with URL
-     */
-    private Entry buildPatientEntry(FHIROperationContext operationContext, Patient patient) {
-        Uri patientURL = uri(operationContext, PATIENT + "/" + patient.getId());
-        Entry patientEntry = Entry.builder()
-                .resource(patient)
-                .fullUrl(patientURL)
-                .search(Search.builder()
-                    .mode(SearchEntryMode.MATCH)
-                    .score(Decimal.of("1"))
-                    .build())
-                .build();
-        return patientEntry;
     }
 
     /**
@@ -768,12 +726,17 @@ public class EverythingOperation extends AbstractOperation {
         String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
         String simplifiedParameterName = compartmentMemberType + ":" + code;
 
+        boolean isAllowed = allowedIncludes == null ||
+                allowedIncludes.contains(parameterName) ||
+                allowedIncludes.contains(simplifiedParameterName);
+
+        boolean isConfigured = extraResources != null &&
+                extraResources.contains(subResourceType.value());
+
         // Also check if the parameter is supported by retrieving it from SearchUtil
         SearchParameter searchParam = searchHelper.getSearchParameter(compartmentMemberType, code);
-        if ((extraResources != null && extraResources.contains(subResourceType.value())) &&
-                (allowedIncludes == null || allowedIncludes.contains(parameterName)
-                || allowedIncludes.contains(simplifiedParameterName)) &&
-                searchParam != null) {
+
+        if (isAllowed && isConfigured && searchParam != null) {
             searchParameters.add("_include", parameterName);
         } else {
             if (LOG.isLoggable(Level.FINE)) {

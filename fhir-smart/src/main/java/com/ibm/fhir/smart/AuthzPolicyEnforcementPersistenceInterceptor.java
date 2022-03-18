@@ -7,9 +7,9 @@
 package com.ibm.fhir.smart;
 
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,6 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -90,7 +89,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void beforeInvoke(FHIROperationContext context) throws FHIRPersistenceInterceptorException {
         Permission neededPermission;
-        List<String> resourceTypes;
+        Set<String> resourceTypes;
         if ("import".equals(context.getOperationCode())) {
             neededPermission = Permission.WRITE;
             resourceTypes = computeImportResourceTypes(context);
@@ -164,7 +163,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
     }
 
-    private List<String> computeImportResourceTypes(FHIROperationContext context) {
+    private Set<String> computeImportResourceTypes(FHIROperationContext context) {
         Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
         Set<String> types = parameters.getParameter().stream()
             .filter(p -> "input".equals(p.getName().getValue()))
@@ -174,39 +173,20 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .map(pp -> pp.getValue().as(ModelSupport.FHIR_STRING).getValue()))
             .collect(Collectors.toSet());
 
-        return new ArrayList<>(types);
+        return Collections.unmodifiableSet(types);
     }
 
-    /**
-     * gets the supported resource types
-     * @return
-     */
-    private List<String> getSupportedResourceTypes() {
-        try {
-            List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-            if (!rts.isEmpty()) {
-                return rts;
-            }
-        } catch (FHIRException e) {
-            log.throwing(this.getClass().getName(), "getSupportedResourceTypes", e);
-        }
-        return ModelSupport.getResourceTypes(false)
-                .stream()
-                .map(clz -> clz.getSimpleName())
-                .collect(Collectors.toList());
-    }
-
-    private List<String> computeExportResourceTypes(FHIROperationContext context) {
-        List<String> supportedResourceTypes = getSupportedResourceTypes();
-        List<String> resourceTypes = new ArrayList<>();
+    private Set<String> computeExportResourceTypes(FHIROperationContext context) {
+        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+        Set<String> resourceTypes = new HashSet<>();
         Parameters parameters = (Parameters) context.getProperty(FHIROperationContext.PROPNAME_REQUEST_PARAMETERS);
         Optional<Parameter> typesParam = parameters.getParameter().stream().filter(p -> "_type".equals(p.getName().getValue())).findFirst();
         switch (context.getType()) {
         case INSTANCE:      // Group/:id/$export
         case RESOURCE_TYPE: // Patient/$export
-            // Either way, the set resourceTypes to export are those from the Patient compartment
+            // Either way, the set of resourceTypes to export are those from the Patient compartment
             try {
-                List<String> compartmentResourceMembers = compartmentHelper.getCompartmentResourceTypes(PATIENT);
+                Set<String> compartmentResourceMembers = compartmentHelper.getCompartmentResourceTypes(PATIENT);
                 if (typesParam.isPresent() && typesParam.get().getValue() != null) {
                     String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
                     for (String requestedType : Arrays.asList(typesString.split(","))) {
@@ -229,7 +209,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         case SYSTEM:
             if (typesParam.isPresent() && typesParam.get().getValue() != null) {
                 String typesString = typesParam.get().getValue().as(ModelSupport.FHIR_STRING).getValue();
-                resourceTypes = Arrays.asList(typesString.split(","));
+                resourceTypes = Set.of(typesString.split(","));
                 for (String resourceType : resourceTypes) {
                     if (!supportedResourceTypes.contains(resourceType)) {
                         throw new IllegalStateException("Requested resource is not configured");
@@ -831,7 +811,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 return true;
             }
 
-            List<String> inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
+            Set<String> inclusionCriteria = compartmentHelper.getCompartmentResourceTypeInclusionCriteria(compartment, resourceType);
 
             EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(resource);
 

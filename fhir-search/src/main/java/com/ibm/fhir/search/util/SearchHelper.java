@@ -30,7 +30,9 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -80,6 +82,8 @@ import com.ibm.fhir.search.uri.UriBuilder;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
+
+import org.owasp.encoder.Encode;
 
 /**
  * A helper class with methods for working with HL7 FHIR search.
@@ -400,34 +404,31 @@ public class SearchHelper {
             throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _include or _revinclude.");
         }
 
-        // Check for unsupported uses of _type
+        // Process the _type parameter(s)
         if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
-            if (Resource.class.equals(resourceType)) {
-                // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
-                String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
-                List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
-                for (String resType : tmpResourceTypes) {
-                    try {
-                        if (ModelSupport.isConcreteResourceType(resType)) {
-                            resourceTypes.add(resType);
+            if (!Resource.class.equals(resourceType)) {
+                manageException("_type search parameter is only supported with system search", IssueType.NOT_SUPPORTED, context, false);
+            } else {
+                List<String> values = queryParameters.get(SearchConstants.RESOURCE_TYPE);
+
+                PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
+                Set<String> searchableTypes = config.getSupportedResourceTypes(Interaction.SEARCH);
+                
+                for (String v: values) {
+                    List<String> tmpResourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
+                    for (String tmpResourceType: tmpResourceTypes) {
+                        if (!ModelSupport.isConcreteResourceType(tmpResourceType)) {
+                            String msg = "_type parameter has invalid resource type: " + Encode.forHtml(tmpResourceType);
+                            manageException(msg, IssueType.INVALID, context, false);
+                        } else if (!searchableTypes.contains(tmpResourceType)) {
+                            String msg = "Search interaction is not supported for _type parameter value: " + Encode.forHtml(tmpResourceType);
+                            manageException(msg, IssueType.NOT_SUPPORTED, context, false);
                         } else {
-                            manageException("_type search parameter has invalid resource type: " + resType, IssueType.INVALID, context, true);
-                            continue;
-                        }
-                    } catch (FHIRSearchException se) {
-                        // If we're in lenient mode and there was an issue parsing the resource type then log and move on to the next one.
-                        if (lenient) {
-                            String msg = "Resource type '" + resType + "' for _type search parameter ignored";
-                            log.log(Level.FINE, msg, se);
-                            context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
-                        } else {
-                            throw se;
+                            resourceTypes.add(tmpResourceType);
                         }
                     }
                 }
-            }
-            else {
-                manageException("_type search parameter is only supported with system search", IssueType.NOT_SUPPORTED, context, false);
             }
         }
 

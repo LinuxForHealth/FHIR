@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata.util;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,15 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -31,24 +29,20 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
-import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+
+import org.owasp.encoder.Encode;
 
 /**
  * BulkData Util captures common methods
  */
 public class BulkDataExportUtil {
     private static final Logger LOG = Logger.getLogger(BulkDataExportUtil.class.getName());
-
-    private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-                                                    .map(Class::getSimpleName)
-                                                    .collect(Collectors.toSet());
 
     private final CompartmentHelper compartmentHelper;
 
@@ -75,52 +69,6 @@ public class BulkDataExportUtil {
             exportType = ExportType.SYSTEM;
         }
         return exportType;
-    }
-
-    /**
-     *
-     * @implNote originally this was in the PartitionMapper for Patient Export.
-     *
-     * @param resourceTypes
-     * @throws FHIROperationException
-     */
-    public void checkExportPatientResourceTypes(Set<String> resourceTypes) throws FHIROperationException {
-        boolean valid = false;
-        try {
-            // Also Check to see if the Export is valid for the Compartment.
-            List<String> allCompartmentResourceTypes = compartmentHelper.getCompartmentResourceTypes("Patient");
-            Set<String> supportedResourceTypes = getSupportedResourceTypes();
-            List<String> tmp = resourceTypes.stream()
-                                        .filter(item -> allCompartmentResourceTypes.contains(item) && supportedResourceTypes.contains(item))
-                                        .collect(Collectors.toList());
-            valid = tmp != null && !tmp.isEmpty();
-        } catch (Exception e) {
-            // No Operation intentionally
-        }
-        if (!valid) {
-            throw buildOperationException("Resource Type outside of the Patient Compartment in Export", IssueType.INVALID);
-        }
-    }
-
-    /**
-     * gets the supported resource types
-     * @return
-     */
-    public Set<String> getSupportedResourceTypes() {
-        try {
-            if (!FHIRConfigHelper.getBooleanProperty("fhirServer/resources/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, Boolean.TRUE)) {
-                List<String> rts = FHIRConfigHelper.getSupportedResourceTypes();
-                System.out.println("RTS -> " + rts);
-                if (rts != null && !rts.isEmpty()) {
-                    rts.remove("Resource");
-                    rts.remove("DomainResource");
-                    return new HashSet<>(rts);
-                }
-            }
-        } catch (FHIRException e) {
-            LOG.throwing(BulkDataExportUtil.class.getName(), "getSupportedResourceTypes", e);
-        }
-        return RESOURCE_TYPES;
     }
 
     public MediaType checkAndConvertToMediaType(Parameters parameters) throws FHIROperationException {
@@ -219,7 +167,8 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public List<String> checkAndValidateTypes(OperationConstants.ExportType exportType, Parameters parameters, MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
+    public Set<String> checkAndValidateTypes(OperationConstants.ExportType exportType, Parameters parameters, 
+            MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -233,25 +182,25 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
-        Set<String> supportedResourceTypes = getSupportedResourceTypes(); 
+        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes(); 
         Set<String> result = new HashSet<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 // The model makes sure getName is never non-null.
                 if (OperationConstants.PARAM_TYPE.equals(parameter.getName().getValue())) {
-                    if (parameter.getValue() != null) {
-                        String types =
-                                parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                        for (String type : types.split(",")) {
-                            // Type will never be null here.
-                            if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
-                                result.add(type);
-                            } else {
-                                throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
-                            }
-                        }
-                    } else {
+                    if (parameter.getValue() == null) {
                         throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
+                    }
+
+                    String types = parameter.getValue().as(FHIR_STRING).getValue();
+                    for (String type : types.split(",")) {
+                        // Type will never be null here.
+                        if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
+                            result.add(type);
+                        } else {
+                            throw buildOperationException("invalid resource type sent as a parameter to $export operation: "
+                                    + Encode.forHtml(type), IssueType.INVALID);
+                        }
                     }
                 }
             }
@@ -266,9 +215,8 @@ public class BulkDataExportUtil {
                         if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
                             result.add(type);
                         } else {
-                            throw buildOperationException(
-                                    "invalid resource type sent as a parameter to $export operation",
-                                    IssueType.INVALID);
+                            throw buildOperationException("invalid resource type sent as a parameter to $export operation: " 
+                                    + Encode.forHtml(type), IssueType.INVALID);
                         }
                     }
                 }
@@ -280,33 +228,58 @@ public class BulkDataExportUtil {
             result = new HashSet<>(supportedResourceTypes);
         } else if (ExportType.PATIENT.equals(exportType) || ExportType.GROUP.equals(exportType)) {
             if (!result.isEmpty()) {
-                checkExportPatientResourceTypes(result);
+                result = filterTypesToPatientResourceTypes(result);                
             } else {
-                return addDefaultsForPatientCompartment();
+                result = getDefaultsForPatientCompartment(supportedResourceTypes);
             }
         }
-        return new ArrayList<>(result);
+        return result;
     }
 
     /**
-     * gets the defaults for the patient compartment (filtered based on supported).
+     * Filter the passed resourceTypes down to the set that can be in the Patient compartment.
+     *
+     * @param resourceTypes
+     * @return a new Set that represents the subset of the requested types that can be exported in a Patient export
+     * @throws FHIROperationException if none of the passed resourceTypes are valid for a Patient export
+     * @implNote originally this was in the PartitionMapper for Patient Export.
+     */
+    private Set<String> filterTypesToPatientResourceTypes(Set<String> resourceTypes) throws FHIROperationException {
+        Set<String> result = new HashSet<>();
+
+        // Filter the set of types down to those that exist in the Patient compartment.
+        Set<String> patientCompartmentResourceTypes = new HashSet<>(compartmentHelper.getCompartmentResourceTypes("Patient"));
+        for (String resourceType : resourceTypes) {
+            if (patientCompartmentResourceTypes.contains(resourceType)) {
+                result.add(resourceType);
+            } else {
+                LOG.info("Requested type '" + Encode.forHtml(resourceType) + "' cannot be in the Patient compartment;"
+                        + "this is not supported for Patient/Group export and so this type will be skipped");
+            }
+        }
+
+        if (result.isEmpty()) {
+            throw buildOperationException("None of the requested types are valid for a Patient (or Group) export", IssueType.INVALID);
+        }
+        return result;
+    }
+
+    /**
+     * Get the set of default resource types for a Patient export (filtered by what is supported for the tenant in the FHIRRequestContext).
+     * 
+     * @param supportedResourceTypes
      * @return
      * @throws FHIROperationException
      */
-    public List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
-        try {
-            // Ensures only supported resources are added
-            Set<String> supportedResourceTypes = getSupportedResourceTypes();
-            List<String> supportedDefaultResourceTypes = new ArrayList<>();
-            for (String compartmentResourceType : compartmentHelper.getCompartmentResourceTypes("Patient")) {
-                if (supportedResourceTypes.contains(compartmentResourceType)) {
-                    supportedDefaultResourceTypes.add(compartmentResourceType);
-                }
+    private Set<String> getDefaultsForPatientCompartment(Set<String> supportedResourceTypes) throws FHIROperationException {
+        // Ensures only supported resources are added
+        Set<String> supportedDefaultResourceTypes = new HashSet<>();
+        for (String compartmentResourceType : compartmentHelper.getCompartmentResourceTypes("Patient")) {
+            if (supportedResourceTypes.contains(compartmentResourceType)) {
+                supportedDefaultResourceTypes.add(compartmentResourceType);
             }
-            return supportedDefaultResourceTypes;
-        } catch (FHIRSearchException e) {
-            throw buildOperationException("unable to process the Patient compartment into types", IssueType.UNKNOWN);
         }
+        return supportedDefaultResourceTypes;
     }
 
     public List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {
@@ -325,9 +298,8 @@ public class BulkDataExportUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_TYPE_FILTER.equals(parameter.getName().getValue())) {
-                    if (parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                        String typeFilters =
-                                parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                    if (parameter.getValue() != null && parameter.getValue().is(FHIR_STRING)) {
+                        String typeFilters = parameter.getValue().as(FHIR_STRING).getValue();
 
                         for (String typeFilter : typeFilters.split(",")) {
                             // Type will never be null here, just check for blanks

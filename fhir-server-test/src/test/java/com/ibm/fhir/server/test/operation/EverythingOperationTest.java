@@ -86,7 +86,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     }
 
     /**
-     * Create a Bundle of 901 resources of various kinds (with 895 targeting the Patient) representing a
+     * Create a Bundle of 901 resources of various kinds (895 associated with the Patient) representing a
      * patient's history and save the resource types and IDs of the created resources to eventually ensure
      * that all resources are included in an $everything invocation.
      */
@@ -128,11 +128,10 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         // but keep the original so we can delete all created resources
         Map<String, List<String>> resourcesMap = SerializationUtils.clone((HashMap<String, List<String>>) createdResources);
 
-        // Ensure that the 896 resources are accounted for in the returning search set bundle
-        // (the Patient resource and the 895 that reference it)
+        // Ensure that the 895 resources are accounted for in the returning search set bundle
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 896);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
         for (Entry entry : everythingBundle.getEntry()) {
             String fullURL = entry.getFullUrl().getValue();
             String[] locationElements = fullURL.replaceAll(getWebTarget().getUri().toString(), "").split("/");
@@ -184,7 +183,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // Count is ignored
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 896);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
     }
 
     @Test(groups = { "fhir-operation" })
@@ -209,7 +208,7 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
         // The number of companies was reduced as the scope was narrowed down to a decade
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 372);
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 371);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -222,8 +221,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        // 5 CareTeams + 5 CarePlans
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 10);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -248,8 +247,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        // 5 CareTeams + 5 CarePlans
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 10);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -265,8 +264,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // Only the patient and 0 resources
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
+        // None of the resources are "since" tomorrow
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 0);
     }
 
     @Test(groups = { "fhir-operation" })

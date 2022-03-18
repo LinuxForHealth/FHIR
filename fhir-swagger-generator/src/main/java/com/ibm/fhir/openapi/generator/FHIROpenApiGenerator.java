@@ -472,7 +472,7 @@ public class FHIROpenApiGenerator {
             if (DomainResource.class.isAssignableFrom(compartmentModelClass)
                 && DomainResource.class != compartmentModelClass) {
 
-                List<String> resourceClassNames = getCompartmentClassNames(compartmentClassName);
+                Set<String> resourceClassNames = getCompartmentClassNames(compartmentClassName);
                 if (resourceClassNames == null || resourceClassNames.isEmpty()) {
                     continue;
                 }
@@ -2385,11 +2385,11 @@ public class FHIROpenApiGenerator {
         return classNamesList;
     }
 
-    private static List<String> getCompartmentClassNames(String compartment) {
+    private static Set<String> getCompartmentClassNames(String compartment) {
         try {
             return compartmentHelper.getCompartmentResourceTypes(compartment);
         } catch (FHIRSearchException e) {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 

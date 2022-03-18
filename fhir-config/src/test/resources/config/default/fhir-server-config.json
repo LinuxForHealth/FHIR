@@ -23,10 +23,15 @@
         }
     },
     "fhirServer": {
-	    "persistence": {
+        "persistence": {
             "datasources": {
                 "default": {
                     "type": "db2"
+                }
+            },
+            "payload": {
+                "default": {
+                    "type": "azure.blob"
                 }
             }
         }
