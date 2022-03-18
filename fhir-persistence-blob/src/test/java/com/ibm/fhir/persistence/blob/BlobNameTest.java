@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.blob.app;
+package com.ibm.fhir.persistence.blob;
 
 import static org.testng.Assert.assertEquals;
 
@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.persistence.blob.BlobName;
 import com.ibm.fhir.persistence.jdbc.cache.ResourceTypeMaps;
 import com.ibm.fhir.schema.model.ResourceType;
 

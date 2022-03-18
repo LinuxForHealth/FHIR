@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.azure.core.http.rest.Response;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.pool.DatabaseSupport;
@@ -183,13 +182,7 @@ public class PayloadReconciliation {
             BlobDeletePayload delete = new BlobDeletePayload(record.getResourceTypeId(), 
                 record.getLogicalId(), record.getVersion(), 
                 record.getResourcePayloadKey());
-           Response<Void> response = delete.run(bmc);
-           
-           if (response.getStatusCode() == 200 || response.getStatusCode() == 404) {
-               logger.fine(() -> getLogRecord(record, "DELETED"));
-           } else {
-               throw new FHIRPersistenceException(getLogRecord(record, "STATUS:" + response.getStatusCode()));
-           }
+           delete.run(bmc);
         }
     }
 }

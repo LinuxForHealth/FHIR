@@ -122,7 +122,11 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         // method is used for '$erase' operations and also as part of the reconciliation service implementation
         // which is used clean up orphaned payload records for which there are no corresponding records in the
         // FHIR relational schema.
-        logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
+        if (version != null) {
+            logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
+        } else {
+            logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId);
+        }
         BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey);
         cmd.run(getBlobManagedContainer());
     }
