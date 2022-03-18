@@ -6,13 +6,12 @@
 
 package com.ibm.fhir.config;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.exception.FHIRException;
 
 import jakarta.json.JsonValue;
 
@@ -164,38 +163,19 @@ public class FHIRConfigHelper {
     }    
     
     /**
-     * This method returns the list of supported resource types
-     * @return a list of resource types that isn't null
+     * Get the set of supported resource types for tenantId in the FHIRRequestContext
+     * @return an immutable set of resource type names that isn't null
+     * @throws IllegalStateException if there is an unexpected issue while processing the config
      */
-    public static List<String> getSupportedResourceTypes() throws FHIRException {
-        List<String> result = new ArrayList<>();
-
+    public static Set<String> getSupportedResourceTypes() {
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-        List<PropertyEntry> rsrcsEntries;
         try {
-            rsrcsEntries = rsrcsGroup.getProperties();
-
-            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                    String name = rsrcsEntry.getName();
-                    
-                    // Ensure we skip over the special property "open" and process only the others
-                    // and skip the abstract types Resource and DomainResource
-                    // It would be nice to be able to verify if the resource names were valid, but
-                    // not possible at this layer of the code.  
-                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) &&
-                        !"Resource".equals(name) &&
-                        !"DomainResource".equals(name)) {
-                            result.add(name);
-                    }
-                }
-            }
+            ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(rsrcsGroup);
+            return configAdapter.getSupportedResourceTypes();
         } catch (Exception e) {
-            log.fine("FHIRConfigHelper.getSupportedResourceTypes is configured with no "
-                    + "resources in the server config file or is not configured properly");
+            log.throwing(FHIRConfigHelper.class.getName(), "getSupportedResourceTypes", e);
+            throw new IllegalStateException(e);
         }
-        
-        return result;
     }
     
     /**

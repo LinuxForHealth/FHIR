@@ -993,36 +993,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    /**
-     * Disabled due to limitations with writing parquet to minio
-     * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
-     */
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
-    public void testGroupExportToParquet() throws Exception {
-        if (ON) {
-            List<String> types = new ArrayList<>();
-            Response response = doPost(
-                    GROUP_VALID_URL.replace("?", savedGroupId2),
-                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
-                    Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    null,
-                    null,
-                    "default",
-                    "default");
-            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
-
-            // check the content-location that's returned.
-            String contentLocation = response.getHeaderString("Content-Location");
-            if (DEBUG) {
-                System.out.println("Content Location: " + contentLocation);
-            }
-
-            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-            exportStatusUrl = contentLocation;
-            checkGroupExportStatus(false, types);
-        }
-    }
-
     private void checkGroupExportStatus(boolean s3, List<String> types) throws Exception {
         Response response;
         // We're doing a tight loop here so we can do an immediate DELETE it.

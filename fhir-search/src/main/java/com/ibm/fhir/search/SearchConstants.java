@@ -144,7 +144,7 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final Set<String> SEARCH_SINGLETON_PARAMETER_NAMES =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, TOTAL, ELEMENTS, RESOURCE_TYPE)));
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, TOTAL, ELEMENTS)));
 
     // Set of whole-system search parameters indexed in global parameter tables
     public static final Set<String> SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES =

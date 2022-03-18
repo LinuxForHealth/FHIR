@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
@@ -363,7 +364,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -378,7 +379,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -393,7 +394,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(types);
     }
 
@@ -423,7 +424,7 @@ public class BulkDataExportUtilTest {
         Parameters ps = builder.build();
 
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -439,7 +440,7 @@ public class BulkDataExportUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -447,7 +448,7 @@ public class BulkDataExportUtilTest {
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
         BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null, null);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }

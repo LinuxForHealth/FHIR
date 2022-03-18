@@ -78,30 +78,6 @@ public class ServerResolveFunctionTest {
     /**
      * Helper function to replace the previously deprecated persistence layer method which has
      * now been removed. Injects the meta elements into the resource before calling the
-     * persistence create method.
-     * 
-     * @param <T>
-     * @param persistence
-     * @param context
-     * @param resource
-     * @return
-     * @throws FHIRPersistenceException
-     */
-    private <T extends Resource> SingleResourceResult<T> create(FHIRPersistence persistence, FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
-
-        // Generate a new logical resource id
-        final String logicalId = persistence.generateResourceId();
-
-        // Set the resource id and meta fields.
-        final int newVersionNumber = 1;
-        final Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-        T updatedResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
-        return persistence.create(context, updatedResource);
-    }
-
-    /**
-     * Helper function to replace the previously deprecated persistence layer method which has
-     * now been removed. Injects the meta elements into the resource before calling the
      * persistence update method.
      * 
      * @param <T>
@@ -325,7 +301,6 @@ public class ServerResolveFunctionTest {
     public static class PersistenceImpl implements FHIRPersistence {
         private final Map<Class<? extends Resource>, Map<String, List<Resource>>> map = new HashMap<>();
 
-        @SuppressWarnings("unchecked")
         @Override
         public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
             Class<? extends Resource> resourceType = resource.getClass();
@@ -388,14 +363,14 @@ public class ServerResolveFunctionTest {
             return createOrUpdate(resource);
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public MultiResourceResult history(
                 FHIRPersistenceContext context,
                 Class<? extends Resource> resourceType,
                 String logicalId) throws FHIRPersistenceException {
             
-            List<? extends Resource> versions = map.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(logicalId, Collections.emptyList());
+            List<? extends Resource> versions = map.getOrDefault(resourceType, Collections.emptyMap())
+                    .getOrDefault(logicalId, Collections.emptyList());
             
             // Convert the resource list to a results list
             List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(versions.size());

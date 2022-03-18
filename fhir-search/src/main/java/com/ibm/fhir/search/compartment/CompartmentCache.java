@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.search.compartment;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +21,7 @@ public class CompartmentCache {
     /**
      * A map from the includable resourceType codes (resourceType name) to their inclusion criteria params
      */
-    private Map<java.lang.String, List<java.lang.String>> codeAndParams = new HashMap<>();
+    private Map<java.lang.String, Set<java.lang.String>> codeAndParams = new HashMap<>();
 
     /**
      * constructor
@@ -40,7 +40,7 @@ public class CompartmentCache {
     public void add(java.lang.String inclusionResourceCode, List<com.ibm.fhir.model.type.String> params) {
         if (params != null) {
             // Fast Conversion to java.lang.String
-            List<String> paramsAsStrings = params.stream().map(param -> param.getValue()).collect(Collectors.toList());
+            Set<String> paramsAsStrings = params.stream().map(param -> param.getValue()).collect(Collectors.toSet());
             codeAndParams.put(inclusionResourceCode, paramsAsStrings);
         }
     }
@@ -50,8 +50,8 @@ public class CompartmentCache {
      *
      * @return
      */
-    public List<String> getResourceTypesInCompartment() {
-        return Collections.unmodifiableList(new ArrayList<String>(codeAndParams.keySet()));
+    public Set<String> getResourceTypesInCompartment() {
+        return Collections.unmodifiableSet(codeAndParams.keySet());
     }
 
     /**
@@ -60,12 +60,12 @@ public class CompartmentCache {
      * @param resourceType
      * @return
      */
-    public List<String> getParametersByResourceTypeInCompartment(String resourceType) {
-        List<String> results;
+    public Set<String> getParametersByResourceTypeInCompartment(String resourceType) {
+        Set<String> results;
         if (resourceType != null && codeAndParams.containsKey(resourceType)) {
-            results = Collections.unmodifiableList(codeAndParams.get(resourceType));
+            results = Collections.unmodifiableSet(codeAndParams.get(resourceType));
         } else {
-            results = Collections.unmodifiableList(Collections.emptyList());
+            results = Collections.emptySet();
         }
         return results;
     }

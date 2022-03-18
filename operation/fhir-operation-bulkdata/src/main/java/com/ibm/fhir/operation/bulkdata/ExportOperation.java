@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -70,7 +71,7 @@ public class ExportOperation extends AbstractOperation {
         Parameters response = null;
         OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
-        List<String> types = export.checkAndValidateTypes(exportType, parameters, queryParameters);
+        Set<String> types = export.checkAndValidateTypes(exportType, parameters, queryParameters);
 
         if (!ExportType.INVALID.equals(exportType)) {
 
