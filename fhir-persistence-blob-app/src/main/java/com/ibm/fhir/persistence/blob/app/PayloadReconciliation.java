@@ -173,15 +173,15 @@ public class PayloadReconciliation {
      */
     private void handleOrphanedRecord(BlobManagedContainer bmc, ResourceRecord record) throws FHIRPersistenceException {
         final String action = this.dryRun ? "Would erase" : "Erasing";
-        logger.info(String.format("%s orphaned payload %d/%s/%d [%s]", 
+        logger.info(String.format("%s orphaned payload %d/%s/%d/%s [path=%s]", 
             action,
             record.getResourceTypeId(), record.getLogicalId(), 
-            record.getVersion(), record.getResourcePayloadKey()));
+            record.getVersion(), record.getResourcePayloadKey(), record.getOffloadPath()));
 
         if (!this.dryRun) {
             BlobDeletePayload delete = new BlobDeletePayload(record.getResourceTypeId(), 
                 record.getLogicalId(), record.getVersion(), 
-                record.getResourcePayloadKey());
+                record.getResourcePayloadKey(), record.getOffloadPath());
            delete.run(bmc);
         }
     }

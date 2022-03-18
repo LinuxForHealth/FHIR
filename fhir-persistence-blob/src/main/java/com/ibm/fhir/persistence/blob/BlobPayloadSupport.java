@@ -69,7 +69,7 @@ public class BlobPayloadSupport {
             final String logicalId = decodeLogicalId(elements[1]);
             final int version = Integer.parseInt(elements[2]);
             final String resourcePayloadKey = elements[3];
-            return new ResourceRecord(resourceTypeId, logicalId, version, resourcePayloadKey);
+            return new ResourceRecord(resourceTypeId, logicalId, version, resourcePayloadKey, path);
         } else {
             throw new IllegalArgumentException("invalid path for payload blob: " + path);
         }

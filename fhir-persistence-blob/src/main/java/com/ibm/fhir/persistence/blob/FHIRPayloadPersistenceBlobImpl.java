@@ -127,7 +127,7 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         } else {
             logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId);
         }
-        BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey);
+        BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey, null);
         cmd.run(getBlobManagedContainer());
     }
 }

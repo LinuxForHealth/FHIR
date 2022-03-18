@@ -25,18 +25,23 @@ public class BlobDeletePayload {
     final Integer version;
     final String resourcePayloadKey;
 
+    // The actual offload path, if we know it
+    final String path;
+
     /**
      * Public constructor
      * @param resourceTypeId
      * @param logicalId
      * @param version can be null
      * @param resourcePayloadKey can be null
+     * @param path
      */
-    public BlobDeletePayload(int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey) {
+    public BlobDeletePayload(int resourceTypeId, String logicalId, Integer version, String resourcePayloadKey, String path) {
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
         this.resourcePayloadKey = resourcePayloadKey;
+        this.path = path;
     }
 
     /**
@@ -45,21 +50,26 @@ public class BlobDeletePayload {
      * @throws FHIRPersistenceException if the delete fails
      */
     public void run(BlobManagedContainer client) throws FHIRPersistenceException {
-        BlobName.Builder builder = BlobName.builder();
-        builder.resourceTypeId(this.resourceTypeId);
-        builder.logicalId(this.logicalId);
-        if (this.version != null) {
-            builder.version(this.version);
-            if (this.resourcePayloadKey != null) {
-                builder.resourcePayloadKey(this.resourcePayloadKey);
-            }
-        }
-        BlobName blobName = builder.build();
-        
-        if (blobName.isPartial()) {
-            deleteBlobsForPrefix(client, blobName);
+        if (path != null) {
+            // Use the given path instead of trying to reconstruct it
+            deleteSingleBlob(client, path);
         } else {
-            deleteSingleBlob(client, blobName.toBlobPath());
+            BlobName.Builder builder = BlobName.builder();
+            builder.resourceTypeId(this.resourceTypeId);
+            builder.logicalId(this.logicalId);
+            if (this.version != null) {
+                builder.version(this.version);
+                if (this.resourcePayloadKey != null) {
+                    builder.resourcePayloadKey(this.resourcePayloadKey);
+                }
+            }
+            BlobName blobName = builder.build();
+            
+            if (blobName.isPartial()) {
+                deleteBlobsForPrefix(client, blobName);
+            } else {
+                deleteSingleBlob(client, blobName.toBlobPath());
+            }
         }
     }
 
