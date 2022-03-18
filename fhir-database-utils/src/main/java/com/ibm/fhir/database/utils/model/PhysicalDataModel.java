@@ -468,7 +468,24 @@ public class PhysicalDataModel implements IDataModel {
      */
     public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
         Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
-        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider);
+        return addFunction(schemaName, objectName, version, templateProvider, dependencies, privileges, 0);
+    }
+
+    /**
+     * adds the function to the model.
+     *
+     * @param schemaName
+     * @param objectName
+     * @param version
+     * @param templateProvider
+     * @param dependencies
+     * @param privileges
+     * @param distributeByParamNum
+     * @return
+     */
+    public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+        Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, int distributeByParamNum) {
+        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider, distributeByParamNum);
         privileges.forEach(p -> p.addToObject(func));
 
         if (dependencies != null) {

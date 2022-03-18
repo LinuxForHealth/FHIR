@@ -22,21 +22,30 @@ public class FunctionDef extends BaseObject {
     // supplier provides the procedure body when requested
     private Supplier<String> supplier;
 
+    // When >0, indicates that this function should be distributed
+    private final int distributeByParamNum;
+
     /**
-     * Public constructor
+     * Public constructor. Supports distribution of the function by the given parameter number
+     * 
      * @param schemaName
      * @param procedureName
      * @param version
      * @param supplier
+     * @param distributeByParamNum
      */
-    public FunctionDef(String schemaName, String procedureName, int version, Supplier<String> supplier) {
+    public FunctionDef(String schemaName, String procedureName, int version, Supplier<String> supplier, int distributeByParamNum) {
         super(schemaName, procedureName, DatabaseObjectType.PROCEDURE, version);
         this.supplier = supplier;
+        this.distributeByParamNum = distributeByParamNum;
     }
 
     @Override
     public void apply(IDatabaseAdapter target, SchemaApplyContext context) {
         target.createOrReplaceFunction(getSchemaName(), getObjectName(), supplier);
+        if (distributeByParamNum > 0) {
+            target.distributeFunction(getSchemaName(), getObjectName(), distributeByParamNum);
+        }
     }
 
     @Override

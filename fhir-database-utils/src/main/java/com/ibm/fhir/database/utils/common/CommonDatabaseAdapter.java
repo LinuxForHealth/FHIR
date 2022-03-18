@@ -753,4 +753,9 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void applyDistributionRules(String schemaName, String tableName, DistributionRules distributionRules) {
         // NOP. Only used for distributed databases like Citus
     }
+
+    @Override
+    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber) {
+        // NOP. Only used for distributed databases like Citus
+    }
 }

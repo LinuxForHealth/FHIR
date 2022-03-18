@@ -500,6 +500,14 @@ public interface IDatabaseAdapter {
     public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
 
     /**
+     * For Citus, functions can be distributed by one of their parameters (typically the first)
+     * @param schemaName
+     * @param functionName
+     * @param distributeByParamNumber
+     */
+    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber);
+
+    /**
      * drops a given function
      * @param schemaName
      * @param functionName

@@ -99,115 +99,22 @@
     -- check to see if it was us who actually created the record
     IF v_logical_resource_id = t_logical_resource_id
     THEN
-      -- the record was created by this call, so now create the corresponding entry in the 
-      -- global logical_resources table (which is distributed by logical_resource_id). 
-      -- Because we created the logical_resource_shards record, we can be certain the 
-      -- logical_resources record doesn't yet exist
-      INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash)
-           VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated, p_parameter_hash_b64);
-
-      -- similarly, create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
-      || '     VALUES ($1, $2, $3, $4, $5, $6)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
       v_new_resource := 1;
     ELSE
-      -- use the record created elsewhere
+      -- resource was created by another thread, so use that id instead
       v_logical_resource_id := t_logical_resource_id;
-
-      -- find the current parameter hash and deletion values from the logical_resources table
-      SELECT parameter_hash, is_deleted
-        INTO o_current_parameter_hash, v_currently_deleted
-        FROM {{SCHEMA_NAME}}.logical_resources
-       WHERE logical_resource_id = v_logical_resource_id;
     END IF;
   END IF;
 
-  -- Remember everying is locked at the logical resource level, so we are thread-safe here
-  IF v_new_resource = 0 THEN
-    -- as this is an existing resource, we need to know the current resource id.
-    -- This is only available at the resource-specific logical_resources level
-    EXECUTE
-         'SELECT current_resource_id, version_id FROM ' || v_schema_name || '.' || p_resource_type || '_logical_resources '
-      || ' WHERE logical_resource_id = $1 '
-    INTO v_current_resource_id, v_current_version USING v_logical_resource_id;
-    
-    IF v_current_resource_id IS NULL OR v_current_version IS NULL
-    THEN
-        -- our concurrency protection means that this shouldn't happen
-        RAISE 'Schema data corruption - missing logical resource' USING ERRCODE = '99002';
-    END IF;
+  -- add_logical_resource has 13 IN parameters followed by 3 OUT parameters
+  EXECUTE 'SELECT * FROM {{SCHEMA_NAME}}.add_logical_resource($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)'
+     INTO o_current_parameter_hash,
+          o_interaction_status,
+          o_if_none_match_version
+    USING v_logical_resource_id, v_new_resource, 
+          p_resource_type, v_resource_type_id, p_logical_id, 
+          p_payload, p_last_updated, p_is_deleted,
+          p_source_key, p_version, p_parameter_hash_b64,
+          p_if_none_match, p_resource_payload_key;
 
-    -- If-None-Match does not apply if the resource is currently deleted
-    IF v_currently_deleted = 'N' AND p_if_none_match = 0
-    THEN
-        -- If-None-Match hit. Raising an exception here causes PostgreSQL to mark the
-        -- connection with a fatal error, so instead we use an out parameter to
-        -- indicate the match
-        o_interaction_status := 1;
-        o_if_none_match_version := v_current_version;
-        RETURN;
-    END IF;
-
-    -- Concurrency check:
-    --   the version parameter we've been given (which is also embedded in the JSON payload) must be 
-    --   one greater than the current version, otherwise we've hit a concurrent update race condition
-    IF p_version != v_current_version + 1
-    THEN
-      RAISE 'Concurrent update - mismatch of version in JSON' USING ERRCODE = '99001';
-    END IF;
-
-    -- Prevent creating a new deletion marker if the resource is currently deleted
-    IF v_currently_deleted = 'Y' AND p_is_deleted = 'Y'
-    THEN
-      RAISE 'Unexpected attempt to delete a Resource which is currently deleted' USING ERRCODE = '99004';
-    END IF;
-
-    IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash
-    THEN
-	    -- existing resource, so need to delete all its parameters (select because it's a function, not a procedure)
-	    -- TODO patch parameter sets instead of all delete/all insert.
-        EXECUTE 'SELECT {{SCHEMA_NAME}}.delete_resource_parameters($1, $2)'
-        USING p_resource_type, v_logical_resource_id;
-	END IF; -- end if check parameter hash
-  END IF; -- end if existing resource
-
-  EXECUTE
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
-      || ' VALUES ($1, $2, $3, $4, $5, $6, $7)'
-    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
-
-  
-  IF v_new_resource = 0 THEN
-    -- As this is an existing logical resource, we need to update the xx_logical_resource values to match
-    -- the values of the current resource. For new resources, these are added by the insert so we don't
-    -- need to update them here.
-    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
-      USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
-
-    -- For V0014 we now also store is_deleted and last_updated values at the whole-system logical_resources level
-    EXECUTE 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = $1, last_updated = $2, parameter_hash = $3 WHERE logical_resource_id = $4'
-      USING p_is_deleted, p_last_updated, p_parameter_hash_b64, v_logical_resource_id;
-  END IF;
-
-  -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
-  -- related to resources changes (issue-1955)
-  IF p_is_deleted = 'Y'
-  THEN
-    v_change_type := 'D';
-  ELSE 
-    IF v_new_resource = 0
-    THEN
-      v_change_type := 'U';
-    ELSE
-      v_change_type := 'C';
-    END IF;
-  END IF;
-
-  INSERT INTO {{SCHEMA_NAME}}.resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
-       VALUES (v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, p_version, v_change_type);
-  
-  -- Hand back the id of the logical resource we created earlier. In the new R4 schema
-  -- only the logical_resource_id is the target of any FK, so there's no need to return
-  -- the resource_id (which is now private to the _resources tables).
-  o_logical_resource_id := v_logical_resource_id;
 END $$;

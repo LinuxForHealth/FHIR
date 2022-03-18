@@ -6,6 +6,10 @@
  
 package com.ibm.fhir.database.utils.citus;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -170,6 +174,48 @@ public class CitusAdapter extends PostgresAdapter {
             logger.info("Citus: Sharding table '" + fullName + "' using '" + distributionRules.getDistributionColumn() + "'");
             CreateDistributedTableDAO dao = new CreateDistributedTableDAO(schemaName, tableName, distributionRules.getDistributionColumn());
             runStatement(dao);
+        }
+    }
+
+    @Override
+    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber) {
+        if (distributeByParamNumber < 1) {
+            throw new IllegalArgumentException("invalid distributeByParamNumber value: " + distributeByParamNumber);
+        }
+        // Need to get the signature text first in order to build the create_distribution_function
+        // statement
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        final String SELECT =
+                "SELECT p.oid::regproc || '(' || pg_get_function_identity_arguments(p.oid) || ')' " +
+                "  FROM pg_catalog.pg_proc p " +
+                " WHERE p.oid::regproc::text = LOWER(?)";
+
+        if (connectionProvider != null) {
+            try (Connection c = connectionProvider.getConnection()) {
+                String functionSig = null;
+                try (PreparedStatement ps = c.prepareStatement(SELECT)) {
+                    ps.setString(1, objectName);
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        functionSig = rs.getString(1);
+                    }
+                }
+
+                if (functionSig != null) {
+                    final String DISTRIBUTE = "SELECT create_distributed_function(?, ?)";
+                    try (PreparedStatement ps = c.prepareStatement(DISTRIBUTE)) {
+                        ps.setString(1, functionSig);
+                        ps.setString(2, "$" + distributeByParamNumber);
+                        ps.executeQuery(DISTRIBUTE);
+                    }
+                } else {
+                    logger.warning("No matching function found for '" + objectName + "'");
+                }
+            } catch (SQLException x) {
+                throw getTranslator().translate(x);
+            }
+        } else {
+            throw new IllegalStateException("distributeFunction requires a connectionProvider");
         }
     }
 }

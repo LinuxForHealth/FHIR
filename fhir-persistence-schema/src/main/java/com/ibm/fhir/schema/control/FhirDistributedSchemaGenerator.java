@@ -113,10 +113,14 @@ import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
- * Encapsulates the generation of the FHIR schema artifacts
+ * Creates a distributed variant of the FHIR data schema. This schema distributes
+ * tables associated with certain resource types using a shard key (which in
+ * reality is a patient identifier which can be used to scope interactions)
+ * 
+ * In general, the schema is largely similar to the 
  */
-public class FhirSchemaGenerator {
-    private static final Logger logger = Logger.getLogger(FhirSchemaGenerator.class.getName());
+public class FhirDistributedSchemaGenerator {
+    private static final Logger logger = Logger.getLogger(FhirDistributedSchemaGenerator.class.getName());
 
     // The schema holding all the data-bearing tables
     private final String schemaName;
@@ -212,7 +216,7 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
+    public FhirDistributedSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
         this(adminSchemaName, schemaName, multitenant, ALL_RESOURCE_TYPES);
     }
 
@@ -222,7 +226,7 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
+    public FhirDistributedSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
         this.multitenant = multitenant;
