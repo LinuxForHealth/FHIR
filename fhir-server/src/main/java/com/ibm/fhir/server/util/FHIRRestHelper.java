@@ -1396,25 +1396,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Helper method which invokes a custom operation.
-     *
-     * @param operationContext
-     *            the FHIROperationContext associated with the request
-     * @param resourceTypeName
-     *            the resource type associated with the request
-     * @param logicalId
-     *            the resource logical id associated with the request
-     * @param versionId
-     *            the resource version id associated with the request
-     * @param resource
-     *            the input resource associated with the custom operation to be invoked
-     * @param queryParameters
-     *            query parameters may be passed instead of a Parameters resource for certain custom operations invoked
-     *            via GET
-     * @return a Resource that represents the response to the custom operation
-     * @throws Exception
-     */
     @Override
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId,
             String versionId, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {

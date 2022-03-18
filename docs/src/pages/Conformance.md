@@ -145,7 +145,7 @@ To return all changes that have occurred before a known point in time, use `_bef
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_before=2021-02-21T00:00:00Z&_sort=-_lastUpdated'
 ```
 
-To return changes within a known window of time, specify both the `_since` and `_before` query parameters and choose either ascending or descending sort. 
+To return changes within a known window of time, specify both the `_since` and `_before` query parameters and choose either ascending or descending sort.
 
 When sorting with ascending time, the `_since` parameter in the `next` link is calculated to fetch the next page of resources and the `_before` parameter (if given) remains constant. When sorting with descending time, the `_before` parameter in the `next` link is calculated to fetch the next page of resources and the `_since` parameter (if given) remains constant.
 
@@ -201,7 +201,7 @@ The IBM FHIR Server requires clocks in a cluster to be synchronized and expects 
 ### Whole System History - The Transaction Timeout Window
 Clients must exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have some earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
 
-To guarantee no data is skipped, clients should not process resources with a `_lastUpdated` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and can safely checkpoint using the `_since`, `_before` or `_changeIdMarker` values depending on the chosen sort option. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information about the infrastructure. Implementers should check with server administrators on the appropriate values to use. 
+To guarantee no data is skipped, clients should not process resources with a `_lastUpdated` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and can safely checkpoint using the `_since`, `_before` or `_changeIdMarker` values depending on the chosen sort option. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information about the infrastructure. Implementers should check with server administrators on the appropriate values to use.
 
 To simplify the handling of this scenario, clients may specify the optional query parameter `_excludeTransactionTimeoutWindow=true` to perform this filtering within the server. This relies on the IBM FHIR Server transaction timeout having been configured using the `FHIR_TRANSACTION_MANAGER_TIMEOUT` environment variable. If this environment variable is not configured, a default transaction timeout of 120s is assumed, although this may not be the actual timeout if the server is otherwise configured in a non-standard way.
 
@@ -238,9 +238,7 @@ In addition, the following search parameters are supported on all resources:
 
 These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
 
-The `_type` parameter has two restrictions:
-* It may only be used with whole system search.
-* It may only be specified once in a search. In `lenient` mode, only the first occurrence is used; additional occurrences are ignored.
+The `_type` parameter may only be used with whole system search.
 
 The `_has` parameter has two restrictions:
 * It cannot be used with whole system search.
@@ -470,10 +468,11 @@ The IBM FHIR Server implements a handful of extended operations and provides ext
 
 Operations are invoked via HTTP POST.
 * All operations can be invoked by passing a Parameters resource instance in the body of the request.
-* For operations with no input parameters, no body is required.
 * For operations with a single input parameter named "resource", the Parameters wrapper can be omitted.
 
 Alternatively, for operations with only primitive input parameters (i.e. no complex datatypes like 'Identifier' or 'Reference'), operations can be invoked via HTTP GET by passing the parameters in the URL.
+
+Note: operations invoked via POST will ignore all query parameters and operations invoked via GET will ignore any body.
 
 ### System operations
 System operations are invoked at `[base]/$[operation]`

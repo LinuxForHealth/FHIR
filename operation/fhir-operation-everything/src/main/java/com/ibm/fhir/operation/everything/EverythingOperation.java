@@ -32,14 +32,12 @@ import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
-import com.ibm.fhir.model.resource.Bundle.Entry.Search;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
@@ -47,7 +45,6 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
@@ -218,8 +215,10 @@ public class EverythingOperation extends AbstractOperation {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
 
-        List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
-        List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
+        List<String> resourceTypes = getOverridenIncludedResourceTypes(parameters, defaultResourceTypes);
+        if (resourceTypes.isEmpty()) {
+            resourceTypes = defaultResourceTypes;
+        }
 
         boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
         for (String compartmentMemberType : resourceTypes) {
@@ -320,6 +319,7 @@ public class EverythingOperation extends AbstractOperation {
      * @param parameters the operation parameters
      * @param maxPageSize the max page size
      * @return the {@link MultivaluedMap} for the search service built from the parameters
+     * @implNote the {@code _type} parameter is processed elsewhere
      */
     protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters, int maxPageSize) {
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
@@ -347,26 +347,32 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
+     * Get the list of resource types requested by the user via the _type parameter
+     *
      * @param parameters the {@link Parameters} object
      * @return the list of patient subresources that will be included in the $everything operation, as provided by the user
      * @throws FHIRSearchException
      */
     protected List<String> getOverridenIncludedResourceTypes(Parameters parameters, List<String> defaultResourceTypes) throws FHIRSearchException {
         List<String> typeOverrides = new ArrayList<>();
-        Parameter typesParameter = getParameter(parameters, SearchConstants.RESOURCE_TYPE);
-        if (typesParameter == null) {
+        List<Parameter> typeParameters = getParameters(parameters, SearchConstants.RESOURCE_TYPE);
+        if (typeParameters.isEmpty()) {
             return typeOverrides;
         }
-        String typeOverridesParam = typesParameter.getValue().as(FHIR_STRING).getValue();
-        String[] typeOverridesList = typeOverridesParam.split(SearchConstants.JOIN_STR);
+
         List<String> unknownTypes= new ArrayList<>();
-        for (String typeOverride : typeOverridesList) {
-            if (!defaultResourceTypes.contains(typeOverride)) {
-                unknownTypes.add(typeOverride);
-            } else {
-                typeOverrides.add(typeOverride.trim());
+        for (Parameter typesParameter : typeParameters) {
+            String typeOverridesParam = typesParameter.getValue().as(FHIR_STRING).getValue();
+            String[] typeOverridesList = typeOverridesParam.split(SearchConstants.JOIN_STR);
+            for (String typeOverride : typeOverridesList) {
+                if (!defaultResourceTypes.contains(typeOverride)) {
+                    unknownTypes.add(typeOverride);
+                } else {
+                    typeOverrides.add(typeOverride.trim());
+                }
             }
         }
+
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         if (!unknownTypes.isEmpty()) {
             String msg = "The following resource types are not supported by this operation: " + String.join(",", unknownTypes);
@@ -376,6 +382,7 @@ public class EverythingOperation extends AbstractOperation {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
             }
         }
+
         return typeOverrides;
     }
 
@@ -390,7 +397,7 @@ public class EverythingOperation extends AbstractOperation {
             PropertyGroup resourcesGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
             ResourcesConfigAdapter configAdapter = new ResourcesConfigAdapter(resourcesGroup);
             Set<String> supportedResourceTypes = configAdapter.getSupportedResourceTypes(Interaction.SEARCH);
-            
+
             if (LOG.isLoggable(Level.FINE)) {
                 StringBuilder resourceTypeBuilder = new StringBuilder(supportedResourceTypes.size());
                 resourceTypeBuilder.append("supportedResourceTypes are: ");
@@ -419,20 +426,6 @@ public class EverythingOperation extends AbstractOperation {
             LOG.fine(resourceTypeBuilder.toString());
         }
         return resourceTypes;
-    }
-
-    /**
-     * Builds a URI with the base URI from the given {@link FHIROperationContext} and then provided URI path.
-     *
-     * @param operationContext the {@link FHIROperationContext} to get the base URI
-     * @param uriPath the path to append to the base URI
-     * @return the {@link Uri}
-     */
-    private static Uri uri(FHIROperationContext operationContext, String uriPath) {
-        String requestBaseURI = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
-        return Uri.builder()
-                .value(requestBaseURI + "/" + uriPath)
-                .build();
     }
 
     private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters,

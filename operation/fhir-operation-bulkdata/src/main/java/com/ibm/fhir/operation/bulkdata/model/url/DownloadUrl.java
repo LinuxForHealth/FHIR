@@ -42,12 +42,12 @@ public class DownloadUrl {
     private String objectKey = null;
     private String accessKey = null;
     private String secretKey = null;
-    private boolean parquet = false;
     private boolean presigned = false;
     private boolean path = true;
     private ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC);
 
-    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey, String accessKey, String secretKey, boolean parquet, boolean presigned, S3HostStyle hostStyle) {
+    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey,
+            String accessKey, String secretKey, boolean presigned, S3HostStyle hostStyle) {
         this.server = server;
         this.region = region;
         this.bucketName = bucketName;
@@ -55,7 +55,6 @@ public class DownloadUrl {
         this.objectKey = objectKey;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
-        this.parquet = parquet;
         this.presigned = presigned;
         this.path = S3HostStyle.PATH.equals(hostStyle);
     }
@@ -97,20 +96,12 @@ public class DownloadUrl {
         }
         builder.append('/');
         builder.append(objectKey);
-        if(parquet) {
-            builder.append(".parquet");
-        } else {
-            builder.append(".ndjson");
-        }
+        builder.append(".ndjson");
         return builder.toString();
     }
 
     public String getSignedUrl() throws Exception {
-        if(parquet) {
-            objectKey += ".parquet";
-        } else {
-            objectKey += ".ndjson";
-        }
+        objectKey += ".ndjson";
         // assemble the standardized request
 
         String datestamp = time.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
