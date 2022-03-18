@@ -14,6 +14,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.azure.storage.blob.models.BlobStorageException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.ResourceResult;
@@ -82,8 +83,21 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         } catch (ExecutionException e) {
             // Unwrap the exceptions to avoid over-nesting
             // ExecutionException -> RuntimeException -> FHIRPersistenceException
-            if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
-                throw (FHIRPersistenceException)e.getCause().getCause();
+            if (e.getCause() != null) {
+                if (e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
+                    throw (FHIRPersistenceException)e.getCause().getCause();
+                } else if (e.getCause() instanceof BlobStorageException) {
+                    BlobStorageException bse = (BlobStorageException)e.getCause();
+                    if (bse.getStatusCode() == 404) {
+                        // Blob doesn't exist. This likely means it has been erased, so we just return null
+                        // just as we would if we had tried to read this from the RDBMS record
+                        return null;
+                    } else {
+                        throw new FHIRPersistenceException("Unexpected blob read error", bse);
+                    }
+                } else {
+                    throw new FHIRPersistenceException("execution failed", e);
+                }
             } else {
                 throw new FHIRPersistenceException("execution failed", e);
             }

@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.blob;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import org.testng.annotations.Test;
 
@@ -45,10 +46,10 @@ public class BlobPayloadSupportTest {
         BlobPayloadSupport.buildResourceRecordFromPath(path);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void testBadPath4() {
         final String path = "1/patient1/2";
-        BlobPayloadSupport.buildResourceRecordFromPath(path);
+        assertNull(BlobPayloadSupport.buildResourceRecordFromPath(path));
     }
 
     @Test
