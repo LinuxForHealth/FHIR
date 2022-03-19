@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM openliberty/open-liberty:21.0.0.12-kernel-slim-java11-openj9-ubi as base
+FROM openliberty/open-liberty:22.0.0.3-kernel-slim-java11-openj9-ubi as base
 
 USER root
 RUN yum install -y unzip
@@ -22,7 +22,7 @@ COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
-FROM openliberty/open-liberty:21.0.0.12-kernel-slim-java11-openj9-ubi
+FROM openliberty/open-liberty:22.0.0.3-kernel-slim-java11-openj9-ubi
 
 ARG VERBOSE=true
 ARG FHIR_VERSION=4.10.0-SNAPSHOT
