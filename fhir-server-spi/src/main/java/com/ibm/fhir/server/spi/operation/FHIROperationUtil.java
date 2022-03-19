@@ -173,7 +173,7 @@ public final class FHIROperationUtil {
                         .severity(IssueSeverity.ERROR)
                         .code(IssueType.INVALID)
                         .details(CodeableConcept.builder()
-                                .text("Unable to process query parameters")
+                                .text(msg)
                                 .build())
                         .build());
         }
