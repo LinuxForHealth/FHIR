@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,23 +25,34 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CarePlan;
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Provenance;
+import com.ibm.fhir.model.resource.Provenance.Agent;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ConformanceTest {
     @Test
@@ -507,4 +518,89 @@ public class ConformanceTest {
         Assert.assertEquals(countInformation(issues), 1);
     }
 
+    @Test
+    void testConditionWithMultipleCategory() throws FHIRValidationException {
+        Condition condition = Condition.builder()
+                .text(Narrative.EMPTY)
+                .clinicalStatus(CodeableConcept.builder()
+                        .coding(Coding.builder()
+                            .system(Uri.of("http://terminology.hl7.org/CodeSystem/condition-clinical"))
+                            .code(Code.of("active"))
+                            .build())
+                        .build())
+                .subject(Reference.builder()
+                        .display("ref")
+                        .build())
+                .code(CodeableConcept.builder()
+                        .coding(Coding.builder()
+                                .system(Uri.of("http://snomed.info/sct"))
+                                .code(Code.of("404684003"))
+                                .build())
+                        .build())
+                .category(CodeableConcept.builder()
+                        .text("test")
+                        .build())
+                .category(CodeableConcept.builder()
+                        .coding(Coding.builder()
+                            .system(Uri.of("http://hl7.org/fhir/us/core/STU4/CodeSystem-condition-category.html"))
+                            .code(Code.of("health-concern"))
+                            .build())
+                        .build())
+                .build();
+
+        FHIRValidator validator = FHIRValidator.validator();
+        List<Issue> issues = validator.validate(condition, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition");
+
+        issues.forEach(System.out::println);
+
+        Assert.assertEquals(countErrors(issues), 0);
+        // warning 1:  us-core-1: A code in Condition.category SHOULD be from US Core Condition Category Codes value set.
+        // causedBy
+        // warning 2:  Membership check was not performed: value set 'http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code' is empty or could not be expanded
+        Assert.assertEquals(countWarnings(issues), 2);
+    }
+
+    @Test
+    void testProvenanceWithMultipleAgent() throws FHIRValidationException, FHIRPathException, FHIRPatchException {
+        Provenance provenance = Provenance.builder()
+                .text(Narrative.EMPTY)
+                .target(Reference.builder()
+                        .reference("Observation/123")
+                        .build())
+                .recorded(Instant.now())
+                .agent(Agent.builder()
+                        .who(Reference.builder()
+                            .reference("Patient/123")
+                            .build())
+                        .build())
+                .agent(Agent.builder()
+                        .who(Reference.builder()
+                            .reference("Practitioner/abc")
+                            .build())
+                        .build())
+                .agent(Agent.builder()
+                        .who(Reference.builder()
+                            .reference("Device/xyz")
+                            .build())
+                        .onBehalfOf(Reference.builder()
+                            .reference("RelatedPerson/bleh")
+                            .build())
+                        .build())
+                .build();
+
+        FHIRValidator validator = FHIRValidator.validator();
+        List<Issue> issues = validator.validate(provenance, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance");
+
+        issues.forEach(System.out::println);
+
+        Assert.assertEquals(countErrors(issues), 1);
+        Assert.assertEquals(countWarnings(issues), 0);
+
+        Reference refToAdd = Reference.builder()
+            .reference("Organization/fix")
+            .build();
+        provenance = FHIRPathUtil.add(provenance, "Provenance.agent[1]", "onBehalfOf", refToAdd);
+        issues = validator.validate(provenance, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance");
+        Assert.assertEquals(countErrors(issues), 0);
+    }
 }

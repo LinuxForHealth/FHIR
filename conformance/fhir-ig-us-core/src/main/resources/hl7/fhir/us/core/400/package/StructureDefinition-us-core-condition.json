@@ -183,7 +183,7 @@
                         "key": "us-core-1",
                         "severity": "warning",
                         "human": "A code in Condition.category SHOULD be from US Core Condition Category Codes value set.",
-                        "expression": "where(category.memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
+                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
                         "xpath": "(no xpath equivalent)"
                     }
                 ],
@@ -2019,7 +2019,7 @@
                         "key": "us-core-1",
                         "severity": "warning",
                         "human": "A code in Condition.category SHOULD be from US Core Condition Category Codes value set.",
-                        "expression": "where(category.memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
+                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
                         "xpath": "(no xpath equivalent)"
                     }
                 ],
