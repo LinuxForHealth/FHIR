@@ -25,3 +25,5 @@ Source - https://www.hl7.org/fhir/us/core/stu4/
 - Examples are under src/test/resources/JSON/400
 - Replace all narrative text with minimal placeholder for space efficiency
 - Revised Endpoint in the Practitioner endpoint so it points to relative path, not absolute path
+- Move provenance-1 constraint from Provenance.agent.onBehalfOf to Provenance.agent and fix the expression (https://jira.hl7.org/browse/FHIR-36328)
+- Fix Condition constraint us-core-1 expression (https://jira.hl7.org/browse/FHIR-36336) 

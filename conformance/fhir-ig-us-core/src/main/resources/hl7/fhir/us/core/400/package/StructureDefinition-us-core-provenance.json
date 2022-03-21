@@ -1149,6 +1149,12 @@
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "provenance-1",
+                        "severity": "error",
+                        "human": "onBehalfOf SHALL be present when Provenance.agent.who is a Practitioner or Device",
+                        "expression": "((who.resolve() is Practitioner) or (who.resolve() is Device)) implies onBehalfOf.exists()"
                     }
                 ],
                 "mustSupport": true,
@@ -1537,12 +1543,6 @@
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
-                    },
-                    {
-                        "key": "provenance-1",
-                        "severity": "error",
-                        "human": "onBehalfOf SHALL be present when Provenance.agent.who is a Practitioner or Device",
-                        "expression": "((%resource.agent.who.resolve() is Practitioner) or (%resource.agent.who.resolve() is Device)) implies exists()"
                     }
                 ],
                 "mustSupport": true,
@@ -2796,6 +2796,14 @@
                 },
                 "min": 1,
                 "max": "*",
+                "constraint": [
+                    {
+                        "key": "provenance-1",
+                        "severity": "error",
+                        "human": "onBehalfOf SHALL be present when Provenance.agent.who is a Practitioner or Device",
+                        "expression": "((who.resolve() is Practitioner) or (who.resolve() is Device)) implies onBehalfOf.exists()"
+                    }
+                ],
                 "mustSupport": true,
                 "isModifier": false
             },
@@ -2883,14 +2891,6 @@
                         "targetProfile": [
                             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
                         ]
-                    }
-                ],
-                "constraint": [
-                    {
-                        "key": "provenance-1",
-                        "severity": "error",
-                        "human": "onBehalfOf SHALL be present when Provenance.agent.who is a Practitioner or Device",
-                        "expression": "((%resource.agent.who.resolve() is Practitioner) or (%resource.agent.who.resolve() is Device)) implies exists()"
                     }
                 ],
                 "mustSupport": true,
