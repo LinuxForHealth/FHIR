@@ -17,7 +17,8 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
+
+import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -35,8 +36,6 @@ import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
-
-import org.owasp.encoder.Encode;
 
 /**
  * BulkData Util captures common methods
@@ -160,15 +159,13 @@ public class BulkDataExportUtil {
 
     /**
      * processes both the Parameters object and the query parameters
-     * 
+     *
      * @param exportType
      * @param parameters
-     * @param queryParameters
      * @return
      * @throws FHIROperationException
      */
-    public Set<String> checkAndValidateTypes(OperationConstants.ExportType exportType, Parameters parameters, 
-            MultivaluedMap<String, String> queryParameters) throws FHIROperationException {
+    public Set<String> checkAndValidateTypes(OperationConstants.ExportType exportType, List<Parameter> parameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -182,10 +179,10 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
-        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes(); 
+        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
         Set<String> result = new HashSet<>();
         if (parameters != null) {
-            for (Parameters.Parameter parameter : parameters.getParameter()) {
+            for (Parameters.Parameter parameter : parameters) {
                 // The model makes sure getName is never non-null.
                 if (OperationConstants.PARAM_TYPE.equals(parameter.getName().getValue())) {
                     if (parameter.getValue() == null) {
@@ -206,29 +203,12 @@ public class BulkDataExportUtil {
             }
         }
 
-        // Query Parameters
-        if (queryParameters != null) {
-            List<String> qps = queryParameters.get(OperationConstants.PARAM_TYPE);
-            if (qps != null) {
-                for (String qpv : qps) {
-                    for (String type : qpv.split(",")) {
-                        if (!type.isEmpty() && supportedResourceTypes.contains(type)) {
-                            result.add(type);
-                        } else {
-                            throw buildOperationException("invalid resource type sent as a parameter to $export operation: " 
-                                    + Encode.forHtml(type), IssueType.INVALID);
-                        }
-                    }
-                }
-            }
-        }
-
         // The case where no resourceTypes are specified, inlining only the supported ResourceTypes
         if (result.isEmpty() && ExportType.SYSTEM.equals(exportType)) {
             result = new HashSet<>(supportedResourceTypes);
         } else if (ExportType.PATIENT.equals(exportType) || ExportType.GROUP.equals(exportType)) {
             if (!result.isEmpty()) {
-                result = filterTypesToPatientResourceTypes(result);                
+                result = filterTypesToPatientResourceTypes(result);
             } else {
                 result = getDefaultsForPatientCompartment(supportedResourceTypes);
             }
@@ -266,7 +246,7 @@ public class BulkDataExportUtil {
 
     /**
      * Get the set of default resource types for a Patient export (filtered by what is supported for the tenant in the FHIRRequestContext).
-     * 
+     *
      * @param supportedResourceTypes
      * @return
      * @throws FHIROperationException

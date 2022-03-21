@@ -144,7 +144,7 @@ public class BulkDataClient {
 
     /**
      * Submit the export job.
-     * 
+     *
      * @param since
      * @param types
      * @param exportType
@@ -558,7 +558,6 @@ public class BulkDataClient {
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    boolean parquet = adapter.isStorageProviderParquetEnabled(source);
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
 
@@ -570,16 +569,12 @@ public class BulkDataClient {
                         String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
                         String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
                         boolean presigned = adapter.isStorageProviderHmacPresigned(source);
-                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, adapter.getS3HostStyleByStorageProvider(source));
+                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey,
+                                accessKey, secretKey, presigned, adapter.getS3HostStyleByStorageProvider(source));
                         sUrl = url.getUrl();
                     } else {
                         // Must be File
-                        String ext;
-                        if (parquet) {
-                            ext = ".parquet";
-                        } else {
-                            ext = ".ndjson";
-                        }
+                        String ext = ".ndjson";
                         // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
                         sUrl = cosBucketPathPrefix + File.separator + resourceType + "_" + (i + 1) + ext;
                     }
