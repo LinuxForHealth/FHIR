@@ -117,17 +117,46 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         // resource as a ResourceResult. This makes it easier to consume in lists where
         // we may want to hold onto the identity of an entry but where the resource value
         // is null
-        return cmd.run(resourceType, getBlobManagedContainer()).thenApply(resource -> {
-            // transform: wrap the retrieved resource in a ResourceResult
-            ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
-            builder.logicalId(logicalId);
-            builder.resourceTypeName(rowResourceTypeName);
-            builder.deleted(false); // we wouldn't be fetching if the resource were deleted
-            builder.resource(resource);
-            builder.version(version);
-            builder.lastUpdated(lastUpdated);
-            return builder.build();
-        });
+        return cmd.run(resourceType, getBlobManagedContainer())
+                .exceptionally(x -> {
+                    if (resourceNotFound(x)) {
+                        // complete normally, but the result is null
+                        return null;
+                    } else {
+                        // It has to be a RuntimeException
+                        throw (RuntimeException)x;
+                    }
+                })
+                .thenApply(resource -> {
+                    // transform: wrap the retrieved resource in a ResourceResult
+                    ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+                    builder.logicalId(logicalId);
+                    builder.resourceTypeName(rowResourceTypeName);
+                    builder.deleted(resource == null); // status 404: treat erased resources as deleted
+                    builder.resource(resource);
+                    builder.version(version);
+                    builder.lastUpdated(lastUpdated);
+                    return builder.build();
+                });
+    }
+
+    /**
+     * Predicate to test if the error indicates the resource doesn't exist (status 404).
+     * @param e
+     * @return true iff the resource does not exist
+     */
+    private static boolean resourceNotFound(Throwable e) {
+        if (e instanceof BlobStorageException) {
+            BlobStorageException bse = (BlobStorageException)e;
+            if (bse.getStatusCode() == 404) {
+                // Blob doesn't exist.
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override

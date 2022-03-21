@@ -12,11 +12,9 @@ import java.util.logging.Logger;
 
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobAsyncClient;
-import com.azure.storage.blob.models.BlobStorageException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 
 /**
  * DAO command to store the configured payload in the Azure blob
@@ -77,29 +75,6 @@ public class BlobReadPayload {
         return bc.getAppendBlobAsyncClient()
                 .downloadContent()
                 .map(data -> transform(resourceType, data))
-                .onErrorMap(BlobReadPayload::transformException)
                 .toFuture();
-    }
-
-    /**
-     * Transform the exception so that we can more easily interpret things like
-     * 404 errors in upper layers without leaking information about our
-     * implementation (separation of concerns).
-     * @param x
-     * @return
-     */
-    private static Throwable transformException(Throwable e) {
-        if (e instanceof BlobStorageException) {
-            BlobStorageException bse = (BlobStorageException)e;
-            if (bse.getStatusCode() == 404) {
-                // Blob doesn't exist. This likely means it has been erased, so we just return null
-                // just as we would if we had tried to read this from the RDBMS record
-                return new RuntimeException(new FHIRPersistenceResourceNotFoundException("resource not found"));
-            } else {
-                return e;
-            }
-        } else {
-            return e;
-        }
     }
 }
