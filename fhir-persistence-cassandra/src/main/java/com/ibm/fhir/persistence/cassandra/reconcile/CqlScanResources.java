@@ -85,7 +85,7 @@ public class CqlScanResources {
             Row row = it.next();
             lastToken = row.getLong(0);
             ResourceRecord rec = new ResourceRecord(
-                row.getInt(1), row.getString(2), row.getInt(3), row.getString(4));
+                row.getInt(1), row.getString(2), row.getInt(3), row.getString(4), null);
             if (!recordHandler.apply(rec)) {
                 logger.info("Handler requested we stop processing before the current fetch has completed");
                 lastToken = Long.MIN_VALUE; // flag end

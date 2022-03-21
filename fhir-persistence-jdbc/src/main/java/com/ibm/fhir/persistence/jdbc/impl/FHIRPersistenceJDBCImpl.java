@@ -1550,8 +1550,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             } catch (ExecutionException e) {
                 // Unwrap the exceptions to avoid over-nesting
                 // ExecutionException -> RuntimeException -> FHIRPersistenceException
-                if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
-                    throw (FHIRPersistenceException)e.getCause().getCause();
+                if (e.getCause() != null) {
+                    if (e.getCause() instanceof FHIRPersistenceException) {
+                        throw (FHIRPersistenceException)e.getCause();
+                    } else if (e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
+                        throw (FHIRPersistenceException)e.getCause().getCause();
+                    } else {
+                        // unwrap the ExecutionException
+                        throw new FHIRPersistenceException("Unexpected blob read error", e.getCause());
+                    }
                 } else {
                     throw new FHIRPersistenceException("execution failed", e);
                 }

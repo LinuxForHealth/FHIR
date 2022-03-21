@@ -60,7 +60,10 @@ public class BlobPayloadSupport {
      * Construct a {@link ResourceRecord} from the path name used
      * to store the payload blob
      * @param path
-     * @return
+     * @return a ResourceRecord built from the 4 path elements, null if less than
+     *     4 elements are included
+     * @throws IllegalArgumentException if path contains more than 4 elements
+     * @throws NumberFormatException if an integer element in the path is not an integer
      */
     public static ResourceRecord buildResourceRecordFromPath(String path) {
         String[] elements = path.split("/");
@@ -69,9 +72,13 @@ public class BlobPayloadSupport {
             final String logicalId = decodeLogicalId(elements[1]);
             final int version = Integer.parseInt(elements[2]);
             final String resourcePayloadKey = elements[3];
-            return new ResourceRecord(resourceTypeId, logicalId, version, resourcePayloadKey);
+            return new ResourceRecord(resourceTypeId, logicalId, version, resourcePayloadKey, path);
+        } else if (elements.length < 4) {
+            // partial, which probably means this is just a path directory returned
+            // when scanning an Azure Blob container.
+            return null;
         } else {
-            throw new IllegalArgumentException("invalid path for payload blob: " + path);
+            throw new IllegalArgumentException("invalid payload offload path");
         }
     }
 }

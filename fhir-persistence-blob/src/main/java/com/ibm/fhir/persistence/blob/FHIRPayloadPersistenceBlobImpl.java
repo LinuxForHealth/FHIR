@@ -14,6 +14,7 @@ import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.azure.storage.blob.models.BlobStorageException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
 import com.ibm.fhir.persistence.ResourceResult;
@@ -82,8 +83,21 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         } catch (ExecutionException e) {
             // Unwrap the exceptions to avoid over-nesting
             // ExecutionException -> RuntimeException -> FHIRPersistenceException
-            if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
-                throw (FHIRPersistenceException)e.getCause().getCause();
+            if (e.getCause() != null) {
+                if (e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
+                    throw (FHIRPersistenceException)e.getCause().getCause();
+                } else if (e.getCause() instanceof BlobStorageException) {
+                    BlobStorageException bse = (BlobStorageException)e.getCause();
+                    if (bse.getStatusCode() == 404) {
+                        // Blob doesn't exist. This likely means it has been erased, so we just return null
+                        // just as we would if we had tried to read this from the RDBMS record
+                        return null;
+                    } else {
+                        throw new FHIRPersistenceException("Unexpected blob read error", bse);
+                    }
+                } else {
+                    throw new FHIRPersistenceException("execution failed", e);
+                }
             } else {
                 throw new FHIRPersistenceException("execution failed", e);
             }
@@ -103,17 +117,46 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         // resource as a ResourceResult. This makes it easier to consume in lists where
         // we may want to hold onto the identity of an entry but where the resource value
         // is null
-        return cmd.run(resourceType, getBlobManagedContainer()).thenApply(resource -> {
-            // transform: wrap the retrieved resource in a ResourceResult
-            ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
-            builder.logicalId(logicalId);
-            builder.resourceTypeName(rowResourceTypeName);
-            builder.deleted(false); // we wouldn't be fetching if the resource were deleted
-            builder.resource(resource);
-            builder.version(version);
-            builder.lastUpdated(lastUpdated);
-            return builder.build();
-        });
+        return cmd.run(resourceType, getBlobManagedContainer())
+                .exceptionally(x -> {
+                    if (resourceNotFound(x)) {
+                        // complete normally, but the result is null
+                        return null;
+                    } else {
+                        // It has to be a RuntimeException
+                        throw (RuntimeException)x;
+                    }
+                })
+                .thenApply(resource -> {
+                    // transform: wrap the retrieved resource in a ResourceResult
+                    ResourceResult.Builder<T> builder = new ResourceResult.Builder<>();
+                    builder.logicalId(logicalId);
+                    builder.resourceTypeName(rowResourceTypeName);
+                    builder.deleted(resource == null); // status 404: treat erased resources as deleted
+                    builder.resource(resource);
+                    builder.version(version);
+                    builder.lastUpdated(lastUpdated);
+                    return builder.build();
+                });
+    }
+
+    /**
+     * Predicate to test if the error indicates the resource doesn't exist (status 404).
+     * @param e
+     * @return true iff the resource does not exist
+     */
+    private static boolean resourceNotFound(Throwable e) {
+        if (e instanceof BlobStorageException) {
+            BlobStorageException bse = (BlobStorageException)e;
+            if (bse.getStatusCode() == 404) {
+                // Blob doesn't exist.
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -122,8 +165,12 @@ public class FHIRPayloadPersistenceBlobImpl implements FHIRPayloadPersistence {
         // method is used for '$erase' operations and also as part of the reconciliation service implementation
         // which is used clean up orphaned payload records for which there are no corresponding records in the
         // FHIR relational schema.
-        logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
-        BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey);
+        if (version != null) {
+            logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId + "/_history/" + version);
+        } else {
+            logger.fine(() -> "deletePayload " + resourceType + "[" + resourceTypeId + "]/" + logicalId);
+        }
+        BlobDeletePayload cmd = new BlobDeletePayload(resourceTypeId, logicalId, version, resourcePayloadKey, null);
         cmd.run(getBlobManagedContainer());
     }
 }

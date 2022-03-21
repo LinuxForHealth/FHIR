@@ -17,6 +17,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.blob.BlobContainerManager;
 import com.ibm.fhir.persistence.blob.BlobManagedContainer;
+import com.ibm.fhir.persistence.blob.BlobName;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
 
 /**

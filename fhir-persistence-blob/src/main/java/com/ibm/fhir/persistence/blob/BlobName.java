@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.persistence.blob.app;
+package com.ibm.fhir.persistence.blob;
 
-import com.ibm.fhir.persistence.blob.BlobPayloadSupport;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
 
 /**

@@ -16,18 +16,23 @@ public class ResourceRecord {
     private final int version;
     private final String resourcePayloadKey;
 
+    // The original offload path obtained from the offload store. Can be null
+    private final String offloadPath;
+
     /**
      * Public constructor
      * @param resourceTypeId
      * @param logicalId
      * @param version
      * @param resourcePayloadKey
+     * @param offloadPath
      */
-    public ResourceRecord(int resourceTypeId, String logicalId, int version, String resourcePayloadKey) {
+    public ResourceRecord(int resourceTypeId, String logicalId, int version, String resourcePayloadKey, String offloadPath) {
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.version = version;
         this.resourcePayloadKey = resourcePayloadKey;
+        this.offloadPath = offloadPath;
     }
 
     /**
@@ -56,5 +61,12 @@ public class ResourceRecord {
      */
     public String getResourcePayloadKey() {
         return resourcePayloadKey;
+    }
+
+    /**
+     * @return the offloadPath
+     */
+    public String getOffloadPath() {
+        return this.offloadPath;
     }
 }
