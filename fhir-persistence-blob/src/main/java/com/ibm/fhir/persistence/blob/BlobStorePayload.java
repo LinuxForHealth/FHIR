@@ -6,11 +6,13 @@
  
 package com.ibm.fhir.persistence.blob;
 
+import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import com.azure.storage.blob.BlobAsyncClient;
-import com.azure.storage.blob.specialized.AppendBlobAsyncClient;
+import com.azure.storage.blob.options.BlobParallelUploadOptions;
+import com.azure.storage.blob.specialized.BlockBlobAsyncClient;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -26,8 +28,8 @@ import reactor.core.publisher.Flux;
 public class BlobStorePayload {
     private static final Logger logger = Logger.getLogger(BlobStorePayload.class.getName());
     
-    // The maximum size of a single append blob block call
-    private static final int MAX_APPEND_BLOB_BLOCK_SIZE = AppendBlobAsyncClient.MAX_APPEND_BLOCK_BYTES;
+    // The maximum size of a single block blob upload call
+    private static final long MAX_BLOB_UPLOAD_BYTES = BlockBlobAsyncClient.MAX_UPLOAD_BLOB_BYTES_LONG;
 
     // The normalized resource type id from the RDBMS resource_types table
     final int resourceTypeId;
@@ -67,8 +69,8 @@ public class BlobStorePayload {
      */
     public CompletableFuture<PayloadPersistenceResult> run(BlobManagedContainer client) throws FHIRPersistenceException {
         
-        if (ioStream.size() > MAX_APPEND_BLOB_BLOCK_SIZE) {
-            FHIRPersistenceException x = new FHIRPersistenceException("Resource payload size cannot exceed " + MAX_APPEND_BLOB_BLOCK_SIZE + " bytes");
+        if (ioStream.size() > MAX_BLOB_UPLOAD_BYTES) {
+            FHIRPersistenceException x = new FHIRPersistenceException("Resource payload size cannot exceed " + MAX_BLOB_UPLOAD_BYTES + " bytes");
             x.withIssue(Issue.builder().code(IssueType.TOO_LONG).severity(IssueSeverity.ERROR).diagnostics("Resource too large for payload offload").build());
             throw x;
         }
@@ -76,20 +78,11 @@ public class BlobStorePayload {
         logger.fine(() -> "Payload storage path: " + blobPath);
         BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
 
-        // Reactor pipeline to first call create then perform the upload. The create(true)
-        // calls returns a Mono<AppendBlobItem>. The flatMap is basically installing a
-        // callback (ahem, reaction) saying that when create call completes, then
-        // perform the upload (appendBlockWithResponse). The map(...) call then says when we get
-        // a response from the appendBlockWithResponse call, translate the response status into
-        // a PayloadPersistenceResult. The whole pipeline is then initiated by calling toFuture()
-        // which means we don't have to wait here for the response but can instead collect it
-        // later when we actually need it (usually just before the RDBMS transaction commits)
-        return bc.getAppendBlobAsyncClient()
-                .create(true)
-                .flatMap(item -> {
-                    return bc.getAppendBlobAsyncClient().appendBlockWithResponse(Flux.just(ioStream.wrap()), ioStream.size(), null, null);
-                })
-                .map(response -> new PayloadPersistenceResult(response.getStatusCode() == 201 ? PayloadPersistenceResult.Status.OK : PayloadPersistenceResult.Status.FAILED))
-                .toFuture();
+        // Reactor pipeline to upload 
+        // RequestConditions can be null because we want create-or-replace
+        Flux<ByteBuffer> data = Flux.just(ioStream.wrap());
+        return bc.uploadWithResponse(new BlobParallelUploadOptions(data))
+            .map(response -> new PayloadPersistenceResult(response.getStatusCode() == 201 ? PayloadPersistenceResult.Status.OK : PayloadPersistenceResult.Status.FAILED))
+            .toFuture();
     }
 }
