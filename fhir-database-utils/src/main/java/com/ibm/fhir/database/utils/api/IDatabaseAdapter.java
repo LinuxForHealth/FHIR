@@ -422,6 +422,12 @@ public interface IDatabaseAdapter {
             String toUser);
 
     /**
+     * Grants USAGE on the given schemaName to the given user
+     * @param schemaName
+     */
+    public void grantSchemaUsage(String schemaName, String grantToUser);
+
+    /**
      * Run the given supplier statement against the database represented by this
      * adapter
      *

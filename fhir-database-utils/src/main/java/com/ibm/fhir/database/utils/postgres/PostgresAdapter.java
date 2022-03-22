@@ -28,7 +28,6 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
@@ -39,7 +38,6 @@ import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
-import com.ibm.fhir.database.utils.tenant.DropViewDAO;
 
 /**
  * A PostgreSql database target
@@ -531,5 +529,16 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         if (doesIndexExist(schemaName, indexName)) {
             super.dropIndex(schemaName, indexName);
         }
+    }
+
+    @Override
+    public void grantSchemaUsage(String schemaName, String grantToUser) {
+        DataDefinitionUtil.assertValidName(schemaName);
+        DataDefinitionUtil.assertValidName(grantToUser);
+        final String grant = "GRANT USAGE ON SCHEMA " + schemaName + " TO " + grantToUser;
+
+        logger.info("Applying: " + grant); // Grants are very useful to see logged
+
+        runStatement(grant);
     }
 }

@@ -424,17 +424,26 @@ public class Main {
                     // FHIR Data Schema
                     if (createFhirSchema) {
                         adapter.createSchema(schema.getSchemaName());
+                        if (this.grantTo != null) {
+                            adapter.grantSchemaUsage(schema.getSchemaName(), grantTo);
+                        }
                         c.commit();
                     }
 
                     // OAuth Schema
                     if (createOauthSchema) {
                         adapter.createSchema(schema.getOauthSchemaName());
+                        if (this.grantTo != null) {
+                            adapter.grantSchemaUsage(schema.getOauthSchemaName(), grantTo);
+                        }
                     }
 
                     // Java Batch Schema
                     if (createJavaBatchSchema) {
                         adapter.createSchema(schema.getJavaBatchSchemaName());
+                        if (this.grantTo != null) {
+                            adapter.grantSchemaUsage(schema.getJavaBatchSchemaName(), grantTo);
+                        }
                     }
                 } catch (Exception x) {
                     c.rollback();

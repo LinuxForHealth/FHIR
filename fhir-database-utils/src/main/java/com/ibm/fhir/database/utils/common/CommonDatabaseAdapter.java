@@ -748,4 +748,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // NOP, unless overridden by a subclass (Db2Adapter, for example)
     }
 
+    @Override
+    public void grantSchemaUsage(String schemaName, String grantToUser) {
+        logger.info("Grant usage on schema not required for '" + schemaName + "' on this database");
+    }
 }
