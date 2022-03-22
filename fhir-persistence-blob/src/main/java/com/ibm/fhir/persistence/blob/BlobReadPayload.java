@@ -71,9 +71,7 @@ public class BlobReadPayload {
         final String blobPath = BlobPayloadSupport.getPayloadPath(resourceTypeId, logicalId, version, resourcePayloadKey);
         logger.fine(() -> "Reading payload using storage path: " + blobPath);
         BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
-
-        return bc.getAppendBlobAsyncClient()
-                .downloadContent()
+        return bc.downloadContent()
                 .map(data -> transform(resourceType, data))
                 .toFuture();
     }
