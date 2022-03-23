@@ -18,7 +18,7 @@ Take the following restrictions into account:
 1. Payload offloading is enabled at the server level. Offloading cannot be enabled/disabled on a per-tenant basis. If you want to support offloading for just one tenant, use a different IBM FHIR Server instance;
 2. Payload offloading must be configured prior to ingesting any resource data;
 3. Payload offloading must not be disabled after resource data has been ingested;
-4. When payload offloading is enabled, FHIR resources are limited to 4 MiB in size when rendered as uncompressed JSON.
+4. When payload offloading is enabled, FHIR resources are limited to 5000 MiB in size when rendered as uncompressed JSON. The practical limit is likely to be lower due to memory usage and typical socket and transaction timeouts.
 
 
 ### 1. Pick a Container Name
