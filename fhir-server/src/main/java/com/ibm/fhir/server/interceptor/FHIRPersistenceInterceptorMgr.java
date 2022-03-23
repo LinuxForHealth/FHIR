@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
@@ -23,7 +21,7 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext;
  * This class implements the FHIR persistence interceptor framework. This framework allows users to inject business
  * logic into the REST API request processing code path at various points.
  *
- * Interceptors are discovered using the jdk's ServiceProvider class.
+ * Interceptors are discovered using the jdk's ServiceLoader class.
  *
  * To register an interceptor implementation, develop a class that implements the FHIRPersistenceInterceptor interface,
  * and then insert your implementation class name into a file called
@@ -46,18 +44,11 @@ public class FHIRPersistenceInterceptorMgr {
         // Discover all implementations of our interceptor interface, then add them to our list of interceptors.
         ServiceLoader<FHIRPersistenceInterceptor> slList = ServiceLoader.load(FHIRPersistenceInterceptor.class);
         Iterator<FHIRPersistenceInterceptor> iter = slList.iterator();
-        if (iter.hasNext()) {
-            log.fine("Discovered the following persistence interceptors:");
-            while (iter.hasNext()) {
-                FHIRPersistenceInterceptor interceptor = iter.next();
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(">>> " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
-                }
-                interceptors.add(interceptor);
-            }
-        } else {
-            log.fine("No persistence interceptors found...");
+        while (iter.hasNext()) {
+            FHIRPersistenceInterceptor interceptor = iter.next();
+            interceptors.add(interceptor);
         }
+        log.info("Loaded the following persistence interceptors: " + interceptors);
     }
 
     /**
@@ -66,9 +57,7 @@ public class FHIRPersistenceInterceptorMgr {
      * @param interceptor persistence interceptor to be registered
      */
     public void addInterceptor(FHIRPersistenceInterceptor interceptor) {
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
-        }
+        log.info("Registering persistence interceptor: " + interceptor);
         interceptors.add(interceptor);
     }
 
@@ -78,9 +67,7 @@ public class FHIRPersistenceInterceptorMgr {
      * @param interceptor persistence interceptor to be registered
      */
     public void addPrioritizedInterceptor(FHIRPersistenceInterceptor interceptor) {
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Registering persistence interceptor: " + interceptor.getClass().getName() + '@' + FHIRUtilities.getObjectHandle(interceptor));
-        }
+        log.info("Registering prioritized persistence interceptor: " + interceptor);
         interceptors.add(0, interceptor);
     }
 

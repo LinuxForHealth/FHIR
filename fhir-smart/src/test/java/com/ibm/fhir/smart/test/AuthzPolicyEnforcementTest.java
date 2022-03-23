@@ -10,7 +10,6 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.CONDITION;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.OBSERVATION;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.PATIENT;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.PRACTITIONER;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.PROVENANCE;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.RESOURCE;
 import static org.testng.Assert.assertEquals;
@@ -53,6 +52,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
@@ -288,6 +288,97 @@ public class AuthzPolicyEnforcementTest {
         }
     }
 
+    @Test
+    public void testBeforeSearch_systemLevel() throws FHIRPersistenceInterceptorException {
+        FHIRSearchContextImpl searchContext = new FHIRSearchContextImpl();
+
+        // Valid system-level search
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("user/*.read", PATIENT_ID));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System search interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level search
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/*.read", PATIENT_ID));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+            fail("System search interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Whole-system interactions require a user or system scope with a wildcard resource type: ('user'|'system') '/' '*' '.' ('read'|'*')");
+        }
+
+        // Valid system-level search with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/*.read", PATIENT_ID));
+            searchContext.setSearchResourceTypes(List.of("Patient","Observation"));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System search interaction was not allowed but should have been", e);
+        }
+
+        // Valid system-level search with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("system/Patient.read system/Observation.read", PATIENT_ID));
+            searchContext.setSearchResourceTypes(List.of("Patient","Observation"));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System search interaction was not allowed but should have been", e);
+        }
+
+        // Invalid system-level search with types
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read", PATIENT_ID));
+            searchContext.setSearchResourceTypes(List.of("Patient","Observation"));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+            fail("System search interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "'patient' scoped access tokens are not supported for system-level interactions against patient compartment resource types like Patient");
+        }
+
+        // Valid system-level search for non-patient-compartment resource type
+        try {
+            FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Practitioner.read", PATIENT_ID));
+            searchContext.setSearchResourceTypes(List.of("Practitioner"));
+
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, properties);
+            interceptor.beforeSearch(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("System search interaction was not allowed but should have been", e);
+        }
+    }
+
     @Test(dataProvider = "scopeStringForSearch")
     public void testBeforeSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> implicitCompartmentScopeResourceTypes)
             throws FHIRPersistenceInterceptorException {
@@ -330,8 +421,8 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
                 // success
-                assertEquals(1, e.getIssues().size());
-                assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
                 assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
                         "Interaction with 'Patient/bogus' is not permitted for patient context [" + PATIENT_ID + "]");
             } else {
@@ -707,10 +798,10 @@ public class AuthzPolicyEnforcementTest {
             fail("System history interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
-            assertEquals(1, e.getIssues().size());
-            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Resource]' is not granted by any of the provided scopes: [[patient/*.read]]");
+                    "Whole-system interactions require a user or system scope with a wildcard resource type: ('user'|'system') '/' '*' '.' ('read'|'*')");
         }
 
         // Valid system-level history with types
@@ -760,10 +851,10 @@ public class AuthzPolicyEnforcementTest {
             fail("System history interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
-            assertEquals(1, e.getIssues().size());
-            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Patient, Observation]' is not granted by any of the provided scopes: [[patient/Patient.read, patient/Observation.read]]");
+                    "'patient' scoped access tokens are not supported for system-level interactions against patient compartment resource types like Patient");
         }
 
         // Valid type-level history
@@ -807,10 +898,10 @@ public class AuthzPolicyEnforcementTest {
             fail("System history interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
-            assertEquals(1, e.getIssues().size());
-            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Observation]' is not granted by any of the provided scopes: [[patient/Observation.read]]");
+                    "'patient' scoped access tokens are not supported for system-level interactions against patient compartment resource types like Observation");
         }
     }
 
@@ -1305,6 +1396,7 @@ public class AuthzPolicyEnforcementTest {
 
         return new Object[][] {
             //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+            {"patient/*.*", null, all_resources, null},
             {"patient/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
             {"patient/*.read", CONTEXT_IDS, all_resources, Permission.READ},
             {"patient/*.write", CONTEXT_IDS, all_resources, Permission.WRITE},
@@ -1334,6 +1426,9 @@ public class AuthzPolicyEnforcementTest {
             {"system/Observation.write", CONTEXT_IDS, observation, Permission.WRITE},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
+
+            {"user/*.*", null, all_resources, Permission.ALL},
+            {"system/*.*", null, all_resources, Permission.ALL},
         };
     }
 
@@ -1348,6 +1443,7 @@ public class AuthzPolicyEnforcementTest {
 
         return new Object[][] {
             //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+            {"patient/*.*", null, all_resources, null},
             {"patient/*.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
             {"patient/*.read", CONTEXT_IDS, Collections.EMPTY_SET, null},
             {"patient/*.write", CONTEXT_IDS, Collections.EMPTY_SET, null},
@@ -1367,6 +1463,9 @@ public class AuthzPolicyEnforcementTest {
             {"system/Observation.* system/Provenance.*", CONTEXT_IDS, union(observation, provenance), Permission.ALL},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
+
+            {"user/*.*", null, all_resources, Permission.ALL},
+            {"system/*.*", null, all_resources, Permission.ALL},
         };
     }
 
@@ -1374,7 +1473,6 @@ public class AuthzPolicyEnforcementTest {
     public static Object[][] scopeStringsForSearch() {
         final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
         final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
-        final Set<ResourceType.Value> practitioner = Collections.singleton(PRACTITIONER);
 
         final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
 
