@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.CONDITION;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.OBSERVATION;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.PATIENT;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.PRACTITIONER;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.PROVENANCE;
 import static com.ibm.fhir.model.type.code.ResourceType.Value.RESOURCE;
 import static org.testng.Assert.assertEquals;
@@ -287,9 +288,12 @@ public class AuthzPolicyEnforcementTest {
         }
     }
 
-    @Test
-    public void testBeforeSearch() throws FHIRPersistenceInterceptorException {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read patient/Practitioner.read", PATIENT_ID));
+    @Test(dataProvider = "scopeStringForSearch")
+    public void testBeforeSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> implicitCompartmentScopeResourceTypes)
+            throws FHIRPersistenceInterceptorException {
+
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, PATIENT_ID));
+
         Practitioner practitioner = null;
         try {
             practitioner = TestUtil.getMinimalResource(Practitioner.class);
@@ -320,13 +324,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("Patient compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(1, e.getIssues().size());
-            assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Interaction with 'Patient/bogus' is not permitted for patient context [" + PATIENT_ID + "]");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(1, e.getIssues().size());
+                assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                        "Interaction with 'Patient/bogus' is not permitted for patient context [" + PATIENT_ID + "]");
+            } else {
+                fail("Patient compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Valid compartment search: Encounter in Patient compartment
@@ -347,13 +357,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("Encounter compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(e.getIssues().size(), 1);
-            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "Interaction with 'Encounter/" + MockPersistenceImpl.ENCOUNTER_ID_BAD + "' is not permitted for patient context [" + PATIENT_ID + "]");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                    "Interaction with 'Encounter/" + MockPersistenceImpl.ENCOUNTER_ID_BAD + "' is not permitted for patient context [" + PATIENT_ID + "]");
+            } else {
+                fail("Encounter compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Invalid compartment search: Encounter compartment resource does not exist
@@ -363,13 +379,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("Encounter compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(e.getIssues().size(), 1);
-            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "The resource 'Encounter/bogus' does not exist.");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                        "The resource 'Encounter/bogus' does not exist.");
+            } else {
+                fail("Encounter compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Invalid compartment search: Device compartment
@@ -379,13 +401,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("Device compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(e.getIssues().size(), 1);
-            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "Compartment search for compartment type 'Device' is not permitted.");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                        "Compartment search for compartment type 'Device' is not permitted.");
+            } else {
+                fail("Device compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Invalid compartment search: Practitioner compartment
@@ -395,13 +423,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("Practitioner compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(e.getIssues().size(), 1);
-            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "Compartment search for compartment type 'Practitioner' is not permitted.");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                        "Compartment search for compartment type 'Practitioner' is not permitted.");
+            } else {
+                fail("Practitioner compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Invalid compartment search: RelatedPerson compartment
@@ -411,13 +445,19 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient compartment interaction was allowed but should not be");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                fail("RelatedPerson compartment interaction was allowed but should not be");
+            }
         } catch (FHIRPersistenceInterceptorException e) {
-            // success
-            assertEquals(e.getIssues().size(), 1);
-            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
-            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "Compartment search for compartment type 'RelatedPerson' is not permitted.");
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                // success
+                assertEquals(e.getIssues().size(), 1);
+                assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+                assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                        "Compartment search for compartment type 'RelatedPerson' is not permitted.");
+            } else {
+                fail("RelatedPerson compartment interaction was not allowed but should have been", e);
+            }
         }
 
         // Invalid compartment search: resource type not in list of provided scopes
@@ -434,7 +474,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
                 "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
-                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
+                "[[" + scopeString.replace(" ", ", ") + "]]");
         }
 
         // Valid non-compartment search: converted to Patient compartment search
@@ -444,10 +484,14 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            assertEquals(1, searchContext.getSearchParameters().size());
-            for (QueryParameter searchParameter : searchContext.getSearchParameters()) {
-                assertTrue(searchParameter.isInclusionCriteria());
-                assertEquals("Patient/" + PATIENT_ID, searchParameter.getValues().get(0).getValueString());
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                assertEquals(searchContext.getSearchParameters().size(), 1);
+                for (QueryParameter searchParameter : searchContext.getSearchParameters()) {
+                    assertTrue(searchParameter.isInclusionCriteria());
+                    assertEquals(searchParameter.getValues().get(0).getValueString(), "Patient/" + PATIENT_ID);
+                }
+            } else {
+                assertEquals(searchContext.getSearchParameters().size(), 0);
             }
         } catch (FHIRPersistenceInterceptorException e) {
             fail("Patient interaction was not allowed but should have been", e);
@@ -464,18 +508,22 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            assertEquals(2, searchContext.getSearchParameters().size());
-            List<QueryParameter> searchParms = searchContext.getSearchParameters();
-            QueryParameter compartmentSearchParm = searchParms.get(0);
-            assertTrue("ibm-internal-Patient-Compartment".equals(compartmentSearchParm.getCode()));
-            assertEquals(Type.REFERENCE, compartmentSearchParm.getType());
-            assertTrue(compartmentSearchParm.isInclusionCriteria());
-            assertFalse(compartmentSearchParm.isChained());
-            assertEquals(1, compartmentSearchParm.getValues().size());
-            assertEquals("Patient/11111111-1111-1111-1111-111111111111", compartmentSearchParm.getValues().get(0).getValueString());
-            compartmentSearchParm = compartmentSearchParm.getNextParameter();
-            assertEquals("status", searchParms.get(1).getCode());
-            assertEquals("final", searchParms.get(1).getValues().get(0).getValueCode());
+            if (implicitCompartmentScopeResourceTypes.contains(OBSERVATION)) {
+                assertEquals(searchContext.getSearchParameters().size(), 2);
+                List<QueryParameter> searchParms = searchContext.getSearchParameters();
+                QueryParameter compartmentSearchParm = searchParms.get(0);
+                assertTrue("ibm-internal-Patient-Compartment".equals(compartmentSearchParm.getCode()));
+                assertEquals(compartmentSearchParm.getType(), Type.REFERENCE);
+                assertTrue(compartmentSearchParm.isInclusionCriteria());
+                assertFalse(compartmentSearchParm.isChained());
+                assertEquals(compartmentSearchParm.getValues().size(), 1);
+                assertEquals(compartmentSearchParm.getValues().get(0).getValueString(), "Patient/11111111-1111-1111-1111-111111111111");
+                compartmentSearchParm = compartmentSearchParm.getNextParameter();
+                assertEquals(searchParms.get(1).getCode(), "status");
+                assertEquals(searchParms.get(1).getValues().get(0).getValueCode(), "final");
+            } else {
+                assertEquals(searchContext.getSearchParameters().size(), 1);
+            }
         } catch (FHIRPersistenceInterceptorException e) {
             fail("Patient interaction was not allowed but should have been", e);
         }
@@ -487,10 +535,14 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            assertEquals(1, searchContext.getSearchParameters().size());
-            for (QueryParameter searchParameter : searchContext.getSearchParameters()) {
-                assertTrue(searchParameter.isInclusionCriteria());
-                assertEquals("Patient/" + PATIENT_ID, searchParameter.getValues().get(0).getValueString());
+            if (implicitCompartmentScopeResourceTypes.contains(PATIENT)) {
+                assertEquals(searchContext.getSearchParameters().size(), 1);
+                for (QueryParameter searchParameter : searchContext.getSearchParameters()) {
+                    assertTrue(searchParameter.isInclusionCriteria());
+                    assertEquals(searchParameter.getValues().get(0).getValueString(), "Patient/" + PATIENT_ID);
+                }
+            } else {
+                assertEquals(searchContext.getSearchParameters().size(), 0);
             }
         } catch (FHIRPersistenceInterceptorException e) {
             fail("Patient interaction was not allowed but should have been", e);
@@ -522,7 +574,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
                 "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
-                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
+                "[[" + scopeString.replace(" ", ", ") + "]]");
         }
 
         // Invalid non-compartment search: non-compartment resource type not in list of provided scopes
@@ -539,7 +591,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
                 "read permission for 'Medication' is not granted by any of the provided scopes: " +
-                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
+                "[[" + scopeString.replace(" ", ", ") + "]]");
         }
     }
 
@@ -658,7 +710,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(1, e.getIssues().size());
             assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Resource]' is not granted by any of the provided scopes: [patient/*.read]");
+                    "Read permission for system history of '[Resource]' is not granted by any of the provided scopes: [[patient/*.read]]");
         }
 
         // Valid system-level history with types
@@ -711,7 +763,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(1, e.getIssues().size());
             assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Patient, Observation]' is not granted by any of the provided scopes: [patient/Patient.read, patient/Observation.read]");
+                    "Read permission for system history of '[Patient, Observation]' is not granted by any of the provided scopes: [[patient/Patient.read, patient/Observation.read]]");
         }
 
         // Valid type-level history
@@ -758,7 +810,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(1, e.getIssues().size());
             assertEquals(IssueType.FORBIDDEN, e.getIssues().get(0).getCode());
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                    "Read permission for system history of '[Observation]' is not granted by any of the provided scopes: [patient/Observation.read]");
+                    "Read permission for system history of '[Observation]' is not granted by any of the provided scopes: [[patient/Observation.read]]");
         }
     }
 
@@ -1315,6 +1367,22 @@ public class AuthzPolicyEnforcementTest {
             {"system/Observation.* system/Provenance.*", CONTEXT_IDS, union(observation, provenance), Permission.ALL},
 
             {"openid profile", CONTEXT_IDS, Collections.EMPTY_SET, null},
+        };
+    }
+
+    @DataProvider(name = "scopeStringForSearch")
+    public static Object[][] scopeStringsForSearch() {
+        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType.Value> practitioner = Collections.singleton(PRACTITIONER);
+
+        final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
+
+        return new Object[][] {
+            //String scopeString, String context, Set<ResourceType.Value> implicitCompartmentScopeResourceTypes
+            {"patient/Patient.read patient/Observation.read patient/Practitioner.read", CONTEXT_IDS, union(patient, observation)},
+            {"user/Patient.read user/Observation.read user/Practitioner.read", CONTEXT_IDS, Collections.EMPTY_SET},
+            {"system/Patient.read system/Observation.read system/Practitioner.read", CONTEXT_IDS, Collections.EMPTY_SET},
         };
     }
 
