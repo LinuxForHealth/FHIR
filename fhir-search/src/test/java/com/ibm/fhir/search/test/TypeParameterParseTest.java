@@ -74,7 +74,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
             searchHelper.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
-            assertEquals(ex.getMessage(), "_type search parameter is only supported with system search");
+            assertEquals(ex.getMessage(), "_type parameter is only supported for whole-system search");
 
         }
         assertTrue(isExceptionThrown);

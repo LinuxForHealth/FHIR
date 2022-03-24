@@ -64,6 +64,22 @@ public class ResourcesConfigAdapter {
     }
 
     /**
+     * @return whether the server is configured to prevent searches for one or more resource types
+     */
+    public boolean isSearchRestricted() {
+        Set<String> searchableResourceTypes = typesByInteraction.get(Interaction.SEARCH);
+        return searchableResourceTypes == null || searchableResourceTypes.size() < ALL_CONCRETE_TYPES.size();
+    }
+
+    /**
+     * @return whether the server is configured to prevent history interactions for one or more resource types
+     */
+    public boolean isHistoryRestricted() {
+        Set<String> resourceTypesSupportingHistory = typesByInteraction.get(Interaction.HISTORY);
+        return resourceTypesSupportingHistory == null || resourceTypesSupportingHistory.size() < ALL_CONCRETE_TYPES.size();
+    }
+
+    /**
      * @return an immutable, non-null set of concrete supported resource types
      * @throws Exception
      */

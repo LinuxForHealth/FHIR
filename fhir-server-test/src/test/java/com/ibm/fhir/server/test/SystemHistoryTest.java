@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -26,7 +27,9 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -38,7 +41,7 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
  * [base]/_history?_count=10
  * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z"
  * [base]/_history?_count=10&_before=2021-02-21T03:00:53.878052Z"
- * 
+ *
  * Error case. Don't mix paging styles
  * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_changeIdMarker=4"
  */
@@ -47,7 +50,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
 
     // Create some resources, update, delete and undelete
     private boolean deleteSupported = false;
-    
+
     // the id of the test patient we create
     private String patientId;
 
@@ -130,7 +133,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
+
         // Follow the next links until we get
         String requestPath = "Patient/_history";
         boolean found = false;
@@ -143,7 +146,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
@@ -152,7 +155,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                     found = true;
                 }
             }
-            
+
             // See if there's more work to do
             count = bundle.getEntry().size();
             if (!found && count > 0) {
@@ -161,7 +164,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(requestPath);
             }
         } while (count > 0 && !found);
-        
+
         assertTrue(found, "Patient id in history");
     }
 
@@ -181,7 +184,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
+
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithMultipleTypes() throws Exception {
         if (!deleteSupported) {
@@ -200,7 +203,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
-        
+
         // Check that the next link was composed correctly:
         String nextLink = getNextLink(bundle);
         assertNotNull(nextLink);
@@ -236,7 +239,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                     .queryParam("_sort", "bogus")
                     .request().get(Response.class);
         assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
-    } 
+    }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithTypePatientAndOrderNone() throws Exception {
@@ -251,8 +254,8 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
-        // Follow the next links until we 
+
+        // Follow the next links until we
         String requestPath = "Patient/_history";
         boolean found = false;
         int count;
@@ -272,7 +275,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
@@ -280,7 +283,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 if (fullUrl.contains("Patient/" + patientId)) {
                     found = true;
                 }
-                
+
                 // Check that the resourceId value for the resource is always increasing. For
                 // whole system history interactions, this id goes in the bundle.entry.id field
                 long resourceId = Long.parseLong(be.getId());
@@ -296,7 +299,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
     }
 
@@ -324,7 +327,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         int count;
         Instant prevLastUpdated = null;
         String nextPath = null;
-        String prevDigest = null; // to help see if the response changed 
+        String prevDigest = null; // to help see if the response changed
         Instant since = Instant.now().minus(1, ChronoUnit.HOURS);
         Instant before = Instant.now().plus(1, ChronoUnit.HOURS);
         do {
@@ -349,7 +352,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             for (Bundle.Entry be: bundle.getEntry()) {
@@ -387,7 +390,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
     }
 
@@ -404,14 +407,14 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
-        // Follow the next links until we 
+
+        // Follow the next links until we
         String requestPath = "Patient/_history";
         boolean found = false;
         int count;
         Instant prevLastUpdated = null;
         String nextPath = null;
-        String prevDigest = null; // to help see if the response changed 
+        String prevDigest = null; // to help see if the response changed
         do {
             final Response historyResponse;
             if (nextPath == null) {
@@ -426,7 +429,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             for (Bundle.Entry be: bundle.getEntry()) {
@@ -464,8 +467,53 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
+    }
+
+    @Test
+    public void testSystemHistoryWithNoType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // use tenant1 because that tenant is configured to support history on only a subset of resource types
+        Response historyResponse = target.path("_history").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        boolean validSelf = false;
+        for (Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if ("self".equals(type)) {
+                assertTrue(uri.contains("_type"), "self link should contain the implicitly add _type parameter");
+                validSelf = true;
+            }
+        }
+
+        assertTrue(validSelf, "missing self link");
+    }
+
+    @Test
+    public void testSystemHistoryInvalidType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Patient is configured for the history interaction but CompartmentDefinition is not
+        Response historyResponse = target.path("_history").queryParam("_type", "Patient,CompartmentDefinition").request()
+                // use tenant1 because that tenant is configured to support history on only a subset of resource types
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
+
+        OperationOutcome oo = historyResponse.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getDetails().getText().getValue(),
+                "history interaction is not supported for _type parameter value: CompartmentDefinition");
     }
 
     /**
