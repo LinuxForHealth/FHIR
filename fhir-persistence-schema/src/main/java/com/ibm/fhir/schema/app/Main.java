@@ -44,6 +44,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY;
 import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY_FILE;
 import static com.ibm.fhir.schema.app.menu.Menu.TENANT_NAME;
 import static com.ibm.fhir.schema.app.menu.Menu.TEST_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.THREAD_POOL_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_PROC;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA_BATCH;
@@ -291,8 +292,11 @@ public class Main {
     // What status to leave with
     private int exitStatus = EXIT_OK;
 
+    // The pool size for concurrent operations (typically 1 because concurrent DDL can cause internal DB deadlocks)
+    private int threadPoolSize = FhirSchemaConstants.DEFAULT_THREAD_POOL_SIZE;
+
     // The connection pool and transaction provider to support concurrent operations
-    private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE;
+    private int maxConnectionPoolSize = threadPoolSize + FhirSchemaConstants.CONNECTION_POOL_HEADROOM;
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
 
@@ -326,11 +330,6 @@ public class Main {
      * can perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
-        if (dbType == DbType.DERBY && maxConnectionPoolSize > 1) {
-            logger.warning("Embedded Derby does not support concurrent schema updates;" +
-                    " ignoring '--pool-size' and using a single thread.");
-            this.maxConnectionPoolSize = 1;
-        }
         JdbcPropertyAdapter adapter = getPropertyAdapter(dbType, properties);
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
         this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
@@ -575,7 +574,9 @@ public class Main {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
                 this.exitStatus = EXIT_BAD_ARGS;
             } else {
-                logger.info("Schema is up-to-date; skipping update for: '" + targetSchemaName + "'");
+                // useful to see what version the database is actually at
+                int databaseSchemaVersion = svm.getVersionForSchema();
+                logger.info("Schema is up-to-date [version=" + databaseSchemaVersion + "]; skipping update for: '" + targetSchemaName + "'");
             }
         } finally {
             leaseManager.cancelLease();
@@ -684,7 +685,7 @@ public class Main {
         // expressing its dependencies correctly. Changes are only applied
         // if their version is greater than the current version.
         TaskService taskService = new TaskService();
-        ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
+        ExecutorService pool = Executors.newFixedThreadPool(this.threadPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
 
@@ -1991,6 +1992,13 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case THREAD_POOL_SIZE:
+                if (++i < args.length) {
+                    this.threadPoolSize = Integer.parseInt(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case PROP:
                 if (++i < args.length) {
                     // properties are given as name=value
@@ -2127,6 +2135,14 @@ public class Main {
         }
 
         this.leaseManagerConfig = lmConfig.build();
+
+        // Make sure we configure the connection pool to have some extra
+        // headroom above the thread pool size to support other threads
+        // (the lease manager, for example)
+        if (this.maxConnectionPoolSize < threadPoolSize + FhirSchemaConstants.CONNECTION_POOL_HEADROOM) {
+            this.maxConnectionPoolSize = threadPoolSize + FhirSchemaConstants.CONNECTION_POOL_HEADROOM;
+            logger.warning("Connection pool size below minimum headroom. Setting it to " + this.maxConnectionPoolSize);
+        }
     }
 
     /**
@@ -2611,6 +2627,12 @@ public class Main {
         long start = System.nanoTime();
         loadDriver(translator);
         configureConnectionPool();
+
+        if (dbType == DbType.DERBY && threadPoolSize > 1) {
+            logger.warning("Embedded Derby does not support concurrent schema updates;" +
+                    " ignoring '--thread-pool-size' and using a single thread.");
+            this.threadPoolSize = 1;
+        }
 
         if (this.checkCompatibility) {
             checkCompatibility();
