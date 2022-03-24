@@ -3055,8 +3055,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
         } catch (FHIRPersistenceDataAccessException x) {
-            log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
-                x);
+            log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}", x);
             throw x;
         } finally {
             txn.end();
@@ -3096,29 +3095,32 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Entry.Response.Builder responseBuilder = Entry.Response.builder();
             switch (changeRecord.getChangeType()) {
             case CREATE:
-                requestBuilder.method(HTTPVerb.POST);
+                requestBuilder.method(changeRecord.getVersionId() > 1 ? HTTPVerb.PUT : HTTPVerb.POST);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("201 Created"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("201"));
                 break;
             case UPDATE:
                 requestBuilder.method(HTTPVerb.PUT);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
                 break;
             case DELETE:
                 requestBuilder.method(HTTPVerb.DELETE);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
                 break;
             }
 
+            String fullUrl = getRequestBaseUri(resourceType) + "/" + changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId();
+
             responseBuilder.lastModified(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
-            responseBuilder.location(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId() + "/_history/" + changeRecord.getVersionId()));
+            responseBuilder.etag("W/\"" + changeRecord.getVersionId() + "\"");
+            responseBuilder.location(Url.of(fullUrl + "/_history/" + changeRecord.getVersionId()));
 
             // Per the R4 spec, the fullUrl should not contain _history/:vid
             Entry.Builder entryBuilder = Entry.builder();
             entryBuilder.id(Long.toString(changeRecord.getChangeId()));
-            entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
+            entryBuilder.fullUrl(Url.of(fullUrl));
             entryBuilder.request(requestBuilder.build());
             entryBuilder.response(responseBuilder.build());
 
