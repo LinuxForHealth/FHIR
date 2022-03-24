@@ -34,6 +34,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -443,7 +444,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 break;
             case "Encounter":
                 Resource r = executeRead(event.getPersistenceImpl(), ModelSupport.getResourceType(compartment), compartmentId);
-                if (!isInCompartment(r, CompartmentType.PATIENT, patientIdFromToken)) {
+                if (!isInCompartment(compartment, compartmentId, r, CompartmentType.PATIENT, patientIdFromToken)) {
                     String msg = "Interaction with 'Encounter/" + compartmentId + "' is not permitted for patient context " + patientIdFromToken;
                     throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                 }
@@ -546,6 +547,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 Resource resource = entry.getResource();
                 enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
                 if (resourceType != null && resourceId != null) {
+                    if (resource == null && entry.getRequest() != null && entry.getRequest().getMethod().getValueAsEnum() == HTTPVerb.Value.DELETE) {
+                        // explicitly allow DELETE entries
+                        // this is safe because beforeHistory prohibits system and type-level history request for patient-compartment resource types
+                        // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
+                        continue;
+                    }
                     enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
                 } else {
                     throw new FHIRPersistenceInterceptorException("Unable to enforce authorization for history interaction "
@@ -607,7 +614,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 try {
                     SingleResourceResult<? extends Resource> result = executeRead(persistence, referenceValue, resourceType);
 
-                    if (result.isSuccess() && isInCompartment(result.getResource(), CompartmentType.PATIENT, contextIds)) {
+                    if (result.isSuccess() && isInCompartment(result.getResourceTypeName(), result.getLogicalId(), result.getResource(), CompartmentType.PATIENT, contextIds)) {
                         allow = true;
                         break;
                     }
@@ -852,15 +859,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                     .findAny();
 
-            if (resource == null) {
-                // If no resource was retrieved, which happens with history/search operations that have an HTTP Prefer header with 'return=minimal',
-                // there is no way to check if the resource meets the criteria of being in the Patient compartment.
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Unable to determine if " + requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
-                        "' is granted via any patient scopes due to the resource being absent in the response");
-                }
-            } else if (approvingScope.isPresent()) {
-                if (resource instanceof Provenance) {
+            if (approvingScope.isPresent()) {
+                if ("Provenance".equals(resourceType)) {
                     // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
                     // we want to allow access to if and only if the patient has access to one or more resources that it targets.
 
@@ -896,7 +896,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 }
 
                 // Else, see if the target resource belongs to the Patient compartment of the in-context patient
-                return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
+                return isInCompartment(resourceType, resourceId, resource, CompartmentType.PATIENT, contextIds);
             }
         }
 
@@ -906,28 +906,44 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     /**
      * Internal helper for checking compartment membership.
      *
-     * @param resource
+     * @param resourceType
+     * @param resourceId
+     * @param resource possibly null
      * @param compartmentType
      * @param contextIds
      * @return true if the resource is in one of the compartment defined by the compartmentType and the contextIds
      *          or if the resource type is not applicable for the given compartmentType
+     * @throws FHIRPersistenceInterceptorException if the membership could not be checked
      */
-    private boolean isInCompartment(Resource resource, CompartmentType compartmentType, Set<String> contextIds) {
-        String resourceType = resource.getClass().getSimpleName();
+    private boolean isInCompartment(String resourceType, String resourceId, Resource resource, CompartmentType compartmentType, Set<String> contextIds)
+            throws FHIRPersistenceInterceptorException {
         String compartment = compartmentType.getValue();
-
-        // If the target resource type matches the compartment type, allow it if the id is one of the passed contextIds
-        if (compartmentType.getValue().equals(resourceType) && resource.getId() != null && contextIds.contains(resource.getId())) {
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Bypassing compartment check for the compartment identity resource " + resourceType + "/" + resource.getId());
-            }
-            return true;
-        }
 
         try {
             if (!compartmentHelper.getCompartmentResourceTypes(compartment).contains(resourceType)) {
                 // If the resource type is not applicable for the patient compartment, allow it
                 // TODO: this may be overly broad...how do we appropriately scope user access to non-Patient resources?
+                return true;
+            }
+
+            if (resource == null) {
+                // Two reasons we might not have a resource:
+                // 1. if this is a history response and there exists one or more DELETE entries in the response
+                // 2. if this is a history/search operation with an HTTP Prefer header with 'return=minimal'
+
+                // Case 1 is handled in afterHistory before this method would be called (where we can better determine the type of the entry)
+                // For case 2, if we've made it this far then the resourceType can possibly exist in a patient compartment but we have no way to check which one
+                String msg = "Unable to determine compartment membership for one or more resources of type '" + resourceType + "'"
+                        + " due to the resource content being absent in the response";
+                throw new FHIRPersistenceInterceptorException(msg)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+            }
+
+            // If the target resource type matches the compartment type, allow it if the id is one of the passed contextIds
+            if (compartment.equals(resourceType) && contextIds.contains(resourceId)) {
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Bypassing compartment check for the compartment identity resource " + resourceType + "/" + resource.getId());
+                }
                 return true;
             }
 

@@ -949,6 +949,47 @@ public class AuthzPolicyEnforcementTest {
         }
     }
 
+    @Test
+    public void testHistoryWithDeletes() {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/*.read", PATIENT_ID));
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Resource");
+            Bundle historyBundle = Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .entry(Bundle.Entry.builder()
+                            .fullUrl(Uri.of("Patient/" + PATIENT_ID))
+                            .request(Bundle.Entry.Request.builder()
+                                    .method(HTTPVerb.DELETE)
+                                    .url(Uri.of("Patient/" + PATIENT_ID))
+                                    .build())
+                            .response(Bundle.Entry.Response.builder()
+                                    .status("200")
+                                    .etag("W/\"2\"")
+                                    .lastModified(Instant.now())
+                                    .build())
+                            .build())
+                    .entry(Bundle.Entry.builder()
+                            .fullUrl(Uri.of("Patient/" + PATIENT_ID))
+                            .request(Bundle.Entry.Request.builder()
+                                    .method(HTTPVerb.POST)
+                                    .url(Uri.of("Patient"))
+                                    .build())
+                            .response(Bundle.Entry.Response.builder()
+                                    .status("200")
+                                    .etag("W/\"1\"")
+                                    .lastModified(Instant.now())
+                                    .build())
+                            .resource(patient)
+                            .build())
+                    .build();
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(historyBundle, properties);
+            interceptor.afterHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient history was not allowed but should have been", e);
+        }
+    }
+
     @Test(dataProvider = "scopeStringPreferReturnMinimalProvider")
     public void testHistoryPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
