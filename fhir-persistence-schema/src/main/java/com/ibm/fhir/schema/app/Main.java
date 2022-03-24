@@ -684,6 +684,8 @@ public class Main {
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
         // if their version is greater than the current version.
+        logger.info("Connection pool size: " + this.maxConnectionPoolSize);
+        logger.info("    Thread pool size: " + this.threadPoolSize);
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(this.threadPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
