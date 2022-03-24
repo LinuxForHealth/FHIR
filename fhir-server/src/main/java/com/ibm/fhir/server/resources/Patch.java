@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -83,7 +84,7 @@ public class Patch extends FHIRResource {
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
@@ -140,7 +141,7 @@ public class Patch extends FHIRResource {
             ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -203,7 +204,7 @@ public class Patch extends FHIRResource {
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -272,7 +273,7 @@ public class Patch extends FHIRResource {
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
