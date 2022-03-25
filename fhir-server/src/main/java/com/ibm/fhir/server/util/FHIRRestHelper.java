@@ -700,7 +700,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             event.setFhirResource(newResource);
             event.setPrevFhirResource(ior.getPrevResource());
 
-            // Next, invoke the 'beforeUpdate' or 'beforeCreate' interceptor methods as appropriate.
+            // Next, invoke the 'beforeCreate', 'beforePatch', or 'beforeUpdate' interceptor methods as appropriate.
             boolean updateCreate = (ior.getPrevResource() == null);
             if (updateCreate) {
                 getInterceptorMgr().fireBeforeCreateEvent(event);
@@ -2335,12 +2335,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Determine the correct method to include in this history entry (POST, PUT, DELETE).
             HTTPVerb method;
+            String status;
             if (resourceResult.isDeleted() || resource == null) {
                 method = HTTPVerb.DELETE;
+                status = "200";
             } else if (resourceResult.getVersion() == 1) {
                 method = HTTPVerb.POST;
+                status = "201";
             } else {
                 method = HTTPVerb.PUT;
+                // TODO can we set this more intelligently (e.g. in the case of a DELETE followed by a PUT)
+                status = "200";
             }
 
             // Create the 'request' entry, and set the request.url field.
@@ -2353,14 +2358,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     .url(Url.of(method == HTTPVerb.POST ? resourceType : resourcePath))
                     .build();
 
+            String fullUrl = getRequestBaseUri(type) + "/" + resourcePath;
+
             Entry.Response response = Entry.Response.builder()
-                    .status(string("200"))
+                    .status(status)
                     .etag(getEtagValue(resourceResult.getVersion()))
+                    .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
                     .build();
 
             Entry entry = Entry.builder()
-                    .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resourcePath))
+                    .fullUrl(Uri.of(fullUrl))
                     .request(request)
                     .response(response)
                     .resource(resource)
@@ -3097,17 +3105,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             case CREATE:
                 requestBuilder.method(changeRecord.getVersionId() > 1 ? HTTPVerb.PUT : HTTPVerb.POST);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("201"));
+                responseBuilder.status("201");
                 break;
             case UPDATE:
                 requestBuilder.method(HTTPVerb.PUT);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
+                responseBuilder.status("200");
                 break;
             case DELETE:
                 requestBuilder.method(HTTPVerb.DELETE);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
+                responseBuilder.status("200");
                 break;
             }
 
