@@ -203,9 +203,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters,
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
+            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn,
             ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
@@ -452,7 +452,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, p_version);
-            
+
             if (p_payload != null) {
                 stmt.setBinaryStream(4, p_payload);
             } else {
@@ -521,7 +521,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
         // related to resources changes (issue-1955)
-        String changeType = p_is_deleted ? "D" : v_new_resource ? "C" :  "U";
+        String changeType = p_is_deleted ? "D" : (v_new_resource || v_currently_deleted) ? "C" : "U";
         String INSERT_CHANGE_LOG = "INSERT INTO resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)"
                 + " VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(INSERT_CHANGE_LOG)) {
