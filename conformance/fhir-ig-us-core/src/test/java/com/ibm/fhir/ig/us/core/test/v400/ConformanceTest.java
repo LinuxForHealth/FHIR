@@ -35,6 +35,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.resource.Provenance.Agent;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -55,6 +56,8 @@ import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ConformanceTest {
+    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient";
+
     @Test
     public void testConformsToWithEmptyContext() throws Exception {
         try (InputStream in = ConformanceTest.class.getClassLoader().getResourceAsStream("JSON/400/tests/us-core-patient.json")) {
@@ -277,7 +280,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -326,7 +329,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -460,7 +463,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -509,7 +512,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -602,5 +605,51 @@ public class ConformanceTest {
         provenance = FHIRPathUtil.add(provenance, "Provenance.agent[1]", "onBehalfOf", refToAdd);
         issues = validator.validate(provenance, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance");
         Assert.assertEquals(countErrors(issues), 0);
+    }
+
+    /**
+     * Ensures that we can validate patient addresses against the USPS Two Letter Alphabetic Codes
+     */
+    @Test
+    public void testUSCoreValidateAddress() throws Exception {
+        FHIRValidator validator = FHIRValidator.validator();
+        Patient patient = Patient.builder()
+                .text(Narrative.EMPTY)
+                .identifier(Identifier.builder()
+                    .system(Uri.of("http://someuri.org"))
+                    .value(string("someValue"))
+                    .build())
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .gender(AdministrativeGender.MALE)
+                .address(Address.builder()
+                    .line("test")
+                    .build())
+                .build();
+
+        // no state = no warning or info messages
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
+        Assert.assertEquals(countWarnings(issues), 0);
+        Assert.assertEquals(countInformation(issues), 0);
+
+        // invalid state = info messages about the unexpected code
+        patient = FHIRPathUtil.add(patient, "address[0]", "state", string("bogus"));
+        System.out.println(patient);
+        issues = validator.validate(patient, US_CORE_PATIENT);
+        issues.forEach(System.out::println);
+        Assert.assertEquals(countWarnings(issues), 0);
+        Assert.assertEquals(countInformation(issues), 2);
+        Assert.assertEquals(issues.get(0).getDetails().getText().getValue(), "Code 'bogus' is not a valid member of ValueSet "
+                + "with URL=http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state and version=4.1.0");
+
+        // valid state = no warning or info messages
+        patient = FHIRPathUtil.replace(patient, "address[0].state", string("WI"));
+        System.out.println(patient);
+        issues = validator.validate(patient, US_CORE_PATIENT);
+        issues.forEach(System.out::println);
+        Assert.assertEquals(countWarnings(issues), 0);
+        Assert.assertEquals(countInformation(issues), 0);
     }
 }
