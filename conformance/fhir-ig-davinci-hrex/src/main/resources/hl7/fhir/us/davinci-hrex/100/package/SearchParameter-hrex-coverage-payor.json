@@ -1,110 +1,110 @@
 {
-	"resourceType": "SearchParameter",
-	"id": "hrex-coverage-payor",
-	"text": {
-		"status": "empty",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-	},
-	"url": "http://hl7.org/fhir/us/davinci-hrex/SearchParameter/hrex-coverage-payor",
-	"version": "1.0.0",
-	"name": "HRexCoveragePayor",
-	"derivedFrom": "http://hl7.org/fhir/SearchParameter/Coverage-payor",
-	"status": "active",
-	"experimental": false,
-	"date": "2022-02-24T21:01:30+00:00",
-	"publisher": "HL7 International - Clinical Interoperability Council",
-	"contact": [
-		{
-			"telecom": [
-				{
-					"system": "url",
-					"value": "http://www.hl7.org/Special/committees/cic"
-				}
-			]
-		}
-	],
-	"description": "The identity of the insurer or party paying for services\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain",
-	"jurisdiction": [
-		{
-			"coding": [
-				{
-					"system": "urn:iso:std:iso:3166",
-					"code": "US"
-				}
-			]
-		}
-	],
-	"code": "payor",
-	"base": [
-		"Coverage"
-	],
-	"type": "reference",
-	"expression": "Coverage.payor",
-	"xpath": "f:Coverage/f:payor",
-	"xpathUsage": "normal",
-	"target": [
-		"Organization"
-	],
-	"multipleOr": true,
-	"_multipleOr": {
-		"extension": [
-			{
-				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-				"valueCode": "MAY"
-			}
-		]
-	},
-	"modifier": [
-		"text",
-		"not",
-		"type",
-		"identifier"
-	],
-	"_modifier": [
-		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-					"valueCode": "MAY"
-				}
-			]
-		},
-		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-					"valueCode": "MAY"
-				}
-			]
-		},
-		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-					"valueCode": "MAY"
-				}
-			]
-		},
-		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-					"valueCode": "SHOULD"
-				}
-			]
-		}
-	],
-	"chain": [
-		"identifier"
-	],
-	"_chain": [
-		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-					"valueCode": "SHALL"
-				}
-			]
-		}
-	]
+    "resourceType": "SearchParameter",
+    "id": "hrex-coverage-payor",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-hrex/SearchParameter/hrex-coverage-payor",
+    "version": "1.0.0",
+    "name": "HRexCoveragePayor",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/Coverage-payor",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-03-23T18:55:58+00:00",
+    "publisher": "HL7 International - Clinical Interoperability Council",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cic"
+                }
+            ]
+        }
+    ],
+    "description": "The identity of the insurer or party paying for services\n\n**NOTE**: This HRex SearchParameter definition extends the usage context of the [capabilitystatement-expectation](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html) extension to formally express implementer expectations for these elements:\n\n* multipleAnd\n\n* multipleOr\n\n* modifier\n\n* comparator\n\n* chain",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "payor",
+    "base": [
+        "Coverage"
+    ],
+    "type": "reference",
+    "expression": "Coverage.payor",
+    "xpath": "f:Coverage/f:payor",
+    "xpathUsage": "normal",
+    "target": [
+        "Organization"
+    ],
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    },
+    "modifier": [
+        "text",
+        "not",
+        "type",
+        "identifier"
+    ],
+    "_modifier": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "MAY"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHOULD"
+                }
+            ]
+        }
+    ],
+    "chain": [
+        "identifier"
+    ],
+    "_chain": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                    "valueCode": "SHALL"
+                }
+            ]
+        }
+    ]
 }

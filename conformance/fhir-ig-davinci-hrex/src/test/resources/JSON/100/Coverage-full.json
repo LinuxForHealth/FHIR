@@ -5,20 +5,16 @@
 		"status": "generated",
 		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>identifier</b>: id: 234567</p><p><b>status</b>: active</p><p><b>subscriberId</b>: 97531</p><p><b>beneficiary</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>payor</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p></div>"
 	},
-	"identifier": [
-		{
-			"system": "http://example.org/new-payer/identifiers/coverage",
-			"value": "234567"
-		}
-	],
+	"identifier": [{
+		"system": "http://example.org/new-payer/identifiers/coverage",
+		"value": "234567"
+	}],
 	"status": "active",
 	"subscriberId": "97531",
 	"beneficiary": {
 		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
 	},
-	"payor": [
-		{
-			"reference": "Organization/full"
-		}
-	]
+	"payor": [{
+		"reference": "Organization/full"
+	}]
 }
