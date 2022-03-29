@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,8 +48,8 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     // support nesting by tracking the number of begin/end requests
     private int startCount;
 
-    // A handler to be called after a transaction has been rolled back
-    private final Runnable rolledBackHandler;
+    // A handler to be called after a transaction has completed
+    private final Consumer<Boolean> afterTransactionHandler;
 
     /**
      * Public constructor
@@ -56,16 +57,16 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
      * @param syncRegistry
      * @param cache
      * @param transactionDataKey
-     * @param rolledBackHandler
+     * @param afterTransactionHandler
      */
     public FHIRUserTransactionAdapter(UserTransaction tx, TransactionSynchronizationRegistry syncRegistry, FHIRPersistenceJDBCCache cache,
-            String transactionDataKey, Runnable rolledBackHandler) {
+            String transactionDataKey, Consumer<Boolean> afterTransactionHandler) {
         this.userTransaction = tx;
         this.syncRegistry = syncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
         startedByThis = false;
-        this.rolledBackHandler = rolledBackHandler;
+        this.afterTransactionHandler = afterTransactionHandler;
     }
 
     /**
@@ -91,7 +92,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
                 // On starting a new transaction, we need to register a callback so that
                 // the cache is informed when the transaction commits it can promote thread-local
                 // ids to the shared caches.
-                syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.rolledBackHandler));
+                syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.afterTransactionHandler));
 
             } catch (Exception x) {
                 log.log(Level.SEVERE, "failed to start transaction", x);
@@ -105,7 +106,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             // On starting a bulk transaction, we need to register a callback so that
             // the cache is informed when the transaction commits it can promote thread-local
             // ids to the shared caches.
-            syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.rolledBackHandler));
+            syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.afterTransactionHandler));
 
             // transaction is already active, so this is a nested request
             this.startCount++;

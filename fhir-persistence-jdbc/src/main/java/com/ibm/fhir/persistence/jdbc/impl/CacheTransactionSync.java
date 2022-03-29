@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import javax.transaction.Status;
@@ -33,8 +34,8 @@ public class CacheTransactionSync implements Synchronization {
     
     private final String transactionDataKey;
 
-    // A callback when we hit a rollback
-    private final Runnable rolledBackHandler;
+    // Called after the transaction completes (true == committed; false == rolled back)
+    private final Consumer<Boolean> afterTransactionHandler;
 
     /**
      * Public constructor
@@ -42,14 +43,14 @@ public class CacheTransactionSync implements Synchronization {
      * @param txSyncRegistry
      * @param cache
      * @param transactionDataKey
-     * @param rolledBackHandler
+     * @param afterTransactionHandler
      */
     public CacheTransactionSync(TransactionSynchronizationRegistry txSyncRegistry, FHIRPersistenceJDBCCache cache, String transactionDataKey,
-            Runnable rolledBackHandler) {
+            Consumer<Boolean> afterTransactionHandler) {
         this.txSyncRegistry = txSyncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
-        this.rolledBackHandler = rolledBackHandler;
+        this.afterTransactionHandler = afterTransactionHandler;
     }
     
     @Override
@@ -71,13 +72,16 @@ public class CacheTransactionSync implements Synchronization {
     public void afterCompletion(int status) {
         if (status == Status.STATUS_COMMITTED) {
             cache.transactionCommitted();
+            if (afterTransactionHandler != null) {
+                afterTransactionHandler.accept(Boolean.TRUE);
+            }
         } else {
             // probably a rollback, so throw away everything
             logger.info("Transaction failed - afterCompletion(status = " + status + ")");
             cache.transactionRolledBack();
 
-            if (rolledBackHandler != null) {
-                rolledBackHandler.run();
+            if (afterTransactionHandler != null) {
+                afterTransactionHandler.accept(Boolean.FALSE);
             }
         }
     }

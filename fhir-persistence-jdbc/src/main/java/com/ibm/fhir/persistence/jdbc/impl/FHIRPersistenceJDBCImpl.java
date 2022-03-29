@@ -232,6 +232,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // A list of payload persistence responses in case we have a rollback to clean up
     private final List<PayloadPersistenceResponse> payloadPersistenceResponses = new ArrayList<>();
 
+    // A list of EraseResourceRec referencing offload resource records to erase if the current transaction commits
+    private final List<ErasedResourceRec> eraseResourceRecs = new ArrayList<>();
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -267,12 +270,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
         this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, () -> handleRollback());
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, (committed) -> transactionCompleted(committed));
 
         // Use of legacy whole-system search parameters disabled by default
         this.legacyWholeSystemSearchParamsEnabled =
                 fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
+        
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -368,6 +372,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
 
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
@@ -560,6 +569,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
+
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
@@ -1027,6 +1042,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
+
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             // Create a new Resource DTO instance to represent the deletion marker.
@@ -1518,15 +1539,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 resourceTypeId = getResourceTypeId(resourceType);
             }
 
-            // If a specific version of a resource has been deleted using $erase, it
-            // is possible for the result here to be null.
+            // If the resource has been deleted, no payload has been stored so there's no
+            // need to try and fetch it
             CompletableFuture<ResourceResult<? extends Resource>> cf;
             if (!resourceDTO.isDeleted()) {
                 // Trigger the read and stash the async response
                 cf = payloadPersistence.readResourceAsync(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), resourceDTO.getLastUpdated().toInstant(), elements);
             } else {
-                // Payload never stored for deletion markers, so there's no resource to read. Just
-                // knock up a new ResourceResult to represent the deleted resource in the result list
+                // Knock up a new ResourceResult to represent the deleted resource in the result list
                 ResourceResult.Builder<? extends Resource> builder = new ResourceResult.Builder<>();
                 builder.logicalId(resourceDTO.getLogicalId());
                 builder.resourceTypeName(rowResourceTypeName);
@@ -2724,31 +2744,51 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Callback from TransactionData when a transaction has been rolled back
-     * @param payloadPersistenceResponses an immutable list of {@link PayloadPersistenceResponse}
+     * Callback from TransactionData when a transaction has ended (after commit or rollback)
+     * @param committed true if the transaction completed, or false if it rolled back
      */
-    private void handleRollback() {
-        if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
-            throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
-        }
-        // try to delete each of the payload objects we've stored
-        // because the transaction has been rolled back
-        log.fine("starting rollback handling for PayloadPersistenceResponse data");
-        for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
-            try {
-                log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
-                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
-                        ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
-            } catch (Exception x) {
-                // Nothing more we can do other than log the issue. Any rows we can't process
-                // here (e.g. network outage) will be orphaned. These orphaned rows
-                // will be removed by the reconciliation process which scans the payload
-                // persistence repository and looks for missing RDBMS records.
-                log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+    private void transactionCompleted(Boolean committed) {
+        if (committed) {
+            // See if we have any erase resources to clean up
+            for (ErasedResourceRec err: this.eraseResourceRecs) {
+                try {
+                    erasePayload(err);
+                } catch (Exception x) {
+                    // The transaction has already committed, so we don't want to fail
+                    // the request. This is a server-side issue now so all we can do is
+                    // log.
+                    log.log(Level.SEVERE, "failed to erase offload payload for '" 
+                            + err.toString() 
+                            + "'. Run reconciliation to ensure this record is removed.", x);
+                }
+            }
+        } else {
+            // Try to delete each of the payload objects we've stored in this
+            // transaction because the transaction has been rolled back
+            if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
+                throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
+            }
+
+            log.fine("starting rollback handling for PayloadPersistenceResponse data");
+            for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
+                try {
+                    log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
+                    payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
+                            ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
+                } catch (Exception x) {
+                    // Nothing more we can do other than log the issue. Any rows we can't process
+                    // here (e.g. network outage) will be orphaned. These orphaned rows
+                    // will be removed by the reconciliation process which scans the payload
+                    // persistence repository and looks for missing RDBMS records.
+                    log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+                }
             }
         }
 
+        // important to clear this list after each transaction because batch bundles
+        // use the same FHIRPersistenceJDBCImpl instance for each entry
         payloadPersistenceResponses.clear();
+        eraseResourceRecs.clear();
     }
 
     /**
@@ -2786,7 +2826,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw fx;
         }
 
-        // At this stage we also need to check that any (async) payload offload operations have completed
+        // At this stage we also need to check that any (async) payload offload operations related
+        // to the current transaction have completed
         for (PayloadPersistenceResponse ppr: this.payloadPersistenceResponses) {
             try {
                 log.fine(() -> "Getting storePayload() async result for: " + ppr.toString());
@@ -2926,9 +2967,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void erasePayloads(EraseResourceDAO dao, long erasedResourceGroupId) throws FHIRPersistenceException {
         List<ErasedResourceRec> recs = dao.getErasedResourceRecords(erasedResourceGroupId);
-        for (ErasedResourceRec rec: recs) {
-            erasePayload(rec);
-        }
+
+        // Stash this list so that we can do the erase after the transaction commits
+        eraseResourceRecs.addAll(recs);
 
         // If the above loop completed without throwing an exception, we can safely
         // remove all the records in the group. If an exception was thrown (because
@@ -3000,8 +3041,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
             PayloadPersistenceResponse response = payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
 
-            // register the response object so that we can clean up in case of a rollback later
-            this.payloadPersistenceResponses.add(response);
+            // We don't record the response in the payloadPersistenceResponses list yet because
+            // for batch bundles, there are multiple transactions and the list should contain
+            // only those responses relevant to the current transaction
             return response;
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null
