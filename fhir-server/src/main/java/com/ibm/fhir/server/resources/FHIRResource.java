@@ -216,7 +216,7 @@ public class FHIRResource {
      *            the path and query parts
      * @return the full URI value as a String
      */
-    protected String getAbsoluteUri(String baseUri, String relativeUri) {
+    protected String buildAbsoluteUri(String baseUri, String relativeUri) {
         StringBuilder fullUri = new StringBuilder();
         fullUri.append(baseUri);
         if (!baseUri.endsWith("/")) {
@@ -438,59 +438,6 @@ public class FHIRResource {
      */
     protected String getRequestUri() throws Exception {
         return FHIRRequestContext.get().getOriginalRequestUri();
-    }
-
-    /**
-     * This method returns the "base URI" associated with the current request. For example, if a client invoked POST
-     * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
-     * "https://myhost:9443/fhir-server/api/v4".
-     *
-     * @param type
-     *      The resource type associated with the request URI (e.g. "Patient" in the case of
-     *      https://myhost:9443/fhir-server/api/v4/Patient), or null if there is no such resource type
-     * @return The base endpoint URI associated with the current request.
-     * @throws Exception if an error occurs while reading the config
-     * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the
-     *           <a href="https://www.hl7.org/fhir/http.html#general">Service Base URL</a>
-     */
-    protected String getRequestBaseUri(String type) throws Exception {
-        String baseUri = null;
-
-        String requestUri = getRequestUri();
-
-        // Strip off everything after the path
-        int queryPathSeparatorLoc = requestUri.indexOf("?");
-        if (queryPathSeparatorLoc != -1) {
-            baseUri = requestUri.substring(0, queryPathSeparatorLoc);
-        } else {
-            baseUri = requestUri;
-        }
-
-        // Strip off any path elements after the base
-        if (type != null && !type.isEmpty()) {
-            int resourceNamePathLocation = baseUri.indexOf("/" + type + "/");
-            if (resourceNamePathLocation != -1) {
-                baseUri = requestUri.substring(0, resourceNamePathLocation);
-            } else {
-                resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
-                if (resourceNamePathLocation != -1) {
-                    baseUri = requestUri.substring(0, resourceNamePathLocation);
-                } else {
-                    // Assume the request was a batch/transaction and just use the requestUri as the base
-                    baseUri = requestUri;
-                }
-            }
-        } else {
-            if (baseUri.endsWith("/_history")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
-            } else if (baseUri.endsWith("/_search")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
-            } else if (baseUri.contains("/$")) {
-                baseUri = baseUri.substring(0, baseUri.lastIndexOf("/$"));
-            }
-        }
-
-        return baseUri;
     }
 
     /**

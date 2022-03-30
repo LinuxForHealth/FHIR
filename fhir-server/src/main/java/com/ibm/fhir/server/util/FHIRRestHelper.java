@@ -700,7 +700,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             event.setFhirResource(newResource);
             event.setPrevFhirResource(ior.getPrevResource());
 
-            // Next, invoke the 'beforeUpdate' or 'beforeCreate' interceptor methods as appropriate.
+            // Next, invoke the 'beforeCreate', 'beforePatch', or 'beforeUpdate' interceptor methods as appropriate.
             boolean updateCreate = (ior.getPrevResource() == null);
             if (updateCreate) {
                 getInterceptorMgr().fireBeforeCreateEvent(event);
@@ -1237,21 +1237,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Performs the work of retrieving versions of a Resource.
-     *
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param queryParameters
-     *            a Map containing the query parameters from the request URL
-     * @param requestUri the URI from the request
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a Bundle containing the history of the specified Resource
-     * @throws Exception
-     */
     @Override
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
             throws Exception {
@@ -2350,12 +2335,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Determine the correct method to include in this history entry (POST, PUT, DELETE).
             HTTPVerb method;
+            String status;
             if (resourceResult.isDeleted() || resource == null) {
                 method = HTTPVerb.DELETE;
+                status = "200";
             } else if (resourceResult.getVersion() == 1) {
                 method = HTTPVerb.POST;
+                status = "201";
             } else {
                 method = HTTPVerb.PUT;
+                // TODO can we set this more intelligently (e.g. in the case of a DELETE followed by a PUT)
+                status = "200";
             }
 
             // Create the 'request' entry, and set the request.url field.
@@ -2363,24 +2353,26 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // 'update'/'delete' --> url = "<resourceType>/<logicalId>"
             final String resourceType = resourceResult.getResourceTypeName();
             final String resourcePath = resourceType + "/" + resourceResult.getLogicalId();
-            Entry.Request request =
-                    Entry.Request.builder().method(method)
-                        .url(Url.of(method == HTTPVerb.POST ? resourceType : resourcePath))
-                        .build();
+            Entry.Request request = Entry.Request.builder()
+                    .method(method)
+                    .url(Url.of(method == HTTPVerb.POST ? resourceType : resourcePath))
+                    .build();
 
-            Entry.Response response =
-                    Entry.Response.builder()
-                    .status(string("200"))
+            String fullUrl = getRequestBaseUri(type) + "/" + resourcePath;
+
+            Entry.Response response = Entry.Response.builder()
+                    .status(status)
                     .etag(getEtagValue(resourceResult.getVersion()))
+                    .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
                     .build();
 
-            Entry entry =
-                    Entry.builder().request(request)
-                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resourcePath))
-                        .response(response)
-                        .resource(resource)
-                        .build();
+            Entry entry = Entry.builder()
+                    .fullUrl(Uri.of(fullUrl))
+                    .request(request)
+                    .response(response)
+                    .resource(resource)
+                    .build();
 
             bundleBuilder.entry(entry);
         }
@@ -2413,8 +2405,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             selfUri = requestUri;
         }
         // create 'self' link
-        Bundle.Link selfLink =
-                Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
+        Bundle.Link selfLink = Bundle.Link.builder()
+                .relation(string("self"))
+                .url(Url.of(selfUri))
+                .build();
         bundleBuilder.link(selfLink);
 
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
@@ -2485,34 +2479,22 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * Get the original request URI from either the HttpServletRequest or a configured Header (in case of re-writing proxies).
-     *
-     * <p>When the 'fhirServer/core/originalRequestUriHeaderName' property is empty, this method returns the equivalent of
-     * uriInfo.getRequestUri().toString(), except that uriInfo.getRequestUri() will throw an IllegalArgumentException
-     * when the query string portion contains a vertical bar | character. The vertical bar is one known case of a special character
-     * causing the exception. There could be others.
-     *
-     * @return String The complete request URI
-     * @throws Exception if an error occurs while reading the config
-     */
-    private String getRequestUri() throws Exception {
-        return FHIRRequestContext.get().getOriginalRequestUri();
-    }
-
-    /**
      * This method returns the "base URI" associated with the current request. For example, if a client invoked POST
      * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
      * "https://myhost:9443/fhir-server/api/v4".
      *
+     * @param type
+     *      The resource type associated with the request URI (e.g. "Patient" in the case of
+     *      https://myhost:9443/fhir-server/api/v4/Patient), or null if there is no such resource type
      * @return The base endpoint URI associated with the current request.
      * @throws Exception if an error occurs while reading the config
-     * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the
-     *           <a href="https://www.hl7.org/fhir/http.html#general">Service Base URL</a>
+     * @implNote This method uses {@link FHIRRequestContext#getOriginalRequestUri()} to get the original request URI
+     *      and then strips it to the <a href="https://www.hl7.org/fhir/http.html#general">Service Base URL</a>
      */
-    private String getRequestBaseUri(String type) throws Exception {
+    public static String getRequestBaseUri(String type) throws Exception {
         String baseUri = null;
 
-        String requestUri = getRequestUri();
+        String requestUri = FHIRRequestContext.get().getOriginalRequestUri();
 
         // Strip off everything after the path
         int queryPathSeparatorLoc = requestUri.indexOf("?");
@@ -2524,15 +2506,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Strip off any path elements after the base
         if (type != null && !type.isEmpty()) {
-            int resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
+            int resourceNamePathLocation = baseUri.indexOf("/" + type + "/");
             if (resourceNamePathLocation != -1) {
-                baseUri = requestUri.substring(0, resourceNamePathLocation);
+                baseUri = baseUri.substring(0, resourceNamePathLocation);
             } else {
-                // Assume the request was a batch/transaction; nothing to strip
+                resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
+                if (resourceNamePathLocation != -1) {
+                    baseUri = baseUri.substring(0, resourceNamePathLocation);
+                } else {
+                    // Assume the request was a batch/transaction; nothing to strip
+                }
             }
         }
 
-        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type, or $everything-based search)
+        // Strip any path segments for whole-system interactions
+        // (in case of whole-system search, "Resource" is passed as the type, or $everything-based search)
         if (type == null || type.isEmpty() || "Resource".equals(type) || baseUri.contains("$everything")) {
             if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
@@ -3075,8 +3063,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
         } catch (FHIRPersistenceDataAccessException x) {
-            log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}",
-                x);
+            log.log(Level.SEVERE, "Error reading history; params = {" + historyContext + "}", x);
             throw x;
         } finally {
             txn.end();
@@ -3116,29 +3103,32 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Entry.Response.Builder responseBuilder = Entry.Response.builder();
             switch (changeRecord.getChangeType()) {
             case CREATE:
-                requestBuilder.method(HTTPVerb.POST);
+                requestBuilder.method(changeRecord.getVersionId() > 1 ? HTTPVerb.PUT : HTTPVerb.POST);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("201 Created"));
+                responseBuilder.status("201");
                 break;
             case UPDATE:
                 requestBuilder.method(HTTPVerb.PUT);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status("200");
                 break;
             case DELETE:
                 requestBuilder.method(HTTPVerb.DELETE);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status("200");
                 break;
             }
 
+            String fullUrl = getRequestBaseUri(resourceType) + "/" + changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId();
+
             responseBuilder.lastModified(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
-            responseBuilder.location(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId() + "/_history/" + changeRecord.getVersionId()));
+            responseBuilder.etag("W/\"" + changeRecord.getVersionId() + "\"");
+            responseBuilder.location(Url.of(fullUrl + "/_history/" + changeRecord.getVersionId()));
 
             // Per the R4 spec, the fullUrl should not contain _history/:vid
             Entry.Builder entryBuilder = Entry.builder();
             entryBuilder.id(Long.toString(changeRecord.getChangeId()));
-            entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
+            entryBuilder.fullUrl(Url.of(fullUrl));
             entryBuilder.request(requestBuilder.build());
             entryBuilder.response(responseBuilder.build());
 

@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -151,7 +152,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
             }
@@ -225,6 +226,17 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
+
+        for (Entry entry : bundle.getEntry()) {
+            String fullUrl = entry.getFullUrl().getValue();
+            Resource resource = entry.getResource();
+            if (resource == null) {
+                assertTrue(fullUrl.startsWith(getRestBaseURL()));
+            } else {
+                assertEquals(fullUrl, getRestBaseURL() + "/" +
+                        resource.getClass().getSimpleName() + "/" + resource.getId());
+            }
+        }
     }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
@@ -280,7 +292,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -358,7 +370,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -435,7 +447,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 

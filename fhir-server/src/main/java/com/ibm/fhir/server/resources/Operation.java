@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.resources;
 
 import static com.ibm.fhir.server.spi.operation.FHIROperationUtil.checkAndVerifyOperationAllowed;
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
@@ -505,7 +506,7 @@ public class Operation extends FHIRResource {
                 (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);
         if (locationURI != null) {
             return Response.status(status)
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(resourceTypeName), locationURI.toString())))
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(resourceTypeName), locationURI.toString())))
                     .entity(resource)
                     .build();
         }
