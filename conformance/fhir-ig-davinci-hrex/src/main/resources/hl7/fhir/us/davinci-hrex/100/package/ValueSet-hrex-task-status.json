@@ -1,92 +1,92 @@
 {
-	"resourceType": "ValueSet",
-	"id": "hrex-task-status",
-	"text": {
-		"status": "empty",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
-	},
-	"extension": [
-		{
-			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
-			"valueInteger": 2,
-			"_valueInteger": {
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
-						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
-					}
-				]
-			}
-		},
-		{
-			"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-			"valueCode": "trial-use",
-			"_valueCode": {
-				"extension": [
-					{
-						"url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
-						"valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
-					}
-				]
-			}
-		}
-	],
-	"url": "http://hl7.org/fhir/us/davinci-hrex/ValueSet/hrex-task-status",
-	"version": "1.0.0",
-	"name": "HRexTaskStatus",
-	"title": "HRex Task Status ValueSet",
-	"status": "draft",
-	"date": "2022-02-24T21:01:30+00:00",
-	"publisher": "HL7 International - Clinical Interoperability Council",
-	"contact": [
-		{
-			"telecom": [
-				{
-					"system": "url",
-					"value": "http://www.hl7.org/Special/committees/cic"
-				}
-			]
-		}
-	],
-	"description": "The set of task codes allowed for use in HRex data request tasks",
-	"jurisdiction": [
-		{
-			"coding": [
-				{
-					"system": "urn:iso:std:iso:3166",
-					"code": "US"
-				}
-			]
-		}
-	],
-	"compose": {
-		"include": [
-			{
-				"system": "http://hl7.org/fhir/task-status",
-				"concept": [
-					{
-						"code": "requested"
-					},
-					{
-						"code": "accepted"
-					},
-					{
-						"code": "rejected"
-					},
-					{
-						"code": "in-progress"
-					},
-					{
-						"code": "failed"
-					},
-					{
-						"code": "completed"
-					},
-					{
-						"code": "on-hold"
-					}
-				]
-			}
-		]
-	}
+    "resourceType": "ValueSet",
+    "id": "hrex-task-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2,
+            "_valueInteger": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+                        "valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use",
+            "_valueCode": {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-conformance-derivedFrom",
+                        "valueCanonical": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/davinci-hrex"
+                    }
+                ]
+            }
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/davinci-hrex/ValueSet/hrex-task-status",
+    "version": "1.0.0",
+    "name": "HRexTaskStatus",
+    "title": "HRex Task Status ValueSet",
+    "status": "draft",
+    "date": "2022-03-23T18:55:58+00:00",
+    "publisher": "HL7 International - Clinical Interoperability Council",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cic"
+                }
+            ]
+        }
+    ],
+    "description": "The set of task codes allowed for use in HRex data request tasks",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/task-status",
+                "concept": [
+                    {
+                        "code": "requested"
+                    },
+                    {
+                        "code": "accepted"
+                    },
+                    {
+                        "code": "rejected"
+                    },
+                    {
+                        "code": "in-progress"
+                    },
+                    {
+                        "code": "failed"
+                    },
+                    {
+                        "code": "completed"
+                    },
+                    {
+                        "code": "on-hold"
+                    }
+                ]
+            }
+        ]
+    }
 }

@@ -787,10 +787,12 @@ public class BundleTest extends FHIRServerTestBase {
 
         boolean result = false;
         for(Bundle.Entry entry : resultSet) {
-            String returnedStatus = entry.getResponse().getStatus().getValue();
-            assertNotNull(returnedStatus);
-            assertTrue(returnedStatus.startsWith("200") || returnedStatus.startsWith("201"));
-            result = true;
+            if(entry.getResponse() != null){
+                String returnedStatus = entry.getResponse().getStatus().getValue();
+                assertNotNull(returnedStatus);
+                assertTrue(returnedStatus.startsWith("200") || returnedStatus.startsWith("201"));
+                result = true;
+            }
         }
         assertTrue("Test the entries are processed", result);
     }

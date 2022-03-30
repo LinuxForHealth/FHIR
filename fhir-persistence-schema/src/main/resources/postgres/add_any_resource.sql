@@ -165,7 +165,7 @@ BEGIN
       || ' VALUES ($1, $2, $3, $4, $5, $6, $7)'
     USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
 
-  
+
   IF v_new_resource = 0 THEN
     -- As this is an existing logical resource, we need to update the xx_logical_resource values to match
     -- the values of the current resource. For new resources, these are added by the insert so we don't
@@ -184,7 +184,7 @@ BEGIN
   THEN
     v_change_type := 'D';
   ELSE 
-    IF v_new_resource = 0
+    IF v_new_resource = 0 AND v_currently_deleted = 'N'
     THEN
       v_change_type := 'U';
     ELSE

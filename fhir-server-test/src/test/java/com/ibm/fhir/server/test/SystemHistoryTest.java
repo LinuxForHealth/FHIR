@@ -84,29 +84,26 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         Patient patient = TestUtil.readLocalResource("patient-example-a.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
-        Entity<Patient> entity =
-                Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response =
-                target.path("Patient").request()
-                .post(entity, Response.class);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
         this.patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/"
-                + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        response = target.path("Patient/" + patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, responsePatient);
 
-        updateResource(responsePatient);                    // 1
         updateResource(responsePatient);                    // 2
-        deleteResource("Patient", responsePatient.getId()); // 3
-        undeleteResource(responsePatient);                  // 4
-        updateResource(responsePatient);                    // 5
+        updateResource(responsePatient);                    // 3
+        deleteResource("Patient", responsePatient.getId()); // 4
+        undeleteResource(responsePatient);                  // 5
+        updateResource(responsePatient);                    // 6
 
         // Create an Observation, so that we can check the type filtering works
         Observation observation =
@@ -120,6 +117,48 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertResponse(observationResponse, Response.Status.CREATED.getStatusCode());
     }
 
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testInstanceHistory() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        assertNotNull(this.patientId);
+
+        // number of versions created in populateResourcesForHistory
+        int totalVersions = 6;
+
+        // Arrays for storing the result entry data
+        String[] httpVerbs = new String[totalVersions];
+        String[] statusCodes = new String[totalVersions];
+
+        String requestPath = "Patient/" + patientId + "/_history";
+        int found = 0;
+        Response historyResponse = target.path(requestPath).request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+
+        // Check the bundle to see if we found the patient
+        for (Bundle.Entry be: bundle.getEntry()) {
+            // simple way to see if our patient has appeared
+            String fullUrl = be.getFullUrl().getValue();
+            if (fullUrl.contains("Patient/" + patientId)) {
+                found++;
+                String locationURL = be.getResponse().getLocation().getValue();
+                // example:  "https://example.com/fhir/Patient/id/_history/5"
+                int versionId = Integer.parseInt(locationURL.substring(locationURL.lastIndexOf("/") + 1));
+                httpVerbs[versionId - 1] = be.getRequest().getMethod().getValue();
+                statusCodes[versionId - 1] = be.getResponse().getStatus().getValue();
+            }
+        }
+
+        assertEquals(found, totalVersions, "All versions of the resource should have a single entry");
+        assertEquals(httpVerbs, new String[]{"POST", "PUT", "PUT", "DELETE", "PUT", "PUT"});
+        // the 5th entry should be a 201 but is a 200 due to https://github.com/IBM/FHIR/issues/3507#issuecomment-1081157116
+        assertEquals(statusCodes, new String[]{"201", "200", "200", "200", "200", "200"});
+    }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithTypePatient() throws Exception {
@@ -135,14 +174,21 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
 
-        // Follow the next links until we get
+        // number of versions created in populateResourcesForHistory
+        int totalVersions = 6;
+
+        // Arrays for storing the result entry data
+        String[] httpVerbs = new String[totalVersions];
+        String[] statusCodes = new String[totalVersions];
+
+        // Follow the next links until we get all the versions for the target Patient resource
         String requestPath = "Patient/_history";
-        boolean found = false;
-        int count;
+        int found = 0;
+        int count = 10;
         do {
             Response historyResponse =
                     target.path(requestPath)
-                    .queryParam("_count", "2")
+                    .queryParam("_count", Integer.toString(count))
                     .request().get(Response.class);
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
@@ -152,21 +198,22 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
-                    found = true;
+                if (fullUrl.contains("Patient/" + patientId)) {
+                    found++;
+                    String locationURL = be.getResponse().getLocation().getValue();
+                    // example:  "https://example.com/fhir/Patient/id/_history/5"
+                    int versionId = Integer.parseInt(locationURL.substring(locationURL.lastIndexOf("/") + 1));
+                    httpVerbs[versionId - 1] = be.getRequest().getMethod().getValue();
+                    statusCodes[versionId - 1] = be.getResponse().getStatus().getValue();
                 }
             }
 
-            // See if there's more work to do
-            count = bundle.getEntry().size();
-            if (!found && count > 0) {
-                // set up to follow the next link
-                requestPath = getNextLink(bundle);
-                assertNotNull(requestPath);
-            }
-        } while (count > 0 && !found);
+            requestPath = getNextLink(bundle);
+        } while (found < totalVersions && requestPath != null);
 
-        assertTrue(found, "Patient id in history");
+        assertEquals(found, totalVersions, "All versions of the resource should have a single entry");
+        assertEquals(httpVerbs, new String[]{"POST", "PUT", "PUT", "DELETE", "PUT", "PUT"});
+        assertEquals(statusCodes, new String[]{"201", "200", "200", "200", "201", "200"});
     }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})

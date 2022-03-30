@@ -10,9 +10,7 @@
 	"beneficiary": {
 		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
 	},
-	"payor": [
-		{
-			"reference": "Organization/min"
-		}
-	]
+	"payor": [{
+		"reference": "Organization/min"
+	}]
 }

@@ -1134,4 +1134,9 @@ public class FHIRClientImpl implements FHIRClient {
     public void setHttpReturnPref(HTTPReturnPreference returnPref) {
         this.httpReturnPref = returnPref;
     }
+
+    @Override
+    public String getTenantId() {
+        return this.tenantId == null ? "default" : this.tenantId;
+    }
 }

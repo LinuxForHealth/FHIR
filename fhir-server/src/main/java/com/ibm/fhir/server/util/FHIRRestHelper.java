@@ -2302,8 +2302,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     /**
      * Creates a bundle that will hold the results of a history operation.
      *
-     * @param resources
-     *            the list of resources to include in the bundle
+     * @param resourcesResults
+     *            the list of resource results to include in the history bundle
      * @param historyContext
      *            the FHIRHistoryContext associated with the history operation
      * @param type
@@ -2340,11 +2340,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 method = HTTPVerb.DELETE;
                 status = "200";
             } else if (resourceResult.getVersion() == 1) {
+                // it may have been a PUT in the create-on-update case, but we use POST here anyway
                 method = HTTPVerb.POST;
                 status = "201";
             } else {
                 method = HTTPVerb.PUT;
-                // TODO can we set this more intelligently (e.g. in the case of a DELETE followed by a PUT)
+                // it may have been a 201 (Created) in the "undelete" case, but we use 200 here anyway
                 status = "200";
             }
 
@@ -2365,6 +2366,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     .etag(getEtagValue(resourceResult.getVersion()))
                     .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
+                    .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .build();
 
             Entry entry = Entry.builder()

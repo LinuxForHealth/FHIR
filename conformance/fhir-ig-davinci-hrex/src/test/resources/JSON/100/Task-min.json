@@ -8,12 +8,10 @@
 	"status": "requested",
 	"intent": "order",
 	"code": {
-		"coding": [
-			{
-				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-				"code": "data-request"
-			}
-		]
+		"coding": [{
+			"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+			"code": "data-request"
+		}]
 	},
 	"for": {
 		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
@@ -25,17 +23,13 @@
 	"owner": {
 		"reference": "http://example.org/provider/fhir/Organization/hl7prov"
 	},
-	"input": [
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-						"code": "data-query"
-					}
-				]
-			},
-			"valueString": "Condition?patient=Patient/pat1&clinical-status=active&code=http%3A%2F%2Fsnomed.info%2Fsct%7C73211009"
-		}
-	]
+	"input": [{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-query"
+			}]
+		},
+		"valueString": "Condition?patient=Patient/pat1&clinical-status=active&code=http%3A%2F%2Fsnomed.info%2Fsct%7C73211009"
+	}]
 }

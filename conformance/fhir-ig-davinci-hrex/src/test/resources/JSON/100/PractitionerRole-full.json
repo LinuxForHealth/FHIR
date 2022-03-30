@@ -11,70 +11,52 @@
 	"organization": {
 		"reference": "Organization/full"
 	},
-	"code": [
-		{
-			"coding": [
-				{
-					"system": "http://nucc.org/provider-taxonomy",
-					"code": "111N00000X"
-				}
-			]
-		},
-		{
-			"coding": [
-				{
-					"system": "http://nucc.org/provider-taxonomy",
-					"code": "122300000X"
-				}
-			]
-		}
-	],
-	"specialty": [
-		{
-			"coding": [
-				{
-					"system": "http://nucc.org/provider-taxonomy",
-					"code": "103TE1100X"
-				}
-			]
-		},
-		{
-			"coding": [
-				{
-					"system": "http://nucc.org/provider-taxonomy",
-					"code": "103TF0000X"
-				}
-			]
-		}
-	],
-	"location": [
-		{
-			"reference": "http://example.org/some-clinic/Location/1874"
-		},
-		{
-			"reference": "http://example.org/some-clinic/Location/9233"
-		}
-	],
-	"telecom": [
-		{
-			"system": "phone",
-			"value": "1-222-333-4444"
-		},
-		{
-			"system": "email",
-			"value": "ronald.bone@newpayer.com"
-		},
-		{
-			"system": "pager",
-			"value": "1(111)-1111111 - after 5pm"
-		}
-	],
-	"endpoint": [
-		{
-			"reference": "http://example.org/some-clinic/EndPoint/1"
-		},
-		{
-			"reference": "http://example.org/some-clinic/EndPoint/2"
-		}
-	]
+	"code": [{
+		"coding": [{
+			"system": "http://nucc.org/provider-taxonomy",
+			"code": "111N00000X"
+		}]
+	},
+	{
+		"coding": [{
+			"system": "http://nucc.org/provider-taxonomy",
+			"code": "122300000X"
+		}]
+	}],
+	"specialty": [{
+		"coding": [{
+			"system": "http://nucc.org/provider-taxonomy",
+			"code": "103TE1100X"
+		}]
+	},
+	{
+		"coding": [{
+			"system": "http://nucc.org/provider-taxonomy",
+			"code": "103TF0000X"
+		}]
+	}],
+	"location": [{
+		"reference": "http://example.org/some-clinic/Location/1874"
+	},
+	{
+		"reference": "http://example.org/some-clinic/Location/9233"
+	}],
+	"telecom": [{
+		"system": "phone",
+		"value": "1-222-333-4444"
+	},
+	{
+		"system": "email",
+		"value": "ronald.bone@newpayer.com"
+	},
+	{
+		"system": "pager",
+		"value": "1(111)-1111111 - after 5pm"
+	}],
+	"endpoint": [{
+		"reference": "http://example.org/some-clinic/EndPoint/1"
+	},
+	{
+		"reference": "http://example.org/some-clinic/EndPoint/2"
+	}]
 }

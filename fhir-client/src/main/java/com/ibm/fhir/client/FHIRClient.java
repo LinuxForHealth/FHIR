@@ -487,4 +487,10 @@ public interface FHIRClient {
      * Allow the client consumer to be able to get and reuse the same TrustStore if necessary.
      */
     KeyStore getTrustStore();
+
+    /**
+     * Get the value of the tenant name the client is currently configured to use
+     * @return
+     */
+    String getTenantId();
 }
