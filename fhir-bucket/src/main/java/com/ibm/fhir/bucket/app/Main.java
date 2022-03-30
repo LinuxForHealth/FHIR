@@ -611,6 +611,10 @@ public class Main {
             }
         }
 
+        if (cosProperties != null && cosProperties.size() > 0) {
+            cosClient = new COSClient(cosProperties);
+        }
+
         // We constrain the number of concurrent tasks which are inflight, so a breathable
         // pool works nicely because it cannot grow unbounded
         this.commonPool = Executors.newCachedThreadPool();
@@ -993,11 +997,7 @@ public class Main {
             if (!this.cosBucketList.isEmpty()) {
                 // Process using COS as our source data repository
                 if (cosClient == null) {
-                    if (cosProperties != null && cosProperties.size() > 0) {
-                        cosClient = new COSClient(cosProperties);
-                    } else {
-                        throw new IllegalArgumentException("COS configuration required");
-                    }
+                    throw new IllegalArgumentException("COS configuration required");
                 }
 
                 final IResourceEntryProcessor resourceEntryProcessor;
@@ -1094,9 +1094,8 @@ public class Main {
             // without using a tracking database, see isImmediateLocal
             List<String> localDirList = Collections.singletonList(this.baseDirectory);
             this.scanner = new LocalFileScanner(localDirList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
-        } else if (cosProperties != null && cosProperties.size() > 0) {
+        } else if (cosClient != null) {
             // Set up the scanner to look for new COS objects and register them in our database
-            cosClient = new COSClient(cosProperties);
             this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
         } else {
             throw new IllegalArgumentException("No COS or File scanner configuration. Use --no-scan when scanning is not required");
