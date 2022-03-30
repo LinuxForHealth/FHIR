@@ -91,7 +91,7 @@ public final class InteractionFactory {
             for (int i = 0; i < maxExecutions; i++) {
                 try {
                     Response r = client.getWebTarget().path("/" + resourceType + "/" + logicalId
-                            + "/$erase").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "default").header("X-FHIR-DSID", "default").post(entity, Response.class);
+                            + "/$erase").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", client.getTenantId()).header("X-FHIR-DSID", "default").post(entity, Response.class);
                     assertTrue(r.getStatus() == Response.Status.OK.getStatusCode() || r.getStatus() == Response.Status.NOT_FOUND.getStatusCode());
                     Thread.sleep(1000);
                 } catch (Exception e) {
