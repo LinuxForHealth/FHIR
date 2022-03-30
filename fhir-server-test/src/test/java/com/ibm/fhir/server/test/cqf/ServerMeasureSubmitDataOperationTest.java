@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.InputStream;
 import java.io.StringReader;
+import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
@@ -22,9 +23,11 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -41,6 +44,7 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.MeasureReportStatus;
 import com.ibm.fhir.model.type.code.MeasureReportType;
+import com.ibm.fhir.validation.FHIRValidator;
 
 public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTest {
 
