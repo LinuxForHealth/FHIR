@@ -2318,7 +2318,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * Creates a bundle that will hold the results of a history operation.
      *
      * @param resourcesResults
-     *            the list of resource results to include in the bundle, sorted with the more recent changes first
+     *            the list of resource results to include in the history bundle
      * @param historyContext
      *            the FHIRHistoryContext associated with the history operation
      * @param type
