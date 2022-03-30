@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import javax.transaction.Status;
@@ -33,8 +34,8 @@ public class CacheTransactionSync implements Synchronization {
     
     private final String transactionDataKey;
 
-    // A callback when we hit a rollback
-    private final Runnable rolledBackHandler;
+    // Called after the transaction completes (true == committed; false == rolled back)
+    private final Consumer<Boolean> afterTransactionHandler;
 
     /**
      * Public constructor
@@ -42,14 +43,14 @@ public class CacheTransactionSync implements Synchronization {
      * @param txSyncRegistry
      * @param cache
      * @param transactionDataKey
-     * @param rolledBackHandler
+     * @param afterTransactionHandler a handler called after the transaction completes (true == committed; false == rolled back)
      */
     public CacheTransactionSync(TransactionSynchronizationRegistry txSyncRegistry, FHIRPersistenceJDBCCache cache, String transactionDataKey,
-            Runnable rolledBackHandler) {
+            Consumer<Boolean> afterTransactionHandler) {
         this.txSyncRegistry = txSyncRegistry;
         this.cache = cache;
         this.transactionDataKey = transactionDataKey;
-        this.rolledBackHandler = rolledBackHandler;
+        this.afterTransactionHandler = afterTransactionHandler;
     }
     
     @Override
@@ -71,14 +72,62 @@ public class CacheTransactionSync implements Synchronization {
     public void afterCompletion(int status) {
         if (status == Status.STATUS_COMMITTED) {
             cache.transactionCommitted();
+            if (afterTransactionHandler != null) {
+                afterTransactionHandler.accept(Boolean.TRUE);
+            }
         } else {
             // probably a rollback, so throw away everything
-            logger.info("Transaction failed - afterCompletion(status = " + status + ")");
+            logger.info("Transaction failed - afterCompletion(status = " + translateStatus(status) + ")");
             cache.transactionRolledBack();
 
-            if (rolledBackHandler != null) {
-                rolledBackHandler.run();
+            if (afterTransactionHandler != null) {
+                afterTransactionHandler.accept(Boolean.FALSE);
             }
         }
+    }
+
+    /**
+     * Translate the transaction Status value to a meaningful name
+     * @param status a value from {@link javax.transaction.Status}
+     * @return a string describing the transaction status
+     */
+    public static String translateStatus(int status) {
+        String result;
+        switch (status) {
+        case Status.STATUS_ACTIVE:
+            result = "STATUS_ACTIVE";
+            break;
+        case Status.STATUS_MARKED_ROLLBACK:
+            result = "STATUS_MARKED_ROLLBACK";
+            break;
+        case Status.STATUS_PREPARED:
+            result = "STATUS_PREPARED";
+            break;
+        case Status.STATUS_COMMITTED:
+            result = "STATUS_COMMITTED";
+            break;
+        case Status.STATUS_ROLLEDBACK:
+            result = "STATUS_ROLLEDBACK";
+            break;
+        case Status.STATUS_UNKNOWN:
+            result = "STATUS_UNKNOWN";
+            break;
+        case Status.STATUS_NO_TRANSACTION:
+            result = "STATUS_NO_TRANSACTION";
+            break;
+        case Status.STATUS_PREPARING:
+            result = "STATUS_PREPARING";
+            break;
+        case Status.STATUS_COMMITTING:
+            result = "STATUS_COMMITTING";
+            break;
+        case Status.STATUS_ROLLING_BACK:
+            result = "STATUS_ROLLING_BACK";
+            break;
+        default:
+            result = "INVALID_" + status;
+            break;
+        }
+        return result;
     }
 }
