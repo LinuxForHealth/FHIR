@@ -28,6 +28,7 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
     
     private final String transactionDataKey;
     
+    // Called after the transaction completes (true == committed; false == rolled back)
     private final Consumer<Boolean> afterTransactionHandler;
 
     /**
@@ -37,7 +38,7 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
      * @param syncReg
      * @param cache
      * @param transactionDataKey
-     * @param afterTransactionHandler
+     * @param afterTransactionHandler a handler called after the transaction completes (true == committed; false == rolled back)
      */
     public FHIRUserTransactionFactory(UserTransaction tx, TransactionSynchronizationRegistry syncReg, FHIRPersistenceJDBCCache cache, String transactionDataKey,
             Consumer<Boolean> afterTransactionHandler) {

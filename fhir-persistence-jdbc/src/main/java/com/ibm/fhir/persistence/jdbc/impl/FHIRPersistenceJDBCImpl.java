@@ -2748,6 +2748,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param committed true if the transaction completed, or false if it rolled back
      */
     private void transactionCompleted(Boolean committed) {
+        // Because of how this is called, committed should never be null 
+        // but we check just to be safe
+        Objects.requireNonNull(committed, "committed must be non-null");
+
         if (committed) {
             // See if we have any erase resources to clean up
             for (ErasedResourceRec err: this.eraseResourceRecs) {
