@@ -187,11 +187,4 @@ public class ServerMeasureSubmitDataOperationTest extends BaseMeasureOperationTe
             assertNotNull(output);
         }
     }
-
-    @Test
-    public void validatePatient() throws Exception {
-        Resource patient = TestUtil.readLocalResource("testdata/MeasureReport-EXM104.json");
-        List<Issue> issues = FHIRValidator.validator().validate(patient);
-        issues.forEach(System.out::println);
-    }
 }
