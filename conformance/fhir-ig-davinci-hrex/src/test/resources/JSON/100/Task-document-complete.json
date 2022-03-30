@@ -8,12 +8,10 @@
 	"status": "completed",
 	"intent": "order",
 	"code": {
-		"coding": [
-			{
-				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-				"code": "data-request"
-			}
-		]
+		"coding": [{
+			"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+			"code": "data-request"
+		}]
 	},
 	"for": {
 		"reference": "http://example.org/new-payer/fhir/Patient/pat1"
@@ -31,52 +29,40 @@
 	"reasonReference": {
 		"reference": "http://example.org/new-payer/fhir/Claim/123"
 	},
-	"input": [
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-						"code": "data-code"
-					}
-				]
-			},
-			"valueCodeableConcept": {
-				"coding": [
-					{
-						"system": "http://loinc.org",
-						"code": "34108-1"
-					}
-				]
-			}
-		}
-	],
-	"output": [
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-						"code": "data-value"
-					}
-				]
-			},
-			"valueReference": {
-				"reference": "http://example.org/new-payer/fhir/DocumentReference/727A23K5133"
-			}
+	"input": [{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-code"
+			}]
 		},
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
-						"code": "data-value"
-					}
-				]
-			},
-			"valueReference": {
-				"reference": "http://example.org/new-payer/fhir/DocumentReference/287Q73J237"
-			}
+		"valueCodeableConcept": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "34108-1"
+			}]
 		}
-	]
+	}],
+	"output": [{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-value"
+			}]
+		},
+		"valueReference": {
+			"reference": "http://example.org/new-payer/fhir/DocumentReference/727A23K5133"
+		}
+	},
+	{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/us/davinci-hrex/CodeSystem/hrex-temp",
+				"code": "data-value"
+			}]
+		},
+		"valueReference": {
+			"reference": "http://example.org/new-payer/fhir/DocumentReference/287Q73J237"
+		}
+	}]
 }

@@ -1,212 +1,168 @@
 {
 	"resourceType": "Parameters",
 	"id": "member-match-in-provider",
-	"parameter": [
-		{
-			"name": "MemberPatient",
-			"resource": {
-				"resourceType": "Patient",
-				"id": "1",
-				"identifier": [
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
-									"code": "MB"
-								}
-							]
-						},
-						"system": "http://example.org/target-payer/identifiers/member",
-						"value": "55678",
-						"assigner": {
-							"display": "Old Payer"
-						}
-					}
-				],
-				"name": [
-					{
-						"use": "official",
-						"family": "Person",
-						"given": [
-							"Patricia",
-							"Ann"
-						]
-					}
-				],
-				"gender": "female",
-				"birthDate": "1974-12-25"
-			}
-		},
-		{
-			"name": "CoverageToMatch",
-			"resource": {
-				"resourceType": "Coverage",
-				"id": "9876B1",
-				"identifier": [
-					{
-						"system": "http://example.org/old-payer",
-						"value": "DH10001235"
-					}
-				],
-				"status": "draft",
-				"beneficiary": {
-					"reference": "Patient/1"
+	"parameter": [{
+		"name": "MemberPatient",
+		"resource": {
+			"resourceType": "Patient",
+			"id": "1",
+			"identifier": [{
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "MB"
+					}]
 				},
+				"system": "http://example.org/target-payer/identifiers/member",
+				"value": "55678",
+				"assigner": {
+					"display": "Old Payer"
+				}
+			}],
+			"name": [{
+				"use": "official",
+				"family": "Person",
+				"given": ["Patricia",
+				"Ann"]
+			}],
+			"gender": "female",
+			"birthDate": "1974-12-25"
+		}
+	},
+	{
+		"name": "CoverageToMatch",
+		"resource": {
+			"resourceType": "Coverage",
+			"id": "9876B1",
+			"identifier": [{
+				"system": "http://example.org/old-payer",
+				"value": "DH10001235"
+			}],
+			"status": "draft",
+			"beneficiary": {
+				"reference": "Patient/1"
+			},
+			"period": {
+				"start": "2011-05-23",
+				"end": "2012-05-23"
+			},
+			"payor": [{
+				"identifier": {
+					"system": "http://hl7.org/fhir/sid/us-npi",
+					"value": "9876543210"
+				},
+				"display": "Old Health Plan"
+			}],
+			"class": [{
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+						"code": "group"
+					}]
+				},
+				"value": "CB135"
+			},
+			{
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+						"code": "plan"
+					}]
+				},
+				"value": "B37FC"
+			},
+			{
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+						"code": "subplan"
+					}]
+				},
+				"value": "P7"
+			},
+			{
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
+						"code": "class"
+					}]
+				},
+				"value": "SILVER"
+			}]
+		}
+	},
+	{
+		"name": "Consent",
+		"resource": {
+			"resourceType": "Consent",
+			"status": "active",
+			"scope": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/consentscope",
+					"code": "patient-privacy"
+				}]
+			},
+			"category": [{
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+					"code": "IDSCL"
+				}]
+			}],
+			"patient": {
+				"reference": "Patient/1"
+			},
+			"performer": [{
+				"reference": "Patient/1"
+			}],
+			"sourceReference": {
+				"reference": "http://example.org/DocumentReference/someconsent.pdf"
+			},
+			"policy": [{
+				"uri": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition-hrex-consent.html#regular"
+			}],
+			"provision": {
+				"type": "permit",
 				"period": {
-					"start": "2011-05-23",
-					"end": "2012-05-23"
+					"start": "2022-01-01",
+					"end": "2022-01-31"
 				},
-				"payor": [
-					{
+				"actor": [{
+					"role": {
+						"coding": [{
+							"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+							"code": "performer"
+						}]
+					},
+					"reference": {
 						"identifier": {
 							"system": "http://hl7.org/fhir/sid/us-npi",
 							"value": "9876543210"
 						},
 						"display": "Old Health Plan"
 					}
-				],
-				"class": [
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-									"code": "group"
-								}
-							]
-						},
-						"value": "CB135"
-					},
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-									"code": "plan"
-								}
-							]
-						},
-						"value": "B37FC"
-					},
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-									"code": "subplan"
-								}
-							]
-						},
-						"value": "P7"
-					},
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/coverage-class",
-									"code": "class"
-								}
-							]
-						},
-						"value": "SILVER"
-					}
-				]
-			}
-		},
-		{
-			"name": "Consent",
-			"resource": {
-				"resourceType": "Consent",
-				"status": "active",
-				"scope": {
-					"coding": [
-						{
-							"system": "http://terminology.hl7.org/CodeSystem/consentscope",
-							"code": "patient-privacy"
-						}
-					]
 				},
-				"category": [
-					{
-						"coding": [
-							{
-								"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-								"code": "IDSCL"
-							}
-						]
-					}
-				],
-				"patient": {
-					"reference": "Patient/1"
-				},
-				"performer": [
-					{
-						"reference": "Patient/1"
-					}
-				],
-				"sourceReference": {
-					"reference": "http://example.org/DocumentReference/someconsent.pdf"
-				},
-				"policy": [
-					{
-						"uri": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition-hrex-consent.html#regular"
-					}
-				],
-				"provision": {
-					"type": "permit",
-					"period": {
-						"start": "2022-01-01",
-						"end": "2022-01-31"
+				{
+					"role": {
+						"coding": [{
+							"system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+							"code": "IRCP"
+						}]
 					},
-					"actor": [
-						{
-							"role": {
-								"coding": [
-									{
-										"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
-										"code": "performer"
-									}
-								]
-							},
-							"reference": {
-								"identifier": {
-									"system": "http://hl7.org/fhir/sid/us-npi",
-									"value": "9876543210"
-								},
-								"display": "Old Health Plan"
-							}
+					"reference": {
+						"identifier": {
+							"system": "http://hl7.org/fhir/sid/us-npi",
+							"value": "0000000001"
 						},
-						{
-							"role": {
-								"coding": [
-									{
-										"system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-										"code": "IRCP"
-									}
-								]
-							},
-							"reference": {
-								"identifier": {
-									"system": "http://hl7.org/fhir/sid/us-npi",
-									"value": "0000000001"
-								},
-								"display": "Provider organization"
-							}
-						}
-					],
-					"action": [
-						{
-							"coding": [
-								{
-									"system": "http://terminology.hl7.org/CodeSystem/consentaction",
-									"code": "disclose"
-								}
-							]
-						}
-					]
-				}
+						"display": "Provider organization"
+					}
+				}],
+				"action": [{
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/consentaction",
+						"code": "disclose"
+					}]
+				}]
 			}
 		}
-	]
+	}]
 }

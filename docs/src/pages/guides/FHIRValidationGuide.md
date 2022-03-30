@@ -214,7 +214,7 @@ The latest version of the fhir-validation-distribution.zip artifact includes the
 - US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
 - CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/carin-bb/STU1](http://hl7.org/fhir/us/carin-bb/STU1)
 - HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0 - STU1) [http://hl7.org/fhir/us/mcode/STU1](http://hl7.org/fhir/us/mcode/STU1)
-- Da Vinci Health Record Exchange (HREX) Implementation Guide (v1.0.0 - STU R1 - continuous build) [http://build.fhir.org/ig/HL7/davinci-ehrx/]http://build.fhir.org/ig/HL7/davinci-ehrx/)
+- Da Vinci Health Record Exchange (HREX) Implementation Guide (v1.0.0 - STU1) [https://hl7.org/fhir/us/davinci-hrex/STU1)
 - Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex/STU1](http://hl7.org/fhir/us/davinci-pdex/STU1)
 - Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1](http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1)
 - Da Vinci Payer Data Exchange (PDex) US Drug Formulary (v1.0.1 - STU1.0.1) [http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1](http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1)
@@ -233,6 +233,6 @@ Coded elements (code, Coding, CodeableConcept data types), maybe have a binding 
 
 ## fhir-path-cli - command line execution of fhirpath over a FHIR Resource
 
-The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results. 
+The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results.
 
 For details on the fhir-path-cli, refer to the [README.md](https://github.com/IBM/FHIR/tree/main/fhir-path/README.md)

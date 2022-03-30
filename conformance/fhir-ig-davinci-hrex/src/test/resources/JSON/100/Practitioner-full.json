@@ -5,35 +5,29 @@
 		"status": "generated",
 		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>identifier</b>: id: 9941339108, id: 9941339108, id: 25456</p><p><b>name</b>: Bone </p><blockquote><p><b>qualification</b></p><p><b>code</b>: Cardiologist <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ()</span></p></blockquote><blockquote><p><b>qualification</b></p><p><b>code</b>: Surgeon <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> ()</span></p></blockquote></div>"
 	},
-	"identifier": [
-		{
-			"system": "http://example.org/some-code-system",
-			"value": "9941339108"
-		},
-		{
-			"system": "http://hl7.org/fhir/sid/us-npi",
-			"value": "9941339108"
-		},
-		{
-			"system": "http://terminology.hl7.org/NamingSystem/CMSCertificationNumber",
-			"value": "25456"
+	"identifier": [{
+		"system": "http://example.org/some-code-system",
+		"value": "9941339108"
+	},
+	{
+		"system": "http://hl7.org/fhir/sid/us-npi",
+		"value": "9941339108"
+	},
+	{
+		"system": "http://terminology.hl7.org/NamingSystem/CMSCertificationNumber",
+		"value": "25456"
+	}],
+	"name": [{
+		"family": "Bone"
+	}],
+	"qualification": [{
+		"code": {
+			"text": "Cardiologist"
 		}
-	],
-	"name": [
-		{
-			"family": "Bone"
+	},
+	{
+		"code": {
+			"text": "Surgeon"
 		}
-	],
-	"qualification": [
-		{
-			"code": {
-				"text": "Cardiologist"
-			}
-		},
-		{
-			"code": {
-				"text": "Surgeon"
-			}
-		}
-	]
+	}]
 }

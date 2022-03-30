@@ -3,28 +3,24 @@
 	"id": "UnsolicitedReferralAuthorizationResponseExample",
 	"text": {
 		"status": "extensions",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"UnsolicitedReferralAuthorizationResponseExample\" </p></div><p><b>identifier</b>: id: 111099</p><p><b>status</b>: active</p><p><b>type</b>: Professional <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-claim-type.html\">Claim Type Codes</a>#professional)</span></p><p><b>use</b>: preauthorization</p><p><b>patient</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>created</b>: 2005-05-02 11:02:00+0500</p><p><b>insurer</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p><p><b>requestor</b>: <a href=\"http://example.org/someProvider/fhir/Organization/good-health-clinic\">http://example.org/someProvider/fhir/Organization/good-health-clinic</a></p><p><b>outcome</b>: complete</p><p><b>preAuthRef</b>: A1B2C3D4</p><blockquote><p><b>addItem</b></p><p><b>Authorized Date</b>: 2005-05-02 --&gt; 2005-06-02</p><p><b>Pre Authorized Issue Date</b>: 2005-05-02</p><p><b>Authorized Provider</b>: <a href=\"Practitioner-full.html\">Practitioner/full</a> \" BONE\"</p><p><b>Item Trace Number</b>: id: A1B2C3D4</p><p><b>itemSequence</b>: 1</p><p><b>productOrService</b>: Consultation <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (1365#3)</span></p><p><b>location</b>: 11 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-CMSPlaceofServiceCodes.html\">CMS Place of Service Codes (POS)</a>#11)</span></p><h3>Adjudications</h3><table class=\"grid\"><tr><td>-</td><td><b>Extension</b></td><td><b>Category</b></td></tr><tr><td>*</td><td></td><td>Submitted Amount <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-adjudication.html\">Adjudication Value Codes</a>#submitted)</span></td></tr></table></blockquote></div>"
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"UnsolicitedReferralAuthorizationResponseExample\" </p></div><p><b>identifier</b>: id: 111099</p><p><b>status</b>: active</p><p><b>type</b>: Professional <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-claim-type.html\">Claim Type Codes</a>#professional)</span></p><p><b>use</b>: preauthorization</p><p><b>patient</b>: <a href=\"http://example.org/new-payer/fhir/Patient/pat1\">http://example.org/new-payer/fhir/Patient/pat1</a></p><p><b>created</b>: 2005-05-02 11:02:00+0500</p><p><b>insurer</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p><p><b>requestor</b>: <a href=\"http://example.org/someProvider/fhir/Organization/good-health-clinic\">http://example.org/someProvider/fhir/Organization/good-health-clinic</a></p><p><b>outcome</b>: complete</p><p><b>preAuthRef</b>: A1B2C3D4</p><blockquote><p><b>addItem</b></p><p><b>Authorized Date</b>: 2005-05-02 --&gt; 2005-06-02</p><p><b>Pre Authorized Issue Date</b>: 2005-05-02</p><p><b>Authorized Provider</b>: <a href=\"Practitioner-full.html\">Practitioner/full</a> \" BONE\"</p><p><b>Item Trace Number</b>: id: A1B2C3D4</p><p><b>itemSequence</b>: 1</p><p><b>productOrService</b>: Consultation <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (1365#3)</span></p><p><b>location</b>: 11 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-CMSPlaceofServiceCodes.html\">CMS Place of Service Codes (POS)</a>#11)</span></p><h3>Adjudications</h3><table class=\"grid\"><tr><td>-</td><td><b>Extension</b></td><td><b>Category</b></td></tr><tr><td>*</td><td></td><td>Submitted Amount <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-adjudication.html\">Adjudication Value Codes</a>#submitted)</span></td></tr></table></blockquote></div>"
 	},
-	"identifier": [
-		{
-			"system": "http://example.org/PATIENT_EVENT_TRACE_NUMBER",
-			"value": "111099",
-			"assigner": {
-				"identifier": {
-					"system": "http://example.org/USER_ASSIGNED",
-					"value": "9012345678"
-				}
+	"identifier": [{
+		"system": "http://example.org/PATIENT_EVENT_TRACE_NUMBER",
+		"value": "111099",
+		"assigner": {
+			"identifier": {
+				"system": "http://example.org/USER_ASSIGNED",
+				"value": "9012345678"
 			}
 		}
-	],
+	}],
 	"status": "active",
 	"type": {
-		"coding": [
-			{
-				"system": "http://terminology.hl7.org/CodeSystem/claim-type",
-				"code": "professional"
-			}
-		]
+		"coding": [{
+			"system": "http://terminology.hl7.org/CodeSystem/claim-type",
+			"code": "professional"
+		}]
 	},
 	"use": "preauthorization",
 	"patient": {
@@ -39,89 +35,69 @@
 	},
 	"outcome": "complete",
 	"preAuthRef": "A1B2C3D4",
-	"addItem": [
+	"addItem": [{
+		"extension": [{
+			"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemAuthorizedDate",
+			"valuePeriod": {
+				"start": "2005-05-02",
+				"end": "2005-06-02"
+			}
+		},
 		{
-			"extension": [
-				{
-					"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemAuthorizedDate",
-					"valuePeriod": {
-						"start": "2005-05-02",
-						"end": "2005-06-02"
-					}
+			"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemPreAuthIssueDate",
+			"valueDate": "2005-05-02"
+		},
+		{
+			"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemAuthorizedProvider",
+			"valueReference": {
+				"reference": "Practitioner/full"
+			}
+		},
+		{
+			"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemTraceNumber",
+			"valueIdentifier": {
+				"system": "http://example.org/new-payer/fhir/NamingSystem/auth-numbers",
+				"value": "A1B2C3D4"
+			}
+		}],
+		"itemSequence": [1],
+		"productOrService": {
+			"coding": [{
+				"system": "http://codesystem.x12.org/005010/1365",
+				"code": "3",
+				"display": "Consultation"
+			}]
+		},
+		"locationCodeableConcept": {
+			"coding": [{
+				"system": "https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set",
+				"code": "11"
+			}]
+		},
+		"adjudication": [{
+			"extension": [{
+				"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-reviewAction",
+				"extension": [{
+					"url": "number",
+					"valueString": "AUTH0001"
 				},
 				{
-					"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemPreAuthIssueDate",
-					"valueDate": "2005-05-02"
-				},
-				{
-					"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemAuthorizedProvider",
-					"valueReference": {
-						"reference": "Practitioner/full"
+					"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-reviewActionCode",
+					"valueCodeableConcept": {
+						"coding": [{
+							"system": "http://codesystem.x12.org/005010/306",
+							"code": "A1",
+							"display": "Certified in total"
+						}]
 					}
-				},
-				{
-					"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-itemTraceNumber",
-					"valueIdentifier": {
-						"system": "http://example.org/new-payer/fhir/NamingSystem/auth-numbers",
-						"value": "A1B2C3D4"
-					}
-				}
-			],
-			"itemSequence": [
-				1
-			],
-			"productOrService": {
-				"coding": [
-					{
-						"system": "http://codesystem.x12.org/005010/1365",
-						"code": "3",
-						"display": "Consultation"
-					}
-				]
-			},
-			"locationCodeableConcept": {
-				"coding": [
-					{
-						"system": "https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set",
-						"code": "11"
-					}
-				]
-			},
-			"adjudication": [
-				{
-					"extension": [
-						{
-							"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-reviewAction",
-							"extension": [
-								{
-									"url": "number",
-									"valueString": "AUTH0001"
-								},
-								{
-									"url": "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/extension-reviewActionCode",
-									"valueCodeableConcept": {
-										"coding": [
-											{
-												"system": "http://codesystem.x12.org/005010/306",
-												"code": "A1",
-												"display": "Certified in total"
-											}
-										]
-									}
-								}
-							]
-						}
-					],
-					"category": {
-						"coding": [
-							{
-								"system": "http://terminology.hl7.org/CodeSystem/adjudication",
-								"code": "submitted"
-							}
-						]
-					}
-				}
-			]
-		}
-	]
+				}]
+			}],
+			"category": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/adjudication",
+					"code": "submitted"
+				}]
+			}
+		}]
+	}]
 }

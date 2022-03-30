@@ -1,10 +1,7 @@
-# HL7 FHIR® Da Vinci Health Record Exchange (HRex) 1.0.0 - STU R1 - continuous build
+# HL7 FHIRÂ® Da Vinci Health Record Exchange (HRex) 1.0.0 - STU R1 - continuous build
 
-- Downloaded - http://build.fhir.org/ig/HL7/davinci-ehrx/index.html
-- Retrieved - 24 FEB 2022
-- Commit - https://github.com/HL7/davinci-ehrx/commit/6e600f4c38ccec280c235cfa85eecaf27c882c8c
-
-Please note STU1 is NOT yet completed the balloting process at HL7. The IG may change.
+- Downloaded - https://hl7.org/fhir/us/davinci-hrex/STU1/package.tgz
+- Retrieved - March 29, 2022
 
 # *Notes*
 
