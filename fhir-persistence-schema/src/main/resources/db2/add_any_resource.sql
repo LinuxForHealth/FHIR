@@ -168,11 +168,11 @@ BEGIN
     -- check the current vs new parameter hash to see if we can bypass the delete/insert
     IF o_current_parameter_hash IS NULL OR o_current_parameter_hash != p_parameter_hash_b64
     THEN
-	    -- existing resource, so need to delete all its parameters. 
-	    -- TODO patch parameter sets instead of all delete/all insert.
-	    PREPARE stmt FROM 'CALL ' || v_schema_name || '.delete_resource_parameters(?,?)';
-	    EXECUTE stmt USING p_resource_type, v_logical_resource_id;
-	END IF; -- end if parameter hash is different    
+        -- existing resource, so need to delete all its parameters. 
+        -- TODO patch parameter sets instead of all delete/all insert.
+        PREPARE stmt FROM 'CALL ' || v_schema_name || '.delete_resource_parameters(?,?)';
+        EXECUTE stmt USING p_resource_type, v_logical_resource_id;
+    END IF; -- end if parameter hash is different    
   END IF; -- end if existing resource
 
   PREPARE stmt FROM
@@ -191,18 +191,18 @@ BEGIN
     PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?';
     EXECUTE stmt USING p_is_deleted, p_last_updated, p_parameter_hash_b64, v_logical_resource_id;
   END IF;
-  
+
   -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
   -- so we can no longer insert the parameters here - instead we have to use individual
   -- JDBC statements.
-  
+
   -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
   -- related to resources changes (issue-1955)
   IF p_is_deleted = 'Y'
   THEN
     SET v_change_type = 'D';
   ELSE 
-    IF v_new_resource = 0
+    IF v_new_resource = 0 AND v_currently_deleted = 'N'
     THEN
       SET v_change_type = 'U';
     ELSE

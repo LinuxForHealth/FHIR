@@ -76,7 +76,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
     }
 
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, 
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64,
             ParameterDAO parameterDao, Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
@@ -95,7 +95,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             dbCallStartTime = System.nanoTime();
 
             final String sourceKey = UUID.randomUUID().toString();
-            
+
             // to mimic out parameters from the stored procedure
             AtomicInteger outInteractionStatus = new AtomicInteger();
             AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
@@ -184,15 +184,15 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @param p_is_deleted
      * @param p_source_key
      * @param p_version
-     * @param parameterHashB64
+     * @param p_parameterHashB64
      * @param conn
      * @param parameterDao
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id,
             InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-            String p_source_key, Integer p_version, String parameterHashB64, Connection conn, 
+            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn,
             ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
@@ -201,14 +201,17 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
         Long v_logical_resource_id = null;
-        Long v_current_resource_id = null;
         Long v_resource_id = null;
         Integer v_resource_type_id = null;
         boolean v_new_resource = false;
         boolean v_not_found = false;
         boolean v_duplicate = false;
+        boolean v_currently_deleted = false;
         int v_current_version = 0;
-        String currentHash = null;
+
+        // used to bypass param delete/insert if all param values are the same
+        String currentParameterHash = null;
+        boolean requireParameterUpdate = true;
 
         String v_resource_type = tablePrefix;
 
@@ -219,15 +222,33 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             throw new IllegalStateException("resource type not found: " + v_resource_type);
         }
 
+        // Get a value for the new resource_id we'll be storing later
+        final String sql2 = "SELECT nextval('fhir_sequence')";
+        try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
+            try (ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    v_resource_id = res.getLong(1); //Assign result of the above query
+                }
+                else {
+                    // unlikely
+                    throw new IllegalStateException("no row returned: " + sql2);
+                }
+            }
+        }
+
         // Get a lock at the system-wide logical resource level. Note the PostgreSQL-specific syntax
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR NO KEY UPDATE";
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash, is_deleted"
+                + " FROM logical_resources"
+                + " WHERE resource_type_id = ? AND logical_id = ?"
+                + " FOR NO KEY UPDATE";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
             stmt.setString(2, p_logical_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 v_logical_resource_id = rs.getLong(1);
-                currentHash = rs.getString(2);
+                currentParameterHash = rs.getString(2);
+                v_currently_deleted = "Y".equals(rs.getString(3));
             }
             else {
                 v_not_found = true;
@@ -238,8 +259,8 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         // Create the logical resource if we don't have it already
         if (v_not_found) {
             // grab the id we want to use for the new logical resource instance
-            final String sql2 = "SELECT nextval('fhir_sequence')";
-            try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
+            final String sql3 = "SELECT nextval('fhir_sequence')";
+            try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                 ResultSet res = stmt.executeQuery();
                 if (res.next()) {
                     v_logical_resource_id = res.getLong(1);
@@ -250,17 +271,19 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 }
             }
 
-            // insert the system-wide logical resource record.
-            final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, parameter_hash) VALUES (?, ?, ?, ?, ?) "
+            // insert the system-wide logical resource record
+            final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, parameter_hash) VALUES (?, ?, ?, ?, ?) "
                     + " ON CONFLICT DO NOTHING"
                     + " RETURNING logical_resource_id";
-            try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
+            try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                 // bind parameters
                 stmt.setLong(1, v_logical_resource_id);
                 stmt.setInt(2, v_resource_type_id);
                 stmt.setString(3, p_logical_id);
                 stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
-                stmt.setString(5, parameterHashB64);
+                stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
+                stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
+                stmt.setString(7, p_parameterHashB64);       // from V0015
                 stmt.execute();
 
                 ResultSet rs = stmt.getResultSet();
@@ -283,15 +306,14 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                     ResultSet res = stmt.executeQuery();
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
-                        currentHash = res.getString(2);
-                    }
-                    else {
+                        currentParameterHash = res.getString(2);
+                        v_currently_deleted = "Y".equals(res.getString(3));
+                    } else {
                         // Extremely unlikely as we should never delete logical resource records
                         throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
                 }
-            }
-            else {
+            } else {
                 v_new_resource = true;
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
@@ -304,6 +326,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                     stmt.setString(3, p_is_deleted ? "Y" : "N");
                     stmt.setTimestamp(4, p_last_updated, UTC);
                     stmt.setInt(5, p_version); // initial version
+                    stmt.setLong(6, v_resource_id);
                     stmt.executeUpdate();
                 }
             }
@@ -312,13 +335,14 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         if (!v_new_resource) {
             // existing resource.  We need to know the current version from the
             // resource-specific logical resources table.
-            final String sql3 = "SELECT current_resource_id, version_id FROM " + tablePrefix + "_logical_resources WHERE logical_resource_id = ?";
+            final String sql3 = "SELECT version_id"
+                    + " FROM " + tablePrefix + "_logical_resources"
+                    + " WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                 stmt.setLong(1, v_logical_resource_id);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    v_current_resource_id = rs.getLong(1);
-                    v_current_version = rs.getInt(2);
+                    v_current_version = rs.getInt(1);
                 }
                 else {
                     // This database is broken, because we shouldn't have logical_resource records without
@@ -327,7 +351,8 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 }
             }
 
-            if (checkIfNoneMatch(ifNoneMatch, v_current_version)) {
+            // If-None-Match doesn't apply if the current record is deleted
+            if (!v_currently_deleted && checkIfNoneMatch(ifNoneMatch, v_current_version)) {
                 // Conditional create-on-update If-None-Match matches the current resource, so skip the update
                 logger.fine(() -> "Resource " + v_resource_type + "/" + p_logical_id + " [" + p_version + "] matches [If-None-Match: " + ifNoneMatch + "]");
                 outInteractionStatus.set(1);
@@ -339,41 +364,20 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 //   one greater than the current version, otherwise we've hit a concurrent update race condition
                 // mimic the exception we'd see from one of our stored procedures
                 throw new SQLException("Concurrent update - mismatch of version in JSON", FHIRDAOConstants.SQLSTATE_WRONG_VERSION);
+            } else if (v_currently_deleted && p_is_deleted) {
+                // Cannot delete a resource which is currently deleted. This is an extra
+                // safety check and primarily used to handle unit tests which may attempt
+                // to double-delete a resource. Should not be relevant to the REST layer,
+                // unless someone breaks it.
+                logger.warning("Cannot delete a resource which is currently deleted: " + v_resource_type + "/" + p_logical_id + " [" + p_version + "]");
+                throw new SQLException("Cannot delete a resource which is currently deleted", FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED);
             }
 
-            // existing resource, so need to delete all its parameters
-            if (currentHash == null || currentHash.isEmpty() || !currentHash.equals(parameterHashB64)) {
+            // existing resource, so need to delete all its parameters unless they share
+            // an identical hash, in which case we can bypass the delete/insert
+            requireParameterUpdate = currentParameterHash == null || currentParameterHash.isEmpty() || !currentParameterHash.equals(p_parameterHashB64);
+            if (requireParameterUpdate) {
                 ParameterTableSupport.deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
-            }
-
-            // For schema V0014, now we also need to update the is_deleted and last_updated values
-            // in LOGICAL_RESOURCES to support whole-system search
-            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql4b)) {
-                // bind parameters
-                stmt.setString(1, p_is_deleted ? "Y" : "N");
-                stmt.setTimestamp(2, p_last_updated, UTC);
-                stmt.setString(3, parameterHashB64);
-                stmt.setLong(4, v_logical_resource_id);
-                stmt.executeUpdate();
-                if (logger.isLoggable(Level.FINEST)) {
-                    logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
-                }
-            }
-        }
-
-        /**
-         * Create the new resource version.
-         * Alpha version uses last_updated time from the app-server, so we keep that here
-         */
-        final String sql2 = "SELECT nextval('fhir_sequence')";
-        try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
-            ResultSet res = stmt.executeQuery();
-            if (res.next()) {
-                v_resource_id = res.getLong(1); // Assign result of the above query
-            } else {
-                // unlikely
-                throw new IllegalStateException("no row returned: " + sql2);
             }
         }
 
@@ -385,27 +389,50 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, p_version);
-            stmt.setBinaryStream(4, p_payload);
+
+            if (p_payload != null) {
+                stmt.setBinaryStream(4, p_payload);
+            } else {
+                // payload offloaded to another data store
+                stmt.setNull(4, Types.BINARY);
+            }
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             setString(stmt, 7, resourcePayloadKey);
             stmt.executeUpdate();
         }
 
-        // update the logical resource with the values for the latest version
-        String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
-            // bind parameters
-            stmt.setLong(1, v_resource_id);
-            stmt.setString(2, p_is_deleted ? "Y" : "N");
-            stmt.setTimestamp(3, p_last_updated, UTC);
-            stmt.setInt(4, p_version);
-            stmt.setLong(5, v_logical_resource_id);
-            stmt.executeUpdate();
+        if (!v_new_resource) {
+            // update the logical resource with the values for the latest version
+            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
+                // bind parameters
+                stmt.setLong(1, v_resource_id);
+                stmt.setString(2, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(3, p_last_updated, UTC);
+                stmt.setInt(4, p_version);
+                stmt.setLong(5, v_logical_resource_id);
+                stmt.executeUpdate();
+            }
+
+            // For schema V0014, now we also need to update the is_deleted and last_updated values
+            // in LOGICAL_RESOURCES to support whole-system search
+            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql4b)) {
+                // bind parameters
+                stmt.setString(1, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(2, p_last_updated, UTC);
+                stmt.setString(3, p_parameterHashB64);
+                stmt.setLong(4, v_logical_resource_id);
+                stmt.executeUpdate();
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
+                }
+            }
         }
 
         // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null && (currentHash == null || currentHash.isEmpty() || !currentHash.equals(parameterHashB64))) {
+        if (parameters != null && requireParameterUpdate) {
             // PostgreSQL doesn't support partitioned multi-tenancy, so we disable it on the DAO:
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
             try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
@@ -418,7 +445,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
 
         // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
         // related to resources changes (issue-1955)
-        String changeType = p_is_deleted ? "D" : v_new_resource ? "C" :  "U";
+        String changeType = p_is_deleted ? "D" : (v_new_resource || v_currently_deleted) ? "C" : "U";
         String INSERT_CHANGE_LOG = "INSERT INTO resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)"
                 + " VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(INSERT_CHANGE_LOG)) {

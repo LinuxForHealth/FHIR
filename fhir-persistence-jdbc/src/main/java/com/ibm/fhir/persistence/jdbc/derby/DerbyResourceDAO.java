@@ -203,9 +203,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters,
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, 
+            String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn,
             ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
             AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
 
@@ -259,7 +259,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (logger.isLoggable(Level.FINEST)) {
             logger.finest("Getting LOGICAL_RESOURCES row lock for: " + v_resource_type + "/" + p_logical_id);
         }
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash, is_deleted FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE WITH RS";
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash, is_deleted"
+                + " FROM logical_resources"
+                + " WHERE resource_type_id = ? AND logical_id = ?"
+                + " FOR UPDATE WITH RS";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
             stmt.setString(2, p_logical_id);
@@ -289,7 +292,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 try (ResultSet res = stmt.executeQuery()) {
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
-                        res.next();
                     }
                     else {
                         // not going to happen, unless someone butchers the statement being executed
@@ -298,26 +300,24 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 }
             }
 
-            try {
-                // insert the system-wide logical resource record.
-                if (logger.isLoggable(Level.FINEST)) {
-                    logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
-                }
-                final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
-                    // bind parameters
-                    stmt.setLong(1, v_logical_resource_id);
-                    stmt.setInt(2, v_resource_type_id);
-                    stmt.setString(3, p_logical_id);
-                    stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
-                    stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
-                    stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
-                    stmt.setString(7, p_parameterHashB64);       // from V0015
-                    stmt.executeUpdate();
+            // insert the system-wide logical resource record
+            final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
+            }
+            try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
+                // bind parameters
+                stmt.setLong(1, v_logical_resource_id);
+                stmt.setInt(2, v_resource_type_id);
+                stmt.setString(3, p_logical_id);
+                stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
+                stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
+                stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
+                stmt.setString(7, p_parameterHashB64);       // from V0015
+                stmt.executeUpdate();
 
-                    if (logger.isLoggable(Level.FINEST)) {
-                        logger.finest("Created logical_resources row for: " + v_resource_type + "/" + p_logical_id);
-                    }
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Created logical_resources row for: " + v_resource_type + "/" + p_logical_id);
                 }
             } catch (SQLException e) {
                 if (translator.isDuplicate(e)) {
@@ -352,7 +352,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                             v_logical_resource_id = res.getLong(1);
                             currentParameterHash = res.getString(2);
                             v_currently_deleted = "Y".equals(res.getString(3));
-                            res.next();
                         } else {
                             // Extremely unlikely as we should never delete logical resource records
                             throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
@@ -392,7 +391,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Getting version info from " + tablePrefix + "_logical_resources for: " + v_resource_type + "/" + p_logical_id);
             }
-            final String sql3 = "SELECT version_id FROM " + tablePrefix + "_logical_resources WHERE logical_resource_id = ?";
+            final String sql3 = "SELECT version_id"
+                    + " FROM " + tablePrefix + "_logical_resources"
+                    + " WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
                 stmt.setLong(1, v_logical_resource_id);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -452,7 +453,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, p_version);
-            
+
             if (p_payload != null) {
                 stmt.setBinaryStream(4, p_payload);
             } else {
@@ -521,7 +522,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
         // related to resources changes (issue-1955)
-        String changeType = p_is_deleted ? "D" : v_new_resource ? "C" :  "U";
+        String changeType = p_is_deleted ? "D" : (v_new_resource || v_currently_deleted) ? "C" : "U";
         String INSERT_CHANGE_LOG = "INSERT INTO resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)"
                 + " VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(INSERT_CHANGE_LOG)) {

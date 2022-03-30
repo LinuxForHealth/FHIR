@@ -2317,8 +2317,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     /**
      * Creates a bundle that will hold the results of a history operation.
      *
-     * @param resources
-     *            the list of resources to include in the bundle
+     * @param resourcesResults
+     *            the list of resource results to include in the history bundle
      * @param historyContext
      *            the FHIRHistoryContext associated with the history operation
      * @param type
@@ -2350,12 +2350,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Determine the correct method to include in this history entry (POST, PUT, DELETE).
             HTTPVerb method;
+            String status;
             if (resourceResult.isDeleted() || resource == null) {
                 method = HTTPVerb.DELETE;
+                status = "200";
             } else if (resourceResult.getVersion() == 1) {
+                // it may have been a PUT in the create-on-update case, but we use POST here anyway
                 method = HTTPVerb.POST;
+                status = "201";
             } else {
                 method = HTTPVerb.PUT;
+                // it may have been a 201 (Created) in the "undelete" case, but we use 200 here anyway
+                status = "200";
             }
 
             // Create the 'request' entry, and set the request.url field.
@@ -2368,19 +2374,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .url(Url.of(method == HTTPVerb.POST ? resourceType : resourcePath))
                         .build();
 
-            Entry.Response response =
-                    Entry.Response.builder()
-                    .status(string("200"))
+            String fullUrl = getRequestBaseUri(type) + "/" + resourcePath;
+
+            Entry.Response response = Entry.Response.builder()
+                    .status(status)
                     .etag(getEtagValue(resourceResult.getVersion()))
                     .lastModified(com.ibm.fhir.model.type.Instant.of(resourceResult.getLastUpdated().atZone(UTC)))
+                    .location(Uri.of(fullUrl + "/_history/" + resourceResult.getVersion()))
                     .build();
 
-            Entry entry =
-                    Entry.builder().request(request)
-                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resourcePath))
-                        .response(response)
-                        .resource(resource)
-                        .build();
+            Entry entry = Entry.builder()
+                    .request(request)
+                    .fullUrl(Uri.of(fullUrl))
+                    .response(response)
+                    .resource(resource)
+                    .build();
 
             bundleBuilder.entry(entry);
         }
@@ -3116,19 +3124,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Entry.Response.Builder responseBuilder = Entry.Response.builder();
             switch (changeRecord.getChangeType()) {
             case CREATE:
-                requestBuilder.method(HTTPVerb.POST);
+                requestBuilder.method(changeRecord.getVersionId() > 1 ? HTTPVerb.PUT : HTTPVerb.POST);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("201 Created"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("201"));
                 break;
             case UPDATE:
                 requestBuilder.method(HTTPVerb.PUT);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
                 break;
             case DELETE:
                 requestBuilder.method(HTTPVerb.DELETE);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200"));
                 break;
             }
 
