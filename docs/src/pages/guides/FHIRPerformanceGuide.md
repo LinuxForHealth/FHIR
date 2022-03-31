@@ -151,6 +151,10 @@ The recommended approach for tenant datatstore configuration is to use individua
 
 Because each datasource gets its own connection manager, you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment. The `numConnectionsPerThreadLocal` value should be set to `1`. This improves concurrency and reduces the amount of time it takes to acquire a connection, especially on systems with large core counts.
 
+When `numConnectionsPerThreadLocal=1`, be aware that connection-related errors will cause the client request to fail with a status 500 Server Error. In addition, this failure will not purge all bad connections and so clients may see multiple errors. This can occur when there is a database failover event, for example. When `numConnectionsPerThreadLocal=0` and `validationTimeout` is configured (see above), connections are validated each time before they are used. In this case, the chance of a client request failing due to a bad database connection is much lower.
+
+If clients need to be protected from this type of error in addition to achieving high concurrency, the recommendation is to set `numConnectionsPerThreadLocal=0` and scale out multiple instances of the IBM FHIR Server over a larger number of smaller nodes instead of a smaller number of larger nodes. This helps to reduce contention on the mutex locks protecting the application server connection pool.
+
 Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
 
 ## 3.2. Transaction Timeout
