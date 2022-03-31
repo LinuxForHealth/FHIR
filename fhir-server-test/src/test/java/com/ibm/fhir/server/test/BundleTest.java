@@ -762,7 +762,7 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchHistory";
         WebTarget target = getWebTarget();
 
-        // Perform a 'read' and a 'vread'.
+        // Get the history for patientB1
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
                 null, null);
@@ -779,12 +779,14 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
-        assertNotNull(resultSet);
-        assertTrue(resultSet.getEntry().size() > 1);
+        Bundle historyBundle = (Bundle) responseBundle.getEntry().get(0).getResource();
+        assertNotNull(historyBundle);
+
+        List<Bundle.Entry> resultSet = historyBundle.getEntry();
+        assertTrue(resultSet.size() > 1);
 
         boolean result = false;
-        for(Bundle.Entry entry : resultSet.getEntry()) {
+        for(Bundle.Entry entry : resultSet) {
             if(entry.getResponse() != null){
                 String returnedStatus = entry.getResponse().getStatus().getValue();
                 assertNotNull(returnedStatus);

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -75,7 +76,7 @@ public class Create extends FHIRResource {
             ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =
-                    Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.created(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             resource = ior.getResource();
 
             HTTPReturnPreference returnPreference = FHIRRequestContext.get().getReturnPreference();

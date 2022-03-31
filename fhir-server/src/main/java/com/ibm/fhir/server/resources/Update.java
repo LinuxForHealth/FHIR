@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -75,7 +76,7 @@ public class Update extends FHIRResource {
             ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
 
             ResponseBuilder response = Response.ok()
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -147,7 +148,7 @@ public class Update extends FHIRResource {
             ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 

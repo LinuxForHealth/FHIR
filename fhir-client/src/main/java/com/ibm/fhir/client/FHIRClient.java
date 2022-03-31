@@ -128,6 +128,12 @@ public interface FHIRClient {
     public static final String PROPNAME_TENANT_ID = "fhirclient.tenant.id";
 
     /**
+     * Returns the default FHIR base URL that is configured for this client instance
+     * @return the FHIR base URL with scheme, host, and path
+     */
+    String getDefaultBaseUrl();
+
+    /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.
      * @return a WebTarget instance that can be used to invoke REST APIs.
      * @throws Exception

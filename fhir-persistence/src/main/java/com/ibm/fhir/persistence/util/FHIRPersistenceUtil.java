@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -38,8 +40,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-
-import org.owasp.encoder.Encode;
 
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
@@ -104,6 +104,10 @@ public class FHIRPersistenceUtil {
         context.setLenient(lenient);
         context.setHistorySortOrder(HistorySortOrder.DESC_LAST_UPDATED); // default is most recent first
         try {
+            PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
+            Set<String> typesSupportingHistory = config.getSupportedResourceTypes(Interaction.HISTORY);
+
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
                 String first = values.get(0);
@@ -116,14 +120,6 @@ public class FHIRPersistenceUtil {
                         context.setCount(resourceCount);
                     }
                 } else if ("_type".equals(name)) {
-                    if (values.isEmpty()) {
-                        continue;
-                    }
-
-                    PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-                    ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
-                    Set<String> typesSupportingHistory = config.getSupportedResourceTypes(Interaction.HISTORY);
-                    
                     for (String v: values) {
                         List<String> resourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
                         for (String resourceType: resourceTypes) {
@@ -187,6 +183,12 @@ public class FHIRPersistenceUtil {
                 }
             }
 
+            // if no _type parameter was passed but the history interaction is only supported for some subset of types
+            // then we need to set the supported resource types in the context
+            if (context.getResourceTypes().isEmpty() && config.isHistoryRestricted()) {
+                typesSupportingHistory.stream().forEach(context::addResourceType);
+            }
+
             // Grab the return preference from the request context. We add it to the history
             // context so we have everything we need in one place
             FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -240,7 +242,7 @@ public class FHIRPersistenceUtil {
     public static com.ibm.fhir.model.type.Instant getUpdateTime() {
         return com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
     }
-    
+
     /**
      * Creates and returns a copy of the passed resource with the {@code Resource.id}
      * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.

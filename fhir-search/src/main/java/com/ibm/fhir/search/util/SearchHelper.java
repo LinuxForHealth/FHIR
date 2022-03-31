@@ -27,13 +27,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -82,8 +84,6 @@ import com.ibm.fhir.search.uri.UriBuilder;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
-
-import org.owasp.encoder.Encode;
 
 /**
  * A helper class with methods for working with HL7 FHIR search.
@@ -404,17 +404,21 @@ public class SearchHelper {
             throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _include or _revinclude.");
         }
 
+        // _type parameter is only supported for whole system searches
+        boolean isSystemSearch = Resource.class.equals(resourceType);
+        if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE) && !isSystemSearch) {
+            manageException("_type parameter is only supported for whole-system search", IssueType.NOT_SUPPORTED, context, false);
+        }
+
         // Process the _type parameter(s)
-        if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
-            if (!Resource.class.equals(resourceType)) {
-                manageException("_type search parameter is only supported with system search", IssueType.NOT_SUPPORTED, context, false);
-            } else {
+        if (isSystemSearch) {
+            PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+            ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
+            Set<String> searchableTypes = config.getSupportedResourceTypes(Interaction.SEARCH);
+
+            if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
                 List<String> values = queryParameters.get(SearchConstants.RESOURCE_TYPE);
 
-                PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-                ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
-                Set<String> searchableTypes = config.getSupportedResourceTypes(Interaction.SEARCH);
-                
                 for (String v: values) {
                     List<String> tmpResourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
                     for (String tmpResourceType: tmpResourceTypes) {
@@ -429,6 +433,12 @@ public class SearchHelper {
                         }
                     }
                 }
+            }
+
+            // if no _type parameter was passed but the search interaction is only supported for some subset of types
+            // then we need to set the supported resource types in the context
+            if (resourceTypes.isEmpty() && config.isSearchRestricted()) {
+                resourceTypes.addAll(config.getSupportedResourceTypes(Interaction.SEARCH));
             }
         }
 

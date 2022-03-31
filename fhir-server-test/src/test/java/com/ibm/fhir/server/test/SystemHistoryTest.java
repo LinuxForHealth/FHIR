@@ -27,7 +27,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -270,6 +273,17 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
+
+        for (Entry entry : bundle.getEntry()) {
+            String fullUrl = entry.getFullUrl().getValue();
+            Resource resource = entry.getResource();
+            if (resource == null) {
+                assertTrue(fullUrl.startsWith(getRestBaseURL()));
+            } else {
+                assertEquals(fullUrl, getRestBaseURL() + "/" +
+                        resource.getClass().getSimpleName() + "/" + resource.getId());
+            }
+        }
     }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
@@ -325,7 +339,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -403,7 +417,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -480,7 +494,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -514,6 +528,51 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         } while (count > 0);
 
         assertTrue(found, "Patient id in history");
+    }
+
+    @Test
+    public void testSystemHistoryWithNoType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // use tenant1 because that tenant is configured to support history on only a subset of resource types
+        Response historyResponse = target.path("_history").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        boolean validSelf = false;
+        for (Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if ("self".equals(type)) {
+                assertTrue(uri.contains("_type"), "self link should contain the implicitly add _type parameter");
+                validSelf = true;
+            }
+        }
+
+        assertTrue(validSelf, "missing self link");
+    }
+
+    @Test
+    public void testSystemHistoryInvalidType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Patient is configured for the history interaction but CompartmentDefinition is not
+        Response historyResponse = target.path("_history").queryParam("_type", "Patient,CompartmentDefinition").request()
+                // use tenant1 because that tenant is configured to support history on only a subset of resource types
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
+
+        OperationOutcome oo = historyResponse.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getDetails().getText().getValue(),
+                "history interaction is not supported for _type parameter value: CompartmentDefinition");
     }
 
     /**

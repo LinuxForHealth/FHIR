@@ -24,8 +24,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
- * This testng test class contains methods that test the parsing of the search result _type parameter in the
- * SearchUtil class.
+ * Test the parsing of the search result _type parameter in the SearchUtil class.
  */
 public class TypeParameterParseTest extends BaseSearchTest {
 
@@ -74,8 +73,7 @@ public class TypeParameterParseTest extends BaseSearchTest {
             searchHelper.parseQueryParameters(Patient.class, queryParameters, false, true);
         } catch(Exception ex) {
             isExceptionThrown = true;
-            assertEquals(ex.getMessage(), "_type search parameter is only supported with system search");
-
+            assertEquals(ex.getMessage(), "_type parameter is only supported for whole-system search");
         }
         assertTrue(isExceptionThrown);
     }

@@ -200,6 +200,9 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param conn
      * @param parameterDao
      * @param ifNoneMatch 0 for conditional create-on-update behavior; otherwise null
+     * @param resourcePayloadKey
+     * @param outInteractionStatus
+     * @param outIfNoneMatchVersion
      * @return the resource_id for the entry we created
      * @throws Exception
      */
