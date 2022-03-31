@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,9 @@ package com.ibm.fhir.bucket.scanner;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.api.CosItem;
@@ -62,15 +64,17 @@ public class CosScanner implements IResourceScanner {
 
     /**
      * Public constructor
-     * @param client
+     * @param client not null
      * @param buckets the COS buckets to scan
      * @param dataAccess the data access layer for persisting items discovered during the scan
      * @param fileTypes set of FileType values accepted for processing
      * @param prefix only scan items with this prefix if set
      * @param scanIntervalMs the number of milliseconds between scans. -1 for automatic
      */
-    public CosScanner(COSClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes, String pathPrefix,
-        int scanIntervalMs) {
+    public CosScanner(COSClient client, Collection<String> buckets, DataAccess dataAccess, Set<FileType> fileTypes,
+            String pathPrefix, int scanIntervalMs) {
+        Objects.requireNonNull(client, "client");
+
         this.client = client;
         this.buckets = new ArrayList<>(buckets);
         this.dataAccess = dataAccess;
@@ -149,7 +153,7 @@ public class CosScanner implements IResourceScanner {
                 }
             } catch (Exception x) {
                 // Just catch and log so we don't break the main loop
-                logger.severe("Error during COS scan: " + x.getMessage());
+                logger.log(Level.SEVERE, "Error during COS scan", x);
             }
 
             // Heartbeat is supposed to be a fraction of the scan interval (e.g. 5s vs. 30s)
