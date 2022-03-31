@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,5 +66,15 @@ public class JWTTest {
         assertTrue(decodedJwt.getClaim("bogus").isNull());
         assertEquals(decodedJwt.getClaim("bogus").asString(), null);
         assertEquals(decodedJwt.getClaim("bogus").asList(), null);
+    }
+
+    /**
+     * Utility for printing a JWT to sysout
+     */
+    public static void main(String[] args) {
+        System.out.println(com.auth0.jwt.JWT.create()
+                .withClaim("scope", "patient/*.*")
+                .withClaim("patient_id", "Patient1")
+                .sign(Algorithm.none()));
     }
 }

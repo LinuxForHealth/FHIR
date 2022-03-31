@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ public class Scope {
     private final Permission permission;
 
     /**
-     * @param scopeString a string of the form {@code (user|patient)/:resourceType.(read|write|*)}
+     * @param scopeString a string of the form {@code (user|patient|system)/:resourceType.(read|write|*)}
      */
     public Scope(String scopeString) {
         Objects.requireNonNull(scopeString, "scope string");
