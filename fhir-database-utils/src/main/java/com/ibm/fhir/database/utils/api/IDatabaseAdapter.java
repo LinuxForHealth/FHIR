@@ -428,6 +428,13 @@ public interface IDatabaseAdapter {
     public void grantSchemaUsage(String schemaName, String grantToUser);
 
     /**
+     * Grant access to all sequences in the named schema
+     * @param schemaName
+     * @param grantToUser
+     */
+    public void grantAllSequenceUsage(String schemaName, String grantToUser);
+
+    /**
      * Run the given supplier statement against the database represented by this
      * adapter
      *

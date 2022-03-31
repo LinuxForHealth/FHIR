@@ -541,4 +541,18 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
         runStatement(grant);
     }
+
+    @Override
+    public void grantAllSequenceUsage(String schemaName, String grantToUser) {
+        // Annoyingly for PostgreSQL, when you grant INSERT to a table, you don't
+        // automatically get USAGE on the sequence used to implement a generated
+        // as identity column.
+        DataDefinitionUtil.assertValidName(schemaName);
+        DataDefinitionUtil.assertValidName(grantToUser);
+        final String grant = "GRANT USAGE ON ALL SEQUENCES IN SCHEMA " + schemaName + " TO " + grantToUser;
+
+        logger.info("Applying: " + grant); // Grants are very useful to see logged
+
+        runStatement(grant);
+    }
 }

@@ -752,4 +752,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void grantSchemaUsage(String schemaName, String grantToUser) {
         logger.info("Grant usage on schema not required for '" + schemaName + "' on this database");
     }
+    @Override
+    public void grantAllSequenceUsage(String schemaName, String grantToUser) {
+        logger.info("Grant usage on all sequences in schema not required for '" + schemaName + "' on this database");
+    }
 }

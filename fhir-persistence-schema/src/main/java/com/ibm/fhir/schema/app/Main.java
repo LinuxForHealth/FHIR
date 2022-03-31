@@ -993,6 +993,10 @@ public class Main {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 buildJavaBatchSchemaModel(pdm);
                 pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
+
+                // special case for the JavaBatch schema in PostgreSQL
+                adapter.grantAllSequenceUsage(schema.getJavaBatchSchemaName(), grantTo);
+
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
