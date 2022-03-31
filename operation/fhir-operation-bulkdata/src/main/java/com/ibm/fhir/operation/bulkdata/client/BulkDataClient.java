@@ -232,18 +232,15 @@ public class BulkDataClient {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
 
-            // Debug / Dev only
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("$export response (HTTP " + status + ")");
-            }
-
             if (status != 201) {
+                LOG.warning("Unexpected liberty batch API response while creating $export job (HTTP " + status + ")");
+                String responseString = new BasicResponseHandler().handleResponse(jobResponse);
+                LOG.warning(responseString);
                 // Job is not created
-                throw export.buildOperationException("Unable to create the $export job", IssueType.INVALID);
+                throw export.buildOperationException("Unable to create the $export job", IssueType.EXCEPTION);
             }
 
             String responseString = new BasicResponseHandler().handleResponse(jobResponse);
-
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
             jobId = Integer.toString(response.getInstanceId());
