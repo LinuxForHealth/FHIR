@@ -54,6 +54,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -227,17 +228,35 @@ public class FHIRResource {
     }
 
     /**
-     * Adds the Etag and Last-Modified headers to the specified response object.
+     * Adds the Etag and Last-Modified headers to the response from the specified resource (if possible).
      *
      * @param rb
      * @param resource
      * @return
      */
-    protected ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
-        return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
-                // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST only generate the RFC 1123 format for representing HTTP-date values
-                // in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
-                .lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
+    protected ResponseBuilder addETagAndLastModifiedHeaders(ResponseBuilder rb, Resource resource) {
+        if (resource == null || resource.getMeta() == null) {
+            log.warning("Skipping ETag and Last-Modified headers due to null resource or missing resource meta");
+            return rb;
+        }
+
+        Meta meta = resource.getMeta();
+
+        if (meta.getVersionId() == null || meta.getVersionId().getValue() == null) {
+            log.warning("ETag not set due to null versionId");
+        } else {
+            rb.header(HttpHeaders.ETAG, getEtagValue(resource));
+        }
+
+        if (meta.getLastUpdated() == null || meta.getLastUpdated().getValue() == null) {
+            log.warning("Last-Modified not set due to null lastUpdated");
+        } else {
+            // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST use the RFC 1123 format for
+            // representing HTTP-date values in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
+            rb.lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
+        }
+
+        return rb;
     }
 
     /**

@@ -92,7 +92,7 @@ public class Patch extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             status = Status.NOT_FOUND;
@@ -152,7 +152,7 @@ public class Patch extends FHIRResource {
                        HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             status = Status.NOT_FOUND;
@@ -216,7 +216,7 @@ public class Patch extends FHIRResource {
                 response.entity(ior.getOperationOutcome());
             }
 
-            response = addHeaders(response, ior.getResource());
+            response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
@@ -282,7 +282,7 @@ public class Patch extends FHIRResource {
                 response.entity(ior.getOperationOutcome());
             }
 
-            response = addHeaders(response, ior.getResource());
+            response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {

@@ -106,7 +106,7 @@ public class Read extends FHIRResource {
             if (isModified) {
                 status = Status.OK;
                 response = Response.ok().entity(resource);
-                response = addHeaders(response, resource);
+                response = addETagAndLastModifiedHeaders(response, resource);
             } else {
                 status = Status.NOT_MODIFIED;
                 response = Response.status(Response.Status.NOT_MODIFIED);

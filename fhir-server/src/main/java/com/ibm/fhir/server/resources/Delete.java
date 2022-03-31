@@ -137,7 +137,7 @@ public class Delete extends FHIRResource {
         }
 
         if (ior.getResource() != null) {
-            addHeaders(response, ior.getResource());
+            addETagAndLastModifiedHeaders(response, ior.getResource());
         } else if (ior.getVersionForETag() > 0) {
             addHeaders(response, ior.getVersionForETag());
         }
