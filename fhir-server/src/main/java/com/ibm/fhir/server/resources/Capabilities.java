@@ -52,7 +52,6 @@ import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -288,16 +287,21 @@ public class Capabilities extends FHIRResource {
         // Retrieve the "resources" config property group.
         PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
 
-        // Build the list of interactions, searchIncludes, and searchRevIncludes supported for each resource type by default.
-        List<Rest.Resource.Interaction> defaultInteractions = buildInteractions(ALL_INTERACTIONS);
-        List<com.ibm.fhir.model.type.String> defaultSearchIncludes = Collections.emptyList();
-        List<com.ibm.fhir.model.type.String> defaultSearchRevIncludes = Collections.emptyList();
+        // The list of system-level interactions supported on the system.
+        List<Rest.Interaction> systemInteractions = null;
+
+        // The list of interactions, searchIncludes, and searchRevIncludes supported for all resource types by default.
+        List<Rest.Resource.Interaction> defaultTypeInteractions = null;
+        List<com.ibm.fhir.model.type.String> defaultSearchIncludes = null;
+        List<com.ibm.fhir.model.type.String> defaultSearchRevIncludes = null;
+
         if (rsrcsGroup != null) {
             PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.Value.RESOURCE.value());
             if (parentResourcePropGroup != null) {
                 List<String> interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
                 if (interactionConfig != null) {
-                    defaultInteractions = buildInteractions(interactionConfig);
+                    systemInteractions = buildSystemInteractions(interactionConfig);
+                    defaultTypeInteractions = buildTypeInteractions(interactionConfig);
                 }
                 List<String> searchIncludeConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
                 if (searchIncludeConfig != null) {
@@ -309,6 +313,13 @@ public class Capabilities extends FHIRResource {
                     defaultSearchRevIncludes = convertStringList(searchRevIncludeConfig);
                 }
             }
+        }
+
+        if (systemInteractions == null) {
+            systemInteractions = buildSystemInteractions(ALL_INTERACTIONS);
+        }
+        if (defaultTypeInteractions == null) {
+            defaultTypeInteractions = buildTypeInteractions(ALL_INTERACTIONS);
         }
 
         // Build the lists of operations that are supported
@@ -374,7 +385,7 @@ public class Capabilities extends FHIRResource {
             }
 
             // Build the list of interactions, searchIncludes, and searchRevIncludes supported for the resource type.
-            List<Interaction> interactions = defaultInteractions;
+            List<Interaction> interactions = defaultTypeInteractions;
             List<com.ibm.fhir.model.type.String> searchIncludes = defaultSearchIncludes;
             List<com.ibm.fhir.model.type.String> searchRevIncludes = defaultSearchRevIncludes;
             if (rsrcsGroup != null) {
@@ -383,9 +394,10 @@ public class Capabilities extends FHIRResource {
                     List<String> resourceInteractionConfig =
                             resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
                     if (resourceInteractionConfig != null) {
-                        interactions = buildInteractions(resourceInteractionConfig);
+                        interactions = buildTypeInteractions(resourceInteractionConfig);
                     }
-                    List<String> searchIncludeConfig = resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
+                    List<String> searchIncludeConfig =
+                            resourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_SEARCH_INCLUDES);
                     if (searchIncludeConfig != null) {
                         searchIncludes = convertStringList(searchIncludeConfig);
                     }
@@ -397,8 +409,15 @@ public class Capabilities extends FHIRResource {
                 }
             }
 
+            if (searchIncludes == null) {
+                searchIncludes = Collections.singletonList(string(resourceType + ":*"));
+            }
+            if (searchRevIncludes == null) {
+                searchRevIncludes = Collections.singletonList(string("Resource:*"));
+            }
+
             // Build the ConformanceResource for this resource type.
-            Rest.Resource cr = Rest.Resource.builder()
+            Rest.Resource.Builder crb = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
@@ -411,20 +430,13 @@ public class Capabilities extends FHIRResource {
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
                     .searchInclude(searchIncludes)
-                    .searchRevInclude(searchRevIncludes)
-                    .build();
+                    .searchRevInclude(searchRevIncludes);
 
-            resources.add(cr);
-        }
-
-        // Determine if transactions are supported for this FHIR Server configuration.
-        SystemRestfulInteraction transactionMode = SystemRestfulInteraction.BATCH;
-        try {
-            boolean txnSupported = getPersistenceImpl().isTransactional();
-            transactionMode = (txnSupported ? SystemRestfulInteraction.TRANSACTION
-                    : SystemRestfulInteraction.BATCH);
-        } catch (Throwable t) {
-            log.log(Level.WARNING, "Unexpected error while reading server transaction mode setting", t);
+            // Set readHistory to true if vread is supported for this resource type; otherwise leave it null
+            if (interactions.stream().anyMatch(i -> i.getCode().getValueAsEnum() == TypeRestfulInteraction.Value.VREAD)) {
+                crb.readHistory(true);
+            }
+            resources.add(crb.build());
         }
 
         CapabilityStatement.Rest.Security.Builder securityBuilder = CapabilityStatement.Rest.Security.builder()
@@ -488,9 +500,7 @@ public class Capabilities extends FHIRResource {
                 .mode(RestfulCapabilityMode.SERVER)
                 .security(securityBuilder.build())
                 .resource(addSupportedProfilesToResources(resources))
-                .interaction(CapabilityStatement.Rest.Interaction.builder()
-                    .code(transactionMode)
-                    .build())
+                .interaction(systemInteractions)
                 .operation(mapOperationDefinitionsToRestOperations(systemOps))
                 .build();
 
@@ -558,27 +568,60 @@ public class Capabilities extends FHIRResource {
     }
 
     /**
+     * @param interactionConfig a list of strings that represent the RESTful interactions to support at the system level
+     *                          (history and/or search)
+     * @return a list of Rest.Resource.Interaction objects to include in the CapabilityStatement
+     * @throws FHIRPersistenceException
+     */
+    private List<Rest.Interaction> buildSystemInteractions(List<String> interactionConfig) throws Exception {
+        List<Rest.Interaction> interactions = new ArrayList<>();
+        interactions.add(buildSystemInteractionStatement(SystemRestfulInteraction.BATCH));
+        try {
+            // If transactions are supported for this FHIR Server configuration
+            if (getPersistenceImpl().isTransactional()) {
+                interactions.add(buildSystemInteractionStatement(SystemRestfulInteraction.TRANSACTION));
+            }
+        } catch (Throwable t) {
+            log.log(Level.WARNING, "Unexpected error while reading server transaction mode setting", t);
+        }
+
+        if (interactionConfig != null) {
+            for (String interactionString : interactionConfig) {
+                if ("search".equals(interactionString)) {
+                    // special case for search since the value set uses "search-system" instead of just "search"
+                    interactions.add(buildSystemInteractionStatement(SystemRestfulInteraction.SEARCH_SYSTEM));
+                } else if ("history".equals(interactionString)){
+                    // special case for search since the value set uses "history-system" instead of just "history"
+                    interactions.add(buildSystemInteractionStatement(SystemRestfulInteraction.HISTORY_SYSTEM));
+                }
+            }
+        }
+        return interactions;
+    }
+
+    /**
      * @param interactionConfig a list of strings that represent the RESTful interactions to support for this resource type
      *                          (create, read, vread, update, patch, delete, history, and/or search)
      * @return a list of Rest.Resource.Interaction objects to include in the CapabilityStatement
      * @throws FHIRPersistenceException
      */
-    private List<Rest.Resource.Interaction> buildInteractions(List<String> interactionConfig) throws Exception {
+    private List<Rest.Resource.Interaction> buildTypeInteractions(List<String> interactionConfig) throws Exception {
         if (interactionConfig == null) return null;
 
         List<Rest.Resource.Interaction> interactions = new ArrayList<>();
         for (String interactionString : interactionConfig) {
             if ("search".equals(interactionString)) {
                 // special case for search since the value set uses "search-type" instead of just "search"
-                interactions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
+                interactions.add(buildTypeInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
             } else if ("history".equals(interactionString)){
-                // special case for search since the value set uses "history-instance" instead of just "history"
-                interactions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
+                // special case for search since the value set has "history-type" and "history-instance" instead of just "history"
+                interactions.add(buildTypeInteractionStatement(TypeRestfulInteraction.HISTORY_TYPE));
+                interactions.add(buildTypeInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
             } else if ("delete".equals(interactionString)) {
                 // special case for delete since we shouldn't advertise it if the PL doesn't support it
-                interactions.add(buildInteractionStatement(TypeRestfulInteraction.DELETE));
+                interactions.add(buildTypeInteractionStatement(TypeRestfulInteraction.DELETE));
             } else {
-                interactions.add(buildInteractionStatement(TypeRestfulInteraction.of(interactionString)));
+                interactions.add(buildTypeInteractionStatement(TypeRestfulInteraction.of(interactionString)));
             }
         }
         return interactions;
@@ -610,20 +653,9 @@ public class Capabilities extends FHIRResource {
         if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
             resourceTypes = ALL_RESOURCE_TYPES;
         } else {
-            List<PropertyEntry> rsrcsEntries = rsrcsGroup.getProperties();
-            if (rsrcsEntries != null && !rsrcsEntries.isEmpty()) {
-                for (PropertyEntry rsrcsEntry : rsrcsEntries) {
-                    String name = rsrcsEntry.getName();
-                    // Ensure we skip over the special property "open" and process only the others
-                    if (!FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name)) {
-                        // Skip the abstract types Resource and DomainResource
-                        if (!Resource.class.equals(ModelSupport.getResourceType(name)) &&
-                                !DomainResource.class.equals(ModelSupport.getResourceType(name))) {
-                            resourceTypes.add(ResourceType.Value.from(name));
-                        }
-                    }
-                }
-            }
+            resourceTypes = FHIRConfigHelper.getSupportedResourceTypes().stream()
+                    .map(ResourceType.Value::from)
+                    .collect(Collectors.toList());
         }
         return resourceTypes;
     }
@@ -660,7 +692,6 @@ public class Capabilities extends FHIRResource {
 
         return instantiates;
     }
-
 
 
     private Extension buildOAuthURIsExtension(String authURL, String tokenURL, String regURL, String manageURL, String introspectURL, String revokeURL) {
@@ -798,8 +829,11 @@ public class Capabilities extends FHIRResource {
         return Arrays.asList(notificationResourceTypes).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
-    private Interaction buildInteractionStatement(TypeRestfulInteraction value) {
-        Interaction ci = Interaction.builder().code(value).build();
-        return ci;
+    private Rest.Resource.Interaction buildTypeInteractionStatement(TypeRestfulInteraction value) {
+        return Rest.Resource.Interaction.builder().code(value).build();
+    }
+
+    private Rest.Interaction buildSystemInteractionStatement(SystemRestfulInteraction value) {
+        return Rest.Interaction.builder().code(value).build();
     }
 }
