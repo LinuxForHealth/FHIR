@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.core;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -18,7 +19,7 @@ import java.util.TimeZone;
  * projects.
  */
 public class FHIRUtilities {
-    
+
     // For R4, we transition to using java.time
     private static final ThreadLocal<SimpleDateFormat> timestampSimpleDateFormat = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -39,7 +40,7 @@ public class FHIRUtilities {
     /**
      * This function will remove any whitspace characters which appear in a
      * '<div>...</div>' section within the specified string.
-     * 
+     *
      * @param str the string to process
      * @return the input string with the 'div' whitespace characters removed
      */
@@ -56,7 +57,7 @@ public class FHIRUtilities {
     /**
      * This function will remove any newlines which appear in a '<div>...</div>'
      * section within the specified string.
-     * 
+     *
      * @param str the string to process
      * @return the input string with the 'div' new lines removed
      */
@@ -78,22 +79,26 @@ public class FHIRUtilities {
     /**
      * This function can be used to decode an xor-encoded value that was produced by
      * the WebSphere Liberty 'securityUtility' command.
-     * 
+     *
      * @param encodedString the encoded string to be decoded
      * @return the decoded version of the input string
      * @throws Exception
      */
-    public static String decode(String encodedString) throws Exception {
+    public static String decode(String encodedString) {
         String decodedString = null;
         if (isEncoded(encodedString)) {
-            String withoutTag = encodedString.substring(5);
-            byte[] bytes = withoutTag.getBytes("UTF-8");
-            byte[] decodedBytes = Base64.getDecoder().decode(bytes);
-            byte[] xor_bytes = new byte[decodedBytes.length];
-            for (int i = 0; i < decodedBytes.length; i++) {
-                xor_bytes[i] = (byte) (0x5F ^ decodedBytes[i]);
+            try {
+                String withoutTag = encodedString.substring(5);
+                byte[] bytes = withoutTag.getBytes("UTF-8");
+                byte[] decodedBytes = Base64.getDecoder().decode(bytes);
+                byte[] xor_bytes = new byte[decodedBytes.length];
+                for (int i = 0; i < decodedBytes.length; i++) {
+                    xor_bytes[i] = (byte) (0x5F ^ decodedBytes[i]);
+                }
+                decodedString = new String(xor_bytes, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new IllegalStateException("UTF-8 must be supported", e);
             }
-            decodedString = new String(xor_bytes, "UTF-8");
         } else {
             decodedString = encodedString;
         }
@@ -103,7 +108,7 @@ public class FHIRUtilities {
     /**
      * Returns true if and only if the specified string 's' is an encoded value,
      * which means it starts with the string "{xor}".
-     * 
+     *
      * @param s the string value to check
      */
     public static boolean isEncoded(String s) {
@@ -112,7 +117,7 @@ public class FHIRUtilities {
 
     /**
      * For R4 model, generate a sql timestamp
-     * 
+     *
      * @param zdt
      * @return
      */
