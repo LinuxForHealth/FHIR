@@ -17,11 +17,8 @@ import java.util.logging.Logger;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.Interaction;
-import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Resource;
@@ -95,18 +92,18 @@ public class FHIRPersistenceUtil {
      *
      * @param queryParameters
      * @param lenient
+     * @param resourcesConfig
      * @return
      * @throws FHIRPersistenceException
      */
-    public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient) throws FHIRPersistenceException {
+    public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient,
+            ResourcesConfigAdapter resourcesConfig) throws FHIRPersistenceException {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
         context.setLenient(lenient);
         context.setHistorySortOrder(HistorySortOrder.DESC_LAST_UPDATED); // default is most recent first
         try {
-            PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
-            ResourcesConfigAdapter config = new ResourcesConfigAdapter(pg);
-            Set<String> typesSupportingHistory = config.getSupportedResourceTypes(Interaction.HISTORY);
+            Set<String> typesSupportingHistory = resourcesConfig.getSupportedResourceTypes(Interaction.HISTORY);
 
             for (String name : queryParameters.keySet()) {
                 List<String> values = queryParameters.get(name);
@@ -185,7 +182,7 @@ public class FHIRPersistenceUtil {
 
             // if no _type parameter was passed but the history interaction is only supported for some subset of types
             // then we need to set the supported resource types in the context
-            if (context.getResourceTypes().isEmpty() && config.isHistoryRestricted()) {
+            if (context.getResourceTypes().isEmpty() && resourcesConfig.isHistoryRestricted()) {
                 typesSupportingHistory.stream().forEach(context::addResourceType);
             }
 

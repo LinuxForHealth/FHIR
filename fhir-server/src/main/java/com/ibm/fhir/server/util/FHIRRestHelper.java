@@ -2993,8 +2993,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // are returned in the response bundle per the R4 spec.
             requestContext.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         }
-        FHIRSystemHistoryContext historyContext =
-                FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters,
+                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()), resourcesConfig);
 
         // If HTTPReturnPreference is REPRESENTATION, we fetch the resources and include them
         // in the response bundle. To make it simple, we make the records and resources the same

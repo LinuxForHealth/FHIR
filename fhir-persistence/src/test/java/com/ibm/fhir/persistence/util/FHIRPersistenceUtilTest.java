@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.persistence.util;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,14 +19,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.testng.annotations.Test;
+
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-
-import org.testng.annotations.Test;
 
 /**
  * Unit tests for FHIRPersistenceUtil
@@ -48,7 +52,7 @@ public class FHIRPersistenceUtilTest {
         final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
         final String logicalId = "one";
         Patient prepared = FHIRPersistenceUtil.copyAndSetResourceMetaFields(patient, logicalId, 1, lastUpdated);
-        
+
         assertEquals(prepared.getId(), logicalId);
         assertNotNull(prepared.getMeta());
         assertNotNull(prepared.getMeta().getVersionId());
@@ -73,7 +77,7 @@ public class FHIRPersistenceUtilTest {
         final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
         final String logicalId = "one";
         Patient prepared = FHIRPersistenceUtil.copyAndSetResourceMetaFields(patient, logicalId, 1, lastUpdated);
-        
+
         assertEquals(prepared.getId(), logicalId);
         assertNotNull(prepared.getMeta());
         assertNotNull(prepared.getMeta().getVersionId());
@@ -95,7 +99,7 @@ public class FHIRPersistenceUtilTest {
 
             // no explicit _type param
             Map<String, List<String>> params = new HashMap<>();
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
 
             assertTrue(historyContext.getResourceTypes().isEmpty(), historyContext.getResourceTypes().toString());
         } finally {
@@ -119,12 +123,12 @@ public class FHIRPersistenceUtilTest {
         try {
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = true`
             FHIRRequestContext.get().setTenantId("default");
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
             assertEquals(historyContext.getResourceTypes(), explicitTypes);
 
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = false`
             FHIRRequestContext.get().setTenantId("all");
-            historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+            historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
             assertEquals(historyContext.getResourceTypes(), explicitTypes);
         } finally {
             FHIRRequestContext.get().setTenantId(originalTenantId);
@@ -146,7 +150,7 @@ public class FHIRPersistenceUtilTest {
         try {
             // change to a tenant (any tenant) that has `useImplicitTypeScopingForWholeSystemInteractions = true`
             FHIRRequestContext.get().setTenantId("default");
-            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+            FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
             assertEquals(historyContext.getResourceTypes(), combinedExplicitTypes);
         } finally {
             FHIRRequestContext.get().setTenantId(originalTenantId);
@@ -158,7 +162,7 @@ public class FHIRPersistenceUtilTest {
         // no explicit _type param
         Map<String, List<String>> params = new HashMap<>();
         params.put("_type", null);
-        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
 
         assertTrue(historyContext.getResourceTypes().isEmpty(), historyContext.getResourceTypes().toString());
     }
@@ -168,8 +172,13 @@ public class FHIRPersistenceUtilTest {
         // no explicit _type param
         Map<String, List<String>> params = new HashMap<>();
         params.put("_type", Collections.emptyList());
-        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false);
+        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(params, false, newResourcesConfigAdapter());
 
         assertTrue(historyContext.getResourceTypes().isEmpty(), historyContext.getResourceTypes().toString());
+    }
+
+    private ResourcesConfigAdapter newResourcesConfigAdapter() {
+        PropertyGroup resourcesPG = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        return new ResourcesConfigAdapter(resourcesPG);
     }
 }
