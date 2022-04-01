@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -106,8 +107,7 @@ public class ParametersHelper {
                         log.fine(("Computing search parameters for tenant " + tenant));
                     }
 
-                    PropertyGroup root = config.loadConfigurationForTenant(tenant);
-                    PropertyGroup rsrcsGroup = root == null ? null : root.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+                    PropertyGroup rsrcsGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
                     result.put(tenant, computeTenantSPs(rsrcsGroup));
                 } catch (Exception e) {
                     log.log(Level.SEVERE, "Error while computing search parameters for tenant " + tenant, e);
