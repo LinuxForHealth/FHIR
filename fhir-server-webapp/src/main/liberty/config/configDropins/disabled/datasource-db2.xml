@@ -13,6 +13,6 @@
              currentSchema="FHIRDATA"
              driverType="4"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
     </dataSource>
 </server>

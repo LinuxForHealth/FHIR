@@ -145,7 +145,7 @@ The recommended approach for tenant datatstore configuration is to use individua
                  sslmode="require"
                  sslrootcert="resources/security/your-postgres-host.crt" />
         />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
     </dataSource>
 ```
 
@@ -266,7 +266,7 @@ The IBM FHIR Server supports multi-tenant SearchParameter extensions described i
 
 The IBM FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
 
-An example of the empty search parameters file is: 
+An example of the empty search parameters file is:
 
 ``` json
 {

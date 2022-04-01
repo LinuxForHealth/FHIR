@@ -189,7 +189,7 @@ You are now able to connect to the database as the FHIRSERVER user using only th
 
 3. Click Administration > User Management
 
-4. Click Add User, and enter the user details with a sufficiently complex password. Set the `User Privilege` as `User`. 
+4. Click Add User, and enter the user details with a sufficiently complex password. Set the `User Privilege` as `User`.
 
 5. Save these details for the datasource.xml.
 
@@ -320,14 +320,14 @@ Create a file as the following
             portNumber="${DB_PORT}"
             securityMechanism="15"
             sslConnection="true" />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
     </dataSource>
 </server>
 ```
 
 #### For Db2 Auth user
 
-Create a file as the following: 
+Create a file as the following:
 
 ``` xml
 <server>
@@ -342,11 +342,11 @@ Create a file as the following:
             databaseName="${DB_NAME}"
             driverType="4"
             portNumber="${DB_PORT}"
-            sslConnection="true" 
+            sslConnection="true"
             user="fhirserver"
             password="mypassword"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="1"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
     </dataSource>
 </server>
 ```
