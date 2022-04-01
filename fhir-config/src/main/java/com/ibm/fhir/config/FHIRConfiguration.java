@@ -128,34 +128,6 @@ public class FHIRConfiguration {
     @Deprecated
     public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
-    // bulkdata
-    // JavaBatch Job id encryption key
-    public static final String PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY = "fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey";
-    // JavaBatch Job parameters
-    public static final String PROPERTY_BULKDATA_BATCHJOB_PARAMETERS  = "fhirServer/bulkdata/jobParameters";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME = "fhirServer/bulkdata/applicationName";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_MODULENAME = "fhirServer/bulkdata/moduleName";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_JOBXMLNAME = "fhirServer/bulkdata/jobXMLName";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_IMPTYPE = "fhirServer/bulkdata/implementation_type";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHURI = "fhirServer/bulkdata/batch-uri";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSER = "fhirServer/bulkdata/batch-user";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";
-
-    public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS = "fhirServer/bulkdata/validBaseUrls";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED = "fhirServer/bulkdata/validBaseUrlsDisabled";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT =
-            "fhirServer/bulkdata/maxInputPerRequest";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE = "fhirServer/bulkdata/cosFileMaxSize";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES = "fhirServer/bulkdata/cosFileMaxResources";
-    public static final String PROPERTY_BULKDATA_PATIENTEXPORT_PAGESIZE = "fhirServer/bulkdata/patientExportPageSize";
-    // Control if push OperationOutcomes to COS/S3.
-    public static final String PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES = "fhirServer/bulkdata/ignoreImportOutcomes";
-
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
     public static final String DEFAULT_DATASTORE_ID_HEADER_NAME = "X-FHIR-DSID";
