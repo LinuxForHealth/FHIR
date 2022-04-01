@@ -243,13 +243,15 @@ public class FHIRResource {
         Meta meta = resource.getMeta();
 
         if (meta.getVersionId() == null || meta.getVersionId().getValue() == null) {
-            log.warning("ETag not set due to null versionId");
+            log.warning("ETag not set due to null versionId [resourceType=" + resource.getClass().getSimpleName()
+                    + ", id=" + resource.getId() + "]");
         } else {
             rb.header(HttpHeaders.ETAG, getEtagValue(resource));
         }
 
         if (meta.getLastUpdated() == null || meta.getLastUpdated().getValue() == null) {
-            log.warning("Last-Modified not set due to null lastUpdated");
+            log.warning("Last-Modified not set due to null lastUpdated [resourceType=" + resource.getClass().getSimpleName()
+                    + ", id=" + resource.getId() + "]");
         } else {
             // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST use the RFC 1123 format for
             // representing HTTP-date values in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
