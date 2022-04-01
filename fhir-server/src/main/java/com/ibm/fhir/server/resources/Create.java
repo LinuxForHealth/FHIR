@@ -85,7 +85,7 @@ public class Create extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == returnPreference) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             status = ior.getStatus();
             response.status(status);
 

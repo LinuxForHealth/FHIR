@@ -64,7 +64,7 @@ public class VRead extends FHIRResource {
             Resource resource = helper.doVRead(type, id, vid, queryParameters);
             status = Status.OK;
             ResponseBuilder response = Response.ok().entity(resource);
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());
