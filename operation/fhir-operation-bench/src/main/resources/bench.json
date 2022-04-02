@@ -1,0 +1,41 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "bench",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>Bench</h2><p>OPERATION: Bench</p><p>The bench operation reads resources from the database and extracts and stores search parameters according to the latest configuration of the server.</p><p>URL: [base]/$bench</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome does not list any errors, then the server expected to be healthy.</p></td></tr></table></div>"
+    },
+    "url": "http://ibm.com/fhir/OperationDefinition/bench",
+    "name": "bench",
+    "status": "draft",
+    "kind": "operation",
+    "publisher": "IBM FHIR Server",
+    "date": "2022-04-01",
+    "description": "The bench operation performs busy work on the server CPU.",
+    "code": "bench",
+    "system": true,
+    "type": false,
+    "instance": false,
+    "resource": [
+        "Resource"
+    ],
+    "affectsState": false,
+    "parameter": [
+        {
+            "name": "threads",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The number of threads to exercise.",
+            "type": "integer"
+        },
+        {
+            "name": "size",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The size of the jobs to perform.",
+            "type": "integer"
+        }
+    ]
+}

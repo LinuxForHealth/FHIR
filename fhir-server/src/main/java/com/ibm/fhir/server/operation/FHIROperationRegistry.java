@@ -45,7 +45,7 @@ public class FHIROperationRegistry {
             String operationCode = "unknown code";
             try {
                 FHIROperation operation = iterator.next();
-                log.fine(() -> "Found FHIROperation implementation class: " + operation.getClass().getName());
+                log.info(() -> "Found FHIROperation implementation class: " + operation.getClass().getName());
                 // This is actually the code.
                 operationCode = operation.getName();
                 if (!isValid(operation)) {
