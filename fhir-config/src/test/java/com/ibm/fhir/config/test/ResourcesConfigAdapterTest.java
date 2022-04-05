@@ -27,13 +27,13 @@ public class ResourcesConfigAdapterTest {
       ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg);
 
       Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
-      assertEquals(supportedResourceTypes.size(), 141);
+      assertEquals(supportedResourceTypes.size(), 146);
 
       System.out.println(supportedResourceTypes);
 
       for (Interaction interaction : Interaction.values()) {
           supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
-          assertEquals(supportedResourceTypes.size(), 141);
+          assertEquals(supportedResourceTypes.size(), 146);
       }
   }
 }
