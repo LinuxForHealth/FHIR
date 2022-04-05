@@ -2896,7 +2896,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList());
 
-                if (resourceTypeIds.isEmpty()) {
+                if (resourceTypeIds.size() != resourceTypeNames.size()) {
                     throw new FHIRPersistenceException("Unexpected error converting resource type name(s) to id(s); " + resourceTypeNames);
                 }
             } else {
