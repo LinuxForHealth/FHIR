@@ -20,20 +20,20 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
 public class ResourcesConfigAdapterTest {
-  @Test
-  public void testGetSupportedResourceTypes() throws Exception {
-      JsonObject json = Json.createObjectBuilder().build();
-      PropertyGroup pg = new PropertyGroup(json);
-      ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg);
+    @Test
+    public void testGetSupportedResourceTypes() throws Exception {
+        JsonObject json = Json.createObjectBuilder().build();
+        PropertyGroup pg = new PropertyGroup(json);
+        ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg);
 
-      Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
-      assertEquals(supportedResourceTypes.size(), 141);
+        Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
+        assertEquals(supportedResourceTypes.size(), 146);
 
-      System.out.println(supportedResourceTypes);
+        System.out.println(supportedResourceTypes);
 
-      for (Interaction interaction : Interaction.values()) {
-          supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
-          assertEquals(supportedResourceTypes.size(), 141);
-      }
-  }
+        for (Interaction interaction : Interaction.values()) {
+            supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
+            assertEquals(supportedResourceTypes.size(), 146);
+        }
+    }
 }

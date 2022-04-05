@@ -10,35 +10,6 @@ package com.ibm.fhir.core;
  */
 public enum ResourceTypeName {
     /**
-     * Resource
-     *
-     * <p>--- Abstract Type! ---This is the base resource type for everything.
-     */
-    RESOURCE("Resource"),
-
-    /**
-     * Binary
-     *
-     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A
-     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
-     */
-    BINARY("Binary"),
-
-    /**
-     * Bundle
-     *
-     * <p>A container for a collection of resources.
-     */
-    BUNDLE("Bundle"),
-
-    /**
-     * DomainResource
-     *
-     * <p>--- Abstract Type! ---A resource that includes narrative, extensions, and contained resources.
-     */
-    DOMAIN_RESOURCE("DomainResource"),
-
-    /**
      * Account
      *
      * <p>A financial tool for tracking value accrued for a particular purpose. In the healthcare field, used to track
@@ -53,14 +24,6 @@ public enum ResourceTypeName {
      * practitioner, or other performance context.
      */
     ACTIVITY_DEFINITION("ActivityDefinition"),
-
-    /**
-     * AdministrableProductDefinition
-     *
-     * <p>A medicinal product in the final form which is suitable for administering to a patient (after any mixing of
-     * multiple components, dissolution etc. has been performed).
-     */
-    ADMINISTRABLE_PRODUCT_DEFINITION("AdministrableProductDefinition"),
 
     /**
      * AdverseEvent
@@ -111,6 +74,14 @@ public enum ResourceTypeName {
     BASIC("Basic"),
 
     /**
+     * Binary
+     *
+     * <p>A resource that represents the data of a single raw artifact as digital content accessible in its native format. A
+     * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+     */
+    BINARY("Binary"),
+
+    /**
      * BiologicallyDerivedProduct
      *
      * <p>A material substance originating from a biological entity intended to be transplanted or infused
@@ -125,6 +96,13 @@ public enum ResourceTypeName {
      * necessary detail needed for the use case.
      */
     BODY_STRUCTURE("BodyStructure"),
+
+    /**
+     * Bundle
+     *
+     * <p>A container for a collection of resources.
+     */
+    BUNDLE("Bundle"),
 
     /**
      * CapabilityStatement
@@ -178,15 +156,6 @@ public enum ResourceTypeName {
     CHARGE_ITEM_DEFINITION("ChargeItemDefinition"),
 
     /**
-     * Citation
-     *
-     * <p>The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution.
-     * The Citation Resource supports existing reference structures and developing publication practices such as versioning,
-     * expressing complex contributorship roles, and referencing computable resources.
-     */
-    CITATION("Citation"),
-
-    /**
      * Claim
      *
      * <p>A provider issued list of professional services and products which have been provided, or are to be provided, to a
@@ -211,14 +180,6 @@ public enum ResourceTypeName {
      * such as Apgar score.
      */
     CLINICAL_IMPRESSION("ClinicalImpression"),
-
-    /**
-     * ClinicalUseDefinition
-     *
-     * <p>A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal
-     * product, medication, device or procedure.
-     */
-    CLINICAL_USE_DEFINITION("ClinicalUseDefinition"),
 
     /**
      * CodeSystem
@@ -391,6 +352,21 @@ public enum ResourceTypeName {
     DOCUMENT_REFERENCE("DocumentReference"),
 
     /**
+     * DomainResource
+     *
+     * <p>A resource that includes narrative, extensions, and contained resources.
+     */
+    DOMAIN_RESOURCE("DomainResource"),
+
+    /**
+     * EffectEvidenceSynthesis
+     *
+     * <p>The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a
+     * population where the effect estimate is derived from a combination of research studies.
+     */
+    EFFECT_EVIDENCE_SYNTHESIS("EffectEvidenceSynthesis"),
+
+    /**
      * Encounter
      *
      * <p>An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or
@@ -438,24 +414,16 @@ public enum ResourceTypeName {
     /**
      * Evidence
      *
-     * <p>The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence
-     * variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables),
-     * the statistics, and the certainty of this evidence.
+     * <p>The Evidence resource describes the conditional state (population and any exposures being compared within the
+     * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
      */
     EVIDENCE("Evidence"),
 
     /**
-     * EvidenceReport
-     *
-     * <p>The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted
-     * to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.
-     */
-    EVIDENCE_REPORT("EvidenceReport"),
-
-    /**
      * EvidenceVariable
      *
-     * <p>The EvidenceVariable resource describes an element that knowledge (Evidence) is about.
+     * <p>The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is
+     * about.
      */
     EVIDENCE_VARIABLE("EvidenceVariable"),
 
@@ -572,13 +540,6 @@ public enum ResourceTypeName {
     IMPLEMENTATION_GUIDE("ImplementationGuide"),
 
     /**
-     * Ingredient
-     *
-     * <p>An ingredient of a manufactured item or pharmaceutical product.
-     */
-    INGREDIENT("Ingredient"),
-
-    /**
      * InsurancePlan
      *
      * <p>Details of a Health Insurance product/plan provided by an organization.
@@ -623,14 +584,6 @@ public enum ResourceTypeName {
      * may be stored, found, contained, or accommodated.
      */
     LOCATION("Location"),
-
-    /**
-     * ManufacturedItemDefinition
-     *
-     * <p>The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a
-     * packaged medicinal product.
-     */
-    MANUFACTURED_ITEM_DEFINITION("ManufacturedItemDefinition"),
 
     /**
      * Measure
@@ -720,12 +673,75 @@ public enum ResourceTypeName {
     MEDICATION_STATEMENT("MedicationStatement"),
 
     /**
-     * MedicinalProductDefinition
+     * MedicinalProduct
      *
-     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use,
-     * drug catalogs).
+     * <p>Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
      */
-    MEDICINAL_PRODUCT_DEFINITION("MedicinalProductDefinition"),
+    MEDICINAL_PRODUCT("MedicinalProduct"),
+
+    /**
+     * MedicinalProductAuthorization
+     *
+     * <p>The regulatory authorization of a medicinal product.
+     */
+    MEDICINAL_PRODUCT_AUTHORIZATION("MedicinalProductAuthorization"),
+
+    /**
+     * MedicinalProductContraindication
+     *
+     * <p>The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory
+     * purposes.
+     */
+    MEDICINAL_PRODUCT_CONTRAINDICATION("MedicinalProductContraindication"),
+
+    /**
+     * MedicinalProductIndication
+     *
+     * <p>Indication for the Medicinal Product.
+     */
+    MEDICINAL_PRODUCT_INDICATION("MedicinalProductIndication"),
+
+    /**
+     * MedicinalProductIngredient
+     *
+     * <p>An ingredient of a manufactured item or pharmaceutical product.
+     */
+    MEDICINAL_PRODUCT_INGREDIENT("MedicinalProductIngredient"),
+
+    /**
+     * MedicinalProductInteraction
+     *
+     * <p>The interactions of the medicinal product with other medicinal products, or other forms of interactions.
+     */
+    MEDICINAL_PRODUCT_INTERACTION("MedicinalProductInteraction"),
+
+    /**
+     * MedicinalProductManufactured
+     *
+     * <p>The manufactured item as contained in the packaged medicinal product.
+     */
+    MEDICINAL_PRODUCT_MANUFACTURED("MedicinalProductManufactured"),
+
+    /**
+     * MedicinalProductPackaged
+     *
+     * <p>A medicinal product in a container or package.
+     */
+    MEDICINAL_PRODUCT_PACKAGED("MedicinalProductPackaged"),
+
+    /**
+     * MedicinalProductPharmaceutical
+     *
+     * <p>A pharmaceutical product described in terms of its composition and dose form.
+     */
+    MEDICINAL_PRODUCT_PHARMACEUTICAL("MedicinalProductPharmaceutical"),
+
+    /**
+     * MedicinalProductUndesirableEffect
+     *
+     * <p>Describe the undesirable effects of the medicinal product.
+     */
+    MEDICINAL_PRODUCT_UNDESIRABLE_EFFECT("MedicinalProductUndesirableEffect"),
 
     /**
      * MessageDefinition
@@ -765,13 +781,6 @@ public enum ResourceTypeName {
      * <p>A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
      */
     NUTRITION_ORDER("NutritionOrder"),
-
-    /**
-     * NutritionProduct
-     *
-     * <p>A food or fluid product that is consumed by patients.
-     */
-    NUTRITION_PRODUCT("NutritionProduct"),
 
     /**
      * Observation
@@ -821,13 +830,6 @@ public enum ResourceTypeName {
     ORGANIZATION_AFFILIATION("OrganizationAffiliation"),
 
     /**
-     * PackagedProductDefinition
-     *
-     * <p>A medically related item or items, in a container or package.
-     */
-    PACKAGED_PRODUCT_DEFINITION("PackagedProductDefinition"),
-
-    /**
      * Parameters
      *
      * <p>This resource is a non-persisted resource used to pass information into and back from an [operation](operations.
@@ -869,8 +871,8 @@ public enum ResourceTypeName {
      * PlanDefinition
      *
      * <p>This resource allows for the definition of various types of plans as a sharable, consumable, and executable
-     * artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical
-     * artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.
+     * artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as
+     * clinical decision support rules, order sets and protocols.
      */
     PLAN_DEFINITION("PlanDefinition"),
 
@@ -927,15 +929,6 @@ public enum ResourceTypeName {
     QUESTIONNAIRE_RESPONSE("QuestionnaireResponse"),
 
     /**
-     * RegulatedAuthorization
-     *
-     * <p>Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is
-     * cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal
-     * Product.
-     */
-    REGULATED_AUTHORIZATION("RegulatedAuthorization"),
-
-    /**
      * RelatedPerson
      *
      * <p>Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor
@@ -985,11 +978,26 @@ public enum ResourceTypeName {
     RESEARCH_SUBJECT("ResearchSubject"),
 
     /**
+     * Resource
+     *
+     * <p>This is the base resource type for everything.
+     */
+    RESOURCE("Resource"),
+
+    /**
      * RiskAssessment
      *
      * <p>An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
      */
     RISK_ASSESSMENT("RiskAssessment"),
+
+    /**
+     * RiskEvidenceSynthesis
+     *
+     * <p>The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where
+     * the risk estimate is derived from a combination of research studies.
+     */
+    RISK_EVIDENCE_SYNTHESIS("RiskEvidenceSynthesis"),
 
     /**
      * Schedule
@@ -1059,21 +1067,6 @@ public enum ResourceTypeName {
     SUBSCRIPTION("Subscription"),
 
     /**
-     * SubscriptionStatus
-     *
-     * <p>The SubscriptionStatus resource describes the state of a Subscription during notifications.
-     */
-    SUBSCRIPTION_STATUS("SubscriptionStatus"),
-
-    /**
-     * SubscriptionTopic
-     *
-     * <p>Describes a stream of resource state changes identified by trigger criteria and annotated with labels useful to
-     * filter projections from this topic.
-     */
-    SUBSCRIPTION_TOPIC("SubscriptionTopic"),
-
-    /**
      * Substance
      *
      * <p>A homogeneous material with a definite composition.
@@ -1081,11 +1074,59 @@ public enum ResourceTypeName {
     SUBSTANCE("Substance"),
 
     /**
-     * SubstanceDefinition
+     * SubstanceNucleicAcid
+     *
+     * <p>Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs
+     * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
+     */
+    SUBSTANCE_NUCLEIC_ACID("SubstanceNucleicAcid"),
+
+    /**
+     * SubstancePolymer
+     *
+     * <p>Todo.
+     */
+    SUBSTANCE_POLYMER("SubstancePolymer"),
+
+    /**
+     * SubstanceProtein
+     *
+     * <p>A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that
+     * are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic,
+     * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This
+     * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors,
+     * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
+     */
+    SUBSTANCE_PROTEIN("SubstanceProtein"),
+
+    /**
+     * SubstanceReferenceInformation
+     *
+     * <p>Todo.
+     */
+    SUBSTANCE_REFERENCE_INFORMATION("SubstanceReferenceInformation"),
+
+    /**
+     * SubstanceSourceMaterial
+     *
+     * <p>Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a
+     * material that can result in or can be modified to form a substance. This set of data elements shall be used to define
+     * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a
+     * controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and
+     * structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh
+     * material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the
+     * fraction information will be captured at the Substance information level and additional information for herbal
+     * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the
+     * Substance Class: Structurally Diverse and the herbal annex.
+     */
+    SUBSTANCE_SOURCE_MATERIAL("SubstanceSourceMaterial"),
+
+    /**
+     * SubstanceSpecification
      *
      * <p>The detailed description of a substance, typically at a level beyond what is used for prescribing.
      */
-    SUBSTANCE_DEFINITION("SubstanceDefinition"),
+    SUBSTANCE_SPECIFICATION("SubstanceSpecification"),
 
     /**
      * SupplyDelivery
