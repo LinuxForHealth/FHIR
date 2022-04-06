@@ -975,6 +975,7 @@ public class Main {
             if (this.targetBucket == null || this.targetBucket.length() == 0) {
                 // Set up the client we use to send requests to the FHIR server
                 fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
+                fhirClient.addHeader("Prefer", "return=representation");
                 fhirClient.init(this.tenantName);
             }
 

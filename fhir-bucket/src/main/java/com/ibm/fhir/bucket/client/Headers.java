@@ -15,4 +15,5 @@ public class Headers {
     public static final String CONTENT_TYPE_HEADER = "Content-Type";
     public static final String ACCEPT_HEADER = "Accept";
     public static final String TENANT_HEADER = "X-FHIR-TENANT-ID";
+    public static final String PREFER_HEADER = "Prefer";
 }

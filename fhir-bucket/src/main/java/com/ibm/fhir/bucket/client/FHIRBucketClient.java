@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
@@ -17,9 +16,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +33,7 @@ import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.UserTokenHandler;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -183,7 +183,6 @@ public class FHIRBucketClient {
         // For now, we only talk JSON with the FHIR server
         this.headers.put(Headers.ACCEPT_HEADER, ContentType.APPLICATION_JSON.getMimeType());
         this.headers.put(Headers.CONTENT_TYPE_HEADER, ContentType.APPLICATION_JSON.getMimeType());
-        this.headers.put("Prefer", "return=representation");
 
         String user = propertyAdapter.getFhirServerUser();
         String pass = propertyAdapter.getFhirServerPass();
@@ -195,12 +194,17 @@ public class FHIRBucketClient {
     }
 
     /**
-     * Add our headers to the request
+     * Combine the given headers with the headers already configured and inject
+     * them into the request
      * @param request
+     * @param requestHeaders additional headers specific to a request, can be null or empty
      */
-    private void addHeadersTo(final HttpRequestBase request) {
-        // inject each header into the request
-        headers.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue()));
+    private void addHeadersTo(final HttpRequestBase request, Map<String,String> requestHeaders) {
+        Map<String,String> combinedHeaders = new HashMap<>(this.headers);
+        if (requestHeaders != null) {
+            combinedHeaders.putAll(requestHeaders);
+        }
+        combinedHeaders.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue()));
     }
 
     private String buildTargetPath(String resourceName) {
@@ -219,7 +223,22 @@ public class FHIRBucketClient {
         return result.toString();
     }
 
-    public FhirServerResponse get(String url, Function<Reader, Resource> fn) {
+    /**
+     * Issue a GET request without request-specific headers
+     * @param url
+     * @return
+     */
+    public FhirServerResponse get(String url) {
+        return get(url, null);
+    }
+
+    /**
+     * Issue a GET request with request-specific headers
+     * @param url
+     * @param requestHeaders request-specific headers; can be null
+     * @return
+     */
+    public FhirServerResponse get(String url, Map<String,String> requestHeaders) {
 
         String target = buildTargetPath(url);
         if (logger.isLoggable(Level.FINE)){
@@ -227,7 +246,7 @@ public class FHIRBucketClient {
         }
 
         HttpGet getRequest = new HttpGet(target);
-        addHeadersTo(getRequest);
+        addHeadersTo(getRequest, requestHeaders);
 
         for (int i = 1; ; i++) {
             try {
@@ -259,12 +278,23 @@ public class FHIRBucketClient {
     }
 
     /**
-     * Issue a POST request at the given url
-     * @param sUrl
+     * Issue a POST request at the given url without any request-specific headers
+     * @param url
      * @param body
      * @return
      */
     public FhirServerResponse post(String url, String body) {
+        return post(url, null, body);
+    }
+
+    /**
+     * Issue a POST request at the given url with request-specific headers
+     * @param url
+     * @param requestHeaders request-specific headers; can be null
+     * @param body
+     * @return
+     */
+    public FhirServerResponse post(String url, Map<String,String> requestHeaders, String body) {
         String target = buildTargetPath(url);
         if(logger.isLoggable(Level.FINE)) {
             logger.fine("REQUEST POST "+ target);
@@ -273,7 +303,7 @@ public class FHIRBucketClient {
         try {
             HttpPost postRequest = new HttpPost(target);
             postRequest.setEntity(new StringEntity(body));
-            addHeadersTo(postRequest);
+            addHeadersTo(postRequest, requestHeaders);
 
             if(logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST POST BODY - " + body);
@@ -316,7 +346,24 @@ public class FHIRBucketClient {
         }
     }
 
-    public FhirServerResponse put(String url, Map<String, String> headers, String body) {
+    /**
+     * Issue a PUT request without request-specific headers
+     * @param url
+     * @param body
+     * @return
+     */
+    public FhirServerResponse put(String url, String body) {
+        return put(url, null, body);
+    }
+
+    /**
+     * Issue a PUT request with request-specific headers
+     * @param url
+     * @param requestHeaders
+     * @param body
+     * @return
+     */
+    public FhirServerResponse put(String url, Map<String, String> requestHeaders, String body) {
         String target = buildTargetPath(url);
 
         if (logger.isLoggable(Level.FINE)) {
@@ -326,7 +373,7 @@ public class FHIRBucketClient {
         try {
             HttpPut putRequest = new HttpPut(target);
             putRequest.setEntity(new StringEntity(body));
-            addHeadersTo(putRequest);
+            addHeadersTo(putRequest, requestHeaders);
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST PUT BODY - " + body);
@@ -357,6 +404,53 @@ public class FHIRBucketClient {
         return null;
     }
 
+    /**
+     * Issue a DELETE for the given url
+     * @param url
+     * @return
+     */
+    public FhirServerResponse delete(String url) {
+
+        String target = buildTargetPath(url);
+        if (logger.isLoggable(Level.FINE)){
+            logger.fine("REQUEST DELETE "+ target);
+        }
+
+        HttpDelete deleteRequest = new HttpDelete(target);
+        addHeadersTo(deleteRequest, null);
+
+        for (int i = 1; ; i++) {
+            try {
+                long startTime = System.nanoTime();
+                HttpResponse response = client.execute(deleteRequest);
+                if (logger.isLoggable(Level.FINE)) {
+                    Header responseHeaders[] = response.getAllHeaders();
+
+                    StringBuilder msg = new StringBuilder();
+                    msg.append("Response HTTP Headers: ");
+                    for (Header responseHeader : responseHeaders) {
+                        msg.append(System.lineSeparator());
+                        msg.append("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
+                    }
+                    logger.fine(msg.toString());
+                }
+                return buildResponse(response, startTime, true);
+            } catch (NoHttpResponseException e) {
+                logger.warning("Encountered an org.apache.http.NoHttpResponseException during DELETE request. " + e);
+                logger.warning("DELETE URL: "+target);
+                logger.warning("Will retry this request for the Nth time. N = " + i);
+            } catch (IOException e) {
+                logger.severe("Error while executing the DELETE request. " + e);
+                logger.warning("DELETE URL: "+target);
+                logger.warning("Skipping this request.");
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Shut down the pools associated with this client
+     */
     public void shutdown() {
         if (client != null) {
             try {
