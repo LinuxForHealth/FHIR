@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.flow.api.IFlowWriter;
+import com.ibm.fhir.flow.impl.DownstreamFHIRWriter;
 import com.ibm.fhir.flow.impl.DownstreamLogWriter;
 import com.ibm.fhir.flow.impl.FlowPool;
 import com.ibm.fhir.flow.impl.UpstreamFHIRHistoryReader;
@@ -47,11 +49,20 @@ public class Main {
     private String upstreamTenant = "default";
     private String downstreamTenant = "default";
 
+    // should the log writer log the JSON payload data
+    private boolean logData;
+
+    // How many vreads to pack into one Bundle request
+    private int vreadBatchSize = 10;
+
+    // Deserialize and serialize the resource instead of just passing through the byte array. Slower.
+    private boolean parseResource;
+
     // How many simultaneous vreads
-    private int readerPoolSize = 16;
+    private int readerPoolSize = 32;
 
     // how many resources do we request for each upstream whole-system history call
-    private int resourcesPerHistoryCall = 128;
+    private int resourcesPerHistoryCall = 512;
 
     // Start processing from this point in the change stream
     private long changeIdMarker = -1;
@@ -123,6 +134,12 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --partition-queue-size");
                 }
                 break;
+            case "--parse-resource":
+                this.parseResource = true;
+                break;
+            case "--log-data":
+                this.logData = true;
+                break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
             }
@@ -163,14 +180,27 @@ public class Main {
 
         // Create the thread-pool used by the flow pool to VREAD resources. Need to limit the
         // work queue size because we can probably read from upstream more quickly than we can
-        // write to the downstream system.
+        // write to the downstream system. But we want the queue size to be at least as big
+        // as the number of resource entries returned in one history call so that we don't
+        // delay turning around and getting the next set
         final RejectedExecutionHandler rejectionPolicy = new ThreadPoolExecutor.CallerRunsPolicy();
         ExecutorService upstreamThreadPool = new ThreadPoolExecutor(readerPoolSize, readerPoolSize,
             0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>(readerPoolSize), rejectionPolicy);
+            new LinkedBlockingQueue<Runnable>(resourcesPerHistoryCall), rejectionPolicy);
         
-        FlowPool readerPool = new FlowPool(upstreamClient, upstreamThreadPool);
-        DownstreamLogWriter downstreamWriter = new DownstreamLogWriter(partitionCount, partitionQueueSize);
+        // Create the pool used to handle the async vreads
+        FlowPool readerPool = new FlowPool(upstreamClient, upstreamThreadPool, this.parseResource);
+
+        // Set up our target
+        IFlowWriter downstreamWriter;
+        if (downstreamProperties.size() > 0) {
+            logger.info("Using downstream tenant: " + this.downstreamTenant);
+            FHIRBucketClient downstreamClient = new FHIRBucketClient(new ClientPropertyAdapter(downstreamProperties));
+            downstreamClient.init(downstreamTenant);
+            downstreamWriter = new DownstreamFHIRWriter(downstreamClient, partitionCount, partitionQueueSize);
+        } else {
+            downstreamWriter = new DownstreamLogWriter(partitionCount, partitionQueueSize, this.logData);
+        }
 
         UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, this.changeIdMarker);
         historyReader.setClient(upstreamClient);

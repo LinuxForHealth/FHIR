@@ -8,6 +8,7 @@ package com.ibm.fhir.flow.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 import org.apache.http.HttpStatus;
 
@@ -25,27 +26,31 @@ public class CreateOrUpdate extends FlowInteraction {
     /**
      * Public constructor
      * 
+     * @param changeId
+     * @param completionCallback
      * @param identifier
      * @param cf
      */
-    public CreateOrUpdate(ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
-        super(identifier);
+    public CreateOrUpdate(long changeId, Consumer<Long> completionCallback, ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
+        super(changeId, completionCallback, identifier);
         this.flowFetchFuture = cf;
     }
 
     @Override
     public void accept(IFlowInteractionHandler handler) {
-        // Wait for the async read to complete
         try {
+            // Wait for the async read to complete
             FlowFetchResult result = flowFetchFuture.get();
-            if (result.getStatus() == HttpStatus.SC_OK && result.getResource() != null) {
-                handler.createOrUpdate(getIdentifier(), result.getResource());
+            if (result.getStatus() == HttpStatus.SC_OK) {
+                handler.createOrUpdate(getChangeId(), getIdentifier(), result.getResourceData(), result.getResource());
             } else {
                 throw new RuntimeException("Resource vread failed for '" + result.toString() + "'; status code: " + result.getStatus());
             }
         } catch (ExecutionException | InterruptedException x) {
             // The fetch failed, so we can't continue
             throw new RuntimeException("trying to read " + getIdentifier().toString(), x);
+        } finally {
+            complete();
         }
     }
 

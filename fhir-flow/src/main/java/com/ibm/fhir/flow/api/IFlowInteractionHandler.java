@@ -12,6 +12,20 @@ import com.ibm.fhir.model.resource.Resource;
  * An adapter/visitor interface to process an interaction
  */
 public interface IFlowInteractionHandler {
-    void delete(ResourceIdentifier identifier);
-    void createOrUpdate(ResourceIdentifier identifier, Resource resource);
+
+    /**
+     * Perform a logical DELETE interaction
+     * @param changeId
+     * @param identifier
+     */
+    void delete(long changeId, ResourceIdentifier identifier);
+
+    /**
+     * Perform a create-or-update (PUT) interaction
+     * @param changeId
+     * @param identifier
+     * @param resourceData
+     * @param resource
+     */
+    void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource);
 }

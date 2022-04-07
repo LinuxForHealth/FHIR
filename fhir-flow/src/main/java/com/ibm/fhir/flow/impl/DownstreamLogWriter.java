@@ -30,13 +30,18 @@ public class DownstreamLogWriter implements IFlowWriter, IFlowInteractionHandler
     // set to false to shut down
     private boolean running = true;
 
+    // Should we log resource data in the output
+    private final boolean logData;
+
     /**
      * Public constructor
      * @param partitionCount
      * @param partitionQueueSize
+     * @param logData
      */
-    public DownstreamLogWriter(int partitionCount, int partitionQueueSize) {
+    public DownstreamLogWriter(int partitionCount, int partitionQueueSize, boolean logData) {
         this.pool = new PartitionExecutor<>(partitionCount, partitionQueueSize, (interaction) -> partitionKey(interaction), (interaction) -> handler(interaction));
+        this.logData = logData;
     }
 
     @Override
@@ -84,13 +89,19 @@ public class DownstreamLogWriter implements IFlowWriter, IFlowInteractionHandler
     }
 
     @Override
-    public void delete(ResourceIdentifier identifier) {
-        logger.info("DELETE " + identifier.toString());
+    public void delete(long changeId, ResourceIdentifier identifier) {
+        logger.info("DELETE [" + changeId + "] " + identifier.toString());
     }
 
     @Override
-    public void createOrUpdate(ResourceIdentifier identifier, Resource resource) {
-        final String body = FHIRBucketClientUtil.resourceToString(resource);
-        logger.info("PUT " + identifier.toString() + " " + body);
+    public void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource) {
+        if (logData) {
+            if (resourceData == null) {
+                resourceData = FHIRBucketClientUtil.resourceToString(resource);
+            }
+            logger.info("PUT [" + changeId + "] " + identifier.getFullUrl() + " " + resourceData);
+        } else {
+            logger.info("PUT [" + changeId + "] " + identifier.getFullUrl());
+        }
     }
 }

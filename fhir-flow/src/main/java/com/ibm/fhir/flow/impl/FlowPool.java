@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.flow.impl;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import org.apache.http.HttpStatus;
 
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
+import com.ibm.fhir.bucket.client.RequestOptions;
 import com.ibm.fhir.flow.api.IFlowPool;
 import com.ibm.fhir.flow.api.ResourceIdentifierVersion;
 
@@ -31,15 +33,19 @@ public class FlowPool implements IFlowPool {
     // The thread pool used to submit requests
     private final ExecutorService pool;
 
+    // Should we parse the resource, or just keep the bytes
+    private final boolean parseResource;
+
     /**
      * Public constructor
      * 
      * @param client
      * @param pool
      */
-    public FlowPool(FHIRBucketClient client, ExecutorService pool) {
+    public FlowPool(FHIRBucketClient client, ExecutorService pool, boolean parseResource) {
         this.client = client;
         this.pool = pool;
+        this.parseResource = parseResource;
     }
 
     @Override
@@ -56,16 +62,25 @@ public class FlowPool implements IFlowPool {
     private FlowFetchResult doTask(ResourceIdentifierVersion riv) {
         logger.info("RUNNING VREAD " + riv.toString());
         FlowFetchResult result = new FlowFetchResult(riv);
-        FhirServerResponse response = client.get(riv.toString(), null);
+        RequestOptions.Builder requestOptions = RequestOptions.builder();
+        requestOptions.parseResource(this.parseResource);
+        FhirServerResponse response = client.get(riv.toString(), requestOptions.build());
         result.setStatus(response.getStatusCode());
         if (response.getStatusCode() == HttpStatus.SC_OK) {
-            // Check we got what we expected
-            if (response.getResource().getClass().getSimpleName().equals(riv.getResourceType())) {
-                result.setResource(response.getResource());
+            if (this.parseResource) {
+                // Check we got what we expected
+                Objects.requireNonNull(response.getResource(), "unexpected null resource in response");
+                if (response.getResource().getClass().getSimpleName().equals(riv.getResourceType())) {
+                    result.setResource(response.getResource());
+                } else {
+                    // don't trust the upstream
+                    logger.severe("vread requested '" + riv.toString() + "' but got '" + response.getResource().toString() + "'");
+                    throw new RuntimeException("Resource did not match requested type: '" + riv.toString() + "'");
+                }
             } else {
-                // don't trust the upstream
-                logger.severe("vread requested '" + riv.toString() + "' but got '" + response.getResource().toString() + "'");
-                throw new RuntimeException("Resource did not match requested type: '" + riv.toString() + "'");
+                // Just transfer the raw resource data, which is much faster than
+                // deserializing then serializing the Resource object
+                result.setResourceData(response.getResourceData());
             }
         }
         return result;

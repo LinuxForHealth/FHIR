@@ -197,12 +197,12 @@ public class FHIRBucketClient {
      * Combine the given headers with the headers already configured and inject
      * them into the request
      * @param request
-     * @param requestHeaders additional headers specific to a request, can be null or empty
+     * @param requestOptions additional headers specific to a request, can be null or empty
      */
-    private void addHeadersTo(final HttpRequestBase request, Map<String,String> requestHeaders) {
+    private void addHeadersTo(final HttpRequestBase request, RequestOptions requestOptions) {
         Map<String,String> combinedHeaders = new HashMap<>(this.headers);
-        if (requestHeaders != null) {
-            combinedHeaders.putAll(requestHeaders);
+        if (requestOptions != null) {
+            combinedHeaders.putAll(requestOptions.getHeaders());
         }
         combinedHeaders.entrySet().stream().forEach(e -> request.addHeader(e.getKey(), e.getValue()));
     }
@@ -233,20 +233,28 @@ public class FHIRBucketClient {
     }
 
     /**
+     * Helper function to get the parseResource option value
+     * @param requestOptions, can be null
+     * @return true if requestOptions is null or requestOptions.isParseResource() is true
+     */
+    private boolean isParseResource(RequestOptions requestOptions) {
+        return requestOptions != null ? requestOptions.isParseResource() : true;
+    }
+
+    /**
      * Issue a GET request with request-specific headers
      * @param url
-     * @param requestHeaders request-specific headers; can be null
+     * @param requestOptions request-specific headers; can be null
      * @return
      */
-    public FhirServerResponse get(String url, Map<String,String> requestHeaders) {
-
+    public FhirServerResponse get(String url, RequestOptions requestOptions) {
         String target = buildTargetPath(url);
         if (logger.isLoggable(Level.FINE)){
             logger.fine("REQUEST GET "+ target);
         }
 
         HttpGet getRequest = new HttpGet(target);
-        addHeadersTo(getRequest, requestHeaders);
+        addHeadersTo(getRequest, requestOptions);
 
         for (int i = 1; ; i++) {
             try {
@@ -263,7 +271,7 @@ public class FHIRBucketClient {
                     }
                     logger.fine(msg.toString());
                 }
-                return buildResponse(response, startTime, true);
+                return buildResponse(response, startTime, true, isParseResource(requestOptions));
             } catch (NoHttpResponseException e) {
                 logger.warning("Encountered an org.apache.http.NoHttpResponseException during GET request. " + e);
                 logger.warning("GET URL: "+target);
@@ -290,11 +298,11 @@ public class FHIRBucketClient {
     /**
      * Issue a POST request at the given url with request-specific headers
      * @param url
-     * @param requestHeaders request-specific headers; can be null
+     * @param requestOptions request-specific headers; can be null
      * @param body
      * @return
      */
-    public FhirServerResponse post(String url, Map<String,String> requestHeaders, String body) {
+    public FhirServerResponse post(String url, RequestOptions requestOptions, String body) {
         String target = buildTargetPath(url);
         if(logger.isLoggable(Level.FINE)) {
             logger.fine("REQUEST POST "+ target);
@@ -303,7 +311,7 @@ public class FHIRBucketClient {
         try {
             HttpPost postRequest = new HttpPost(target);
             postRequest.setEntity(new StringEntity(body));
-            addHeadersTo(postRequest, requestHeaders);
+            addHeadersTo(postRequest, requestOptions);
 
             if(logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST POST BODY - " + body);
@@ -329,7 +337,7 @@ public class FHIRBucketClient {
             // then we need to parse the response entity. This is a little
             // crude, but works OK here
             boolean processResponseEntity = url.isEmpty() || url.startsWith("$");
-            return buildResponse(response, startTime, processResponseEntity);
+            return buildResponse(response, startTime, processResponseEntity, isParseResource(requestOptions));
 
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -359,11 +367,11 @@ public class FHIRBucketClient {
     /**
      * Issue a PUT request with request-specific headers
      * @param url
-     * @param requestHeaders
+     * @param requestOptions
      * @param body
      * @return
      */
-    public FhirServerResponse put(String url, Map<String, String> requestHeaders, String body) {
+    public FhirServerResponse put(String url, RequestOptions requestOptions, String body) {
         String target = buildTargetPath(url);
 
         if (logger.isLoggable(Level.FINE)) {
@@ -373,7 +381,7 @@ public class FHIRBucketClient {
         try {
             HttpPut putRequest = new HttpPut(target);
             putRequest.setEntity(new StringEntity(body));
-            addHeadersTo(putRequest, requestHeaders);
+            addHeadersTo(putRequest, requestOptions);
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("REQUEST PUT BODY - " + body);
@@ -388,7 +396,7 @@ public class FHIRBucketClient {
                     logger.fine("\t" + responseHeader.getName() + ": " + responseHeader.getValue());
                 }
             }
-            return buildResponse(response, startTime, false);
+            return buildResponse(response, startTime, false, isParseResource(requestOptions));
 
         } catch (UnsupportedEncodingException e) {
             logger.severe("Can't encode json string into entity. "+e);
@@ -434,7 +442,7 @@ public class FHIRBucketClient {
                     }
                     logger.fine(msg.toString());
                 }
-                return buildResponse(response, startTime, true);
+                return buildResponse(response, startTime, true, true);
             } catch (NoHttpResponseException e) {
                 logger.warning("Encountered an org.apache.http.NoHttpResponseException during DELETE request. " + e);
                 logger.warning("DELETE URL: "+target);
@@ -481,7 +489,7 @@ public class FHIRBucketClient {
      * @param startTime
      * @return
      */
-    private FhirServerResponse buildResponse(HttpResponse response, long startTime, boolean processResponseEntity) {
+    private FhirServerResponse buildResponse(HttpResponse response, long startTime, boolean processResponseEntity, boolean parseResource) {
         FhirServerResponse sr = new FhirServerResponse();
 
         int status = response.getStatusLine().getStatusCode();
@@ -492,7 +500,7 @@ public class FHIRBucketClient {
         try {
             if (status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED) {
                 if (processResponseEntity) {
-                    processEntity(sr, entity);
+                    processEntity(sr, entity, parseResource);
                 } else if (response.getFirstHeader("Location") != null) {
                     // Single resource case, no response body, just the URL returned in the Location header
                     sr.setLocationHeader(response.getFirstHeader("Location").getValue());
@@ -583,15 +591,21 @@ public class FHIRBucketClient {
      * @param rdr
      * @return
      */
-    private void processEntity(FhirServerResponse sr, HttpEntity entity) {
+    private void processEntity(FhirServerResponse sr, HttpEntity entity, boolean parseResource) {
 
         try {
-            try (InputStream instream = entity.getContent()) {
-                Resource resource = FHIRParser.parser(Format.JSON).parse(new InputStreamReader(instream, StandardCharsets.UTF_8));
-                sr.setResource(resource);
-            } catch (FHIRParserException e) {
-                throw new IllegalStateException(e);
-            } finally {
+            if (parseResource) {
+                try (InputStream instream = entity.getContent()) {
+                    Resource resource = FHIRParser.parser(Format.JSON).parse(new InputStreamReader(instream, StandardCharsets.UTF_8));
+                    sr.setResource(resource);
+                } catch (FHIRParserException e) {
+                    throw new IllegalStateException(e);
+                } finally {
+                }
+            } else {
+                // Bypass deserialization - which the consumer may not need
+                String resourceData = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                sr.setResourceData(resourceData);
             }
         } catch (IOException x) {
             throw new IllegalStateException(x);

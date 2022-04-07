@@ -14,8 +14,13 @@ import com.ibm.fhir.model.resource.Resource;
  */
 public class FlowFetchResult {
     private int status;
-    private Resource resource;
     private ResourceIdentifierVersion location;
+
+    // The resource can be carried in either its on-wire data form
+    private String resourceData; // is faster
+
+    // ...or as a parsed Resource value, depending on user preference
+    private Resource resource; // will be slower
 
     /**
      * Public constructor
@@ -57,5 +62,19 @@ public class FlowFetchResult {
      */
     public void setResource(Resource resource) {
         this.resource = resource;
+    }
+
+    /**
+     * @return the resourceData
+     */
+    public String getResourceData() {
+        return resourceData;
+    }
+
+    /**
+     * @param resourceData the resourceData to set
+     */
+    public void setResourceData(String resourceData) {
+        this.resourceData = resourceData;
     }
 }

@@ -86,24 +86,25 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
     }
 
     @Override
-    public void delete(ResourceIdentifier identifier) {
+    public void delete(long changeId, ResourceIdentifier identifier) {
         // issue a delete using the downstream client
-        final String request = identifier.toString();
+        final String request = identifier.getFullUrl();
         FhirServerResponse response = client.delete(request);
         if (response.getStatusCode() != HttpStatus.SC_OK) {
-            throw new IllegalStateException("Delete failed for '" + identifier.toString() + "'");
+            throw new IllegalStateException("Delete failed for '" + identifier.getFullUrl() + "'");
         }
     }
 
     @Override
-    public void createOrUpdate(ResourceIdentifier identifier, Resource resource) {
+    public void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource) {
         // issue a PUT for create-or-update on the downstream client
-        final String request = identifier.toString();
-        // TODO avoid the parse/generate cycle and just pass through the
-        // resource as a string - should require a lot less CPU and strain
-        // on the GC.
-        final String body = FHIRBucketClientUtil.resourceToString(resource);
-        FhirServerResponse response = client.put(request, body);
+        final String request = identifier.getFullUrl();
+        // if resourceData is provided we don't need to incur the cost of
+        // serializing the resource
+        if (resourceData == null) {
+            resourceData = FHIRBucketClientUtil.resourceToString(resource);
+        }
+        FhirServerResponse response = client.put(request, resourceData);
         if (response.getStatusCode() == 201) {
             logger.info("Successfully created resource on downstream system: " + request);
         } else if (response.getStatusCode() == 200) {

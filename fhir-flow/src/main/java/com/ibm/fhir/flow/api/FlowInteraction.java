@@ -6,11 +6,14 @@
  
 package com.ibm.fhir.flow.api;
 
+import java.util.function.Consumer;
 
 /**
  * Represents a resource being passed from the reader to the writer
  */
 public abstract class FlowInteraction {
+    private final long changeId;
+    private final Consumer<Long> completionCallback;
     private final ResourceIdentifier identifier;
 
     /**
@@ -18,7 +21,9 @@ public abstract class FlowInteraction {
      * 
      * @param identifier
      */
-    protected FlowInteraction(ResourceIdentifier identifier) {
+    protected FlowInteraction(long changeId, Consumer<Long> completionCallback, ResourceIdentifier identifier) {
+        this.changeId = changeId;
+        this.completionCallback = completionCallback;
         this.identifier = identifier;
     }
 
@@ -38,8 +43,23 @@ public abstract class FlowInteraction {
     }
 
     /**
+     * Getter for the changeId value
+     * @return
+     */
+    public long getChangeId() {
+        return this.changeId;
+    }
+
+    /**
      * Process this interaction using the given handler as a visitor
      * @param handler
      */
     public abstract void accept(IFlowInteractionHandler handler);
+
+    /**
+     * Make the completion callback
+     */
+    protected void complete() {
+        this.completionCallback.accept(this.changeId);
+    }
 }

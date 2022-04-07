@@ -29,6 +29,23 @@ public class ResourceIdentifier {
         this.logicalId = logicalId;
     }
 
+    @Override
+    public String toString() {
+        return getFullUrl();
+    }
+
+    /**
+     * Get the fullUrl value which is just resourceType/logicalId
+     * @return
+     */
+    public String getFullUrl() {
+        StringBuilder result = new StringBuilder();
+        result.append(getResourceType());
+        result.append("/");
+        result.append(getLogicalId());
+        return result.toString();
+    }
+
     /**
      * Parse a Uri and extract the resource type and id fields
      * 
