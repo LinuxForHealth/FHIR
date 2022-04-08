@@ -70,6 +70,9 @@ public class Main {
     // How many seconds to run for (default forever)
     private long runDurationSeconds = -1;
 
+    // How many seconds to wait for queued work to complete after the scan completes
+    private long drainForSeconds = 600;
+
     /**
      * Parse the command line arguments
      * @param args
@@ -131,7 +134,14 @@ public class Main {
                 if (i < args.length + 1) {
                     this.runDurationSeconds = Long.parseLong(args[++i]);
                 } else {
-                    throw new IllegalArgumentException("missing value for --partition-queue-size");
+                    throw new IllegalArgumentException("missing value for --run-duration");
+                }
+                break;
+            case "--drain-for-seconds":
+                if (i < args.length + 1) {
+                    this.drainForSeconds = Long.parseLong(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --drain-for-seconds");
                 }
                 break;
             case "--parse-resource":
@@ -202,7 +212,7 @@ public class Main {
             downstreamWriter = new DownstreamLogWriter(partitionCount, partitionQueueSize, this.logData);
         }
 
-        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, this.changeIdMarker);
+        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, this.changeIdMarker, this.drainForSeconds);
         historyReader.setClient(upstreamClient);
         historyReader.setFlowPool(readerPool);
         historyReader.setFlowWriter(downstreamWriter);

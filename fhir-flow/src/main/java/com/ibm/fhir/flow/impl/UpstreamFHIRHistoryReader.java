@@ -7,8 +7,8 @@
 package com.ibm.fhir.flow.impl;
 
 import java.time.Duration;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -22,6 +22,7 @@ import com.ibm.fhir.flow.api.IFlowPool;
 import com.ibm.fhir.flow.api.IFlowWriter;
 import com.ibm.fhir.flow.api.ResourceIdentifier;
 import com.ibm.fhir.flow.api.ResourceIdentifierVersion;
+import com.ibm.fhir.flow.util.CheckpointTracker;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
@@ -45,25 +46,26 @@ public class UpstreamFHIRHistoryReader {
 
     private final int count;
 
+    // how many seconds to drain queued work before leaving
+    private final long drainForSeconds;
+
     // The client we use to call the upstream whole-system history API
     private FHIRBucketClient client;
 
     // Tracking of which change ids are still pending
-    private final LinkedHashMap<Long, Object> changeTrackerMap = new LinkedHashMap<>();
-    private volatile long checkpointChangeId = -1;
-
-    // A value for inserting into the map, just so that we don't have to include null
-    private static final Object TRACKER_VALUE = new Object();
+    private final CheckpointTracker checkpointTracker = new CheckpointTracker();
 
     /**
      * Public constructor
      * 
      * @param count
      * @param changeIdMarkerStart
+     * @param drainForSeconds
      */
-    public UpstreamFHIRHistoryReader(int count, long changeIdMarkerStart) {
+    public UpstreamFHIRHistoryReader(int count, long changeIdMarkerStart, long drainForSeconds) {
         this.count = count;
         this.changeIdMarker = changeIdMarkerStart;
+        this.drainForSeconds = drainForSeconds;
     }
 
     /**
@@ -117,29 +119,29 @@ public class UpstreamFHIRHistoryReader {
             }
 
             // Write out a new checkpoint value if it has changed since we last looped
-            if (this.checkpointChangeId != lastCheckpointValue) {
-                lastCheckpointValue = this.checkpointChangeId;
+            if (checkpointTracker.getCheckpoint() != lastCheckpointValue) {
+                lastCheckpointValue = checkpointTracker.getCheckpoint();
                 logger.info("CHECKPOINT: " + lastCheckpointValue);
             }
         } while (duration == null || System.nanoTime() < endTime);
 
-        // wait up to 30 seconds for the remaining work to complete
+        // wait up to 'drainForSeconds' for the remaining work to complete
         logger.info("Waiting for queued work to complete");
-        drain(30);
+        drain();
 
         // We know we have completed processing up to this value. Make sure
         // we use the same value in our last message as we return, just for
-        // consistency (it's volatile, so a thread could change the value)
-        lastCheckpointValue = this.checkpointChangeId;
+        // consistency
+        lastCheckpointValue = checkpointTracker.getCheckpoint();
         logger.info("FINAL CHECKPOINT: " + lastCheckpointValue);
-        return this.checkpointChangeId;
+        return lastCheckpointValue;
     }
 
     /**
      * Allow some time for any outstanding work to complete
      */
-    private void drain(long secs) {
-        long endTime = System.nanoTime() + secs * 1000000000l; 
+    private void drain() {
+        long endTime = System.nanoTime() + drainForSeconds * 1000000000l; 
         while (System.nanoTime() < endTime && !isChangeTrackerEmpty()) {
             ThreadHandler.safeSleep(1000);
         }
@@ -150,9 +152,7 @@ public class UpstreamFHIRHistoryReader {
      * @return
      */
     private boolean isChangeTrackerEmpty() {
-        synchronized (this.changeTrackerMap) {
-            return this.changeTrackerMap.isEmpty();
-        }
+        return this.checkpointTracker.isEmpty();
     }
     /**
      * Perform one whole-system history call
@@ -272,16 +272,15 @@ public class UpstreamFHIRHistoryReader {
      * @param bundle
      */
     private void addTrackerValues(Bundle bundle) {
-        
-        synchronized(this.changeTrackerMap) {
-            for (Bundle.Entry entry: bundle.getEntry()) {
-                // The entry.id field is database resourceId which is used as the PK for the
-                // changes table. It just needs to be unique and match the change sequence. It
-                // does not need to be contiguous
-                long changeId = Long.parseLong(entry.getId());
-                this.changeTrackerMap.put(changeId, TRACKER_VALUE); // value doesn't matter
-            }
+
+        List<Long> requestIds = new ArrayList<>(bundle.getEntry().size());
+        for (Bundle.Entry entry: bundle.getEntry()) {
+            // The entry.id field is database resourceId which is used as the PK for the
+            // changes table. It just needs to be unique and match the change sequence. It
+            // does not need to be contiguous
+            requestIds.add(Long.parseLong(entry.getId()));
         }
+        checkpointTracker.track(requestIds);
     }
 
     /**
@@ -290,20 +289,7 @@ public class UpstreamFHIRHistoryReader {
      * @param changeId
      */
     private void trackerComplete(long changeId) {
-        synchronized(this.changeTrackerMap) {
-            long oldestChangeId = -1;
-            // Get the oldest change we still have in the list. It's bizarre this
-            // isn't a method on the LinkedHashMap itself.
-            Iterator<Long> it = changeTrackerMap.keySet().iterator();
-            if (it.hasNext()) {
-                oldestChangeId = it.next();
-            }
-            // Update the checkpoint if we're removing the oldest change id
-            if (oldestChangeId == changeId) {
-                this.checkpointChangeId = changeId;
-            }
-            this.changeTrackerMap.remove(changeId);
-        }
+        checkpointTracker.completed(changeId);
     }
 
     /**
@@ -313,6 +299,6 @@ public class UpstreamFHIRHistoryReader {
      * @return
      */
     public long getCheckpointChangeId() {
-        return this.checkpointChangeId;
+        return this.checkpointTracker.getCheckpoint();
     }
 }
