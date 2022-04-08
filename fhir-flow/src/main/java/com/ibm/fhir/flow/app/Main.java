@@ -130,6 +130,13 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --reader-pool-size");
                 }
                 break;
+            case "--change-id-marker":
+                if (i < args.length + 1) {
+                    this.changeIdMarker = Long.parseLong(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --change-id-marker");
+                }
+                break;
             case "--run-duration":
                 if (i < args.length + 1) {
                     this.runDurationSeconds = Long.parseLong(args[++i]);
@@ -203,7 +210,7 @@ public class Main {
 
         // Set up our target
         IFlowWriter downstreamWriter;
-        if (downstreamProperties.size() > 0) {
+        if (downstreamProperties.size() > 0 && downstreamTenant.length() > 0) {
             logger.info("Using downstream tenant: " + this.downstreamTenant);
             FHIRBucketClient downstreamClient = new FHIRBucketClient(new ClientPropertyAdapter(downstreamProperties));
             downstreamClient.init(downstreamTenant);

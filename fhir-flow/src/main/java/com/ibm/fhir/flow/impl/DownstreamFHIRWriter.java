@@ -36,7 +36,7 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
     private final PartitionExecutor<FlowInteraction> pool;
 
     // set to false to shut down
-    private boolean running;
+    private boolean running = true;
 
     /**
      * Public constructor
@@ -91,7 +91,7 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
         final String request = identifier.getFullUrl();
         FhirServerResponse response = client.delete(request);
         if (response.getStatusCode() != HttpStatus.SC_OK) {
-            throw new IllegalStateException("Delete failed for '" + identifier.getFullUrl() + "'");
+            throw new IllegalStateException("FAILED delete on '" + identifier.getFullUrl() + "'");
         }
     }
 
@@ -106,9 +106,11 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
         }
         FhirServerResponse response = client.put(request, resourceData);
         if (response.getStatusCode() == 201) {
-            logger.info("Successfully created resource on downstream system: " + request);
+            logger.info("Created downstream resource [" + changeId + "] " + request);
         } else if (response.getStatusCode() == 200) {
-            logger.info("Successfully updated resource on downstream system: " + request);
+            logger.info("Updated downstream resource [" + changeId + "] " + request);
+        } else {
+            logger.warning("FAILED create/update [" + changeId + "] status=" + response.getStatusCode() + ", resource=" + request);
         }
     }
 
