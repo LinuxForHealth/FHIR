@@ -8,12 +8,12 @@ package com.ibm.fhir.flow.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 import org.apache.http.HttpStatus;
 
 import com.ibm.fhir.flow.api.FlowInteraction;
 import com.ibm.fhir.flow.api.IFlowInteractionHandler;
+import com.ibm.fhir.flow.api.ITrackerTicket;
 import com.ibm.fhir.flow.api.ResourceIdentifier;
 
 /**
@@ -27,12 +27,12 @@ public class CreateOrUpdate extends FlowInteraction {
      * Public constructor
      * 
      * @param changeId
-     * @param completionCallback
+     * @param trackerTicket
      * @param identifier
      * @param cf
      */
-    public CreateOrUpdate(long changeId, Consumer<Long> completionCallback, ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
-        super(changeId, completionCallback, identifier);
+    public CreateOrUpdate(long changeId, ITrackerTicket trackerTicket, ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
+        super(changeId, trackerTicket, identifier);
         this.flowFetchFuture = cf;
     }
 

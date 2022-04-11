@@ -18,11 +18,13 @@ import com.ibm.fhir.bucket.client.FHIRBucketClient;
 import com.ibm.fhir.bucket.client.FhirServerResponse;
 import com.ibm.fhir.bucket.client.RequestOptions;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
+import com.ibm.fhir.flow.api.ICheckpointTracker;
 import com.ibm.fhir.flow.api.IFlowPool;
 import com.ibm.fhir.flow.api.IFlowWriter;
+import com.ibm.fhir.flow.api.ITrackerTicket;
 import com.ibm.fhir.flow.api.ResourceIdentifier;
 import com.ibm.fhir.flow.api.ResourceIdentifierVersion;
-import com.ibm.fhir.flow.util.CheckpointTracker;
+import com.ibm.fhir.flow.checkpoint.Tracker;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
@@ -53,7 +55,8 @@ public class UpstreamFHIRHistoryReader {
     private FHIRBucketClient client;
 
     // Tracking of which change ids are still pending
-    private final CheckpointTracker checkpointTracker = new CheckpointTracker();
+    // private final CheckpointTracker checkpointTracker = new CheckpointTracker();
+    private final ICheckpointTracker tracker = new Tracker();
 
     /**
      * Public constructor
@@ -119,8 +122,8 @@ public class UpstreamFHIRHistoryReader {
             }
 
             // Write out a new checkpoint value if it has changed since we last looped
-            if (checkpointTracker.getCheckpoint() != lastCheckpointValue) {
-                lastCheckpointValue = checkpointTracker.getCheckpoint();
+            if (tracker.getCheckpoint() != lastCheckpointValue) {
+                lastCheckpointValue = tracker.getCheckpoint();
                 logger.info("CHECKPOINT: " + lastCheckpointValue);
             }
         } while (duration == null || System.nanoTime() < endTime);
@@ -132,7 +135,7 @@ public class UpstreamFHIRHistoryReader {
         // We know we have completed processing up to this value. Make sure
         // we use the same value in our last message as we return, just for
         // consistency
-        lastCheckpointValue = checkpointTracker.getCheckpoint();
+        lastCheckpointValue = tracker.getCheckpoint();
         logger.info("FINAL CHECKPOINT: " + lastCheckpointValue);
         return lastCheckpointValue;
     }
@@ -152,7 +155,7 @@ public class UpstreamFHIRHistoryReader {
      * @return
      */
     private boolean isChangeTrackerEmpty() {
-        return this.checkpointTracker.isEmpty();
+        return this.tracker.isEmpty();
     }
     /**
      * Perform one whole-system history call
@@ -233,8 +236,11 @@ public class UpstreamFHIRHistoryReader {
             return;
         }
 
-        addTrackerValues(bundle);
+        // Add all the tracker entries in one go - more efficient locking
+        List<ITrackerTicket> tickets = addTrackerValues(bundle);
+        int index = 0;
         for (Bundle.Entry entry: bundle.getEntry()) {
+            ITrackerTicket trackerTicket = tickets.get(index++);
             // The entry.id field is database resourceId which is used as the PK for the
             // changes table. It just needs to be unique and match the change sequence. It
             // does not need to be contiguous
@@ -242,7 +248,7 @@ public class UpstreamFHIRHistoryReader {
             switch (entry.getRequest().getMethod().getValueAsEnum()) {
             case DELETE:
                 // no value to fetch, so just submit the interaction
-                flowWriter.submit(new Delete(changeId, (cid)-> trackerComplete(cid), ResourceIdentifier.from(entry.getFullUrl())));
+                flowWriter.submit(new Delete(changeId, trackerTicket, ResourceIdentifier.from(entry.getFullUrl())));
                 break;
             case PUT:
             case POST:
@@ -254,7 +260,7 @@ public class UpstreamFHIRHistoryReader {
                     CompletableFuture<FlowFetchResult> flowFetchFuture = flowPool.requestResource(riv);
     
                     // and submit the interaction using the future which can be resolved later
-                    flowWriter.submit(new CreateOrUpdate(changeId, (cid)-> trackerComplete(cid), riv, flowFetchFuture));
+                    flowWriter.submit(new CreateOrUpdate(changeId, trackerTicket, riv, flowFetchFuture));
                 } else {
                     throw new IllegalStateException("entry does not include a response: " + entry.toString());
                 }
@@ -271,7 +277,7 @@ public class UpstreamFHIRHistoryReader {
      * still the lock very short amount of time.
      * @param bundle
      */
-    private void addTrackerValues(Bundle bundle) {
+    private List<ITrackerTicket> addTrackerValues(Bundle bundle) {
 
         List<Long> requestIds = new ArrayList<>(bundle.getEntry().size());
         for (Bundle.Entry entry: bundle.getEntry()) {
@@ -280,16 +286,7 @@ public class UpstreamFHIRHistoryReader {
             // does not need to be contiguous
             requestIds.add(Long.parseLong(entry.getId()));
         }
-        checkpointTracker.track(requestIds);
-    }
-
-    /**
-     * Callback received when the downstream component has finished processing the
-     * bundle entry related to this changeId
-     * @param changeId
-     */
-    private void trackerComplete(long changeId) {
-        checkpointTracker.completed(changeId);
+        return tracker.track(requestIds);
     }
 
     /**
@@ -299,6 +296,6 @@ public class UpstreamFHIRHistoryReader {
      * @return
      */
     public long getCheckpointChangeId() {
-        return this.checkpointTracker.getCheckpoint();
+        return this.tracker.getCheckpoint();
     }
 }

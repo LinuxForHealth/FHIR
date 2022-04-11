@@ -6,10 +6,9 @@
  
 package com.ibm.fhir.flow.impl;
 
-import java.util.function.Consumer;
-
 import com.ibm.fhir.flow.api.FlowInteraction;
 import com.ibm.fhir.flow.api.IFlowInteractionHandler;
+import com.ibm.fhir.flow.api.ITrackerTicket;
 import com.ibm.fhir.flow.api.ResourceIdentifier;
 
 /**
@@ -22,9 +21,11 @@ public class Delete extends FlowInteraction {
      * Public constructor
      * 
      * @param identifier
+     * @param trackerTicket
+     * @param identifier
      */
-    public Delete(long changeId, Consumer<Long> completionCallback, ResourceIdentifier identifier) {
-        super(changeId, completionCallback, identifier);
+    public Delete(long changeId, ITrackerTicket trackerTicket, ResourceIdentifier identifier) {
+        super(changeId, trackerTicket, identifier);
     }
 
     @Override

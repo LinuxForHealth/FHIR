@@ -6,10 +6,14 @@
  
 package com.ibm.fhir.flow.util;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedDeque;
+
+import com.ibm.fhir.flow.api.ICheckpointTracker;
+import com.ibm.fhir.flow.api.ITrackerTicket;
 
 /**
  * Encapsulates the tracking of a checkpoint we use for scanning the history
@@ -17,7 +21,8 @@ import java.util.concurrent.ConcurrentLinkedDeque;
  * in an arbitrary order, so we need to move the checkpoint only when all the
  * work before it has been completed.
  */
-public class CheckpointTracker {
+@Deprecated
+public class CheckpointTracker implements ICheckpointTracker {
     // Requests in order of submission, which will be in increasing value (but not guaranteed contiguous)
     private final ConcurrentLinkedDeque<Long> queued = new ConcurrentLinkedDeque<>();
 
@@ -30,13 +35,11 @@ public class CheckpointTracker {
     // The id of the last request we were asked to track.
     private long lastRequestId = -1;
 
-    /**
-     * Add this request to the queue
-     * @param requestId
-     */
-    public void track(long requestId) {
+    @Override
+    public ITrackerTicket track(long requestId) {
         if (requestId <= lastRequestId) {
-            // we expect 
+            // we expect requests to be tracked in increasing order...as they are
+            // used to determine the change sequence on the source system
             throw new IllegalArgumentException("tracking requests must be submitted in order");
         }
         this.lastRequestId = requestId;
@@ -45,13 +48,15 @@ public class CheckpointTracker {
         synchronized(this.completed) {
             this.queued.add(requestId);
         }
+        return new CheckpointTrackerTicket(this, requestId);
     }
 
     /**
      * Add the list of requests to the queue using a single lock
      * @param requestIds
      */
-    public void track(List<Long> requestIds) {
+    public List<ITrackerTicket> track(List<Long> requestIds) {
+        List<ITrackerTicket> tickets = new ArrayList<>(requestIds.size());
         synchronized (this.completed) {
             for (Long requestId: requestIds) {
                 if (requestId <= lastRequestId) {
@@ -60,8 +65,10 @@ public class CheckpointTracker {
                 }
                 this.lastRequestId = requestId;
                 this.queued.add(requestId);
+                tickets.add(new CheckpointTrackerTicket(this, requestId));
             }
         }
+        return tickets;
     }
 
     /**
