@@ -786,7 +786,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * Enforce the authorizations granted by the end user in the form of scope strings.
      *
      * @param resourceType the resource type
-     * @param resourceId the resource ID
+     * @param resourceId the resource ID; may be null for a FHIR create (POST)
      * @param resource the resource to check, or null if resource was not retrieved
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
      * @param requiredPermission the permission required for the requested interaction
@@ -810,8 +810,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * Determine whether authorization to a given resource is granted by the end user in the form of scope strings.
      *
      * @param resourceType the resource type
-     * @param resourceId the resource ID
-     * @param resource the resource to check, or null if resource not retrieved
+     * @param resourceId the resource ID; may be null in the case of a FHIR create (POST)
+     * @param resource the resource to check; null if resource not retrieved
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
      * @param requiredPermission the permission required for the requested interaction
      * @param grantedScopes the SMART scopes associated with the request, indexed by ContextType
@@ -820,7 +820,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private boolean isAllowed(String resourceType, String resourceId, Resource resource, Set<String> contextIds, Permission requiredPermission, Map<ContextType, List<Scope>> grantedScopes)
             throws FHIRPersistenceInterceptorException {
         Objects.requireNonNull(resourceType, "resourceType");
-        Objects.requireNonNull(resourceId, "resourceId");
         Objects.requireNonNull(contextIds, "contextIds");
 
         // For `system` and `user` scopes, we grant access to all resources of the requested type.
@@ -837,7 +836,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     .findAny();
             if (approvingScope.isPresent()) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
+                    String typeWithOptionalId = resourceType;
+                    if (resourceId != null) {
+                        typeWithOptionalId = typeWithOptionalId + "/" + resourceId;
+                    }
+                    log.fine(requiredPermission.value() + " permission for '" + typeWithOptionalId +
                         "' is granted via scope " + approvingScope.get());
                 }
                 return true;
@@ -907,7 +910,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * Internal helper for checking compartment membership.
      *
      * @param resourceType
-     * @param resourceId
+     * @param resourceId possibly null
      * @param resource possibly null
      * @param compartmentType
      * @param contextIds
@@ -942,7 +945,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             // If the target resource type matches the compartment type, allow it if the id is one of the passed contextIds
             if (compartment.equals(resourceType) && contextIds.contains(resourceId)) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Bypassing compartment check for the compartment identity resource " + resourceType + "/" + resource.getId());
+                    log.fine("Bypassing compartment check for the compartment identity resource " + resourceType + "/" + resourceId);
                 }
                 return true;
             }
@@ -954,7 +957,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             for (String searchParmCode : inclusionCriteria) {
                 try {
                     SearchParameter inclusionParm = searchHelper.getSearchParameter(resourceType, searchParmCode);
-                    if (inclusionParm != null & inclusionParm.getExpression() != null) {
+                    if (inclusionParm != null && inclusionParm.getExpression() != null) {
                         String expression = inclusionParm.getExpression().getValue();
                         Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(resourceContext, expression);
                         for (FHIRPathNode node : nodes) {
