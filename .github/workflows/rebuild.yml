@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         java: [ '11' ]
-        tag: [ '4.9.2', '4.10.2' ]
+        tag: [ '4.11.0' ]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
@@ -26,10 +26,6 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
-    - name: Patch release script
-      run: |
-        # only needed until we get past FHIR 4.10.2
-        sed -i '/^mvn -T2C test .* -f fhir-parent -P "${BUILD_PROFILES}"$/ s/$/ -DfailIfNoTests=false -Dtest=!com.ibm.fhir.ig.us.spl.ExamplesValidationTest/' build/release/bin/20_test/1_code_coverage.sh
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
