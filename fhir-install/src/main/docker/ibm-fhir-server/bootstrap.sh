@@ -65,6 +65,6 @@ info "Current directory: $CUR_DIR"
 _bootstrap_db
 
 # Pass it on to the Liberty entrypoint
-/opt/ol/helpers/runtime/docker-server.sh "$@"
+exec /opt/ol/helpers/runtime/docker-server.sh "$@"
 
 # EOF

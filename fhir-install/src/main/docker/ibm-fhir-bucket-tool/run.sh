@@ -8,5 +8,5 @@
 
 set -e -o pipefail
 
-/opt/java/openjdk/bin/java -jar /opt/ibm/fhir/bucket/fhir-bucket-*-cli.jar "$@"
+exec /opt/java/openjdk/bin/java -jar /opt/ibm/fhir/bucket/fhir-bucket-*-cli.jar "$@"
 # EOF
