@@ -237,8 +237,12 @@ public class FHIRRestBundleHelper {
                     log.finer("Beginning processing for method: " + httpMethod);
                 }
 
-                // For PUT and DELETE requests, we need to sort the indices by the request url path value.
-                if (httpMethod == HTTPVerb.Value.PUT || httpMethod == HTTPVerb.Value.DELETE) {
+                // For transaction bundles, we need to sort the PUT and DELETE requests to mitigate potential deadlocks
+                // from cases where concurrent bundles have different ordering of the same resources like the following:
+                //   * bundle1: patient1, patient2
+                //   * bundle2: patient2, patient1
+                if (requestBundle.getType().getValueAsEnum() == BundleType.Value.TRANSACTION &&
+                        (httpMethod == HTTPVerb.Value.PUT || httpMethod == HTTPVerb.Value.DELETE)) {
                     sortBundleRequestEntries(requestBundle, entryIndices);
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("Sorted bundle request indices to be processed: "
