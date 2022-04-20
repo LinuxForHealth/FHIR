@@ -311,14 +311,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
-            // For R4, resources may contain an id. For create, this should be ignored and
-            // we no longer reject the request.
+            // Resources may contain an id. For create, this value should be ignored (we no longer reject the request).
             if (resource.getId() != null) {
                 String msg = "The create request resource included id: '" + resource.getId() + "'; this id has been replaced";
                 warnings.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, msg));
                 if (log.isLoggable(Level.FINE)) {
                     log.fine(msg);
                 }
+
+                // Null out the id so that interceptors don't get confused by the bogus value passed in
+                Resource.Builder builder = resource.toBuilder();
+                builder.id(null);
+                builder.setValidating(false);
+                event.setFhirResource(builder.build());
             }
 
             // Now we know we are going forward with the create, so fire the 'beforeCreate' event. This may modify the resource
@@ -343,7 +348,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, 
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource,
             PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doCreatePersist");
 
