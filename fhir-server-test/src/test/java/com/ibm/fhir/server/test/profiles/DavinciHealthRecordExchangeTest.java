@@ -72,7 +72,17 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
 
     @Override
     public List<String> getRequiredProfiles() {
-        return Arrays.asList("http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-claimresponse|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-consent|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-demographics|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-member|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitionerrole|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-provenance|0.2.0", "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request|0.2.0");
+        return Arrays.asList(
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-claimresponse|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-consent|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-coverage|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-organization|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-out|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-patient-demographics|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitioner|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-practitionerrole|1.0.0",
+                "http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-task-data-request|1.0.0");
     }
 
     @Override
@@ -84,12 +94,12 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
 
     public void loadCoverage() throws Exception {
         String resource = "Coverage-full.json";
-        Resource coverage = HREXExamplesUtil.readLocalJSONResource("020", resource);
+        Resource coverage = HREXExamplesUtil.readLocalJSONResource("100", resource);
         coverageId = createResourceAndReturnTheLogicalId("Coverage", coverage);
     }
 
     public void loadMultiplePatients() throws Exception {
-        Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+        Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
         Patient patient = source.getParameter().get(0).getResource().as(Patient.class);
 
         Identifier.Builder idBuilder = patient.getIdentifier().get(0).toBuilder();
@@ -104,7 +114,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
 
     public void loadSingleMatchPatientAndCoverage() throws Exception {
         singleMatchPatientId = UUID.randomUUID().toString();
-        Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+        Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
         Patient patient = source.getParameter().get(0).getResource().as(Patient.class);
 
         Identifier.Builder idBuilder = patient.getIdentifier().get(0).toBuilder();
@@ -198,7 +208,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    return HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    return HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
                 } catch (Exception e) {
                     throw new AssertionError("Unexpected");
                 }
@@ -243,7 +253,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
 
                     List<Parameters.Parameter> params = new ArrayList<>();
                     Patient patient = source.getParameter().get(0).getResource().as(Patient.class);
@@ -278,7 +288,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
                     Parameters.Builder builder = Parameters.builder().parameter(Arrays.asList(source.getParameter().get(0), source.getParameter().get(3)));
                     return builder.build();
                 } catch (Exception e) {
@@ -302,7 +312,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
 
                     List<Parameters.Parameter> params = new ArrayList<>();
                     Coverage coverage = source.getParameter().get(1).getResource().as(Coverage.class);
@@ -340,7 +350,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
 
                     List<Parameters.Parameter> params = new ArrayList<>();
                     Patient patient = source.getParameter().get(0).getResource().as(Patient.class);
@@ -378,7 +388,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
 
                     List<Parameters.Parameter> params = new ArrayList<>();
                     Patient patient = source.getParameter().get(0).getResource().as(Patient.class);
@@ -416,7 +426,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBaseV2 {
             @Override
             public Parameters getInputParameters() {
                 try {
-                    Parameters source = HREXExamplesUtil.readLocalJSONResource("020", "Parameters-member-match-in.json");
+                    Parameters source = HREXExamplesUtil.readLocalJSONResource("100", "Parameters-member-match-in.json");
 
                     List<Parameters.Parameter> params = new ArrayList<>();
                     Patient patient = source.getParameter().get(0).getResource().as(Patient.class);

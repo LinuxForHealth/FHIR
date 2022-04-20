@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,9 +24,6 @@ import jakarta.json.JsonValue;
  * resulting from loading the configuration, or it could be just a sub-structure within the overall config hierarchy, as
  * a property group can contain other property groups. Internally, there is a JsonObject which holds the actual group of
  * properties and this class provides a high-level API for accessing properties in a hierarchical manner.
- *
- * @author padams
- *
  */
 public class PropertyGroup {
 
@@ -110,9 +107,8 @@ public class PropertyGroup {
      *
      * @param propertyName the name of the property to retrieve
      * @return a List<String> containing the elements from the JSON array property; possibly null
-     * @throws Exception
      */
-    public List<String> getStringListProperty(String propertyName) throws Exception {
+    public List<String> getStringListProperty(String propertyName) {
         Object[] array = getArrayProperty(propertyName);
         List<String> strings = null;
         if (array != null) {
@@ -219,9 +215,8 @@ public class PropertyGroup {
      *
      * @param propertyName the name of the property to retrieve
      * @return an array of values from the specified array property or null if the property doesn't exist
-     * @throws Exception
      */
-    public Object[] getArrayProperty(String propertyName) throws Exception {
+    public Object[] getArrayProperty(String propertyName) {
         Object[] result = null;
         JsonValue jsonValue = getJsonValue(propertyName);
         if (jsonValue != null) {
@@ -238,9 +233,8 @@ public class PropertyGroup {
      * Returns the properties contained in the PropertyGroup in the form of a list of
      * PropertyEntry instances. If no properties exist, then an empty list will be returned.
      * Properties with a value of null will be omitted from the list.
-     * @throws Exception
      */
-    public List<PropertyEntry> getProperties() throws Exception {
+    public List<PropertyEntry> getProperties() {
         List<PropertyEntry> results = new ArrayList<>();
         for (Map.Entry<String, JsonValue> entry : jsonObj.entrySet()) {
             Object jsonValue = convertJsonValue(entry.getValue());
@@ -267,9 +261,8 @@ public class PropertyGroup {
      * Converts the specified JsonValue into the appropriate java.lang.* type.
      * @param jsonValue the JsonValue instance to be converted
      * @return either null or an instance of Boolean, Integer, String, PropertyGroup, or List<Object>
-     * @throws Exception
      */
-    public static Object convertJsonValue(JsonValue jsonValue) throws Exception {
+    public static Object convertJsonValue(JsonValue jsonValue) {
         Object result = null;
         switch (jsonValue.getValueType()) {
         case ARRAY:
@@ -308,9 +301,8 @@ public class PropertyGroup {
      * Converts the specified JsonArray into an Object[]
      * @param jsonArray the JsonArray to be converted
      * @return an Object[] containing the converted values found in the JsonArray
-     * @throws Exception
      */
-    private static Object[] convertJsonArray(JsonArray jsonArray) throws Exception {
+    private static Object[] convertJsonArray(JsonArray jsonArray) {
         Object[] result = new Object[jsonArray.size()];
         for (int i = 0; i < jsonArray.size(); i++) {
             result[i] = convertJsonValue(jsonArray.get(i));

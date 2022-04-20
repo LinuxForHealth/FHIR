@@ -5,6 +5,9 @@
  */
 package com.ibm.fhir.config;
 
+import static com.ibm.fhir.core.ResourceTypeName.DOMAIN_RESOURCE;
+import static com.ibm.fhir.core.ResourceTypeName.RESOURCE;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,8 +35,10 @@ public class ResourcesConfigAdapter {
 
     private final Set<String> supportedTypes;
     private final Map<Interaction, Set<String>> typesByInteraction = new HashMap<>();
+    private boolean isWholeSystemSearchSupported = true;
+    private boolean isWholeSystemHistorySupported = true;
 
-    public ResourcesConfigAdapter(PropertyGroup resourcesConfig) throws Exception {
+    public ResourcesConfigAdapter(PropertyGroup resourcesConfig) {
         supportedTypes = computeSupportedResourceTypes(resourcesConfig);
 
         if (resourcesConfig == null) {
@@ -43,10 +48,16 @@ public class ResourcesConfigAdapter {
             return;
         }
 
+        List<String> defaultResourceInteractions = resourcesConfig.getStringListProperty(RESOURCE.value() + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+        if (defaultResourceInteractions != null) {
+            isWholeSystemSearchSupported = defaultResourceInteractions.contains(Interaction.SEARCH.value());
+            isWholeSystemHistorySupported = defaultResourceInteractions.contains(Interaction.HISTORY.value());
+        }
+
         for (String resourceType : supportedTypes) {
             List<String> interactions = resourcesConfig.getStringListProperty(resourceType + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
             if (interactions == null) {
-                interactions = resourcesConfig.getStringListProperty("Resource/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
+                interactions = defaultResourceInteractions;
             }
 
             if (interactions == null) {
@@ -91,7 +102,11 @@ public class ResourcesConfigAdapter {
      * @return an immutable, non-null set of concrete resource types that are configured for the given interaction
      */
     public Set<String> getSupportedResourceTypes(Interaction interaction) {
-        return typesByInteraction.get(interaction);
+        Set<String> result = typesByInteraction.get(interaction);
+        if (result == null) {
+            result = Collections.emptySet();
+        }
+        return result;
     }
 
     /**
@@ -99,9 +114,8 @@ public class ResourcesConfigAdapter {
      *
      * @param resourcesConfig
      * @return
-     * @throws Exception
      */
-    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig) throws Exception {
+    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig) {
         if (resourcesConfig == null || resourcesConfig.getBooleanProperty("open", true)) {
             return ALL_CONCRETE_TYPES;
         }
@@ -113,8 +127,8 @@ public class ResourcesConfigAdapter {
             // Ensure we skip over the special property "open"
             // and skip the abstract types Resource and DomainResource
             if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) ||
-                    "Resource".equals(name) ||
-                    "DomainResource".equals(name)) {
+                    RESOURCE.value().equals(name) ||
+                    DOMAIN_RESOURCE.value().equals(name)) {
                 continue;
             }
 
@@ -126,5 +140,13 @@ public class ResourcesConfigAdapter {
         }
 
         return Collections.unmodifiableSet(result);
+    }
+
+    public boolean isWholeSystemSearchSupported() {
+        return isWholeSystemSearchSupported;
+    }
+
+    public boolean isWholeSystemHistorySupported() {
+        return isWholeSystemHistorySupported;
     }
 }

@@ -45,6 +45,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
@@ -178,6 +179,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     private final FHIRPersistence persistence;
     private final SearchHelper searchHelper;
+    private final ResourcesConfigAdapter resourcesConfig;
 
     // Used for correlating requests within a bundle.
     private String bundleRequestCorrelationId = null;
@@ -187,6 +189,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public FHIRRestHelper(FHIRPersistence persistence, SearchHelper searchHelper) {
         this.persistence = persistence;
         this.searchHelper = searchHelper;
+        PropertyGroup resourcesPropertyGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES);
+        this.resourcesConfig = new ResourcesConfigAdapter(resourcesPropertyGroup);
     }
 
     @Override
@@ -2938,51 +2942,35 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public void validateInteraction(Interaction interaction, String resourceType) throws FHIROperationException {
-        List<String> interactions = null;
-        boolean resourceValid = true;
-
-        // Retrieve the interaction configuration
-        try {
-            StringBuilder defaultInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/Resource/")
-                    .append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-            StringBuilder resourceSpecificInteractionsConfigPath = new StringBuilder(FHIRConfiguration.PROPERTY_RESOURCES).append("/")
-                    .append(resourceType).append("/").append(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
-
-            // Get the 'interactions' property
-            List<String> resourceSpecificInteractions = FHIRConfigHelper.getStringListProperty(resourceSpecificInteractionsConfigPath.toString());
-            if (resourceSpecificInteractions != null) {
-                interactions = resourceSpecificInteractions;
-            } else {
-                // Check the 'open' property, and if that's false, check if resource was specified
-                if (!FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_RESOURCES + "/" + FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
-                    PropertyGroup resourceGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_RESOURCES + "/" + resourceType);
-                    if (resourceGroup == null) {
-                        resourceValid = false;
-                    }
+        if ("Resource".equals(resourceType)) {
+            switch (interaction) {
+            case SEARCH:
+                if (!resourcesConfig.isWholeSystemSearchSupported()) {
+                    throw buildRestException("Whole system search is disabled on the server.", IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
                 }
-                if (resourceValid) {
-                    // Get the 'Resource' interaction property
-                    List<String> defaultInteractions = FHIRConfigHelper.getStringListProperty(defaultInteractionsConfigPath.toString());
-                    if (defaultInteractions != null) {
-                        interactions = defaultInteractions;
-                    }
+                return;
+            case HISTORY:
+                if (!resourcesConfig.isWholeSystemHistorySupported()) {
+                    throw buildRestException("Whole system history is disabled on the server.", IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
                 }
+                return;
+            default:
+                throw new IllegalStateException("Search and history are the only supported system-level interactions");
             }
-
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Allowed interactions: " + interactions);
-            }
-        } catch (Exception e) {
-            throw buildRestException("Error retrieving interactions configuration.", IssueType.UNKNOWN, IssueSeverity.ERROR);
         }
 
-        // Perform validation of specified interaction against specified resourceType
-        if (interactions != null && !interactions.contains(interaction.value())) {
-            throw buildRestException("The requested interaction of type '" + interaction.value() + "' is not allowed for resource type '" + resourceType + "'",
-                IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
-        } else if (!resourceValid) {
+        if (!resourcesConfig.getSupportedResourceTypes().contains(resourceType)) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not found",
-                IssueType.NOT_FOUND, IssueSeverity.ERROR);
+                    IssueType.NOT_FOUND, IssueSeverity.ERROR);
+        }
+
+        // fhir-config and fhir-server have two different Interaction enums with the same values
+        // we should merge those into a single enum and put it somewhere common (fhir-core?)
+        com.ibm.fhir.config.Interaction configInteraction = com.ibm.fhir.config.Interaction.from(interaction.value());
+
+        if (!resourcesConfig.getSupportedResourceTypes(configInteraction).contains(resourceType)) {
+            throw buildRestException("The requested interaction of type '" + interaction.value() + "' is not allowed for resource type '" + resourceType + "'",
+                    IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
         }
     }
 
@@ -3005,8 +2993,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // are returned in the response bundle per the R4 spec.
             requestContext.setReturnPreference(HTTPReturnPreference.REPRESENTATION);
         }
-        FHIRSystemHistoryContext historyContext =
-                FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+        FHIRSystemHistoryContext historyContext = FHIRPersistenceUtil.parseSystemHistoryParameters(queryParameters,
+                HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()), resourcesConfig);
 
         // If HTTPReturnPreference is REPRESENTATION, we fetch the resources and include them
         // in the response bundle. To make it simple, we make the records and resources the same

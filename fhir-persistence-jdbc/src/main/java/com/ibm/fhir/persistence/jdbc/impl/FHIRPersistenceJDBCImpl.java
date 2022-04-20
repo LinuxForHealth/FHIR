@@ -276,7 +276,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.legacyWholeSystemSearchParamsEnabled =
                 fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
-        
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -2748,7 +2748,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param committed true if the transaction completed, or false if it rolled back
      */
     private void transactionCompleted(Boolean committed) {
-        // Because of how this is called, committed should never be null 
+        // Because of how this is called, committed should never be null
         // but we check just to be safe
         Objects.requireNonNull(committed, "committed must be non-null");
 
@@ -2761,8 +2761,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     // The transaction has already committed, so we don't want to fail
                     // the request. This is a server-side issue now so all we can do is
                     // log.
-                    log.log(Level.SEVERE, "failed to erase offload payload for '" 
-                            + err.toString() 
+                    log.log(Level.SEVERE, "failed to erase offload payload for '"
+                            + err.toString()
                             + "'. Run reconciliation to ensure this record is removed.", x);
                 }
             }
@@ -2891,7 +2891,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (resourceTypeNames != null && resourceTypeNames.size() > 0) {
                 // convert the list of type names to the corresponding list of resourceTypeId values
                 // the REST layer already has checked these names are valid, so no need to worry about failures
-                resourceTypeIds = resourceTypeNames.stream().map(n -> cache.getResourceTypeCache().getId(n)).collect(Collectors.toList());
+                resourceTypeIds = resourceTypeNames.stream()
+                        .map(n -> cache.getResourceTypeCache().getId(n))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+
+                if (resourceTypeIds.size() != resourceTypeNames.size()) {
+                    throw new FHIRPersistenceException("Unexpected error converting resource type name(s) to id(s); " + resourceTypeNames);
+                }
             } else {
                 resourceTypeIds = null; // no filter on resource type
             }

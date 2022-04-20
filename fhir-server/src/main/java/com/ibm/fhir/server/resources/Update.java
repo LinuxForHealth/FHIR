@@ -89,7 +89,7 @@ public class Update extends FHIRResource {
             }
 
             if (updatedResource != null) {
-                response = addHeaders(response, updatedResource);
+                response = addETagAndLastModifiedHeaders(response, updatedResource);
             } else {
                 // For IfNoneMatch returning a 304 Not Modified, we may not have the current resource,
                 // but we can set the response headers we need using the location URI
@@ -158,7 +158,7 @@ public class Update extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, updatedResource);
+            response = addETagAndLastModifiedHeaders(response, updatedResource);
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
