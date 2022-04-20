@@ -14,6 +14,7 @@ import com.ibm.fhir.model.resource.Resource;
  */
 public class FlowFetchResult {
     private int status;
+    // The location of the resource in the upstream server
     private ResourceIdentifierVersion location;
 
     // The resource can be carried in either its on-wire data form

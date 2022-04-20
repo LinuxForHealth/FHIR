@@ -10,8 +10,13 @@ package com.ibm.fhir.flow.api;
  * Represents a resource being passed from the reader to the writer
  */
 public abstract class FlowInteraction {
+    // the change sequence number reported by the upstream server
     private final long changeId;
+
+    // the ticket being used to track completion of this interaction
     private final ITrackerTicket trackerTicket;
+
+    // The type/id of the resource
     private final ResourceIdentifier identifier;
 
     /**
@@ -32,6 +37,10 @@ public abstract class FlowInteraction {
         return getInteractionType() + " " + identifier.toString();
     }
 
+    /**
+     * Get the type of interaction represented by this
+     * @return
+     */
     public abstract String getInteractionType();
 
     /**
@@ -57,7 +66,7 @@ public abstract class FlowInteraction {
     public abstract void accept(IFlowInteractionHandler handler);
 
     /**
-     * Make the completion callback
+     * Invoke the completion callback
      */
     protected void complete() {
         this.trackerTicket.complete();

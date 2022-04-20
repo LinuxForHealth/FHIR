@@ -8,7 +8,8 @@ package com.ibm.fhir.flow.api;
 
 
 /**
- *
+ * Interface representing downstream writers to which we submit {@link FlowInteraction}
+ * requests.
  */
 public interface IFlowWriter {
     /**
@@ -17,12 +18,12 @@ public interface IFlowWriter {
      * processed, any async operations they depend on must be completed
      * first.
      * 
-     * @param interaction
+     * @param interaction the interaction to write
      */
     void submit(FlowInteraction interaction);
 
     /**
-     * Wait here until all the partition queues are empty
+     * Wait here until all the submitted interactions have been processed
      */
     void waitForShutdown();
 }

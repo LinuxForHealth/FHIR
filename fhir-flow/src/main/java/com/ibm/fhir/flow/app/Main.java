@@ -28,13 +28,15 @@ import com.ibm.fhir.flow.impl.FlowPool;
 import com.ibm.fhir.flow.impl.UpstreamFHIRHistoryReader;
 
 /**
- * Demonstration of FHIR system synchronization. Upstream changes are tracked
- * using the whole-system history API. The stream of changes is fed to a thread
- * pool to fetch the actual resources in parallel (VREAD). The stream is also fed
- * to an output queue along with a future which is resolved when the pool reads
- * the resource. The output queue maintains the same order as the input.
- * Different output adapters can be used to feed the stream of changes into a
- * downstream system, keeping it in sync with the state of the upstream system.
+ * Demonstration of FHIR system-to-system synchronization. 
+ * 
+ * Upstream changes are tracked using the whole-system history API. The stream of
+ * changes is fed to a thread pool to fetch the actual resources in parallel 
+ * (VREAD). The stream is also fed to an output queue along with a future which 
+ * is resolved when the pool reads the resource. The output queue maintains the 
+ * same order as the input. Different output adapters can be used to feed the 
+ * stream of changes into a downstream system, keeping it in sync with the state 
+ * of the upstream system.
  * 
  * This fhir-flow app holds state to represent where we currently sit in the
  * sequence of changes on the upstream server. This allows us to restart from
@@ -241,6 +243,7 @@ public class Main {
     }
 
     /**
+     * The main entry point
      * @param args
      */
     public static void main(String[] args) {

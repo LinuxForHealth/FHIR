@@ -33,6 +33,7 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
     // Client configured to point to a downstream FHIR server
     private final FHIRBucketClient client;
 
+    // The partitioned thread pool used to run the interactions
     private final PartitionExecutor<FlowInteraction> pool;
 
     // set to false to shut down

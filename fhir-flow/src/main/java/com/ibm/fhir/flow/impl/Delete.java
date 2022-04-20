@@ -20,7 +20,7 @@ public class Delete extends FlowInteraction {
     /**
      * Public constructor
      * 
-     * @param identifier
+     * @param changeId
      * @param trackerTicket
      * @param identifier
      */

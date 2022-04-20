@@ -45,7 +45,7 @@ public class ResourceIdentifierVersion extends ResourceIdentifier {
     /**
      * Parse a location string and extract the resource type, logical id and version
      * 
-     * @param uri
+     * @param location
      * @return
      */
     public static ResourceIdentifierVersion from(String location) {

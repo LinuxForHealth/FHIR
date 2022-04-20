@@ -41,6 +41,7 @@ public class FlowPool implements IFlowPool {
      * 
      * @param client
      * @param pool
+     * @param parseResource
      */
     public FlowPool(FHIRBucketClient client, ExecutorService pool, boolean parseResource) {
         this.client = client;
