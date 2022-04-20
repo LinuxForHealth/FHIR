@@ -288,14 +288,4 @@ public class UpstreamFHIRHistoryReader {
         }
         return tracker.track(requestIds);
     }
-
-    /**
-     * Get the change id value to use as a checkpoint. This is the value of the last
-     * completed id and will be used as the next _changeIdMarker if the program wishes
-     * to continue processing from a known point in the stream
-     * @return
-     */
-    public long getCheckpointChangeId() {
-        return this.tracker.getCheckpoint();
-    }
 }

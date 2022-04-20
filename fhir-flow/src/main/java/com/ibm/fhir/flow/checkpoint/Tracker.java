@@ -8,6 +8,7 @@ package com.ibm.fhir.flow.checkpoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ibm.fhir.flow.api.ICheckpointTracker;
 import com.ibm.fhir.flow.api.ITrackerTicket;
@@ -19,18 +20,23 @@ import com.ibm.fhir.flow.api.ITrackerTicket;
  * have been completed. If processing needs to be restarted,
  * the checkpoint can be used to request work units that come
  * after that point in the sequence.
- * Implemented as our own double-linked list, where each node is also
- * used as the returned ITrackerTicket. This makes it really efficient
- * to remove the node from the chain upon completion, and track the
- * largest completed requestId
+ * 
+ * Implemented as our own single-linked list, where each node is also
+ * used as the returned ITrackerTicket. Upon completion, we simply
+ * mark the node as done.
+ * 
+ * Completed nodes are not removed from the queue until a checkpoint
+ * is requested. This allows us to avoid any synchronization on the
+ * queue data structure which could lead to contention. This means 
+ * that the {@link #addNode(long)} and {@link #getCheckpoint()} methods
+ * are not thread-safe by design. Only the main history fetch controller
+ * thread should be calling these methods anyway, so this is not a
+ * problem in practice. 
  */
 public class Tracker implements ICheckpointTracker {
 
     // The maximum completed requestId for which all work prior has also been completed
     private long checkpoint = -1;
-
-    // keep synchronization internal
-    private final Object monitor = new Object();
 
     /**
      * Inner class representing a double-linked list node with
@@ -39,11 +45,8 @@ public class Tracker implements ICheckpointTracker {
     private static class Node implements ITrackerTicket {
         private Node(Tracker tracker, long requestId) {
             this.tracker = tracker;
-            this.maxRequestId = requestId;
+            this.requestId = requestId;
         }
-
-        // The previous node in the chain
-        private Node prev;
 
         // The next node in the chain
         private Node next;
@@ -52,115 +55,100 @@ public class Tracker implements ICheckpointTracker {
         private Tracker tracker;
 
         // The oldest completed piece of work older than than this node
-        private long maxRequestId;
+        private long requestId;
+
+        // The completion status of this node
+        AtomicBoolean completed = new AtomicBoolean(false);
 
         @Override
         public void complete() {
             if (this.tracker != null) {
-                synchronized(tracker.monitor) {
-                    tracker.completed(this);
-                }
+                tracker.completed(this);
             } else {
                 throw new IllegalStateException("complete already called");
             }
         }
     }
 
-    // The head of the queue to which we add new items
+    // The head of the queue (oldest item)
     private Node head;
 
-    // The tail of the queue, representing the oldest item of work
+    // The tail of the queue (newest item)
     private Node tail;
 
     @Override
     public ITrackerTicket track(long requestId) {
-        synchronized(monitor) {
-            return addNode(requestId);
-        }
+        return addNode(requestId);
     }
 
     @Override
     public List<ITrackerTicket> track(List<Long> requestIds) {
         List<ITrackerTicket> tickets = new ArrayList<>(requestIds.size());
-        synchronized(monitor) {
-            for (Long requestId: requestIds) {
-                tickets.add(addNode(requestId));
-            }
+        for (Long requestId: requestIds) {
+            tickets.add(addNode(requestId));
         }
         return tickets;
     }
 
     /**
-     * Add a node to track the given requestId
+     * Add a node to the tail of the queue to track the given requestId
      * @param requestId
      * @return
      */
     private Node addNode(long requestId) {
-        Node currentTail = tail;
+        Node oldTail = tail;
         Node newTail = new Node(this, requestId);
-        newTail.prev = currentTail; // may be null, of course
-        
+
         this.tail = newTail;
-        
+
         if (this.head == null) {
+            // queue was empty, so head and tail now point to the same new node
             this.head = newTail;
         } else {
-            currentTail.next = newTail;
+            // link the old tail back to the new tail
+            oldTail.next = newTail;
         }
-        
+
         return newTail;
     }
 
     /**
-     * This node has been completed, so remove it from the chain
+     * Mark the node as completed. The checkpoint won't be updated until we
+     * call prune to flush away any completed nodes at the head of the queue
      * @param node
      */
     private void completed(Node node) {
-        // Unlink the node and update the checkpoint if required
         if (this.head == null) {
             throw new IllegalStateException("queue is empty");
         }
 
         // Make sure we can't be called again
         node.tracker = null;
-
-        if (node == head) {
-            // Advance the checkpoint to the maxRequestId held by this node
-            this.checkpoint = node.maxRequestId;
-
-            if (node == tail) {
-                head = tail = null;
-            } else {
-                node.next.prev = null;
-                this.head = node.next;
-            }
-        } else if (node == tail) {
-            // shift maxRequestId to the previous node
-            node.prev.maxRequestId = node.maxRequestId;
-            tail = node.prev;
-            node.prev = null;
-            tail.next = null;
-        } else {
-            // mid queue node
-            node.prev.maxRequestId = node.maxRequestId;
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
-            node.next = null;
-            node.prev = null;
-        }
+        node.completed.set(true);
     }
 
     @Override
     public long getCheckpoint() {
-        synchronized(monitor) {
-            return this.checkpoint;
-        }
+        // Only the main history thread asks for the checkpoint so we don't need
+        // to do any locking
+        prune();
+        return this.checkpoint;
     }
 
     @Override
     public boolean isEmpty() {
-        synchronized(monitor) {
-            return this.head == null;
+        prune();
+        return this.head == null;
+    }
+
+    /**
+     * Remove completed nodes from the head and update the checkpoint
+     */
+    private void prune() {
+        while (this.head != null && this.head.completed.get()) {
+            // update the checkpoint and remove the head from the queue
+            this.checkpoint = this.head.requestId;
+            this.head = this.head.next;
         }
     }
 }
