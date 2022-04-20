@@ -195,7 +195,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
-        boolean doValidation) throws Exception {
+            boolean doValidation) throws Exception {
 
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.CREATE, type);
@@ -244,7 +244,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doCreateMeta(FHIRPersistenceEvent event, List<Issue> warnings, String type, Resource resource,
-        String ifNoneExist) throws Exception {
+            String ifNoneExist) throws Exception {
         log.entering(this.getClass().getName(), "doCreateMeta");
 
         // Save the current request context.
@@ -343,7 +343,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, PayloadPersistenceResponse offloadResponse) throws Exception {
+    public FHIRRestOperationResponse doCreatePersist(FHIRPersistenceEvent event, List<Issue> warnings, Resource resource, 
+            PayloadPersistenceResponse offloadResponse) throws Exception {
         log.entering(this.getClass().getName(), "doCreatePersist");
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
