@@ -165,7 +165,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>22.0.0.3</version>
+                <version>22.0.0.4</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -904,9 +904,9 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <!-- 3.0.1 is the highest version we support as 3.1.0
+                    <!-- 3.4.0 is the highest version we support as 3.1.0
                         changes the ability to aggregate multi-module projects. It's not possible -->
-                    <version>3.0.1</version>
+                    <version>3.4.0</version>
                     <configuration>
                         <!-- speed up the build -->
                         <isOffline>true</isOffline>
