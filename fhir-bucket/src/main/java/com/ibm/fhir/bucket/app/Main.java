@@ -29,7 +29,9 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.bucket.client.Headers;
 import com.ibm.fhir.bucket.cos.COSClient;
+import com.ibm.fhir.bucket.interop.BenchWorkload;
 import com.ibm.fhir.bucket.interop.InteropScenario;
 import com.ibm.fhir.bucket.interop.InteropWorkload;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
@@ -200,8 +202,18 @@ public class Main {
     // How many payer scenario requests do we want to make at a time.
     private int concurrentPayerRequests = 0;
 
+    // How many $bench requests do we want to make at a time.
+    private int concurrentBenchRequests = 0;
+
+    // Parameter values used for the $bench calls when concurrentBenchRequests > 0
+    private int benchThreads = 1;
+    private int benchSize = 1;
+
     // Simple scenario to add some read load to a FHIR server
     private InteropWorkload interopWorkload;
+
+    // Simple CPU load only on the FHIR server
+    private BenchWorkload benchWorkload;
 
     // Special operation to break bundles into bite-sized pieces to avoid tx timeouts. Store new bundles under this bucket and key prefix:
     private String targetBucket;
@@ -375,6 +387,27 @@ public class Main {
                     this.concurrentPayerRequests = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --concurrent-payer-requests");
+                }
+                break;
+            case "--concurrent-bench-requests":
+                if (i < args.length + 1) {
+                    this.concurrentBenchRequests = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --concurrent-bench-requests");
+                }
+                break;
+            case "--bench-threads":
+                if (i < args.length + 1) {
+                    this.benchThreads = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --bench-threads");
+                }
+                break;
+            case "--bench-size":
+                if (i < args.length + 1) {
+                    this.benchSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --bench-size");
                 }
                 break;
             case "--pool-shutdown-timeout-seconds":
@@ -858,6 +891,10 @@ public class Main {
             interopWorkload.signalStop();
         }
 
+        if (benchWorkload != null) {
+            benchWorkload.signalStop();
+        }
+
         if (this.jsonReader != null) {
             this.jsonReader.signalStop();
         }
@@ -884,6 +921,10 @@ public class Main {
 
         if (interopWorkload != null) {
             interopWorkload.waitForStop();
+        }
+
+        if (benchWorkload != null) {
+            benchWorkload.waitForStop();
         }
 
         if (this.jsonReader != null) {
@@ -938,6 +979,7 @@ public class Main {
             if (this.targetBucket == null || this.targetBucket.length() == 0) {
                 // Set up the client we use to send requests to the FHIR server
                 fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
+                fhirClient.addHeader(Headers.PREFER_HEADER, "return=representation");
                 fhirClient.init(this.tenantName);
             }
 
@@ -1069,6 +1111,16 @@ public class Main {
                 InteropScenario scenario = new InteropScenario(this.fhirClient);
                 interopWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, this.patientBufferSize, this.bufferRecycleCount);
                 interopWorkload.init();
+            }
+
+            // Optionally start a bench workload to stress the FHIR server CPU
+            if (this.concurrentBenchRequests > 0) {
+                if (fhirClient == null) {
+                    throw new IllegalArgumentException("Bench test workload requires FHIR client configuration");
+                }
+
+                benchWorkload = new BenchWorkload(fhirClient, concurrentBenchRequests, this.benchThreads, this.benchSize);
+                benchWorkload.init();
             }
         }
     }
