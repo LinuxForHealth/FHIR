@@ -86,11 +86,9 @@ public class EverythingOperationTest extends FHIRServerTestBase {
     }
 
     /**
-     * Create a Bundle of 895 resources of various kinds representing a patient's history and save the
-     * resource types and IDs of the created resources to eventually ensure that all resources are included
-     * in an $everything invocation.
-     *
-     * @throws Exception
+     * Create a Bundle of 901 resources of various kinds (895 associated with the Patient) representing a
+     * patient's history and save the resource types and IDs of the created resources to eventually ensure
+     * that all resources are included in an $everything invocation.
      */
     @Test(groups = { "fhir-operation" })
     public void testCreatePatientWithEverything() throws Exception {
@@ -223,8 +221,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        // 5 CareTeams + 5 CarePlans
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 10);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -249,8 +247,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // 5 CareTeams + 5 CarePlans + 1 Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 11);
+        // 5 CareTeams + 5 CarePlans
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 10);
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
@@ -266,8 +264,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // Only the patient and 0 resources
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 1);
+        // None of the resources are "since" tomorrow
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 0);
     }
 
     @Test(groups = { "fhir-operation" })

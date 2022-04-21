@@ -14,9 +14,11 @@ public class FhirSchemaConstants {
     // This limit is used to limit db2 size in a stored procedure.
     public static final int STORED_PROCEDURE_SIZE_LIMIT = 1048576;
 
-    // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
-    // Standard connection/thread pool size
-    public static final int DEFAULT_POOL_SIZE = 1;
+    // Make sure the connection pool is sized larger than the thread pool
+    public static final int CONNECTION_POOL_HEADROOM = 9;
+
+    // The default size of the thread pool for parallel operations
+    public static final int DEFAULT_THREAD_POOL_SIZE = 1; // serialize operations
 
     // Size of string columns in the search tables. DSTU2 was 511
     public static final int MAX_SEARCH_STRING_BYTES = 1024;

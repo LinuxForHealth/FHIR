@@ -255,7 +255,6 @@ java -jar "${JAR}"                  \
   --db-properties db2.properties    \
   --cos-properties cos.properties   \
   --fhir-properties fhir.properties \
-  --bootstrap-schema                \
   --bucket example-bucket           \
   --tenant-name example-tenant      \
   --file-type NDJSON                \
@@ -350,7 +349,6 @@ Note that the --scan-local-dir [path-name] option must still be provided.
 | `--bootstrap-schema` | Creates/updates the schema as an initial step before starting the main workload. Simplifies cloud deployment scenarios by avoiding the need for a separate job. Ensures only one instance will try to update the schema at a time. Do not specify `--create-schema` when using this option. |
 | `--db-type type` | where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
 | `--create-schema` | Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
-| `--bootstrap-schema` | Creates a new or updates an existing database schema. The program will not exit after the schema operations have completed.|
 | `--schema-name` | The custom schema used for FHIRBUCKET tracking data. The default is `FHIRBUCKET`.|
 | `--tenant-name fhir-tenant-name` | The IBM FHIR Server tenant name|
 | `--cos-properties properties-file` | Connection properties file for COS | 

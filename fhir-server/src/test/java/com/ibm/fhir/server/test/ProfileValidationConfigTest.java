@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,6 +51,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
@@ -82,11 +83,11 @@ public class ProfileValidationConfigTest {
 
     @BeforeClass
     void setup() throws FHIRException {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
         FHIRRequestContext.get().setTenantId("profileValidationConfigTest");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence);
+        helper = new FHIRRestHelper(persistence, new SearchHelper());
     }
 
     @AfterClass
@@ -1215,7 +1216,7 @@ public class ProfileValidationConfigTest {
             assertEquals(issues.get(0).getDetails().getText().getValue(), "One or more errors were encountered while validating a 'transaction' request bundle.");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.FATAL);
             assertEquals(issues.get(0).getCode(), IssueType.INVALID);
-            assertTrue(issues.get(1).getDetails().getText().getValue().startsWith( 
+            assertTrue(issues.get(1).getDetails().getText().getValue().startsWith(
                 "A profile was specified which is not allowed. Resources of type 'CarePlan' are not allowed to declare conformance to any of the following profiles: ["));
             assertEquals(issues.get(1).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(1).getCode(), IssueType.BUSINESS_RULE);

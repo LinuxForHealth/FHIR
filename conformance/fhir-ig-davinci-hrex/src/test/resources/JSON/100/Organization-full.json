@@ -5,58 +5,48 @@
 		"status": "generated",
 		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>identifier</b>: id: 11223344, id: 11223344, id: 55566667, id: 0123456789, id: 918273645</p><p><b>active</b>: true</p><p><b>name</b>: New Health Plan</p><p><b>telecom</b>: ph: 1-800-123-4567, ph: 1-234-567-8901, <a href=\"mailto:info@newhealthplan.org\">info@newhealthplan.org</a></p><p><b>address</b>: </p><ul><li>#1A 123 Some street, Some town, Canada </li><li>1003 Healthcare Drive Amherst MA 01002 USA </li></ul></div>"
 	},
-	"identifier": [
-		{
-			"system": "http://example.org/identifiers/somesystem",
-			"value": "11223344"
-		},
-		{
-			"system": "urn:oid:2.16.840.1.113883.4.7",
-			"value": "11223344"
-		},
-		{
-			"system": "urn:oid:2.16.840.1.113883.4.4",
-			"value": "55566667"
-		},
-		{
-			"system": "http://hl7.org/fhir/sid/us-npi",
-			"value": "0123456789"
-		},
-		{
-			"system": "http://terminology.hl7.org/NamingSystem/CMSCertificationNumber",
-			"value": "918273645"
-		}
-	],
+	"identifier": [{
+		"system": "http://example.org/identifiers/somesystem",
+		"value": "11223344"
+	},
+	{
+		"system": "urn:oid:2.16.840.1.113883.4.7",
+		"value": "11223344"
+	},
+	{
+		"system": "urn:oid:2.16.840.1.113883.4.4",
+		"value": "55566667"
+	},
+	{
+		"system": "http://hl7.org/fhir/sid/us-npi",
+		"value": "0123456789"
+	},
+	{
+		"system": "http://terminology.hl7.org/NamingSystem/CMSCertificationNumber",
+		"value": "918273645"
+	}],
 	"active": true,
 	"name": "New Health Plan",
-	"telecom": [
-		{
-			"system": "phone",
-			"value": "1-800-123-4567"
-		},
-		{
-			"system": "phone",
-			"value": "1-234-567-8901"
-		},
-		{
-			"system": "email",
-			"value": "info@newhealthplan.org"
-		}
-	],
-	"address": [
-		{
-			"line": [
-				"#1A 123 Some street, Some town, Canada"
-			]
-		},
-		{
-			"line": [
-				"1003 Healthcare Drive"
-			],
-			"city": "Amherst",
-			"state": "MA",
-			"postalCode": "01002",
-			"country": "USA"
-		}
-	]
+	"telecom": [{
+		"system": "phone",
+		"value": "1-800-123-4567"
+	},
+	{
+		"system": "phone",
+		"value": "1-234-567-8901"
+	},
+	{
+		"system": "email",
+		"value": "info@newhealthplan.org"
+	}],
+	"address": [{
+		"line": ["#1A 123 Some street, Some town, Canada"]
+	},
+	{
+		"line": ["1003 Healthcare Drive"],
+		"city": "Amherst",
+		"state": "MA",
+		"postalCode": "01002",
+		"country": "USA"
+	}]
 }

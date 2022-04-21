@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -41,11 +42,18 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
 public class MeasureSubmitDataOperationTest {
     MeasureSubmitDataOperation op;
+    SearchHelper searchHelper;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        searchHelper = new SearchHelper();
+    }
 
     @BeforeMethod
     public void setup() {
@@ -79,7 +87,7 @@ public class MeasureSubmitDataOperationTest {
                 .subject( reference( p ) )
                 .clazz( coding("wellness") )
                 .build();
-        
+
         MeasureReport report = builder.build();
         List<Resource> resources = Arrays.asList(p,e,e2);
 
@@ -114,7 +122,7 @@ public class MeasureSubmitDataOperationTest {
             when( resourceHelper.doBundle(any(Bundle.class), anyBoolean())).thenReturn(responseBundle);
 
             Parameters outParams = op.doInvoke(FHIROperationContext.createInstanceOperationContext("submit-data"),
-                    null, null, null, inParams, resourceHelper);
+                    null, null, null, inParams, resourceHelper, searchHelper);
             assertNotNull(outParams);
             return outParams;
         }

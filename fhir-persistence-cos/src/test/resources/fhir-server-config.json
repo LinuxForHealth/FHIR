@@ -1,13 +1,6 @@
 {
     "__comment": "FHIR Server configuration for mythical tenant id 'performance'",
     "fhirServer": {
-        "core": {
-            "userDefinedSchematronEnabled": true
-        },
-        "virtualResources": {
-            "enabled": true,
-            "allowableResourceTypes": ["WeatherDetail"]
-        },
         "persistence": {
             "datasources": {
                 "default": {
@@ -16,7 +9,7 @@
                     "searchOptimizerOptions": {
                         "from_collapse_limit":   12,
                         "join_collapse_limit":   12,
-                        "compartment_opt_level": 0 
+                        "compartment_opt_level": 0
                     }
                 }
             },

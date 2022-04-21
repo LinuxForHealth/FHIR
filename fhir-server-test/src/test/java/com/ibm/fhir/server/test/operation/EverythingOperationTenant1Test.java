@@ -207,7 +207,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         if (SKIP) {
             return;
         }
-        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "CareTeam,CarePlan").request()
+        Response response = getWebTarget().path("Patient/" + patientId + "/$everything").queryParam("_type", "Patient,CareTeam,CarePlan").request()
                 .header("X-FHIR-TENANT-ID", "tenant1")
                 .header("X-FHIR-DSID", "profile")
                 .get(Response.class);
@@ -215,7 +215,7 @@ public class EverythingOperationTenant1Test extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
 
-        // We get five because there are 4 resources associated to the patient
+        // We get five because there are 4 Organization resources linked to from the patient (no CareTeam or CarePlans)
         assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 5);
     }
 

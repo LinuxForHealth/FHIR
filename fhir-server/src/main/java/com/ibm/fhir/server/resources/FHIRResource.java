@@ -54,6 +54,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -62,6 +63,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 
@@ -107,6 +109,8 @@ public class FHIRResource {
 
     @Context
     protected SecurityContext securityContext;
+
+    protected SearchHelper searchHelper;
 
     protected PropertyGroup fhirConfig = null;
 
@@ -213,7 +217,7 @@ public class FHIRResource {
      *            the path and query parts
      * @return the full URI value as a String
      */
-    protected String getAbsoluteUri(String baseUri, String relativeUri) {
+    protected String buildAbsoluteUri(String baseUri, String relativeUri) {
         StringBuilder fullUri = new StringBuilder();
         fullUri.append(baseUri);
         if (!baseUri.endsWith("/")) {
@@ -224,17 +228,37 @@ public class FHIRResource {
     }
 
     /**
-     * Adds the Etag and Last-Modified headers to the specified response object.
-     * 
+     * Adds the Etag and Last-Modified headers to the response from the specified resource (if possible).
+     *
      * @param rb
      * @param resource
      * @return
      */
-    protected ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
-        return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
-                // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST only generate the RFC 1123 format for representing HTTP-date values
-                // in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
-                .lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
+    protected ResponseBuilder addETagAndLastModifiedHeaders(ResponseBuilder rb, Resource resource) {
+        if (resource == null || resource.getMeta() == null) {
+            log.warning("Skipping ETag and Last-Modified headers due to null resource or missing resource meta");
+            return rb;
+        }
+
+        Meta meta = resource.getMeta();
+
+        if (meta.getVersionId() == null || meta.getVersionId().getValue() == null) {
+            log.warning("ETag not set due to null versionId [resourceType=" + resource.getClass().getSimpleName()
+                    + ", id=" + resource.getId() + "]");
+        } else {
+            rb.header(HttpHeaders.ETAG, getEtagValue(resource));
+        }
+
+        if (meta.getLastUpdated() == null || meta.getLastUpdated().getValue() == null) {
+            log.warning("Last-Modified not set due to null lastUpdated [resourceType=" + resource.getClass().getSimpleName()
+                    + ", id=" + resource.getId() + "]");
+        } else {
+            // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST use the RFC 1123 format for
+            // representing HTTP-date values in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
+            rb.lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
+        }
+
+        return rb;
     }
 
     /**
@@ -386,6 +410,21 @@ public class FHIRResource {
     }
 
     /**
+     * Retrieves the shared persistence helper object from the servlet context.
+     */
+    protected SearchHelper getSearchHelper() {
+        if (searchHelper == null) {
+            searchHelper =
+                    (SearchHelper) context.getAttribute(SearchHelper.class.getName());
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Retrieved FHIRPersistenceHelper instance from servlet context: "
+                        + persistenceHelper);
+            }
+        }
+        return searchHelper;
+    }
+
+    /**
      * Retrieves the persistence implementation to use for the current request.
      * @see {@link PersistenceHelper#getFHIRPersistenceImplementation()}
      */
@@ -420,59 +459,6 @@ public class FHIRResource {
      */
     protected String getRequestUri() throws Exception {
         return FHIRRequestContext.get().getOriginalRequestUri();
-    }
-
-    /**
-     * This method returns the "base URI" associated with the current request. For example, if a client invoked POST
-     * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
-     * "https://myhost:9443/fhir-server/api/v4".
-     *
-     * @param type
-     *      The resource type associated with the request URI (e.g. "Patient" in the case of
-     *      https://myhost:9443/fhir-server/api/v4/Patient), or null if there is no such resource type
-     * @return The base endpoint URI associated with the current request.
-     * @throws Exception if an error occurs while reading the config
-     * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the
-     *           <a href="https://www.hl7.org/fhir/http.html#general">Service Base URL</a>
-     */
-    protected String getRequestBaseUri(String type) throws Exception {
-        String baseUri = null;
-
-        String requestUri = getRequestUri();
-
-        // Strip off everything after the path
-        int queryPathSeparatorLoc = requestUri.indexOf("?");
-        if (queryPathSeparatorLoc != -1) {
-            baseUri = requestUri.substring(0, queryPathSeparatorLoc);
-        } else {
-            baseUri = requestUri;
-        }
-
-        // Strip off any path elements after the base
-        if (type != null && !type.isEmpty()) {
-            int resourceNamePathLocation = baseUri.indexOf("/" + type + "/");
-            if (resourceNamePathLocation != -1) {
-                baseUri = requestUri.substring(0, resourceNamePathLocation);
-            } else {
-                resourceNamePathLocation = baseUri.lastIndexOf("/" + type);
-                if (resourceNamePathLocation != -1) {
-                    baseUri = requestUri.substring(0, resourceNamePathLocation);
-                } else {
-                    // Assume the request was a batch/transaction and just use the requestUri as the base
-                    baseUri = requestUri;
-                }
-            }
-        } else {
-            if (baseUri.endsWith("/_history")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_history".length());
-            } else if (baseUri.endsWith("/_search")) {
-                baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
-            } else if (baseUri.contains("/$")) {
-                baseUri = baseUri.substring(0, baseUri.lastIndexOf("/$"));
-            }
-        }
-
-        return baseUri;
     }
 
     /**

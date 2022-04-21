@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,6 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.test.BaseSearchTest;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Tests the detection of search restrictions defined by a SearchParameter.
@@ -41,7 +40,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
     @Override
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
     }
 
     private void setRequestContext(String tenant) throws FHIRException {
@@ -62,7 +61,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Collections.singletonList("eq2,eq3,eq4"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -72,7 +71,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("eq2,eq3"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -82,7 +81,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Arrays.asList("eq2","eq3"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -92,7 +91,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Arrays.asList("eq2","eq3"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -102,7 +101,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count", Collections.singletonList("eq2"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -112,7 +111,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("eq2"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -122,7 +121,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic", Collections.singletonList("gt2"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -132,7 +131,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count:missing", Collections.singletonList("true"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -142,7 +141,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("multiple-birth-count-basic:missing", Collections.singletonList("true"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -152,7 +151,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Person:organization"));
 
-        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+        searchHelper.parseQueryParameters(Person.class, queryParameters);
     }
 
     @Test
@@ -162,7 +161,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -172,7 +171,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -182,7 +181,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Practitioner"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -192,7 +191,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -202,7 +201,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:care-team:Organization"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test
@@ -212,7 +211,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("ExplanationOfBenefit:*"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -222,7 +221,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:*"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -232,7 +231,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("MedicationRequest:patient"));
 
-        SearchUtil.parseQueryParameters(MedicationRequest.class, queryParameters);
+        searchHelper.parseQueryParameters(MedicationRequest.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -242,7 +241,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Patient:organization"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -252,7 +251,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_include", Collections.singletonList("Person:organization"));
 
-        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+        searchHelper.parseQueryParameters(Person.class, queryParameters);
     }
 
     @Test
@@ -262,7 +261,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("Person:organization"));
 
-        SearchUtil.parseQueryParameters(Organization.class, queryParameters);
+        searchHelper.parseQueryParameters(Organization.class, queryParameters);
     }
 
     @Test
@@ -272,7 +271,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -282,7 +281,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer:Patient"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -292,7 +291,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Patient"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -302,7 +301,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -312,7 +311,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("ExplanationOfBenefit:payee:Practitioner"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -322,7 +321,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("Provenance:target"));
 
-        SearchUtil.parseQueryParameters(Person.class, queryParameters);
+        searchHelper.parseQueryParameters(Person.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -332,7 +331,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:requester"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -342,7 +341,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_revinclude", Collections.singletonList("MedicationRequest:intended-performer"));
 
-        SearchUtil.parseQueryParameters(Practitioner.class, queryParameters);
+        searchHelper.parseQueryParameters(Practitioner.class, queryParameters);
     }
 
     @Test
@@ -351,7 +350,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -360,7 +359,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test
@@ -369,7 +368,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -378,7 +377,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        SearchUtil.parseQueryParameters(CarePlan.class, queryParameters);
+        searchHelper.parseQueryParameters(CarePlan.class, queryParameters);
     }
 
     @Test
@@ -389,7 +388,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
         queryParameters.put("active", Collections.singletonList("true"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 
     @Test
@@ -399,7 +398,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test
@@ -410,7 +409,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         queryParameters.put("patient", Collections.singletonList("Patient/abcd-1234"));
         queryParameters.put("category", Collections.singletonList("system|code"));
 
-        SearchUtil.parseQueryParameters(CarePlan.class, queryParameters);
+        searchHelper.parseQueryParameters(CarePlan.class, queryParameters);
     }
 
     @Test
@@ -421,7 +420,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
         queryParameters.put("active", Collections.singletonList("true"));
 
-        SearchUtil.parseQueryParameters(RelatedPerson.class, queryParameters);
+        searchHelper.parseQueryParameters(RelatedPerson.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -431,7 +430,7 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
         queryParameters.put("status", Collections.singletonList("active"));
 
-        SearchUtil.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
+        searchHelper.parseQueryParameters(ExplanationOfBenefit.class, queryParameters);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -442,6 +441,6 @@ public class SearchParameterRestrictionTest extends BaseSearchTest {
         queryParameters.put("_id", Collections.singletonList("abcd-1234"));
         queryParameters.put("active", Collections.singletonList("true"));
 
-        SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+        searchHelper.parseQueryParameters(Patient.class, queryParameters);
     }
 }

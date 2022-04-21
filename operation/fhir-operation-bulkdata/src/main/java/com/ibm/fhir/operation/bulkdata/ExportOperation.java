@@ -7,9 +7,9 @@
 package com.ibm.fhir.operation.bulkdata;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -26,6 +26,7 @@ import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.operation.bulkdata.util.CommonUtil.Type;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
@@ -50,14 +51,10 @@ public class ExportOperation extends AbstractOperation {
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
-            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper)
             throws FHIROperationException {
         COMMON.checkEnabled();
         COMMON.checkAllowed(operationContext, false);
-
-        // Pick off parameters
-        javax.ws.rs.core.UriInfo uriInfo = (javax.ws.rs.core.UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
-        MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
         MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
 
@@ -69,7 +66,7 @@ public class ExportOperation extends AbstractOperation {
         Parameters response = null;
         OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
-        List<String> types = export.checkAndValidateTypes(exportType, parameters, queryParameters);
+        Set<String> types = export.checkAndValidateTypes(exportType, getParameters(parameters, OperationConstants.PARAM_TYPE));
 
         if (!ExportType.INVALID.equals(exportType)) {
 

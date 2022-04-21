@@ -20,9 +20,9 @@ import java.util.Base64.Encoder;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.crypto.KeyGenerator;
 import javax.ws.rs.core.Response;
@@ -41,14 +41,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.action.batch.BatchCancelRequestAction;
@@ -65,7 +63,6 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.model.url.DownloadUrl;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 /**
  * BulkData Client to connect to the other server.
@@ -146,6 +143,7 @@ public class BulkDataClient {
     }
 
     /**
+     * Submit the export job.
      *
      * @param since
      * @param types
@@ -156,8 +154,8 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submitExport(Instant since, List<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId)
-        throws Exception {
+    public String submitExport(Instant since, Set<String> types, ExportType exportType, String outputFormat, String typeFilters, String groupId)
+            throws Exception {
         JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(adapter.getApplicationName());
         builder.moduleName(adapter.getModuleName());
@@ -177,31 +175,20 @@ public class BulkDataClient {
         builder.cosBucketPathPrefix(getRandomPrefix());
         builder.fhirExportFormat(outputFormat);
 
-        // Export Type - FHIR
-        types = types.stream().filter(t -> !t.isEmpty()).collect(Collectors.toList());
-        String resourceType = String.join(",", types);
         switch (exportType) {
         case PATIENT:
             builder.jobXMLName(JobType.EXPORT_PATIENT.value());
-            if (resourceType == null || resourceType.isEmpty() ) {
-                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
-            }
             break;
         case GROUP:
             builder.jobXMLName(JobType.EXPORT_GROUP.value());
             builder.fhirPatientGroupId(groupId);
-            if (resourceType == null || resourceType.isEmpty()) {
-                resourceType = String.join(",", CompartmentUtil.getCompartmentResourceTypes("Patient"));
-            }
             break;
         default:
             // We have two implementations for system export, but the "fast" version
             // does not support typeFilters. We also allow the configuration to
             // force use of the legacy implementation for those who don't like the change
-
             if (typeFilters != null
                     || !adapter.isFastExport()
-                    || FHIRMediaType.APPLICATION_PARQUET.equals(outputFormat)
                     || StorageType.FILE.equals(adapter.getStorageProviderStorageType(source))) {
                 // Use the legacy implementation
                 builder.jobXMLName(JobType.EXPORT.value());
@@ -209,16 +196,10 @@ public class BulkDataClient {
                 // No typeFilter, so we use the fast export which bypasses FHIR search
                 builder.jobXMLName(JobType.EXPORT_FAST.value());
             }
-            if (resourceType == null || resourceType.isEmpty()) {
-                resourceType = ModelSupport.getResourceTypes()
-                            .stream()
-                            .map(r -> r.getSimpleName())
-                            .collect(Collectors.joining(","));
-            }
             break;
         }
 
-        builder.fhirResourceType(resourceType);
+        builder.fhirResourceType(String.join(",", types));
 
         /*
          * There used to be an else path here where since is null, then set <code>builder.fhirSearchFromDate("1970-01-01T00:00:00Z");</code>.
@@ -251,18 +232,15 @@ public class BulkDataClient {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
 
-            // Debug / Dev only
-            if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("$export response (HTTP " + status + ")");
-            }
-
             if (status != 201) {
+                LOG.warning("Unexpected liberty batch API response while creating $export job (HTTP " + status + ")");
+                String responseString = new BasicResponseHandler().handleResponse(jobResponse);
+                LOG.warning(responseString);
                 // Job is not created
-                throw export.buildOperationException("Unable to create the $export job", IssueType.INVALID);
+                throw export.buildOperationException("Unable to create the $export job", IssueType.EXCEPTION);
             }
 
             String responseString = new BasicResponseHandler().handleResponse(jobResponse);
-
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
             jobId = Integer.toString(response.getInstanceId());
@@ -495,11 +473,6 @@ public class BulkDataClient {
         }
 
         if (httpStatus == 500) {
-            // if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected
-            // request/response.")) {
-            // throw export.buildOperationException("Invalid job id sent to $bulkdata-status",
-            // IssueType.INVALID);
-            // }
             throw export.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 
@@ -582,7 +555,6 @@ public class BulkDataClient {
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    boolean parquet = adapter.isStorageProviderParquetEnabled(source);
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
 
@@ -594,16 +566,12 @@ public class BulkDataClient {
                         String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
                         String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
                         boolean presigned = adapter.isStorageProviderHmacPresigned(source);
-                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, adapter.getS3HostStyleByStorageProvider(source));
+                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey,
+                                accessKey, secretKey, presigned, adapter.getS3HostStyleByStorageProvider(source));
                         sUrl = url.getUrl();
                     } else {
                         // Must be File
-                        String ext;
-                        if (parquet) {
-                            ext = ".parquet";
-                        } else {
-                            ext = ".ndjson";
-                        }
+                        String ext = ".ndjson";
                         // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
                         sUrl = cosBucketPathPrefix + File.separator + resourceType + "_" + (i + 1) + ext;
                     }

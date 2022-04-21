@@ -878,6 +878,50 @@ public class SearchAllTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingId_tenant1() throws Exception {
+        // tenant1 is configured to support search on only a subset of resource types
+        FHIRRequestHeader altTenantHeader = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRRequestHeader altDatastoreHeader = new FHIRRequestHeader("X-FHIR-DSID", "profile");
+
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_id", patientId);
+        FHIRResponse response = client.searchAll(parameters, false, altTenantHeader, altDatastoreHeader);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+
+        boolean validSelf = false;
+        for (Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if ("self".equals(type)) {
+                assertTrue(uri.contains("_type"), "self link should contain the implicitly add _type parameter");
+                validSelf = true;
+            }
+        }
+
+        assertTrue(validSelf, "missing self link");
+    }
+
+    @Test
+    public void testSystemHistoryInvalidType_tenant1() throws Exception {
+        FHIRRequestHeader altTenantHeader = new FHIRRequestHeader("X-FHIR-TENANT-ID", "tenant1");
+        FHIRRequestHeader altDatastoreHeader = new FHIRRequestHeader("X-FHIR-DSID", "profile");
+
+
+        FHIRParameters parameters = new FHIRParameters();
+        // for tenant1, Patient is configured for search but CompartmentDefinition is not
+        parameters.searchParam("_type", "Patient,CompartmentDefinition");
+        FHIRResponse response = client.searchAll(parameters, false, altTenantHeader, altDatastoreHeader);
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
+
+        OperationOutcome oo = response.getResource(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getDetails().getText().getValue(),
+                "Search interaction is not supported for _type parameter value: CompartmentDefinition");
+    }
+
     /*
      * Queries based on the URI the endpoint with the query parameter and value.
      */

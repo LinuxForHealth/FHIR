@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.azure.core.http.rest.Response;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.pool.DatabaseSupport;
@@ -174,22 +173,16 @@ public class PayloadReconciliation {
      */
     private void handleOrphanedRecord(BlobManagedContainer bmc, ResourceRecord record) throws FHIRPersistenceException {
         final String action = this.dryRun ? "Would erase" : "Erasing";
-        logger.info(String.format("%s orphaned payload %d/%s/%d [%s]", 
+        logger.info(String.format("%s orphaned payload %d/%s/%d/%s [path=%s]", 
             action,
             record.getResourceTypeId(), record.getLogicalId(), 
-            record.getVersion(), record.getResourcePayloadKey()));
+            record.getVersion(), record.getResourcePayloadKey(), record.getOffloadPath()));
 
         if (!this.dryRun) {
             BlobDeletePayload delete = new BlobDeletePayload(record.getResourceTypeId(), 
                 record.getLogicalId(), record.getVersion(), 
-                record.getResourcePayloadKey());
-           Response<Void> response = delete.run(bmc);
-           
-           if (response.getStatusCode() == 200 || response.getStatusCode() == 404) {
-               logger.fine(() -> getLogRecord(record, "DELETED"));
-           } else {
-               throw new FHIRPersistenceException(getLogRecord(record, "STATUS:" + response.getStatusCode()));
-           }
+                record.getResourcePayloadKey(), record.getOffloadPath());
+           delete.run(bmc);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,12 @@ package com.ibm.fhir.client;
 
 import java.security.KeyStore;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
+
+import jakarta.json.JsonObject;
 
 /**
  * This interface provides a client API for invoking the FHIR Server's REST API.
@@ -125,6 +126,12 @@ public interface FHIRClient {
      * The tenant identifier to use for requests (using the header X-FHIR-TENANT-ID)
      */
     public static final String PROPNAME_TENANT_ID = "fhirclient.tenant.id";
+
+    /**
+     * Returns the default FHIR base URL that is configured for this client instance
+     * @return the FHIR base URL with scheme, host, and path
+     */
+    String getDefaultBaseUrl();
 
     /**
      * Returns a JAX-RS 2.0 WebTarget object associated with the REST API endpoint.
@@ -480,4 +487,10 @@ public interface FHIRClient {
      * Allow the client consumer to be able to get and reuse the same TrustStore if necessary.
      */
     KeyStore getTrustStore();
+
+    /**
+     * Get the value of the tenant name the client is currently configured to use
+     * @return
+     */
+    String getTenantId();
 }

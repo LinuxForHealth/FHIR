@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -820,6 +820,11 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     @Override
+    public String getDefaultBaseUrl() {
+        return baseEndpointURL;
+    }
+
+    @Override
     public WebTarget getWebTarget() throws Exception {
         return client.target(getBaseEndpointURL());
     }
@@ -973,7 +978,7 @@ public class FHIRClientImpl implements FHIRClient {
         this.clientProperties = clientProperties;
     }
 
-    private String getBaseEndpointURL() {
+    public String getBaseEndpointURL() {
         return baseEndpointURL;
     }
 
@@ -1128,5 +1133,10 @@ public class FHIRClientImpl implements FHIRClient {
 
     public void setHttpReturnPref(HTTPReturnPreference returnPref) {
         this.httpReturnPref = returnPref;
+    }
+
+    @Override
+    public String getTenantId() {
+        return this.tenantId == null ? "default" : this.tenantId;
     }
 }

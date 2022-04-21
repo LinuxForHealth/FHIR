@@ -97,7 +97,7 @@ public class Main {
     private final Properties cosProperties = new Properties();
     private final Properties dbProperties = new Properties();
     private final Properties fhirClientProperties = new Properties();
-    
+
     // The type of database we're talking to
     private DbType dbType;
 
@@ -159,7 +159,7 @@ public class Main {
 
     // The reader handling NDJSON files (which are processed one at a time
     private BaseFileReader ndJsonReader;
-    
+
     // A reader which simply scans a local directory, bypassing the database and COS
     private String baseDirectory;
     private ImmediateLocalFileReader immediateLocalFileReader;
@@ -181,10 +181,10 @@ public class Main {
 
     // When true, exit after creating the schema (default behavior unless --bootstrap-schema is given)
     private boolean exitAfterCreatingSchema = true;
-    
+
     // How many seconds to wait to obtain the schema update lease on the database
     private int waitForUpdateLeaseSeconds = 10;
-    
+
     // Skip NDJSON rows already processed. Assumes each row is an individual resource or transaction bundle
     private boolean incremental = false;
 
@@ -251,7 +251,7 @@ public class Main {
         lmConfig.withHost(new HostnameHandler().getHostname());
         lmConfig.withLeaseTimeSeconds(100); // default
         lmConfig.withStayAlive(true);       // default
-        
+
         for (int i=0; i<args.length; i++) {
             String arg = args[i];
             switch (arg) {
@@ -613,6 +613,10 @@ public class Main {
             }
         }
 
+        if (cosProperties != null && cosProperties.size() > 0) {
+            cosClient = new COSClient(cosProperties);
+        }
+
         // We constrain the number of concurrent tasks which are inflight, so a breathable
         // pool works nicely because it cannot grow unbounded
         this.commonPool = Executors.newCachedThreadPool();
@@ -735,7 +739,7 @@ public class Main {
                     throw x;
                 }
             } catch (UniqueConstraintViolationException x) {
-                // Race condition - two or more instances trying to create either the CONTROL or 
+                // Race condition - two or more instances trying to create either the CONTROL or
                 // whole schema version table. These are idempotent, so we leave success - false
                 // to try again
             }
@@ -750,14 +754,14 @@ public class Main {
             if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
                 throw new IllegalStateException("Concurrent update for FHIR data schema: '" + schemaName + "'");
             }
-            
+
             // Check to see if we have the latest version before processing any updates
             // If our schema is already at the latest version, we can skip a lot of processing
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, schemaName,
                 FhirBucketSchemaVersion.getLatestSchemaVersion().vid());
             if (svm.isSchemaOld()) {
                 buildSchema();
-                
+
                 // Update the whole schema version
                 svm.updateSchemaVersion();
             } else {
@@ -767,7 +771,7 @@ public class Main {
             leaseManager.cancelLease();
         }
     }
-    
+
     /**
      * Build the FHIRBUCKET schema, applying updates as needed to bring the schema up
      * to the latest version
@@ -861,7 +865,7 @@ public class Main {
         if (this.ndJsonReader != null) {
             this.ndJsonReader.signalStop();
         }
-        
+
         if (this.immediateLocalFileReader != null) {
             this.immediateLocalFileReader.signalStop();
         }
@@ -889,11 +893,11 @@ public class Main {
         if (this.ndJsonReader != null) {
             this.ndJsonReader.waitForStop();
         }
-        
+
         if (this.immediateLocalFileReader != null) {
             this.immediateLocalFileReader.waitForStop();
         }
-        
+
         if (this.resourceHandler != null) {
             this.resourceHandler.waitForStop();
         }
@@ -925,7 +929,7 @@ public class Main {
         if (this.createSchema) {
             bootstrapDb();
         }
-        
+
         if (!this.createSchema || !this.exitAfterCreatingSchema) {
             // Set up the shutdown hook to keep things orderly when asked to terminate
             Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdown()));
@@ -981,8 +985,8 @@ public class Main {
             final IResourceEntryProcessor resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, null);
             this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
             Set<FileType> fileTypes = Collections.singleton(FileType.JSON);
-            immediateLocalFileReader = new ImmediateLocalFileReader(commonPool, fileTypes, baseDirectory, 
-                resource -> resourceHandler.process(resource), DEFAULT_CONNECTION_POOL_SIZE, 
+            immediateLocalFileReader = new ImmediateLocalFileReader(commonPool, fileTypes, baseDirectory,
+                resource -> resourceHandler.process(resource), DEFAULT_CONNECTION_POOL_SIZE,
                 bundleCostFactor);
             immediateLocalFileReader.init();
         } else {
@@ -995,12 +999,10 @@ public class Main {
 
             if (!this.cosBucketList.isEmpty()) {
                 // Process using COS as our source data repository
-                if (cosProperties != null && cosProperties.size() > 0) {
-                    cosClient = new COSClient(cosProperties);
-                } else {
+                if (cosClient == null) {
                     throw new IllegalArgumentException("COS configuration required");
                 }
-                
+
                 final IResourceEntryProcessor resourceEntryProcessor;
                 if (this.targetBucket != null && this.targetBucket.length() > 0) {
                     // No fhirClient required here...process each resource locally
@@ -1012,11 +1014,11 @@ public class Main {
                     }
                     resourceEntryProcessor = new FHIRClientResourceProcessor(fhirClient, dataAccess);
                 }
-    
+
                 // Set up the handler to process resources as they are read from COS
                 // Uses an internal pool to parallelize NDJSON work
                 this.resourceHandler = new ResourceHandler(this.commonPool, this.maxConcurrentFhirRequests, resourceEntryProcessor);
-    
+
                 // Set up the COS reader and wire it to the resourceHandler
                 if (maxConcurrentJsonFiles > 0) {
                     this.jsonReader = new COSReader(commonPool, FileType.JSON, cosClient,
@@ -1025,7 +1027,7 @@ public class Main {
                         incrementalExact, this.bundleCostFactor, bucketPaths);
                     this.jsonReader.init();
                 }
-    
+
                 if (maxConcurrentNdJsonFiles > 0) {
                     this.ndJsonReader = new COSReader(commonPool, FileType.NDJSON, cosClient,
                         resource -> resourceHandler.process(resource),
@@ -1054,14 +1056,14 @@ public class Main {
                     this.ndJsonReader.init();
                 }
             }
-            
+
             // Optionally apply a read-based workload to stress the FHIR server and database
             // with random requests for resources
             if (this.concurrentPayerRequests > 0) {
                 if (fhirClient == null) {
                     throw new IllegalArgumentException("Interop test workload requires FHIR client configuration");
                 }
-                
+
                 // The interop workload uses patient resource ids captured during previous data load runs
                 // and stored in the FHIRBUCKET.LOGICAL_RESOURCES table
                 InteropScenario scenario = new InteropScenario(this.fhirClient);
@@ -1081,7 +1083,7 @@ public class Main {
             this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
         }
         this.driveReindexOperation.init();
-        
+
     }
 
     /**
@@ -1095,7 +1097,7 @@ public class Main {
             // without using a tracking database, see isImmediateLocal
             List<String> localDirList = Collections.singletonList(this.baseDirectory);
             this.scanner = new LocalFileScanner(localDirList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
-        } else if (cosProperties != null && cosProperties.size() > 0) {
+        } else if (cosClient != null) {
             // Set up the scanner to look for new COS objects and register them in our database
             this.scanner = new CosScanner(cosClient, cosBucketList, dataAccess, this.fileTypes, pathPrefix, cosScanIntervalMs);
         } else {

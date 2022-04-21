@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
@@ -72,76 +73,35 @@ public final class FHIROperationUtil {
         }
     }
 
+    /**
+     * Construct a Parameters object from the input parameters passed via query parameters
+     *
+     * @param definition not null
+     * @param queryParameters not null
+     * @return
+     * @throws FHIROperationException
+     */
     public static Parameters getInputParameters(OperationDefinition definition,
-        Map<String, List<String>> queryParameters) throws FHIROperationException {
+            Map<String, List<String>> queryParameters) throws FHIROperationException {
         try {
             Parameters.Builder parametersBuilder = Parameters.builder();
             parametersBuilder.id("InputParameters");
-            if (definition != null) {
-                for (OperationDefinition.Parameter parameter : definition.getParameter()) {
-                    if (OperationParameterUse.IN.getValue().equals(parameter.getUse().getValue())) {
-                        String name = parameter.getName().getValue();
-                        FHIRAllTypes type = parameter.getType();
-                        if (type == null) {
-                            continue;
-                        }
-                        String typeName = type.getValue();
-                        List<String> values = queryParameters.get(name);
-                        if (values != null) {
-                            String value = values.get(0);
-                            Parameter.Builder parameterBuilder = Parameter.builder().name(string(name));
-                            if ("boolean".equals(typeName)) {
-                                parameterBuilder.value(com.ibm.fhir.model.type.Boolean.of(value));
-                            } else if ("integer".equals(typeName)) {
-                                parameterBuilder.value(com.ibm.fhir.model.type.Integer.of(value));
-                            } else if ("string".equals(typeName)) {
-                                parameterBuilder.value(com.ibm.fhir.model.type.String.of(value));
-                            } else if ("decimal".equals(typeName)) {
-                                parameterBuilder.value(com.ibm.fhir.model.type.Decimal.of(value));
-                            } else if ("uri".equals(typeName)) {
-                                parameterBuilder.value(Uri.of(value));
-                            } else if ("url".equals(typeName)) {
-                                parameterBuilder.value(Url.of(value));
-                            } else if ("canonical".equals(typeName)) {
-                                parameterBuilder.value(Canonical.of(value));
-                            } else if ("instant".equals(typeName)) {
-                                parameterBuilder.value(Instant.of(value));
-                            } else if ("date".equals(typeName)) {
-                                parameterBuilder.value(Date.of(value));
-                            } else if ("dateTime".equals(typeName)) {
-                                parameterBuilder.value(DateTime.of(value));
-                            } else if ("time".equals(typeName)) {
-                                parameterBuilder.value(Time.of(value));
-                            } else if ("code".equals(typeName)) {
-                                parameterBuilder.value(Code.of(value));
-                            } else if ("oid".equals(typeName)) {
-                                parameterBuilder.value(Oid.of(value));
-                            } else if ("id".equals(typeName)) {
-                                parameterBuilder.value(Id.of(value));
-                            } else if ("unsignedInt".equals(typeName)) {
-                                parameterBuilder.value(UnsignedInt.of(value));
-                            } else if ("positiveInt".equals(typeName)) {
-                                parameterBuilder.value(PositiveInt.of(value));
-                            } else if ("uuid".equals(typeName)) {
-                                parameterBuilder.value(Uuid.of(value));
-                            } else {
-                                // Originally returned 500 when it should be 400 (it's on the client).
-                                FHIROperationException operationException =
-                                        new FHIROperationException("Query parameter '" + name + "' is an invalid type: '" + typeName + "'");
 
-                                List<Issue> issues = new ArrayList<>();
-                                Issue.Builder builder = Issue.builder();
-                                builder.code(IssueType.INVALID);
-                                builder.diagnostics(string("Query parameter '" + name + "' is an invalid type: '" + typeName + "'"));
-                                builder.severity(IssueSeverity.ERROR);
-                                issues.add(builder.build());
+            for (OperationDefinition.Parameter parameter : definition.getParameter()) {
+                if (OperationParameterUse.IN.getValue().equals(parameter.getUse().getValue())) {
+                    String paramName = parameter.getName().getValue();
+                    if (!queryParameters.containsKey(paramName)) {
+                        continue;
+                    }
 
-                                operationException.setIssues(issues);
+                    FHIRAllTypes type = parameter.getType();
+                    if (type == null) {
+                        continue;
+                    }
+                    String typeName = type.getValue();
 
-                                throw operationException;
-                            }
-                            parametersBuilder.parameter(parameterBuilder.build());
-                        }
+                    for (String value : queryParameters.get(paramName)) {
+                        parametersBuilder.parameter(parseParameter(typeName, paramName, value));
                     }
                 }
             }
@@ -149,26 +109,88 @@ public final class FHIROperationUtil {
         } catch (FHIROperationException e) {
             throw e;
         } catch (Exception e) {
-            // Originally returned 500 when it should be 400 (it's on the client).
-            FHIROperationException operationException =
-                    new FHIROperationException("Unable to process query parameters", e);
-
-            List<Issue> issues = new ArrayList<>();
-            Issue.Builder builder = Issue.builder();
-            builder.code(IssueType.INVALID);
-            builder.diagnostics(string("Unable to process query parameters"));
-            builder.severity(IssueSeverity.ERROR);
-            issues.add(builder.build());
-
-            operationException.setIssues(issues);
-
-            throw operationException;
+            throw new FHIROperationException("Unable to process query parameters", e);
         }
     }
 
+    private static Parameter parseParameter(String typeName, String paramName, String value) throws FHIROperationException {
 
-    public static Parameters getInputParameters(OperationDefinition definition, Resource resource)
-        throws Exception {
+        Parameter.Builder parameterBuilder = Parameter.builder().name(paramName);
+        try {
+            if ("boolean".equals(typeName)) {
+                parameterBuilder.value(com.ibm.fhir.model.type.Boolean.of(value));
+            } else if ("integer".equals(typeName)) {
+                parameterBuilder.value(com.ibm.fhir.model.type.Integer.of(value));
+            } else if ("string".equals(typeName)) {
+                parameterBuilder.value(com.ibm.fhir.model.type.String.of(value));
+            } else if ("decimal".equals(typeName)) {
+                parameterBuilder.value(com.ibm.fhir.model.type.Decimal.of(value));
+            } else if ("uri".equals(typeName)) {
+                parameterBuilder.value(Uri.of(value));
+            } else if ("url".equals(typeName)) {
+                parameterBuilder.value(Url.of(value));
+            } else if ("canonical".equals(typeName)) {
+                parameterBuilder.value(Canonical.of(value));
+            } else if ("instant".equals(typeName)) {
+                parameterBuilder.value(Instant.of(value));
+            } else if ("date".equals(typeName)) {
+                parameterBuilder.value(Date.of(value));
+            } else if ("dateTime".equals(typeName)) {
+                parameterBuilder.value(DateTime.of(value));
+            } else if ("time".equals(typeName)) {
+                parameterBuilder.value(Time.of(value));
+            } else if ("code".equals(typeName)) {
+                parameterBuilder.value(Code.of(value));
+            } else if ("oid".equals(typeName)) {
+                parameterBuilder.value(Oid.of(value));
+            } else if ("id".equals(typeName)) {
+                parameterBuilder.value(Id.of(value));
+            } else if ("unsignedInt".equals(typeName)) {
+                parameterBuilder.value(UnsignedInt.of(value));
+            } else if ("positiveInt".equals(typeName)) {
+                parameterBuilder.value(PositiveInt.of(value));
+            } else if ("uuid".equals(typeName)) {
+                parameterBuilder.value(Uuid.of(value));
+            } else {
+                String msg = "Query parameter '" + paramName + "' is an invalid type: '" + typeName + "'";
+                FHIROperationException operationException =
+                        new FHIROperationException(msg);
+
+                operationException.withIssue(Issue.builder()
+                        .code(IssueType.INVALID)
+                        .details(CodeableConcept.builder()
+                                .text(msg)
+                                .build())
+                        .severity(IssueSeverity.ERROR)
+                        .build());
+
+                throw operationException;
+            }
+        } catch (NullPointerException | IllegalStateException e) {
+            String msg = "Unable to parse query parameter '" + paramName + "' to its expected type: '" + typeName + "'";
+            throw new FHIROperationException(msg, e)
+                    .withIssue(Issue.builder()
+                        .severity(IssueSeverity.ERROR)
+                        .code(IssueType.INVALID)
+                        .details(CodeableConcept.builder()
+                                .text(msg)
+                                .build())
+                        .build());
+        }
+
+        return parameterBuilder.build();
+    }
+
+
+    /**
+     * Construct a Parameters object with a single parameter named resource
+     *
+     * @param definition
+     * @param resource
+     * @return
+     * @throws Exception
+     */
+    public static Parameters getInputParameters(OperationDefinition definition, Resource resource) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.id("InputParameters");
         for (OperationDefinition.Parameter parameterDefinition : definition.getParameter()) {

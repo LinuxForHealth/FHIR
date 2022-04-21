@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -71,11 +72,11 @@ public class Update extends FHIRResource {
             checkType(type);
             Integer ifNoneMatch = encodeIfNoneMatch(ifNoneMatchHdr);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
 
             ResponseBuilder response = Response.ok()
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -88,7 +89,7 @@ public class Update extends FHIRResource {
             }
 
             if (updatedResource != null) {
-                response = addHeaders(response, updatedResource);
+                response = addETagAndLastModifiedHeaders(response, updatedResource);
             } else {
                 // For IfNoneMatch returning a 304 Not Modified, we may not have the current resource,
                 // but we can set the response headers we need using the location URI
@@ -143,11 +144,11 @@ public class Update extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -157,7 +158,7 @@ public class Update extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, updatedResource);
+            response = addETagAndLastModifiedHeaders(response, updatedResource);
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {

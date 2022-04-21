@@ -164,7 +164,7 @@ import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -172,7 +172,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * The JDBC implementation of the FHIRPersistence interface,
@@ -221,6 +221,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // When set, use this interface to persist the payload object. Can be null.
     private final FHIRPayloadPersistence payloadPersistence;
 
+    // A helper for processing search requests
+    private final SearchHelper searchHelper;
+
     // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
     private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
 
@@ -230,17 +233,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // A list of payload persistence responses in case we have a rollback to clean up
     private final List<PayloadPersistenceResponse> payloadPersistenceResponses = new ArrayList<>();
 
+    // A list of EraseResourceRec referencing offload resource records to erase if the current transaction commits
+    private final List<ErasedResourceRec> eraseResourceRecs = new ArrayList<>();
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence) throws Exception {
+    public FHIRPersistenceJDBCImpl(FHIRPersistenceJDBCCache cache, FHIRPayloadPersistence payloadPersistence, SearchHelper searchHelper) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl()";
         log.entering(CLASSNAME, METHODNAME);
 
         // The cache holding ids (private to the current tenant).
         this.cache = cache;
         this.payloadPersistence = payloadPersistence;
+        this.searchHelper = searchHelper;
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
         if (fhirConfig == null) {
@@ -264,11 +271,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         boolean enableReadOnlyReplicas = fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS, Boolean.FALSE);
         this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
-        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, () -> handleRollback());
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY, (committed) -> transactionCompleted(committed));
 
         // Use of legacy whole-system search parameters disabled by default
         this.legacyWholeSystemSearchParamsEnabled =
                 fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
+
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -309,6 +317,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         this.cache = cache;
         this.payloadPersistence = null;
+        this.searchHelper = new SearchHelper();
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -366,6 +375,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
 
             // This create() operation is only called by a REST create. If the given resource
             // contains an id, then for R4 we need to ignore it and replace it with our
@@ -558,6 +572,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
+
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
@@ -641,7 +661,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
             // For PostgreSQL search queries we need to set some options to ensure better plans
-            connectionStrategy.applySearchOptimizerOptions(connection, SearchUtil.isCompartmentSearch(searchContext));
+            connectionStrategy.applySearchOptimizerOptions(connection, SearchHelper.isCompartmentSearch(searchContext));
             ResourceDAO resourceDao = makeResourceDAO(connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
             ResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
@@ -692,7 +712,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                         break;
                     case TEXT:
-                        summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                        summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                         break;
                     case DATA:
                         summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -741,6 +761,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
                             newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
                     List<ResourceResult<? extends Resource>> includeResult = this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null, searchContext.isIncludeResourceData());
+                    // erased version referenced via a versioned reference will be missing the resource
+                    // data field, so we need to filter those out here if resource data is being requested
+                    if (searchContext.isIncludeResourceData()) {
+                        includeResult = includeResult.stream().filter(rr -> rr.getResource() != null).collect(Collectors.toList());
+                    }
                     resourceResults.addAll(includeResult);
                 }
             }
@@ -1020,6 +1045,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         try (Connection connection = openConnection()) {
             doCachePrefill(connection);
+
+            if (context.getOffloadResponse() != null) {
+                // Remember this payload offload response as part of the current transaction
+                this.payloadPersistenceResponses.add(context.getOffloadResponse());
+            }
+
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             // Create a new Resource DTO instance to represent the deletion marker.
@@ -1077,7 +1108,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                     break;
                 case TEXT:
-                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                     break;
                 case DATA:
                     summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -1304,7 +1335,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     summaryElements = JsonSupport.getSummaryElementNames(resourceType);
                     break;
                 case TEXT:
-                    summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                    summaryElements = SearchHelper.getSummaryTextElementNames(resourceType);
                     break;
                 case DATA:
                     summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
@@ -1427,9 +1458,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Converts the passed Resource Data Transfer Object collection to a collection of FHIR Resource objects.
-     * Note that if the resource has been erased or was not fetched on purpose, ResourceResult.resource 
+     * Note that if the resource has been erased or was not fetched on purpose, ResourceResult.resource
      * will be null and the caller will need to take this into account
-     * 
+     *
      * @param resourceDao
      * @param resourceDTOList
      * @param resourceType
@@ -1458,14 +1489,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // Check to make sure we got a Resource if we asked for it and expect there to be one
-            for (ResourceResult<? extends Resource> resourceResult: resourceResults) {
-                if (resourceResult.getResource() == null && includeResourceData && !resourceResult.isDeleted()) {
-                    String resourceTypeName = resourceResult.getResourceTypeName();
-                    if (resourceTypeName == null) {
-                        resourceTypeName = resourceType.getSimpleName();
+            if (includeResourceData) {
+                for (ResourceResult<? extends Resource> resourceResult: resourceResults) {
+                    if (resourceResult.getResource() == null && !resourceResult.isDeleted()) {
+                        String resourceTypeName = resourceResult.getResourceTypeName();
+                        if (resourceTypeName == null) {
+                            resourceTypeName = resourceType.getSimpleName();
+                        }
+                        throw new FHIRPersistenceException("convertResourceDTO returned no resource for '"
+                                + resourceTypeName + "/" + resourceResult.getLogicalId() + "'");
                     }
-                    throw new FHIRPersistenceException("convertResourceDTO returned no resource for '"
-                            + resourceTypeName + "/" + resourceResult.getLogicalId() + "'");
                 }
             }
 
@@ -1480,16 +1513,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * result to the given resourceResults list. The resourceResults list will contain
      * exactly one entry per resourceDTOList, even if the payload fetch returns nothing
      * for one or more entries.
-     * 
+     *
      * @param resourceResults
      * @param resourceDTOList
      * @param resourceType
      * @param elements
      * @param includeResourceData
      */
-    private void fetchPayloadsForDTOList(List<ResourceResult<? extends Resource>> resourceResults, 
+    private void fetchPayloadsForDTOList(List<ResourceResult<? extends Resource>> resourceResults,
             List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList,
-            Class<? extends Resource> resourceType, List<String> elements, boolean includeResourceData) 
+            Class<? extends Resource> resourceType, List<String> elements, boolean includeResourceData)
             throws FHIRPersistenceException {
         // Our offloading API supports async, so the first task is to dispatch
         // all of our requests and then wait for everything to come back. We could
@@ -1508,16 +1541,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 rowResourceTypeName = resourceType.getSimpleName();
                 resourceTypeId = getResourceTypeId(resourceType);
             }
-            
-            // If a specific version of a resource has been deleted using $erase, it
-            // is possible for the result here to be null.
+
+            // If the resource has been deleted, no payload has been stored so there's no
+            // need to try and fetch it
             CompletableFuture<ResourceResult<? extends Resource>> cf;
             if (!resourceDTO.isDeleted()) {
                 // Trigger the read and stash the async response
                 cf = payloadPersistence.readResourceAsync(resourceType, rowResourceTypeName, resourceTypeId, resourceDTO.getLogicalId(), resourceDTO.getVersionId(), resourceDTO.getResourcePayloadKey(), resourceDTO.getLastUpdated().toInstant(), elements);
             } else {
-                // Payload never stored for deletion markers, so there's no resource to read. Just
-                // knock up a new ResourceResult to represent the deleted resource in the result list
+                // Knock up a new ResourceResult to represent the deleted resource in the result list
                 ResourceResult.Builder<? extends Resource> builder = new ResourceResult.Builder<>();
                 builder.logicalId(resourceDTO.getLogicalId());
                 builder.resourceTypeName(rowResourceTypeName);
@@ -1530,7 +1562,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             futures.add(cf);
         }
 
-        // Now collect all the responses. This would be better (slightly faster) if it were 
+        // Now collect all the responses. This would be better (slightly faster) if it were
         // a fully reactive solution, but for now it's OK - we still benefit from the fetches
         // being initiated concurrently
         log.fine("Collecting async payload responses");
@@ -1541,8 +1573,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             } catch (ExecutionException e) {
                 // Unwrap the exceptions to avoid over-nesting
                 // ExecutionException -> RuntimeException -> FHIRPersistenceException
-                if (e.getCause() != null && e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
-                    throw (FHIRPersistenceException)e.getCause().getCause();
+                if (e.getCause() != null) {
+                    if (e.getCause() instanceof FHIRPersistenceException) {
+                        throw (FHIRPersistenceException)e.getCause();
+                    } else if (e.getCause().getCause() != null && e.getCause().getCause() instanceof FHIRPersistenceException) {
+                        throw (FHIRPersistenceException)e.getCause().getCause();
+                    } else {
+                        // unwrap the ExecutionException
+                        throw new FHIRPersistenceException("Unexpected blob read error", e.getCause());
+                    }
                 } else {
                     throw new FHIRPersistenceException("execution failed", e);
                 }
@@ -1590,6 +1629,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         String type;
         String expression;
         boolean isForStoring;
+        boolean isCompartmentInclusionParam;
 
         // LinkedList because we don't need random access, we might remove from it later, and we want this fast
         List<ExtractedParameterValue> allParameters = new LinkedList<>();
@@ -1598,7 +1638,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try {
             if (fhirResource != null) {
 
-                map = SearchUtil.extractParameterValues(fhirResource);
+                map = searchHelper.extractParameterValues(fhirResource);
 
                 for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
                     SearchParameter sp = entry.getKey();
@@ -1606,15 +1646,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     url = sp.getUrl().getValue();
                     version = sp.getVersion() != null ? sp.getVersion().getValue(): null;
                     final boolean wholeSystemParam = isWholeSystem(sp);
-
-                    String doNotStoreExtVal = FHIRUtil.getExtensionStringValue(sp, SearchConstants.DO_NOT_STORE_EXT_URL);
-                    isForStoring = (doNotStoreExtVal == null) || "false".equals(doNotStoreExtVal);
+                    isForStoring = !FHIRUtil.hasTag(sp, SearchConstants.TAG_DO_NOT_STORE);
+                    isCompartmentInclusionParam = FHIRUtil.hasTag(sp, SearchConstants.TAG_COMPARTMENT_INCLUSION_PARAM);
 
                     // As not to inject any other special handling logic, this is a simple inline check to see if
                     // _id or _lastUpdated are used, and ignore those extracted values.
                     if (SPECIAL_HANDLING.contains(code)) {
                         continue;
                     }
+
+                    Set<String> compartments = new HashSet<>();
+                    if (isCompartmentInclusionParam) {
+                        for (Extension e : sp.getExtension()) {
+                            if (SearchConstants.COMPARTMENT_EXT_URL.equals(e.getUrl())) {
+                                compartments.add(e.getValue().as(ModelSupport.FHIR_STRING).getValue());
+                            }
+                        }
+                    }
+
                     type = sp.getType().getValue();
                     expression = sp.getExpression().getValue();
 
@@ -1660,7 +1709,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                                 // Alternatively, we could pull the search parameter from the FHIRRegistry so we can use versioned references.
                                 // However, that would bypass search parameter filtering and so we favor the SeachUtil method here instead.
-                                SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
+                                SearchParameter compSP = searchHelper.getSearchParameter(p.getResourceType(), component.getDefinition());
                                 JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
                                 FHIRPathNode node = nodes.iterator().next();
                                 if (nodes.size() > 1 ) {
@@ -1706,7 +1755,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                         }
                                         ExtractedParameterValue componentParam = parameters.get(0);
                                         // override the component parameter name with the composite parameter name
-                                        componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
+                                        componentParam.setName(SearchHelper.makeCompositeSubCode(code, componentParam.getName()));
                                         componentParam.setUrl(url);
                                         componentParam.setVersion(version);
                                         p.addComponent(componentParam);
@@ -1809,6 +1858,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 p.setWholeSystem(true);
                             }
                             p.setForStoring(isForStoring);
+                            if (p instanceof ReferenceParmVal) {
+                                p.setCompartments(compartments);
+                            }
                             allParameters.add(p);
                             if (log.isLoggable(Level.FINE)) {
                                 log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -1820,7 +1872,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Augment the extracted parameter list with special values we use to represent compartment relationships.
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
-                addCompartmentParams(allParameters, fhirResource.getClass().getSimpleName());
+                addCompartmentParams(allParameters, fhirResource.getClass().getSimpleName(), fhirResource.getId());
 
                 // If this is a definitional resource, augment the extracted parameter list with a composite
                 // parameter that will be used for canonical searches. It will contain the url and version
@@ -1890,72 +1942,74 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Augment the given allParameters list with ibm-internal parameters that represent the relationship
      * between the fhirResource and its compartments. These parameter values are subsequently used
      * to improve the performance of compartment-based FHIR search queries. See
-     * {@link CompartmentUtil#makeCompartmentParamName(String)} for details on how the
+     * {@link CompartmentHelper#makeCompartmentParamName(String)} for details on how the
      * parameter name is composed for each relationship.
      * @param allParameters
-     * @param resourceType
+     * @param resourceType the resource type of the resource we are extracting parameter values from
+     * @param resourceId the resource id of the resource we are extracting parameter values from
      */
-    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, String resourceType) {
+    protected void addCompartmentParams(List<ExtractedParameterValue> allParameters, String resourceType, String resourceId) {
         if (log.isLoggable(Level.FINE)) {
             log.fine("Processing compartment parameters for resourceType: " + resourceType);
         }
 
-        Map<String,Set<String>> compartmentRefParams = CompartmentUtil.getCompartmentParamsForResourceType(resourceType);
-        Map<String, List<ExtractedParameterValue>> collectedEPVByCode = allParameters.stream()
-                .collect(Collectors.groupingBy(epv -> epv.getName()));
-
-        for (Entry<String, Set<String>> entry : compartmentRefParams.entrySet()) {
-            String param = entry.getKey();
-            Set<String> compartments = entry.getValue();
-
-            List<ExtractedParameterValue> collectedEPV = collectedEPVByCode.get(param);
-            // If the parameter has no corresponding extracted values, log and continue
-            if (collectedEPV == null) {
-                if (log.isLoggable(Level.FINER)) {
-                    log.finer("Compartment inclusion param " + param + " has no value");
-                }
+        Set<ExtractedParameterValue> compartmentMemberships = new HashSet<>();
+        for (ExtractedParameterValue epv : allParameters) {
+            if (!epv.isCompartmentInclusionParam()) {
                 continue;
             }
 
-            for (ExtractedParameterValue epv : collectedEPV) {
-                if (!(epv instanceof ReferenceParmVal)) {
-                    log.warning("Skipping compartment inclusion param " + param + "; expected ReferenceParmVal but found " +
-                            epv.getClass().getSimpleName());
-                    continue;
-                }
+            if (!(epv instanceof ReferenceParmVal)) {
+                log.warning("Skipping extracted value for compartment inclusion param " + epv.getName() + "; "
+                        + "expected ReferenceParmVal but found " + epv.getClass().getSimpleName());
+                continue;
+            }
 
-                ReferenceValue rv = ((ReferenceParmVal) epv).getRefValue();
-                if (rv != null && rv.getType() == ReferenceType.LITERAL_RELATIVE
-                        && compartments.contains(rv.getTargetResourceType())) {
-                    String internalCompartmentParamName = CompartmentUtil.makeCompartmentParamName(rv.getTargetResourceType());
+            ReferenceValue rv = ((ReferenceParmVal) epv).getRefValue();
+            if (rv != null && rv.getType() == ReferenceType.LITERAL_RELATIVE
+                    && epv.getCompartments().contains(rv.getTargetResourceType())) {
+                String internalCompartmentParamName = CompartmentHelper.makeCompartmentParamName(rv.getTargetResourceType());
 
-                    if (epv.isForStoring()) {
-                        // create a copy of the extracted parameter value but with the new internal compartment parameter name
-                        ReferenceParmVal pv = new ReferenceParmVal();
-                        pv.setName(internalCompartmentParamName);
-                        pv.setResourceType(resourceType);
-                        pv.setRefValue(rv);
+                if (epv.isForStoring()) {
+                    // create a copy of the extracted parameter value but with the new internal compartment parameter name
+                    ReferenceParmVal pv = new ReferenceParmVal();
+                    pv.setName(internalCompartmentParamName);
+                    pv.setResourceType(resourceType);
+                    pv.setCompartments(Collections.singleton(rv.getTargetResourceType()));
+                    pv.setRefValue(rv);
 
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("Adding compartment reference parameter: [" + resourceType + "] " +
-                                    internalCompartmentParamName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
-                        }
-                        allParameters.add(pv);
-                    } else {
-                        // since the extracted parameter value isn't going to be stored,
-                        // just rename it with our internal compartment param name and mark that for storing
-                        epv.setName(internalCompartmentParamName);
-                        epv.setForStoring(true);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Adding compartment reference parameter: [" + resourceType + "] " +
+                                internalCompartmentParamName + " = " + rv.getTargetResourceType() + "/" + rv.getValue());
                     }
+                    compartmentMemberships.add(pv);
+                } else {
+                    // since the extracted parameter value isn't going to be stored,
+                    // just rename it with our internal compartment param name and mark that for storing
+                    epv.setName(internalCompartmentParamName);
+                    epv.setForStoring(true);
                 }
             }
         }
+
+        // as of https://github.com/IBM/FHIR/issues/3091 we flag a resource as a member of its own compartment
+        if (searchHelper.isCompartmentType(resourceType)) {
+            ReferenceParmVal pv = new ReferenceParmVal();
+            pv.setName(CompartmentHelper.makeCompartmentParamName(resourceType));
+            pv.setResourceType(resourceType);
+            pv.setCompartments(Collections.singleton(resourceType));
+            pv.setRefValue(new ReferenceValue(resourceType, resourceId, ReferenceType.LITERAL_RELATIVE, null));
+
+            compartmentMemberships.add(pv);
+        }
+
+        allParameters.addAll(compartmentMemberships);
     }
 
     /**
      * Augment the given allParameters list with ibm-internal parameters that represent the relationship
      * between the url and version parameters. These parameter values are subsequently used in
-     * canonical reference searches. See {@link CompartmentUtil#makeCompartmentParamName(String)} for
+     * canonical reference searches. See {@link CompartmentHelper#makeCompartmentParamName(String)} for
      * details on how the parameter name is composed.
      * @param allParameters
      */
@@ -1985,7 +2039,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // url
             StringParmVal up = new StringParmVal();
             up.setResourceType(cp.getResourceType());
-            up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            up.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
             up.setUrl(cp.getUrl());
             up.setVersion(cp.getVersion());
             up.setValueString(urlParm.getValueString());
@@ -1994,7 +2048,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // version
             StringParmVal vp = new StringParmVal();
             vp.setResourceType(cp.getResourceType());
-            vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            vp.setName(SearchHelper.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
             vp.setUrl(cp.getUrl());
             vp.setVersion(cp.getVersion());
             vp.setValueString(versionParm != null ? versionParm.getValueCode() : null);
@@ -2252,6 +2306,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
         Objects.requireNonNull(resourceDTO, "resourceDTO must be not null");
         T resource;
+        boolean treatErasedAsDeleted = false;
 
         if (includeData) {
             // original impl - the resource, if any, was read from the RDBMS
@@ -2271,11 +2326,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     }
                 }
             } else {
-                // Queries may return a NULL for the DATA column if the resource has been erased
-                // or the query was asked not to fetch DATA in the first place
+                // Queries may return a NULL for the DATA column if the resource has been erased.
                 resource = null;
+                treatErasedAsDeleted = true;
             }
         } else {
+            // Because we never selected the data column, we don't know if this resource
+            // version has been erased or not. The only thing we can do is return a null
+            // resource.
             resource = null;
         }
 
@@ -2295,6 +2353,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         builder.resource(resource); // can be null
         builder.version(resourceDTO.getVersionId());
         builder.lastUpdated(resourceDTO.getLastUpdated().toInstant());
+
+        // If we encounter a resource version that was erased, its data column will be
+        // null so we can't parse a resource value. We need to treat it as a deleted
+        // resource because otherwise the REST layer will expect the resource value to
+        // be present
+        if (treatErasedAsDeleted && !resourceDTO.isDeleted()) {
+            builder.deleted(true);
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
         return builder.build();
@@ -2335,7 +2401,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } else {
             result = null;
         }
-    
+
         return result;
     }
 
@@ -2681,31 +2747,55 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Callback from TransactionData when a transaction has been rolled back
-     * @param payloadPersistenceResponses an immutable list of {@link PayloadPersistenceResponse}
+     * Callback from TransactionData when a transaction has ended (after commit or rollback)
+     * @param committed true if the transaction completed, or false if it rolled back
      */
-    private void handleRollback() {
-        if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
-            throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
-        }
-        // try to delete each of the payload objects we've stored
-        // because the transaction has been rolled back
-        log.fine("starting rollback handling for PayloadPersistenceResponse data");
-        for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
-            try {
-                log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
-                payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
-                        ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
-            } catch (Exception x) {
-                // Nothing more we can do other than log the issue. Any rows we can't process
-                // here (e.g. network outage) will be orphaned. These orphaned rows
-                // will be removed by the reconciliation process which scans the payload
-                // persistence repository and looks for missing RDBMS records.
-                log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+    private void transactionCompleted(Boolean committed) {
+        // Because of how this is called, committed should never be null
+        // but we check just to be safe
+        Objects.requireNonNull(committed, "committed must be non-null");
+
+        if (committed) {
+            // See if we have any erase resources to clean up
+            for (ErasedResourceRec err: this.eraseResourceRecs) {
+                try {
+                    erasePayload(err);
+                } catch (Exception x) {
+                    // The transaction has already committed, so we don't want to fail
+                    // the request. This is a server-side issue now so all we can do is
+                    // log.
+                    log.log(Level.SEVERE, "failed to erase offload payload for '"
+                            + err.toString()
+                            + "'. Run reconciliation to ensure this record is removed.", x);
+                }
+            }
+        } else {
+            // Try to delete each of the payload objects we've stored in this
+            // transaction because the transaction has been rolled back
+            if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
+                throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
+            }
+
+            log.fine("starting rollback handling for PayloadPersistenceResponse data");
+            for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
+                try {
+                    log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
+                    payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
+                            ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
+                } catch (Exception x) {
+                    // Nothing more we can do other than log the issue. Any rows we can't process
+                    // here (e.g. network outage) will be orphaned. These orphaned rows
+                    // will be removed by the reconciliation process which scans the payload
+                    // persistence repository and looks for missing RDBMS records.
+                    log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+                }
             }
         }
 
+        // important to clear this list after each transaction because batch bundles
+        // use the same FHIRPersistenceJDBCImpl instance for each entry
         payloadPersistenceResponses.clear();
+        eraseResourceRecs.clear();
     }
 
     /**
@@ -2743,7 +2833,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             throw fx;
         }
 
-        // At this stage we also need to check that any (async) payload offload operations have completed
+        // At this stage we also need to check that any (async) payload offload operations related
+        // to the current transaction have completed
         for (PayloadPersistenceResponse ppr: this.payloadPersistenceResponses) {
             try {
                 log.fine(() -> "Getting storePayload() async result for: " + ppr.toString());
@@ -2758,10 +2849,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             } catch (ExecutionException e) {
                 log.warning("Payload persistence failed for: " + ppr.toString());
                 throw new FHIRPersistenceException("storePayload failed", e);
-                
+
             }
         }
-        
+
         // NOTE: we do not clear the payloadPersistenceResponses list here on purpose. We want to keep
         // the list intact until the transaction actually commits, just in case there's a rollback, in which
         // case the rollback handling will attempt to call delete for all of the records in the list.
@@ -2803,7 +2894,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if (resourceTypeNames != null && resourceTypeNames.size() > 0) {
                 // convert the list of type names to the corresponding list of resourceTypeId values
                 // the REST layer already has checked these names are valid, so no need to worry about failures
-                resourceTypeIds = resourceTypeNames.stream().map(n -> cache.getResourceTypeCache().getId(n)).collect(Collectors.toList());
+                resourceTypeIds = resourceTypeNames.stream()
+                        .map(n -> cache.getResourceTypeCache().getId(n))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList());
+
+                if (resourceTypeIds.size() != resourceTypeNames.size()) {
+                    throw new FHIRPersistenceException("Unexpected error converting resource type name(s) to id(s); " + resourceTypeNames);
+                }
             } else {
                 resourceTypeIds = null; // no filter on resource type
             }
@@ -2883,9 +2981,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void erasePayloads(EraseResourceDAO dao, long erasedResourceGroupId) throws FHIRPersistenceException {
         List<ErasedResourceRec> recs = dao.getErasedResourceRecords(erasedResourceGroupId);
-        for (ErasedResourceRec rec: recs) {
-            erasePayload(rec);
-        }
+
+        // Stash this list so that we can do the erase after the transaction commits
+        eraseResourceRecs.addAll(recs);
 
         // If the above loop completed without throwing an exception, we can safely
         // remove all the records in the group. If an exception was thrown (because
@@ -2957,8 +3055,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Delegate the serialization and any compression to the FHIRPayloadPersistence implementation
             PayloadPersistenceResponse response = payloadPersistence.storePayload(resourceTypeName, resourceTypeId, logicalId, newVersionNumber, resourcePayloadKey, resource);
 
-            // register the response object so that we can clean up in case of a rollback later
-            this.payloadPersistenceResponses.add(response);
+            // We don't record the response in the payloadPersistenceResponses list yet because
+            // for batch bundles, there are multiple transactions and the list should contain
+            // only those responses relevant to the current transaction
             return response;
         } else {
             // Offloading not supported by the plain JDBC persistence implementation, so return null

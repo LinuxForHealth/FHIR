@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -54,21 +54,18 @@ import com.ibm.fhir.server.spi.operation.FHIROperationContext.Type;
  * Test Export util
  */
 public class BulkDataExportUtilTest {
+    BulkDataExportUtil util;
 
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
+        util = new BulkDataExportUtil();
     }
 
     @BeforeMethod
     public void startMethod(Method method) throws FHIRException {
-
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
         context.setTenantId("default");
     }
 
@@ -79,7 +76,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckExportTypeInstance() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.INSTANCE;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -97,7 +93,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckExportTypeResourceType() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.RESOURCE_TYPE;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -115,7 +110,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckExportTypeSystem() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         FHIROperationContext.Type type = Type.SYSTEM;
 
         Class<? extends Resource> resourceType = Patient.class;
@@ -133,7 +127,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndConvertToMediaType() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         // QueryParameters Map
         Map<String, List<String>> _mvm = new HashMap<>();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+ndjson"));
@@ -162,14 +155,6 @@ public class BulkDataExportUtilTest {
         // Multiple values
         _mvm.clear();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+parquet", "ndjson"));
-        type = util.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
-        assertNotNull(type);
-        assertEquals(type.getType(), "application");
-        assertEquals(type.getSubtype(), "fhir+parquet");
-
-        // Parquet Format
-        _mvm.clear();
-        _mvm.put("_outputFormat", Arrays.asList("application/fhir+parquet"));
         type = util.checkAndConvertToMediaType(generateParametersFromMap(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
@@ -220,13 +205,10 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceNull() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         // No Parameters
         assertNull(util.checkAndExtractSince(null));
 
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_since")).value((Element)null).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_since")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -238,8 +220,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceEmpty() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
         List<Parameter> parameters = new ArrayList<>();
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
@@ -252,10 +232,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceWithString() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_since")).value(string("2018-07-01T00:00:00Z")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_since")).value(string("2018-07-01T00:00:00Z")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -267,10 +244,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceWithInvalidString() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("invalid")).value(string("2018-07-01T00:00:00Z")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("invalid")).value(string("2018-07-01T00:00:00Z")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -282,25 +256,19 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndExtractSinceWithInstant() {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_since")).value(Instant.of("2018-07-01T00:00:00Z")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_since")).value(Instant.of("2018-07-01T00:00:00Z")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataExportUtil util = new BulkDataExportUtil();
         Instant inst = util.checkAndExtractSince(ps);
         assertNotNull(inst);
     }
 
     @Test
     public void testCheckAndExtractSinceWithInvalidType() {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_since")).value(PositiveInt.of(1)).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_since")).value(PositiveInt.of(1)).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -312,153 +280,81 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesEmpty() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        // Value requires a string greater than 1
-        parameters.add(Parameter.builder().name(string("_type")).value(string("1")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("1")).build());
+        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesNull() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value((Element)null).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value((Element)null).build());
+        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesNullQPS() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value((Element) null).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        util.checkAndValidateTypes(ExportType.SYSTEM, ps, new MultivaluedHashMap<String, String>());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value((Element) null).build());
+        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         fail();
     }
 
     @Test
     public void testCheckAndValidateTypesPatientWithoutComma() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(string("Patient")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient")).build());
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         assertNotNull(types);
     }
 
     @Test
     public void testCheckAndValidateTypesPatientWithComma() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(string("Patient,")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,")).build());
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         assertNotNull(types);
     }
 
     @Test
     public void testCheckAndValidateTypesPatientMedicationWithComma() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(string("Patient,Medication")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,Medication")).build());
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         assertNotNull(types);
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesPatientMedicationWithExtraComma() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(string("Patient,,Medication")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,,Medication")).build());
+        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         fail();
     }
 
     @Test
     public void testCheckAndValidateTypesWithExtraComma() throws FHIROperationException {
         // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_type")).value(string(",,")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string(",,")).build());
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypesNoParameters() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
-
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, ps, null);
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        List<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null, null);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypeFilters() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -466,10 +362,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypeFiltersNoParameters() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -482,15 +375,12 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypeFiltersParameters() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value(string("type1")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_typeFilter")).value(string("type1")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -498,14 +388,11 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateTypeFiltersParametersTypes() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value(string("type1,type2")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_typeFilter")).value(string("type1,type2")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -513,15 +400,12 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypeFiltersParametersTypesComma() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value(string(",,2")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_typeFilter")).value(string(",,2")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataExportUtil util = new BulkDataExportUtil();
         List<String> result = util.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -529,14 +413,11 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypeFiltersParametersTypesInvalidType() throws FHIROperationException {
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value(PositiveInt.of(2)).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_typeFilter")).value(PositiveInt.of(2)).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateTypeFilters(ps);
         fail();
     }
@@ -544,23 +425,18 @@ public class BulkDataExportUtilTest {
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypeFiltersParametersTypesNull() throws FHIROperationException {
         // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("_typeFilter")).value((Element)null).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("_typeFilter")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         Parameters ps = builder.build();
-        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateTypeFilters(ps);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNull() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value((Element)null).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value((Element)null).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -572,10 +448,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidType() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value(PositiveInt.of(2)).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value(PositiveInt.of(2)).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -587,10 +460,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNoJob() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("fred")).value(PositiveInt.of(2)).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("fred")).value(PositiveInt.of(2)).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -602,17 +472,14 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNullParameters() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         util.checkAndValidateJob(null);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidQuestion() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value(string("1?")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value(string("1?")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -624,10 +491,7 @@ public class BulkDataExportUtilTest {
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobInvalidSlash() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value(string("1/")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value(string("1/")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -639,10 +503,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateJobValid() throws FHIROperationException {
-        BulkDataExportUtil util = new BulkDataExportUtil();
-        // parameters
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder().name(string("job")).value(string("1234q346")).build());
+        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value(string("1234q346")).build());
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
@@ -655,7 +516,6 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testGetOutputParametersWithJson() throws Exception {
-        BulkDataExportUtil util = new BulkDataExportUtil();
         PollingLocationResponse pollingLocationResponse = new PollingLocationResponse();
         Parameters result = util.getOutputParametersWithJson(pollingLocationResponse);
         assertNotNull(result);

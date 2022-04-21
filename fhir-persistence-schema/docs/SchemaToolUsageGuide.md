@@ -490,8 +490,13 @@ The following are advanced execution arguments
 
 |Property|Description|Example|
 |--------|-----------|-----------|
-|`--pool-size NUM` | The number of connections used to connect to the database|`--pool-size 20`|
+|`--pool-size NUM` | The number of connections used to connect to the database|`--pool-size 30`|
+|`--thread-pool-size NUM` | The number of threads to use for concurrent database operations|`--thread-pool-size 20`|
 |`--skip-allocate-if-tenant-exists` | whether or not to skip over allocating the tenant where this tenantName/tenantKey combination already exists |`--skip-allocate-if-tenant-exists`|
+
+Note: the schema tool design supports use of a thread pool to allow DDL operations to be applied in parallel. In practice, this leads to deadlocks in the database catalog, often related to the definition of foreign keys. Although the code includes retry protection against these deadlocks, the result is reduced DDL thoughput and longer schema creation times (DDL parallel processing was intended to make schema creation faster). The recommendation is therefore to not specify `--pool-size` or `--thread-pool-size` and rely on the default values instead.
+
+The connection pool size must include additional headroom above the configured thread pool size. The schema tool will automatically increase the connection pool size if the configured value is too small for a given thread pool size. This prevents critical background functions from having to wait for connections when all the connections are consumed by long-running activities in the thread pool.
 
 ## Alternative: Manually apply the schema
 
@@ -609,7 +614,8 @@ and grants permission to the username|
 |--force||Do not skip schema update process when the whole-schema-version matches.|
 |--force-unused-table-removal||Forces the removal of unused tables - DomainResource, Resource|
 |--prop|name=value|name=value that is passed in on the commandline|
-|--pool-size|poolSize|poolsize used with the database actions|
+|--pool-size|poolSize|database connection pool size (default 10)|
+|--thread-pool-size|threadPoolSize|the pool size for concurrent database operations (default 1)|
 |--drop-schema-oauth||drop the db schema used by liberty's oauth/openid connect features|
 |--drop-schema-batch||drop the db schema used by liberty's java-batch feature"|
 |--drop-schema-fhir||drop the schema set by '--schema-name'|

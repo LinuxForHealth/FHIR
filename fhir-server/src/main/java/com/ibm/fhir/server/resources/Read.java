@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,7 @@ public class Read extends FHIRResource {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             Resource resource = helper.doRead(type, id, true, false, null, queryParameters).getResource();
             int version2Match = -1;
             // Support ETag value with or without " (and W/)
@@ -106,7 +106,7 @@ public class Read extends FHIRResource {
             if (isModified) {
                 status = Status.OK;
                 response = Response.ok().entity(resource);
-                response = addHeaders(response, resource);
+                response = addETagAndLastModifiedHeaders(response, resource);
             } else {
                 status = Status.NOT_MODIFIED;
                 response = Response.status(Response.Status.NOT_MODIFIED);

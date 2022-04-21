@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * <a href="https://hl7.org/fhir/search.html#date">FHIR Specification: Search
@@ -215,7 +214,7 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         Observation savedObservation;
 
         Observation.Builder observationBuilder =
-                ((Observation) TestUtil.getMinimalResource(Observation.class)).toBuilder();
+                TestUtil.getMinimalResource(Observation.class).toBuilder();
 
         Patient patient = TestUtil.getMinimalResource(Patient.class);
         savedPatient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
@@ -251,7 +250,7 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         queryParms.put("_sort", Collections.singletonList("_id"));
 
         FHIRSearchContext searchContext =
-                SearchUtil.parseCompartmentQueryParameters("Patient", savedPatient.getId(), Observation.class, queryParms);
+                searchHelper.parseCompartmentQueryParameters("Patient", savedPatient.getId(), Observation.class, queryParms);
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
         MultiResourceResult result = persistence.search(persistenceContext, Observation.class);
         assertNotNull(result.getResourceResults());

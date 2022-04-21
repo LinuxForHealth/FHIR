@@ -10,7 +10,7 @@
 persistence_pre(){
     PERSISTENCE="${1}"
     if [ ! -z "${PERSISTENCE}" ] && [ -f build/persistence/${PERSISTENCE}/pre-integration-test.sh ]
-    then 
+    then
         echo "Running [${PERSISTENCE}] pre-integration-test"
         bash build/persistence/${PERSISTENCE}/pre-integration-test.sh
     fi
@@ -19,10 +19,12 @@ persistence_pre(){
 ###############################################################################
 # Check if the workspace is set.
 if [ -z "${WORKSPACE}" ]
-then 
+then
     echo "The WORKSPACE value is unset"
     exit -1
-fi 
+fi
+
+. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
@@ -35,5 +37,5 @@ persistence_pre "${1}"
 # Reset to Original Directory
 popd > /dev/null
 
-# EOF 
+# EOF
 ###############################################################################

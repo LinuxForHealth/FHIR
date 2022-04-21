@@ -9,6 +9,7 @@ package com.ibm.fhir.search.location;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -18,11 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Location;
@@ -31,27 +30,20 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
  * Test the BoundingBox
  * Verified using https://www.geodatasource.com/distance-calculator
  */
 @Test
-public class NearLocationHandlerBoundingBoxTest {
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
-    }
+public class NearLocationHandlerBoundingBoxTest extends BaseSearchTest {
 
+    @Override
     @BeforeMethod
-    public void startMethod(Method method) throws FHIRException {
+    public void startMethod(Method method) {
         // Configure the request context for our search tests
         FHIRRequestContext context = FHIRRequestContext.get();
-        if (context == null) {
-            context = new FHIRRequestContext();
-        }
-        FHIRRequestContext.set(context);
 
         //Facilitate the switching of tenant configurations based on method name
         String tenant = "default";
@@ -60,11 +52,16 @@ public class NearLocationHandlerBoundingBoxTest {
             int idx = methodName.indexOf("_tenant_") + "_tenant_".length();
             tenant = methodName.substring(idx);
         }
-        context.setTenantId(tenant);
+        try {
+            context.setTenantId(tenant);
+        } catch (FHIRException e) {
+            fail("error while setting tenant for method=" + methodName, e);
+        }
 
         context.setOriginalRequestUri("https://localhost:9443/fhir-server/api/v4");
     }
 
+    @Override
     @AfterMethod
     public void clearThreadLocal() {
         FHIRRequestContext.remove();
@@ -169,7 +166,7 @@ public class NearLocationHandlerBoundingBoxTest {
     public void testLocationBoundaryPositionsFromParameters_tenant_near() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("near", Collections.singletonList("-90.0|0.0|1.0|km"));
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
+        FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, queryParms, true, true);
         NearLocationHandler handler = new NearLocationHandler();
         List<Bounding> bounding = handler.generateLocationPositionsFromParameters(ctx.getSearchParameters());
         assertNotNull(bounding);

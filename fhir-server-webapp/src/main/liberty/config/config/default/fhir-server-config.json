@@ -11,9 +11,6 @@
             "serverRegistryResourceProviderEnabled": false,
             "disabledOperations": ""
         },
-        "search": {
-            "useStoredCompartmentParam": true
-        },
         "security": {
             "cors": true,
             "basic": {
@@ -159,7 +156,7 @@
                 },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",
-                "maxPartitions": 3, 
+                "maxPartitions": 5, 
                 "maxInputs": 5,
                 "maxChunkReadTime": "90000",
                 "systemExportImpl": "fast",

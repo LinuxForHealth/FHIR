@@ -78,7 +78,7 @@ public class ResourceListExistsDAO {
                 filter.append(" OR ");
             }
             // We use parens here for readability
-            filter.append("(LR.LOGICAL_ID = ? AND R.VERSION_ID = ? AND R.RESOURCE_PAYLOAD_KEY = ?)");
+            filter.append("(LR.LOGICAL_ID = ? AND R.VERSION_ID = ? AND R.RESOURCE_PAYLOAD_KEY = ? AND R.IS_DELETED = 'N')");
         }
         final String SQL = ""
                 + "SELECT r.resource_payload_key "

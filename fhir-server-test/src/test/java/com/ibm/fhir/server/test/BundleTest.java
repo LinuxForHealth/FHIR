@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,10 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -53,6 +49,11 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 /**
  * This class tests 'batch' and 'transaction' interactions.
@@ -761,7 +762,7 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testBatchHistory";
         WebTarget target = getWebTarget();
 
-        // Perform a 'read' and a 'vread'.
+        // Get the history for patientB1
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
                 null, null);
@@ -778,16 +779,18 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
 
         // Take a peek at the result bundle.
-        Bundle resultSet = (Bundle) responseBundle.getEntry().get(0).getResource();
-        assertNotNull(resultSet);
-        assertTrue(resultSet.getEntry().size() > 1);
+        Bundle historyBundle = (Bundle) responseBundle.getEntry().get(0).getResource();
+        assertNotNull(historyBundle);
+
+        List<Bundle.Entry> resultSet = historyBundle.getEntry();
+        assertTrue(resultSet.size() > 1);
 
         boolean result = false;
-        for(Bundle.Entry entry : resultSet.getEntry()) {
+        for(Bundle.Entry entry : resultSet) {
             if(entry.getResponse() != null){
                 String returnedStatus = entry.getResponse().getStatus().getValue();
                 assertNotNull(returnedStatus);
-                assertTrue(returnedStatus.startsWith("200"));
+                assertTrue(returnedStatus.startsWith("200") || returnedStatus.startsWith("201"));
                 result = true;
             }
         }
@@ -1431,7 +1434,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertHistoryResults(target, "Patient/" + patientT1.getId() + "/_history", 2);
         assertHistoryResults(target, "Patient/" + patientT2.getId() + "/_history", 2);
     }
-    
+
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdates" })
     public void testTransactionInvalidRequestError() throws Exception {
         String method = "testTransactionInvalidRequestError";
@@ -1451,8 +1454,8 @@ public class BundleTest extends FHIRServerTestBase {
                 patientT1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
                 patientT2);
-        
-        
+
+
         // the URL does not have an id and nor is it a conditional update, so this is an error
         // which should be picked up when translating the bundle entry into an interaction
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation", null,
@@ -2041,7 +2044,7 @@ public class BundleTest extends FHIRServerTestBase {
         Resource patientResource = patientEntry.getResource();
         assertTrue(patientResource instanceof Patient);
         patient = (Patient) patientResource;
-        
+
         // Verify the Patient.managingOrganization field.
         assertNotNull(patient.getManagingOrganization());
         assertNotNull(patient.getManagingOrganization().getReference());
@@ -2055,7 +2058,7 @@ public class BundleTest extends FHIRServerTestBase {
         actualReference = patient.getGeneralPractitioner().get(0).getReference().getValue();
         assertNotNull(actualReference);
         assertEquals(actualReference, expectedPractitionerReference);
-        
+
         // Next, check each observation to make sure their local references were
         // processed correctly.
         for (int i = 3; i < 5; i++) {
@@ -2382,10 +2385,10 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient);
-        
+
         // Removed for 1869. We no longer support bundles with multiple updates for the same resource.
         // bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, urlString, null, patient.toBuilder().id(null).build());
-        
+
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, multipleMatches, null, patient);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, badSearch, null, patient);
 
@@ -2641,7 +2644,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
         Patient responsePatient = entry1.getResource().as(Patient.class);
 
-        
+
         // Transaction 2. PUT the same patient again. Should be skipped because the resource matches
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
@@ -2715,7 +2718,7 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     /**
-     * To test If-None-Match (conditional create-on-update) we must use 
+     * To test If-None-Match (conditional create-on-update) we must use
      * multiple requests because:
      *   "A resource can only appear in a transaction once (by identity)."
      * Requests:
@@ -2767,7 +2770,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertEquals(entry1.getResponse().getStatus().getValue(), "201");
         assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
 
-        
+
         // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch - because the
         // processing error for the entry is 412, this should fail the bundle with a 400
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
@@ -2794,7 +2797,7 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
         assertNotNull(response3);
         assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         // Interaction 4. Undelete
         Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
@@ -2821,13 +2824,13 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Undelete uses 201 Created to pass Touchstone
         assertEquals(entry4.getResponse().getStatus().getValue(), "201");
-        
+
         // Version 2 is the delete marker, so should be version 3 after undelete
         assertEquals(entry4.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/3");
     }
 
     /**
-     * To test If-None-Match (conditional create-on-update) we must use 
+     * To test If-None-Match (conditional create-on-update) we must use
      * multiple requests because:
      *   "A resource can only appear in a transaction once (by identity)."
      * Requests:
@@ -2877,7 +2880,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertEquals(entry1.getResponse().getStatus().getValue(), "201");
         assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
 
-        
+
         // Interaction 2. PUT the same patient again. Should be skipped because IfNoneMatch
         Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
@@ -2907,7 +2910,7 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response3 = client.delete(Patient.class.getSimpleName(), randomId);
         assertNotNull(response3);
         assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         // Interaction 4. Undelete
         Bundle.Entry bundleEntry4 = Bundle.Entry.builder()
                 .fullUrl(Uri.of("urn:2"))
@@ -2934,7 +2937,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Undelete uses 201 Created to pass Touchstone
         assertEquals(entry4.getResponse().getStatus().getValue(), "201");
-        
+
         // Version 2 is the delete marker, so should be version 3 after undelete
         assertEquals(entry4.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/3");
     }
@@ -3005,7 +3008,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(response);
 
         assertNotNull(response.getStatus());
-        
+
         // TestNG: ACTUAL, EXPECTED
         assertEquals(response.getStatus().getValue(), Integer.toString(expectedStatusCode));
 

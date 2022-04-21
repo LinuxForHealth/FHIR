@@ -3,69 +3,55 @@
 	"id": "full",
 	"text": {
 		"status": "generated",
-		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>target</b>: <a href=\"Coverage-full.html\">Coverage/full</a></p><p><b>occurred</b>: 2020-07-28</p><p><b>recorded</b>: Jul 31, 2020, 2:07:15 AM</p><blockquote><p><b>agent</b></p><p><b>type</b>: Transmitter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU3.1.1/CodeSystem-us-core-provenance-participant-type.html\">US Core Provenance Participant Type Extension Codes</a>#transmitter)</span></p><p><b>who</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.0.0/CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <a href=\"Practitioner-full.html\">Practitioner/full</a> \" BONE\"</p></blockquote></div>"
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"full\" </p></div><p><b>target</b>: <a href=\"Coverage-full.html\">Coverage/full</a></p><p><b>occurred</b>: 2020-07-28</p><p><b>recorded</b>: Jul 31, 2020 2:07:15 AM</p><blockquote><p><b>agent</b></p><p><b>type</b>: Transmitter <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU3.1.1/CodeSystem-us-core-provenance-participant-type.html\">US Core Provenance Participant Type Extension Codes</a>#transmitter)</span></p><p><b>who</b>: <a href=\"Organization-full.html\">Organization/full</a> \"New Health Plan\"</p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <a href=\"Practitioner-full.html\">Practitioner/full</a> \" BONE\"</p></blockquote></div>"
 	},
-	"target": [
-		{
-			"reference": "Coverage/full"
-		}
-	],
+	"target": [{
+		"reference": "Coverage/full"
+	}],
 	"occurredDateTime": "2020-07-28",
 	"recorded": "2020-07-30T20:07:15-06:00",
-	"agent": [
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type",
-						"code": "transmitter"
-					}
-				]
-			},
-			"who": {
-				"reference": "Organization/full"
-			}
+	"agent": [{
+		"type": {
+			"coding": [{
+				"system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-provenance-participant-type",
+				"code": "transmitter"
+			}]
 		},
-		{
-			"type": {
-				"coding": [
-					{
-						"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
-						"code": "author"
-					}
-				]
-			},
-			"who": {
-				"reference": "Practitioner/full"
-			}
+		"who": {
+			"reference": "Organization/full"
 		}
-	],
-	"signature": [
-		{
-			"type": [
-				{
-					"system": "urn:iso-astm:E1762-95:2013",
-					"code": "1.2.840.10065.1.12.1.1"
-				}
-			],
-			"when": "2020-07-30T20:07:16.3831-06:00",
-			"who": {
-				"reference": "http://example.org/new-payer/Organization/57"
-			},
-			"data": "12345678"
+	},
+	{
+		"type": {
+			"coding": [{
+				"system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+				"code": "author"
+			}]
 		},
-		{
-			"type": [
-				{
-					"system": "urn:iso-astm:E1762-95:2013",
-					"code": "1.2.840.10065.1.12.1.5"
-				}
-			],
-			"when": "2020-07-30T20:07:16.3847-06:00",
-			"who": {
-				"reference": "http://example.org/new-payer/Organization/57"
-			},
-			"data": "98765432"
+		"who": {
+			"reference": "Practitioner/full"
 		}
-	]
+	}],
+	"signature": [{
+		"type": [{
+			"system": "urn:iso-astm:E1762-95:2013",
+			"code": "1.2.840.10065.1.12.1.1"
+		}],
+		"when": "2020-07-30T20:07:16.3831-06:00",
+		"who": {
+			"reference": "http://example.org/new-payer/Organization/57"
+		},
+		"data": "12345678"
+	},
+	{
+		"type": [{
+			"system": "urn:iso-astm:E1762-95:2013",
+			"code": "1.2.840.10065.1.12.1.5"
+		}],
+		"when": "2020-07-30T20:07:16.3847-06:00",
+		"who": {
+			"reference": "http://example.org/new-payer/Organization/57"
+		},
+		"data": "98765432"
+	}]
 }

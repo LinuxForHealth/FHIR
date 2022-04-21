@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -909,6 +909,7 @@ public final class FHIRPathUtil {
     }
 
     /**
+     * @param elementOrResource
      * @param fhirPath
      * @param value
      * @throws FHIRPathException

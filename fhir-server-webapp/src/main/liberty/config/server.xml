@@ -41,6 +41,9 @@
      -->
     <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
 
+    <!-- Prevent the HTTP channel from throwing an I/O exception when an inbound connection is closed while still in use. -->
+    <httpOptions id="defaultHttpOptions" ThrowIOEForInboundConnections="false"/>
+
     <!--
         The trace specification can be set via the TRACE_SPEC environment variable (or by overriding it below).
         

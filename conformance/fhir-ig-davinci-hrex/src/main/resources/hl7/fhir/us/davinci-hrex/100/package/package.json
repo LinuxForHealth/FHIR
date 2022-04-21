@@ -1,26 +1,26 @@
 {
-	"name": "hl7.fhir.us.davinci-hrex",
-	"version": "1.0.0",
-	"tools-version": 3,
-	"type": "IG",
-	"date": "20220224210106",
-	"license": "CC0-1.0",
-	"canonical": "http://hl7.org/fhir/us/davinci-hrex",
-	"notForPublication": true,
-	"url": "https://build.fhir.org/ig/HL7/davinci-ehrx/",
-	"title": "Da Vinci Health Record Exchange (HRex)",
-	"description": "The Da Vinci Payer Health Record exchange (HRex) Framework/library specifies the FHIR elements used in multiple Da Vinci implementation guides. This includes FHIR profiles, functions, operations, and constraints on other specifications such as CDS-Hooks and other aspects of Da Vinci Use Cases that are common across more than a single use case.\n\nDa Vinci HRex Implementation Guide (IG) will make use of US Core profiles that are based on the FHIR R4 specification wherever practical. The HRex IG will use the HL7 FHIR Release 4/US Core STU3 specification as its base but will provide additional guidance and documentation to support implementations that follow the HL7 FHIR STU3/US Core STU2 and HL7 FHIR DSTU2/Argonaut specifications.\n\nThe HRex profiles documented in this IG will be used to exchange data between providers systems (e.g. EHRs) and other providers, payers, and third-party applications where appropriate. In addition, exchanges from payer systems to providers, other payers, and third-party applications are supported by the HRex profiles and operations.\n\nHRex may define new extensions, profiles, value sets, constraints/extension to other specification (e.g. specific CDS-Hooks) that are specific Da Vinci requirements. Where appropriate these Da Vinci specific artifacts will be promoted for incorporation into the future versions of existing standards (e.g. R4 US Core profiles) and deprecated in this guide on publication in the updated standard. (built Thu, Feb 24, 2022 21:01+0000+00:00)",
-	"fhirVersions": [
-		"4.0.1"
-	],
-	"dependencies": {
-		"hl7.fhir.r4.core": "4.0.1",
-		"hl7.fhir.us.core": "3.1.1",
-		"hl7.fhir.us.udap-security": "0.1.0"
-	},
-	"author": "HL7 International - Clinical Interoperability Council",
-	"directories": {
-		"lib": "package",
-		"example": "example"
-	}
+  "name": "hl7.fhir.us.davinci-hrex",
+  "version": "1.0.0",
+  "tools-version": 3,
+  "type": "IG",
+  "date": "20220323185542",
+  "license": "CC0-1.0",
+  "canonical": "http://hl7.org/fhir/us/davinci-hrex",
+  "url": "http://hl7.org/fhir/us/davinci-hrex/STU1",
+  "title": "Da Vinci Health Record Exchange (HRex)",
+  "description": "The Da Vinci Payer Health Record exchange (HRex) Framework/library specifies the FHIR elements used in multiple Da Vinci implementation guides. This includes FHIR profiles, functions, operations, and constraints on other specifications such as CDS-Hooks and other aspects of Da Vinci Use Cases that are common across more than a single use case.\n\nDa Vinci HRex Implementation Guide (IG) will make use of US Core profiles that are based on the FHIR R4 specification wherever practical. The HRex IG will use the HL7 FHIR Release 4/US Core STU3 specification as its base but will provide additional guidance and documentation to support implementations that follow the HL7 FHIR STU3/US Core STU2 and HL7 FHIR DSTU2/Argonaut specifications.\n\nThe HRex profiles documented in this IG will be used to exchange data between providers systems (e.g. EHRs) and other providers, payers, and third-party applications where appropriate. In addition, exchanges from payer systems to providers, other payers, and third-party applications are supported by the HRex profiles and operations.\n\nHRex may define new extensions, profiles, value sets, constraints/extension to other specification (e.g. specific CDS-Hooks) that are specific Da Vinci requirements. Where appropriate these Da Vinci specific artifacts will be promoted for incorporation into the future versions of existing standards (e.g. R4 US Core profiles) and deprecated in this guide on publication in the updated standard. (built Wed, Mar 23, 2022 18:55+0000+00:00)",
+  "fhirVersions": [
+    "4.0.1"
+  ],
+  "dependencies": {
+    "hl7.fhir.r4.core": "4.0.1",
+    "hl7.fhir.us.core": "3.1.1",
+    "hl7.fhir.us.udap-security": "0.1.0"
+  },
+  "author": "HL7 International - Clinical Interoperability Council",
+  "directories": {
+    "lib": "package",
+    "example": "example"
+  },
+  "jurisdiction": "urn:iso:std:iso:3166#US"
 }

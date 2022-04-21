@@ -80,9 +80,11 @@ import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIROperationContext;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
@@ -114,9 +116,12 @@ public class MemberMatchTest {
 
     private static final Uri DATA_ABSENT_URI = Uri.builder().extension(DATA_ABSENT).build();
 
+    private SearchHelper searchHelper;
+
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
+        searchHelper = new SearchHelper();
     }
 
     public void createContext(String tenant) throws FHIRException {
@@ -1474,7 +1479,7 @@ public class MemberMatchTest {
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
         Class<? extends Resource> resourceType = Patient.class;
         MemberMatchOperation operation = new MemberMatchOperation();
-        operation.invoke(operationContext, resourceType, null, null, generateInput(), new LocalResourceHelpers(1,1));
+        operation.invoke(operationContext, resourceType, null, null, generateInput(), new LocalResourceHelpers(1,1), searchHelper);
     }
 
     @Test
@@ -1483,7 +1488,7 @@ public class MemberMatchTest {
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
         Class<? extends Resource> resourceType = Patient.class;
         MemberMatchOperation operation = new MemberMatchOperation();
-        Parameters output = operation.invoke(operationContext, resourceType, null, null, generateInput(), new LocalResourceHelpers(1,1));
+        Parameters output = operation.invoke(operationContext, resourceType, null, null, generateInput(), new LocalResourceHelpers(1,1), searchHelper);
         assertNotNull(output);
         assertEquals(output.getParameter().size(), 1);
         assertEquals(output.getParameter().get(0).getName().getValue(), "MemberIdentifier");
@@ -1741,7 +1746,7 @@ public class MemberMatchTest {
         }
 
         @Override
-        public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext)
+        public Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext)
             throws FHIRPersistenceException {
             throw new AssertionError("Unused");
         }

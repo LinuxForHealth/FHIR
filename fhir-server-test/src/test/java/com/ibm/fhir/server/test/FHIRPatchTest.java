@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
@@ -1000,6 +1001,152 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), HTTPReturnPreference.OPERATION_OUTCOME);
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), HTTPReturnPreference.OPERATION_OUTCOME);
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testPatchNotExistingResource() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient, but do not call the 'create' API.
+        Patient patient = buildPatient();
+
+        Parameters patch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("add"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.name[0]"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("name"))
+                        .value(string("given"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(string("Jack"))
+                        .build())
+                    .build())
+                .build();
+
+        // Call the 'patch` API
+        Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testJSONPatchNotExistingResource() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient, but do not call the 'create' API.
+        Patient patient = buildPatient();
+
+        JsonArray array = Json.createPatchBuilder()
+                .add("/name/0/given/1", "Jack")
+                .build().toJsonArray();
+
+        // Call the 'patch` API
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        Response response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testPatchDeletedResource() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'delete' API to delete the new patient.
+        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        Parameters patch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("add"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.name[0]"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("name"))
+                        .value(string("given"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(string("Jack"))
+                        .build())
+                    .build())
+                .build();
+
+        // Call the 'patch` API
+        Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testJSONPatchDeletedResource() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'delete' API to delete the new patient.
+        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        JsonArray array = Json.createPatchBuilder()
+                .add("/name/0/given/1", "Jack")
+                .build().toJsonArray();
+
+        // Call the 'patch` API
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals("Resource 'Patient/" + patient.getId() + "' not found.", oo.getIssue().get(0).getDetails().getText().getValue());
     }
 
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {

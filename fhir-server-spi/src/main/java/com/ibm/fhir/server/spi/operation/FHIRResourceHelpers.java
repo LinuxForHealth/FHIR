@@ -22,6 +22,7 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -36,10 +37,10 @@ public interface FHIRResourceHelpers {
     public static final boolean DO_VALIDATION = true;
     // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
     public static final boolean SKIPPABLE_UPDATE = true;
-    
+
     // Constant for when we don't use the If-Not-Match header value
     public static final Integer IF_NOT_MATCH_NULL = null;
-    
+
     public enum Interaction {
         CREATE("create"),
         DELETE("delete"),
@@ -186,11 +187,13 @@ public interface FHIRResourceHelpers {
      *            the resource version
      * @param searchContext
      *            the request search context
+     * @param systemHistoryContext
+     *            the request system history context
      * @return a map of persistence event properties
      * @throws FHIRPersistenceException
      */
     Map<String, Object> buildPersistenceEventProperties(String type, String id,
-        String version, FHIRSearchContext searchContext) throws FHIRPersistenceException;
+        String version, FHIRSearchContext searchContext, FHIRSystemHistoryContext systemHistoryContext) throws FHIRPersistenceException;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored). Validates the resource.
@@ -208,7 +211,7 @@ public interface FHIRResourceHelpers {
      * @param skippableUpdate
      *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
-     * @param ifNoneMatch 
+     * @param ifNoneMatch
      *            conditional create-on-update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
@@ -236,7 +239,7 @@ public interface FHIRResourceHelpers {
      *            if false, then always attempt the update
      * @param doValidation
      *            if true, validate the resource; if false, assume the resource has already been validated
-     * @param ifNoneMatch 
+     * @param ifNoneMatch
      *            conditional create-on-update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
@@ -391,7 +394,7 @@ public interface FHIRResourceHelpers {
      * Implement the system level history operation to obtain a list of changes to resources
      * with an optional resourceType which supports for example [base]/Patient/_history
      * requests to return the complete history of changes filtered to a specific resource type.
-     * Because the resource type is included in the path, this variant allows only a single 
+     * Because the resource type is included in the path, this variant allows only a single
      * resource type to be specified. To obtain history for more than one resource type, the
      * [base]/_history whole system history endpoint should be used instead with a list of
      * resource types specified using the _type query parameter.

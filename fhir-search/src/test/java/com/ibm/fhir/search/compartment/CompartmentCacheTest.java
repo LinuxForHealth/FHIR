@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -29,7 +30,7 @@ public class CompartmentCacheTest extends BaseSearchTest {
     @Test()
     public void testGetResourceTypesInCompartmentWhenEmptyCompartmentCache() {
         CompartmentCache cache = new CompartmentCache();
-        List<String> results = cache.getResourceTypesInCompartment();
+        Set<String> results = cache.getResourceTypesInCompartment();
         assertNotNull(results);
         assertTrue(results.isEmpty());
     }
@@ -39,7 +40,7 @@ public class CompartmentCacheTest extends BaseSearchTest {
         CompartmentCache cache = new CompartmentCache();
 
         // Null Test
-        List<String> results = cache.getParametersByResourceTypeInCompartment(null);
+        Set<String> results = cache.getParametersByResourceTypeInCompartment(null);
         assertNotNull(results);
         assertTrue(results.isEmpty());
 
@@ -54,9 +55,9 @@ public class CompartmentCacheTest extends BaseSearchTest {
     public void testGetResourceTypesInCompartmentUnmodifiable() {
         // Confirms unmodifiable results.
         CompartmentCache cache = new CompartmentCache();
-        List<String> results = cache.getParametersByResourceTypeInCompartment("FudgeBrownie");
+        Set<String> results = cache.getParametersByResourceTypeInCompartment("FudgeBrownie");
         assertNotNull(results);
-        results.clear();
+        results.add("test");
     }
 
     @Test(expectedExceptions = { UnsupportedOperationException.class })
@@ -72,7 +73,7 @@ public class CompartmentCacheTest extends BaseSearchTest {
         cache4.add("FrenchFries", params);
 
         // - Should no longer be Empty
-        List<String> results = cache4.getParametersByResourceTypeInCompartment("FrenchFries");
+        Set<String> results = cache4.getParametersByResourceTypeInCompartment("FrenchFries");
         assertNotNull(results);
         results.clear();
     }
@@ -100,7 +101,7 @@ public class CompartmentCacheTest extends BaseSearchTest {
         assertNotNull(cache4);
 
         // - should still respond with Empty.
-        List<String> results = cache4.getParametersByResourceTypeInCompartment("FrenchFries");
+        Set<String> results = cache4.getParametersByResourceTypeInCompartment("FrenchFries");
         assertNotNull(results);
         assertTrue(results.isEmpty());
 

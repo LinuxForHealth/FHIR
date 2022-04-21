@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -78,12 +79,12 @@ public class Patch extends FHIRResource {
 
             FHIRPatch patch = createPatch(array);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
@@ -91,10 +92,10 @@ public class Patch extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Status.METHOD_NOT_ALLOWED;
+            status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());
@@ -136,11 +137,11 @@ public class Patch extends FHIRResource {
                 throw buildRestException(e.getMessage(), IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -151,10 +152,10 @@ public class Patch extends FHIRResource {
                        HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Status.METHOD_NOT_ALLOWED;
+            status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());
@@ -199,11 +200,11 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
 
@@ -215,11 +216,11 @@ public class Patch extends FHIRResource {
                 response.entity(ior.getOperationOutcome());
             }
 
-            response = addHeaders(response, ior.getResource());
+            response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Status.METHOD_NOT_ALLOWED;
+            status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());
@@ -267,12 +268,12 @@ public class Patch extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
-                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
@@ -281,11 +282,11 @@ public class Patch extends FHIRResource {
                 response.entity(ior.getOperationOutcome());
             }
 
-            response = addHeaders(response, ior.getResource());
+            response = addETagAndLastModifiedHeaders(response, ior.getResource());
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            status = Status.METHOD_NOT_ALLOWED;
+            status = Status.NOT_FOUND;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public abstract class AbstractOperation implements FHIROperation {
     protected final OperationDefinition definition;
@@ -40,10 +41,7 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     /**
-     * Validate the input parameters, invoke the operation, validate the output parameters, and return the result.
-     *
-     * @throws FHIROperationException
-     *     if input or output parameters fail validation or an exception occurs
+     * @implNote Validates the input parameters, calls doInvoke, validates the output parameters, and returns the result.
      */
     @Override
     public final Parameters invoke(
@@ -51,10 +49,12 @@ public abstract class AbstractOperation implements FHIROperation {
             Class<? extends Resource> resourceType,
             String logicalId, String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+            FHIRResourceHelpers resourceHelper,
+            SearchHelper searchHelper) throws FHIROperationException {
+
         validateOperationContext(operationContext, resourceType, parameters);
         validateInputParameters(operationContext, resourceType, logicalId, versionId, parameters);
-        Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper);
+        Parameters result = doInvoke(operationContext, resourceType, logicalId, versionId, parameters, resourceHelper, searchHelper);
         validateOutputParameters(operationContext, result);
         return result;
     }
@@ -77,16 +77,8 @@ public abstract class AbstractOperation implements FHIROperation {
             Class<? extends Resource> resourceType,
             String logicalId, String versionId,
             Parameters parameters,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException;
-
-    protected Parameters.Parameter getParameter(Parameters parameters, String name) {
-        for (Parameters.Parameter parameter : parameters.getParameter()) {
-            if (name.equals(parameter.getName().getValue())) {
-                return parameter;
-            }
-        }
-        return null;
-    }
+            FHIRResourceHelpers resourceHelper,
+            SearchHelper searchHelper) throws FHIROperationException;
 
     protected List<OperationDefinition.Parameter> getParameterDefinitions(OperationParameterUse use) {
         List<OperationDefinition.Parameter> parameterDefinitions = new ArrayList<OperationDefinition.Parameter>();
@@ -99,7 +91,36 @@ public abstract class AbstractOperation implements FHIROperation {
         return parameterDefinitions;
     }
 
+    /**
+     * Get the first instance of a parameter by name
+     * 
+     * @param parameters
+     * @param name non-null
+     * @return the first parameter that matches the given name; or null if none exist
+     * @throws NullPointerException if name is null
+     */
+    protected Parameters.Parameter getParameter(Parameters parameters, String name) {
+        Objects.requireNonNull(name, "name");
+
+        for (Parameters.Parameter parameter : parameters.getParameter()) {
+            if (name.equals(parameter.getName().getValue())) {
+                return parameter;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get all instances of a parameter by name
+     * 
+     * @param parameters
+     * @param name non-null
+     * @return a list of parameters that match the given name; never null
+     * @throws NullPointerException if name is null
+     */
     protected List<Parameters.Parameter> getParameters(Parameters parameters, String name) {
+        Objects.requireNonNull(name, "name");
+
         List<Parameters.Parameter> result = new ArrayList<Parameters.Parameter>();
         if (parameters == null) {
             return result;
@@ -234,7 +255,7 @@ public abstract class AbstractOperation implements FHIROperation {
     protected void validateParameters(FHIROperationContext operationContext, Parameters parameters, OperationParameterUse use) throws FHIROperationException {
         String direction = OperationParameterUse.IN.equals(use) ? "input" : "output";
 
-        // Shortcut when we want to pass something specific backup
+        // Shortcut when we want to pass something specific through (e.g. a non-FHIR response)
         if ("output".equals(direction) && operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE) != null) {
             return;
         }

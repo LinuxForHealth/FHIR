@@ -1,25 +1,27 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.search.compartment;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Compartment Cache is a localized class to cache the compartment information and provide helper methods to add to the
- * cache.
+ * Information about a single compartment type.
  */
 public class CompartmentCache {
 
-    private Map<java.lang.String, List<java.lang.String>> codeAndParams = new HashMap<>();
+    /**
+     * A map from the includable resourceType codes (resourceType name) to their inclusion criteria params
+     */
+    private Map<java.lang.String, Set<java.lang.String>> codeAndParams = new HashMap<>();
 
     /**
      * constructor
@@ -29,7 +31,7 @@ public class CompartmentCache {
     }
 
     /**
-     * add the code and parameters to the given compartment cache.
+     * Add the code and parameters to the given compartment cache.
      *
      * @param inclusionResourceCode the name of the resource type that can be within the target compartment type
      * @param params the inclusion criteria used to determine whether a resource of type {@code inclusionResourceCode}
@@ -38,32 +40,32 @@ public class CompartmentCache {
     public void add(java.lang.String inclusionResourceCode, List<com.ibm.fhir.model.type.String> params) {
         if (params != null) {
             // Fast Conversion to java.lang.String
-            List<String> paramsAsStrings = params.stream().map(param -> param.getValue()).collect(Collectors.toList());
+            Set<String> paramsAsStrings = params.stream().map(param -> param.getValue()).collect(Collectors.toSet());
             codeAndParams.put(inclusionResourceCode, paramsAsStrings);
         }
     }
 
     /**
-     * gets the resource types (codes) in the compartment
+     * Get the resource types (codes) that can be in a compartment of this type.
      *
      * @return
      */
-    public List<String> getResourceTypesInCompartment() {
-        return Collections.unmodifiableList(new ArrayList<String>(codeAndParams.keySet()));
+    public Set<String> getResourceTypesInCompartment() {
+        return Collections.unmodifiableSet(codeAndParams.keySet());
     }
 
     /**
-     * get parameters by resource type in the compartment cache.
+     * Get parameters by resource type in the compartment cache.
      *
      * @param resourceType
      * @return
      */
-    public List<String> getParametersByResourceTypeInCompartment(String resourceType) {
-        List<String> results;
+    public Set<String> getParametersByResourceTypeInCompartment(String resourceType) {
+        Set<String> results;
         if (resourceType != null && codeAndParams.containsKey(resourceType)) {
-            results = Collections.unmodifiableList(codeAndParams.get(resourceType));
+            results = Collections.unmodifiableSet(codeAndParams.get(resourceType));
         } else {
-            results = Collections.unmodifiableList(Collections.emptyList());
+            results = Collections.emptySet();
         }
         return results;
     }

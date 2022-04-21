@@ -60,7 +60,6 @@ public class BlobResourceScanner {
      */
     public void run(BlobManagedContainer bmc, int maxScanSeconds) {
         BlobContainerAsyncClient containerClient = bmc.getClient();
-        // ListBlobsOptions options = new ListBlobsOptions();
 
         if (continuationToken == null) {
             // start scanning from the very first page
@@ -86,7 +85,10 @@ public class BlobResourceScanner {
     protected void processPage(PagedResponse<BlobItem> page) {
         List<ResourceRecord> records = new ArrayList<>();
         for (BlobItem item: page.getElements()) {
-            records.add(BlobPayloadSupport.buildResourceRecordFromPath(item.getName()));
+            ResourceRecord rr = BlobPayloadSupport.buildResourceRecordFromPath(item.getName());
+            if (rr != null) {
+                records.add(rr);
+            }
         }
 
         pageHandler.accept(records);

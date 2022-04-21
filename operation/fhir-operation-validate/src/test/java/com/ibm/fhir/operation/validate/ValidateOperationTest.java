@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,11 +36,11 @@ import com.ibm.fhir.server.util.FHIRRestHelper;
 public class ValidateOperationTest {
 
     private ValidateOperation validateOperation;
-    private FHIRRestHelper resourceHelper = new FHIRRestHelper(null);
+    private FHIRRestHelper resourceHelper = new FHIRRestHelper(null, null);
 
     @BeforeClass
     public void setup() {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
         validateOperation = new ValidateOperation();
     }
 
@@ -53,7 +53,7 @@ public class ValidateOperationTest {
             Parameters input = Parameters.builder()
                     .build();
 
-            validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             fail();
         } catch (Exception e) {
             assertEquals(e.getMessage(), "Input parameter 'resource' is required for the $validate operation");
@@ -87,7 +87,7 @@ public class ValidateOperationTest {
                         .build())
                     .build();
 
-            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             OperationOutcome oo = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             assertEquals(oo.getIssue().get(0), expectedOutput);
@@ -127,7 +127,7 @@ public class ValidateOperationTest {
                     .expression(string("Patient"))
                     .build();
 
-            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             OperationOutcome oo = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             assertEquals(oo.getIssue().get(0), expectedOutput);
@@ -171,7 +171,7 @@ public class ValidateOperationTest {
                         .build())
                     .build();
 
-            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             OperationOutcome oo = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             assertEquals(oo.getIssue().get(0), expectedOutput);
@@ -215,7 +215,7 @@ public class ValidateOperationTest {
                         .build())
                     .build();
 
-            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             OperationOutcome oo = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             assertEquals(oo.getIssue().get(0), expectedOutput);
@@ -260,7 +260,7 @@ public class ValidateOperationTest {
                     .expression(string("Patient"))
                     .build();
 
-            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper);
+            Parameters output = validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             OperationOutcome oo = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
             assertEquals(oo.getIssue().get(0), expectedOutput);

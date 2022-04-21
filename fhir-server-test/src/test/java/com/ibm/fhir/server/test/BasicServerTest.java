@@ -7,8 +7,8 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
@@ -32,6 +32,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.Immunization;
 import com.ibm.fhir.model.resource.Observation;
@@ -78,7 +79,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(6, conf.getFormat().size());
+        assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
 
@@ -160,12 +161,12 @@ public class BasicServerTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("metadata").request(FHIRMediaType.APPLICATION_FHIR_XML).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-        assertEquals(FHIRMediaType.APPLICATION_FHIR_XML_TYPE, response.getMediaType());
+        assertEquals(response.getMediaType(), FHIRMediaType.APPLICATION_FHIR_XML_TYPE);
 
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(6, conf.getFormat().size());
+        assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }
@@ -180,12 +181,12 @@ public class BasicServerTest extends FHIRServerTestBase {
             Collections.singletonMap(FHIRMediaType.FHIR_VERSION_PARAMETER, "4.0"));
         Response response = target.path("metadata").request(mediaType).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-        assertEquals(mediaType, response.getMediaType());
+        assertEquals(response.getMediaType(), mediaType);
 
         CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
         assertNotNull(conf);
         assertNotNull(conf.getFormat());
-        assertEquals(6, conf.getFormat().size());
+        assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
     }
@@ -554,22 +555,26 @@ public class BasicServerTest extends FHIRServerTestBase {
     }
 
     /**
-     * Tests the retrieval of the history for a previously saved and updated
-     * patient.
+     * Tests the retrieval of the history for a previously saved and updated patient.
      */
     @Test(groups = { "server-basic" }, dependsOnMethods = { "testCreatePatient", "testUpdatePatient" })
     public void testHistoryPatient() {
         WebTarget target = getWebTarget();
 
-        // Call the 'history' API to retrieve both the original and updated versions of
-        // the patient.
+        // Call the 'history' API to retrieve both the original and updated versions of the patient.
         String targetPath = "Patient/" + savedCreatedPatient.getId() + "/_history";
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Bundle resources = response.readEntity(Bundle.class);
         assertNotNull(resources);
-        assertEquals(2, resources.getEntry().size());
+        assertEquals(resources.getEntry().size(), 2);
+
+        for (Entry entry : resources.getEntry()) {
+            String fullUrl = entry.getFullUrl().getValue();
+            assertEquals(fullUrl, getRestBaseURL() + "/Patient/" + savedCreatedPatient.getId());
+        }
+
         Patient updatedPatient = (Patient) resources.getEntry().get(0).getResource();
         Patient originalPatient = (Patient) resources.getEntry().get(1).getResource();
         // Make sure patient ids are equal, and versionIds are NOT equal.
@@ -583,22 +588,26 @@ public class BasicServerTest extends FHIRServerTestBase {
     }
 
     /**
-     * Tests the retrieval of the history for a previously saved and updated
-     * observation.
+     * Tests the retrieval of the history for a previously saved and updated observation.
      */
     @Test(groups = { "server-basic" }, dependsOnMethods = { "testCreateObservation", "testUpdateObservation" })
     public void testHistoryObservation() {
         WebTarget target = getWebTarget();
 
-        // Call the 'history' API to retrieve both the original and updated versions of
-        // the observation.
+        // Call the 'history' API to retrieve both the original and updated versions of the observation.
         String targetPath = "Observation/" + savedCreatedObservation.getId() + "/_history";
         Response response = target.path(targetPath).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         Bundle resources = response.readEntity(Bundle.class);
         assertNotNull(resources);
-        assertEquals(2, resources.getEntry().size());
+        assertEquals(resources.getEntry().size(), 2);
+
+        for (Entry entry : resources.getEntry()) {
+            String fullUrl = entry.getFullUrl().getValue();
+            assertEquals(fullUrl, getRestBaseURL() + "/Observation/" + savedCreatedObservation.getId());
+        }
+
         Observation updatedObservation = (Observation) resources.getEntry().get(0).getResource();
         Observation originalObservation = (Observation) resources.getEntry().get(1).getResource();
         // Make sure observation ids are equal, and versionIds are NOT equal.
@@ -728,6 +737,6 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 1);
     }
 }

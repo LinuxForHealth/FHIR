@@ -55,7 +55,7 @@ import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * <a href="https://www.hl7.org/fhir/r4/location.html#positional">FHIR
@@ -76,7 +76,8 @@ public class JDBCSearchNearTest {
 
     protected Location savedResource;
 
-    protected static FHIRPersistence persistence = null;
+    protected static FHIRPersistence persistence;
+    protected static SearchHelper searchHelper;
 
     @BeforeClass
     public void startup() throws Exception {
@@ -84,6 +85,7 @@ public class JDBCSearchNearTest {
                 new FileInputStream("../fhir-persistence/src/test/resources/logging.unitTest.properties"));
 
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
+        searchHelper = new SearchHelper();
         FHIRRequestContext.get().setTenantId("default");
 
         testProps = TestUtil.readTestProperties("test.jdbc.properties");
@@ -128,7 +130,7 @@ public class JDBCSearchNearTest {
                 persistence.getTransaction().begin();
             }
 
-            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
+            FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
             com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
@@ -161,7 +163,7 @@ public class JDBCSearchNearTest {
     }
 
     public MultiResourceResult runQueryTest(Map<String, List<String>> queryParms) throws Exception {
-        FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true, true);
+        FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, queryParms, true, true);
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
         MultiResourceResult result = persistence.search(persistenceContext, Location.class);
         return result;

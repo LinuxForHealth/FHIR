@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.server.util.FHIRRestHelper.getRequestBaseUri;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.util.Date;
@@ -71,11 +72,11 @@ public class Create extends FHIRResource {
             checkInitComplete();
             checkType(type);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =
-                    Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
+                    Response.created(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
             resource = ior.getResource();
 
             HTTPReturnPreference returnPreference = FHIRRequestContext.get().getReturnPreference();
@@ -84,7 +85,7 @@ public class Create extends FHIRResource {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == returnPreference) {
                 response.entity(ior.getOperationOutcome());
             }
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             status = ior.getStatus();
             response.status(status);
 

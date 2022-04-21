@@ -142,7 +142,7 @@
                 },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",
-                "maxPartitions": 3, 
+                "maxPartitions": 5,
                 "maxInputs": 5
             },
             "storageProviders": {

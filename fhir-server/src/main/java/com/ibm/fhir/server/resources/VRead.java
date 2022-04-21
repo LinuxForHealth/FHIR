@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,11 +60,11 @@ public class VRead extends FHIRResource {
 
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
             Resource resource = helper.doVRead(type, id, vid, queryParameters);
             status = Status.OK;
             ResponseBuilder response = Response.ok().entity(resource);
-            response = addHeaders(response, resource);
+            response = addETagAndLastModifiedHeaders(response, resource);
             return response.build();
         } catch (FHIROperationException e) {
             status = issueListToStatus(e.getIssues());

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,9 +17,15 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class SearchParameterResolver {
+
+    private final SearchHelper searchHelper;
+
+    public SearchParameterResolver(SearchHelper searchHelper) {
+        this.searchHelper = searchHelper;
+    }
 
     public SearchParameter getSearchParameterDefinition(String resourceType, String path) throws Exception {
         return getSearchParameterDefinition(resourceType, path, null);
@@ -37,8 +43,8 @@ public class SearchParameterResolver {
             path = "";
         }
 
-        // XXX should this use the registry (all parameters) or the filtered set of search parameters for a given tenant?
-        Map<String, SearchParameter> params = SearchUtil.getSearchParameters(resourceType);
+        // should this use the registry (all parameters) or the filtered set of search parameters for a given tenant?
+        Map<String, SearchParameter> params = searchHelper.getSearchParameters(resourceType);
 
         for (SearchParameter param : params.values()) {
             if (name != null && param.getCode().getValue().equals(name)) {

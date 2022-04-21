@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -63,6 +64,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
@@ -101,13 +103,20 @@ public class FHIRRestHelperTest {
                 .build())
             .build();
 
+    private SearchHelper searchHelper;
+
+    @BeforeClass
+    public void initializeSearchUtil() {
+        searchHelper = new SearchHelper();
+    }
+
     /**
      * Test transaction bundle post single.
      */
     @Test
     public void testTransactionBundlePostSingle() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -155,7 +164,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostSingleWithValidateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -200,7 +209,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostSingleWithCreateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -249,7 +258,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostSingleWithValidateAndCreateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -296,7 +305,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -363,7 +372,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithBackwardDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -430,7 +439,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
@@ -509,7 +518,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithConditionalDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -578,7 +587,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithBackwardsConditionalDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -651,7 +660,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
@@ -805,7 +814,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithPutDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -871,7 +880,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutSingle() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -916,7 +925,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutSingleWithValidateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -958,7 +967,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutSingleWithUpdateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -1004,7 +1013,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutSingleWithValidateAndUpdateWarning() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -1048,7 +1057,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -1116,7 +1125,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithBackwardDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -1184,7 +1193,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .id("1")
@@ -1265,7 +1274,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithConditionalDependencyAndIdSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Interesting that this ends up as a patient search not a read
         Patient patient = Patient.builder()
@@ -1334,7 +1343,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithConditionalDependencyAndIdNotSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -1403,7 +1412,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithBackwardsConditionalDependencyAndIdNotSet() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -1475,7 +1484,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .id("1")
@@ -1634,7 +1643,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithPostDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .id("1")
@@ -1702,7 +1711,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutWithPostCircularDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .id("1")
@@ -1788,7 +1797,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePutAndPostWithMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .id("1")
@@ -1977,7 +1986,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testBundleSearchBundleWithNullRsrcAndNoId() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
 
         Patient patientNoId = Patient.builder()
@@ -2057,7 +2066,7 @@ public class FHIRRestHelperTest {
         when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Call doDelete, the interceptor will check if the events are set
         helper.doDelete("Patient", "123", null);
@@ -2082,7 +2091,7 @@ public class FHIRRestHelperTest {
         when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
         when(persistence.read(any(), any(), any())).thenReturn(mockResult);
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Call doDelete, check that the response contains the version of the deleted resource
         // even though it doesn't contain the resource.
@@ -2152,7 +2161,7 @@ public class FHIRRestHelperTest {
         // when(persistence.create(any(), any())).thenReturn(mockResult);
         when(persistence.create(any(), any())).thenReturn(mockResult);
         when(persistence.update(any(), any())).thenReturn(mockResult);
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // The helper must pass the resource updated by the interceptor to the persistence#create method
         ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
@@ -2172,7 +2181,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testBatchBundleResourceUrlMismatch() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -2243,7 +2252,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithAbsoluteFullUrlsMultipleDependency() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
@@ -2397,7 +2406,7 @@ public class FHIRRestHelperTest {
     @Test
     public void testTransactionBundlePostWithResourceSchemeReference() throws Exception {
         FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)

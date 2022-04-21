@@ -16,7 +16,6 @@ permalink: /FHIRServerPerformanceGuide/
         - [3.1.1 Liberty Profile Concurrency](#311-liberty-profile-concurrency)
         - [3.1.2 Database Max Connections](#312-database-max-connections)
         - [3.1.3 JEE Datasource Default, Recommended](#313-jee-datasource-default-recommended)
-        - [3.1.4 Proxy Datasource (Deprecated)](#314-proxy-datasource-deprecated)
     - [3.2 Transaction Timeout](#32-transaction-timeout)
     - [3.3 Session Affinity](#33-session-affinity)
     - [3.4 Value-Id Caches](#34-value-id-caches)
@@ -146,46 +145,17 @@ The recommended approach for tenant datatstore configuration is to use individua
                  sslmode="require"
                  sslrootcert="resources/security/your-postgres-host.crt" />
         />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
     </dataSource>
 ```
 
-Because each datasource gets its own connection manager you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment.
+Because each datasource gets its own connection manager, you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment. The `numConnectionsPerThreadLocal` value should be set to `1`. This improves concurrency and reduces the amount of time it takes to acquire a connection, especially on systems with large core counts.
+
+When `numConnectionsPerThreadLocal=1`, be aware that connection-related errors will cause the client request to fail with a status 500 Server Error. In addition, this failure will not purge all bad connections and so clients may see multiple errors. This can occur when there is a database failover event, for example. When `numConnectionsPerThreadLocal=0` and `validationTimeout` is configured (see above), connections are validated each time before they are used. In this case, the chance of a client request failing due to a bad database connection is much lower.
+
+If clients need to be protected from this type of error in addition to achieving high concurrency, the recommendation is to set `numConnectionsPerThreadLocal=0` and scale out multiple instances of the IBM FHIR Server over a larger number of smaller nodes instead of a smaller number of larger nodes. This helps to reduce contention on the mutex locks protecting the application server connection pool.
 
 Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
-
-### 3.1.4. Proxy Datasource (Deprecated)
-
-The IBM FHIR Server proxy datasource is based on a custom datasource implementation which allows datasources to be programmatically added and removed without a server restart, something not supported natively in Liberty Profile. This implementation has been deprecated and is no longer the default configuration.
-
-To use the IBM FHIR Server proxy datasource, just one Liberty Profile JTA `<dataSource>` is required:
-
-``` xml
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
-        <jdbcDriver libraryRef="fhirSharedLib" javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource"/>
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
-    </dataSource>
-```
-
-Only one connection pool is supported, as defined by the `<connectionManager>` element. The `max_connections` for each target database should be configured to be `maxPoolSize` times the cluster size plus the overhead recommended for the given database type to support basic operation and monitoring etc.
-
-Note, the FHIRProxyXADataSource is only called to provide new connections. Most `getConnection()` requests will be served directly by the connection pool.
-
-
-| Property | Recommended Value | Description |
-| -------- | ----------------- | ----------------------------------------------------------- |
-| statementCacheSize | 200 | The number of prepared statements cached per connection. |
-| jndiName | jdbc/fhirProxyDataSource | The JNDI address used by the IBM FHIR Server code to locate the datasource |
-| type | javax.sql.XADataSource | The Java interface representing the datasource, implemented by FHIRProxyXADataSource |
-| javax.sql.XADataSource | com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource | The IBM FHIR Server custom datasource implementation |
-| libraryRef | fhirSharedLib | Liberty Profile shared library definition referencing the Jar files containing the FHIRProxyXADataSource implementation. |
-| maxPoolSize | see below | The max number of connections allowed |
-| minPoolSize | 40 | The pool will shrink to this size by aging out old connections |
-| connectionTimeout | 60s | Timeout when trying to establish a new connection to the database |
-| maxIdleTime | 2m | Removes connections from the pool when they are unused for this amount of time, but does not shrink the pool below minPoolSize |
-| numConnectionsPerThreadLocal | 2 | Number of connections cached in thread-local storage. Testing has shown the value 2 is sufficient to eliminate contention in high-concurrency scenarios. |
-
-
 
 ## 3.2. Transaction Timeout
 
@@ -277,16 +247,6 @@ The values for PARAMETER_NAMES and RESOURCE_TYPES are supposed to be fully cache
 
 Resources are assigned to various compartments using expressions with multiple terms. In the IBM FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the IBM FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
 
-To enable this optimization, set the `fhirServer/search/useStoredCompartmentParam` configuration parameter to `true` in the fhir-server-config.json file:
-
-``` json
-        "search": {
-            "useStoredCompartmentParam": true
-        },
-```
-
-Enabling this optimization is recommended. See the IBM FHIR Server release notes for more details.
-
 ## 3.6. Usage of Server Resource Provider
 
 The IBM FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
@@ -306,7 +266,7 @@ The IBM FHIR Server supports multi-tenant SearchParameter extensions described i
 
 The IBM FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
 
-An example of the empty search parameters file is: 
+An example of the empty search parameters file is:
 
 ``` json
 {

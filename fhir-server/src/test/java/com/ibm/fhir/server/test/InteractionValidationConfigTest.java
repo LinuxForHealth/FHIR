@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,13 +48,14 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public class InteractionValidationConfigTest {
 
     FHIRPersistence persistence;
-    FHIRRestHelper helper;
+    SearchHelper searchHelper;
 
     public static final OperationOutcome ALL_OK = OperationOutcome.builder()
             .issue(Issue.builder()
@@ -68,10 +69,10 @@ public class InteractionValidationConfigTest {
 
     @BeforeClass
     void setup() throws FHIRException {
-        FHIRConfiguration.setConfigHome("src/test/resources");
+        FHIRConfiguration.setConfigHome("target/test-classes");
         FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
-        helper = new FHIRRestHelper(persistence);
+        searchHelper = new SearchHelper();
     }
 
     @AfterClass
@@ -86,6 +87,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -113,6 +116,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -140,6 +145,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -167,6 +174,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -200,6 +209,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -233,6 +244,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Procedure procedure = Procedure.builder()
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -273,6 +286,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Procedure procedure = Procedure.builder()
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -313,6 +328,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testCreateNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Practitioner practitioner = Practitioner.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
@@ -327,8 +344,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -340,6 +357,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -358,6 +376,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -376,6 +395,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -394,6 +414,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -418,6 +439,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -442,6 +464,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -466,6 +489,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -490,6 +514,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testReadNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -501,8 +526,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -514,6 +539,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -532,6 +558,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -550,6 +577,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -568,6 +596,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -592,6 +621,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -616,6 +646,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -640,6 +671,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -664,6 +696,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testVReadNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -675,8 +708,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -688,6 +721,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -706,6 +740,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -724,6 +759,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -742,6 +778,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -766,6 +803,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -790,6 +828,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -814,6 +853,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -838,6 +878,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testHistoryNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -849,8 +890,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -862,6 +903,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -880,6 +922,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -898,6 +941,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -916,6 +960,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -940,6 +985,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -964,6 +1010,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -988,6 +1035,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1012,6 +1060,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testSearchNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1023,8 +1072,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -1036,6 +1085,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Patient patient = Patient.builder()
                 .id("1")
                 .generalPractitioner(Reference.builder()
@@ -1064,6 +1115,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -1092,6 +1145,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .id("1")
                 .status(EncounterStatus.FINISHED)
@@ -1120,6 +1175,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
                     .reference(string("Practitioner/1"))
@@ -1153,6 +1210,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -1186,6 +1245,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Encounter encounter = Encounter.builder()
                 .status(EncounterStatus.FINISHED)
                 .clazz(Coding.builder()
@@ -1219,6 +1280,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Procedure procedure = Procedure.builder()
                 .text(Narrative.builder()
                     .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
@@ -1259,6 +1322,8 @@ public class InteractionValidationConfigTest {
     @Test
     public void testUpdateNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
         Practitioner practitioner = Practitioner.builder()
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
@@ -1273,8 +1338,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -1286,6 +1351,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1310,6 +1376,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1334,6 +1401,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1358,6 +1426,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1382,6 +1451,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1393,8 +1463,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -1406,6 +1476,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1429,6 +1500,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteValidGenericResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1452,6 +1524,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteValidAnyResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("default");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1474,6 +1547,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteNotValidEmptySpecificResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1498,6 +1572,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteNotValidEmptyGenericResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("empty");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1522,6 +1597,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteNotValidNotSpecifiedResourceList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1546,6 +1622,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteNotValidNotSpecifiedGenericList() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1570,6 +1647,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testDeleteNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
@@ -1581,8 +1659,8 @@ public class InteractionValidationConfigTest {
             // Validate results
             List<Issue> issues = e.getIssues();
             assertEquals(issues.size(), 1);
-            assertEquals("The requested resource type 'Practitioner' is not found",
-                issues.get(0).getDetails().getText().getValue());
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested resource type 'Practitioner' is not found");
             assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
             assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
@@ -1594,6 +1672,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testTransactionBundleWithCreateValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -1662,6 +1741,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testTransactionBundleWithCreateNotValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -1733,6 +1813,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testBatchBundleWithCreateValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()
@@ -1801,6 +1882,7 @@ public class InteractionValidationConfigTest {
     @Test
     public void testBatchBundleWithCreateNotValidSpecificResourceType() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest2");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         Patient patient = Patient.builder()
                 .generalPractitioner(Reference.builder()

@@ -7,8 +7,8 @@
 package com.ibm.fhir.server.test.bulkdata;
 
 import static com.ibm.fhir.model.type.String.string;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -40,6 +40,22 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.testng.Assert;
+import org.testng.SkipException;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -56,22 +72,6 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.HttpRequestRetryHandler;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
-import org.testng.Assert;
-import org.testng.SkipException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -192,43 +192,35 @@ public class ExportOperationTest extends FHIRServerTestBase {
         List<Parameter> parameters = new ArrayList<>();
 
         if (outputFormat != null) {
-            //@formatter:off
             parameters.add(
                 Parameter.builder()
                     .name(string("_outputFormat"))
                     .value(string(outputFormat))
                     .build());
-            //@formatter:on
         }
 
         if (since != null) {
-            //@formatter:off
             parameters.add(
                 Parameter.builder()
                     .name(string("_since"))
                     .value(since)
                     .build());
-            //@formatter:on
         }
 
         if (types != null) {
-            //@formatter:off
             parameters.add(
                 Parameter.builder()
                     .name(string("_type"))
                     .value(string(types.stream().collect(Collectors.joining(","))))
                     .build());
-            //@formatter:on
         }
 
         if (typeFilters != null) {
-            //@formatter:off
             parameters.add(
                 Parameter.builder()
                     .name(string("_typeFilters"))
                     .value(string(types.stream().collect(Collectors.joining(","))))
                     .build());
-            //@formatter:on
         }
 
         Parameters.Builder builder = Parameters.builder();
@@ -323,7 +315,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 }
             }
         }
-        
+
         System.out.println("The list of resources is " + types);
         System.out.println("The actual list of resources is " + tmpTypes);
 
@@ -680,15 +672,19 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void testBaseExportWithMultipleTypes_Post() throws Exception {
         if (ON) {
             Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
+            parameters = parameters.toBuilder()
+                    .parameter(Parameter.builder().name("_type").value("Patient,Observation").build())
+                    .parameter(Parameter.builder().name("_type").value("Patient").build())
+                    .parameter(Parameter.builder().name("_type").value("Observation").build())
+                    .parameter(Parameter.builder().name("_type").value("Condition").build())
+                    .build();
             Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
 
             Response response = getWebTarget()
                                     .path(BASE_VALID_URL)
                                     .queryParam("_outputFormat", FORMAT_NDJSON)
-                                    .queryParam("_type", "Patient,Observation")
-                                    .queryParam("_type", "Patient")
-                                    .queryParam("_type", "Observation")
-                                    .queryParam("_type", "Condition")
+                                    .queryParam("_type", "Organization")     // just confirms this is ignored
+                                    .queryParam("_type", "Bogus")            // just confirms this is ignored
                                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                                     .header("X-FHIR-TENANT-ID", tenantName)
                                     .header("X-FHIR-DSID", dataStoreId)
@@ -713,8 +709,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testBaseExportWithMultipleTypes_Get() throws Exception {
         if (ON) {
-            Parameters parameters = generateParameters(FORMAT_NDJSON, null, null, null);
-
             Response response = getWebTarget()
                                     .path(BASE_VALID_URL)
                                     .queryParam("_outputFormat", FORMAT_NDJSON)
@@ -990,36 +984,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
             checkGroupExportStatus(true, types);
-        }
-    }
-
-    /**
-     * Disabled due to limitations with writing parquet to minio
-     * https://stackoverflow.com/questions/63174444/how-to-write-parquet-to-minio-from-spark
-     */
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
-    public void testGroupExportToParquet() throws Exception {
-        if (ON) {
-            List<String> types = new ArrayList<>();
-            Response response = doPost(
-                    GROUP_VALID_URL.replace("?", savedGroupId2),
-                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
-                    Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    null,
-                    null,
-                    "default",
-                    "default");
-            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
-
-            // check the content-location that's returned.
-            String contentLocation = response.getHeaderString("Content-Location");
-            if (DEBUG) {
-                System.out.println("Content Location: " + contentLocation);
-            }
-
-            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-            exportStatusUrl = contentLocation;
-            checkGroupExportStatus(false, types);
         }
     }
 

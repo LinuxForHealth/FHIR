@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,7 +56,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.notification.kafka.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.server.notification.websocket.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.server.notifications.nats.FHIRNotificationNATSPublisher;
@@ -131,7 +131,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             FHIRRegistry.init();
 
             log.fine("Initializing SearchUtil...");
-            SearchUtil.init();
+            // Set the shared SearchUtil
+            SearchHelper searchHelper = new SearchHelper();
+            event.getServletContext().setAttribute(SearchHelper.class.getName(), searchHelper);
+            log.fine("Set shared search helper on servlet context.");
 
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();
@@ -148,7 +151,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // we'll add them to our servlet context so that the resource class can easily retrieve them.
 
             // Set the shared FHIRPersistenceHelper.
-            FHIRPersistenceHelper persistenceHelper = new FHIRPersistenceHelper();
+            FHIRPersistenceHelper persistenceHelper = new FHIRPersistenceHelper(searchHelper);
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), persistenceHelper);
             log.fine("Set shared persistence helper on servlet context.");
 
@@ -224,7 +227,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
-                FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
+                FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper, searchHelper));
             }
 
             Boolean serverResolveFunctionEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED, Boolean.FALSE);

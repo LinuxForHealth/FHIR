@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -237,8 +237,12 @@ public class FHIRRestBundleHelper {
                     log.finer("Beginning processing for method: " + httpMethod);
                 }
 
-                // For PUT and DELETE requests, we need to sort the indices by the request url path value.
-                if (httpMethod == HTTPVerb.Value.PUT || httpMethod == HTTPVerb.Value.DELETE) {
+                // For transaction bundles, we need to sort the PUT and DELETE requests to mitigate potential deadlocks
+                // from cases where concurrent bundles have different ordering of the same resources like the following:
+                //   * bundle1: patient1, patient2
+                //   * bundle2: patient2, patient1
+                if (requestBundle.getType().getValueAsEnum() == BundleType.Value.TRANSACTION &&
+                        (httpMethod == HTTPVerb.Value.PUT || httpMethod == HTTPVerb.Value.DELETE)) {
                     sortBundleRequestEntries(requestBundle, entryIndices);
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("Sorted bundle request indices to be processed: "
@@ -387,7 +391,7 @@ public class FHIRRestBundleHelper {
 
         // Build the event we'll use when executing the interaction command
         // - the resource gets injected later when we have it
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, helpers.buildPersistenceEventProperties(resourceType, resourceId, null, null));
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, helpers.buildPersistenceEventProperties(resourceType, resourceId, null, null, null));
 
         // We don't perform the actual operation here, just generate the command
         // we want to execute later
@@ -575,7 +579,7 @@ public class FHIRRestBundleHelper {
 
             // Create the event
             FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(resource.getClass().getSimpleName(), null, null, null));
+                    new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(resource.getClass().getSimpleName(), null, null, null, null));
 
             result = new FHIRRestInteractionCreate(entryIndex, event, validationResponseEntry, requestDescription, requestURL, pathTokens[0], resource, ifNoneExist, localIdentifier);
         } else {
@@ -667,7 +671,7 @@ public class FHIRRestBundleHelper {
         }
 
         // Create the event we'll use for this resource interaction
-        FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, id, null, null));
+        FHIRPersistenceEvent event = new FHIRPersistenceEvent(resource, helpers.buildPersistenceEventProperties(type, id, null, null, null));
         result = new FHIRRestInteractionUpdate(entryIndex, event, validationResponseEntry, requestDescription, requestURL,
             type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, localIdentifier, ifNoneMatch);
 

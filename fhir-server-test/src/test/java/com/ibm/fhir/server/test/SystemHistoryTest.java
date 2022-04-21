@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -26,7 +27,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -38,7 +42,7 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
  * [base]/_history?_count=10
  * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z"
  * [base]/_history?_count=10&_before=2021-02-21T03:00:53.878052Z"
- * 
+ *
  * Error case. Don't mix paging styles
  * [base]/_history?_count=10&_since=2021-02-21T03:00:53.878052Z&_changeIdMarker=4"
  */
@@ -47,7 +51,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
 
     // Create some resources, update, delete and undelete
     private boolean deleteSupported = false;
-    
+
     // the id of the test patient we create
     private String patientId;
 
@@ -80,29 +84,26 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         Patient patient = TestUtil.readLocalResource("patient-example-a.json");
 
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
-        Entity<Patient> entity =
-                Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response =
-                target.path("Patient").request()
-                .post(entity, Response.class);
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
         this.patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/"
-                + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        response = target.path("Patient/" + patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, responsePatient);
 
-        updateResource(responsePatient);                    // 1
         updateResource(responsePatient);                    // 2
-        deleteResource("Patient", responsePatient.getId()); // 3
-        undeleteResource(responsePatient);                  // 4
-        updateResource(responsePatient);                    // 5
+        updateResource(responsePatient);                    // 3
+        deleteResource("Patient", responsePatient.getId()); // 4
+        undeleteResource(responsePatient);                  // 5
+        updateResource(responsePatient);                    // 6
 
         // Create an Observation, so that we can check the type filtering works
         Observation observation =
@@ -116,6 +117,48 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertResponse(observationResponse, Response.Status.CREATED.getStatusCode());
     }
 
+    @Test(dependsOnMethods = {"populateResourcesForHistory"})
+    public void testInstanceHistory() throws Exception {
+        if (!deleteSupported) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        assertNotNull(this.patientId);
+
+        // number of versions created in populateResourcesForHistory
+        int totalVersions = 6;
+
+        // Arrays for storing the result entry data
+        String[] httpVerbs = new String[totalVersions];
+        String[] statusCodes = new String[totalVersions];
+
+        String requestPath = "Patient/" + patientId + "/_history";
+        int found = 0;
+        Response historyResponse = target.path(requestPath).request().get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+
+        // Check the bundle to see if we found the patient
+        for (Bundle.Entry be: bundle.getEntry()) {
+            // simple way to see if our patient has appeared
+            String fullUrl = be.getFullUrl().getValue();
+            if (fullUrl.contains("Patient/" + patientId)) {
+                found++;
+                String locationURL = be.getResponse().getLocation().getValue();
+                // example:  "https://example.com/fhir/Patient/id/_history/5"
+                int versionId = Integer.parseInt(locationURL.substring(locationURL.lastIndexOf("/") + 1));
+                httpVerbs[versionId - 1] = be.getRequest().getMethod().getValue();
+                statusCodes[versionId - 1] = be.getResponse().getStatus().getValue();
+            }
+        }
+
+        assertEquals(found, totalVersions, "All versions of the resource should have a single entry");
+        assertEquals(httpVerbs, new String[]{"POST", "PUT", "PUT", "DELETE", "PUT", "PUT"});
+        // the 5th entry should be a 201 but is a 200 due to https://github.com/IBM/FHIR/issues/3507#issuecomment-1081157116
+        assertEquals(statusCodes, new String[]{"201", "200", "200", "200", "200", "200"});
+    }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithTypePatient() throws Exception {
@@ -130,39 +173,47 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
-        // Follow the next links until we get
+
+        // number of versions created in populateResourcesForHistory
+        int totalVersions = 6;
+
+        // Arrays for storing the result entry data
+        String[] httpVerbs = new String[totalVersions];
+        String[] statusCodes = new String[totalVersions];
+
+        // Follow the next links until we get all the versions for the target Patient resource
         String requestPath = "Patient/_history";
-        boolean found = false;
-        int count;
+        int found = 0;
+        int count = 10;
         do {
             Response historyResponse =
                     target.path(requestPath)
-                    .queryParam("_count", "2")
+                    .queryParam("_count", Integer.toString(count))
                     .request().get(Response.class);
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
                 if (fullUrl.contains("Patient/" + patientId)) {
-                    found = true;
+                    found++;
+                    String locationURL = be.getResponse().getLocation().getValue();
+                    // example:  "https://example.com/fhir/Patient/id/_history/5"
+                    int versionId = Integer.parseInt(locationURL.substring(locationURL.lastIndexOf("/") + 1));
+                    httpVerbs[versionId - 1] = be.getRequest().getMethod().getValue();
+                    statusCodes[versionId - 1] = be.getResponse().getStatus().getValue();
                 }
             }
-            
-            // See if there's more work to do
-            count = bundle.getEntry().size();
-            if (!found && count > 0) {
-                // set up to follow the next link
-                requestPath = getNextLink(bundle);
-                assertNotNull(requestPath);
-            }
-        } while (count > 0 && !found);
-        
-        assertTrue(found, "Patient id in history");
+
+            requestPath = getNextLink(bundle);
+        } while (found < totalVersions && requestPath != null);
+
+        assertEquals(found, totalVersions, "All versions of the resource should have a single entry");
+        assertEquals(httpVerbs, new String[]{"POST", "PUT", "PUT", "DELETE", "PUT", "PUT"});
+        assertEquals(statusCodes, new String[]{"201", "200", "200", "200", "201", "200"});
     }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
@@ -181,7 +232,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
+
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithMultipleTypes() throws Exception {
         if (!deleteSupported) {
@@ -200,7 +251,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
-        
+
         // Check that the next link was composed correctly:
         String nextLink = getNextLink(bundle);
         assertNotNull(nextLink);
@@ -222,6 +273,17 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 5);
+
+        for (Entry entry : bundle.getEntry()) {
+            String fullUrl = entry.getFullUrl().getValue();
+            Resource resource = entry.getResource();
+            if (resource == null) {
+                assertTrue(fullUrl.startsWith(getRestBaseURL()));
+            } else {
+                assertEquals(fullUrl, getRestBaseURL() + "/" +
+                        resource.getClass().getSimpleName() + "/" + resource.getId());
+            }
+        }
     }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
@@ -236,7 +298,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                     .queryParam("_sort", "bogus")
                     .request().get(Response.class);
         assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
-    } 
+    }
 
     @Test(dependsOnMethods = {"populateResourcesForHistory"})
     public void testSystemHistoryWithTypePatientAndOrderNone() throws Exception {
@@ -251,8 +313,8 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
-        // Follow the next links until we 
+
+        // Follow the next links until we
         String requestPath = "Patient/_history";
         boolean found = false;
         int count;
@@ -272,15 +334,15 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
-                
+
                 // Check that the resourceId value for the resource is always increasing. For
                 // whole system history interactions, this id goes in the bundle.entry.id field
                 long resourceId = Long.parseLong(be.getId());
@@ -296,7 +358,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
     }
 
@@ -324,7 +386,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         int count;
         Instant prevLastUpdated = null;
         String nextPath = null;
-        String prevDigest = null; // to help see if the response changed 
+        String prevDigest = null; // to help see if the response changed
         Instant since = Instant.now().minus(1, ChronoUnit.HOURS);
         Instant before = Instant.now().plus(1, ChronoUnit.HOURS);
         do {
@@ -349,13 +411,13 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -387,7 +449,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
     }
 
@@ -404,14 +466,14 @@ public class SystemHistoryTest extends FHIRServerTestBase {
         // _since filter, we'll probably get back data which has been created by
         // other tests, so the only assertion we can make is we get back at least
         // the number of change records we expect.
-        
-        // Follow the next links until we 
+
+        // Follow the next links until we
         String requestPath = "Patient/_history";
         boolean found = false;
         int count;
         Instant prevLastUpdated = null;
         String nextPath = null;
-        String prevDigest = null; // to help see if the response changed 
+        String prevDigest = null; // to help see if the response changed
         do {
             final Response historyResponse;
             if (nextPath == null) {
@@ -426,13 +488,13 @@ public class SystemHistoryTest extends FHIRServerTestBase {
             assertResponse(historyResponse, Response.Status.OK.getStatusCode());
 
             Bundle bundle = historyResponse.readEntity(Bundle.class);
-            
+
             // Check the bundle to see if we found the patient
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             for (Bundle.Entry be: bundle.getEntry()) {
                 // simple way to see if our patient has appeared
                 String fullUrl = be.getFullUrl().getValue();
-                if (fullUrl.contains("Patient/" + patientId)) {
+                if (fullUrl.equals(getRestBaseURL() + "/Patient/" + patientId)) {
                     found = true;
                 }
 
@@ -464,8 +526,53 @@ public class SystemHistoryTest extends FHIRServerTestBase {
                 assertNotNull(nextPath);
             }
         } while (count > 0);
-        
+
         assertTrue(found, "Patient id in history");
+    }
+
+    @Test
+    public void testSystemHistoryWithNoType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // use tenant1 because that tenant is configured to support history on only a subset of resource types
+        Response historyResponse = target.path("_history").request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.OK.getStatusCode());
+
+        Bundle bundle = historyResponse.readEntity(Bundle.class);
+        assertNotNull(bundle);
+
+        boolean validSelf = false;
+        for (Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if ("self".equals(type)) {
+                assertTrue(uri.contains("_type"), "self link should contain the implicitly add _type parameter");
+                validSelf = true;
+            }
+        }
+
+        assertTrue(validSelf, "missing self link");
+    }
+
+    @Test
+    public void testSystemHistoryInvalidType_tenant1() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Patient is configured for the history interaction but CompartmentDefinition is not
+        Response historyResponse = target.path("_history").queryParam("_type", "Patient,CompartmentDefinition").request()
+                // use tenant1 because that tenant is configured to support history on only a subset of resource types
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get(Response.class);
+        assertResponse(historyResponse, Response.Status.BAD_REQUEST.getStatusCode());
+
+        OperationOutcome oo = historyResponse.readEntity(OperationOutcome.class);
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getDetails().getText().getValue(),
+                "history interaction is not supported for _type parameter value: CompartmentDefinition");
     }
 
     /**

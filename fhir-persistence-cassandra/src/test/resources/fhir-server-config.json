@@ -1,9 +1,6 @@
 {
     "__comment": "FHIR Server Configuration for payload storage unit tests",
     "fhirServer": {
-        "core": {
-            "userDefinedSchematronEnabled": true
-        },
         "persistence": {
             "datasources": {
                 "default": {
@@ -12,7 +9,7 @@
                     "searchOptimizerOptions": {
                         "from_collapse_limit":   1,
                         "join_collapse_limit":   2,
-                        "compartment_opt_level": 0 
+                        "compartment_opt_level": 0
                     }
                 }
             },

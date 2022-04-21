@@ -208,22 +208,6 @@ Search parameters are handled like a single configuration properly; providing a 
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
-### 3.2.3 Compartment Search Performance
-
-The IBM FHIR Server supports the ability to compute and store compartment membership values during ingestion. Once stored, these values can help accelerate compartment-related search queries. To use this feature, update the IBM FHIR Server to at least version 4.5.1 and run a reindex operation as described in the [fhir-bucket](https://github.com/IBM/FHIR/tree/main/fhir-bucket) project [README](https://github.com/IBM/FHIR/blob/main/fhir-bucket/README.md). The reindex operation reprocesses the resources stored in the database, computing and storing the new compartment reference values. After the reindex operation has completed, add the `useStoredCompartmentParam` configuration element to the relevant tenant fhir-server-config.json file to allow the search queries to use the pre-computed values:
-
-```
-    {
-        "fhirServer": {
-            "search": {
-                "useStoredCompartmentParam": true
-            }
-        }
-    }
-```
-
-Note that this parameter only enables or disables the compartment search query optimization feature. The compartment membership values are always computed and stored during ingestion or reindexing, regardless of the setting of this value. After the reindex operation is complete, it is recommended to set `useStoredCompartmentParam` to true. No reindex is required if this value is subsequently set to false.
-
 ## 3.3 Persistence layer configuration
 The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby, IBM Db2, and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
@@ -290,7 +274,9 @@ For example, the fhir-server-config snippet from above would have a correspondin
              password="change-password"
              currentSchema="fhirdata"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20"
+            connectionTimeout="60s" maxIdleTime="2m"
+            numConnectionsPerThreadLocal="0"/>
     </dataSource>
 </server>
 ```
@@ -464,7 +450,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             currentSchema="DB2INST1"
             driverType="4"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20"
+            connectionTimeout="60s" maxIdleTime="2m"
+            numConnectionsPerThreadLocal="0"/>
     </dataSource>
 
     <!-- ============================================================== -->
@@ -481,7 +469,9 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             currentSchema="DB2INST1"
             driverType="4"
          />
-        <connectionManager maxPoolSize="200" minPoolSize="40"/>
+        <connectionManager maxPoolSize="200" minPoolSize="20"
+            connectionTimeout="60s" maxIdleTime="2m"
+            numConnectionsPerThreadLocal="0"/>
     </dataSource>
 </server>
 ```
@@ -928,7 +918,7 @@ For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhi
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference.reference` field (for example, `Observation.subject.reference` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL, such as `Patient/12345`.
 
 As described above, in order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been processed (that is, before the new `Patient` resource is created).
- 
+
 Thankfully, the HL7 FHIR specification defines a way to express a dependency between two resources within a request bundle by using a _local identifier_ to identify the resource being referenced, and a _local reference_<sup id="a6">[6](#f6)</sup> to reference the resource via its local identifier. In the following example, a request bundle contains a `POST` request to create a new `Patient` resource, along with a `POST` request to create a new `Observation` resource that references that `Patient`:
 
 <a id="example-obs-ref-pat"></a>
@@ -978,7 +968,7 @@ The following processing rules apply for the use of local references within a re
     - it will extract the FHIR base URL from the local identifier and append the local reference to it
     - it will then try to resolve the reference within the request bundle using the updated local reference
 
-    See the [relative local reference example](#example-ref-via-relative-local-ref) below for an illustration of this rule. 
+    See the [relative local reference example](#example-ref-via-relative-local-ref) below for an illustration of this rule.
 
 In the [example above](#example-obs-ref-pat), you can see that there are two POST requests and the `Patient` request entry appears in the bundle before the `Observation` request entry. However, based on the [order dependency processing rule](#order-dependency-rule), it would still be a valid request bundle even if the `Observation` request entry appeared before the `Patient` request entry.
 
@@ -1103,7 +1093,7 @@ Then when the FHIR server processes the POST requests for the `Encounter` and `P
 }
 ```
 
-In the above example, even though the `Patient` request entry is a conditional create request, this is still a valid request bundle, because the FHIR server resolves any conditional requests before it establishes the mapping between local identifiers and the corresponding external identifiers that will result from performing the `POST` or `PUT` operation. 
+In the above example, even though the `Patient` request entry is a conditional create request, this is still a valid request bundle, because the FHIR server resolves any conditional requests before it establishes the mapping between local identifiers and the corresponding external identifiers that will result from performing the `POST` or `PUT` operation.
 
 #### <a id="example-ref-via-relative-local-ref"></a>Example: Reference via relative local reference
 ```
@@ -2056,6 +2046,8 @@ Whole-system search and whole-system history are special cases. Since no resourc
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
+Unlike most other tenant-specific properties, the `fhirServer/resources` property group is processed as a single unit. In the event that `fhirServer/resources` exists in a tenant-specific config, but a particular sub-property is missing (e.g. `fhirServer/resources/open`), that sub-property will *not* inheret from the "default" tenant.
+
 ## 4.12.1 Using the IBM FHIR Server behind a proxy
 It is possible to run the IBM FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.
 
@@ -2194,7 +2186,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|If true then the bounding area is a radius, else the bounding area is a box.|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|True, compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/search/enableLegacyWholeSystemSearchParams`|boolean|True, searches specifying whole-system search parameters `_profile`, `_tag`, and `_security` run against legacy search index data, else those searches run against new search index data. This property can be set to `true` before a reindex operation is run, and after migrating to IBM FHIR Server version 4.9.0, to allow searches to work while the reindex operation is in progress. After the reindex has completed successfully, the property should be set to `false` or removed from the configuration. |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
 |`fhirServer/bulkdata/core/api/url`|string|The URL to access the FHIR server hosting the batch web application |
@@ -2338,7 +2329,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/search/useBoundingRadius`|false|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|true|
 |`fhirServer/search/enableLegacyWholeSystemSearchParams`|false|
 |`fhirServer/security/cors`|true|
 |`fhirServer/security/basic/enabled`|false|
@@ -2409,176 +2399,178 @@ Depending on the context of their use, config properties can be:
 
 The following table tracks which properties can be set on a tenant-specific basis
 and which properties are loaded dynamically.
-If you change a properties that has an `N` in the `Dynamic?` column, it means you
+If you change a property that has an `N` in the `Dynamic?` column, it means you
 must restart the server for that change to take effect.
+Most tenant-specific properties support "fallback" to the default tenant config.
+Cases where that behavior is not supported are marked below with an `N` in the `Fallback?` column.
 
-| Property Name                 | Tenant-specific? | Dynamic? |
-|-------------------------------|------------------|----------|
-|`fhirServer/core/defaultPrettyPrint`|Y|Y|
-|`fhirServer/core/tenantIdHeaderName`|N|N|
-|`fhirServer/core/dataSourceIdHeaderName`|N|N|
-|`fhirServer/core/originalRequestUriHeaderName`|N|N|
-|`fhirServer/core/defaultHandling`|Y|Y|
-|`fhirServer/core/allowClientHandlingPref`|Y|Y|
-|`fhirServer/core/checkReferenceTypes`|N|N|
-|`fhirServer/core/checkControlCharacters`|N|N|
-|`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
-|`fhirServer/core/serverResolveFunctionEnabled`|N|N|
-|`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
-|`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
-|`fhirServer/core/extendedCodeableConceptValidation`|N|N|
-|`fhirServer/core/disabledOperations`|N|N|
-|`fhirServer/core/defaultPageSize`|Y|Y|
-|`fhirServer/core/ifNoneMatchReturnsNotModified`|Y|Y|
-|`fhirServer/core/maxPageSize`|Y|Y|
-|`fhirServer/core/maxPageIncludeCount`|Y|Y|
-|`fhirServer/core/capabilitiesUrl`|Y|Y|
-|`fhirServer/core/externalBaseUrl`|Y|Y|
-|`fhirServer/validation/failFast`|Y|Y|
-|`fhirServer/term/cachingDisabled`|N|N|
-|`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
-|`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
-|`fhirServer/term/graphTermServiceProviders/configuration`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/enabled`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/base`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/headers`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
-|`fhirServer/term/capabilitiesUrl`|Y|Y|
-|`fhirServer/resources/open`|Y|Y|
-|`fhirServer/resources/Resource/interactions`|Y|Y|
-|`fhirServer/resources/Resource/searchParameters`|Y|Y|
-|`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|
-|`fhirServer/resources/Resource/searchIncludes`|Y|Y|
-|`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|
-|`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|
-|`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|
-|`fhirServer/resources/Resource/profiles/notAllowed`|Y|Y|
-|`fhirServer/resources/Resource/profiles/allowUnknown`|Y|Y|
-|`fhirServer/resources/Resource/profiles/defaultVersions`|Y|Y|
-|`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|Y|Y|
-|`fhirServer/resources/<resourceType>/interactions`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchParameters`|Y|N|
-|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|N|
-|`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|
-|`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
-|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
-|`fhirServer/resources/<resourceType>/profiles/notAllowed`|Y|Y|
-|`fhirServer/resources/<resourceType>/profiles/allowUnknown`|Y|Y|
-|`fhirServer/resources/<resourceType>/profiles/defaultVersions`|Y|Y|
-|`fhirServer/resources/<resourceType>/profiles/defaultVersions/<profile>`|Y|Y|
-|`fhirServer/notifications/common/includeResourceTypes`|N|N|
-|`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|N|
-|`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|N|
-|`fhirServer/notifications/websocket/enabled`|N|N|
-|`fhirServer/notifications/kafka/enabled`|N|N|
-|`fhirServer/notifications/kafka/sync`|Y|N|
-|`fhirServer/notifications/kafka/topicName`|N|N|
-|`fhirServer/notifications/kafka/connectionProperties`|N|N|
-|`fhirServer/notifications/nats/enabled`|N|N|
-|`fhirServer/notifications/nats/cluster`|N|N|
-|`fhirServer/notifications/nats/channel`|N|N|
-|`fhirServer/notifications/nats/clientId`|N|N|
-|`fhirServer/notifications/nats/servers`|N|N|
-|`fhirServer/notifications/nats/useTLS`|N|N|
-|`fhirServer/notifications/nats/truststoreLocation`|N|N|
-|`fhirServer/notifications/nats/truststorePassword`|N|N|
-|`fhirServer/notifications/nats/keystoreLocation`|N|N|
-|`fhirServer/notifications/nats/keystorePassword`|N|N|
-|`fhirServer/persistence/factoryClassname`|N|N|
-|`fhirServer/persistence/common/updateCreateEnabled`|N|N|
-|`fhirServer/persistence/datasources`|Y|N|
-|`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|
-|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|Y|Y|
-|`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|Y|Y|
-|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
-|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
-|`fhirServer/search/useBoundingRadius`|Y|Y|
-|`fhirServer/search/useStoredCompartmentParam`|Y|Y|
-|`fhirServer/search/enableLegacyWholeSystemSearchParams`|Y|Y|
-|`fhirServer/security/cors`|Y|Y|
-|`fhirServer/security/basic/enabled`|Y|Y|
-|`fhirServer/security/certificates/enabled`|Y|Y|
-|`fhirServer/security/oauth/enabled`|Y|Y|
-|`fhirServer/security/oauth/regUrl`|Y|Y|
-|`fhirServer/security/oauth/authUrl`|Y|Y|
-|`fhirServer/security/oauth/tokenUrl`|Y|Y|
-|`fhirServer/security/oauth/manageUrl`|Y|Y|
-|`fhirServer/security/oauth/introspectUrl`|Y|Y|
-|`fhirServer/security/oauth/revokeUrl`|Y|Y|
-|`fhirServer/security/oauth/smart/enabled`|Y|Y|
-|`fhirServer/security/oauth/smart/scopes`|Y|Y|
-|`fhirServer/security/oauth/smart/capabilities`|Y|Y|
-|`fhirServer/audit/serviceClassName`|N|N|
-|`fhirServer/audit/serviceProperties/auditTopic`|N|N|
-|`fhirServer/audit/serviceProperties/geoCity`|N|N|
-|`fhirServer/audit/serviceProperties/geoState`|N|N|
-|`fhirServer/audit/serviceProperties/geoCounty`|N|N|
-|`fhirServer/audit/serviceProperties/mapper`|N|N|
-|`fhirServer/audit/serviceProperties/load`|N|N|
-|`fhirServer/audit/hostname`|N|N|
-|`fhirServer/audit/ip`|N|N|
-|`fhirServer/bulkdata/enabled`|Y|Y|
-|`fhirServer/bulkdata/core/api/url`|Y|Y|
-|`fhirServer/bulkdata/core/api/user`|Y|Y|
-|`fhirServer/bulkdata/core/api/password`|Y|Y|
-|`fhirServer/bulkdata/core/api/truststore`|Y|Y|
-|`fhirServer/bulkdata/core/api/truststorePassword`|Y|Y|
-|`fhirServer/bulkdata/core/api/trustAll`|Y|Y|
-|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|N|N|
-|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|N|N|
-|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|N|N|
-|`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
-|`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
-|`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
-|`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|
-|`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|N|N|
-|`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|N|N|
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
-|`fhirServer/bulkdata/core/pageSize`|Y|Y|
-|`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
-|`fhirServer/bulkdata/core/maxInputs`|Y|Y|
-|`fhirServer/bulkdata/core/iamEndpoint`|N|N|
-|`fhirServer/bulkdata/core/fastTxTimeout`|N|N|
-|`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|
-|`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|
-|`fhirServer/bulkdata/core/defaultOutcomeProvider`|Y|Y|
-|`fhirServer/bulkdata/core/enableSkippableUpdates`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/validateResources`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/presigned`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/create`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/connection`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|Y|Y|
-|`fhirServer/operations/erase/enabled`|Y|Y|
-|`fhirServer/operations/erase/allowedRoles`|Y|Y|
-|`fhirServer/operations/membermatch/enabled`|Y|Y|
-|`fhirServer/operations/membermatch/strategy`|Y|Y|
-|`fhirServer/operations/membermatch/extendedProps`|Y|Y|
-|`fhirServer/operations/everything/includeTypes`|Y|Y|
+| Property Name                 | Tenant-specific? | Dynamic? | Fallback? |
+|-------------------------------|------------------|----------|-----------|
+|`fhirServer/core/defaultPrettyPrint`|Y|Y|Y|
+|`fhirServer/core/tenantIdHeaderName`|N|N||
+|`fhirServer/core/dataSourceIdHeaderName`|N|N||
+|`fhirServer/core/originalRequestUriHeaderName`|N|N||
+|`fhirServer/core/defaultHandling`|Y|Y|Y|
+|`fhirServer/core/allowClientHandlingPref`|Y|Y|Y|
+|`fhirServer/core/checkReferenceTypes`|N|N||
+|`fhirServer/core/checkControlCharacters`|N|N||
+|`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N||
+|`fhirServer/core/serverResolveFunctionEnabled`|N|N||
+|`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|Y|
+|`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|Y|
+|`fhirServer/core/extendedCodeableConceptValidation`|N|N||
+|`fhirServer/core/disabledOperations`|N|N||
+|`fhirServer/core/defaultPageSize`|Y|Y|Y|
+|`fhirServer/core/ifNoneMatchReturnsNotModified`|Y|Y|Y|
+|`fhirServer/core/maxPageSize`|Y|Y|Y|
+|`fhirServer/core/maxPageIncludeCount`|Y|Y|Y|
+|`fhirServer/core/capabilitiesUrl`|Y|Y|Y|
+|`fhirServer/core/externalBaseUrl`|Y|Y|Y|
+|`fhirServer/validation/failFast`|Y|Y|Y|
+|`fhirServer/term/cachingDisabled`|N|N||
+|`fhirServer/term/graphTermServiceProviders/enabled`|N|N||
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N||
+|`fhirServer/term/graphTermServiceProviders/configuration`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/enabled`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/base`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/headers`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N||
+|`fhirServer/term/remoteTermServiceProviders/supports`|N|N||
+|`fhirServer/term/capabilitiesUrl`|Y|Y|Y|
+|`fhirServer/resources`|Y|Y|Y|
+|`fhirServer/resources/open`|Y|Y|N|
+|`fhirServer/resources/Resource/interactions`|Y|Y|N|
+|`fhirServer/resources/Resource/searchParameters`|Y|Y|N|
+|`fhirServer/resources/Resource/searchParameters/<code>`|Y|Y|N|
+|`fhirServer/resources/Resource/searchIncludes`|Y|Y|N|
+|`fhirServer/resources/Resource/searchRevIncludes`|Y|Y|N|
+|`fhirServer/resources/Resource/searchParameterCombinations`|Y|Y|N|
+|`fhirServer/resources/Resource/profiles/atLeastOne`|Y|Y|N|
+|`fhirServer/resources/Resource/profiles/notAllowed`|Y|Y|N|
+|`fhirServer/resources/Resource/profiles/allowUnknown`|Y|Y|N|
+|`fhirServer/resources/Resource/profiles/defaultVersions`|Y|Y|N|
+|`fhirServer/resources/Resource/profiles/defaultVersions/<profile>`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/interactions`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/searchParameters`|Y|N|N|
+|`fhirServer/resources/<resourceType>/searchParameters/<code>`|Y|N|N|
+|`fhirServer/resources/<resourceType>/searchIncludes`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/searchRevIncludes`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/profiles/notAllowed`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/profiles/allowUnknown`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions`|Y|Y|N|
+|`fhirServer/resources/<resourceType>/profiles/defaultVersions/<profile>`|Y|Y|N|
+|`fhirServer/notifications/common/includeResourceTypes`|N|N||
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|Y|Y|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|Y|Y|
+|`fhirServer/notifications/websocket/enabled`|N|N||
+|`fhirServer/notifications/kafka/enabled`|N|N||
+|`fhirServer/notifications/kafka/topicName`|N|N||
+|`fhirServer/notifications/kafka/connectionProperties`|N|N||
+|`fhirServer/notifications/kafka/sync`|Y|Y|Y|
+|`fhirServer/notifications/nats/enabled`|N|N||
+|`fhirServer/notifications/nats/cluster`|N|N||
+|`fhirServer/notifications/nats/channel`|N|N||
+|`fhirServer/notifications/nats/clientId`|N|N||
+|`fhirServer/notifications/nats/servers`|N|N||
+|`fhirServer/notifications/nats/useTLS`|N|N||
+|`fhirServer/notifications/nats/truststoreLocation`|N|N||
+|`fhirServer/notifications/nats/truststorePassword`|N|N||
+|`fhirServer/notifications/nats/keystoreLocation`|N|N||
+|`fhirServer/notifications/nats/keystorePassword`|N|N||
+|`fhirServer/persistence/factoryClassname`|N|N||
+|`fhirServer/persistence/common/updateCreateEnabled`|N|N||
+|`fhirServer/persistence/datasources`|Y|N|N|
+|`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|N|
+|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|Y|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|Y|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|N|
+|`fhirServer/search/useBoundingRadius`|Y|Y|Y|
+|`fhirServer/search/enableLegacyWholeSystemSearchParams`|Y|Y|Y|
+|`fhirServer/security/cors`|Y|Y|Y|
+|`fhirServer/security/basic/enabled`|Y|Y|Y|
+|`fhirServer/security/certificates/enabled`|Y|Y|Y|
+|`fhirServer/security/oauth/enabled`|Y|Y|Y|
+|`fhirServer/security/oauth/regUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/authUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/tokenUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/manageUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/introspectUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/revokeUrl`|Y|Y|Y|
+|`fhirServer/security/oauth/smart/enabled`|Y|Y|Y|
+|`fhirServer/security/oauth/smart/scopes`|Y|Y|Y|
+|`fhirServer/security/oauth/smart/capabilities`|Y|Y|Y|
+|`fhirServer/audit/serviceClassName`|N|N||
+|`fhirServer/audit/serviceProperties/auditTopic`|N|N||
+|`fhirServer/audit/serviceProperties/geoCity`|N|N||
+|`fhirServer/audit/serviceProperties/geoState`|N|N||
+|`fhirServer/audit/serviceProperties/geoCounty`|N|N||
+|`fhirServer/audit/serviceProperties/mapper`|N|N||
+|`fhirServer/audit/serviceProperties/load`|N|N||
+|`fhirServer/audit/hostname`|N|N||
+|`fhirServer/audit/ip`|N|N||
+|`fhirServer/bulkdata/enabled`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/url`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/user`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/password`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/truststore`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/truststorePassword`|Y|Y|Y|
+|`fhirServer/bulkdata/core/api/trustAll`|Y|Y|Y|
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|N|N||
+|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|N|N||
+|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|N|N||
+|`fhirServer/bulkdata/core/cos/requestTimeout`|N|N||
+|`fhirServer/bulkdata/core/cos/socketTimeout`|N|N||
+|`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|Y|
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|Y|
+|`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|N|N||
+|`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|N|N||
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|Y|
+|`fhirServer/bulkdata/core/pageSize`|Y|Y|Y|
+|`fhirServer/bulkdata/core/maxPartitions`|Y|Y|Y|
+|`fhirServer/bulkdata/core/maxInputs`|Y|Y|Y|
+|`fhirServer/bulkdata/core/iamEndpoint`|N|N||
+|`fhirServer/bulkdata/core/fastTxTimeout`|N|N||
+|`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|Y|
+|`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|Y|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|Y|Y|Y|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/validateResources`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/presigned`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/create`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/connection`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|Y|Y|Y|
+|`fhirServer/operations/erase/enabled`|Y|Y|Y|
+|`fhirServer/operations/erase/allowedRoles`|Y|Y|Y|
+|`fhirServer/operations/membermatch/enabled`|Y|Y|Y|
+|`fhirServer/operations/membermatch/strategy`|Y|Y|Y|
+|`fhirServer/operations/membermatch/extendedProps`|Y|Y|Y|
+|`fhirServer/operations/everything/includeTypes`|Y|Y|N|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 
@@ -2760,7 +2752,9 @@ This component uses the IBM FHIR Server's PersistenceInterceptor feature to auto
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 
-For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/Alvearie/health-patterns/tree/main/data-access.
+When the HTTP header `Prefer: return=minimal` is specified on a search or history request, only minimal resource metadata is retrieved. In those cases, either `user` or `system` SMART scopes must be used, since the resource data necessary to enforce access via `patient` SMART scopes is not available.
+
+For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:

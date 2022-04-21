@@ -193,54 +193,17 @@ The IBM FHIR Server supports configurable handling of unknown or unsupported sea
 Filtered search parameters are handled exactly the same as undefined search parameters, meaning that searches which include these parameters will fail in `strict` mode.
 
 #### 1.2.2 Compartment search considerations with filtering
-It is possible that results returned by compartment searches can be affected by filtering. For each compartment type, the rules for determining if a resource is a member of a compartment of that type, and thus if that resource should be returned on an associated compartment search, are based on inclusion criteria. Inclusion criteria is defined to be one or more search parameters whose value is a reference to the compartment resource type. These membership rules are defined by the FHIR specification for the following compartments:
-- [Device](https://www.hl7.org/fhir/compartmentdefinition-device.html)
-- [Encounter](https://www.hl7.org/fhir/compartmentdefinition-encounter.html)
-- [Patient](https://www.hl7.org/fhir/compartmentdefinition-patient.html)
-- [Practitioner](https://www.hl7.org/fhir/compartmentdefinition-practitioner.html)
-- [RelatedPerson](https://www.hl7.org/fhir/compartmentdefinition-relatedperson.html)
+For each compartment type, the rules for determining if a resource is a member of a compartment of that type, and thus if that resource should be returned on an associated compartment search, are based on inclusion criteria. Inclusion criteria is one or more search parameters whose value is a reference to the compartment resource type. These membership rules are defined by the FHIR specification for the following compartments:
+- [Device](https://www.hl7.org/fhir/R4/compartmentdefinition-device.html)
+- [Encounter](https://www.hl7.org/fhir/R4/compartmentdefinition-encounter.html)
+- [Patient](https://www.hl7.org/fhir/R4/compartmentdefinition-patient.html)
+- [Practitioner](https://www.hl7.org/fhir/R4/compartmentdefinition-practitioner.html)
+- [RelatedPerson](https://www.hl7.org/fhir/R4/compartmentdefinition-relatedperson.html)
 
 For example, for the `Patient` compartment, to determine if an `Observation` is a member, the inclusion criteria search parameters are `subject` and `performer`. If the `Observation` resource fields associated with these search parameters reference a `Patient` resource, the `Observation` resource is a member of that `Patient` compartment.
 
-However, in order for a resource to be returned as expected on a compartment search, the search index information associated with the inclusion criteria search parameters for that resource must get generated and stored at the time the resource is created or updated. If these search parameters have been filtered out based on the filtering configuration in `fhir-server-config.json`, the IBM FHIR Server will not store the necessary search index information, thus the resource will not be returned as expected on a compartment search. Using the example above, if the `subject` and `performer` search parameters have been filtered out for the `Observation` resource, it will not be returned as expected on a `Patient` compartment search. The following snippet illustrates a search parameter configuration in which the `subject` and `performer` search parameters have been filtered out:
-
-```
-"resources": {
-    "open": true,
-    "Observation": {
-        "searchParameters": {
-            "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
-            "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
-            "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
-            "category": "http://hl7.org/fhir/SearchParameter/Observation-category",
-            "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
-            "status": "http://hl7.org/fhir/SearchParameter/Observation-status",
-            "date": "http://hl7.org/fhir/SearchParameter/clinical-date"
-        }
-    }
-}
-```
-
-In order to avoid this issue, inclusion criteria search parameters should not be filtered out. If any filtering is configured in `fhir-server-config.json` for resources that may be members of a compartment, their inclusion criteria search parameters should be included in the list of allowed search parameters. Again using the example above, if search parameter filtering is specified for the `Observation` resource type, the `subject` and `performer` search parameters must be specified in the `searchParameters` list (assuming an entry of `"*": "*"` is not specified) in order for `Observation` resources to be returned in `Patient` compartment searches. The following snippet illustrates a search parameter configuration in which the `subject` and `performer` search parameters have been included in the list of allowed search parameters:
-
-```
-"resources": {
-    "open": true,
-    "Observation": {
-        "searchParameters": {
-            "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
-            "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
-            "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
-            "category": "http://hl7.org/fhir/SearchParameter/Observation-category",
-            "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
-            "status": "http://hl7.org/fhir/SearchParameter/Observation-status",
-            "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
-            "subject": "http://hl7.org/fhir/SearchParameter/Observation-subject",
-            "performer": "http://hl7.org/fhir/SearchParameter/Observation-performer"
-        }
-    }
-}
-```
+As of IBM FHIR Server 4.11.0, compartment membership is always evaluated during ingestion, even if the search parameters that define compartment membership have been filtered out in fhir-server-config.json.
+However, in cases where the inclusion criteria parameters have been overridden, it is still possible for server config to affect compartment membership.
 
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.

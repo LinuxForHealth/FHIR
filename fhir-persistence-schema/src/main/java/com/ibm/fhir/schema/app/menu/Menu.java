@@ -45,6 +45,7 @@ public class Menu {
     public static final String VACUUM_COST_LIMIT = "--vacuum-cost-limit";
     public static final String PROP = "--prop";
     public static final String POOL_SIZE = "--pool-size";
+    public static final String THREAD_POOL_SIZE = "--thread-pool-size";
     public static final String DROP_SCHEMA_OAUTH = "--drop-schema-oauth";
     public static final String DROP_SCHEMA_BATCH = "--drop-schema-batch";
     public static final String DROP_SCHEMA_FHIR = "--drop-schema-fhir";
@@ -101,6 +102,7 @@ public class Menu {
         MI_FORCE_UNUSED_TABLE_REMOVAL(FORCE_UNUSED_TABLE_REMOVAL, "", "Forces the removal of unused tables - DomainResource, Resource"),
         MI_PROP(PROP, "name=value", "name=value that is passed in on the commandline"),
         MI_POOL_SIZE(POOL_SIZE, "poolSize", "poolsize used with the database actions"),
+        MI_THREAD_POOL_SIZE(THREAD_POOL_SIZE, "threadPoolSize", "pool size used with parallel actions"),
         MI_DROP_SCHEMA_OAUTH(DROP_SCHEMA_OAUTH, "", "drop the db schema used by liberty's oauth/openid connect features"),
         MI_DROP_SCHEMA_BATCH(DROP_SCHEMA_BATCH, "", "drop the db schema used by liberty's java-batch feature\""),
         MI_DROP_SCHEMA_FHIR(DROP_SCHEMA_FHIR, "", "drop the schema set by '--schema-name'"),

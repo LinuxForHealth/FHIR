@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.erase.EraseDTO;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
 
@@ -40,8 +40,8 @@ import com.ibm.fhir.server.spi.operation.FHIROperationUtil;
  */
 public class EraseRestImpl implements EraseRest {
     private static final String CLZ = EraseRestImpl.class.getName();
-
     private static final Logger LOG = Logger.getLogger(CLZ);
+
     private boolean supportedMethod = false;
     private SecurityContext ctx = null;
     private Parameters parameters = null;
@@ -50,6 +50,8 @@ public class EraseRestImpl implements EraseRest {
 
     // For the errors this list aggregates the issues across the inputs.
     private List<OperationOutcome.Issue> issues = new ArrayList<>();
+
+    private final CompartmentHelper compartmentHelper;
 
     /**
      * create the Erase Rest instance.
@@ -60,12 +62,14 @@ public class EraseRestImpl implements EraseRest {
      * @param rt
      * @param logicalId
      */
-    public EraseRestImpl(String method, SecurityContext ctx, Parameters parameters, Class<? extends Resource> rt, String logicalId) {
+    public EraseRestImpl(String method, SecurityContext ctx, Parameters parameters, Class<? extends Resource> rt, String logicalId,
+            CompartmentHelper compartmentHelper) {
         supportedMethod = "POST".equals(method);
         this.ctx = ctx;
         this.parameters = parameters;
         this.resourceType = rt.getSimpleName();
         this.logicalId = logicalId;
+        this.compartmentHelper = compartmentHelper;
     }
 
     @Override
@@ -361,7 +365,7 @@ public class EraseRestImpl implements EraseRest {
                             .build());
                     } else if (dto.getPatient().length() > 1000) {
                         issues.add(Issue.builder()
-                            .diagnostics(string("Operation[$erase] must have patient parameter exceeds 1024 characters"))
+                            .diagnostics(string("Operation[$erase] patient parameter exceeds 1024 characters"))
                             .code(IssueType.EXCEPTION)
                             .severity(IssueSeverity.FATAL)
                             .build());
@@ -370,9 +374,8 @@ public class EraseRestImpl implements EraseRest {
                 hasMoreThanOne = true;
             }
 
-
             // If this is in the patient compartment, then we want throw an issue.
-            if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
+            if (compartmentHelper.getCompartmentResourceTypes("Patient").contains(resourceType) && dto.getPatient() == null) {
                 issues.add(Issue.builder()
                     .diagnostics(string("Operation[$erase] on the resource type '" + resourceType + "' requires a reference patient id"))
                     .code(IssueType.INVALID)

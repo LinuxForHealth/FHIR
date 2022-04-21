@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,23 +16,18 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.path.FHIRPathNode;
-import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
- * @author pbastide
- *
+ * Tests parameter extraction
  */
 public class ExtractorRequestProcessor implements IExampleProcessor {
+    private static SearchHelper searchHelper = new SearchHelper();
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.model.spec.test.IExampleProcessor#process(java.lang.String,
-     * com.ibm.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         try {
-            Map<SearchParameter, List<FHIRPathNode>> output = SearchUtil.extractParameterValues(resource, false);
+            Map<SearchParameter, List<FHIRPathNode>> output = searchHelper.extractParameterValues(resource, false);
 
             assertNotNull(output);
         } catch (Exception e) {
