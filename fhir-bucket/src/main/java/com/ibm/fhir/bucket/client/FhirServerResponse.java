@@ -9,14 +9,17 @@ package com.ibm.fhir.bucket.client;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- *
+ * The response from a {@link FHIRBucketClient} call
  */
 public class FhirServerResponse {
     private int statusCode;
     private String statusMessage;
     private String locationHeader;
-    private Resource resource;
     private int responseTime;
+
+    // Resource can be parsed or returned as the on-wire data, based on user preference
+    private Resource resource;
+    private String resourceData;
     
     // contains error context if there was a problem with FHIR processing the request
     private String operationalOutcomeText;
@@ -107,5 +110,19 @@ public class FhirServerResponse {
      */
     public void setOperationalOutcomeText(String operationalOutcomeText) {
         this.operationalOutcomeText = operationalOutcomeText;
+    }
+
+    /**
+     * @return the resourceData
+     */
+    public String getResourceData() {
+        return resourceData;
+    }
+
+    /**
+     * @param resourceData the resourceData to set
+     */
+    public void setResourceData(String resourceData) {
+        this.resourceData = resourceData;
     }
 }
