@@ -29,6 +29,7 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.IResourceEntryProcessor;
 import com.ibm.fhir.bucket.client.ClientPropertyAdapter;
 import com.ibm.fhir.bucket.client.FHIRBucketClient;
+import com.ibm.fhir.bucket.client.Headers;
 import com.ibm.fhir.bucket.cos.COSClient;
 import com.ibm.fhir.bucket.interop.BenchWorkload;
 import com.ibm.fhir.bucket.interop.InteropScenario;
@@ -200,7 +201,7 @@ public class Main {
     // How many payer scenario requests do we want to make at a time.
     private int concurrentPayerRequests = 0;
 
-    // How many $bench requests to we want to make at a time.
+    // How many $bench requests do we want to make at a time.
     private int concurrentBenchRequests = 0;
 
     // Parameter values used for the $bench calls when concurrentBenchRequests > 0
@@ -975,7 +976,7 @@ public class Main {
             if (this.targetBucket == null || this.targetBucket.length() == 0) {
                 // Set up the client we use to send requests to the FHIR server
                 fhirClient = new FHIRBucketClient(new ClientPropertyAdapter(fhirClientProperties));
-                fhirClient.addHeader("Prefer", "return=representation");
+                fhirClient.addHeader(Headers.PREFER_HEADER, "return=representation");
                 fhirClient.init(this.tenantName);
             }
 

@@ -236,7 +236,7 @@ public class BenchOperation extends AbstractOperation {
 
                 // Now parse the generated resource again
                 try (GZIPInputStream inStream = new GZIPInputStream(ioStream.inputStream())) {
-                    FHIRParser.parser(Format.JSON).parse(new InputStreamReader(inStream, StandardCharsets.UTF_8));
+                    FHIRParser.parser(Format.JSON).parse(inStream);
                 }
             } catch (Exception x) {
                 logger.log(Level.WARNING, "failed to process resource", x);

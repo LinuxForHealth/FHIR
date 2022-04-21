@@ -8,7 +8,6 @@ package com.ibm.fhir.bucket.client;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
@@ -596,7 +595,7 @@ public class FHIRBucketClient {
         try {
             if (parseResource) {
                 try (InputStream instream = entity.getContent()) {
-                    Resource resource = FHIRParser.parser(Format.JSON).parse(new InputStreamReader(instream, StandardCharsets.UTF_8));
+                    Resource resource = FHIRParser.parser(Format.JSON).parse(instream);
                     sr.setResource(resource);
                 } catch (FHIRParserException e) {
                     throw new IllegalStateException(e);

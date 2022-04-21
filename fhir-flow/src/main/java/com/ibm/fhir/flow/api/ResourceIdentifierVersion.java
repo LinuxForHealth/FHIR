@@ -16,18 +16,18 @@ import com.ibm.fhir.model.util.ModelSupport;
  */
 public class ResourceIdentifierVersion extends ResourceIdentifier {
     // the resource meta.versionId value
-    private final int version;
+    private final String versionId;
 
     /**
      * Public constructor
      * 
      * @param resourceType
      * @param logicalId
-     * @param version
+     * @param versionId
      */
-    public ResourceIdentifierVersion(String resourceType, String logicalId, int version) {
+    public ResourceIdentifierVersion(String resourceType, String logicalId, String versionId) {
         super(resourceType, logicalId);
-        this.version = version;
+        this.versionId = versionId;
     }
 
     /**
@@ -58,7 +58,7 @@ public class ResourceIdentifierVersion extends ResourceIdentifier {
             final String history = pieces[pieces.length-2];
             final String versionStr = pieces[pieces.length-1];
             if (ModelSupport.isResourceType(resourceType) && "_history".equals(history)) {
-                return new ResourceIdentifierVersion(resourceType, logicalId, Integer.parseInt(versionStr));
+                return new ResourceIdentifierVersion(resourceType, logicalId, versionStr);
             } else {
                 throw new IllegalArgumentException("Not a valid resource url: " + location);
             }
@@ -68,10 +68,10 @@ public class ResourceIdentifierVersion extends ResourceIdentifier {
     }
 
     /**
-     * @return the version
+     * @return the meta versionId value
      */
-    public int getVersion() {
-        return version;
+    public String getVersionId() {
+        return versionId;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ResourceIdentifierVersion extends ResourceIdentifier {
         result.append("/");
         result.append(getLogicalId());
         result.append("/_history/");
-        result.append(this.version);
+        result.append(getVersionId());
         return result.toString();
     }
 }

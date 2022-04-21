@@ -81,11 +81,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-operation-bench</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence-blob</artifactId>
             <version>${project.version}</version>
         </dependency>
