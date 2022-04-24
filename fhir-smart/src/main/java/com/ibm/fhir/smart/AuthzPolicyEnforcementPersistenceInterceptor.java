@@ -505,8 +505,14 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceId = event.getFhirResourceId();
         Resource resource = event.getFhirResource();
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        if (PATIENT.equals(resourceType)) {
+            // Patient differs from other resource types in that we enforce on null
+            // to avoid leaking "does this resource id exist on the system?" to unauthorized users
+            enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        } else if (resource != null) {
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override
@@ -518,8 +524,14 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceId = event.getFhirResourceId();
         Resource resource = event.getFhirResource();
 
-        enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-        enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        if (PATIENT.equals(resourceType)) {
+            // Patient differs from other resource types in that we enforce on null
+            // to avoid leaking "does this resource id exist on the system?" to unauthorized users
+            enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        } else if (resource != null) {
+            enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+            enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        }
     }
 
     @Override
@@ -533,19 +545,20 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 String resourceType = getResourceType(entry);
                 String resourceId = getResourceId(entry);
                 Resource resource = entry.getResource();
-                enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-                if (resourceType != null && resourceId != null) {
-                    if (resource == null && entry.getRequest() != null && entry.getRequest().getMethod().getValueAsEnum() == HTTPVerb.Value.DELETE) {
-                        // explicitly allow DELETE entries
-                        // this is safe because beforeHistory prohibits system and type-level history request for patient-compartment resource types
-                        // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
-                        continue;
-                    }
-                    enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
-                } else {
+
+                if (resourceType == null && resourceId == null) {
                     throw new FHIRPersistenceInterceptorException("Unable to enforce authorization for history interaction "
                             + "due to failure to compute the resource type and id for one or more response Bundle entries.");
                 }
+
+                enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+                if (resource == null && entry.getRequest() != null && entry.getRequest().getMethod().getValueAsEnum() == HTTPVerb.Value.DELETE) {
+                    // explicitly allow DELETE entries
+                    // this is safe because beforeHistory prohibits system and type-level history request for patient-compartment resource types
+                    // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
+                    continue;
+                }
+                enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
             }
         } else {
             throw new IllegalStateException("Expected event resource of type Bundle but found " +
