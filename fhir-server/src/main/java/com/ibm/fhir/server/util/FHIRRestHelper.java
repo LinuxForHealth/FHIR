@@ -1152,15 +1152,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext);
             result = persistence.read(persistenceContext, resourceType, id);
-            if (!result.isSuccess() && throwExcOnNull) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
-            }
-
-            Resource resource = result.getResource();
-            event.setFhirResource(resource);
+            event.setFhirResource(result.getResource());
 
             // Invoke the 'afterRead' interceptor methods.
             getInterceptorMgr().fireAfterReadEvent(event);
+
+            if (!result.isSuccess() && throwExcOnNull) {
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
+            }
 
             // Commit our transaction if we started one before.
             txn.commit();
