@@ -26,13 +26,13 @@ public class CreateOrUpdate extends FlowInteraction {
     /**
      * Public constructor
      * 
-     * @param changeId
+     * @param entryId
      * @param trackerTicket
      * @param identifier
      * @param cf
      */
-    public CreateOrUpdate(long changeId, ITrackerTicket trackerTicket, ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
-        super(changeId, trackerTicket, identifier);
+    public CreateOrUpdate(String entryId, ITrackerTicket trackerTicket, ResourceIdentifier identifier, CompletableFuture<FlowFetchResult> cf) {
+        super(entryId, trackerTicket, identifier);
         this.flowFetchFuture = cf;
     }
 
@@ -42,7 +42,7 @@ public class CreateOrUpdate extends FlowInteraction {
             // Wait for the async read to complete
             FlowFetchResult result = flowFetchFuture.get();
             if (result.getStatus() == HttpStatus.SC_OK) {
-                handler.createOrUpdate(getChangeId(), getIdentifier(), result.getResourceData(), result.getResource());
+                handler.createOrUpdate(getEntryId(), getIdentifier(), result.getResourceData(), result.getResource());
             } else {
                 throw new RuntimeException("Resource vread failed for '" + result.toString() + "'; status code: " + result.getStatus());
             }

@@ -15,17 +15,17 @@ public interface IFlowInteractionHandler {
 
     /**
      * Perform a logical DELETE interaction
-     * @param changeId
+     * @param entryId
      * @param identifier
      */
-    void delete(long changeId, ResourceIdentifier identifier);
+    void delete(String entryId, ResourceIdentifier identifier);
 
     /**
      * Perform a create-or-update (PUT) interaction
-     * @param changeId
+     * @param entryId
      * @param identifier
      * @param resourceData
      * @param resource
      */
-    void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource);
+    void createOrUpdate(String entryId, ResourceIdentifier identifier, String resourceData, Resource resource);
 }

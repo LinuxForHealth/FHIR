@@ -67,13 +67,19 @@ public class Main {
     private int resourcesPerHistoryCall = 512;
 
     // Start processing from this point in the change stream
-    private long changeIdMarker = -1;
+    private String startFromCheckpoint = null;
 
     // How many seconds to run for (default forever)
     private long runDurationSeconds = -1;
 
     // How many seconds to wait for queued work to complete after the scan completes
     private long drainForSeconds = 600;
+
+    // Request upstream (IBM FHIR Server) system to exclude the transaction timeout window
+    private boolean excludeTransactionWindow = false;
+
+    // Use the Prefer: return=minimal header to optimize upstream history request
+    private boolean preferReturnMinimal = false;
 
     /**
      * Parse the command line arguments
@@ -132,11 +138,11 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --reader-pool-size");
                 }
                 break;
-            case "--change-id-marker":
+            case "--from-checkpoint":
                 if (i < args.length + 1) {
-                    this.changeIdMarker = Long.parseLong(args[++i]);
+                    this.startFromCheckpoint = args[++i];
                 } else {
-                    throw new IllegalArgumentException("missing value for --change-id-marker");
+                    throw new IllegalArgumentException("missing value for --from-checkpoint");
                 }
                 break;
             case "--run-duration":
@@ -153,8 +159,14 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --drain-for-seconds");
                 }
                 break;
+            case "--exclude-transaction-window":
+                this.excludeTransactionWindow = true;
+                break;
             case "--parse-resource":
                 this.parseResource = true;
+                break;
+            case "--prefer-return-minimal":
+                this.preferReturnMinimal = true;
                 break;
             case "--log-data":
                 this.logData = true;
@@ -221,7 +233,11 @@ public class Main {
             downstreamWriter = new DownstreamLogWriter(partitionCount, partitionQueueSize, this.logData);
         }
 
-        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, this.changeIdMarker, this.drainForSeconds);
+        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, 
+                this.startFromCheckpoint, 
+                this.excludeTransactionWindow,
+                this.preferReturnMinimal,
+                this.drainForSeconds);
         historyReader.setClient(upstreamClient);
         historyReader.setFlowPool(readerPool);
         historyReader.setFlowWriter(downstreamWriter);

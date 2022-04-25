@@ -6,9 +6,7 @@
  
 package com.ibm.fhir.flow.checkpoint;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.ibm.fhir.flow.api.ICheckpointTracker;
 import com.ibm.fhir.flow.api.ITrackerTicket;
@@ -31,37 +29,46 @@ import com.ibm.fhir.flow.api.ITrackerTicket;
  * that the {@link #addNode(long)} and {@link #getCheckpoint()} methods
  * are not thread-safe by design. Only the main history fetch controller
  * thread should be calling these methods anyway, so this is not a
- * problem in practice. 
+ * problem in practice.
  */
-public class Tracker implements ICheckpointTracker {
+public class Tracker<T> implements ICheckpointTracker<T> {
 
-    // The maximum completed requestId for which all work prior has also been completed
-    private long checkpoint = -1;
+    // The most recent checkpoint value
+    private T checkpointValue;
 
+    // The total number of processed requests
+    private long processed = 0;
     /**
      * Inner class representing a double-linked list node with
      * additional properties
      */
-    private static class Node implements ITrackerTicket {
-        private Node(Tracker tracker, long requestId) {
+    private static class Node<T> implements ITrackerTicket {
+        private Node(Tracker<T> tracker, T checkpointValue, int entryCount) {
             this.tracker = tracker;
-            this.requestId = requestId;
+            this.checkpointValue = checkpointValue;
+            this.entryCount = entryCount;
+            this.remaining = new AtomicInteger(entryCount);
         }
 
         // The next node in the chain
-        private Node next;
+        private Node<T> next;
 
         // The parent tracker...easier to read than making this a non-static inner class
-        private Tracker tracker;
+        private final Tracker<T> tracker;
 
-        // The oldest completed piece of work older than than this node
-        private long requestId;
+        // The checkpoint associated with this particular node
+        private final T checkpointValue;
 
-        // The completion status of this node
-        AtomicBoolean completed = new AtomicBoolean(false);
+        // The initial number of entries
+        final int entryCount;
+
+        // The number of entries remaining to be completed
+        final AtomicInteger remaining;
 
         @Override
         public void complete() {
+            // The parent tracker handles the completion logic, because
+            // it may include unlinking this node
             if (this.tracker != null) {
                 tracker.completed(this);
             } else {
@@ -71,23 +78,14 @@ public class Tracker implements ICheckpointTracker {
     }
 
     // The head of the queue (oldest item)
-    private Node head;
+    private Node<T> head;
 
     // The tail of the queue (newest item)
-    private Node tail;
+    private Node<T> tail;
 
     @Override
-    public ITrackerTicket track(long requestId) {
-        return addNode(requestId);
-    }
-
-    @Override
-    public List<ITrackerTicket> track(List<Long> requestIds) {
-        List<ITrackerTicket> tickets = new ArrayList<>(requestIds.size());
-        for (Long requestId: requestIds) {
-            tickets.add(addNode(requestId));
-        }
-        return tickets;
+    public ITrackerTicket track(T checkpointValue, int workItems) {
+        return addNode(checkpointValue, workItems);
     }
 
     /**
@@ -95,9 +93,9 @@ public class Tracker implements ICheckpointTracker {
      * @param requestId
      * @return
      */
-    private Node addNode(long requestId) {
-        Node oldTail = tail;
-        Node newTail = new Node(this, requestId);
+    private Node<T> addNode(T checkpointValue, int workItems) {
+        Node<T> oldTail = tail;
+        Node<T> newTail = new Node<>(this, checkpointValue, workItems);
 
         this.tail = newTail;
 
@@ -113,26 +111,31 @@ public class Tracker implements ICheckpointTracker {
     }
 
     /**
-     * Mark the node as completed. The checkpoint won't be updated until we
-     * call prune to flush away any completed nodes at the head of the queue
+     * Decrement the remaining work count held by this node. The checkpoint 
+     * won't be updated until we call prune to flush away any completed 
+     * nodes at the head of the queue.
      * @param node
      */
-    private void completed(Node node) {
-        if (this.head == null) {
-            throw new IllegalStateException("queue is empty");
-        }
+    private void completed(Node<T> node) {
 
-        // Make sure we can't be called again
-        node.tracker = null;
-        node.completed.set(true);
+        // Decrement the remaining count, but apply a consistency check to
+        // make sure we're not calling complete more times than this node
+        // was initialized with
+        node.remaining.updateAndGet(i -> {
+            if (i > 0) {
+                return i - 1;
+            } else {
+                throw new RuntimeException("Completed called when none remaining");
+            }
+        });
     }
 
     @Override
-    public long getCheckpoint() {
+    public T getCheckpoint() {
         // Only the main history thread asks for the checkpoint so we don't need
         // to do any locking
         prune();
-        return this.checkpoint;
+        return this.checkpointValue;
     }
 
     @Override
@@ -143,12 +146,21 @@ public class Tracker implements ICheckpointTracker {
 
     /**
      * Remove completed nodes from the head and update the checkpoint
+     * to be the last completed node
      */
     private void prune() {
-        while (this.head != null && this.head.completed.get()) {
-            // update the checkpoint and remove the head from the queue
-            this.checkpoint = this.head.requestId;
+        while (this.head != null && this.head.remaining.get() == 0) {
+            // advance the checkpoint and remove the head from the queue
+            this.checkpointValue = this.head.checkpointValue;
+            this.processed += this.head.entryCount;
+            Node<T> tmp = this.head;
             this.head = this.head.next;
+            tmp.next = null; // help the GC
         }
+    }
+
+    @Override
+    public long getProcessed() {
+        return this.processed;
     }
 }
