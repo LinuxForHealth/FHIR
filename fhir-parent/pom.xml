@@ -501,7 +501,7 @@
             <dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
-                <version>4.2.1</version>
+                <version>4.2.2</version>
             </dependency>
             <dependency>
                 <groupId>org.foundationdb</groupId>
@@ -647,7 +647,7 @@
             <dependency>
                 <groupId>info.cqframework</groupId>
                 <artifactId>cql-to-elm</artifactId>
-                <version>1.5.6</version>
+                <version>1.5.7</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.code.javaparser</groupId>
