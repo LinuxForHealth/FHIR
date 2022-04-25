@@ -78,6 +78,9 @@ public class Main {
     // Request upstream (IBM FHIR Server) system to exclude the transaction timeout window
     private boolean excludeTransactionWindow = false;
 
+    // Use the Prefer: return=minimal header to optimize upstream history request
+    private boolean preferReturnMinimal = false;
+
     /**
      * Parse the command line arguments
      * @param args
@@ -162,6 +165,9 @@ public class Main {
             case "--parse-resource":
                 this.parseResource = true;
                 break;
+            case "--prefer-return-minimal":
+                this.preferReturnMinimal = true;
+                break;
             case "--log-data":
                 this.logData = true;
                 break;
@@ -227,7 +233,11 @@ public class Main {
             downstreamWriter = new DownstreamLogWriter(partitionCount, partitionQueueSize, this.logData);
         }
 
-        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, this.startFromCheckpoint, this.excludeTransactionWindow, this.drainForSeconds);
+        UpstreamFHIRHistoryReader historyReader = new UpstreamFHIRHistoryReader(this.resourcesPerHistoryCall, 
+                this.startFromCheckpoint, 
+                this.excludeTransactionWindow,
+                this.preferReturnMinimal,
+                this.drainForSeconds);
         historyReader.setClient(upstreamClient);
         historyReader.setFlowPool(readerPool);
         historyReader.setFlowWriter(downstreamWriter);

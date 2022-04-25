@@ -51,6 +51,9 @@ public class UpstreamFHIRHistoryReader {
     // Should we ask upstream to exclude the transaction timeout window
     private final boolean excludeTransactionWindow;
 
+    // Should we use the Prefer: return=minimal header for history requests
+    private final boolean preferReturnMinimal;
+
     // how many seconds to drain queued work before leaving
     private final long drainForSeconds;
 
@@ -65,11 +68,17 @@ public class UpstreamFHIRHistoryReader {
      * 
      * @param count
      * @param fromCheckpoint
+     * @param excludeTransactionWindow
+     * @param preferReturnMinimal
      * @param drainForSeconds
      */
-    public UpstreamFHIRHistoryReader(int count, String fromCheckpoint, boolean excludeTransactionWindow, long drainForSeconds) {
+    public UpstreamFHIRHistoryReader(int count, String fromCheckpoint, 
+            boolean excludeTransactionWindow,
+            boolean preferReturnMinimal,
+            long drainForSeconds) {
         this.count = count;
         this.excludeTransactionWindow = excludeTransactionWindow;
+        this.preferReturnMinimal = preferReturnMinimal;
         if (fromCheckpoint != null && fromCheckpoint.length() > 0) {
             this.nextLinkParameters = decodeCheckpoint(fromCheckpoint);
         }
@@ -216,8 +225,16 @@ public class UpstreamFHIRHistoryReader {
         
         // Make the request and process the result
         RequestOptions.Builder requestOptions = RequestOptions.builder();
-        requestOptions.header("Prefer", "return=minimal");
-        logger.info("FETCH " + request.toString());
+        if (this.preferReturnMinimal) {
+            // ask the upstream server to only return meta-data related to the history
+            // entry, not the resource itself. The resource can be fetched via an
+            // asynchronous VREAD, which can be done concurrently and should support
+            // greater throughput.
+            requestOptions.header("Prefer", "return=minimal");
+            logger.info("FETCH MINIMAL: " + request.toString());
+        } else {
+            logger.info("FETCH: " + request.toString());
+        }
         FhirServerResponse response = client.get(request.toString(), requestOptions.build());
         if (response.getStatusCode() == HttpStatus.SC_OK) {
             Resource r = response.getResource();
@@ -228,6 +245,9 @@ public class UpstreamFHIRHistoryReader {
             } else {
                 logger.warning("Expected a Bundle, but got this: " + r.toString());
             }
+        } else {
+            logger.warning("FETCH failed: [" + response.getStatusCode() + "] " 
+                    + response.getStatusMessage());
         }
     }
 
@@ -289,21 +309,33 @@ public class UpstreamFHIRHistoryReader {
                 break;
             case PUT:
             case POST:
-                // initiate the request to read the resource. Because we need the version, we have to
-                // use the response.location field
-                Entry.Response response = entry.getResponse();
-                if (response != null) {
-                    ResourceIdentifierVersion riv = ResourceIdentifierVersion.from(response.getLocation());
-                    CompletableFuture<FlowFetchResult> flowFetchFuture = flowPool.requestResource(riv);
-    
-                    // and submit the interaction using the future which can be resolved later
+                Resource r = entry.getResource();
+                if (r != null) {
+                    // If the entry already contains the resource, we don't need to issue a new VREAD
+                    // We expect the returned resource to be valid, so it should have an id and meta
+                    ResourceIdentifierVersion riv = new ResourceIdentifierVersion(r.getClass().getSimpleName(), r.getId(), r.getMeta().getVersionId().getValue());
+                    FlowFetchResult ffr = new FlowFetchResult(riv);
+                    ffr.setResource(r);
+                    ffr.setStatus(200); // we didn't have to fetch it, so we're calling it OK
+                    CompletableFuture<FlowFetchResult> flowFetchFuture = CompletableFuture.completedFuture(ffr);
                     flowWriter.submit(new CreateOrUpdate(entry.getId(), ticket, riv, flowFetchFuture));
                 } else {
-                    throw new IllegalStateException("entry does not include a response: " + entry.toString());
+                    // initiate the request to read the resource. Because we need the version, we have to
+                    // use the response.location field
+                    Entry.Response response = entry.getResponse();
+                    if (response != null) {
+                        ResourceIdentifierVersion riv = ResourceIdentifierVersion.from(response.getLocation());
+                        CompletableFuture<FlowFetchResult> flowFetchFuture = flowPool.requestResource(riv);
+        
+                        // and submit the interaction using the future which can be resolved later
+                        flowWriter.submit(new CreateOrUpdate(entry.getId(), ticket, riv, flowFetchFuture));
+                    } else {
+                        throw new IllegalStateException("entry does not include a response: " + entry);
+                    }
                 }
                 break;
             default:
-                break;
+                throw new IllegalStateException("Entry not supported: " + entry);
             }
         }
     }
