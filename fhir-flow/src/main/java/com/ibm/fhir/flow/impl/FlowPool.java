@@ -9,6 +9,7 @@ package com.ibm.fhir.flow.impl;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.http.HttpStatus;
@@ -51,7 +52,9 @@ public class FlowPool implements IFlowPool {
 
     @Override
     public CompletableFuture<FlowFetchResult> requestResource(ResourceIdentifierVersion riv) {
-        logger.info("ENQUEUE VREAD " + riv.toString());
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("ENQUEUE VREAD " + riv.toString());
+        }
         return CompletableFuture.supplyAsync(() -> doTask(riv), pool);
     }
 
@@ -61,7 +64,9 @@ public class FlowPool implements IFlowPool {
      * @return
      */
     private FlowFetchResult doTask(ResourceIdentifierVersion riv) {
-        logger.info("RUNNING VREAD " + riv.toString());
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("RUNNING VREAD " + riv.toString());
+        }
         FlowFetchResult result = new FlowFetchResult(riv);
         RequestOptions.Builder requestOptions = RequestOptions.builder();
         requestOptions.parseResource(this.parseResource);

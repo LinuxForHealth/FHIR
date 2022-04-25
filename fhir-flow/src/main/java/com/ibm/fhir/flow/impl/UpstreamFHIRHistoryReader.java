@@ -6,9 +6,9 @@
  
 package com.ibm.fhir.flow.impl;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
@@ -43,10 +43,13 @@ public class UpstreamFHIRHistoryReader {
     // The writer used to push resources to the downstream system
     private IFlowWriter flowWriter;
 
-    // The number we use to identify where we are in the upstream change sequence
-    private long changeIdMarker;
+    // The value we use to identify where we are in the upstream change sequence
+    private String nextLinkParameters;
 
     private final int count;
+
+    // Should we ask upstream to exclude the transaction timeout window
+    private final boolean excludeTransactionWindow;
 
     // how many seconds to drain queued work before leaving
     private final long drainForSeconds;
@@ -54,20 +57,22 @@ public class UpstreamFHIRHistoryReader {
     // The client we use to call the upstream whole-system history API
     private FHIRBucketClient client;
 
-    // Tracking of which change ids are still pending
-    // private final CheckpointTracker checkpointTracker = new CheckpointTracker();
-    private final ICheckpointTracker tracker = new Tracker();
+    // Tracking of which history bundles are still pending downstream completion
+    private final ICheckpointTracker<String> tracker = new Tracker<>();
 
     /**
      * Public constructor
      * 
      * @param count
-     * @param changeIdMarkerStart
+     * @param fromCheckpoint
      * @param drainForSeconds
      */
-    public UpstreamFHIRHistoryReader(int count, long changeIdMarkerStart, long drainForSeconds) {
+    public UpstreamFHIRHistoryReader(int count, String fromCheckpoint, boolean excludeTransactionWindow, long drainForSeconds) {
         this.count = count;
-        this.changeIdMarker = changeIdMarkerStart;
+        this.excludeTransactionWindow = excludeTransactionWindow;
+        if (fromCheckpoint != null && fromCheckpoint.length() > 0) {
+            this.nextLinkParameters = decodeCheckpoint(fromCheckpoint);
+        }
         this.drainForSeconds = drainForSeconds;
     }
 
@@ -97,34 +102,38 @@ public class UpstreamFHIRHistoryReader {
 
     /**
      * Keep asking for changes until duration expires, at which point we return
-     * with the current changeIdMarker
+     * with the last completed checkpoint value
      * @param duration the length of time to run for; run forever if null
-     * @return the last changeIdMarker
+     * @return the last completed checkpoint value
      */
-    public long fetch(Duration duration) {
+    public String fetch(Duration duration) {
         // Keep calling the whole-system history API. Run for the given
         // duration, or forever if duration is null. The changeIdMarker
         // will advance based on the value of the 'next' link found in
         // the response Bundle. Not that the checkpoint marker is slightly
         // different, because we can only advance the checkpoint once we
         // have processed those records...and that processing is asynchronous.
-        long endTime = duration != null ? System.nanoTime() + duration.getSeconds() * 1000000000l : -1l; 
-        long lastChangeIdMarker = changeIdMarker;
-        long lastCheckpointValue = -1;
+        long startTime = System.nanoTime();
+        long endTime = duration != null ? startTime + duration.getSeconds() * 1000000000l : -1l; 
+        String lastNextLinkParameters = this.nextLinkParameters; // to slow down polling when we make no progress
+        String lastCheckpointValue = null;
         do {
             fetch();
-            if (this.changeIdMarker == lastChangeIdMarker) {
+            if (this.nextLinkParameters == null || this.nextLinkParameters.equals(lastNextLinkParameters)) {
                 // If no change was detected, then take a breather so we don't keep spamming
                 // the upstream system looking for data when the system is quiet
                 ThreadHandler.safeSleep(1000);
             } else {
-                lastChangeIdMarker = changeIdMarker;
+                lastNextLinkParameters = nextLinkParameters;
             }
 
             // Write out a new checkpoint value if it has changed since we last looped
-            if (tracker.getCheckpoint() != lastCheckpointValue) {
+            if (lastCheckpointValue == null || !tracker.getCheckpoint().equals(lastCheckpointValue)) {
                 lastCheckpointValue = tracker.getCheckpoint();
-                logger.info("CHECKPOINT: " + lastCheckpointValue);
+                if (lastCheckpointValue != null) {
+                    logger.info("PROCESSED: " + tracker.getProcessed());
+                    logger.info("CHECKPOINT: " + encodeCheckpoint(lastCheckpointValue));
+                }
             }
         } while (duration == null || System.nanoTime() < endTime);
 
@@ -136,10 +145,35 @@ public class UpstreamFHIRHistoryReader {
         // we use the same value in our last message as we return, just for
         // consistency
         lastCheckpointValue = tracker.getCheckpoint();
-        logger.info("FINAL CHECKPOINT: " + lastCheckpointValue);
+        if (lastCheckpointValue != null) {
+            long processed = tracker.getProcessed();
+            double elapsed = (System.nanoTime() - startTime) / 1e9;
+            double rate = elapsed > 0.0 ? processed / elapsed : Double.NaN;
+            logger.info(String.format("Processed %d resources in %.1f seconds [rate=%.1f resources/second]", processed, elapsed, rate));
+            logger.info("FINAL CHECKPOINT: " + encodeCheckpoint(lastCheckpointValue));
+        }
         return lastCheckpointValue;
     }
 
+    /**
+     * Encode the parameters to make it look opaque (not intended in any way
+     * to protect the value...just make it easier to use as a command line
+     * argument
+     * @param value
+     * @return
+     */
+    private String encodeCheckpoint(String value) {
+        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Decode the checkpoint value provided as a parameter
+     * @param paramValue
+     * @return
+     */
+    private String decodeCheckpoint(String paramValue) {
+        return new String(Base64.getDecoder().decode(paramValue), StandardCharsets.UTF_8);
+    }
     /**
      * Allow some time for any outstanding work to complete
      */
@@ -163,13 +197,22 @@ public class UpstreamFHIRHistoryReader {
     private void fetch() {
         StringBuilder request = new StringBuilder();
         request.append("_history?");
-        request.append("_sort=none");
-        request.append("&_count=").append(this.count);
         
-        if (this.changeIdMarker >= 0) {
-            request.append("&_changeIdMarker=").append(this.changeIdMarker);
+        if (this.nextLinkParameters == null) {
+            // Initial request
+            request.append("_sort=none");
+            request.append("&_count=").append(this.count);
+            if (this.excludeTransactionWindow) {
+                // IBM FHIR Server extension to delay receiving changes within the
+                // transaction timeout window to avoid potentially ordering issues
+                // which could cause data loss
+                request.append("&_excludeTransactionTimeoutWindow=true");
+            }
+        } else {
+            // TODO extract all parameters and separate the pagination params
+            // following the `next` link
+            request.append(this.nextLinkParameters);
         }
-        request.append("&_excludeTransactionTimeoutWindow=true");
         
         // Make the request and process the result
         RequestOptions.Builder requestOptions = RequestOptions.builder();
@@ -181,7 +224,7 @@ public class UpstreamFHIRHistoryReader {
             if (r instanceof Bundle) {
                 Bundle bundle = r.as(Bundle.class);
                 processBundle(bundle);
-                updateChangeIdMarker(bundle);
+                this.nextLinkParameters = getNextParametersFromBundle(bundle);
             } else {
                 logger.warning("Expected a Bundle, but got this: " + r.toString());
             }
@@ -192,17 +235,19 @@ public class UpstreamFHIRHistoryReader {
      * Update the changeIdMarker value from the bundle next link
      * @param bundle
      */
-    private void updateChangeIdMarker(Bundle bundle) {
+    private String getNextParametersFromBundle(Bundle bundle) {
         for (Bundle.Link link: bundle.getLink()) {
             if (link.getRelation() != null && "next".equals(link.getRelation().getValue())) {
                 if (link.getUrl() != null && link.getUrl().getValue() != null) {
-                    updateChangeIdMarker(link.getUrl().getValue());
+                    return getParamStringFromUrl(link.getUrl().getValue());
                 } else {
                     throw new IllegalArgumentException("Bundle next link did not contain a url");
                 }
-                break;
             }
         }
+
+        // If we don't get a next link, it probably means there's no data yet in the system
+        return null;
     }
 
     /**
@@ -211,20 +256,13 @@ public class UpstreamFHIRHistoryReader {
      *   - https://localhost:9443/fhir-server/api/v4/_history?_count=1000&_changeIdMarker=2048&_sort=none&_excludeTransactionTimeoutWindow=true
      * @param url
      */
-    private void updateChangeIdMarker(String url) {
-        // discard the location part, keeping only the params
+    private String getParamStringFromUrl(String url) {
+        // extract the parameters from the next link
         int index = url.indexOf('?');
-        if (index >= 0 && index < url.length()-1) {
-            // break the params up, and find the _changeIdMarker
-            String[] params = url.substring(index+1).split("&");
-            for (int i=0; i<params.length; i++) {
-                String[] nameval = params[i].split("=");
-                if (nameval.length == 2 && "_changeIdMarker".equals(nameval[0])) {
-                    this.changeIdMarker = Long.parseLong(nameval[1]);
-                    break;
-                }
-            }
+        if (index >= 0 && index < url.length()-2) {
+            return url.substring(index+1);
         }
+        throw new IllegalArgumentException("url not a valid next link");
     }
 
     /**
@@ -236,19 +274,18 @@ public class UpstreamFHIRHistoryReader {
             return;
         }
 
-        // Add all the tracker entries in one go - more efficient locking
-        List<ITrackerTicket> tickets = addTrackerValues(bundle);
-        int index = 0;
+        // Each bundle gets one tracker ticket which is only closed once
+        // all the entries within the bundle have been processed.
+        final String bundleNextParams = getNextParametersFromBundle(bundle);
+        ITrackerTicket ticket = tracker.track(bundleNextParams, bundle.getEntry().size());
         for (Bundle.Entry entry: bundle.getEntry()) {
-            ITrackerTicket trackerTicket = tickets.get(index++);
             // The entry.id field is database resourceId which is used as the PK for the
             // changes table. It just needs to be unique and match the change sequence. It
             // does not need to be contiguous
-            long changeId = Long.parseLong(entry.getId());
             switch (entry.getRequest().getMethod().getValueAsEnum()) {
             case DELETE:
                 // no value to fetch, so just submit the interaction
-                flowWriter.submit(new Delete(changeId, trackerTicket, ResourceIdentifier.from(entry.getFullUrl())));
+                flowWriter.submit(new Delete(entry.getId(), ticket, ResourceIdentifier.from(entry.getFullUrl())));
                 break;
             case PUT:
             case POST:
@@ -260,7 +297,7 @@ public class UpstreamFHIRHistoryReader {
                     CompletableFuture<FlowFetchResult> flowFetchFuture = flowPool.requestResource(riv);
     
                     // and submit the interaction using the future which can be resolved later
-                    flowWriter.submit(new CreateOrUpdate(changeId, trackerTicket, riv, flowFetchFuture));
+                    flowWriter.submit(new CreateOrUpdate(entry.getId(), ticket, riv, flowFetchFuture));
                 } else {
                     throw new IllegalStateException("entry does not include a response: " + entry.toString());
                 }
@@ -269,23 +306,5 @@ public class UpstreamFHIRHistoryReader {
                 break;
             }
         }
-    }
-
-    /**
-     * Add all the change id values from the bundle entries. We do this all at once
-     * because it means we only have to synchronize on the changeTrackerMap once and
-     * still the lock very short amount of time.
-     * @param bundle
-     */
-    private List<ITrackerTicket> addTrackerValues(Bundle bundle) {
-
-        List<Long> requestIds = new ArrayList<>(bundle.getEntry().size());
-        for (Bundle.Entry entry: bundle.getEntry()) {
-            // The entry.id field is database resourceId which is used as the PK for the
-            // changes table. It just needs to be unique and match the change sequence. It
-            // does not need to be contiguous
-            requestIds.add(Long.parseLong(entry.getId()));
-        }
-        return tracker.track(requestIds);
     }
 }

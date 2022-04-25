@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.flow.impl;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.bucket.client.FHIRBucketClientUtil;
@@ -52,10 +53,10 @@ public class DownstreamLogWriter implements IFlowWriter, IFlowInteractionHandler
         // serialize any interactions on the same resource, thus preserving the
         // order of changes as they occurred on the upstream system
         if (this.running) {
-            logger.info("SUBMIT: " + interaction.toString());
+            logger.fine(() -> "SUBMIT: " + interaction.toString());
             this.pool.submit(interaction);
         } else {
-            logger.info("SUBMIT BLOCKED: " + interaction.toString());
+            logger.severe("SUBMIT BLOCKED: " + interaction.toString());
             throw new IllegalStateException("writer shut down");
         }
     }
@@ -89,19 +90,23 @@ public class DownstreamLogWriter implements IFlowWriter, IFlowInteractionHandler
     }
 
     @Override
-    public void delete(long changeId, ResourceIdentifier identifier) {
-        logger.info("DELETE [" + changeId + "] " + identifier.toString());
+    public void delete(String entryId, ResourceIdentifier identifier) {
+        logger.fine(() -> "DELETE [" + entryId + "] " + identifier.toString());
     }
 
     @Override
-    public void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource) {
+    public void createOrUpdate(String entryId, ResourceIdentifier identifier, String resourceData, Resource resource) {
         if (logData) {
             if (resourceData == null) {
                 resourceData = FHIRBucketClientUtil.resourceToString(resource);
             }
-            logger.info("PUT [" + changeId + "] " + identifier.getFullUrl() + " " + resourceData);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("PUT [" + entryId + "] " + identifier.getFullUrl() + " " + resourceData);
+            }
         } else {
-            logger.info("PUT [" + changeId + "] " + identifier.getFullUrl());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("PUT [" + entryId + "] " + identifier.getFullUrl());
+            }
         }
     }
 }

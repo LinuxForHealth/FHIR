@@ -92,19 +92,19 @@ java \
   --downstream-tenant tenant2
 ```
 
-The fhir-flow application periodically writes out CHECKPOINT values to the log file:
+The fhir-flow application periodically writes opaque CHECKPOINT values to the log file:
 
 ```
-2022-04-19 17:03:11.982 00000001    INFO impl.UpstreamFHIRHistoryReader CHECKPOINT: 26573
+2022-04-19 17:03:11.982 00000001    INFO impl.UpstreamFHIRHistoryReader CHECKPOINT: X2NvdW50PTUxMiZfZXhjbHVkZVRyYW5zYWN0aW9uVGltZW91dFdpbmRvdz10cnVlJl9zb3J0PW5vbmUmX2NoYW5nZUlkTWFya2VyPTEwMjM=
 ```
 
 When the run duration time is reached, the application waits for any pending work to complete then writes a FINAL CHECKPOINT message:
 
 ```
-2022-04-19 17:03:12.983 00000001    INFO impl.UpstreamFHIRHistoryReader FINAL CHECKPOINT: 27723
+2022-04-19 17:03:12.983 00000001    INFO impl.UpstreamFHIRHistoryReader FINAL CHECKPOINT: X2NvdW50PTUxMiZfZXhjbHVkZVRyYW5zYWN0aW9uVGltZW91dFdpbmRvdz10cnVlJl9zb3J0PW5vbmUmX2NoYW5nZUlkTWFya2VyPTEwMjM=
 ```
 
-The (Java `long`) value can be used to resume processing using the `--change-id-marker` parameter:
+The checkpoint value can be used to resume processing using the `--from-checkpoint` parameter:
 
 ```
 java \
@@ -115,25 +115,26 @@ java \
   --upstream-tenant tenant1 \
   --downstream-properties local.properties \
   --downstream-tenant tenant2 \
-  --change-id-marker 27723
+  --from-checkpoint "X2NvdW50PTUxMiZfZXhjbHVkZVRyYW5zYWN0aW9uVGltZW91dFdpbmRvdz10cnVlJl9zb3J0PW5vbmUmX2NoYW5nZUlkTWFya2VyPTEwMjM="
 ```
 
 ## Command Line Options
 
 | Option | Description |
 | ------ | ----------- |
-| --run-duration | The number of seconds to run before terminating |
-| --upstream-properties | A Java properties file containing connection details for the upstream FHIR server |
-| --upstream-tenant | The IBM FHIR Server upstream tenant name |
-| --downstream-properties | A Java properties file containing connection details for the downstream FHIR server |
-| --downstresam-tenant | The IBM FHIR Server downstream tenant name |
-| --change-id-marker | Start processing from this previously reported checkpoint value |
-| --partition-count | The number of parallel partitions to use for writing to the downstream FHIR server |
-| --partition-queue-size | The number of interactions that can be queued into any partition before blocking further fetches. This puts an upper bound on memory consumption when changes can be fetched more quickly than written to the downstream system, which is often the case. |
-| --reader-pool-size | The size of the thread-pool used to support asynchronous reading of upstream resources |
-| --drain-for-seconds | After the run-duration time has elapsed, wait this number of seconds for the downstream partition queues to empty before exiting |
+| --run-duration {seconds} | The number of seconds to run before terminating |
+| --upstream-properties {properties-file} | A Java properties file containing connection details for the upstream FHIR server |
+| --upstream-tenant {tenant-name} | The IBM FHIR Server upstream tenant name |
+| --downstream-properties {properties-file} | A Java properties file containing connection details for the downstream FHIR server |
+| --downstresam-tenant {tenant-name} | The IBM FHIR Server downstream tenant name |
+| --from-checkpoint {checkpoint-value} | Start processing from this previously reported checkpoint value |
+| --partition-count {n} | The number of parallel partitions to use for writing to the downstream FHIR server |
+| --partition-queue-size {n} | The number of interactions that can be queued into any partition before blocking further fetches. This puts an upper bound on memory consumption when changes can be fetched more quickly than written to the downstream system, which is often the case. |
+| --reader-pool-size {n} | The size of the thread-pool used to support asynchronous reading of upstream resources |
+| --drain-for-seconds {seconds} | After the run-duration time has elapsed, wait this number of seconds for the downstream partition queues to empty before exiting |
 | --parse-resource | Parse each resource received from the upstream system. The default mode is to not parse the resource, and treat the payload as an opaque string which is simply passed from upstream to downstream - thus saving a significant amount of CPU and pressure on the GC. |
 | --log-data | When in log-only mode (not writing to an actual downstream system), include the resource payload data when logging each interaction. |
+| --exclude-transaction-window | When upstream is an IBM FHIR, use the `_excludeTransactionTimeoutWindow=true` query parameter when fetching history to avoid potential issues with missing data in high-volume scenarios. |
 
 # Ideas for Future Development
 

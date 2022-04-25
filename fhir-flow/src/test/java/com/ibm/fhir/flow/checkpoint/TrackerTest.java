@@ -7,6 +7,7 @@
 package com.ibm.fhir.flow.checkpoint;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
@@ -19,98 +20,100 @@ import com.ibm.fhir.flow.api.ITrackerTicket;
 public class TrackerTest {
     @Test
     public void testFirst() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 1);
+        assertEquals(t.getCheckpoint(), "a");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testTwoInOrder() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 2);
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 1);
+        assertEquals(t.getCheckpoint(), "a");
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "a");
+        ticket2.complete();
+        assertEquals(t.getCheckpoint(), "b");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testTwoReverseOrder() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 1);
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), -1);
+        assertNull(t.getCheckpoint());
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "b");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testThreeInOrder() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
-        ITrackerTicket ticket3 = t.track(3);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 1);
+        ITrackerTicket ticket3 = t.track("c", 1);
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 1);
+        assertEquals(t.getCheckpoint(), "a");
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "b");
         ticket3.complete();
-        assertEquals(t.getCheckpoint(), 3);
+        assertEquals(t.getCheckpoint(), "c");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testThreeReverseOrder() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
-        ITrackerTicket ticket3 = t.track(3);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 1);
+        ITrackerTicket ticket3 = t.track("c", 1);
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), -1);
+        assertNull(t.getCheckpoint());
         ticket3.complete();
-        assertEquals(t.getCheckpoint(), -1);
+        assertNull(t.getCheckpoint());
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 3);
+        assertEquals(t.getCheckpoint(), "c");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testCombined() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 1);
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), -1);
-        ITrackerTicket ticket3 = t.track(3);
+        assertNull(t.getCheckpoint());
+        ITrackerTicket ticket3 = t.track("c", 1);
         ticket1.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "b");
         ticket3.complete();
-        assertEquals(t.getCheckpoint(), 3);
+        assertEquals(t.getCheckpoint(), "c");
         assertTrue(t.isEmpty());
     }
 
     @Test
     public void testAfterEmpty() {
-        Tracker t = new Tracker();
-        ITrackerTicket ticket1 = t.track(1);
-        ITrackerTicket ticket2 = t.track(2);
+        Tracker<String> t = new Tracker<>();
+        ITrackerTicket ticket1 = t.track("a", 1);
+        ITrackerTicket ticket2 = t.track("b", 1);
         ticket1.complete();
         ticket2.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "b");
         assertTrue(t.isEmpty());
-        ITrackerTicket ticket4 = t.track(4);
-        ITrackerTicket ticket5 = t.track(5);
-        assertEquals(t.getCheckpoint(), 2);
+        ITrackerTicket ticket4 = t.track("d", 1);
+        ITrackerTicket ticket5 = t.track("e", 1);
+        assertEquals(t.getCheckpoint(), "b");
         ticket5.complete();
-        assertEquals(t.getCheckpoint(), 2);
+        assertEquals(t.getCheckpoint(), "b");
         ticket4.complete();
-        assertEquals(t.getCheckpoint(), 5);
+        assertEquals(t.getCheckpoint(), "e");
         assertTrue(t.isEmpty());
     }
 }
