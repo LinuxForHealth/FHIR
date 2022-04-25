@@ -142,7 +142,7 @@ public class Main {
                 if (i < args.length + 1) {
                     this.startFromCheckpoint = args[++i];
                 } else {
-                    throw new IllegalArgumentException("missing value for --checkpoint");
+                    throw new IllegalArgumentException("missing value for --from-checkpoint");
                 }
                 break;
             case "--run-duration":

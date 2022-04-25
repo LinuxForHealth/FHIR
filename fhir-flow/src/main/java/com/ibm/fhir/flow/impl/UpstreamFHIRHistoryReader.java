@@ -298,14 +298,16 @@ public class UpstreamFHIRHistoryReader {
         // all the entries within the bundle have been processed.
         final String bundleNextParams = getNextParametersFromBundle(bundle);
         ITrackerTicket ticket = tracker.track(bundleNextParams, bundle.getEntry().size());
+        int entryNumber = 0;
         for (Bundle.Entry entry: bundle.getEntry()) {
-            // The entry.id field is database resourceId which is used as the PK for the
-            // changes table. It just needs to be unique and match the change sequence. It
-            // does not need to be contiguous
+            // We can't rely on the entry.id (servers do not need to provide it). We use it
+            // when available, otherwise make our own. Used to help track requests and
+            // correlate with the bundle
+            final String entryId = entry.getId() != null ? entry.getId() : "FHIRFLOW_" + Integer.toString(entryNumber);
             switch (entry.getRequest().getMethod().getValueAsEnum()) {
             case DELETE:
                 // no value to fetch, so just submit the interaction
-                flowWriter.submit(new Delete(entry.getId(), ticket, ResourceIdentifier.from(entry.getFullUrl())));
+                flowWriter.submit(new Delete(entryId, ticket, ResourceIdentifier.from(entry.getFullUrl())));
                 break;
             case PUT:
             case POST:
@@ -318,7 +320,7 @@ public class UpstreamFHIRHistoryReader {
                     ffr.setResource(r);
                     ffr.setStatus(200); // we didn't have to fetch it, so we're calling it OK
                     CompletableFuture<FlowFetchResult> flowFetchFuture = CompletableFuture.completedFuture(ffr);
-                    flowWriter.submit(new CreateOrUpdate(entry.getId(), ticket, riv, flowFetchFuture));
+                    flowWriter.submit(new CreateOrUpdate(entryId, ticket, riv, flowFetchFuture));
                 } else {
                     // initiate the request to read the resource. Because we need the version, we have to
                     // use the response.location field
@@ -328,7 +330,7 @@ public class UpstreamFHIRHistoryReader {
                         CompletableFuture<FlowFetchResult> flowFetchFuture = flowPool.requestResource(riv);
         
                         // and submit the interaction using the future which can be resolved later
-                        flowWriter.submit(new CreateOrUpdate(entry.getId(), ticket, riv, flowFetchFuture));
+                        flowWriter.submit(new CreateOrUpdate(entryId, ticket, riv, flowFetchFuture));
                     } else {
                         throw new IllegalStateException("entry does not include a response: " + entry);
                     }
@@ -337,6 +339,7 @@ public class UpstreamFHIRHistoryReader {
             default:
                 throw new IllegalStateException("Entry not supported: " + entry);
             }
+            entryNumber++;
         }
     }
 }

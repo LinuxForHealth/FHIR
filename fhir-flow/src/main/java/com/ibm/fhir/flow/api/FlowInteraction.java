@@ -22,7 +22,7 @@ public abstract class FlowInteraction {
     /**
      * Protected constructor
      * 
-     * @param changeId
+     * @param entryId
      * @param trackerTicket
      * @param identifier
      */
