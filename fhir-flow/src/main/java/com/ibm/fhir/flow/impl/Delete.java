@@ -20,18 +20,18 @@ public class Delete extends FlowInteraction {
     /**
      * Public constructor
      * 
-     * @param changeId
+     * @param entryId
      * @param trackerTicket
      * @param identifier
      */
-    public Delete(long changeId, ITrackerTicket trackerTicket, ResourceIdentifier identifier) {
-        super(changeId, trackerTicket, identifier);
+    public Delete(String entryId, ITrackerTicket trackerTicket, ResourceIdentifier identifier) {
+        super(entryId, trackerTicket, identifier);
     }
 
     @Override
     public void accept(IFlowInteractionHandler handler) {
         try {
-            handler.delete(getChangeId(), getIdentifier());
+            handler.delete(getEntryId(), getIdentifier());
         } finally {
             complete();
         }

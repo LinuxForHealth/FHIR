@@ -10,8 +10,8 @@ package com.ibm.fhir.flow.api;
  * Represents a resource being passed from the reader to the writer
  */
 public abstract class FlowInteraction {
-    // the change sequence number reported by the upstream server
-    private final long changeId;
+    // To assist tracking this with the bundle content
+    private final String entryId;
 
     // the ticket being used to track completion of this interaction
     private final ITrackerTicket trackerTicket;
@@ -22,12 +22,12 @@ public abstract class FlowInteraction {
     /**
      * Protected constructor
      * 
-     * @param changeId
+     * @param entryId
      * @param trackerTicket
      * @param identifier
      */
-    protected FlowInteraction(long changeId, ITrackerTicket trackerTicket, ResourceIdentifier identifier) {
-        this.changeId = changeId;
+    protected FlowInteraction(String entryId, ITrackerTicket trackerTicket, ResourceIdentifier identifier) {
+        this.entryId = entryId;
         this.trackerTicket = trackerTicket;
         this.identifier = identifier;
     }
@@ -52,11 +52,11 @@ public abstract class FlowInteraction {
     }
 
     /**
-     * Getter for the changeId value
+     * Getter for the entryId value
      * @return
      */
-    public long getChangeId() {
-        return this.changeId;
+    public String getEntryId() {
+        return this.entryId;
     }
 
     /**

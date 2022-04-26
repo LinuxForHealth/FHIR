@@ -87,7 +87,7 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
     }
 
     @Override
-    public void delete(long changeId, ResourceIdentifier identifier) {
+    public void delete(String entryId, ResourceIdentifier identifier) {
         // issue a delete using the downstream client
         final String request = identifier.getFullUrl();
         FhirServerResponse response = client.delete(request);
@@ -97,7 +97,7 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
     }
 
     @Override
-    public void createOrUpdate(long changeId, ResourceIdentifier identifier, String resourceData, Resource resource) {
+    public void createOrUpdate(String entryId, ResourceIdentifier identifier, String resourceData, Resource resource) {
         // issue a PUT for create-or-update on the downstream client
         final String request = identifier.getFullUrl();
         // if resourceData is provided we don't need to incur the cost of
@@ -107,11 +107,11 @@ public class DownstreamFHIRWriter implements IFlowWriter, IFlowInteractionHandle
         }
         FhirServerResponse response = client.put(request, resourceData);
         if (response.getStatusCode() == 201) {
-            logger.info("Created downstream resource [" + changeId + "] " + request);
+            logger.info("Created downstream resource [" + entryId + "] " + request);
         } else if (response.getStatusCode() == 200) {
-            logger.info("Updated downstream resource [" + changeId + "] " + request);
+            logger.info("Updated downstream resource [" + entryId + "] " + request);
         } else {
-            logger.warning("FAILED create/update [" + changeId + "] status=" + response.getStatusCode() + ", resource=" + request);
+            logger.warning("FAILED create/update [" + entryId + "] status=" + response.getStatusCode() + ", resource=" + request);
         }
     }
 
